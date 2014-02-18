@@ -559,13 +559,14 @@ Zotero.Cite.System.prototype = {
 						value = value.substr(1, value.length-2);
 					}
 					cslItem[variable] = value;
-					if (zoteroItem.multi.main[field]) {
-						cslItem.multi.main[variable] = zoteroItem.multi.main[field]
+					var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(zoteroItem.itemTypeID, field);
+					if (zoteroItem.multi.main[fieldID]) {
+						cslItem.multi.main[variable] = zoteroItem.multi.main[fieldID]
 					}
-					if (zoteroItem.multi._keys[field]) {
+					if (zoteroItem.multi._keys[fieldID]) {
 						cslItem.multi._keys[variable] = {};
-						for (var langTag in zoteroItem.multi._keys[field]) {
-							cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[field][langTag];
+						for (var langTag in zoteroItem.multi._keys[fieldID]) {
+							cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[fieldID][langTag];
 						}
 					}
 					break;
