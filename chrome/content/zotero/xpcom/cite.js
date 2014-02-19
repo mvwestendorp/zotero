@@ -560,6 +560,9 @@ Zotero.Cite.System.prototype = {
 					}
 					cslItem[variable] = value;
 					var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(zoteroItem.itemTypeID, field);
+					if (!fieldID) {
+						fieldID = Zotero.ItemFields.getID(field);
+					}
 					if (zoteroItem.multi.main[fieldID]) {
 						cslItem.multi.main[variable] = zoteroItem.multi.main[fieldID]
 					}
@@ -613,9 +616,17 @@ Zotero.Cite.System.prototype = {
 				if (!creator.multi._key[langTag]) {
 					nameObj.multi._key[langTag] = {};
 				}
-				nameObj.multi._key[langTag] = {
-					family: creator.multi._key[langTag].lastName,
-					given: creator.multi._key[langTag].firstName
+				if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
+					nameObj.multi._key[langTag] = {
+						family: creator.multi._key[langTag].lastName,
+						given: creator.multi._key[langTag].firstName,
+						isInstitution: creator.ref.fieldMode
+					}
+				} else {
+					nameObj.multi._key[langTag] = {
+						family: creator.multi._key[langTag].lastName,
+						given: creator.multi._key[langTag].firstName
+					}
 				}
 			}
 			nameObj.multi.main = creator.multi.main;
