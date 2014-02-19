@@ -2439,12 +2439,13 @@
 									params.itemID = itemID;
 									params.creatorTypeID = creatorTypeID;
 								}
+								
+								t.setAttribute('ontextentered',
+									'document.getBindingParent(this).handleCreatorAutoCompleteSelect(this)');
 							};
 							t.setAttribute(
 								'autocompletesearchparam', JSON.stringify(params)
 							);
-							t.setAttribute('ontextentered',
-								'document.getBindingParent(this).handleCreatorAutoCompleteSelect(this)');
 						}
 					}
 					var box = elem.parentNode;
@@ -2484,6 +2485,7 @@
 					var numFields = 0;
 					var comment = false;
 					var controller = textbox.controller;
+					if (!controller.matchCount) return;
 					
 					for (var i=0; i<controller.matchCount; i++)
 					{
