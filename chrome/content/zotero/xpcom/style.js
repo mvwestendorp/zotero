@@ -45,6 +45,22 @@ Zotero.Styles = new function() {
 		"csl":"http://purl.org/net/xbiblio/csl"
 	};
 
+	// TEMP
+	// Until we get asynchronous style loading, load renamed styles at startup, since the
+	// synchronous call we were using breaks the first drag of the session (on OS X, at least)
+	this.preinit = function () {
+		_renamedStyles = {};
+		Zotero.HTTP.promise(
+			"GET", "resource://zotero/schema/renamed-styles.json", { responseType: 'json' }
+		)
+		.then(function (xmlhttp) {
+			// Map some obsolete styles to current ones
+			if (xmlhttp.response) {
+				_renamedStyles = xmlhttp.response;
+			}
+		})
+		.done();
+	}
 	
 	/**
 	 * Initializes styles cache, loading metadata for styles into memory
@@ -137,12 +153,7 @@ Zotero.Styles = new function() {
 	this.get = function(id, skipMappings) {
 		if(!_initialized) this.init();
 		
-		// Map some obsolete styles to current ones
-		if(!_renamedStyles) {
-			_renamedStyles = JSON.parse(Zotero.File.getContentsFromURL(
-				"resource://zotero/schema/renamed-styles.json"
-			));
-		}
+		// TODO: With asynchronous style loading, move renamedStyles call back here
 		
 		if(!skipMappings) {
 			var prefix = "http://www.zotero.org/styles/";
