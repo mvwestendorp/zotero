@@ -339,7 +339,7 @@
 							menu.removeChild(menu.childNodes[i]);
 						}
 						// Rebuild
-						var languageList = Zotero.Utilities.languageList();
+						var languageList = Zotero.Utilities.languageList(this._item);
 						for (i = 0, ilen = languageList.length; i < ilen; i += 1) {
 							var nickname = languageList[i].nickname;
 							var tag = languageList[i].tag
@@ -1937,14 +1937,6 @@
 					button.setAttribute("onclick",
 						+ "var row = Zotero.getAncestorByTagName(this, 'row'); " +
 						+ "document.getBindingParent(this).addCreatorRow(row, true);");
-// Trunk patch circa r10379-r10414 has this:
-//+						+ "parent.disableButton(this); "
-// and then this:
-//+						+ "parent.addCreatorRow("
-//+							+ "creator, "
-//+							+ (creatorTypeID ? creatorTypeID : 'false') + ", true"
-//+						+ ");"
-//+					);
 				]]>
 				</body>
 			</method>
@@ -2567,7 +2559,8 @@
 							// Use shift-enter as the save action for the larger fields
 							if (Zotero.ItemFields.isMultiline(fieldname) 
 								&& !event.shiftKey 
-								&& !Zotero.ItemFields.isFieldOfBase(fieldname, 'title')) {
+								&& !Zotero.ItemFields.isFieldOfBase(fieldname, 'title')
+								&& !Zotero.ItemFields.isFieldOfBase(fieldname, 'publicationTitle')) {
 
 								break;
 							}
@@ -3131,10 +3124,17 @@
 					}
 					this._setFieldValue(label, newVal);
 					var fieldName = label.getAttribute('fieldname');
+					var lang = null;
 					if (!fieldName) {
 						fieldName = label.parentNode.getAttribute('fieldname');
 					}
-					this._modifyField(fieldName, newVal, this.saveOnEdit);
+					var m = fieldName.match(/^([a-zA-Z]+)-(.*)/);
+					if (m) {
+						fieldName = m[1];
+						lang = m[2];
+					}
+					//this._modifyField(fieldName, newVal, this.saveOnEdit);
+					this._modifyField(fieldName, newVal, true, lang);
 
 				]]>
 				</body>

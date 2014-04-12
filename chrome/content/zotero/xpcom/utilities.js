@@ -415,7 +415,9 @@ Zotero.Utilities = {
 		if (result) {
 			// Was using strcmp from itemTreeView, but that's
 			// no longer accessible.
-			result.sort();
+			result.sort(function(a,b){
+				return a.nickname.localeCompare(b.nickname);
+            });
 		} else {
 			result = [];
 		};

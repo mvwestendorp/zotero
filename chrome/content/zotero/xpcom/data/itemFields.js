@@ -385,7 +385,7 @@ Zotero.ItemFields = new function() {
 			'court',
             'title',
             'nameOfAct',
-			
+			'publicationTitle',
 			// TEMP - NSF
 			'address'
 		];
