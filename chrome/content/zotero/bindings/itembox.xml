@@ -552,10 +552,12 @@
 						label.setAttribute('fieldname', fieldName);
 						if (languageList.length) {
 							if (Zotero.multiFieldNames[fieldName]) {
-								this.addMultiListener(label);
 								if (this.editable) {
 									label.setAttribute('popup', 'multi-spawn-popup');
 									label.setAttribute('contextmenu', 'multi-spawn-popup');
+									label.addEventListener('contextmenu',function(event) {
+										document.getBindingParent(this)._contextMenuUsed = true;
+									});
 									label.setAttribute('class', 'zotero-alien-clicky');
 								}
 							}
@@ -670,7 +672,6 @@
 									continue;
 								}
 								if (this.editable) {
-									this.addMultiListener(label);
 									label.setAttribute('popup', 'multi-spawn-popup');
 								}
 								label.setAttribute('value', nickname);
@@ -847,7 +848,7 @@
 											lastCreator,
 											notYetSaved,
 											hasMulti);
-                                // XXX This from 4.0 will note work, unfortunately. The code in this file has diverged too far.
+								// XXX This from 4.0 will note work, unfortunately. The code in this file has diverged too far.
 								// this.addCreatorRow(false, this.item.getCreator(max-1).creatorTypeID, true); 
 								this._addCreatorRow = false;
 								this.disableCreatorAddButtons();
@@ -878,44 +879,6 @@
 						this._focusNextField(this._dynamicFields, this._lastTabIndex, this._tabDirection == -1);
 					}
 //Zotero.debug("XXX === refresh() === [end]");
-				]]>
-				</body>
-			</method>
-
-			
-			<method name="addMultiListener">
-				<parameter name="elem"/>
-				<body>
-				<![CDATA[
-				 	elem.addEventListener(
-						'click',
-						function(event){
-							if (event.button === 0) {
-								document.getBindingParent(this).prepareMultiPopup(false);
-							} else {
-								document.getBindingParent(this).prepareMultiPopup(true);
-							}
-						},
-						false
-					);
-				]]>
-				</body>
-			</method>
-
-			<method name="prepareMultiPopup">
-				<parameter name="isContextMenu"/>
-				<body>
-				<![CDATA[
-					popup = this._multiSpawnPopup;
-					if (isContextMenu) {
-						popup.childNodes[0].setAttribute('hidden', false);
-						popup.childNodes[1].setAttribute('hidden', true);
-						this._leftClick = false;
-					} else {
-						popup.childNodes[0].setAttribute('hidden', true);
-						popup.childNodes[1].setAttribute('hidden', false);
-						this._leftClick = true;
-					}
 				]]>
 				</body>
 			</method>
@@ -1233,10 +1196,12 @@
 						if (!multilingualRow) {
 							typeBox.setAttribute("popup", "creator-type-menu");
 							typeBox.setAttribute("contextmenu", "multi-spawn-popup");
+							typeBox.addEventListener('contextmenu',function(event) {
+							  document.getBindingParent(this)._contextMenuUsed = true;
+							});
 						} else {
 							typeBox.setAttribute("popup", "multi-spawn-popup");
 						}
-						this.addMultiListener(typeBox);
 					}
 					if (!multilingualRow) {
 						typeBox.setAttribute("fieldname", 'creator-' + this._creatorCount + '-typeID');
@@ -2600,7 +2565,7 @@
 									else {
 										// TODO: should use current creator type
 										this.addCreatorRow(row);
-                                        // XXX This from 4.0 will not work, unfortunately. The code in this file has diverged too far.
+										// XXX This from 4.0 will not work, unfortunately. The code in this file has diverged too far.
 										// var creatorFields = this.getCreatorFields(Zotero.getAncestorByTagName(target, 'row'));
 										// this.addCreatorRow(false, creatorFields.creatorTypeID, true);
 									}
@@ -3713,18 +3678,32 @@ if (oldCreator.id) {
 				<popupset>
 				  <menupopup id="multi-spawn-popup" 
 							 position="after_start"
-							 onpopupshowing="var ret = null;
-                                if (event.target.triggerNode) {
-								  ret = document.getBindingParent(this).refreshLanguages(event.target.triggerNode);
-							    };
-                                return ret;">
+							 onpopupshown="var triggerNode = null;
+								if (event.target.triggerNode) {
+								  triggerNode = event.target.triggerNode;
+								  if (document.getBindingParent(this)._contextMenuUsed) {
+									this.childNodes[0].setAttribute('hidden', false);
+									this.childNodes[1].setAttribute('hidden', true);
+									document.getBindingParent(this)._leftClick = false;
+								  } else {
+									this.childNodes[0].setAttribute('hidden', true);
+									this.childNodes[1].setAttribute('hidden', false);
+									document.getBindingParent(this)._leftClick = true;
+								  }
+								} else if (document.getBindingParent(this)._triggerNode) {
+								  triggerNode = document.getBindingParent(this)._triggerNode;
+								  this.childNodes[0].setAttribute('hidden', true);
+								  this.childNodes[1].setAttribute('hidden', false);
+								  document.getBindingParent(this)._leftClick = true;
+								}
+								document.getBindingParent(this)._contextMenuUsed = false;
+								return document.getBindingParent(this).refreshLanguages(triggerNode);">
 					<label id="zotero-lang-add" 
 						   style="font-weight:bold;" 
-						   value="&zotero.items.menu.addTag;"/>
+						   value="&zotero.items.menu.addTag;" hidden="true"/>
 					<label id="zotero-lang-switch" 
 						   style="font-weight:bold;" 
-						   value="&zotero.items.menu.changeTag;" 
-						   hidden="true"/>
+						   value="&zotero.items.menu.changeTag;"/>
 					<vbox id="multi-spawn-menu"
 						  minheight="50" maxheight="200" 
 						  width="120" style="overflow:auto;">
