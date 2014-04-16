@@ -635,11 +635,10 @@ Zotero_Preferences.Lang = {
  	    Zotero_Preferences.Lang.citationLangSet(Zotero_Preferences.Lang.capFirst(base), true, true);
     },
     
-    citationSecondary: function () {
+    citationSecondary: function (node) {
         // Possibly want to cast two separate functions,
         // depending on whether we are updating in onpopupshowing
         // or menuitem? Is the ticked state the same in the two?
- 	    var node = document.popupNode;
  	    var lst = node.id.split('-');
  	    var base = lst[0];
  	    var addme = false;

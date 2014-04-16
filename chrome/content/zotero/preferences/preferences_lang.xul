@@ -47,15 +47,19 @@
       </menu>
     </menupopup>
     <menupopup id="citation-primary-affix-menu" 
-               onpopupshowing="if (!document.popupNode.disabled &amp;&amp; !document.popupNode.checked) {Zotero_Preferences.Lang.citationPrimary(document.popupNode);return true;} else {Zotero_Preferences.Lang.citationPrimary(document.popupNode);return false;}" position="after_start">
+               onpopupshowing="var triggerNode = event.target.triggerNode;
+                               Zotero_Preferences.Lang._triggerNode = triggerNode;
+                               if (!triggerNode.disabled &amp;&amp; !triggerNode.checked) {Zotero_Preferences.Lang.citationPrimary(triggerNode);return true;} else {Zotero_Preferences.Lang.citationPrimary(triggerNode);return false;}" position="after_start">
       
-      <menuitem label="&lt;i&gt;...&lt;/i&gt;" value="&lt;i&gt;|&lt;/i&gt;" oncommand="Zotero_Preferences.Lang.citationSetAffixes(null, this);"/>
+      <menuitem label="&lt;i&gt;...&lt;/i&gt;" value="&lt;i&gt;|&lt;/i&gt;" oncommand="Zotero_Preferences.Lang.citationSetAffixes(Zotero_Preferences.Lang._triggerNode, this);"/>
     </menupopup>
     <menupopup id="citation-secondary-affix-menu" 
-               onpopupshowing="if (!document.popupNode.disabled &amp;&amp; !document.popupNode.checked) {Zotero_Preferences.Lang.citationSecondary();return true;} else {Zotero_Preferences.Lang.citationSecondary();return false;}" position="after_start">
-      <menuitem label=", ..." value=", |" oncommand="Zotero_Preferences.Lang.citationSetAffixes(null, this);"/>
-      <menuitem label="[...]" value=" [|]" oncommand="Zotero_Preferences.Lang.citationSetAffixes(null, this);"/>
-      <menuitem label="(...)" value=" (|)" oncommand="Zotero_Preferences.Lang.citationSetAffixes(null, this);"/>
+               onpopupshowing="var triggerNode = event.target.triggerNode;
+                               Zotero_Preferences.Lang._triggerNode = triggerNode;
+                               if (!triggerNode.disabled &amp;&amp; !triggerNode.checked) {Zotero_Preferences.Lang.citationSecondary(triggerNode);return true;} else {Zotero_Preferences.Lang.citationSecondary(triggerNode);return false;}" position="after_start">
+      <menuitem label=", ..." value=", |" oncommand="Zotero_Preferences.Lang.citationSetAffixes(Zotero_Preferences.Lang._triggerNode, this);"/>
+      <menuitem label="[...]" value=" [|]" oncommand="Zotero_Preferences.Lang.citationSetAffixes(Zotero_Preferences.Lang._triggerNode, this);"/>
+      <menuitem label="(...)" value=" (|)" oncommand="Zotero_Preferences.Lang.citationSetAffixes(Zotero_Preferences.Lang._triggerNode, this);"/>
     </menupopup>
     <groupbox>
       <hbox>

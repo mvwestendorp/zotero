@@ -172,12 +172,13 @@ Zotero.LANGUAGE_NAMES = {
 	"he-IL": "Hebrew",
 	"hu-HU": "Magyar",
 	"hr-HR": "Croatian",
+	"id-ID": "Indonesian",
 	"is-IS": "Icelandic",
 	"it-IT": "Italian",
 	"ja-JP": "Japanese",
 	"km": "Khmer",
 	"ko-KR": "Korean",
-	"lt": "Lithuanian",
+	"lt-LT": "Lithuanian",
 	"lv": "Latvian",
 	"mn-MN": "Mongolian",
 	"nb-NO": "Norwegian Bokmål",
@@ -256,7 +257,7 @@ Zotero.setupLocale = function(document) {
 			}
 		}
 		// Sort the list by name
-		locales.sort( function(a,b){return a.label.localeCompare(b.label)} );
+		locales.sort( function(a,b){return a.label.localeCompare(b.label)});
 		for (var i = 0, ilen = locales.length; i < ilen; i += 1) {
 			Zotero.LANGUAGE_INDEX[locales[i].value] = i;
 		}
@@ -294,12 +295,14 @@ Zotero.setupLocale = function(document) {
         var locales = [];
         for (var i=0, ilen=availableLocales.length; i<ilen; i += 1) {
             locale = availableLocales[i];
-			locales.push({value: locale, label: Zotero.CiteProc.CSL.LANGS[locale]});
-			if (locale == selectedLocale) {
-				// Is this the current locale?
-				localeMenulist.setAttribute('label', Zotero.CiteProc.CSL.LANGS[locale]);
-				localeMenulist.setAttribute('value', locale);
-			}
+            if (Zotero.CiteProc.CSL.LANGS[locale]) {
+			    locales.push({value: locale, label: Zotero.CiteProc.CSL.LANGS[locale]});
+			    if (locale == selectedLocale) {
+				    // Is this the current locale?
+				    localeMenulist.setAttribute('label', Zotero.CiteProc.CSL.LANGS[locale]);
+				    localeMenulist.setAttribute('value', locale);
+			    }
+            }
         }
 		// Sort the list by name
 		locales.sort( function(a,b){return a.label.localeCompare(b.label)} );
