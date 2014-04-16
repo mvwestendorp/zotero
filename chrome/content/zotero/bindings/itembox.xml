@@ -326,6 +326,17 @@
 				onget="return '(' + Zotero.getString('pane.item.defaultFullName') + ')'"/>
 			
 
+			<method name="hasLang">
+			  <body>
+				var languageList = Zotero.Utilities.languageList(this._item);
+				if (languageList.length) {
+				  return true;
+				} else {
+				  return false;
+				}
+			  </body>
+			</method>
+
 			<method name="refreshLanguages">
 				<parameter name="triggerNode"/>
 				<body>
@@ -3697,8 +3708,8 @@ if (oldCreator.id) {
 								  document.getBindingParent(this)._leftClick = true;
 								}
 								document.getBindingParent(this)._contextMenuUsed = false;
-								return document.getBindingParent(this).refreshLanguages(triggerNode);">
-					<label id="zotero-lang-add" 
+								document.getBindingParent(this).refreshLanguages(triggerNode);">
+					<label id="zotero-lang-add"
 						   style="font-weight:bold;" 
 						   value="&zotero.items.menu.addTag;" hidden="true"/>
 					<label id="zotero-lang-switch" 
@@ -3712,7 +3723,7 @@ if (oldCreator.id) {
 				  <menupopup id="creator-type-menu" position="after_start"
 						onpopupshowing="var typeBox = event.target.triggerNode.localName == 'hbox' ? event.target.triggerNode :event.target.triggerNode.parentNode;
 								document.getBindingParent(this)._triggerNode = typeBox;
-								var haslang = document.getBindingParent(this).refreshLanguages(typeBox);
+								var haslang = document.getBindingParent(this).hasLang();
 								document.getElementById('zotero-creator-lang-menu').setAttribute('hidden', !haslang);
 								var index = parseInt(typeBox.getAttribute('fieldname').split('-')[1]);
 								
