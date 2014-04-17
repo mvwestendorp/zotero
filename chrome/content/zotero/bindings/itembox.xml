@@ -337,21 +337,18 @@
 			  </body>
 			</method>
 
-			<method name="refreshLanguages">
-				<parameter name="triggerNode"/>
+            <method name="buildLanguageMenu">
 				<body>
-				<![CDATA[
-					var i, ilen;
-					// Build standard language menu
-					var menu = this._multiSpawnMenu;
+                  <![CDATA[
+                    var menu = this._multiSpawnMenu;
 					if (Zotero.CachedLanguages.menuHasChanged()) {
-						// Remove all nodes
+                    	// Remove all nodes
 						for (var i=0,ilen=menu.childNodes.length;i<ilen;i+=1) {
 							menu.removeChild(menu.childNodes[0]);
 						}
 						// Rebuild
 						var languageList = Zotero.Utilities.languageList(this._item);
-						for (i = 0, ilen = languageList.length; i < ilen; i += 1) {
+						for (var i = 0, ilen = languageList.length; i < ilen; i += 1) {
 							var nickname = languageList[i].nickname;
 							var tag = languageList[i].tag
 							var fnode = document.createElement('menuitem');
@@ -360,17 +357,29 @@
 							menu.appendChild(fnode);
 							// Not sure if these closure acrobatics are necessary, but I know how they work,
 							// and I know *that* they work.
-							var func = function(triggerNode,tag) {
+							var func = function(tag) {
 								return function () {
-									document.getBindingParent(this).openMultiRow(triggerNode,tag);
+									document.getBindingParent(this).openMultiRow(tag);
 								};
 							};
-							var openRow = func(triggerNode,tag);
+							var openRow = func(tag);
 							fnode.addEventListener('click',openRow);
 						}
 					}
-					if (!menu.childNodes.length) {
-						return false;
+				  ]]>
+                </body>
+            </method>
+
+			<method name="twiddleLanguageMenu">
+				<parameter name="triggerNode"/>
+				<body>
+				<![CDATA[
+					var i, ilen;
+					// Build standard language menu
+					var menu = this._multiSpawnMenu;
+					if (!this.hasLang()) {
+						event.preventDefault();
+                        return false;
 					}
 					// Hide languages that are already used.
 					var row = Zotero.getAncestorByTagName(triggerNode, 'row');
@@ -1012,10 +1021,10 @@
 			</method>
 
 			<method name="openMultiRow">
-			  <parameter name="node"/>
 			  <parameter name="language"/>
 				<body>
 				  <![CDATA[
+                    var node = this._triggerNode;
 					var row = Zotero.getAncestorByTagName(node, 'row');
 					var fieldstring = row.firstChild.getAttribute('fieldname');
 					var servantLang = row.firstChild.getAttribute('servantLang');
@@ -3689,7 +3698,8 @@ if (oldCreator.id) {
 				<popupset>
 				  <menupopup id="multi-spawn-popup" 
 							 position="after_start"
-							 onpopupshown="var triggerNode = null;
+							 onpopupshowing="document.getBindingParent(this).buildLanguageMenu();
+                                var triggerNode = null;
 								if (event.target.triggerNode) {
 								  triggerNode = event.target.triggerNode;
 								  if (document.getBindingParent(this)._contextMenuUsed) {
@@ -3701,6 +3711,7 @@ if (oldCreator.id) {
 									this.childNodes[1].setAttribute('hidden', false);
 									document.getBindingParent(this)._leftClick = true;
 								  }
+                                  document.getBindingParent(this)._triggerNode = event.target.triggerNode;
 								} else if (document.getBindingParent(this)._triggerNode) {
 								  triggerNode = document.getBindingParent(this)._triggerNode;
 								  this.childNodes[0].setAttribute('hidden', true);
@@ -3708,7 +3719,7 @@ if (oldCreator.id) {
 								  document.getBindingParent(this)._leftClick = true;
 								}
 								document.getBindingParent(this)._contextMenuUsed = false;
-								document.getBindingParent(this).refreshLanguages(triggerNode);">
+                                document.getBindingParent(this).twiddleLanguageMenu(triggerNode);">
 					<label id="zotero-lang-add"
 						   style="font-weight:bold;" 
 						   value="&zotero.items.menu.addTag;" hidden="true"/>
@@ -3768,6 +3779,7 @@ if (oldCreator.id) {
 						<menu id="zotero-creator-lang-menu"
 							position="start_after"
 							onmouseover="var triggerNode = document.getBindingParent(this)._triggerNode;
+                            document.getBindingParent(this).buildLanguageMenu();
 							document.getBindingParent(this)._multiSpawnPopup.openPopup(triggerNode,'bottomleft topright', null, null, true);"
 							label="&zotero.items.menu.changeTag;"/>
 
