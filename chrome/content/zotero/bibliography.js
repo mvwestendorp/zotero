@@ -42,7 +42,8 @@ var Zotero_File_Interface_Bibliography = new function() {
 	this.citationPrimary = citationPrimary;
 	this.citationSecondary = citationSecondary;
 	this.citationSetAffixes = citationSetAffixes;
-	this.setLanguageRoleHighlight = setLanguageRoleHighlight
+	this.setLanguageRoleHighlight = setLanguageRoleHighlight;
+	this.editProjectName = editProjectName;
 
 	/*
 	 * Initialize some variables and prepare event listeners for when chrome is done
@@ -155,6 +156,13 @@ var Zotero_File_Interface_Bibliography = new function() {
 				document.getElementById("storeReferences").checked = true;
 				if(_io.requireStoreReferences) document.getElementById("storeReferences").disabled = true;
 			}
+		}
+
+		// Set project name (integrationDocPrefs.xul only)
+
+		var projectName = document.getElementById('project-name');
+		if (projectName) {
+			projectName.value = _io.projectName ? _io.projectName : '';
 		}
 
 		// Also ONLY for integrationDocPrefs.xul: update language selections
@@ -574,5 +582,15 @@ var Zotero_File_Interface_Bibliography = new function() {
         }
         return count;
     }
+
+	function editProjectName () {
+		var projectName = document.getElementById('project-name').value;
+		_io['projectName'] = projectName;
+	}
+
+	function displayProjectName () {
+		var projectNameNode = document.getElementById('project-name');
+		projectNameNode.value = _io['projectName'];
+	}
 }
 

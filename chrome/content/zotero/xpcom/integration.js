@@ -1679,6 +1679,47 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 	for(var i=(removeCodeFields.length-1); i>=0; i--) {
 		this._fields[removeCodeFields[i]].removeCode();
 	}
+
+	// Update projectName tags on Zotero-side
+	var projectName = this._session.data.prefs.projectName;
+
+	// Act only if the document defines a projectName
+	if (projectName) {
+
+		// If a project name has only one associated document, we may
+		// want to purge the tag from all libraries where it might have 
+		// on each update.
+
+		//var sql = 'SELECT tagID FROM tags WHERE type=10000 AND name=?;';
+		//var tagIDs = Zotero.DB.columnQuery(sql,[projectName]);
+		//Zotero.Tags.erase(tagIDs);
+		//Zotero.Tags.purge(tagIDs);
+
+		// Set the document projectName tag on each cited reference
+		var libraryTagMap = {};
+		var ids = this._session.style.registry.getSortedIds();
+		for (var i=0,ilen=ids.length;i<ilen;i+=1) {
+			var itemID = ids[i];
+			// We can't get the libraryID from the processor registry
+			var libraryID = Zotero.Items.get(itemID).libraryID;
+			if (!libraryTagMap[libraryID]) {
+				// Reuse an existing project name if we can
+				var existingTagID = Zotero.Tags.getID(projectName, 10000, libraryID);
+				if (existingTagID) {
+					libraryTagMap[libraryID] = Zotero.Tags.get(existingTagID);
+				} else {
+					libraryTagMap[libraryID] = new Zotero.Tag();
+					libraryTagMap[libraryID].name = projectName;
+					libraryTagMap[libraryID].type = 10000;
+					libraryTagMap[libraryID].libraryID = libraryID;
+				}
+			}
+			libraryTagMap[libraryID].addItem(itemID);
+		}
+		for (var libraryID in libraryTagMap) {
+			libraryTagMap[libraryID].save();
+		}
+	}
 }
 
 /**
@@ -2091,6 +2132,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		io.citationLangPrefsPublishers = this.data.prefs.citationLangPrefsPublishers;
 		io.citationLangPrefsPlaces = this.data.prefs.citationLangPrefsPlaces;
 		io.citationAffixes = this.data.prefs.citationAffixes;
+		io.projectName = this.data.prefs.projectName;
 	}
 	
 	var me = this;
@@ -2127,6 +2169,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.data.prefs.citationLangPrefsPublishers = io.citationLangPrefsPublishers;
 		me.data.prefs.citationLangPrefsPlaces = io.citationLangPrefsPlaces;
 		me.data.prefs.citationAffixes = io.citationAffixes;
+		me.data.prefs.projectName = io.projectName;
 		
 		if(!oldData || oldData.style.styleID != data.style.styleID
 				|| oldData.prefs.noteType != data.prefs.noteType
@@ -2321,7 +2364,7 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 		
 		// get Zotero item
 		var zoteroItem = false,
-		    needUpdate;
+			needUpdate;
 		if(citationItem.uris) {
 			[zoteroItem, needUpdate] = this.uriMap.getZoteroItemForURIs(citationItem.uris);
 			if(needUpdate && index) this.updateIndices[index] = true;
@@ -2342,8 +2385,8 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			}
 		} else {
 			if(citationItem.key) {
-                // official Zotero uses key, but library and key seem to be needed
-                // to avoid a (very, very small) possibility of ambiguity.
+				// official Zotero uses key, but library and key seem to be needed
+				// to avoid a (very, very small) possibility of ambiguity.
 				//zoteroItem = Zotero.Items.getByKey(citationItem.key);
 				var m = ("" + citationItem.key).match(/(?:([0-9]+)_)*(.*)/);
 				var libraryID = m[1] === "0" ? null : m[1];
@@ -2743,7 +2786,7 @@ Zotero.Integration.Session.prototype.loadBibliographyData = function(json) {
 		} else {
 			for(var itemID in documentData.uncited) {
 				// if not yet in item set, add to item set
-                // see above
+				// see above
 				//var zoteroItem = Zotero.Items.getByKey(itemID);
 				var m = ("" + itemID).match(/(?:([0-9]+)_)*(.*)/);
 				var libraryID = m[1] === "0" ? null : m[1];
@@ -3008,6 +3051,7 @@ Zotero.Integration.DocumentData = function(string) {
 	this.prefs.citationLangPrefsPublishers = [];
 	this.prefs.citationLangPrefsPlaces = [];
 	this.prefs.citationAffixes = [,,,,,,,,,,,,,,,,,,];
+	this.prefs.projectName = '';
 	this.sessionID = null;
 	if(string) {
 		this.unserialize(string);
@@ -3087,6 +3131,7 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 	}
 	if(this.prefs["storeReferences"] === undefined) this.prefs["storeReferences"] = false;
 	if(this.prefs["automaticJournalAbbreviations"] === undefined) this.prefs["automaticJournalAbbreviations"] = false;
+	if(this.prefs["projectName"] === undefined) this.prefs["projectName"] = "";
 	this.zoteroVersion = doc.documentElement.getAttribute("zotero-version");
 	if(!this.zoteroVersion) this.zoteroVersion = "2.0";
 	this.dataVersion = doc.documentElement.getAttribute("data-version");

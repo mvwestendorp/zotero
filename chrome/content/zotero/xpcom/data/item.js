@@ -4459,7 +4459,7 @@ Zotero.Item.prototype.getTags = function() {
 		return [];
 	}
 	var sql = "SELECT tagID, name FROM tags WHERE tagID IN "
-		+ "(SELECT tagID FROM itemTags WHERE itemID=?)";
+		+ "(SELECT tagID FROM itemTags WHERE itemID=? AND type IS NOT 10000)";
 	var tags = Zotero.DB.query(sql, this.id);
 	if (!tags) {
 		return [];

@@ -283,7 +283,7 @@ Zotero.Tag.prototype.save = function (full) {
 		this.type = 0;
 	}
 	
-	if (this.type != 0 && this.type != 1) {
+	if (this.type != 0 && this.type != 1 && this.type != 10000) {
 		Zotero.debug(this);
 		throw ('Invalid tag type ' + this.type + ' for tag ' + this.id + ' in Zotero.Tag.save()');
 	}

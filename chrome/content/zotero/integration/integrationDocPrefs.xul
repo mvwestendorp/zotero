@@ -48,6 +48,7 @@
 	  <tabs id="doc-prefs-tabs">
 		<tab>&zotero.integration.prefs.lang.styleAndFormat;</tab>
 		<tab>&zotero.integration.prefs.lang.languages;</tab>
+		<tab>Project Name</tab>
 	  </tabs>
 	  <tabpanels id="doc-prefs-tabpanels">
 		<tabpanel>
@@ -620,6 +621,29 @@
 				  <caption label="&zotero.integration.prefs.lang.transliteration;"/>
 				  <caption label="&zotero.integration.prefs.lang.translation;"/>
 				  <caption label="&zotero.integration.prefs.lang.sorting;"/>
+				</row>
+			  </rows>
+			</grid>
+		  </groupbox>
+		</tabpanel>
+		<tabpanel>
+		  <groupbox>
+			<grid flex="1">
+			  <columns>
+				<column flex="1"/>
+			  </columns>
+			  <rows>
+				<row>
+				  <hbox flex="1">
+					<caption label="Apply a tag to sources cited in this document"/>
+					<hbox flex="2"/>
+				  </hbox>
+				</row>
+				<row>
+				  <hbox>
+					<textbox id="project-name" size="20"/>
+					<button id="project-name-button" label="Apply" oncommand="Zotero_File_Interface_Bibliography.editProjectName();"/>
+				  </hbox>
 				</row>
 			  </rows>
 			</grid>
