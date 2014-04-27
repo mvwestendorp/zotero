@@ -3618,10 +3618,16 @@ Zotero.Sync.Server.Data = new function() {
 						var elem = this.itemToXML(obj, doc, syncSession);
 					}
 					else {
+						if (type == 'tag' && obj.type == 10000) {
+							continue;
+						}
 						var elem = this[type + 'ToXML'](obj, doc);
 					}
 					
 					objectsNode.appendChild(elem);
+				}
+				if (!objectsNode.childNodes.length) {
+					docElem.removeChild(objectsNode);
 				}
 			}
 		}
