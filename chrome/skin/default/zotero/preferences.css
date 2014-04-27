@@ -315,3 +315,6 @@ treechildren::-moz-tree-checkbox(checked){
   list-style-image: url("chrome://global/skin/checkbox/cbox-check.gif");
 }
 
+label.zotero-clicky.thin-border {
+	border: 1px solid rgb(109, 149, 224);
+}

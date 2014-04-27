@@ -43,7 +43,8 @@ var Zotero_File_Interface_Bibliography = new function() {
 	this.citationSecondary = citationSecondary;
 	this.citationSetAffixes = citationSetAffixes;
 	this.setLanguageRoleHighlight = setLanguageRoleHighlight;
-	this.editProjectName = editProjectName;
+	this.openProjectName = openProjectName;
+	this.closeProjectName = closeProjectName;
 
 	/*
 	 * Initialize some variables and prepare event listeners for when chrome is done
@@ -583,9 +584,45 @@ var Zotero_File_Interface_Bibliography = new function() {
         return count;
     }
 
-	function editProjectName () {
-		var projectName = document.getElementById('project-name').value;
-		_io['projectName'] = projectName;
+	function openProjectName (event) {
+		var node = event.target;
+		var projectName = node.value;
+		var parent = node.parentNode;
+		parent.removeChild(node);
+		var newNode = document.createElement('textbox');
+		newNode.setAttribute('id', 'project-name');
+		newNode.setAttribute('flex','1');
+		newNode.setAttribute('onkeydown','Zotero_File_Interface_Bibliography.closeProjectName(event);');
+		newNode.setAttribute('value',projectName);
+		parent.appendChild(newNode);
+		newNode.focus();
+	}
+
+	var keyCodeMap = {
+		13:'Enter',
+		9:'Tab',
+		27:'Esc',
+		38:'Up',
+		40:'Down'
+	}
+
+	function closeProjectName (event) {
+		if (keyCodeMap[event.keyCode] === 'Enter') {
+			event.preventDefault();
+			var node = event.target;
+			var projectName = node.value;
+			_io['projectName'] = projectName;
+			var parent = node.parentNode;
+			parent.removeChild(node);
+			var newNode = document.createElement('label');
+			newNode.setAttribute('id', 'project-name');
+			newNode.setAttribute('flex','1');
+			newNode.setAttribute('onclick','Zotero_File_Interface_Bibliography.openProjectName(event);');
+			newNode.setAttribute('value',projectName);
+			newNode.classList.add('zotero-clicky');
+			newNode.classList.add('thin-border');
+			parent.appendChild(newNode);
+		}
 	}
 
 	function displayProjectName () {
