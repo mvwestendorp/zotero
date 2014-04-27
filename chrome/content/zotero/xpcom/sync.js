@@ -3626,7 +3626,7 @@ Zotero.Sync.Server.Data = new function() {
 					
 					objectsNode.appendChild(elem);
 				}
-				if (!objectsNode.childNodes.length) {
+				if (objectsNode.childNodes && !objectsNode.childNodes.length) {
 					docElem.removeChild(objectsNode);
 				}
 			}
