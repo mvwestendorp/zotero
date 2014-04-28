@@ -1698,6 +1698,7 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 		// Set the document projectName tag on each cited reference
 		var libraryTagMap = {};
 		var ids = this._session.style.registry.getSortedIds();
+		ids = Zotero.Items.exist(ids);
 		for (var i=0,ilen=ids.length;i<ilen;i+=1) {
 			var itemID = ids[i];
 			// We can't get the libraryID from the processor registry
@@ -1708,16 +1709,17 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 				if (existingTagID) {
 					libraryTagMap[libraryID] = Zotero.Tags.get(existingTagID);
 				} else {
-					libraryTagMap[libraryID] = new Zotero.Tag();
+					libraryTagMap[libraryID] = new Zotero.Tag;
+					libraryTagMap[libraryID].libraryID = libraryID;
 					libraryTagMap[libraryID].name = projectName;
 					libraryTagMap[libraryID].type = 10000;
-					libraryTagMap[libraryID].libraryID = libraryID;
+					libraryTagMap[libraryID].save();
 				}
 			}
 			libraryTagMap[libraryID].addItem(itemID);
 		}
 		for (var libraryID in libraryTagMap) {
-			libraryTagMap[libraryID].save();
+			libraryTagMap[libraryID].save(true);
 		}
 	}
 }
