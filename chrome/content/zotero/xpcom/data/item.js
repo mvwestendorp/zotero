@@ -1146,7 +1146,12 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 		if (title) { // common law cases always have case names, but come from multiple reporters
 			var reporter = this.getField('reporter', false, true, language);
 			if (reporter) { 
-				title = Zotero.localeJoin([title, '(' + reporter + ')']);
+				title = title + ' (' + reporter + ')';
+			} else {
+				var court = this.getField('court');
+				if (court) {
+					title = title + ' (' + court + ')';
+				}
 			}
 		} else if (this.getField('shortTitle')) { // civil law cases have only shortTitle as case name ...
 			title = this.getField('shortTitle', false, true, language);
@@ -1160,6 +1165,11 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 			}
 			
 			part = Zotero.Date.multipartToSQL(this.getField('date', true, true));
+			if (part) {
+				strParts.push(part);
+			}
+
+			part = this.getField('shortTitle');
 			if (part) {
 				strParts.push(part);
 			}
