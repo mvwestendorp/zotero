@@ -17,7 +17,7 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.csl "CSL">
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Titel">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Opdateret">
-<!ENTITY zotero.preferences.cite.wordProcessors "Teksbehandlere">
+<!ENTITY zotero.preferences.cite.wordProcessors "Tekstbehandlere">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Hent plugin til tekstbehandlere...">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Der er ikke p.t. installeret et plugin til tekstbehandling.">
@@ -214,5 +214,5 @@
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Fjern automatisk Elementer fra papirkurven hvis de er slettet for mere end">
 <!ENTITY zotero.preferences.updateNow "Opdater nu">
 <!ENTITY zotero.preferences.userInterface "Brugerflade">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Tillad Zoter.org at tilpasse indhold baseret på den aktuelle Zotero-version">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Tillad zotero.org at tilpasse indhold baseret på den aktuelle Zotero-version">
 <!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "Hvis den er slået til, vil den aktuelle Zotero-version blive medtaget ved  HTTP-forespørgsler til zotero.org.">

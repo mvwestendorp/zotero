@@ -211,7 +211,7 @@
 <!ENTITY zotero.preferences.sync.username "Användarnamn:">
 <!ENTITY zotero.preferences.title "Inställningar i Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "dagar sen">
-<!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Radera automatiskt källor i papperskorgen som raderats för mer än">
+<!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Ta automatiskt bort källor från papperskorgen som lagts dit för mer än">
 <!ENTITY zotero.preferences.updateNow "Uppdatera nu">
 <!ENTITY zotero.preferences.userInterface "Användargränssnitt">
 <!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Tillåt zotero.org att justera innehåll beroende på installerad Zoteroversion">

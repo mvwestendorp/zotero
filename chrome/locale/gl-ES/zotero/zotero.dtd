@@ -15,8 +15,8 @@
 <!ENTITY zotero.bibliography.saveAsRTF.label "Gardar como RTF">
 <!ENTITY zotero.bibliography.style.label "Estilo de cita:">
 <!ENTITY zotero.bibliography.title "Crear a bibliografía">
-<!ENTITY zotero.charset.label "Codificación de carácteres">
-<!ENTITY zotero.citation.editorWarning.label "Aviso: se editas a cita no editor non se actualizará máis reflictindo os cambios tanto na base de datos como no estilo de citas.">
+<!ENTITY zotero.charset.label "Codificación de caracteres">
+<!ENTITY zotero.citation.editorWarning.label "Aviso: se editas a cita no editor non se actualizará máis reflectindo os cambios tanto na base de datos como no estilo de citas.">
 <!ENTITY zotero.citation.keepSorted.label "Manter as fontes ordenadas">
 <!ENTITY zotero.citation.line "Liña">
 <!ENTITY zotero.citation.page "Páxina">
@@ -46,12 +46,12 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opcións do tradutor">
 <!ENTITY zotero.file.choose.label "Escolla o ficheiro...">
 <!ENTITY zotero.file.noneSelected.label "Ningún ficheiro seleccionado">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Cancelar">
 <!ENTITY zotero.general.delete "Borrar">
 <!ENTITY zotero.general.deselectAll "Desmarcar todo">
 <!ENTITY zotero.general.edit "Editar">
 <!ENTITY zotero.general.note "Nota:">
-<!ENTITY zotero.general.ok "OK">
+<!ENTITY zotero.general.ok "Aceptar">
 <!ENTITY zotero.general.optional "(Opcional)">
 <!ENTITY zotero.general.selectAll "Marcar todo">
 <!ENTITY zotero.integration.addEditCitation.title "Engadir/Editar a cita">
@@ -59,7 +59,7 @@
 <!ENTITY zotero.integration.docPrefs.title "Preferencias do documento">
 <!ENTITY zotero.integration.editBibliography.title "Editar a bibliografía">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "As abreviaturas das revistas de MEDLINE xeraranse automaticamente empregando os títulos das revistas. O campo «Abrev revista» ignórase.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Títulos de revitas abreviados automaticamente">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Títulos de revistas abreviados automaticamente">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Os marcadores consérvanse a través de e OpenOffice e Microsoft Word pero poden ser modificados accidentalmente. Por motivos de compatibilidade, as citas non se insiren nas notas a final de páxina ou nos rodapés cando se activa esa opción.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Marcador">
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar as citas como:">
@@ -80,7 +80,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Almacenar as referencias no documento supón un aumento no peso do ficheiro máis permitelle compartir o documento sen ter que empregar o grupo de Zotero. Precísase ter un Zotero 3.0 ou as versións seguintes para actualizar os ficheiros que se crearon con esta opción.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Almacenar as referencias no documento supón un aumento no peso do ficheiro máis permítelle compartir o documento sen ter que empregar o grupo de Zotero. Precísase ter un Zotero 3.0 ou as versións seguintes para actualizar os ficheiros que se crearon con esta opción.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Almacenar as referencias no documento">
 <!ENTITY zotero.integration.quickFormatDialog.title "Formato rápido de citación">
 <!ENTITY zotero.integration.references.label "Referencias en bibliografía">
@@ -145,7 +145,7 @@
 <!ENTITY zotero.lookup.description "Introduza na caixa de debaixo un ISBN, un DOI ou un PMID que buscar.">
 <!ENTITY zotero.merge.deleted "Eliminado">
 <!ENTITY zotero.merge.of "de">
-<!ENTITY zotero.merge.title "Resolución de conflicto">
+<!ENTITY zotero.merge.title "Resolución de conflito">
 <!ENTITY zotero.moreEncodings.label "Máis codificacións">
 <!ENTITY zotero.notes.separate "Editar nunha xanela independente">
 <!ENTITY zotero.progress.title "Progreso">
@@ -153,7 +153,7 @@
 <!ENTITY zotero.proxy.recognized.ignore.label "Ignorar">
 <!ENTITY zotero.proxy.recognized.title "Recoñeceuse o proxy">
 <!ENTITY zotero.proxy.recognized.warning "Engadir só proxies ligados desde a súa biblioteca, escola ou sitio web corporativo">
-<!ENTITY zotero.proxy.recognized.warning.secondary "Engadir outros proxies permítelle a sitios maliciosos que se pasen por sitios nos cales confias.">
+<!ENTITY zotero.proxy.recognized.warning.secondary "Engadir outros proxies permítelle a sitios maliciosos que se pasen por sitios nos cales confías.">
 <!ENTITY zotero.recognizePDF.cancel.label "Cancelar">
 <!ENTITY zotero.recognizePDF.captcha.label "Introduza o texto abaixo para seguir recuperando metadatos.">
 <!ENTITY zotero.recognizePDF.itemName.label "Nome do elemento">
@@ -222,7 +222,7 @@
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Non hai etiquetas que mostrar">
 <!ENTITY zotero.tagSelector.renameTag "Renomear a etiqueta...">
 <!ENTITY zotero.tagSelector.selectVisible "Seleccionar o visible">
-<!ENTITY zotero.tagSelector.showAutomatic "Mostrar automáticamente">
+<!ENTITY zotero.tagSelector.showAutomatic "Mostrar automaticamente">
 <!ENTITY zotero.toolbar.about.label "Acerca de Zotero">
 <!ENTITY zotero.toolbar.actions.label "Accións">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">

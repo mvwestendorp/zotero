@@ -46,7 +46,7 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Inställningar för källfångare">
 <!ENTITY zotero.file.choose.label "Välj fil...">
 <!ENTITY zotero.file.noneSelected.label "Ingen fil vald">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Avbryt">
 <!ENTITY zotero.general.delete "Radera">
 <!ENTITY zotero.general.deselectAll "Välj bort alla">
 <!ENTITY zotero.general.edit "Ändra">

@@ -2,7 +2,7 @@
 <!ENTITY aboutProduct.label "Acerca de &brandShortName;">
 <!ENTITY addons.label "Engadidos">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
-<!ENTITY bidiSwitchPageDirectionItem.label "Trocar a dirección de páxina">
+<!ENTITY bidiSwitchPageDirectionItem.label "Cambiar a dirección de páxina">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
 <!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
 <!ENTITY bidiSwitchTextDirectionItem.label "Cambiar a dirección do texto">
@@ -77,9 +77,9 @@
 <!ENTITY pasteCmd.key "V">
 <!ENTITY pasteCmd.label "Pegar">
 <!ENTITY preferencesCmd.accesskey "O">
-<!ENTITY preferencesCmd.label "Preferences">
+<!ENTITY preferencesCmd.label "Preferencias">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "Preferencias_">
+<!ENTITY preferencesCmdMac.label "Preferencias...">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "Preferencias">
 <!ENTITY printCmd.accesskey "U">

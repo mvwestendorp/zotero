@@ -46,7 +46,7 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Oversættelsesmuligheder">
 <!ENTITY zotero.file.choose.label "Vælg filen...">
 <!ENTITY zotero.file.noneSelected.label "Der er ikke valgt en fil">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Annullér">
 <!ENTITY zotero.general.delete "Slet">
 <!ENTITY zotero.general.deselectAll "Fravælg alle">
 <!ENTITY zotero.general.edit "Rediger">
@@ -255,7 +255,7 @@
 <!ENTITY zotero.toolbar.openURL.label "Find">
 <!ENTITY zotero.toolbar.openURL.tooltip "Find gennem lokalt bibliotek">
 <!ENTITY zotero.toolbar.orphansView.label "Orphans view">
-<!ENTITY zotero.toolbar.preferences.label "Præferencer...">
+<!ENTITY zotero.toolbar.preferences.label "Indstillinger...">
 <!ENTITY zotero.toolbar.refresh.label "Refresh">
 <!ENTITY zotero.toolbar.removeItem.label "Fjern ...">
 <!ENTITY zotero.toolbar.rtfScan.label "RTF Scan...">
