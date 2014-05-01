@@ -3630,7 +3630,11 @@ Zotero.Sync.Server.Data = new function() {
 					objectsNode.appendChild(elem);
 				}
 				if (objectsNode.childNodes && !objectsNode.childNodes.length) {
-					docElem.removeChild(objectsNode);
+					try {
+						docElem.removeChild(objectsNode);
+					} catch (e) {
+						Zotero.debug("MLZ: attempted to remove non-existent tags node during sync. Skipping operation, continuing with sync.");
+					}
 				}
 			}
 		}

@@ -391,7 +391,6 @@
 								emptyColored = false;
 							}
 							else if (labels[i].getAttribute('tagType') == 10000 && (!self._search || inSearch)) {
-// zzz
 								labels[i].setAttribute('hidden', false);
 								labels[i].setAttribute('hasColor',false);
 							}
@@ -876,7 +875,7 @@ Zotero.debug('MLZ: isProjectName: '+isProjectName);
 						label.setAttribute('tagID', tagID);
 					}
 					label.setAttribute('tagType', tagType);
-					if (editable) {
+					if (editable || tagType == 10000) {
 						label.setAttribute('context', 'tag-menu');
 					}
 					return label;
