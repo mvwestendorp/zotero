@@ -45,6 +45,8 @@ var Zotero_File_Interface_Bibliography = new function() {
 	this.setLanguageRoleHighlight = setLanguageRoleHighlight;
 	this.openProjectName = openProjectName;
 	this.closeProjectName = closeProjectName;
+	this.toggleGroupNameSafetyCatch = toggleGroupNameSafetyCatch;
+	this.setGroupName = setGroupName;
 
 	/*
 	 * Initialize some variables and prepare event listeners for when chrome is done
@@ -159,12 +161,11 @@ var Zotero_File_Interface_Bibliography = new function() {
 			}
 		}
 
-		// Set project name (integrationDocPrefs.xul only)
+		// Set project and group name (integrationDocPrefs.xul only)
 
-		var projectName = document.getElementById('project-name');
-		if (projectName) {
-			projectName.value = _io.projectName ? _io.projectName : '';
-		}
+		displayProjectName();
+		displayGroupName();
+
 
 		// Also ONLY for integrationDocPrefs.xul: update language selections
 		
@@ -506,7 +507,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 
 	function citationSetAffixes (node, affixNode, quashPrimaryAffixes) {
 		if (!node) {
-			var node = document.popupNode;
+			node = document.popupNode;
 		}
 		var currentId = node.id;
 		var prefixNode = document.getElementById(node.id + '-prefix');
@@ -584,6 +585,21 @@ var Zotero_File_Interface_Bibliography = new function() {
 		return count;
 	}
 
+	var keyCodeMap = {
+		13:'Enter',
+		9:'Tab',
+		27:'Esc',
+		38:'Up',
+		40:'Down'
+	}
+
+	function displayProjectName () {
+		var projectName = document.getElementById('project-name');
+		if (projectName) {
+			projectName.value = _io.projectName ? _io.projectName : '';
+		}
+	}
+
 	function openProjectName (event) {
 		var node = event.target;
 		var projectName = node.value;
@@ -596,14 +612,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 		newNode.setAttribute('value',projectName);
 		parent.appendChild(newNode);
 		newNode.focus();
-	}
-
-	var keyCodeMap = {
-		13:'Enter',
-		9:'Tab',
-		27:'Esc',
-		38:'Up',
-		40:'Down'
 	}
 
 	function closeProjectName (event) {
@@ -625,9 +633,154 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
-	function displayProjectName () {
-		var projectNameNode = document.getElementById('project-name');
-		projectNameNode.value = _io['projectName'];
+	var allGroups = Zotero.Groups.getAll();
+
+	function displayGroupName () {
+		// Zotero.debug("MLZ: == displayGroupName() ==");
+		// Check if we have access to the target group at all (change message if not)
+		// Check if we have write access to it as well (disable if not)
+		// If both of the above check out, set the target group as the list selection.
+
+		var groupIdSetting = _io.groupID ? _io.groupID : 0;
+		var groupNameSetting = _io.groupName ? _io.groupName : '';
+
+		var groupName = document.getElementById('group-name');
+		var groupNamePopup = document.getElementById('group-name-popup');
+		for (var i=1,ilen=groupNamePopup.childNodes.length;i<ilen;i+=1) {
+			groupNamePopup.removeChild(groupNamePopup.childNodes[1]);
+		}
+		// Set top list item as default
+		var selectedNode = null;
+
+		// Get a list of groups to which user has write access
+		var groups = allGroups;
+		for (var i=0,ilen=groups.length;i<ilen;i+=1) {
+			var group = groups[i];
+			var groupID = group.id;
+			var name = group.name;
+			if (!group.editable) {
+				var menuItem = document.createElement('label');
+				menuItem.setAttribute('style','font-weight:bold;color:#999999;');
+				menuItem.setAttribute('value','[' + name + ']');
+				if (groupIdSetting == groupID) {
+					groupName.setAttribute('label',name);
+					selectedNode = false;
+				}
+			} else {
+				var menuItem = document.createElement('menuitem');
+				menuItem.setAttribute('value',groupID);
+				menuItem.setAttribute('label',name);
+				if (groupIdSetting == groupID) {
+					selectedNode = menuItem;
+				}
+			}
+			groupNamePopup.appendChild(menuItem);
+		}
+		if (selectedNode === null) {
+			// No setting, or setting is not a known group
+			if (_io['groupName']) {
+				groupName.setAttribute('label',_io['groupName']);
+				toggleGroupNameSafetyCatch(true);
+				setErrorNode(groupName,3);
+			} else {
+				groupName.selectedItem = groupNamePopup.childNodes[0];
+				toggleGroupNameSafetyCatch(false,true);
+				setErrorNode(groupName,1);
+			}
+		} else if (selectedNode === false) {
+			// Setting is a group to which we do not have write access
+			toggleGroupNameSafetyCatch(true);
+			setErrorNode(groupName,2)
+		} else {
+			// Setting is a known group to which we have write access. Yay.
+			groupName.selectedItem = selectedNode;
+			toggleGroupNameSafetyCatch(true);
+			setErrorNode(groupName,0)
+		}
+		groupName.addEventListener("select",setGroupName);
+	}
+
+	function setErrorNode(groupName,pos) {
+		var errorNodes = [];
+		errorNodes[0] = document.getElementById('group-no-error');
+		errorNodes[1] = document.getElementById('group-unselected-error');
+		errorNodes[2] = document.getElementById('group-readonly-error');
+		errorNodes[3] = document.getElementById('group-nonexistent-error');
+		function setOne (pos) {
+			for (var i=0,ilen=errorNodes.length;i<ilen;i+=1) {
+				Zotero.debug("MLZ: cranking on "+i+" which is "+errorNodes[i]);
+				if (i === pos) {
+					errorNodes[i].hidden = false;
+				} else {
+					errorNodes[i].hidden = true;
+				}
+			}
+		};
+		
+		setOne(pos);
+		switch (pos) {
+		case 0:
+			groupName.style['font-weight'] = 'bold';
+			groupName.style.color = 'blue';
+			groupName.style.opacity = '1.0';
+			break;
+			;;
+		case 1:
+			groupName.style['font-weight'] = 'normal';
+			groupName.style.color = 'black';
+			groupName.style.opacity = '1.0';
+			break;
+			;;
+		case 2:
+			groupName.style['font-weight'] = 'bold';
+			groupName.style.color = 'red';
+			groupName.style.opacity = '0.6';
+			break;
+			;;
+		case 3:
+			groupName.style['font-weight'] = 'bold';
+			groupName.style.color = 'red';
+			groupName.style.opacity = '1.0';
+			break;
+			;;
+		}
+	}
+
+	function toggleGroupNameSafetyCatch (forceCheck, disableToggle) {
+		var groupName = document.getElementById('group-name');
+		var groupNameSafetyCatch = document.getElementById('group-name-safety-catch');
+			groupNameSafetyCatch.disabled = false;
+		if (forceCheck === true) {
+			groupNameSafetyCatch.checked = false;
+		} else if (forceCheck === false) {
+			groupNameSafetyCatch.checked = true;
+			groupNameSafetyCatch.disabled = true;
+		}
+		if (groupNameSafetyCatch.checked) {
+			groupName.disabled = false;
+			groupNameSafetyCatch.checked = true;
+		} else {
+			groupName.disabled = true;
+			groupNameSafetyCatch.checked = false;
+		}
+	}
+
+	function setGroupName (event) {
+		var groupName = document.getElementById('group-name');
+		var groupNamePopup = document.getElementById('group-name-popup');
+		if (groupName.value == 0) {
+			toggleGroupNameSafetyCatch(false);
+		} else {
+			toggleGroupNameSafetyCatch(true);
+		}
+		if (groupName.value == 0) {
+			_io['groupID'] = '';
+			_io['groupName'] = '';
+		} else {
+			_io['groupID'] = groupName.value;
+			_io['groupName'] = groupName.label;
+		}
+		displayGroupName();
 	}
 }
 

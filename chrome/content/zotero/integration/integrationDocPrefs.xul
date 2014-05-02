@@ -627,25 +627,75 @@
 		  </groupbox>
 		</tabpanel>
 		<tabpanel>
-		  <groupbox>
-			<grid flex="1">
-			  <columns>
-				<column flex="1"/>
-			  </columns>
-			  <rows>
-				<row>
+		  <vbox>
+			<groupbox>
+			  <hbox>
+				<vbox>
+				  <caption label="Apply a tag to sources cited in this document"/>
+				  <label id="project-name" flex="1" class="zotero-clicky thin-border" onclick="Zotero_File_Interface_Bibliography.openProjectName(event);"/>
+				</vbox>
+			  </hbox>
+			  <groupbox id="project-name-comment">
+				<description>
+				  Multilingual Zotero can tag items cited by this
+				  document using the project name entered in the field
+				  above. Multiple documents can share the same project
+				  name.
+				</description>
+				<description>
+				  Note that project tags are not removed when references
+				  are deleted from the document: to create a snapshot of
+				  currently cited references, delete the project tag in
+				  MLZ and refresh each of the documents related to the
+				  project.
+				</description>
+			  </groupbox>
+			</groupbox>
+			<groupbox>
+			  <hbox>
+				<vbox>
+				  <caption label="Restore inaccessible references to this Zotero group"/>
 				  <hbox>
-					<caption label="Apply a tag to sources cited in this document"/>
+					<checkbox id="group-name-safety-catch" oncommand="Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(event);"/>
+					<label value="release for editing"/>
 				  </hbox>
-				</row>
-				<row>
-				  <hbox>
-					<label id="project-name" flex="1" class="zotero-clicky thin-border" onclick="Zotero_File_Interface_Bibliography.openProjectName(event);"/>
-				  </hbox>
-				</row>
-			  </rows>
-			</grid>
-		  </groupbox>
+				  <menulist id="group-name" flex="1" disabled="true">
+					<menupopup id="group-name-popup">
+					  <menuitem value="0" label="No group selected"/>
+					  <!-- menuitem list goes here -->
+					</menupopup>
+				  </menulist>
+				</vbox>
+			  </hbox>
+			  <groupbox id="group-name-errors">
+				<description id="group-unselected-error" style="color:#444444;font-weight:bold;">
+				  Select a group to enable item creation.
+				</description>
+				<description id="group-no-error" style="color:green;font-weight:bold;">
+				  You have write access to this group. Item creation is enabled.
+				</description>
+				<description id="group-readonly-error" hidden="true" style="color:#ffa804;font-weight:bold;">
+				  Group is read-only. Visit the group online to request access.
+				</description>
+				<description id="group-nonexistent-error" hidden="true" style="color:red;font-weight:bold;">
+				  Group not found. Visit the group online to arrange for access.
+				</description>
+			  </groupbox>
+			  <groupbox id="group-name-comment">
+				<description>
+				  Documents shared with collaborators may contain
+				  references from the author's private library, or from
+				  group libraries to which others do not have access.
+				  If the "Store references in document" option is
+				  enabled in Document Preferences (by the original
+				  author), Multilingual Zotero can recreate the items
+				  in a group library to which you have write access.
+				  To enable this feature for this document, select a
+				  group library from the list above.
+				</description>
+			  </groupbox>
+			</groupbox>
+		  </vbox>
 		</tabpanel>
 	  </tabpanels>
 	</tabbox>

@@ -2028,7 +2028,7 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} item
 	 * @param {Object} cslItem
 	 */
-	"itemFromCSLJSON":function(item, cslItem) {
+	"itemFromCSLJSON":function(item, cslItem, libraryID) {
 		var isZoteroItem = item instanceof Zotero.Item, zoteroType;
 		
 		for(var type in CSL_TYPE_MAPPINGS) {
@@ -2042,6 +2042,7 @@ Zotero.Utilities = {
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);
+			item.setField('libraryID',libraryID);
 		} else {
 			item.itemID = cslItem.id;
 			item.itemType = zoteroType;
@@ -2062,8 +2063,14 @@ Zotero.Utilities = {
 					if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
 						if(isZoteroItem) {
 							item.setField(fieldID, cslItem[variable], true);
+
+							// Check for multi field versions
+
 						} else {
 							item[field] = cslItem[variable];
+
+							// Check for multi field versions
+
 						}
 					}
 				}
@@ -2071,6 +2078,7 @@ Zotero.Utilities = {
 		}
 		
 		// separate name variables
+		var doneNames = {};
 		for(var field in CSL_NAMES_MAPPINGS) {
 			if(CSL_NAMES_MAPPINGS[field] in cslItem) {
 				var creatorTypeID = Zotero.CreatorTypes.getID(field);
@@ -2082,6 +2090,11 @@ Zotero.Utilities = {
 				for(var i in nameMappings) {
 					var cslAuthor = nameMappings[i],
 						creator = isZoteroItem ? new Zotero.Creator() : {};
+						if (isZoteroItem) {
+							creator.libraryID = libraryID;
+						}
+					if (doneNames[cslAuthor]) continue;
+					doneNames[cslAuthor] = true;
 					if(cslAuthor.family || cslAuthor.given) {
 						if(cslAuthor.family) creator.lastName = cslAuthor.family;
 						if(cslAuthor.given) creator.firstName = cslAuthor.given;
@@ -2091,6 +2104,8 @@ Zotero.Utilities = {
 					} else {
 						continue;
 					}
+
+					// Compose multilingual creators and add to object
 					
 					if(isZoteroItem) {
 						item.setCreator(item.getCreators().length, creator, creatorTypeID);

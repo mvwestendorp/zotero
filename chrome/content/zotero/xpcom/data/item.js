@@ -4454,7 +4454,7 @@ Zotero.Item.prototype.hasTag = function(tagID) {
 Zotero.Item.prototype.hasTags = function(tagIDs) {
 	var tagIDs = Zotero.flattenArguments(tagIDs);
 	
-	var sql = "SELECT COUNT(*) FROM itemTags WHERE itemID=? AND tagID IN ("
+	var sql = "SELECT COUNT(*) FROM itemTags WHERE itemID=? AND type IS NOT 10000 AND tagID IN ("
 				+ tagIDs.map(function () '?').join() + ")";
 	return !!Zotero.DB.valueQuery(sql, [this.id].concat(tagIDs));
 }
@@ -4489,7 +4489,7 @@ Zotero.Item.prototype.getTags = function() {
 }
 
 Zotero.Item.prototype.getTagIDs = function() {
-	var sql = "SELECT tagID FROM itemTags WHERE itemID=?";
+	var sql = "SELECT tagID FROM itemTags WHERE itemID=? AND type IS NOT 10000";
 	return Zotero.DB.columnQuery(sql, this.id);
 }
 
