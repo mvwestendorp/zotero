@@ -708,7 +708,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 		errorNodes[3] = document.getElementById('group-nonexistent-error');
 		function setOne (pos) {
 			for (var i=0,ilen=errorNodes.length;i<ilen;i+=1) {
-				Zotero.debug("MLZ: cranking on "+i+" which is "+errorNodes[i]);
 				if (i === pos) {
 					errorNodes[i].hidden = false;
 				} else {

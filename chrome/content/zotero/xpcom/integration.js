@@ -2451,7 +2451,8 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 							zoteroItem = new Zotero.Item();
 							Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, libraryID);
 							zoteroItem.itemData = itemData;
-							zoteroItem.save();
+							var itemID = zoteroItem.save();
+							zoteroItem = Zotero.Items.get(itemID);
 							citationItem.itemData.id = zoteroItem.id;
 							citationItem.itemData.key = zoteroItem.key;
 							Zotero.debug("MLZ: EMBEDDED DATA: "+JSON.stringify(itemData));

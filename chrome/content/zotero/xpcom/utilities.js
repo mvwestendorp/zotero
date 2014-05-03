@@ -2048,8 +2048,6 @@ Zotero.Utilities = {
 			item.itemType = zoteroType;
 		}
 
-		Zotero.debug("MLZ CSL ITEM DAMMIT: "+JSON.stringify(cslItem));
-		
 		// map text fields
 		for(var variable in CSL_TEXT_MAPPINGS) {
 			if(variable in cslItem) {
@@ -2127,11 +2125,12 @@ Zotero.Utilities = {
 						if (cslAuthor.multi) {
 							mainLang = cslAuthor.multi.main;
 						}
-						item.setCreator(orderIndex, creator, creatorTypeID, mainLang, true);
+						item.setCreator(orderIndex, creator, creatorTypeID, mainLang, true, true);
 						// Compose multilingual creators and add to object
 						if (cslAuthor.multi) {
 							for (var lang in cslAuthor.multi._key) {
 								var creatorVariant = new Zotero.Creator();
+								creatorVariant.libraryID = libraryID;
 								var cslVariant = cslAuthor.multi._key[lang];
 								if (creator.fieldMode === 1) {
 									creatorVariant.lastName = cslVariant.literal ? cslVariant.literal : cslVariant.family;
