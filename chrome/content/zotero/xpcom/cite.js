@@ -552,17 +552,17 @@ Zotero.Cite.System.prototype = {
 			var fields = CSL_TEXT_MAPPINGS[variable];
 			if(variable == "URL" && ignoreURL) continue;
 			for each(var field in fields) {
-				var value = zoteroItem.getField(field, false, true).toString();
+				var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(zoteroItem.itemTypeID, field);	
+				if (!fieldID) {
+					fieldID = Zotero.ItemFields.getID(field);
+				}
+				var value = "" + zoteroItem.getField(fieldID, false, true);
 				if(value != "") {
 					// Strip enclosing quotes
 					if(value.match(/^".+"$/)) {
 						value = value.substr(1, value.length-2);
 					}
 					cslItem[variable] = value;
-					var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(zoteroItem.itemTypeID, field);
-					if (!fieldID) {
-						fieldID = Zotero.ItemFields.getID(field);
-					}
 					if (zoteroItem.multi.main[fieldID]) {
 						cslItem.multi.main[variable] = zoteroItem.multi.main[fieldID]
 					}

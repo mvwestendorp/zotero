@@ -97,7 +97,7 @@ const CSL_TEXT_MAPPINGS = {
 	"language":["language"],
 	"jurisdiction":["jurisdiction"],
 	"status":["status"],
-    "publication-number": ["publicationNumber"]
+	"publication-number": ["publicationNumber"]
 }
 
 /*
@@ -417,7 +417,7 @@ Zotero.Utilities = {
 			// no longer accessible.
 			result.sort(function(a,b){
 				return a.nickname.localeCompare(b.nickname);
-            });
+			});
 		} else {
 			result = [];
 		};
@@ -1838,7 +1838,7 @@ Zotero.Utilities = {
 			for each(var field in fields) {
 				var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, field);
 				if (!fieldID) {
-					var fieldID = Zotero.ItemFields.getID(field);
+					fieldID = Zotero.ItemFields.getID(field);
 				}
 				var fieldName = Zotero.ItemFields.getName(fieldID);
 				var value = arrayItem[fieldName];
@@ -2047,6 +2047,8 @@ Zotero.Utilities = {
 			item.itemID = cslItem.id;
 			item.itemType = zoteroType;
 		}
+
+		Zotero.debug("MLZ CSL ITEM DAMMIT: "+JSON.stringify(cslItem));
 		
 		// map text fields
 		for(var variable in CSL_TEXT_MAPPINGS) {
@@ -2062,15 +2064,26 @@ Zotero.Utilities = {
 					
 					if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
 						if(isZoteroItem) {
-							item.setField(fieldID, cslItem[variable], true);
-
-							// Check for multi field versions
-
+							var mainLang = null;
+							if (cslItem.multi) {
+								mainLang = cslItem.multi.main[variable];
+							}
+							item.setField(fieldID, cslItem[variable], false, mainLang, true);
+							if (cslItem.multi && cslItem.multi._keys[variable]) {
+								for (var lang in cslItem.multi._keys[variable]) {
+									item.setField(fieldID, cslItem.multi._keys[variable][lang], false, lang);
+								}
+							}
 						} else {
 							item[field] = cslItem[variable];
-
-							// Check for multi field versions
-
+							if (cslItem.multi) {
+								item.multi.main = cslItem.multi.main[variable];
+								if (cslItem.multi._keys[variable]) {
+									for (var lang in cslItem.multi._keys[variable]) {
+										item.multi._keys[field][lang] = cslItem.multi._keys[variable][lang]
+									}
+								}
+							}
 						}
 					}
 				}
@@ -2085,16 +2098,19 @@ Zotero.Utilities = {
 				if(!Zotero.CreatorTypes.isValidForItemType(creatorTypeID, itemTypeID)) {
 					creatorTypeID = Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID);
 				}
+				if (!doneNames[creatorTypeID]) {
+					doneNames[creatorTypeID] = {};
+				}
 				
 				var nameMappings = cslItem[CSL_NAMES_MAPPINGS[field]];
 				for(var i in nameMappings) {
-					var cslAuthor = nameMappings[i],
-						creator = isZoteroItem ? new Zotero.Creator() : {};
-						if (isZoteroItem) {
-							creator.libraryID = libraryID;
-						}
-					if (doneNames[cslAuthor]) continue;
-					doneNames[cslAuthor] = true;
+					var cslAuthor = nameMappings[i];
+					var creator = isZoteroItem ? new Zotero.Creator() : {multi:{_key:{}}};
+					if (isZoteroItem) {
+						creator.libraryID = libraryID;
+					}
+					if (doneNames[creatorTypeID][cslAuthor.family + '/' + cslAuthor.given]) continue;
+					doneNames[creatorTypeID][cslAuthor.family + '/' + cslAuthor.given] = true;
 					if(cslAuthor.family || cslAuthor.given) {
 						if(cslAuthor.family) creator.lastName = cslAuthor.family;
 						if(cslAuthor.given) creator.firstName = cslAuthor.given;
@@ -2105,12 +2121,45 @@ Zotero.Utilities = {
 						continue;
 					}
 
-					// Compose multilingual creators and add to object
-					
 					if(isZoteroItem) {
-						item.setCreator(item.getCreators().length, creator, creatorTypeID);
+						var orderIndex = item.getCreators().length;
+						var mainLang = null;
+						if (cslAuthor.multi) {
+							mainLang = cslAuthor.multi.main;
+						}
+						item.setCreator(orderIndex, creator, creatorTypeID, mainLang, true);
+						// Compose multilingual creators and add to object
+						if (cslAuthor.multi) {
+							for (var lang in cslAuthor.multi._key) {
+								var creatorVariant = new Zotero.Creator();
+								var cslVariant = cslAuthor.multi._key[lang];
+								if (creator.fieldMode === 1) {
+									creatorVariant.lastName = cslVariant.literal ? cslVariant.literal : cslVariant.family;
+								} else {
+									creatorVariant.lastName = cslVariant.family;
+									creatorVariant.firstName = cslVariant.given;
+								}
+								item.setCreator(orderIndex, creatorVariant, creatorTypeID, lang);
+							}
+						}
 					} else {
 						creator.creatorType = Zotero.CreatorTypes.getName(creatorTypeID);
+						if (cslAuthor.multi) {
+							for (var lang in cslAuthor.multi._key) {
+								var creatorVariant = {};
+								var segmentMap = {
+									family:'lastName',
+									given:'firstName',
+									literal:'lastName'
+								};
+								for (var segment in segmentMap) {
+									if (cslAuthor.multi._key[lang][segment]) {
+										creatorVariant[segmentMap[segment]] = cslAuthor.multi._key[lang][segment];
+									}
+								}
+								creator.multi._key[lang] = creatorVariant;
+							}
+						}
 						item.creators.push(creator);
 					}
 				}

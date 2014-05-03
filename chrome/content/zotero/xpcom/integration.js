@@ -2445,32 +2445,36 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			if(!zoteroItem) {
 				if(citationItem.itemData) {
 					if (this.data.prefs.groupID) {
-						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID);
-						var itemData = citationItem.itemData;
-						zoteroItem = new Zotero.Item();
-						Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, libraryID);
-						zoteroItem.save();
-						citationItem.itemData.id = zoteroItem.id;
-						citationItem.itemData.key = zoteroItem.key;
-						var newURIs = this.uriMap.getURIsForItemID(zoteroItem.id);
-						if (citationItem.uris && citationItem.uris.length) {
-							// Set up to reselect the newly created item
-							this.reselectedItems[citationItem.uris[0]] = zoteroItem.id;
-							// Prefer the newly created item over the private copy
-							for (var j=newURIs.length-1;j>-1;j+=-1) {
-								citationItem.uris.unshift(newURIs[j]);
+						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
+						if (libraryID) {
+							var itemData = citationItem.itemData;
+							zoteroItem = new Zotero.Item();
+							Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, libraryID);
+							zoteroItem.itemData = itemData;
+							zoteroItem.save();
+							citationItem.itemData.id = zoteroItem.id;
+							citationItem.itemData.key = zoteroItem.key;
+							Zotero.debug("MLZ: EMBEDDED DATA: "+JSON.stringify(itemData));
+							var newURIs = this.uriMap.getURIsForItemID(zoteroItem.id);
+							if (citationItem.uris && citationItem.uris.length) {
+								// Set up to reselect the newly created item
+								this.reselectedItems[citationItem.uris[0]] = zoteroItem.id;
+								// Prefer the newly created item over the private copy
+								for (var j=newURIs.length-1;j>-1;j+=-1) {
+									citationItem.uris.unshift(newURIs[j]);
+								}
+							} else if (citationItem.key) {
+								this.reselectedItems[citationItem.key] = zoteroItem.id;
+								citationItem.uris = newURIs;
+							} else if (citationItem.id) {
+								this.reselectedItems[citationItem.id] = zoteroItem.id;
+							} else {
+								this.reselectedItems[citationItem.itemID] = zoteroItem.id;
 							}
-						} else if (citationItem.key) {
-							this.reselectedItems[citationItem.key] = zoteroItem.id;
-							citationItem.uris = newURIs;
-						} else if (citationItem.id) {
-							this.reselectedItems[citationItem.id] = zoteroItem.id;
-						} else {
-							this.reselectedItems[citationItem.itemID] = zoteroItem.id;
+							citationItem.id = zoteroItem.id;
+							citationItem.key = zoteroItem.key;
+							citationItem.libraryID = zoteroItem.libraryID;
 						}
-						citationItem.id = zoteroItem.id;
-						citationItem.key = zoteroItem.key;
-						citationItem.libraryID = zoteroItem.libraryID;
 					} else {
 						// add new embedded item
 						var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
