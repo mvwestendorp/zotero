@@ -20,7 +20,7 @@
 <!ENTITY cutCmd.label "Recortar">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
-<!ENTITY deleteCmd.label "Deletar">
+<!ENTITY deleteCmd.label "Remover">
 <!ENTITY editMenu.accesskey "E">
 <!ENTITY editMenu.label "Editar">
 <!ENTITY fileMenu.accesskey "F">
@@ -31,7 +31,7 @@
 <!ENTITY findAgainCmd.label "Find Again">
 <!ENTITY findCmd.accesskey "F">
 <!ENTITY findCmd.commandkey "f">
-<!ENTITY findCmd.label "Buscar">
+<!ENTITY findCmd.label "Localizar">
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
@@ -53,7 +53,7 @@
 <!ENTITY fullZoomToggleCmd.accesskey "T">
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
-<!ENTITY helpCheckForUpdates.label "Verificar disponibilidade de atualizações...">
+<!ENTITY helpCheckForUpdates.label "Buscar atualizações...">
 <!ENTITY helpFeedbackPage.accesskey "S">
 <!ENTITY helpFeedbackPage.label "Submeter feedback">
 <!ENTITY helpMac.commandkey "?">
@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Ajuda">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Reportar erros à Zotero...">
+<!ENTITY helpReportErrors.label "Transmitir erros à Zotero...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Informação de solução de problemas">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
@@ -85,7 +85,7 @@
 <!ENTITY printCmd.accesskey "U">
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Imprimir...">
-<!ENTITY productHelp.accesskey "H">
+<!ENTITY productHelp.accesskey "D">
 <!ENTITY productHelp.label "Suporte e Documentação">
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Sair">

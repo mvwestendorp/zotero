@@ -1,10 +1,10 @@
-<!ENTITY zotero.preferences.advanced.filesAndFolders "Files and Folders">
+<!ENTITY zotero.preferences.advanced.filesAndFolders "Fitxers i carpetes">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Base directory:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revert to Absolute Paths…">
-<!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Choose…">
-<!ENTITY zotero.preferences.autoUpdate "Automatically check for updated translators and styles">
+<!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Tria...">
+<!ENTITY zotero.preferences.autoUpdate "Comprova automàticament si hi ha traductors o estils actualitzats">
 <!ENTITY zotero.preferences.automaticSnapshots "Crea automàticament una captura quan es creïn elements des de pàgines web">
 <!ENTITY zotero.preferences.automaticTags "Etiqueta automàticament els elements amb les capçaleres de paraules clau i el tema">
 <!ENTITY zotero.preferences.charset "Codificació de caràcters">
@@ -45,11 +45,11 @@
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Quan aquesta opció està deshabilitada, el Zotero inclou les URL quan se citen articles de premsa, revistes i revistes acadèmiques només si l'article no té un ran dge pàgines assignat.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Aconsegueix estils addicionals...">
 <!ENTITY zotero.preferences.fontSize "Mida de lletra:">
-<!ENTITY zotero.preferences.fontSize.large "Gran">
+<!ENTITY zotero.preferences.fontSize.large "Grossa">
 <!ENTITY zotero.preferences.fontSize.medium "Mitjana">
 <!ENTITY zotero.preferences.fontSize.notes "Mida de lletra de la nota:">
 <!ENTITY zotero.preferences.fontSize.small "Petita">
-<!ENTITY zotero.preferences.fontSize.xlarge "Molt gran">
+<!ENTITY zotero.preferences.fontSize.xlarge "Molt grossa">
 <!ENTITY zotero.preferences.fulltext.pdfMaxPages "Nombe màxim de pàgines indexades per fitxer:">
 <!ENTITY zotero.preferences.fulltext.textMaxLength "Nombre màxim de caràcters indexats per fitxer:">
 <!ENTITY zotero.preferences.groups "Grups">
@@ -57,7 +57,7 @@
 <!ENTITY zotero.preferences.groups.childLinks "enllaços descendents">
 <!ENTITY zotero.preferences.groups.childNotes "notes descendents">
 <!ENTITY zotero.preferences.groups.tags "etiquetes">
-<!ENTITY zotero.preferences.groups.whenCopyingInclude "Quan copiïs elements entre les biblioteques, inclou:">
+<!ENTITY zotero.preferences.groups.whenCopyingInclude "Quan copiïs elements entre les biblioteques, inclou-hi:">
 <!ENTITY zotero.preferences.items "elements">
 <!ENTITY zotero.preferences.keys.changesTakeEffect "Els canvis tenen efecte només en les finestres noves">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Copia les cites dels elements seleccionats al porta-retalls">
@@ -70,7 +70,7 @@
 <!ENTITY zotero.preferences.keys.openZotero "Obre/Tanca el Zotero">
 <!ENTITY zotero.preferences.keys.overrideGlobal "intenta corregir els conflictes en les dreceres de teclat">
 <!ENTITY zotero.preferences.keys.quicksearch "Cerca ràpida">
-<!ENTITY zotero.preferences.keys.saveToZotero "Save to Zotero (address bar icon)">
+<!ENTITY zotero.preferences.keys.saveToZotero "Desa al Zotero (icona de la barra d'adreces)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Canvia a pantalla completa">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "Canvia el selector d&apos;etiquetes">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -175,7 +175,7 @@
 <!ENTITY zotero.preferences.showIn.appTab "Pestanya d'aplicacions">
 <!ENTITY zotero.preferences.showIn.browserPane "Subfinestra del navegador">
 <!ENTITY zotero.preferences.showIn.separateTab "Pestanya separada">
-<!ENTITY zotero.preferences.statusBarIcon "Icona a la barra d&apos;estatus">
+<!ENTITY zotero.preferences.statusBarIcon "Icona de la barra d&apos;estat">
 <!ENTITY zotero.preferences.statusBarIcon.none "Cap">
 <!ENTITY zotero.preferences.sync.about "Quant a la sincronització">
 <!ENTITY zotero.preferences.sync.createAccount "Crea un compte">

@@ -8,15 +8,15 @@
 <!ENTITY zotero.bibliography.bibliography "Lähdeluettelo">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopioi leikepöydälle">
 <!ENTITY zotero.bibliography.output.label "Output Format">
-<!ENTITY zotero.bibliography.outputMethod "Output Method:">
-<!ENTITY zotero.bibliography.outputMode "Output Mode:">
+<!ENTITY zotero.bibliography.outputMethod "Vientitapa:">
+<!ENTITY zotero.bibliography.outputMode "Luettelotyyppi:">
 <!ENTITY zotero.bibliography.print.label "Tulosta">
 <!ENTITY zotero.bibliography.saveAsHTML.label "Tallenna HTML-muodossa">
 <!ENTITY zotero.bibliography.saveAsRTF.label "Tallenna RTF-muodossa">
 <!ENTITY zotero.bibliography.style.label "Sitaattityyli:">
 <!ENTITY zotero.bibliography.title "Luo kirjallisuusluettelo">
 <!ENTITY zotero.charset.label "Merkistökoodaus">
-<!ENTITY zotero.citation.editorWarning.label "Warning: If you edit a citation in the editor it will no longer update to reflect changes in your database or the citation style.">
+<!ENTITY zotero.citation.editorWarning.label "Varoitus: Jos muokkaat viittausta tekstieditorissa, se ei enää päivity tietokannan tietojen tai viittaustyylin perusteella.">
 <!ENTITY zotero.citation.keepSorted.label "Pidä lähteet lajiteltuna">
 <!ENTITY zotero.citation.line "Rivi">
 <!ENTITY zotero.citation.page "Sivu">
@@ -32,8 +32,8 @@
 <!ENTITY zotero.downloadManager.label "Tallenna Zoteroon">
 <!ENTITY zotero.downloadManager.noPDFTools.description "Käyttääksesi tätä ominaisuutta tulee sinun ensin asentaa PDF-työkalut Zoteron asetuksista.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Liitteitä ei voi tallentaa valittuun kirjastoon. Nimike sen sijaan tallennetaan kirjastoon.">
-<!ENTITY zotero.duplicatesMerge.fieldSelect "Select fields to keep from other versions of the item:">
-<!ENTITY zotero.duplicatesMerge.versionSelect "Choose the version of the item to use as the master item:">
+<!ENTITY zotero.duplicatesMerge.fieldSelect "Valise kentät, jotka säilytetään muista versioista:">
+<!ENTITY zotero.duplicatesMerge.versionSelect "Valitse se nimikkeen pääversio:">
 <!ENTITY zotero.errorReport.notReviewed "Error reports are generally not reviewed unless referred to in the forums.">
 <!ENTITY zotero.errorReport.postToForums "Lähetä Zoteron keskustelualueelle (forums.zotero.org) viesti, joka sisältää raportin tunnuksen, ongelman kuvauksen sekä toimenpiteet, joilla virhe saadaan toistettua.">
 <!ENTITY zotero.errorReport.reportID "Raportin tunnus:">
@@ -46,7 +46,7 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Kääntäjän asetukset">
 <!ENTITY zotero.file.choose.label "Choose File...">
 <!ENTITY zotero.file.noneSelected.label "Tiedostoa ei ole valittu">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Peruuta">
 <!ENTITY zotero.general.delete "Poista">
 <!ENTITY zotero.general.deselectAll "Poista valinnat">
 <!ENTITY zotero.general.edit "Muokkaa">
@@ -58,8 +58,8 @@
 <!ENTITY zotero.integration.classicView.label "Perinteinen näkymä">
 <!ENTITY zotero.integration.docPrefs.title "Asiakirjan asetukset">
 <!ENTITY zotero.integration.editBibliography.title "Muokkaa lähdeluetteloa">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "MEDLINE journal abbreviations will be automatically generated using journal titles. The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Lehtien MEDLINE-lyhenteet muodostetaan automaattisesti lehtien nimistä. &quot;Lehden lyhenne&quot; -kenttä ohitetaan.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Lyhennä lehtien nimet automaattisesti">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks are preserved across Microsoft Word and OpenOffice, but may be accidentally modified.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Kirjanmerkit">
 <!ENTITY zotero.integration.prefs.displayAs.label "Näytä sitaatit muodossa:">
@@ -96,7 +96,7 @@
 <!ENTITY zotero.items.archiveLocation_column "Paik. arkistossa">
 <!ENTITY zotero.items.archive_column "Arkisto">
 <!ENTITY zotero.items.callNumber_column "Kirjastoluokka">
-<!ENTITY zotero.items.court_column "Court">
+<!ENTITY zotero.items.court_column "Tuomioistuin">
 <!ENTITY zotero.items.creator_column "Luoja">
 <!ENTITY zotero.items.dateAdded_column "Lisätty">
 <!ENTITY zotero.items.dateModified_column "Muokattu">
@@ -144,8 +144,8 @@
 <!ENTITY zotero.lookup.button.search "Etsi">
 <!ENTITY zotero.lookup.description "Kirjoita ISBN-, DOI tai PMID-koodi allaolevaan laatikkoon.">
 <!ENTITY zotero.merge.deleted "Poistettu">
-<!ENTITY zotero.merge.of "of">
-<!ENTITY zotero.merge.title "Conflict Resolution">
+<!ENTITY zotero.merge.of "/">
+<!ENTITY zotero.merge.title "Ristiriidan selvittäminen">
 <!ENTITY zotero.moreEncodings.label "Lisää koodauksia">
 <!ENTITY zotero.notes.separate "Muokkaa erillisessä ikkunassa">
 <!ENTITY zotero.progress.title "Eteneminen">
@@ -212,7 +212,7 @@
 <!ENTITY zotero.tagColorChooser.position "Sijainti:">
 <!ENTITY zotero.tagColorChooser.removeColor "Poista väri">
 <!ENTITY zotero.tagColorChooser.setColor "Aseta väri">
-<!ENTITY zotero.tagColorChooser.title "Choose a Tag Color and Position">
+<!ENTITY zotero.tagColorChooser.title "Valitse avainsanan väri ja sijainti">
 <!ENTITY zotero.tagSelector.assignColor "Aseta väri">
 <!ENTITY zotero.tagSelector.clearAll "Deselect all">
 <!ENTITY zotero.tagSelector.clearVisible "Deselect visible">

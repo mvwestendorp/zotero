@@ -46,7 +46,7 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Options du convertisseur">
 <!ENTITY zotero.file.choose.label "Sélectionnez un fichier…">
 <!ENTITY zotero.file.noneSelected.label "Aucun fichier sélectionné">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Annuler">
 <!ENTITY zotero.general.delete "Supprimer">
 <!ENTITY zotero.general.deselectAll "Tout désélectionner">
 <!ENTITY zotero.general.edit "Modifier">

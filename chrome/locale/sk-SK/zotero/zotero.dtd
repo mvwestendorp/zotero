@@ -46,7 +46,7 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Možnosti konvertora">
 <!ENTITY zotero.file.choose.label "Vybrať súbor">
 <!ENTITY zotero.file.noneSelected.label "Nie je označený žiaden súbor">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Zrušiť">
 <!ENTITY zotero.general.delete "Vymazať">
 <!ENTITY zotero.general.deselectAll "Odznačiť všetko">
 <!ENTITY zotero.general.edit "Upraviť">

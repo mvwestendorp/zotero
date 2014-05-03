@@ -114,7 +114,7 @@
 <!ENTITY zotero.preferences.openAboutMemory "about:memory'yi Aç.">
 <!ENTITY zotero.preferences.openCSLEdit "CSL Düzenleyicisini Aç">
 <!ENTITY zotero.preferences.openCSLPreview "CSL Ön İzlemesini Aç">
-<!ENTITY zotero.preferences.openurl.caption "URLAç">
+<!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Özel...">
 <!ENTITY zotero.preferences.openurl.search "Çözücü ara">
 <!ENTITY zotero.preferences.openurl.server "Çözücü:">

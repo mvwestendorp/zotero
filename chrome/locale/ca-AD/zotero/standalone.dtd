@@ -53,7 +53,7 @@
 <!ENTITY fullZoomToggleCmd.accesskey "T">
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
-<!ENTITY helpCheckForUpdates.label "Comprova actualitzacions">
+<!ENTITY helpCheckForUpdates.label "Comprova si hi ha actualitzacions...">
 <!ENTITY helpFeedbackPage.accesskey "S">
 <!ENTITY helpFeedbackPage.label "Tramet comentaris">
 <!ENTITY helpMac.commandkey "?">

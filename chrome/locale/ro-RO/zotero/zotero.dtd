@@ -46,7 +46,7 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opțiuni translator">
 <!ENTITY zotero.file.choose.label "Alege fișier...">
 <!ENTITY zotero.file.noneSelected.label "Niciun fișier selectat">
-<!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.cancel "Anulare">
 <!ENTITY zotero.general.delete "Ștergere">
 <!ENTITY zotero.general.deselectAll "Deselectează tot">
 <!ENTITY zotero.general.edit "Editare">
