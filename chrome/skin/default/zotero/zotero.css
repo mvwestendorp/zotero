@@ -51,12 +51,12 @@ toolbar[iconsize="small"] #zotero-toolbar-button:active {
 toolbarpaletteitem[place="palette"] > #zotero-toolbar-button,
 #zotero-toolbar-button:active[cui-areatype="menu-panel"],
 toolbarpaletteitem[place="palette"] > #zotero-toolbar-button:active {
-  list-style-image: url("chrome://zotero/skin/zotero-z-32px-australis.svg");
+  list-style-image: url("chrome://zotero/skin/mlz-m-32px-monochrome-button.svg");
 }
 
 #zotero-toolbar-button[cui-areatype="toolbar"],
 #zotero-toolbar-button:active[cui-areatype="toolbar"] {
-  list-style-image: url("chrome://zotero/skin/zotero-z-16px-australis.svg") !important;
+  list-style-image: url("mlz-m-16px-monochrome-button.svg") !important;
 }
 
 #addon-bar #zotero-toolbar-button {
