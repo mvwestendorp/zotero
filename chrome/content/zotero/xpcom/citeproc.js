@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.520",
+    PROCESSOR_VERSION: "1.0.525",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -719,9 +719,13 @@ CSL_CHROME.prototype.clean = function (xml) {
     xml = xml.replace(/^\n*/, "");
     return xml;
 };
-CSL_CHROME.prototype.getStyleId = function (myxml) {
+CSL_CHROME.prototype.getStyleId = function (myxml, styleName) {
     var text = "";
-    var node = myxml.getElementsByTagName("id");
+    var tagName = "id";
+    if (styleName) {
+        tagName = "title";
+    }
+    var node = myxml.getElementsByTagName(tagName);
     if (node && node.length) {
         node = node.item(0);
     }
@@ -1028,52 +1032,11 @@ CSL.getSortCompare = function (default_locale) {
     if (!default_locale) {
         default_locale = "en-US";
     }
-    try {
-        var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
-            .getService(Components.interfaces.nsILocaleService);
-        var collationFactory = Components.classes["@mozilla.org/intl/collation-factory;1"]
-            .getService(Components.interfaces.nsICollationFactory);
-        var collation = collationFactory.CreateCollation(localeService.newLocale(default_locale));
-        strcmp = function(a, b) {
-            return collation.compareString(1, a, b);
-        };
-        CSL.debug("Using collation sort: "+default_locale);
-    } catch (e) {
-        CSL.debug("Using localeCompare sort");
-        strcmp = function (a, b) {
-            return a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
-        };
-    }
-    var isKana = /^[\[\]\'\"]*[\u3040-\u309f\u30a0-\u30ff]/;
+    strcmp = function (a, b) {
+        return a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
+    };
     var stripPunct = function (str) {
         return str.replace(/^[\[\]\'\"]*/g, "");
-    }
-    var getKanaPreSort = function () {
-        if (strcmp("\u3044", "\u3046")) {
-            return false;
-        } else {
-            return function (a, b) {
-                a = stripPunct(a);
-                b = stripPunct(b);
-                var ak = isKana.exec(a);
-                var bk = isKana.exec(b);
-                if (ak || bk) {
-                    if (!ak) {
-                        return -1;
-                    } else if (!bk) {
-                        return 1;
-                    } else if (a < b) {
-                        return -1;
-                    } else if (a > b) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                } else {
-                    return false;
-                }
-            };
-        }
     }
     var getBracketPreSort = function () {
         if (!strcmp("[x","x")) {
@@ -1084,15 +1047,8 @@ CSL.getSortCompare = function (default_locale) {
             }
         }
     }
-    var kanaPreSort = getKanaPreSort();
     var bracketPreSort = getBracketPreSort();
     var sortCompare = function (a, b) {
-        if (kanaPreSort) {
-            var ret = kanaPreSort(a, b);
-            if (false !== ret) {
-                return ret;
-            }
-        }
         if (bracketPreSort) {
             return bracketPreSort(a, b);
         } else {
@@ -1725,6 +1681,10 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.setStyleAttributes();
     this.opt.xclass = sys.xml.getAttributeValue(this.cslXml, "class");
     this.opt.styleID = this.sys.xml.getStyleId(this.cslXml);
+    this.opt.styleName = this.sys.xml.getStyleId(this.cslXml, true);
+    if (CSL.getSuppressJurisdictions) {
+        this.opt.suppressJurisdictions = CSL.getSuppressJurisdictions(this.opt.styleID);
+    }
     if (this.opt.version.slice(0,4) === "1.1m") {
         this.opt.development_extensions.static_statute_locator = true;
         this.opt.development_extensions.handle_parallel_articles = true;
@@ -10835,6 +10795,12 @@ CSL.Transform = function (state) {
             if (!variables[0] || (!Item[variables[0]] && !Item[alternative_varname])) {
                 return null;
             }
+            if (state.opt.suppressJurisdictions
+                && variables[0] === "jurisdiction" 
+                && state.opt.suppressJurisdictions[Item.jurisdiction]
+                && ["legal_case","gazette","regulation","legislation"].indexOf(Item.type) > -1) {
+                return null;
+            }
             var slot = {primary:false, secondary:false, tertiary:false};
             if (state.tmp.area.slice(-5) === "_sort") {
                 slot.primary = 'locale-sort';
@@ -12758,7 +12724,7 @@ CSL.Output.Formatters.title = function (state, string) {
     }
     for (var i=0,ilen=lst.length;i<ilen;i+=2) {
         var words = lst[i].split(/([:?!]*\s+|-)/);
-        for (k=0,klen=words.length;k<klen;k+=2) {
+        for (var k=0,klen=words.length;k<klen;k+=2) {
             if (words[k].length !== 0) {
                 upperCaseVariant = words[k].toUpperCase();
                 lowerCaseVariant = words[k].toLowerCase();
@@ -13433,9 +13399,9 @@ CSL.Registry.NameReg = function (state) {
     set_keys = function (state, itemid, nameobj) {
         pkey = strip_periods(nameobj.family);
         skey = strip_periods(nameobj.given);
-        var m = skey.match(/,\!* [^,]$/);
+        var m = skey.match(/[,\!]* ([^,]+)$/);
         if (m && m[1] === m[1].toLowerCase()) {
-            skey = skey.replace(/,\!* [^,]$/, "");
+            skey = skey.replace(/[,\!]* [^,]+$/, "");
         }
         ikey = CSL.Util.Names.initializeWith(state, skey, "%s");
         if (state.citation.opt["givenname-disambiguation-rule"] === "by-cite") {
