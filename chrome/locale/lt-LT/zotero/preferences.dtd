@@ -5,7 +5,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Pakeisti absoliučiais keliais...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Pasirinkti...">
 <!ENTITY zotero.preferences.autoUpdate "Automatiškai tikrinti, ar yra transliatorių ir stilių atnaujinimų">
-<!ENTITY zotero.preferences.automaticSnapshots "Pagal kuriamiems naujiems įrašams automatiškai sukurti nuotraukas">
+<!ENTITY zotero.preferences.automaticSnapshots "Kuriamiems naujiems įrašams automatiškai sukurti nuotraukas">
 <!ENTITY zotero.preferences.automaticTags "Įrašams automatiškai priskirti gaires su raktažodžiais ir temomis">
 <!ENTITY zotero.preferences.charset "Rašmenų koduotė">
 <!ENTITY zotero.preferences.charset.displayExportOption "Eksportuojant rodyti rašmenų koduotės parinktis">
@@ -18,7 +18,7 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Pavadinimas">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Atnaujinta">
 <!ENTITY zotero.preferences.cite.wordProcessors "Tekstų rengyklės">
-<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Diegti papildinius į tekstų rengykles...">
+<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Papildinių diegimas į tekstų rengykles...">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Nerasta įdiegtų teksto rengyklės papildinių.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Naudoti klasikinį citatų įdėjimo langą">
@@ -56,7 +56,7 @@
 <!ENTITY zotero.preferences.groups.childFiles "įrašams priklausančias nuotraukas ir importuotus failus">
 <!ENTITY zotero.preferences.groups.childLinks "įrašams priklausančias nuorodas">
 <!ENTITY zotero.preferences.groups.childNotes "įrašams priklausančias pastabas">
-<!ENTITY zotero.preferences.groups.tags "gairės">
+<!ENTITY zotero.preferences.groups.tags "gaires">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Kopijuojant elementus tarp bibliotekų, įtraukti:">
 <!ENTITY zotero.preferences.items "įrašai">
 <!ENTITY zotero.preferences.keys.changesTakeEffect "Pakeitimai veiks tik naujai atvertuose languose">

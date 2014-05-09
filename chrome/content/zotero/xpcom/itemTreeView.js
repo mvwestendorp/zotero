@@ -38,11 +38,14 @@ Zotero.ItemTreeView = function(itemGroup, sourcesOnly)
 {
 	this.wrappedJSObject = this;
 	this.rowCount = 0;
+	this.itemGroup = itemGroup;
+	// Deprecated
+	// TODO: remove
+	this._itemGroup = itemGroup;
 	
 	this._initialized = false;
 	this._skipKeypress = false;
 	
-	this._itemGroup = itemGroup;
 	this._sourcesOnly = sourcesOnly;
 	
 	this._callbacks = [];
@@ -59,6 +62,8 @@ Zotero.ItemTreeView = function(itemGroup, sourcesOnly)
 	);
 }
 
+Zotero.ItemTreeView.prototype = Object.create(Zotero.LibraryTreeView.prototype);
+Zotero.ItemTreeView.prototype.type = 'item';
 
 Zotero.ItemTreeView.prototype.addCallback = function(callback) {
 	this._callbacks.push(callback);
@@ -940,8 +945,7 @@ Zotero.ItemTreeView.prototype.getCellText = function(row, column)
 	if (column.id === "zotero-items-column-hasAttachment") {
 		return;
 	}
-	else if(column.id == "zotero-items-column-type")
-	{
+	else if (column.id == "zotero-items-column-itemType") {
 		val = Zotero.ItemTypes.getLocalizedString(obj.ref.itemTypeID);
 	}
 	// Year column is just date field truncated
@@ -1297,14 +1301,14 @@ Zotero.ItemTreeView.prototype.cycleHeader = function(column)
  */
 Zotero.ItemTreeView.prototype.sort = function(itemID)
 {
+	var t = new Date;
+	
 	// If Zotero pane is hidden, mark tree for sorting later in setTree()
 	if (!this._treebox.columns) {
 		this._needsSort = true;
 		return;
 	}
-	else {
-		this._needsSort = false;
-	}
+	this._needsSort = false;
 	
 	// Single child item sort -- just toggle parent open and closed
 	if (itemID && this._itemRowMap[itemID] &&
@@ -1315,36 +1319,19 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 		return;
 	}
 	
-	var columnField = this.getSortField();
-	var order = this.getSortDirection() == 'descending';
+	var primaryField = this.getSortField();
+	var sortFields = this.getSortFields();
+	var dir = this.getSortDirection();
+	var order = dir == 'descending' ? -1 : 1;
 	var collation = Zotero.getLocaleCollation();
+	var sortCreatorAsString = Zotero.Prefs.get('sortCreatorAsString');
 	
-	// Year is really the date field truncated
-	var originalColumnField = columnField;
-	if (columnField == 'year') {
-		columnField = 'date';
-	}
-	
-	// The visible fields affect the secondary sorting
-	var visibleFields = {};
-	this.getVisibleFields().forEach(function (val) {
-		visibleFields[val] = true;
-	});
-	
-	// Some fields (e.g. dates) need to be retrieved unformatted for sorting
-	switch (columnField) {
-		case 'date':
-			var unformatted = true;
-			break;
-		
-		default:
-			var unformatted = false;
-	}
+	Zotero.debug("Sorting items list by " + sortFields.join(", ") + " " + dir);
 	
 	// Set whether rows with empty values should be displayed last,
 	// which may be different for primary and secondary sorting.
 	var emptyFirst = {};
-	switch (columnField) {
+	switch (primaryField) {
 	case 'title':
 		emptyFirst.title = true;
 		break;
@@ -1359,36 +1346,22 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 	// Cache primary values while sorting, since base-field-mapped getField()
 	// calls are relatively expensive
 	var cache = {};
+	sortFields.forEach(function (x) cache[x] = {})
 	
 	// Get the display field for a row (which might be a placeholder title)
-	var getField;
-	switch (originalColumnField) {
-		case 'title':
-			getField = function (row) {
-				var field;
-				var type = row.ref.itemTypeID;
-				switch (type) {
-					case 8: // letter
-					case 10: // interview
-					case 17: // case
-						field = row.ref.getDisplayTitle();
-						break;
-					
-					default:
-						field = row.getField(columnField, unformatted);
-				}
-				// Ignore some leading and trailing characters when sorting
-				return Zotero.Items.getSortTitle(field);
-			};
-			break;
+	function getField(field, row) {
+		var item = row.ref;
 		
-		case 'hasAttachment':
-			getField = function (row) {
-				if (row.ref.isAttachment()) {
-					var state = row.ref.fileExists() ? 1 : -1;
+		switch (field) {
+			case 'title':
+				return Zotero.Items.getSortTitle(item.getDisplayTitle());
+			
+			case 'hasAttachment':
+				if (item.isAttachment()) {
+					var state = item.fileExists() ? 1 : -1;
 				}
-				else if (row.ref.isRegularItem()) {
-					var state = row.ref.getBestAttachmentState();
+				else if (item.isRegularItem()) {
+					var state = item.getBestAttachmentState();
 				}
 				else {
 					return 0;
@@ -1398,20 +1371,23 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 					state = 2;
 				}
 				return state * -1;
-			};
-			break;
-		
-		case 'numNotes':
-			getField = function (row) {
-				// Sort descending by default
-				order = !order;
+			
+			case 'numNotes':
 				return row.numNotes(false, true) || 0;
-			};
-			break;
-		
-		case 'year':
-			getField = function (row) {
-				var val = row.getField(columnField, unformatted);
+			
+			// Use unformatted part of date strings (YYYY-MM-DD) for sorting
+			case 'date':
+				var val = row.ref.getField('date', true);
+				if (val) {
+					val = val.substr(0, 10);
+					if (val.indexOf('0000') == 0) {
+						val = "";
+					}
+				}
+				return val;
+			
+			case 'year':
+				var val = row.ref.getField('date', true);
 				if (val) {
 					val = val.substr(0, 4);
 					if (val == '0000') {
@@ -1419,127 +1395,58 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 					}
 				}
 				return val;
-			};
-			break;
-		
-		default:
-			getField = function (row) row.getField(columnField, unformatted);
+			
+			default:
+				return row.ref.getField(field, false, true);
+		}
 	}
 	
 	var includeTrashed = this._itemGroup.isTrash();
 	
-	var me = this,
-		isEmptyFirst = emptyFirst[columnField];
-	function rowSort(a, b) {
-		var cmp,
-			aItemID = a.id,
-			bItemID = b.id,
-			fieldA = cache[aItemID],
-			fieldB = cache[bItemID];
+	function fieldCompare(a, b, sortField) {
+		var aItemID = a.id;
+		var bItemID = b.id;
+		var fieldA = cache[sortField][aItemID];
+		var fieldB = cache[sortField][bItemID];
 		
-		switch (columnField) {
-			case 'date':
-				fieldA = getField(a).substr(0, 10);
-				fieldB = getField(b).substr(0, 10);
-				
-				cmp = strcmp(fieldA, fieldB);
-				if (cmp !== 0) {
-					return cmp;
-				}
-				break;
-			
+		switch (sortField) {
 			case 'firstCreator':
-				cmp = creatorSort(a, b);
-				if (cmp !== 0) {
-					return cmp;
-				}
-				break;
+				return creatorSort(a, b);
 			
-			case 'type':
+			case 'itemType':
 				var typeA = Zotero.ItemTypes.getLocalizedString(a.ref.itemTypeID);
 				var typeB = Zotero.ItemTypes.getLocalizedString(b.ref.itemTypeID);
-				
-				cmp = (typeA > typeB) ? -1 : (typeA < typeB) ? 1 : 0;
-				if (cmp !== 0) {
-					return cmp;
-				}
-				break;
+				return (typeA > typeB) ? 1 : (typeA < typeB) ? -1 : 0;
 				
 			default:
 				if (fieldA === undefined) {
-					cache[aItemID] = fieldA = getField(a);
+					cache[sortField][aItemID] = fieldA = getField(sortField, a);
 				}
 				
 				if (fieldB === undefined) {
-					cache[bItemID] = fieldB = getField(b);
+					cache[sortField][bItemID] = fieldB = getField(sortField, b);
 				}
 				
 				// Display rows with empty values last
-				if (!isEmptyFirst) {
-					if(fieldA === '' && fieldB !== '') return -1;
-					if(fieldA !== '' && fieldB === '') return 1;
+				if (!emptyFirst[sortField]) {
+					if(fieldA === '' && fieldB !== '') return 1;
+					if(fieldA !== '' && fieldB === '') return -1;
 				}
 				
-				cmp = collation.compareString(1, fieldB, fieldA);
-				if (cmp !== 0) {
-					return cmp;
-				}
+				return collation.compareString(1, fieldA, fieldB);
 		}
-		
-		if (columnField !== 'firstCreator') {
-			cmp = creatorSort(a, b);
+	}
+	
+	function rowSort(a, b) {
+		var sortFields = Array.slice(arguments, 2);
+		var sortField;
+		while (sortField = sortFields.shift()) {
+			let cmp = fieldCompare(a, b, sortField);
 			if (cmp !== 0) {
 				return cmp;
 			}
 		}
-		
-		if (columnField !== 'date') {
-			// If year is visible and not date, don't use full date
-			if (visibleFields.year && !visibleFields.date) {
-				fieldA = a.getField('date', true).substr(0, 4);
-				if (fieldA == '0000') {
-					fieldA = "";
-				}
-				fieldB = b.getField('date', true).substr(0, 4);
-				if (fieldB == '0000') {
-					fieldB = "";
-				}
-				
-				cmp = strcmp(fieldA, fieldB);
-				if (cmp !== 0) {
-					return cmp;
-				}
-			}
-			// Otherwise use full date, even if Date column is hidden
-			else {
-				fieldA = a.getField('date', true).substr(0, 10);
-				fieldB = b.getField('date', true).substr(0, 10);
-				
-				cmp = strcmp(fieldA, fieldB);
-				if (cmp !== 0) {
-					return cmp;
-				}
-			}
-		}
-		
-		if (columnField !== 'title') {
-			fieldA = a.getField('title', true);
-			fieldB = b.getField('title', true);
-			
-			if (!emptyFirst.title) {
-				if (fieldA === '' && fieldB !== '') return -1;
-				if (fieldA !== '' && fieldB === '') return 1;
-			}
-			
-			cmp = collation.compareString(1, fieldB, fieldA);
-			if (cmp !== 0) {
-				return cmp;
-			}
-		}
-		
-		fieldA = a.getField('dateAdded');
-		fieldB = b.getField('dateAdded');
-		return (fieldA > fieldB) ? -1 : (fieldA < fieldB) ? 1 : 0;
+		return 0;
 	}
 	
 	var firstCreatorSortCache = {};
@@ -1567,8 +1474,8 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 			return 0;
 		}
 		
-		var cmp = strcmp(fieldA, fieldB, true);
-		if (cmp !== 0) {
+		var cmp = strcmp(fieldA, fieldB);
+		if (cmp !== 0 || sortCreatorAsString) {
 			return cmp;
 		}
 		
@@ -1665,14 +1572,14 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 			// Compare names
 			fieldA = Zotero.Items.getSortTitle(aCreators[aPos].ref.lastName);
 			fieldB = Zotero.Items.getSortTitle(bCreators[bPos].ref.lastName);
-			cmp = strcmp(fieldA, fieldB, true);
+			cmp = strcmp(fieldA, fieldB);
 			if (cmp) {
 				return cmp;
 			}
 			
 			fieldA = Zotero.Items.getSortTitle(aCreators[aPos].ref.firstName);
 			fieldB = Zotero.Items.getSortTitle(bCreators[bPos].ref.firstName);
-			cmp = strcmp(fieldA, fieldB, true);
+			cmp = strcmp(fieldA, fieldB);
 			if (cmp) {
 				return cmp;
 			}
@@ -1730,14 +1637,10 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 	
 	function strcmp(a, b, collationSort) {
 		// Display rows with empty values last
-		if(a === '' && b !== '') return -1;
-		if(a !== '' && b === '') return 1;
+		if (a === '' && b !== '') return 1;
+		if (a !== '' && b === '') return -1;
 		
-		if (collationSort) {
-			return collation.compareString(1, b, a);
-		}
-		
-		return (a > b) ? -1 : (a < b) ? 1 : 0;
+		return collation.compareString(1, a, b);
 	}
 	
 	// Need to close all containers before sorting
@@ -1750,23 +1653,19 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 	
 	// Single-row sort
 	if (itemID) {
-		var row = this._itemRowMap[itemID];
-		for (var i=0, len=this._dataItems.length; i<len; i++) {
+		let row = this._itemRowMap[itemID];
+		for (let i=0, len=this._dataItems.length; i<len; i++) {
 			if (i === row) {
 				continue;
 			}
 			
-			if (order) {
-				var cmp = -1*rowSort(this._dataItems[i], this._dataItems[row]);
-			}
-			else {
-				var cmp = rowSort(this._dataItems[i], this._dataItems[row]);
-			}
+			let cmp = rowSort.apply(this,
+				[this._dataItems[i], this._dataItems[row]].concat(sortFields)) * order;
 			
 			// As soon as we find a value greater (or smaller if reverse sort),
 			// insert row at that position
-			if (cmp < 0) {
-				var rowItem = this._dataItems.splice(row, 1);
+			if (cmp > 0) {
+				let rowItem = this._dataItems.splice(row, 1);
 				this._dataItems.splice(row < i ? i-1 : i, 0, rowItem[0]);
 				this._treebox.invalidate();
 				break;
@@ -1774,7 +1673,7 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 			
 			// If greater than last row, move to end
 			if (i == len-1) {
-				var rowItem = this._dataItems.splice(row, 1);
+				let rowItem = this._dataItems.splice(row, 1);
 				this._dataItems.splice(i, 0, rowItem[0]);
 				this._treebox.invalidate();
 			}
@@ -1782,8 +1681,9 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 	}
 	// Full sort
 	else {
-		this._dataItems.sort(rowSort);
-		if(!order) this._dataItems.reverse();
+		this._dataItems.sort(function (a, b) {
+			return rowSort.apply(this, [a, b].concat(sortFields)) * order;
+		}.bind(this));
 	}
 	
 	this._refreshHashMap();
@@ -1795,6 +1695,8 @@ Zotero.ItemTreeView.prototype.sort = function(itemID)
 		this.selection.selectEventsSuppressed = false;
 		this._treebox.endUpdateBatch();
 	}
+	
+	Zotero.debug("Sorted items list in " + (new Date - t) + " ms");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2376,6 +2278,39 @@ Zotero.ItemTreeView.prototype.getSortField = function() {
 }
 
 
+Zotero.ItemTreeView.prototype.getSortFields = function () {
+	var fields = [this.getSortField()];
+	var secondaryField = this.getSecondarySortField();
+	if (secondaryField) {
+		fields.push(secondaryField);
+	}
+	try {
+		var fallbackFields = Zotero.Prefs.get('fallbackSort')
+			.split(',')
+			.map((x) => x.trim())
+			.filter((x) => x !== '');
+	}
+	catch (e) {
+		Zotero.debug(e, 1);
+		Components.utils.reportError(e);
+		// This should match the default value for the fallbackSort pref
+		var fallbackFields = ['firstCreator', 'date', 'title', 'dateAdded'];
+	}
+	fields = Zotero.Utilities.arrayUnique(fields.concat(fallbackFields));
+	
+	// If date appears after year, remove it, unless it's the explicit secondary sort
+	var yearPos = fields.indexOf('year');
+	if (yearPos != -1) {
+		let datePos = fields.indexOf('date');
+		if (datePos > yearPos && secondaryField != 'date') {
+			fields.splice(datePos, 1);
+		}
+	}
+	
+	return fields;
+}
+
+
 /*
  * Returns 'ascending' or 'descending'
  */
@@ -2385,6 +2320,197 @@ Zotero.ItemTreeView.prototype.getSortDirection = function() {
 		return 'ascending';
 	}
 	return column.element.getAttribute('sortDirection');
+}
+
+
+Zotero.ItemTreeView.prototype.getSecondarySortField = function () {
+	var primaryField = this.getSortField();
+	var secondaryField = Zotero.Prefs.get('secondarySort.' + primaryField);
+	if (!secondaryField || secondaryField == primaryField) {
+		return false;
+	}
+	return secondaryField;
+}
+
+
+Zotero.ItemTreeView.prototype.setSecondarySortField = function (secondaryField) {
+	var primaryField = this.getSortField();
+	var currentSecondaryField = this.getSecondarySortField();
+	var sortFields = this.getSortFields();
+	
+	if (primaryField == secondaryField) {
+		return false;
+	}
+	
+	if (currentSecondaryField) {
+		// If same as the current explicit secondary sort, ignore
+		if (currentSecondaryField == secondaryField) {
+			return false;
+		}
+		
+		// If not, but same as first implicit sort, remove current explicit sort
+		if (sortFields[2] && sortFields[2] == secondaryField) {
+			Zotero.Prefs.clear('secondarySort.' + primaryField);
+			return true;
+		}
+	}
+	// If same as current implicit secondary sort, ignore
+	else if (sortFields[1] && sortFields[1] == secondaryField) {
+		return false;
+	}
+	
+	Zotero.Prefs.set('secondarySort.' + primaryField, secondaryField);
+	return true;
+}
+
+
+/**
+ * Build the More Columns and Secondary Sort submenus while the popup is opening
+ */
+Zotero.ItemTreeView.prototype.onColumnPickerShowing = function (event) {
+	var menupopup = event.originalTarget;
+	
+	var ns = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
+	var prefix = 'zotero-column-header-';
+	var doc = menupopup.ownerDocument;
+	
+	var anonid = menupopup.getAttribute('anonid');
+	if (anonid.indexOf(prefix) == 0) {
+		return;
+	}
+	
+	var lastChild = menupopup.lastChild;
+	
+	// More Columns menu
+	try {
+		let id = prefix + 'more-menu';
+		
+		let moreMenu = doc.createElementNS(ns, 'menu');
+		moreMenu.setAttribute('label', Zotero.getString('pane.items.columnChooser.moreColumns'));
+		moreMenu.setAttribute('anonid', id);
+		
+		let moreMenuPopup = doc.createElementNS(ns, 'menupopup');
+		moreMenuPopup.setAttribute('anonid', id + '-popup');
+		
+		let treecols = menupopup.parentNode.parentNode;
+		let subs = [x.getAttribute('label') for (x of treecols.getElementsByAttribute('submenu', 'true'))];
+		
+		var moreItems = [];
+		
+		for (let i=0; i<menupopup.childNodes.length; i++) {
+			let elem = menupopup.childNodes[i];
+			if (elem.localName == 'menuseparator') {
+				break;
+			}
+			if (elem.localName == 'menuitem' && subs.indexOf(elem.getAttribute('label')) != -1) {
+				moreItems.push(elem);
+			}
+		}
+		
+		// Sort fields and move to submenu
+		var collation = Zotero.getLocaleCollation();
+		moreItems.sort(function (a, b) {
+			return collation.compareString(1, a.getAttribute('label'), b.getAttribute('label'));
+		});
+		moreItems.forEach(function (elem) {
+			moreMenuPopup.appendChild(menupopup.removeChild(elem));
+		});
+		
+		moreMenu.appendChild(moreMenuPopup);
+		menupopup.insertBefore(moreMenu, lastChild);
+	}
+	catch (e) {
+		Components.utils.reportError(e);
+		Zotero.debug(e, 1);
+	}
+	
+	// Secondary Sort menu
+	try {
+		let id = prefix + 'sort-menu';
+		let primaryField = this.getSortField();
+		let sortFields = this.getSortFields();
+		let secondaryField = false;
+		if (sortFields[1]) {
+			secondaryField = sortFields[1];
+		}
+		
+		// Get localized names from treecols, since the names are currently done via .dtd
+		let treecols = menupopup.parentNode.parentNode;
+		let primaryFieldLabel = treecols.getElementsByAttribute('id',
+			'zotero-items-column-' + primaryField)[0].getAttribute('label');
+		
+		let sortMenu = doc.createElementNS(ns, 'menu');
+		sortMenu.setAttribute('label',
+			Zotero.getString('pane.items.columnChooser.secondarySort', primaryFieldLabel));
+		sortMenu.setAttribute('anonid', id);
+		
+		let sortMenuPopup = doc.createElementNS(ns, 'menupopup');
+		sortMenuPopup.setAttribute('anonid', id + '-popup');
+		
+		// Generate menuitems
+		let sortOptions = [
+			'title',
+			'firstCreator',
+			'itemType',
+			'date',
+			'year',
+			'publisher',
+			'publicationTitle',
+			'dateAdded',
+			'dateModified'
+		];
+		for (let i=0; i<sortOptions.length; i++) {
+			let field = sortOptions[i];
+			// Hide current primary field, and don't show Year for Date, since it would be a no-op
+			if (field == primaryField || (primaryField == 'date' && field == 'year')) {
+				continue;
+			}
+			let label = treecols.getElementsByAttribute('id',
+				'zotero-items-column-' + field)[0].getAttribute('label');
+			
+			let sortMenuItem = doc.createElementNS(ns, 'menuitem');
+			sortMenuItem.setAttribute('fieldName', field);
+			sortMenuItem.setAttribute('label', label);
+			sortMenuItem.setAttribute('type', 'checkbox');
+			if (field == secondaryField) {
+				sortMenuItem.setAttribute('checked', 'true');
+			}
+			sortMenuItem.setAttribute('oncommand',
+				'var view = ZoteroPane.itemsView; '
+				+ 'if (view.setSecondarySortField(this.getAttribute("fieldName"))) { view.sort(); }');
+			sortMenuPopup.appendChild(sortMenuItem);
+		}
+		
+		sortMenu.appendChild(sortMenuPopup);
+		menupopup.insertBefore(sortMenu, lastChild);
+	}
+	catch (e) {
+		Components.utils.reportError(e);
+		Zotero.debug(e, 1);
+	}
+	
+	sep = doc.createElementNS(ns, 'menuseparator');
+	sep.setAttribute('anonid', prefix + 'sep');
+	menupopup.insertBefore(sep, lastChild);
+}
+
+
+Zotero.ItemTreeView.prototype.onColumnPickerHidden = function (event) {
+	var menupopup = event.originalTarget;
+	var prefix = 'zotero-column-header-';
+	
+	for (let i=0; i<menupopup.childNodes.length; i++) {
+		let elem = menupopup.childNodes[i];
+		if (elem.getAttribute('anonid').indexOf(prefix) == 0) {
+			try {
+				menupopup.removeChild(elem);
+			}
+			catch (e) {
+				Zotero.debug(e, 1);
+			}
+			i--;
+		}
+	}
 }
 
 
@@ -2437,6 +2563,11 @@ Zotero.ItemTreeCommandController.prototype.onEvent = function(evt)
  * Start a drag using HTML 5 Drag and Drop
  */
 Zotero.ItemTreeView.prototype.onDragStart = function (event) {
+	// See note in LibraryTreeView::_setDropEffect()
+	if (Zotero.isWin) {
+		event.dataTransfer.effectAllowed = 'move';
+	}
+	
 	var itemIDs = this.saveSelection();
 	var items = Zotero.Items.get(itemIDs);
 	
@@ -2755,17 +2886,14 @@ Zotero.ItemTreeView.fileDragDataProvider.prototype = {
 }
 
 
-Zotero.ItemTreeView.prototype.canDrop = function(row, orient, dragData)
-{
-	Zotero.debug("Row is " + row + "; orient is " + orient);
+/**
+ * Called by treechildren.onDragOver() before setting the dropEffect,
+ * which is checked in libraryTreeView.canDrop()
+ */
+Zotero.ItemTreeView.prototype.canDropCheck = function (row, orient, dataTransfer) {
+	//Zotero.debug("Row is " + row + "; orient is " + orient);
 	
-	if (row == -1 && orient == -1) {
-		//return true;
-	}
-	
-	if (!dragData || !dragData.data) {
-		var dragData = Zotero.DragDrop.getDragData(this);
-	}
+	var dragData = Zotero.DragDrop.getDataFromDataTransfer(dataTransfer);
 	if (!dragData) {
 		Zotero.debug("No drag data");
 		return false;
@@ -2883,18 +3011,21 @@ Zotero.ItemTreeView.prototype.canDrop = function(row, orient, dragData)
 /*
  *  Called when something's been dropped on or next to a row
  */
-Zotero.ItemTreeView.prototype.drop = function(row, orient)
-{
-	var dragData = Zotero.DragDrop.getDragData(this);
-	
-	if (!this.canDrop(row, orient, dragData)) {
+Zotero.ItemTreeView.prototype.drop = function(row, orient, dataTransfer) {
+	if (!this.canDropCheck(row, orient, dataTransfer)) {
 		return false;
 	}
 	
+	var dragData = Zotero.DragDrop.getDataFromDataTransfer(dataTransfer);
+	if (!dragData) {
+		Zotero.debug("No drag data");
+		return false;
+	}
+	var dropEffect = dragData.dropEffect;
 	var dataType = dragData.dataType;
 	var data = dragData.data;
-	
-	var itemGroup = this._itemGroup;
+	var itemGroup = this.itemGroup;
+	var targetLibraryID = itemGroup.isWithinGroup() ? itemGroup.ref.libraryID : null;
 	
 	if (dataType == 'zotero/item') {
 		var ids = data;
@@ -2902,6 +3033,19 @@ Zotero.ItemTreeView.prototype.drop = function(row, orient)
 		if (items.length < 1) {
 			return;
 		}
+		
+		// TEMP: This is always false for now, since cross-library drag
+		// is disallowed in canDropCheck()
+		//
+		// TODO: support items coming from different sources?
+		if (items[0].libraryID == targetLibraryID) {
+			var sameLibrary = true;
+		}
+		else {
+			var sameLibrary = false;
+		}
+		
+		var toMove = [];
 		
 		// Dropped directly on a row
 		if (orient == 0) {
@@ -2940,7 +3084,22 @@ Zotero.ItemTreeView.prototype.drop = function(row, orient)
 						item.save()
 					}
 					itemGroup.ref.addItem(item.id);
+					toMove.push(item.id);
 				}
+			}
+		}
+		
+		// If moving, remove items from source collection
+		if (dropEffect == 'move' && toMove.length) {
+			if (!sameLibrary) {
+				throw new Error("Cannot move items between libraries");
+			}
+			let targetItemGroup = Zotero.DragDrop.getDragSource();
+			if (!targetItemGroup || !targetItemGroup.isCollection()) {
+				throw new Error("Drag source must be a collection");
+			}
+			if (itemGroup.id != targetItemGroup.id) {
+				itemGroup.ref.removeItems(toMove);
 			}
 		}
 	}
@@ -3025,7 +3184,7 @@ Zotero.ItemTreeView.prototype.drop = function(row, orient)
 				
 				try {
 					Zotero.DB.beginTransaction();
-					if (dragData.dropEffect == 'link') {
+					if (dropEffect == 'link') {
 						var itemID = Zotero.Attachments.linkFromFile(file, sourceItemID);
 					}
 					else {
@@ -3058,79 +3217,6 @@ Zotero.ItemTreeView.prototype.drop = function(row, orient)
 			Zotero.Notifier.commit(unlock);
 		}
 	}
-}
-
-Zotero.ItemTreeView.prototype.onDragEnter = function (event) {
-	Zotero.DragDrop.currentDataTransfer = event.dataTransfer;
-	return false;
-}
-
-/*
- * Called by HTML 5 Drag and Drop when dragging over the tree
- */
-Zotero.ItemTreeView.prototype.onDragOver = function (event) {
-	Zotero.DragDrop.currentDataTransfer = event.dataTransfer;
-	if (event.dataTransfer.types.contains("application/x-moz-file")) {
-		// As of Aug. 2013 nightlies:
-		//
-		// - Setting the dropEffect only works on Linux and OS X.
-		//
-		// - Modifier keys don't show up in the drag event on OS X until the
-		//   drop (https://bugzilla.mozilla.org/show_bug.cgi?id=911918),
-		//   so since we can't show a correct effect, we leave it at
-		//   the default 'move', the least misleading option, and set it
-		//   below in onDrop().
-		//
-		// - The cursor effect gets set by the system on Windows 7 and can't
-		//   be overridden.
-		if (!Zotero.isMac) {
-			if (event.shiftKey) {
-				if (event.ctrlKey) {
-					event.dataTransfer.dropEffect = "link";
-				}
-				else {
-					event.dataTransfer.dropEffect = "move";
-				}
-			}
-			else {
-				event.dataTransfer.dropEffect = "copy";
-			}
-		}
-	}
-	// Show copy symbol when dragging an item over a collection
-	else if (event.dataTransfer.getData("zotero/item")) {
-		event.dataTransfer.dropEffect = "copy";
-	}
-	return false;
-}
-
-
-/*
- * Called by HTML 5 Drag and Drop when dropping onto the tree
- */
-Zotero.ItemTreeView.prototype.onDrop = function (event) {
-	if (event.dataTransfer.types.contains("application/x-moz-file")) {
-		if (Zotero.isMac) {
-			Zotero.DragDrop.currentDataTransfer = event.dataTransfer;
-			if (event.metaKey) {
-				if (event.altKey) {
-					event.dataTransfer.dropEffect = 'link';
-				}
-				else {
-					event.dataTransfer.dropEffect = 'move';
-				}
-			}
-			else {
-				event.dataTransfer.dropEffect = 'copy';
-			}
-		}
-	}
-	return false;
-}
-
-Zotero.ItemTreeView.prototype.onDragExit = function (event) {
-	//Zotero.debug("Clearing drag data");
-	Zotero.DragDrop.currentDataTransfer = null;
 }
 
 

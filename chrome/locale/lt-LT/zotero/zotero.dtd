@@ -23,7 +23,7 @@
 <!ENTITY zotero.citation.paragraph "Pastraipa">
 <!ENTITY zotero.citation.prefix.label "Priešdėlis:">
 <!ENTITY zotero.citation.suffix.label "Priesaga:">
-<!ENTITY zotero.citation.suppressAuthor.label "Trumpinti autorius">
+<!ENTITY zotero.citation.suppressAuthor.label "Nerodyti autoriaus">
 <!ENTITY zotero.collections.showUnfiledItems "Rodyti neužpildytus">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Iš pažymėto teksto sukurti Zotero pastabą">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Sukurti Zotero įrašą ir pastabą jam iš pažymėto teksto">
@@ -97,7 +97,7 @@
 <!ENTITY zotero.items.archive_column "Archyvas">
 <!ENTITY zotero.items.callNumber_column "Šifras">
 <!ENTITY zotero.items.court_column "Teismas">
-<!ENTITY zotero.items.creator_column "Kūrėjas">
+<!ENTITY zotero.items.creator_column "Autorius">
 <!ENTITY zotero.items.dateAdded_column "Pridėjimo laikas">
 <!ENTITY zotero.items.dateModified_column "Keitimo laikas">
 <!ENTITY zotero.items.date_column "Data">
@@ -189,7 +189,7 @@
 <!ENTITY zotero.selectitems.intro.label "Pasirinkite norimus įtraukti į bilioteką įrašus">
 <!ENTITY zotero.selectitems.select.label "Gerai">
 <!ENTITY zotero.selectitems.title "Pasirinkti įrašus">
-<!ENTITY zotero.sync.button "Sinchronizuoti su Zotero serveriu">
+<!ENTITY zotero.sync.button "Sinchronizavimas su Zotero serveriu">
 <!ENTITY zotero.sync.error "Sinchronizavimo klaida">
 <!ENTITY zotero.sync.longTagFixer.character "rašmeniu">
 <!ENTITY zotero.sync.longTagFixer.characters "rašmenimis">
@@ -249,7 +249,7 @@
 <!ENTITY zotero.toolbar.newItemFromPage.label "Iš dabartinio puslapio sukurti interneto puslapį">
 <!ENTITY zotero.toolbar.newNote "Nauja pastaba">
 <!ENTITY zotero.toolbar.newSavedSearch.label "Nauja įsiminta paieška...">
-<!ENTITY zotero.toolbar.newSubcollection.label "Naujas kolekcija kolekcijoje...">
+<!ENTITY zotero.toolbar.newSubcollection.label "Naujas poaplankis...">
 <!ENTITY zotero.toolbar.note.child "Nauja įrašo pastaba">
 <!ENTITY zotero.toolbar.note.standalone "Nauja nesusieta pastaba">
 <!ENTITY zotero.toolbar.openURL.label "Rasti vietą">
