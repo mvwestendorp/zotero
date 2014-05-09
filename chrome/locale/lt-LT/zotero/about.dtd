@@ -1,13 +1,13 @@
-<!ENTITY zotero.about.additionalSoftware "Kitos Programos ir Standartai:">
-<!ENTITY zotero.about.close "Uždaryti">
+<!ENTITY zotero.about.additionalSoftware "Kitos programos ir standartai:">
+<!ENTITY zotero.about.close "Užverti">
 <!ENTITY zotero.about.localizations "Vertėjai:">
-<!ENTITY zotero.alumni "Buvę studentai:">
-<!ENTITY zotero.citationProcessing "Citatų ir Bibliografijos Apdorojimas">
-<!ENTITY zotero.createdby "Sukurta:">
+<!ENTITY zotero.alumni "Ankstesni talkininkai:">
+<!ENTITY zotero.citationProcessing "Citatų ir bibliografijos apdorojimas">
+<!ENTITY zotero.createdby "Sukurė:">
 <!ENTITY zotero.developers "Programuotojai:">
 <!ENTITY zotero.director "Direktorius:">
 <!ENTITY zotero.directors "Direktoriai:">
-<!ENTITY zotero.executiveProducer "Vykdomasis Prodiuseris:">
-<!ENTITY zotero.moreCreditsAndAcknowledgements "Papildomi Kreditai ir Padėkos">
-<!ENTITY zotero.thanks "Dėkojame:">
+<!ENTITY zotero.executiveProducer "Pagrindinis rengėjas:">
+<!ENTITY zotero.moreCreditsAndAcknowledgements "Kitos padėkos">
+<!ENTITY zotero.thanks "Ypač dėkojame:">
 <!ENTITY zotero.version "versija">
