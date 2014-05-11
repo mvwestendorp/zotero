@@ -42,6 +42,7 @@
 			this.loadCSL = loadCSL;
 			this.generateBibliography = generateBibliography;
 			this.refresh = refresh;
+			var currentStyle;
 			function init() {
 				var cslList = document.getElementById('zotero-csl-list');
 				if (cslList.getAttribute('initialized') == 'true') {
@@ -56,7 +57,7 @@
 				var defaultStyle = Zotero.QuickCopy.stripContentType(rawDefaultStyle);
 
 				var styles = Zotero.Styles.getAll();
-				var currentStyle = null;
+				currentStyle = null;
 				var listPos = 0;
 				for each(var style in styles) {
 					if (style.source) {
