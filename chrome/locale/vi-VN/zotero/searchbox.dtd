@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Tìm kiếm trong cả các thư mục con">
 <!ENTITY zotero.search.saveSearch "Ghi nhớ Tìm kiếm Định sẵn">
 <!ENTITY zotero.search.search "Thực hiện Tìm kiếm">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Cụm từ">
 <!ENTITY zotero.search.textModes.phraseBinary "Cụm từ (bao gồm cả các tập tin nhị phân)">
 <!ENTITY zotero.search.textModes.regexp "Biểu thức chính quy">

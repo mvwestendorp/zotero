@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Series">
 <!ENTITY zotero.items.system_column "System">
 <!ENTITY zotero.items.title_column "العنوان">
-<!ENTITY zotero.items.type_column "النوع">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "صوت">
 <!ENTITY zotero.items.year_column "السنة">
 <!ENTITY zotero.lookup.button.search "بحث">

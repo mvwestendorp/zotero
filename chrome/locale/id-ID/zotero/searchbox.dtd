@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "cari subfolder">
 <!ENTITY zotero.search.saveSearch "Simpan pencarian">
 <!ENTITY zotero.search.search "Cari">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "rase">
 <!ENTITY zotero.search.textModes.phraseBinary "Frase (termasuk berkas binari)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "하위 컬렉션 검색">
 <!ENTITY zotero.search.saveSearch "검색결과 저장">
 <!ENTITY zotero.search.search "검색">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "어구">
 <!ENTITY zotero.search.textModes.phraseBinary "어구(바이너리 파일 포함)">
 <!ENTITY zotero.search.textModes.regexp "정규표현식">

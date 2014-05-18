@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Zbirka">
 <!ENTITY zotero.items.system_column "Sistem">
 <!ENTITY zotero.items.title_column "Naslov">
-<!ENTITY zotero.items.type_column "Vrsta">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Zvezek">
 <!ENTITY zotero.items.year_column "Leto">
 <!ENTITY zotero.lookup.button.search "Išči">

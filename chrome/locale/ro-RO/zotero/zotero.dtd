@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Colecție">
 <!ENTITY zotero.items.system_column "Sistem">
 <!ENTITY zotero.items.title_column "Titlu">
-<!ENTITY zotero.items.type_column "Tip">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Volume">
 <!ENTITY zotero.items.year_column "An">
 <!ENTITY zotero.lookup.button.search "Caută">

@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Sarja">
 <!ENTITY zotero.items.system_column "Järjestelmä">
 <!ENTITY zotero.items.title_column "Otsikko">
-<!ENTITY zotero.items.type_column "Tyyppi">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Vuosikerta">
 <!ENTITY zotero.items.year_column "Vuosi">
 <!ENTITY zotero.lookup.button.search "Etsi">

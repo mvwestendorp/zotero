@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Търси в подпапките">
 <!ENTITY zotero.search.saveSearch "Записва на търсенето">
 <!ENTITY zotero.search.search "Търси">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Фраза">
 <!ENTITY zotero.search.textModes.phraseBinary "Фраза (вкл. двоичните файлове)">
 <!ENTITY zotero.search.textModes.regexp "Регулярен израз">

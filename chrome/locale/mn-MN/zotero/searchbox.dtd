@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Дэд хавтасууд хайх">
 <!ENTITY zotero.search.saveSearch "Хайлт санах">
 <!ENTITY zotero.search.search "Хайх">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Өгүүлбэр">
 <!ENTITY zotero.search.textModes.phraseBinary "Өгүүлбэр (incl. binary files)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Αναζήτηση στους υποφακέλους">
 <!ENTITY zotero.search.saveSearch "Αποθήκευση αναζήτησης">
 <!ENTITY zotero.search.search "Αναζήτηση">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Φράση">
 <!ENTITY zotero.search.textModes.phraseBinary "Φράση (συμπ. δυαδικά αρχεία)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Søg i underliggende mapper">
 <!ENTITY zotero.search.saveSearch "Gem søgning">
 <!ENTITY zotero.search.search "Søg">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Tekststreng">
 <!ENTITY zotero.search.textModes.phraseBinary "Tekststreng (inkl. binære filer)">
 <!ENTITY zotero.search.textModes.regexp "Regulære udtryk">

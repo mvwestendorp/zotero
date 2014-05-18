@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Prohledat podsložky">
 <!ENTITY zotero.search.saveSearch "Uložit hledání">
 <!ENTITY zotero.search.search "Hledat">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Fráze">
 <!ENTITY zotero.search.textModes.phraseBinary "Fráze (vč. binárních souborů)">
 <!ENTITY zotero.search.textModes.regexp "regulární výraz">

@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Series">
 <!ENTITY zotero.items.system_column "System">
 <!ENTITY zotero.items.title_column "Pealkiri">
-<!ENTITY zotero.items.type_column "Tüüp">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Volume">
 <!ENTITY zotero.items.year_column "Aasta">
 <!ENTITY zotero.lookup.button.search "Search">

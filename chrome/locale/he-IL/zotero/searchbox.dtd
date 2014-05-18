@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "חפש תיקיות משנה">
 <!ENTITY zotero.search.saveSearch "שמור חיפוש">
 <!ENTITY zotero.search.search "חיפוש">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "ביטוי">
 <!ENTITY zotero.search.textModes.phraseBinary "ביטוי (כולל קבצים בינאריים)">
 <!ENTITY zotero.search.textModes.regexp "ביטוי רגולרי">

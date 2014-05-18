@@ -138,8 +138,8 @@
 <!ENTITY zotero.items.series_column "Reeks">
 <!ENTITY zotero.items.system_column "Systeem">
 <!ENTITY zotero.items.title_column "Titel">
-<!ENTITY zotero.items.type_column "Type">
-<!ENTITY zotero.items.volume_column "Jaargang">
+<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.volume_column "# delen">
 <!ENTITY zotero.items.year_column "Jaar">
 <!ENTITY zotero.lookup.button.search "Zoeken">
 <!ENTITY zotero.lookup.description "Voer hieronder een of meer ISBN's, DOI's of PMID's in om op te zoeken.">

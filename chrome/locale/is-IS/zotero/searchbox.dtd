@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Leita í undirsöfnum">
 <!ENTITY zotero.search.saveSearch "Vista leit">
 <!ENTITY zotero.search.search "Leita">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Setningaliður">
 <!ENTITY zotero.search.textModes.phraseBinary "Setningaliður (með stafrænum skrám)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

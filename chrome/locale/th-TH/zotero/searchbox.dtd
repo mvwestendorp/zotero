@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "ค้นหาในคอลเล็คชันย่อย">
 <!ENTITY zotero.search.saveSearch "บันทึกผลการค้นหา">
 <!ENTITY zotero.search.search "ค้นหา">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "พยางค์">
 <!ENTITY zotero.search.textModes.phraseBinary "พยางค์ (รวมแฟ้มไบนารี)">
 <!ENTITY zotero.search.textModes.regexp "นิพจน์ปรกติ">

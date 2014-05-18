@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Serija">
 <!ENTITY zotero.items.system_column "Sistema">
 <!ENTITY zotero.items.title_column "Antraštė">
-<!ENTITY zotero.items.type_column "Tipas">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Tomas">
 <!ENTITY zotero.items.year_column "Metai">
 <!ENTITY zotero.lookup.button.search "Ieškoti">

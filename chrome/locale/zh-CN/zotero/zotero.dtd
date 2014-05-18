@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "系列">
 <!ENTITY zotero.items.system_column "系统">
 <!ENTITY zotero.items.title_column "标题">
-<!ENTITY zotero.items.type_column "类型">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "卷">
 <!ENTITY zotero.items.year_column "年">
 <!ENTITY zotero.lookup.button.search "搜索">

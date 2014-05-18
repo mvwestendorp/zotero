@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Deursoek subvouers">
 <!ENTITY zotero.search.saveSearch "Stoor soektog">
 <!ENTITY zotero.search.search "Soek">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Frase">
 <!ENTITY zotero.search.textModes.phraseBinary "Frase (binêre lêers ingesl)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

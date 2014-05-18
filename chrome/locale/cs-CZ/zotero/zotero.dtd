@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Série">
 <!ENTITY zotero.items.system_column "Systém">
 <!ENTITY zotero.items.title_column "Název">
-<!ENTITY zotero.items.type_column "Typ">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Ročník">
 <!ENTITY zotero.items.year_column "Rok">
 <!ENTITY zotero.lookup.button.search "Hledat">

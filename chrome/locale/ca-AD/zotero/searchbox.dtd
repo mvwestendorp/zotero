@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Cerca dins les subcarpetes">
 <!ENTITY zotero.search.saveSearch "Desa la cerca">
 <!ENTITY zotero.search.search "Cerca">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Frase">
 <!ENTITY zotero.search.textModes.phraseBinary "Frase (també dins dels fitxers binaris)">
 <!ENTITY zotero.search.textModes.regexp "Expressió regular">

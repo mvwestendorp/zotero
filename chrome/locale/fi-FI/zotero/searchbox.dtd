@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Etsi alikansioista">
 <!ENTITY zotero.search.saveSearch "Tallenna haku">
 <!ENTITY zotero.search.search "Hae">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Lause">
 <!ENTITY zotero.search.textModes.phraseBinary "Lause (sis. binääritiedostot)">
 <!ENTITY zotero.search.textModes.regexp "Säännöllinen lauseke">

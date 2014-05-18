@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "サブフォルダを検索する">
 <!ENTITY zotero.search.saveSearch "検索条件を保存">
 <!ENTITY zotero.search.search "検索実行">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "フレーズ">
 <!ENTITY zotero.search.textModes.phraseBinary "フレーズ (バイナリファイルを含む)">
 <!ENTITY zotero.search.textModes.regexp "正規表現">

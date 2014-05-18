@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "ابحث في المجلدات الفرعية">
 <!ENTITY zotero.search.saveSearch "حفظ البحث">
 <!ENTITY zotero.search.search "بحث">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "جملة">
 <!ENTITY zotero.search.textModes.phraseBinary "جملة (شاملاً الملفات الغير نصية)">
 <!ENTITY zotero.search.textModes.regexp "التعبيرات المنطقية">

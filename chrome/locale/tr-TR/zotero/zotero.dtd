@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Seriler">
 <!ENTITY zotero.items.system_column "Sistem">
 <!ENTITY zotero.items.title_column "Başlık">
-<!ENTITY zotero.items.type_column "Tür">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Cilt">
 <!ENTITY zotero.items.year_column "Yıl">
 <!ENTITY zotero.lookup.button.search "Ara">

@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Keresés az almappákban">
 <!ENTITY zotero.search.saveSearch "Keresés mentése">
 <!ENTITY zotero.search.search "Keresés">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Kifejezés">
 <!ENTITY zotero.search.textModes.phraseBinary "Kifejezés (bináris állományokban is)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

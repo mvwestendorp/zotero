@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "ស្វែងរកសំណុំឯកសាររង">
 <!ENTITY zotero.search.saveSearch "ទាញរក្សាទុកការស្រាវជ្រាវ">
 <!ENTITY zotero.search.search "ស្វែងរក">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "ឃ្លា">
 <!ENTITY zotero.search.textModes.phraseBinary "ឃ្លា (បញ្ចូលឯកសារពីររួមគ្នា)">
 <!ENTITY zotero.search.textModes.regexp "ការត្រួតពិនិត្យទៀងទាត់">

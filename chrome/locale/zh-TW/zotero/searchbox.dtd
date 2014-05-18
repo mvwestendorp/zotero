@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "搜尋子目錄">
 <!ENTITY zotero.search.saveSearch "儲存搜尋">
 <!ENTITY zotero.search.search "搜尋">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "詞語">
 <!ENTITY zotero.search.textModes.phraseBinary "詞語（包括二進位檔）">
 <!ENTITY zotero.search.textModes.regexp "正規表達式">

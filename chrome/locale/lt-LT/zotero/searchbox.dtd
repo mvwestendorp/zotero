@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Ieškoti poaplankiuose">
 <!ENTITY zotero.search.saveSearch "Įsiminti paiešką">
 <!ENTITY zotero.search.search "Ieškoti">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Frazė">
 <!ENTITY zotero.search.textModes.phraseBinary "Frazė (įsk. skaitmeninius failus)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">

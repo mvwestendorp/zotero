@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Collection">
 <!ENTITY zotero.items.system_column "Système">
 <!ENTITY zotero.items.title_column "Titre">
-<!ENTITY zotero.items.type_column "Type">
+<!ENTITY zotero.items.type_column "Item Type">
 <!ENTITY zotero.items.volume_column "Volume">
 <!ENTITY zotero.items.year_column "Année">
 <!ENTITY zotero.lookup.button.search "Rechercher">

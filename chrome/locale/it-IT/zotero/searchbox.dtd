@@ -12,6 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Cerca nelle sottocartelle">
 <!ENTITY zotero.search.saveSearch "Salva ricerca">
 <!ENTITY zotero.search.search "Cerca">
+<!ENTITY zotero.search.searchInLibrary "Search in library:">
 <!ENTITY zotero.search.textModes.phrase "Frase">
 <!ENTITY zotero.search.textModes.phraseBinary "Frase (file binari inclusi)">
 <!ENTITY zotero.search.textModes.regexp "Espressione regolare">
