@@ -52,9 +52,9 @@
 					return;
 				}
 				
-				var rawDefaultStyle = Zotero.Prefs.get("export.quickCopy.setting");
+				var rawDefaultStyle = Zotero.Prefs.get('export.quickCopy.setting');
 				var defaultStyle = Zotero.QuickCopy.stripContentType(rawDefaultStyle);
-
+				
 				var styles = Zotero.Styles.getAll();
 				var currentStyle = null;
 				var listPos = 0;
