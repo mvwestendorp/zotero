@@ -5,6 +5,7 @@ import cgi
 import urllib
 import datetime
 import re
+import sys
 
 nowtime = datetime.datetime.now()
 timestamp = nowtime.isoformat()
@@ -20,9 +21,9 @@ for commit in payload['commits']:
     for path in commit['modified']:
         paths[path] = True
 
-#    myout = open("/home/fbennett/public_html/cgi-bin/HERE.txt", "w+")
-#    myout.write("Debug note\n")
-
+    #myout = open("/home/fbennett/public_html/cgi-bin/HERE.txt", "w+")
+    #myout.write("Debug note 1\n")
+    #myout.close()
 
 
 for path in paths:
@@ -31,7 +32,7 @@ for path in paths:
 
     # fetch the files from GitHub
     fetcher = urllib.URLopener()
-    ifh = fetcher.open("https://raw.github.com/fbennett/mlz-styles/master/%s" % (path,))
+    ifh = fetcher.open("https://raw.githubusercontent.com/fbennett/mlz-styles/master/%s" % (path,))
     content = ifh.read()
     ifh.close()
 
@@ -42,7 +43,6 @@ for path in paths:
     ofh = open("/home/fbennett/public_html/github/%s" % (path,), "w+")
     ofh.write(content)
     ofh.close()
-
 
 ## Formalities to complete the transaction ##
 

@@ -167,7 +167,7 @@ def processFiles():
                 continue
             # fetch the files from GitHub
             fetcher = urllib.URLopener()
-            ifh = fetcher.open("https://raw.github.com/fbennett/translators/multi/%s" % (path,))
+            ifh = fetcher.open("https://raw.githubusercontent.com/fbennett/translators/multi/%s" % (path,))
             content = ifh.read()
             ifh.close()
 
