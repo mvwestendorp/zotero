@@ -546,6 +546,12 @@ Zotero.Cite.System.prototype = {
 			}
 		};
 		
+		if (!zoteroItem.libraryID) {
+			cslItem.system_id = "0_" + zoteroItem.key;
+		} else {
+			cslItem.system_id = zoteroItem.libraryID + "_" + zoteroItem.key;
+		}
+
 		// get all text variables (there must be a better way)
 		// TODO: does citeproc-js permit short forms?
 		for(var variable in CSL_TEXT_MAPPINGS) {
