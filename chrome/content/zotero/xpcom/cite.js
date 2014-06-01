@@ -778,6 +778,14 @@ Zotero.Cite.System.prototype = {
 	 */
 	"getAbbreviations":function getAbbreviations() {
 		return {};
+	},
+
+	"normalizeUnicode":function(str) {
+		var buf = {};
+		var unicodeNormalizer = Components.classes["@mozilla.org/intl/unicodenormalizer;1"]
+			.createInstance(Components.interfaces.nsIUnicodeNormalizer);
+		unicodeNormalizer.NormalizeUnicodeNFKC(str, buf);
+		return buf.value;
 	}
 }
 
