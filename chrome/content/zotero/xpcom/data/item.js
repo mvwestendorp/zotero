@@ -4489,7 +4489,7 @@ Zotero.Item.prototype.getTags = function() {
 }
 
 Zotero.Item.prototype.getTagIDs = function() {
-	var sql = "SELECT tagID FROM itemTags NATURAL JOIN tags WHERE itemID=? AND type IS NOT 10000";
+	var sql = "SELECT itemTags.tagID FROM itemTags NATURAL JOIN tags WHERE itemID=? AND type IS NOT 10000";
 	return Zotero.DB.columnQuery(sql, this.id);
 }
 
