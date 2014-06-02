@@ -35,6 +35,12 @@ Zotero.QuickCopy = new function() {
 	var _initialized = false;
 	var _formattedNames = {};
 	
+    
+    var _labelKeys = [];
+    for (var key in Zotero.CiteProc.CSL.LOCATOR_LABELS_MAP) {
+        _labelKeys.push(key);
+    }
+    var _labelKeyRex = new RegExp('(^|[^a-zA-Z])(' + _labelKeys.join('|') + ')\\.\\s');
 	
 	function getFormattedNameFromSetting(setting) {
 		if (!_initialized) {
@@ -207,7 +213,7 @@ Zotero.QuickCopy = new function() {
 							var summary = "";
 							var quote = "";
 							for (var j = 0, jlen = note.length; j < jlen; j += 1) {
-								if (["p."].indexOf(note[j].split(/\s+/)[0]) > -1) {
+								if (_labelKeyRex.exec(note[j])) {
 									extra.locator_txt = note[j];
 								} else if (note[j].slice(0, 1) === "=") {
 									quote += note[j].slice(1).replace(/^\s+/, "").replace(/\s+$/, "") + " ";
