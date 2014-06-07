@@ -2448,7 +2448,7 @@
 					t.addEventListener('blur', function (event) {
 						document.getBindingParent(this).blurHandler(this);
 					}, false);
-					t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event);");
+					t.setAttribute('onkeydown', "return document.getBindingParent(this).handleKeyPress(event);");
 					
 					this._tabDirection = false;
 					this._lastTabIndex = tabindex;
@@ -2546,8 +2546,52 @@
 					var target = event.target;
 					var focused = document.commandDispatcher.focusedElement;
 
+					// 73 = i
+					// 37 = left-arrow
+					// 39 = right-arrow
 					switch (event.keyCode)
 					{
+						case 73:
+							if (event.ctrlKey) {
+								event.preventDefault();
+								// Apply italics
+								var selectionStart = target.selectionStart;
+								var selectionEnd = target.selectionEnd;
+								if (selectionStart !== selectionEnd) {
+									var start = target.value.slice(0,selectionStart);
+									var middle = target.value.slice(selectionStart,selectionEnd);
+									var end = target.value.slice(selectionEnd);
+									target.value = (start + '<i>' + middle + '</i>' + end);
+								}
+								return false;
+							}
+							break;
+
+						case 37:
+							if (event.ctrlKey && target.getAttribute('fieldname').slice(0,7) === 'creator') {
+								event.preventDefault();
+								// Move to left one char at a time
+								var firstName = target.parentNode.lastChild;
+								var lastName = target.parentNode.firstChild;
+								lastName.value = lastName.value + firstName.value.slice(0,1);
+								firstName.value = firstName.value.slice(1);
+								return false;
+							}
+							break;
+
+						case 39:
+							if (event.ctrlKey && target.getAttribute('fieldname').slice(0,7) === 'creator') {
+								event.preventDefault();
+								// Move to right one char at a time
+								var firstName = target.parentNode.lastChild;
+								var lastName = target.parentNode.firstChild;
+								firstName.value = lastName.value.slice(-1) + firstName.value;
+								lastName.value = lastName.value.slice(0,-1);
+
+								return false;
+							}
+							break;
+
 						case event.DOM_VK_RETURN:
 							var fieldname = target.getAttribute('fieldname');
 							// Use shift-enter as the save action for the larger fields
