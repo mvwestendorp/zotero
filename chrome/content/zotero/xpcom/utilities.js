@@ -1792,17 +1792,24 @@ Zotero.Utilities = {
 		
 		return newItems;
 	},
-	
+
 	/**
 	 * Converts an item from toArray() format to citeproc-js JSON
 	 * @param {Zotero.Item} item
 	 * @return {Object} The CSL item
 	 */
-	"itemToCSLJSON":function(arrayItem, ignoreURL) {
+	"itemToCSLJSON":function(arrayItem, ignoreURL, portableJSON) {
+
+		// XXX Hmm. This seems to be used only by the export translator. Will not be called
+		// XXX with portableJSON ever, currently.
 
 		// convert toArray() if needed.
 		if(arrayItem instanceof Zotero.Item) {
 			arrayItem = arrayItem.toArray();
+		}
+
+		if (portableJSON) {
+			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(arrayItem);
 		}
 
 		var itemType = arrayItem.itemType;
@@ -2024,7 +2031,7 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} item
 	 * @param {Object} cslItem
 	 */
-	"itemFromCSLJSON":function(item, cslItem, libraryID) {
+	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
 		var isZoteroItem = item instanceof Zotero.Item, zoteroType;
 		
 		for(var type in CSL_TYPE_MAPPINGS) {
@@ -2035,6 +2042,22 @@ Zotero.Utilities = {
 		}
 		if(!zoteroType) zoteroType = "document";
 		
+		if (portableJSON) {
+			// For decoding
+			var data = {};
+			data.libraryID = libraryID;
+			data.itemTypeID = Zotero.ItemTypes.getID(zoteroType);
+			var extra = cslItem.extra ? cslItem.extra : "";
+			var changedFields = {};
+			var pos = cslItem.creators.length;
+			
+			// Decoding ops
+			var obj = Zotero.Sync.Server.Data.decodeMlzFields(item,data,extra,changedFields);
+			Zotero.Sync.Server.Data.removeMlzFieldDeletes(item,data,obj);
+			Zotero.Sync.Server.Data.decodeMlzCreators(item,obj,pos);
+			Zotero.Sync.Server.Data.removeMlzCreatorDeletes(item,obj);
+		}
+
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);

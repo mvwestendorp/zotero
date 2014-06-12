@@ -2285,6 +2285,8 @@ Zotero.Integration.Session.prototype.getCitationField = function(citation) {
 			// add itemData only if requested
 			if(this.data.prefs.storeReferences) {
 				serializeCitationItem.itemData = this.style.sys.retrieveItem(citationItem.id);
+				Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(serializeCitationItem.itemData);
+				
 				addSchema = true;
 			}
 		}
@@ -2449,7 +2451,8 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 						if (libraryID) {
 							var itemData = citationItem.itemData;
 							zoteroItem = new Zotero.Item();
-							Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, libraryID);
+							// true is for portableJSON (MLZ decoding)
+							Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, libraryID, true);
 							zoteroItem.itemData = itemData;
 							var itemID = zoteroItem.save();
 							zoteroItem = Zotero.Items.get(itemID);
@@ -2487,7 +2490,8 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 						
 						// assign a Zotero item
 						var surrogateItem = this.embeddedZoteroItems[anonymousID] = new Zotero.Item();
-						Zotero.Utilities.itemFromCSLJSON(surrogateItem, itemData);
+						// true is for portableJSON (MLZ decoding)
+						Zotero.Utilities.itemFromCSLJSON(surrogateItem, itemData, null, true);
 						surrogateItem.cslItemID = globalID;
 						surrogateItem.cslURIs = citationItem.uris;
 						surrogateItem.cslItemData = itemData;
