@@ -4117,131 +4117,9 @@ Zotero.Sync.Server.Data = new function() {
 	 */
 	this.itemToXML = function (item, doc, syncSession) {
 		var item = item.serialize();
-
-		// Serialize extra fields as JSON, bundle into extra field
-		// with multilingual content, and delete before proceeding
-		// with sync.
-		var supp = false;
-		var extrafields = false;
-		var multifields = false;
-		var extracreators = false;
-		var multicreators = false;
-		// Save off the type in case it changes below
-		var localItemType = item.primary.itemType;
-		var syncItemType = localItemType;
-		// Apply extended type if needed
-		if (Zotero.EXTENDED_TYPES[localItemType]) {
-			syncItemType = Zotero.EXTENDED_TYPES[localItemType];
-			item.primary.itemType = syncItemType;
-		}
-		// Get extended fields, if any
-		if (Zotero.EXTENDED_FIELDS[localItemType]) {
-			for (var field in item.fields) {
-				if (Zotero.EXTENDED_FIELDS[localItemType][field]) {
-					if (item.fields[field]) {
-						if (!extrafields) {
-							extrafields = {};
-						}
-						extrafields[field] = item.fields[field];
-						delete item.fields[field];
-					}
-				}
-			}
-		}
-		// Get multi field data, if any
-		for (var key in item.multi.main) {
-			multifields = item.multi;
-			break;
-		}
-		if (!multifields) {
-			for (var key in item.multi._keys) {
-				multifields = item.multi;
-				break;
-			}
-		}
-		// Normalize the sequence of any extra creators to avoid
-		// data mismatch in multicreators
-		if (item.creators) {
-			var deletecreatoridx = item.creators.length;
-			if (Zotero.EXTENDED_CREATORS[localItemType]) {
-				for (var i=item.creators.length-1; i>-1; i += -1) {
-					var creator = item.creators[i];
-					if (Zotero.EXTENDED_CREATORS[localItemType][creator.creatorType]) {
-						if (!extracreators) {
-							extracreators = [];
-						}
-						if (!creator.libraryID) {
-							creator.libraryID = 0;
-						}
-						extracreators.push(creator);
-						item.creators = item.creators.slice(0,i).concat(item.creators.slice(i+1))
-						deletecreatoridx += -1;
-					}
-				}
-				if (extracreators) {
-					item.creators = item.creators.concat(extracreators);
-				}
-			}
-			// Get multi creator data
-			for (var i=0,ilen=item.creators.length; i<ilen; i+=1) {
-				var multicreatorset = false;
-				var creator = item.creators[i];
-				for (var key in creator.multi._key) {
-					multicreatorset = creator.multi;
-					break;
-				}
-				if (!multicreatorset && creator.multi.main) {
-					multicreatorset = creator.multi;
-				}
-				if (multicreatorset) {
-					if (!multicreators) {
-						multicreators = {};
-					}
-					multicreatorset.fieldMode = creator.fieldMode;
-					multicreators[i] = multicreatorset;
-				}
-			}
-			// Remove multi segment from extracreators to avoid
-			// storing it twice
-			if (extracreators) {
-				for (var i=0,ilen=extracreators.length; i<ilen; i+=1) {
-					delete extracreators[i].multi;
-				}
-			}
-			// Remove extracreators from main object
-			item.creators = item.creators.slice(0,deletecreatoridx);
-		}
-		// If data exists, add it to the extra field
-		if (extrafields || multifields || extracreators || multicreators || syncItemType !== localItemType) {
-			supp = {type:syncItemType};
-			if (syncItemType !== localItemType) {
-				supp.xtype = localItemType;
-			}
-			if (extrafields) {
-				supp.extrafields = extrafields;
-			}
-			if (extracreators) {
-				supp.extracreators = extracreators;
-			}
-			if (multifields) {
-				supp.multifields = multifields;
-			}
-			if (multicreators) {
-				supp.multicreators = multicreators;
-			}
-			var supp = JSON.stringify(supp);
-			var supplen = "" + supp.length;
-			while (supplen.length < 4) {
-				supplen = "0" + supplen;
-			}
-			if ((item.fields.extra||supp) && !(item.fields.extra && item.fields.extra.match(/^mlzsync[0-9]:/))) {
-				if (!item.fields.extra) {
-					item.fields.extra = "";
-				}
-				item.fields.extra = "mlzsync1:" + supplen + supp + item.fields.extra;
-			}
-		}
-
+		
+		this.mlzEncodeFieldsAndCreators(item);
+		
 		var itemNode = doc.createElement('item');
 		itemNode.setAttribute('libraryID', item.primary.libraryID ? item.primary.libraryID : Zotero.libraryID);
 		itemNode.setAttribute('key', item.primary.key);
@@ -4385,7 +4263,133 @@ Zotero.Sync.Server.Data = new function() {
 		return itemNode;
 	}
 	
-	
+	this.mlzEncodeFieldsAndCreators = function (item) {
+		// Serialize extra fields as JSON, bundle into extra field
+		// with multilingual content, and delete before proceeding
+		// with sync.
+		var supp = false;
+		var extrafields = false;
+		var multifields = false;
+		var extracreators = false;
+		var multicreators = false;
+		// Save off the type in case it changes below
+		var localItemType = item.primary.itemType;
+		var syncItemType = localItemType;
+		// Apply extended type if needed
+		if (Zotero.EXTENDED_TYPES[localItemType]) {
+			syncItemType = Zotero.EXTENDED_TYPES[localItemType];
+			item.primary.itemType = syncItemType;
+		}
+		// Get extended fields, if any
+		if (Zotero.EXTENDED_FIELDS[localItemType]) {
+			for (var field in item.fields) {
+				if (Zotero.EXTENDED_FIELDS[localItemType][field]) {
+					if (item.fields[field]) {
+						if (!extrafields) {
+							extrafields = {};
+						}
+						extrafields[field] = item.fields[field];
+						delete item.fields[field];
+					}
+				}
+			}
+		}
+		// Get multi field data, if any
+		for (var key in item.multi.main) {
+			multifields = item.multi;
+			break;
+		}
+		if (!multifields) {
+			for (var key in item.multi._keys) {
+				multifields = item.multi;
+				break;
+			}
+		}
+		// Normalize the sequence of any extra creators to avoid
+		// data mismatch in multicreators
+		if (item.creators) {
+			var deletecreatoridx = item.creators.length;
+			if (Zotero.EXTENDED_CREATORS[localItemType]) {
+				for (var i=item.creators.length-1; i>-1; i += -1) {
+					var creator = item.creators[i];
+					if (Zotero.EXTENDED_CREATORS[localItemType][creator.creatorType]) {
+						if (!extracreators) {
+							extracreators = [];
+						}
+						if (!creator.libraryID) {
+							creator.libraryID = 0;
+						}
+						extracreators.push(creator);
+						item.creators = item.creators.slice(0,i).concat(item.creators.slice(i+1))
+						deletecreatoridx += -1;
+					}
+				}
+				if (extracreators) {
+					item.creators = item.creators.concat(extracreators);
+				}
+			}
+			// Get multi creator data
+			for (var i=0,ilen=item.creators.length; i<ilen; i+=1) {
+				var multicreatorset = false;
+				var creator = item.creators[i];
+				for (var key in creator.multi._key) {
+					multicreatorset = creator.multi;
+					break;
+				}
+				if (!multicreatorset && creator.multi.main) {
+					multicreatorset = creator.multi;
+				}
+				if (multicreatorset) {
+					if (!multicreators) {
+						multicreators = {};
+					}
+					multicreatorset.fieldMode = creator.fieldMode;
+					multicreators[i] = multicreatorset;
+				}
+			}
+			// Remove multi segment from extracreators to avoid
+			// storing it twice
+			if (extracreators) {
+				for (var i=0,ilen=extracreators.length; i<ilen; i+=1) {
+					delete extracreators[i].multi;
+				}
+			}
+			// Remove extracreators from main object
+			item.creators = item.creators.slice(0,deletecreatoridx);
+		}
+		// If data exists, add it to the extra field
+		if (extrafields || multifields || extracreators || multicreators || syncItemType !== localItemType) {
+			supp = {type:syncItemType};
+			if (syncItemType !== localItemType) {
+				supp.xtype = localItemType;
+			}
+			if (extrafields) {
+				supp.extrafields = extrafields;
+			}
+			if (extracreators) {
+				supp.extracreators = extracreators;
+			}
+			if (multifields) {
+				supp.multifields = multifields;
+			}
+			if (multicreators) {
+				supp.multicreators = multicreators;
+			}
+			var supp = JSON.stringify(supp);
+			var supplen = "" + supp.length;
+			while (supplen.length < 4) {
+				supplen = "0" + supplen;
+			}
+			if ((item.fields.extra||supp) && !(item.fields.extra && item.fields.extra.match(/^mlzsync[0-9]:/))) {
+				if (!item.fields.extra) {
+					item.fields.extra = "";
+				}
+				item.fields.extra = "mlzsync1:" + supplen + supp + item.fields.extra;
+			}
+		}
+    };
+
+
 	/**
 	 * Convert DOM <item> node into an unsaved Zotero.Item
 	 *
