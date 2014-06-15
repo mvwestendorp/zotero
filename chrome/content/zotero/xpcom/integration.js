@@ -2274,6 +2274,8 @@ Zotero.Integration.Session.prototype.getCitationField = function(citation) {
 			
 			// always store itemData, since we have no way to get it back otherwise
 			serializeCitationItem.itemData = citationItem.itemData;
+			// Normalize legacy multilingual data lurking in document
+			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(serializeCitationItem.itemData);
 			addSchema = true;
 		} else {
 			serializeCitationItem.id = citationItem.id;
@@ -2284,9 +2286,8 @@ Zotero.Integration.Session.prototype.getCitationField = function(citation) {
 		
 			// add itemData only if requested
 			if(this.data.prefs.storeReferences) {
-				serializeCitationItem.itemData = this.style.sys.retrieveItem(citationItem.id);
-				Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(serializeCitationItem.itemData);
-				
+				var zoteroItem = Zotero.Items.get(citationItem.id);
+				serializeCitationItem.itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem, undefined, true);
 				addSchema = true;
 			}
 		}
@@ -2458,7 +2459,6 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 							zoteroItem = Zotero.Items.get(itemID);
 							citationItem.itemData.id = zoteroItem.id;
 							citationItem.itemData.key = zoteroItem.key;
-							Zotero.debug("MLZ: EMBEDDED DATA: "+JSON.stringify(itemData));
 							var newURIs = this.uriMap.getURIsForItemID(zoteroItem.id);
 							if (citationItem.uris && citationItem.uris.length) {
 								// Set up to reselect the newly created item
@@ -2491,7 +2491,7 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 						// assign a Zotero item
 						var surrogateItem = this.embeddedZoteroItems[anonymousID] = new Zotero.Item();
 						// true is for portableJSON (MLZ decoding)
-						Zotero.Utilities.itemFromCSLJSON(surrogateItem, itemData, null, true);
+						Zotero.Utilities.itemFromCSLJSON(surrogateItem, itemData, undefined, true);
 						surrogateItem.cslItemID = globalID;
 						surrogateItem.cslURIs = citationItem.uris;
 						surrogateItem.cslItemData = itemData;

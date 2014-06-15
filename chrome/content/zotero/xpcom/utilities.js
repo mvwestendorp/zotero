@@ -1800,9 +1800,6 @@ Zotero.Utilities = {
 	 */
 	"itemToCSLJSON":function(arrayItem, ignoreURL, portableJSON) {
 
-		// XXX Hmm. This seems to be used only by the export translator. Will not be called
-		// XXX with portableJSON ever, currently.
-
 		// convert toArray() if needed.
 		if(arrayItem instanceof Zotero.Item) {
 			arrayItem = arrayItem.toArray();
@@ -1819,18 +1816,23 @@ Zotero.Utilities = {
 
 		var cslItem = {
 			'id':arrayItem.id,
-			'type':cslType,
-			'multi':{
+			'type':cslType
+		}
+		if (!portableJSON) {
+			cslItem.multi = {
 				'main':{},
 				'_keys':{}
 			}
 		};
 		
-		if (!arrayItem.libraryID) {
-			cslItem.system_id = "0_" + arrayItem.key;
-		} else {
-			cslItem.system_id = arrayItem.libraryID + "_" + arrayItem.key;
+		if (!portableJSON) {
+			if (!arrayItem.libraryID) {
+				cslItem.system_id = "0_" + arrayItem.key;
+			} else {
+				cslItem.system_id = arrayItem.libraryID + "_" + arrayItem.key;
+			}
 		}
+		
 		cslItem.id = arrayItem.itemID;
 
 		// get all text variables (there must be a better way)
@@ -1850,14 +1852,19 @@ Zotero.Utilities = {
 					if(value.match(/^".+"$/)) {
 						value = value.substr(1, value.length-2);
 					}
+
+					// OOPS. Field names need to be remapped here.
+
 					cslItem[variable] = value;
-					if (arrayItem.multi.main[fieldName]) {
-						cslItem.multi.main[variable] = arrayItem.multi.main[fieldName]
-					}
-					if (arrayItem.multi._keys[fieldName]) {
-						cslItem.multi._keys[variable] = {};
-						for (var langTag in arrayItem.multi._keys[fieldName]) {
-							cslItem.multi._keys[variable][langTag] = arrayItem.multi._keys[fieldName][langTag];
+					if (!portableJSON) {
+						if (arrayItem.multi && arrayItem.multi.main[fieldName]) {
+							cslItem.multi.main[variable] = arrayItem.multi.main[fieldName]
+						}
+						if (arrayItem.multi && arrayItem.multi._keys[fieldName]) {
+							cslItem.multi._keys[variable] = {};
+							for (var langTag in arrayItem.multi._keys[fieldName]) {
+								cslItem.multi._keys[variable][langTag] = arrayItem.multi._keys[fieldName][langTag];
+							}
 						}
 					}
 					break;
@@ -1866,6 +1873,8 @@ Zotero.Utilities = {
 		}
 		
 		// Clean up committee/legislativeBody
+		// XXX This could use some attention on reverse conversion
+		// XXX Actually, this should really be happening inside the processor
 		if (cslItem.committee && cslItem.authority) {
 			cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
 			delete cslItem.committee;
@@ -1879,23 +1888,27 @@ Zotero.Utilities = {
 		}
 		var creators = arrayItem.creators.slice();
 
-		// Stir in authority variable
-		if (cslItem.authority) {
-			var nameObj = {
-				'creatorType':'authority',
-				'lastName':cslItem.authority,
-				'firstName':'',
-				'fieldMode': 1,
-				'multi':{'_key':{}}
-			}
-			// _lsts not used in cslItem. Arguably it could be, to fix priorities. One day.
-			for (var langTag in cslItem.multi._keys.authority) {
-				nameObj.multi._key[langTag] = {
-					'lastName':cslItem.multi._keys.authority[langTag],
-					'firstName':''
+		if (!portableJSON) {
+			// XXX This, too, should be happening inside the processor
+			// XXX If this is CSL, shouldn't these be given and family?
+			// Stir in authority variable
+			if (cslItem.authority) {
+				var nameObj = {
+					'creatorType':'authority',
+					'family':cslItem.authority,
+					'given':'',
+					'fieldMode': 1,
+					'multi':{'_key':{}}
 				}
+				// _lsts not used in cslItem. Arguably it could be, to fix priorities. One day.
+				for (var langTag in cslItem.multi._keys.authority) {
+					nameObj.multi._key[langTag] = {
+						'family':cslItem.multi._keys.authority[langTag],
+						'given':''
+					}
+				}
+				nameObj.multi.main = arrayItem.multi.main.authority;
 			}
-			nameObj.multi.main = arrayItem.multi.main.authority;
 			creators.push(nameObj);
 			delete cslItem.authority;
 		}
@@ -1925,23 +1938,25 @@ Zotero.Utilities = {
 				}
 			}
 		
-			if (!nameObj.multi) {
-				nameObj.multi = {};
-				nameObj.multi._key = {};
-				nameObj.multi.main = creator.multi.main;
-			}
-			for (var langTag in creator.multi._key) {
-				if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
-					nameObj.multi._key[langTag] = {
-						'family':creator.multi._key[langTag].lastName,
-						'given':creator.multi._key[langTag].firstName,
-						'isInstitution': creator.fieldMode
-					};
-				} else {
-					nameObj.multi._key[langTag] = {
-						'family':creator.multi._key[langTag].lastName,
-						'given':creator.multi._key[langTag].firstName
-					};
+			if (!portableJSON) {
+				if (!nameObj.multi) {
+					nameObj.multi = {};
+					nameObj.multi._key = {};
+					nameObj.multi.main = creator.multi.main;
+				}
+				for (var langTag in creator.multi._key) {
+					if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
+						nameObj.multi._key[langTag] = {
+							'family':creator.multi._key[langTag].lastName,
+							'given':creator.multi._key[langTag].firstName,
+							'isInstitution': creator.fieldMode
+						};
+					} else {
+						nameObj.multi._key[langTag] = {
+							'family':creator.multi._key[langTag].lastName,
+							'given':creator.multi._key[langTag].firstName
+						};
+					}
 				}
 			}
 
@@ -2033,7 +2048,7 @@ Zotero.Utilities = {
 	 */
 	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
 		var isZoteroItem = item instanceof Zotero.Item, zoteroType;
-		
+
 		for(var type in CSL_TYPE_MAPPINGS) {
 			if(CSL_TYPE_MAPPINGS[type] == cslItem.type) {
 				zoteroType = type;
@@ -2042,22 +2057,6 @@ Zotero.Utilities = {
 		}
 		if(!zoteroType) zoteroType = "document";
 		
-		if (portableJSON) {
-			// For decoding
-			var data = {};
-			data.libraryID = libraryID;
-			data.itemTypeID = Zotero.ItemTypes.getID(zoteroType);
-			var extra = cslItem.extra ? cslItem.extra : "";
-			var changedFields = {};
-			var pos = cslItem.creators.length;
-			
-			// Decoding ops
-			var obj = Zotero.Sync.Server.Data.decodeMlzFields(item,data,extra,changedFields);
-			Zotero.Sync.Server.Data.removeMlzFieldDeletes(item,data,obj);
-			Zotero.Sync.Server.Data.decodeMlzCreators(item,obj,pos);
-			Zotero.Sync.Server.Data.removeMlzCreatorDeletes(item,obj);
-		}
-
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);
@@ -2241,6 +2240,24 @@ Zotero.Utilities = {
 						item[field] = date;
 					}
 				}
+			}
+		}
+
+		if (portableJSON) {
+			// For decoding
+			// item in this case is always a Zotero item
+			var data = {};
+			data.libraryID = libraryID;
+			data.itemTypeID = Zotero.ItemTypes.getID(zoteroType);
+			var extra = cslItem.note ? cslItem.note : "";
+			var changedFields = {};
+			var pos = item.getCreators().length;
+			// Decoding ops
+			var obj = Zotero.Sync.Server.Data.decodeMlzFields(item,data,extra,changedFields);
+			Zotero.Sync.Server.Data.removeMlzFieldDeletes(item,data,obj);
+			if (pos) {
+				Zotero.Sync.Server.Data.decodeMlzCreators(item,obj,pos);
+				Zotero.Sync.Server.Data.removeMlzCreatorDeletes(item,obj);
 			}
 		}
 	},

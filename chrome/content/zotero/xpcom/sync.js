@@ -4273,36 +4273,43 @@ Zotero.Sync.Server.Data = new function() {
 		var extracreators = false;
 		var multicreators = false;
 		// Save off the type in case it changes below
-		var localItemType = item.primary.itemType;
+		var localItemType = item.primary ? item.primary.itemType : item.itemType;
 		var syncItemType = localItemType;
 		// Apply extended type if needed
 		if (Zotero.EXTENDED_TYPES[localItemType]) {
 			syncItemType = Zotero.EXTENDED_TYPES[localItemType];
-			item.primary.itemType = syncItemType;
+			if (item.primary) {
+				item.primary.itemType = syncItemType;
+			} else {
+				item.type = syncItemType;
+			}
 		}
 		// Get extended fields, if any
+		var fields = item.fields ? item.fields : item;
 		if (Zotero.EXTENDED_FIELDS[localItemType]) {
-			for (var field in item.fields) {
+			for (var field in fields) {
 				if (Zotero.EXTENDED_FIELDS[localItemType][field]) {
-					if (item.fields[field]) {
+					if (fields[field]) {
 						if (!extrafields) {
 							extrafields = {};
 						}
-						extrafields[field] = item.fields[field];
-						delete item.fields[field];
+						extrafields[field] = fields[field];
+						delete fields[field];
 					}
 				}
 			}
 		}
 		// Get multi field data, if any
-		for (var key in item.multi.main) {
-			multifields = item.multi;
-			break;
-		}
-		if (!multifields) {
-			for (var key in item.multi._keys) {
+		if (item.multi) {
+			for (var key in item.multi.main) {
 				multifields = item.multi;
 				break;
+			}
+			if (!multifields) {
+				for (var key in item.multi._keys) {
+					multifields = item.multi;
+					break;
+				}
 			}
 		}
 		// Normalize the sequence of any extra creators to avoid
@@ -4332,19 +4339,21 @@ Zotero.Sync.Server.Data = new function() {
 			for (var i=0,ilen=item.creators.length; i<ilen; i+=1) {
 				var multicreatorset = false;
 				var creator = item.creators[i];
-				for (var key in creator.multi._key) {
-					multicreatorset = creator.multi;
-					break;
-				}
-				if (!multicreatorset && creator.multi.main) {
-					multicreatorset = creator.multi;
-				}
-				if (multicreatorset) {
-					if (!multicreators) {
-						multicreators = {};
+				if (creator.multi) {
+					for (var key in creator.multi._key) {
+						multicreatorset = creator.multi;
+						break;
 					}
-					multicreatorset.fieldMode = creator.fieldMode;
-					multicreators[i] = multicreatorset;
+					if (!multicreatorset && creator.multi.main) {
+						multicreatorset = creator.multi;
+					}
+					if (multicreatorset) {
+						if (!multicreators) {
+							multicreators = {};
+						}
+						multicreatorset.fieldMode = creator.fieldMode;
+						multicreators[i] = multicreatorset;
+					}
 				}
 			}
 			// Remove multi segment from extracreators to avoid
@@ -4380,14 +4389,17 @@ Zotero.Sync.Server.Data = new function() {
 			while (supplen.length < 4) {
 				supplen = "0" + supplen;
 			}
-			if ((item.fields.extra||supp) && !(item.fields.extra && item.fields.extra.match(/^mlzsync[0-9]:/))) {
-				if (!item.fields.extra) {
-					item.fields.extra = "";
+			if ((fields.extra||supp) && !(fields.extra && fields.extra.match(/^mlzsync[0-9]:/))) {
+				if (!fields.extra) {
+					fields.extra = "";
 				}
-				item.fields.extra = "mlzsync1:" + supplen + supp + item.fields.extra;
+				fields.extra = "mlzsync1:" + supplen + supp + fields.extra;
 			}
 		}
-    };
+		if (item.multi) {
+			delete item.multi;
+		}
+	};
 
 
 	/**
