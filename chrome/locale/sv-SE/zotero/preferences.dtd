@@ -47,7 +47,7 @@
 <!ENTITY zotero.preferences.fontSize "Teckenstorlek:">
 <!ENTITY zotero.preferences.fontSize.large "Stor">
 <!ENTITY zotero.preferences.fontSize.medium "Mellan">
-<!ENTITY zotero.preferences.fontSize.notes "Teckenstorlek på anteckningar">
+<!ENTITY zotero.preferences.fontSize.notes "Teckenstorlek för anteckningar">
 <!ENTITY zotero.preferences.fontSize.small "Liten">
 <!ENTITY zotero.preferences.fontSize.xlarge "Större">
 <!ENTITY zotero.preferences.fulltext.pdfMaxPages "Maximalt antal sidor att indexera per fil:">
@@ -201,7 +201,7 @@
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Radera alla lokala Zoterodata och återställ från synkroniseringsservern.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Återställ till Zotero Server">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Byt ut allt innehåll på Zotero Server mot lokala Zoterodata.">
-<!ENTITY zotero.preferences.sync.reset.warning1 "Följande åtgärder är endast till för sällsynta, särskilda situationer och ska inte användas för vanlig felsökning. I många fall kan återställning istället ge upphov till nya problem. Se">
+<!ENTITY zotero.preferences.sync.reset.warning1 "Följande åtgärder är endast till för sällsynta, särskilda situationer och ska inte användas för vanlig felsökning. I många fall kan en återställning istället orsaka nya problem. Se">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Återställningsalternativ för synkronisering">
 <!ENTITY zotero.preferences.sync.reset.warning3 "för mer information.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Synkronisera automatiskt">

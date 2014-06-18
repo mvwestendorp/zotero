@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Espereu mentre s&apos;envia l&apos;informe d&apos;error.">
 <!ENTITY zotero.errorReport.submitted "L&apos;informe d&apos;error ha estat enviat correctament.">
 <!ENTITY zotero.errorReport.title "Informe d'error de Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "El registre d&apos;error pot incloure missatges no relacionats amb el Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Format:">
 <!ENTITY zotero.exportOptions.title "Exporta...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opcions del traductor">

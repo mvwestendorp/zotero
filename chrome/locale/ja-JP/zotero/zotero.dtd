@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "エラーレポートが送信されるまでお待ちください。">
 <!ENTITY zotero.errorReport.submitted "エラーレポートが送信されました。">
 <!ENTITY zotero.errorReport.title "Zotero エラーレポート">
-<!ENTITY zotero.errorReport.unrelatedMessages "エラー・ログは Zotero とは無関係のメッセージを含んでいる可能性があります。">
+<!ENTITY zotero.errorReport.unrelatedMessages "エラーの記録にはZotero に無関係のメッセージが含まれている恐れがあります。">
 <!ENTITY zotero.exportOptions.format.label "フォーマット:">
 <!ENTITY zotero.exportOptions.title "エクスポート...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "トランスレータのオプション">
@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "叢書">
 <!ENTITY zotero.items.system_column "システム">
 <!ENTITY zotero.items.title_column "題名">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "アイテムの種類">
 <!ENTITY zotero.items.volume_column "巻">
 <!ENTITY zotero.items.year_column "年">
 <!ENTITY zotero.lookup.button.search "検索">

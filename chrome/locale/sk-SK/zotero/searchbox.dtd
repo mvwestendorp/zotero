@@ -12,7 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Hľadať v podpriečinkoch">
 <!ENTITY zotero.search.saveSearch "Uložiť vyhľadávanie">
 <!ENTITY zotero.search.search "Hľadať">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.searchInLibrary "Hľadať v knižnici:">
 <!ENTITY zotero.search.textModes.phrase "Výraz">
 <!ENTITY zotero.search.textModes.phraseBinary "Výraz (vrátane binárnych súborov)">
 <!ENTITY zotero.search.textModes.regexp "regulárny výraz">

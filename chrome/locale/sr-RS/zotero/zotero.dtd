@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Сачекајте док се извештај о грешци шаље.">
 <!ENTITY zotero.errorReport.submitted "Извештај о грешци је послат.">
 <!ENTITY zotero.errorReport.title "Zotero Error Report">
-<!ENTITY zotero.errorReport.unrelatedMessages "Дневник грешака може да садржи поруке невезане за Зотеро.">
+<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Формат:">
 <!ENTITY zotero.exportOptions.title "Извоз...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Опције преводиоца">

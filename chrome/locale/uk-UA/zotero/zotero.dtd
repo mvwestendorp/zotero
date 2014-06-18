@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Почекайте, поки звіт про помилку буде передано.">
 <!ENTITY zotero.errorReport.submitted "Ваш звіт про помилку був переданий.">
 <!ENTITY zotero.errorReport.title "Звіт про помилку в Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "Журнал помилок може включати в себе повідомлення не пов'язані з Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Це може включати повідомлення, які не відносяться до Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Формат:">
 <!ENTITY zotero.exportOptions.title "Експорт...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Налаштування транслятора">
@@ -97,7 +97,7 @@
 <!ENTITY zotero.items.archive_column "Архів">
 <!ENTITY zotero.items.callNumber_column "Шифр">
 <!ENTITY zotero.items.court_column "Суд">
-<!ENTITY zotero.items.creator_column "Створив">
+<!ENTITY zotero.items.creator_column "Автор">
 <!ENTITY zotero.items.dateAdded_column "Дата додавання">
 <!ENTITY zotero.items.dateModified_column "Дата зміни">
 <!ENTITY zotero.items.date_column "Дата">
@@ -111,8 +111,8 @@
 <!ENTITY zotero.items.libraryCatalog_column "Архів">
 <!ENTITY zotero.items.medium_column "Джерело/формат">
 <!ENTITY zotero.items.menu.addTag "Add Subfield">
-<!ENTITY zotero.items.menu.attach "Додати додаток">
-<!ENTITY zotero.items.menu.attach.file "Пркріпити копію фалу...">
+<!ENTITY zotero.items.menu.attach "Додати вкладення">
+<!ENTITY zotero.items.menu.attach.file "Прикріпити копію фалу...">
 <!ENTITY zotero.items.menu.attach.fileLink "Прикріпити посилання на файл...">
 <!ENTITY zotero.items.menu.attach.link "Прикріпити посилання на поточну сторінку">
 <!ENTITY zotero.items.menu.attach.link.uri "Прикріпити посилання на URI…">
@@ -203,7 +203,7 @@
 <!ENTITY zotero.sync.storage.downloads "Завантаження:">
 <!ENTITY zotero.sync.storage.progress "Хід виконання:">
 <!ENTITY zotero.sync.storage.uploads "Вивантаження:">
-<!ENTITY zotero.tabs.attachments.label "Додатки">
+<!ENTITY zotero.tabs.attachments.label "Вкладення">
 <!ENTITY zotero.tabs.info.label "Інформація">
 <!ENTITY zotero.tabs.notes.label "Примітки">
 <!ENTITY zotero.tabs.related.label "Пов'язані">
@@ -222,7 +222,7 @@
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Немає тегів для відображення">
 <!ENTITY zotero.tagSelector.renameTag "Перейменувати тег...">
 <!ENTITY zotero.tagSelector.selectVisible "Вибрати видимі">
-<!ENTITY zotero.tagSelector.showAutomatic "Показувати автоматично">
+<!ENTITY zotero.tagSelector.showAutomatic "Показувати автоматичні">
 <!ENTITY zotero.toolbar.about.label "Про Zotero">
 <!ENTITY zotero.toolbar.actions.label "Дії">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">

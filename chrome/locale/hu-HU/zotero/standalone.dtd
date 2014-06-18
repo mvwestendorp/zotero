@@ -1,37 +1,37 @@
-<!ENTITY aboutProduct.accesskey "A">
-<!ENTITY aboutProduct.label "About &brandShortName;">
-<!ENTITY addons.label "Add-ons">
+<!ENTITY aboutProduct.accesskey "N">
+<!ENTITY aboutProduct.label "Névjegy">
+<!ENTITY addons.label "Kiegészítők">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
-<!ENTITY bidiSwitchPageDirectionItem.label "Switch Page Direction">
+<!ENTITY bidiSwitchPageDirectionItem.label "Oldal irányának megfordítása">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
 <!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
-<!ENTITY bidiSwitchTextDirectionItem.label "Switch Text Direction">
-<!ENTITY bringAllToFront.label "Bring All to Front">
-<!ENTITY closeCmd.accesskey "C">
+<!ENTITY bidiSwitchTextDirectionItem.label "Szöveg irányának megfordítása">
+<!ENTITY bringAllToFront.label "Mindet előrehozni">
+<!ENTITY closeCmd.accesskey "B">
 <!ENTITY closeCmd.key "W">
-<!ENTITY closeCmd.label "Close">
-<!ENTITY copyBibliographyCmd.label "Copy Bibliography">
-<!ENTITY copyCitationCmd.label "Copy Citation">
+<!ENTITY closeCmd.label "Bezárás">
+<!ENTITY copyBibliographyCmd.label "Bibliográfia másolása">
+<!ENTITY copyCitationCmd.label "Hivatkozás másolása">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
-<!ENTITY copyCmd.label "Copy">
+<!ENTITY copyCmd.label "Másolás">
 <!ENTITY cutCmd.accesskey "t">
 <!ENTITY cutCmd.key "X">
-<!ENTITY cutCmd.label "Cut">
+<!ENTITY cutCmd.label "Kivágás">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
-<!ENTITY deleteCmd.label "Delete">
-<!ENTITY editMenu.accesskey "E">
-<!ENTITY editMenu.label "Edit">
+<!ENTITY deleteCmd.label "Törlés">
+<!ENTITY editMenu.accesskey "S">
+<!ENTITY editMenu.label "Szerkesztés">
 <!ENTITY fileMenu.accesskey "F">
-<!ENTITY fileMenu.label "File">
+<!ENTITY fileMenu.label "Fájl">
 <!ENTITY findAgainCmd.accesskey "g">
 <!ENTITY findAgainCmd.commandkey "g">
 <!ENTITY findAgainCmd.commandkey2 "VK_F3">
 <!ENTITY findAgainCmd.label "Find Again">
 <!ENTITY findCmd.accesskey "F">
 <!ENTITY findCmd.commandkey "f">
-<!ENTITY findCmd.label "Find">
+<!ENTITY findCmd.label "Keresés">
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
@@ -52,62 +52,62 @@
 <!ENTITY fullZoomResetCmd.label "Reset">
 <!ENTITY fullZoomToggleCmd.accesskey "T">
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
-<!ENTITY helpCheckForUpdates.accesskey "U">
-<!ENTITY helpCheckForUpdates.label "Check for Updates…">
+<!ENTITY helpCheckForUpdates.accesskey "F">
+<!ENTITY helpCheckForUpdates.label "Frissítések keresése…">
 <!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Submit Feedback…">
+<!ENTITY helpFeedbackPage.label "Visszajelzés küldése…">
 <!ENTITY helpMac.commandkey "?">
-<!ENTITY helpMenu.accesskey "H">
-<!ENTITY helpMenu.label "Help">
-<!ENTITY helpMenuWin.accesskey "H">
-<!ENTITY helpMenuWin.label "Help">
+<!ENTITY helpMenu.accesskey "S">
+<!ENTITY helpMenu.label "Súgó">
+<!ENTITY helpMenuWin.accesskey "S">
+<!ENTITY helpMenuWin.label "Súgó">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors to Zotero…">
+<!ENTITY helpReportErrors.label "Hiba jelentése a Zotero-nak…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
-<!ENTITY helpTroubleshootingInfo.label "Troubleshooting Information">
+<!ENTITY helpTroubleshootingInfo.label "Hibaelhárítás">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
-<!ENTITY hideOtherAppsCmdMac.label "Hide Others">
+<!ENTITY hideOtherAppsCmdMac.label "A többi elrejtése">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
-<!ENTITY hideThisAppCmdMac.label "Hide &brandShortName;">
+<!ENTITY hideThisAppCmdMac.label "Névjegy elrejtése;">
 <!ENTITY minimizeWindow.key "m">
-<!ENTITY minimizeWindow.label "Minimize">
-<!ENTITY pageSetupCmd.accesskey "U">
-<!ENTITY pageSetupCmd.label "Page Setup…">
+<!ENTITY minimizeWindow.label "Kis méret">
+<!ENTITY pageSetupCmd.accesskey "F">
+<!ENTITY pageSetupCmd.label "Oldalbeállítások…">
 <!ENTITY pasteCmd.accesskey "P">
 <!ENTITY pasteCmd.key "V">
-<!ENTITY pasteCmd.label "Paste">
+<!ENTITY pasteCmd.label "Beillesztés">
 <!ENTITY preferencesCmd.accesskey "O">
-<!ENTITY preferencesCmd.label "Preferences">
+<!ENTITY preferencesCmd.label "Beállítások">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "Preferences…">
+<!ENTITY preferencesCmdMac.label "Beállítások…">
 <!ENTITY preferencesCmdUnix.accesskey "n">
-<!ENTITY preferencesCmdUnix.label "Preferences">
+<!ENTITY preferencesCmdUnix.label "Beállítások">
 <!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
-<!ENTITY printCmd.label "Print…">
+<!ENTITY printCmd.label "Nyomtatás…">
 <!ENTITY productHelp.accesskey "D">
-<!ENTITY productHelp.label "Support and Documentation">
+<!ENTITY productHelp.label "Támogatás és dokumentáció">
 <!ENTITY quitApplicationCmd.accesskey "Q">
-<!ENTITY quitApplicationCmd.label "Quit">
+<!ENTITY quitApplicationCmd.label "Bezárás">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Quit Zotero">
+<!ENTITY quitApplicationCmdMac.label "Zotero bezárása">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
-<!ENTITY quitApplicationCmdWin.label "Exit">
+<!ENTITY quitApplicationCmdWin.label "Kilépés">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
-<!ENTITY redoCmd.label "Redo">
+<!ENTITY redoCmd.label "Mégis">
 <!ENTITY saveCmd.accesskey "A">
 <!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.label "Save…">
+<!ENTITY saveCmd.label "Mentés…">
 <!ENTITY selectAllCmd.accesskey "A">
 <!ENTITY selectAllCmd.key "A">
-<!ENTITY selectAllCmd.label "Select All">
-<!ENTITY servicesMenuMac.label "Services">
-<!ENTITY showAllAppsCmdMac.label "Show All">
-<!ENTITY toolsMenu.accesskey "T">
-<!ENTITY toolsMenu.label "Tools">
-<!ENTITY undoCmd.accesskey "U">
+<!ENTITY selectAllCmd.label "Mindet kijelöli">
+<!ENTITY servicesMenuMac.label "Szolgáltatások">
+<!ENTITY showAllAppsCmdMac.label "Összes megjelenítése">
+<!ENTITY toolsMenu.accesskey "E">
+<!ENTITY toolsMenu.label "Eszközök">
+<!ENTITY undoCmd.accesskey "F">
 <!ENTITY undoCmd.key "Z">
-<!ENTITY undoCmd.label "Undo">
-<!ENTITY windowMenu.label "Window">
-<!ENTITY zoomWindow.label "Zoom">
+<!ENTITY undoCmd.label "Visszavonás">
+<!ENTITY windowMenu.label "Ablak">
+<!ENTITY zoomWindow.label "Nagyítás">

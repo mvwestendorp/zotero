@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "โปรดรอในระหว่างที่รายงานข้อผิดพลาดกำลังส่งอยู่">
 <!ENTITY zotero.errorReport.submitted "รายงานข้อผิดพลาดถูกส่งเรียบร้อยแล้ว">
 <!ENTITY zotero.errorReport.title "Zotero Error Report">
-<!ENTITY zotero.errorReport.unrelatedMessages "บันทึกความผิดพลาดอาจรวมข้อความที่ไม่เกี่ยวกับ Zotero ไว้ด้วย">
+<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
 <!ENTITY zotero.exportOptions.format.label "รูปแบบ:">
 <!ENTITY zotero.exportOptions.title "ส่งออก...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "ตัวเลือกของโปรแกรมแปลข้อมูลเมทา">

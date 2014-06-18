@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Veuillez patienter pendant la transmission du rapport d'erreur.">
 <!ENTITY zotero.errorReport.submitted "Le rapport d'erreur a été transmis.">
 <!ENTITY zotero.errorReport.title "Rapport d'erreur Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "Le journal des erreurs peut comprendre des messages sans rapport avec Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Cela peut contenir des messages sans lien avec Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Format :">
 <!ENTITY zotero.exportOptions.title "Exporter…">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Options du convertisseur">
@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Collection">
 <!ENTITY zotero.items.system_column "Système">
 <!ENTITY zotero.items.title_column "Titre">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "Type de document">
 <!ENTITY zotero.items.volume_column "Volume">
 <!ENTITY zotero.items.year_column "Année">
 <!ENTITY zotero.lookup.button.search "Rechercher">

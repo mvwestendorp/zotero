@@ -1,6 +1,6 @@
 <!ENTITY aboutProduct.accesskey "A">
 <!ENTITY aboutProduct.label "Про &brandShortName;">
-<!ENTITY addons.label "Доповнення">
+<!ENTITY addons.label "Надбудови">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Переключити напрямок сторінки">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
@@ -95,7 +95,7 @@
 <!ENTITY quitApplicationCmdWin.label "Вихід">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
-<!ENTITY redoCmd.label "Повторити ввід">
+<!ENTITY redoCmd.label "Повторити ввод">
 <!ENTITY saveCmd.accesskey "A">
 <!ENTITY saveCmd.key "S">
 <!ENTITY saveCmd.label "Зберегти...">

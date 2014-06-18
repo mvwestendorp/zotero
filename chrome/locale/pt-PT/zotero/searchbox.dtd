@@ -12,7 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Procurar nas sub-pastas">
 <!ENTITY zotero.search.saveSearch "Guardar a Procura">
 <!ENTITY zotero.search.search "Procurar">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.searchInLibrary "Procurar na biblioteca:">
 <!ENTITY zotero.search.textModes.phrase "Frase">
 <!ENTITY zotero.search.textModes.phraseBinary "Frase (inclusive em arquivos binários)">
 <!ENTITY zotero.search.textModes.regexp "Expressão regular">

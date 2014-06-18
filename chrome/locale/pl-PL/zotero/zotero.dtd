@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Proszę czekać... Informacje o błędzie są wysyłane.">
 <!ENTITY zotero.errorReport.submitted "Informacje o błędzie zostały wysłane.">
 <!ENTITY zotero.errorReport.title "Raport błędów Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "Wykaz błędów może zawierać informacje nie związane z Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Może zawierać informacje niezwiązane z Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Format:">
 <!ENTITY zotero.exportOptions.title "Eksportuj">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opcje translacji">
@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Seria">
 <!ENTITY zotero.items.system_column "System">
 <!ENTITY zotero.items.title_column "Tytuł">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "Typ elementu">
 <!ENTITY zotero.items.volume_column "Tom">
 <!ENTITY zotero.items.year_column "Rok">
 <!ENTITY zotero.lookup.button.search "Wyszukiwanie">

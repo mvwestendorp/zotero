@@ -2,12 +2,12 @@
 <!ENTITY zotero.about.close "Bezárás">
 <!ENTITY zotero.about.localizations "Fordítás:">
 <!ENTITY zotero.alumni "Korábbi munkatársak:">
-<!ENTITY zotero.citationProcessing "Citation &amp; Bibliography Processing">
+<!ENTITY zotero.citationProcessing "Hivatkozás és bibliográfia feldolgozása">
 <!ENTITY zotero.createdby "Létrehozta:">
 <!ENTITY zotero.developers "Fejlesztők:">
-<!ENTITY zotero.director "Director:">
+<!ENTITY zotero.director "Igazgató:">
 <!ENTITY zotero.directors "Igazgatók:">
 <!ENTITY zotero.executiveProducer "Producer:">
-<!ENTITY zotero.moreCreditsAndAcknowledgements "More Credits &amp; Acknowledgements">
+<!ENTITY zotero.moreCreditsAndAcknowledgements "További hozzájárulók és elismerések">
 <!ENTITY zotero.thanks "Külön köszönet:">
 <!ENTITY zotero.version "verzió">

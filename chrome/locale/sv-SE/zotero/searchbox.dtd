@@ -12,7 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Sök i undermappar">
 <!ENTITY zotero.search.saveSearch "Spara sökning">
 <!ENTITY zotero.search.search "Sök">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.searchInLibrary "Sök i bibliotek:">
 <!ENTITY zotero.search.textModes.phrase "Fras">
 <!ENTITY zotero.search.textModes.phraseBinary "Fras (inkl. binära filer)">
 <!ENTITY zotero.search.textModes.regexp "Reguljärt uttryck">

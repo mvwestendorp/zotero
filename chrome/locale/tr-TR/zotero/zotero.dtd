@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Lütfen hata raporu gönderilene kadar bekleyiniz.">
 <!ENTITY zotero.errorReport.submitted "Hata raporu gönderilmiştir.">
 <!ENTITY zotero.errorReport.title "Zotero Hata Raporu">
-<!ENTITY zotero.errorReport.unrelatedMessages "Hata kaydı Zotero ile ilgili olmayan iletileri de içerebilir.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Bu, Zotero ile ilgili olmayan mesajlar içerebilir.">
 <!ENTITY zotero.exportOptions.format.label "Biçim">
 <!ENTITY zotero.exportOptions.title "Dışarı Aktar...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Çevirmen Seçenekleri">
@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Seriler">
 <!ENTITY zotero.items.system_column "Sistem">
 <!ENTITY zotero.items.title_column "Başlık">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "Eser Türü">
 <!ENTITY zotero.items.volume_column "Cilt">
 <!ENTITY zotero.items.year_column "Yıl">
 <!ENTITY zotero.lookup.button.search "Ara">

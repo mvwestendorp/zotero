@@ -40,7 +40,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Var vänlig vänta medan felrapporten skickas.">
 <!ENTITY zotero.errorReport.submitted "Felrapporten har skickats.">
 <!ENTITY zotero.errorReport.title "Zotero-felrapporting">
-<!ENTITY zotero.errorReport.unrelatedMessages "Felloggen kan innehålla meddelanden som inte har med Zotero att göra.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Det kan innehålla meddelanden som inte har med Zotero att göra.">
 <!ENTITY zotero.exportOptions.format.label "Format:">
 <!ENTITY zotero.exportOptions.title "Exportera...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Inställningar för källfångare">
@@ -138,7 +138,7 @@
 <!ENTITY zotero.items.series_column "Bokserie">
 <!ENTITY zotero.items.system_column "System">
 <!ENTITY zotero.items.title_column "Titel">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "Källtyp">
 <!ENTITY zotero.items.volume_column "Volym">
 <!ENTITY zotero.items.year_column "År">
 <!ENTITY zotero.lookup.button.search "Sök">

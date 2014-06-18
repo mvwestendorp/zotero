@@ -201,7 +201,7 @@
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Bütün yerel Zotero verilerini sil ve eşitleme sunucusundaki verileri yükle.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Zotero Sunucusuna Yükle">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Sunucudaki tüm verileri sil ve yerel Zotero verisini üzerine yaz.">
-<!ENTITY zotero.preferences.sync.reset.warning1 "Aşağıdaki işlemler, yalnızca ender ve özel durumlar altında kullanılmalı, ve genel sorun göderme amaçlı kullanılmamalıdırlar. Çoğu durumda, sıfırlama ek sorunlara neden olacaktır. Bakınız:">
+<!ENTITY zotero.preferences.sync.reset.warning1 "Aşağıdaki işlemler, yalnızca ender ve özel durumlar altında kullanılmalı, ve genel sorun giderme amaçlı kullanılmamalıdırlar. Birçok durumda, sıfırlama ek sorunlara neden olacaktır. Bakınız:">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Eşitlemeyi Sıfırlama Seçenekleri">
 <!ENTITY zotero.preferences.sync.reset.warning3 "Daha fazla bilgi için">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Kendiliğinden eşitle">
