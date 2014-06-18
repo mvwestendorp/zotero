@@ -64,13 +64,13 @@ const CSL_TEXT_MAPPINGS = {
 	"page":["pages"],
 	"volume":["volume","codeNumber"],
 	"volume-title":["volumeTitle"],
-	"issue":["issue"],
+	"issue":["issue", "priorityNumbers"],
 	"number-of-volumes":["numberOfVolumes"],
 	"number-of-pages":["numPages"],	
 	"edition":["edition"],
 	"version":["version"],
 	"section":["section","opus"],
-	"genre":["type","reign","supplementName","sessionType"],
+	"genre":["type","reign","supplementName","sessionType", "programmingLanguage"],
 	"chapter-number":["session","meetingNumber"],
 	"source":["libraryCatalog"],
 	"dimensions": ["artworkSize", "runningTime"],
@@ -86,17 +86,16 @@ const CSL_TEXT_MAPPINGS = {
 	"DOI":["DOI"],
 	"ISBN":["ISBN"],
 	"ISSN":["ISSN"],
-	"call-number":["callNumber"],
+	"call-number":["callNumber", "applicationNumber"],
 	"note":["extra"],
 	"number":["number"],
-	"rank-number":["priorityNumbers"],
 	"pending-number":["applicationNumber"],
 	"references":["history"],
 	"shortTitle":["shortTitle"],
 	"journalAbbreviation":["journalAbbreviation"],
 	"language":["language"],
 	"jurisdiction":["jurisdiction"],
-	"status":["status"],
+	"status":["status", "legalStatus"],
 	"publication-number": ["publicationNumber"]
 }
 
@@ -2197,11 +2196,10 @@ Zotero.Utilities = {
 				
 				if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
 					var date = "";
-					if(cslDate.literal) {
+					if(cslDate.literal || cslDate.raw) {
+						date = cslDate.literal || cslDate.raw;
 						if(variable === "accessed") {
-							date = strToISO(cslDate.literal);
-						} else {
-							date = cslDate.literal;
+							date = Zotero.Date.strToISO(date);
 						}
 					} else {
 						var newDate = Zotero.Utilities.deepCopy(cslDate);

@@ -3017,7 +3017,7 @@ var ZoteroPane = new function()
 			
 			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
 					.getService(Components.interfaces.nsIWindowMediator);
-			var e = wm.getEnumerator('');
+			var e = wm.getEnumerator('zotero:note');
 			while (e.hasMoreElements()) {
 				var w = e.getNext();
 				if (w.name == name) {
@@ -3027,10 +3027,8 @@ var ZoteroPane = new function()
 			}
 		}
 		
-		window.open('chrome://zotero/content/note.xul?v=1'
-			+ (itemID ? '&id=' + itemID : '') + (col ? '&coll=' + col : '')
-			+ (parentItemID ? '&p=' + parentItemID : ''),
-			name, 'chrome,resizable,centerscreen');
+		var io = { itemID: itemID, collectionID: col, parentItemID: parentItemID };
+		window.openDialog('chrome://zotero/content/note.xul', name, 'chrome,resizable,centerscreen,dialog=false', io);
 	}
 	
 	

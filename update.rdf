@@ -2,22 +2,22 @@
 <RDF:RDF xmlns:NS1="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$6mlHn3"
-                   NS1:version="4.0m411">
-    <NS1:targetApplication RDF:resource="rdf:#$9mlHn3"/>
+  <RDF:Description RDF:about="rdf:#$49n2V3"
+                   NS1:version="4.0.20m460">
+    <NS1:targetApplication RDF:resource="rdf:#$79n2V3"/>
   </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$5mlHn3">
-    <RDF:li RDF:resource="rdf:#$6mlHn3"/>
+  <RDF:Seq RDF:about="rdf:#$39n2V3">
+    <RDF:li RDF:resource="rdf:#$49n2V3"/>
   </RDF:Seq>
   <RDF:Description RDF:about="urn:mozilla:extension:zotero@chnm.gmu.edu"
-                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAMBQky6qHFwJDlb9S+gAynM6Kt4ynN/sqZ9T5XzMa0lbvE4oXjeLHCgJ3Vbw1H83rLhGTamPvl4jwRVatvUjoxV9c43bN+5uax4ZGdEXDKA+t+FH92EYvP2ExDjMwYAJGmn4ighvQJljlKavsbzfX7oImEkyX+azNhRJzOLOKePF">
-    <NS1:updates RDF:resource="rdf:#$5mlHn3"/>
+                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAGtV79lUGYT1mY4j5kHypqcj3GKPk7pcyYa6LPK4EvQBCTxGpcNft06LXgqo4nKH5utvTsOgiOzuI7UxRr78jD7pVvwpOGCjSRaEnRqeiSJVajqvL4sXEbigyRdjgsM98SOZ6PM+hCw8LLZqWp519Ca/WonLS3ypl49LltK52lr/">
+    <NS1:updates RDF:resource="rdf:#$39n2V3"/>
   </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$9mlHn3"
+  <RDF:Description RDF:about="rdf:#$79n2V3"
                    NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    NS1:minVersion="3.6"
-                   NS1:maxVersion="23.*"
+                   NS1:maxVersion="31.*"
                    NS1:updateLink="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi"
                    NS1:updateInfoURL="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xhtml"
-                   NS1:updateHash="sha1:25b879e310fdadd11d138c8f08921f34ea96555a" />
+                   NS1:updateHash="sha1:43f42983fe215223300e437009a3113715a013d7" />
 </RDF:RDF>
