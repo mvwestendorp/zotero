@@ -123,6 +123,11 @@
 							var self = this;
 							
 							this._eventHandler = function (event) {
+								// Necessary in Fx32+
+								if (event.wrappedJSObject) {
+									event = event.wrappedJSObject;
+								}
+								
 								//Zotero.debug(event.type);
 								switch (event.type) {
 									case 'keydown':
@@ -418,7 +423,13 @@
 						
 						if (!SJOW.zoteroInit) {
 							SJOW.zoteroInit = function(editor) {
-								self._editor = editor;
+								// Necessary in Fx32+
+								if (editor.wrappedJSObject) {
+									self._editor = editor.wrappedJSObject;
+								}
+								else {
+									self._editor = editor;
+								}
 								if (self._value) {
 									self.value = self._value;
 								}
