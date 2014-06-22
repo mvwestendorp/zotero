@@ -7,6 +7,8 @@
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Fjern markering fra tekst">
 <!ENTITY zotero.bibliography.bibliography "Litteraturliste">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopier til udklipsholder">
+<!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
+<!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.output.label "Output Format">
 <!ENTITY zotero.bibliography.outputMethod "Outputmetode:">
 <!ENTITY zotero.bibliography.outputMode "Outputtilstand:">

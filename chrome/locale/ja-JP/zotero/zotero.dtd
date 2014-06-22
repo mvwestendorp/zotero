@@ -7,6 +7,8 @@
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "テキストの強調表示を解除">
 <!ENTITY zotero.bibliography.bibliography "参考文献目録">
 <!ENTITY zotero.bibliography.copyToClipboard.label "クリップボードにコピー">
+<!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
+<!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.output.label "アウトプット・フォーマット">
 <!ENTITY zotero.bibliography.outputMethod "出力方法:">
 <!ENTITY zotero.bibliography.outputMode "出力モード:">

@@ -7,6 +7,8 @@
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "ដោះបន្លិចពណ៌អត្ថបទ">
 <!ENTITY zotero.bibliography.bibliography "Bibliography">
 <!ENTITY zotero.bibliography.copyToClipboard.label "ចម្លងទៅកាន់កន្លែងរក្សាទុកឯកសារបណ្តោះអាសន្ន">
+<!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
+<!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.output.label "ទម្រង់ទិន្នផល">
 <!ENTITY zotero.bibliography.outputMethod "Output Method:">
 <!ENTITY zotero.bibliography.outputMode "Output Mode:">

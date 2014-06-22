@@ -7,6 +7,8 @@
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Снять выделение текста">
 <!ENTITY zotero.bibliography.bibliography "Библиография">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Скопировать в буфер обмена">
+<!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
+<!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.output.label "Выходной формат">
 <!ENTITY zotero.bibliography.outputMethod "Метод вывода:">
 <!ENTITY zotero.bibliography.outputMode "Режим вывода:">

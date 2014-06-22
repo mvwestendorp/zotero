@@ -7,6 +7,8 @@
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Normalizar texto">
 <!ENTITY zotero.bibliography.bibliography "Bibliografia">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copiar para Área de Transferência">
+<!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
+<!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.output.label "Formato de saída">
 <!ENTITY zotero.bibliography.outputMethod "Método de saída:">
 <!ENTITY zotero.bibliography.outputMode "Modo de saída:">
