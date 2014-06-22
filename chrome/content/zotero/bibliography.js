@@ -47,6 +47,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 	this.closeProjectName = closeProjectName;
 	this.toggleGroupNameSafetyCatch = toggleGroupNameSafetyCatch;
 	this.setGroupName = setGroupName;
+	this.toggleTitleLinks = toggleTitleLinks;
 
 	/*
 	 * Initialize some variables and prepare event listeners for when chrome is done
@@ -95,6 +96,13 @@ var Zotero_File_Interface_Bibliography = new function() {
 				selectIndex = index;
 			}
 			index++;
+		}
+
+		var linkTitlesToggle = document.getElementById('zotero-bibliography-title-links');
+		if (Zotero.Prefs.get('linkTitles')) {
+			linkTitlesToggle.setAttribute('checked', true);
+		} else {
+			linkTitlesToggle.setAttribute('checked', false);
 		}
 		
 		if (selectIndex < 1) {
@@ -780,6 +788,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 			_io['groupName'] = groupName.label;
 		}
 		displayGroupName();
+	}
+
+	function toggleTitleLinks (event) {
+		if (event.target.checked) {
+			Zotero.Prefs.set('linkTitles', true);
+		} else {
+			Zotero.Prefs.set('linkTitles', false);
+		}
 	}
 }
 
