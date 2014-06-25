@@ -99,11 +99,13 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 
 		var linkTitlesToggle = document.getElementById('zotero-bibliography-title-links');
-		if (Zotero.Prefs.get('linkTitles')) {
-			linkTitlesToggle.setAttribute('checked', true);
-		} else {
-			linkTitlesToggle.setAttribute('checked', false);
-		}
+		if (linkTitlesToggle) {
+            if (Zotero.Prefs.get('linkTitles')) {
+			    linkTitlesToggle.setAttribute('checked', true);
+		    } else {
+			    linkTitlesToggle.setAttribute('checked', false);
+		    }
+        }
 		
 		if (selectIndex < 1) {
 			selectIndex = 0;
