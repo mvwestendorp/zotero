@@ -462,9 +462,14 @@ Zotero.Translate.SandboxManager.prototype = {
 				if(isFunction) {
 					attachTo[localKey] = function() {
 						var args = Array.prototype.slice.apply(arguments);
-						for(var i=0; i<args.length; i++) {
-							if(typeof args[i] === "object" && args[i] !== null && args[i].wrappedJSObject) {
-								args[i] = args[i].wrappedJSObject;
+						if(Zotero.platformMajorVersion >= 32) {
+							// This is necessary on Nightly and works
+							// fine on 31, but apparently breaks
+							// ZU.xpath in an unusual way on 24
+							for(var i=0; i<args.length; i++) {
+								if(typeof args[i] === "object" && args[i] !== null && args[i].wrappedJSObject) {
+									args[i] = args[i].wrappedJSObject;
+								}
 							}
 						}
 						if(passAsFirstArgument) args.unshift(passAsFirstArgument);
@@ -492,9 +497,7 @@ Zotero.Translate.SandboxManager.prototype = {
 
 	"_canCopy":function(obj) {
 		if(typeof obj !== "object" || obj === null) return false;
-		var proto = Object.getPrototypeOf(obj),
-		    global = Components.utils.getGlobalForObject(obj);
-		if((proto !== global.Object.prototype && proto !== global.Array.prototype) ||
+		if((obj.constructor.name !== "Object" && obj.constructor.name !== "Array") ||
 		   "__exposedProps__" in obj) {
 			return false;
 		}

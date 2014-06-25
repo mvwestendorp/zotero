@@ -70,7 +70,6 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 	this.safeDebug = safeDebug;
 	this.getString = getString;
 	this.localeJoin = localeJoin;
-	this.getLocaleCollation = getLocaleCollation;
 	this.setFontSize = setFontSize;
 	this.flattenArguments = flattenArguments;
 	this.getAncestorByTagName = getAncestorByTagName;
@@ -1532,12 +1531,32 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 	}
 	
 	
-	function getLocaleCollation() {
+	this.getLocaleCollation = function () {
+		if (this.collation) {
+			return this.collation;
+		}
+		
 		var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
-			.getService(Components.interfaces.nsILocaleService);
-		var collationFactory = Components.classes["@mozilla.org/intl/collation-factory;1"]
-			.getService(Components.interfaces.nsICollationFactory);
-		return collationFactory.CreateCollation(localeService.getApplicationLocale());
+				.getService(Components.interfaces.nsILocaleService);
+		var appLocale = localeService.getApplicationLocale();
+		
+		// Use nsICollation before Fx29
+		if (Zotero.platformMajorVersion < 29) {
+			var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
+				.getService(Components.interfaces.nsILocaleService);
+			var collationFactory = Components.classes["@mozilla.org/intl/collation-factory;1"]
+				.getService(Components.interfaces.nsICollationFactory);
+			return this.collation = collationFactory.CreateCollation(appLocale);
+		}
+		
+		var locale = appLocale.getCategory('NSILOCALE_COLLATE');
+		var collator = new Intl.Collator(locale, { ignorePunctuation: true });
+		// Until old code is updated, pretend we're returning an nsICollation
+		return this.collation = {
+			compareString: function (_, a, b) {
+				return collator.compare(a, b);
+			}
+		};
 	}
 	
 	
@@ -2411,7 +2430,7 @@ Zotero.Prefs = new function(){
 			case "note.fontSize":
 				var val = this.get('note.fontSize');
 				if (val < 6) {
-					this.set('note.fontSize', 6);
+					this.set('note.fontSize', 11);
 				}
 				break;
 			
