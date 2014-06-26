@@ -1907,9 +1907,9 @@ Zotero.Utilities = {
 					}
 				}
 				nameObj.multi.main = arrayItem.multi.main.authority;
+				creators.push(nameObj);
+				delete cslItem.authority;
 			}
-			creators.push(nameObj);
-			delete cslItem.authority;
 		}
 
 		for each(var creator in creators) {
