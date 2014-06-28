@@ -1540,8 +1540,8 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 				.getService(Components.interfaces.nsILocaleService);
 		var appLocale = localeService.getApplicationLocale();
 		
-		// Use nsICollation before Fx29
-		if (Zotero.platformMajorVersion < 29) {
+		// Use nsICollation before Fx30
+		if (Zotero.platformMajorVersion < 30) {
 			var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
 				.getService(Components.interfaces.nsILocaleService);
 			var collationFactory = Components.classes["@mozilla.org/intl/collation-factory;1"]
@@ -1549,8 +1549,23 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			return this.collation = collationFactory.CreateCollation(appLocale);
 		}
 		
-		var locale = appLocale.getCategory('NSILOCALE_COLLATE');
-		var collator = new Intl.Collator(locale, { ignorePunctuation: true });
+		try {
+			var locale = appLocale.getCategory('NSILOCALE_COLLATE');
+			// Extract a valid language tag
+			locale = locale.match(/^[a-z]{2}(\-[A-Z]{2})?/)[0];
+			var collator = new Intl.Collator(locale, { ignorePunctuation: true });
+		}
+		catch (e) {
+			Zotero.debug(e, 1);
+			
+			// If there's an error, just skip sorting
+			collator = {
+				compare: function (a, b) {
+					return 0;
+				}
+			};
+		}
+		
 		// Until old code is updated, pretend we're returning an nsICollation
 		return this.collation = {
 			compareString: function (_, a, b) {
