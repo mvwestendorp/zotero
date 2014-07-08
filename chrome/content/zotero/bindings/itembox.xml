@@ -2448,7 +2448,7 @@
 					t.addEventListener('blur', function (event) {
 						document.getBindingParent(this).blurHandler(this);
 					}, false);
-					t.setAttribute('onkeydown', "return document.getBindingParent(this).handleKeyPress(event);");
+					t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event);");
 					
 					this._tabDirection = false;
 					this._lastTabIndex = tabindex;
