@@ -2448,8 +2448,13 @@
 					t.addEventListener('blur', function (event) {
 						document.getBindingParent(this).blurHandler(this);
 					}, false);
-					t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event);");
-					
+					t.setAttribute('onkeypress', 
+						'return document.getBindingParent(this).handleKeyPress(event,"' 
+						+ this._defaultFirstName 
+						+ '","'
+						+ this._defaultLastName 
+						+ '");'
+					);
 					this._tabDirection = false;
 					this._lastTabIndex = tabindex;
 //Zotero.debug("XXX showEditor() [end]");
@@ -2541,6 +2546,8 @@
 			
 			<method name="handleKeyPress">
 				<parameter name="event"/>
+				<parameter name="defaultFirstName"/>
+				<parameter name="defaultLastName"/>
 				<body>
 				<![CDATA[
 					var target = event.target;
@@ -2561,34 +2568,45 @@
 									var start = target.value.slice(0,selectionStart);
 									var middle = target.value.slice(selectionStart,selectionEnd);
 									var end = target.value.slice(selectionEnd);
-									target.value = (start + '<i>' + middle + '</i>' + end);
+									if (middle) {
+										target.value = (start + '<i>' + middle + '</i>' + end);
+									}
 								}
 								return false;
 							}
 							break;
 
+						case 39:
 						case 37:
 							if (event.ctrlKey && target.getAttribute('fieldname').slice(0,7) === 'creator') {
 								event.preventDefault();
 								// Move to left one char at a time
-								var firstName = target.parentNode.lastChild;
-								var lastName = target.parentNode.firstChild;
-								lastName.value = lastName.value + firstName.value.slice(0,1);
-								firstName.value = firstName.value.slice(1);
-								return false;
-							}
-							break;
-
-						case 39:
-							if (event.ctrlKey && target.getAttribute('fieldname').slice(0,7) === 'creator') {
-								event.preventDefault();
-								// Move to right one char at a time
-								var firstName = target.parentNode.lastChild;
-								var lastName = target.parentNode.firstChild;
-								firstName.value = lastName.value.slice(-1) + firstName.value;
-								lastName.value = lastName.value.slice(0,-1);
-
-								return false;
+								if (!target.parentNode.lastChild.hidden) {
+									var firstName = target.parentNode.lastChild;
+									var lastName = target.parentNode.firstChild;
+									var firstNameValue = firstName.value;
+									var lastNameValue = lastName.value;
+									if (lastNameValue === defaultLastName) {
+										lastNameValue = "";
+									}
+									if (firstNameValue === defaultFirstName) {
+										firstNameValue = "";
+									}
+									if (event.keyCode == 37) {
+										lastName.value = lastNameValue + firstNameValue.slice(0,1);
+										firstName.value = firstNameValue.slice(1);
+									} else if (event.keyCode == 39) {
+										firstName.value = lastNameValue.slice(-1) + firstNameValue;
+										lastName.value = lastNameValue.slice(0,-1);
+									}
+									if (!firstName.value) {
+										firstName.value = defaultFirstName;
+									}
+									if (!lastName.value) {
+										lastName.value = defaultLastName;
+									}
+									return false;
+								}
 							}
 							break;
 
