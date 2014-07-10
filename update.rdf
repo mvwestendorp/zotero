@@ -2,22 +2,22 @@
 <RDF:RDF xmlns:NS1="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$49n2V3"
-                   NS1:version="4.0.20m460">
-    <NS1:targetApplication RDF:resource="rdf:#$79n2V3"/>
-  </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$39n2V3">
-    <RDF:li RDF:resource="rdf:#$49n2V3"/>
-  </RDF:Seq>
-  <RDF:Description RDF:about="urn:mozilla:extension:zotero@chnm.gmu.edu"
-                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAGtV79lUGYT1mY4j5kHypqcj3GKPk7pcyYa6LPK4EvQBCTxGpcNft06LXgqo4nKH5utvTsOgiOzuI7UxRr78jD7pVvwpOGCjSRaEnRqeiSJVajqvL4sXEbigyRdjgsM98SOZ6PM+hCw8LLZqWp519Ca/WonLS3ypl49LltK52lr/">
-    <NS1:updates RDF:resource="rdf:#$39n2V3"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$79n2V3"
+  <RDF:Description RDF:about="rdf:#$8YTkx"
                    NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    NS1:minVersion="3.6"
                    NS1:maxVersion="31.*"
                    NS1:updateLink="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi"
                    NS1:updateInfoURL="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xhtml"
-                   NS1:updateHash="sha1:43f42983fe215223300e437009a3113715a013d7" />
+                   NS1:updateHash="sha1:e9b603fff1fbe3090ba97fb30aa27116ea317db5" />
+  <RDF:Description RDF:about="urn:mozilla:extension:zotero@chnm.gmu.edu"
+                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJRRuhiLaWEiyIT0CV6jJr0DWX1knhG9iCyx03LAv4jF9rahyzIQe78Wc+HisjjE/jg0O9AsnNAu0MxnplcK03mtevvWp0YSp39PArMK/Nts74vZiPeDAc5BGnygmcalgu2Jps6hrHGPtSG0H8C4zVH7pjA39Zf+lJ34iXN1+T8N">
+    <NS1:updates RDF:resource="rdf:#$4YTkx"/>
+  </RDF:Description>
+  <RDF:Seq RDF:about="rdf:#$4YTkx">
+    <RDF:li RDF:resource="rdf:#$5YTkx"/>
+  </RDF:Seq>
+  <RDF:Description RDF:about="rdf:#$5YTkx"
+                   NS1:version="4.0.21m469">
+    <NS1:targetApplication RDF:resource="rdf:#$8YTkx"/>
+  </RDF:Description>
 </RDF:RDF>

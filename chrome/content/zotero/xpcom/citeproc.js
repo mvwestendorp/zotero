@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.534",
+    PROCESSOR_VERSION: "1.0.537",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1029,11 +1029,16 @@ CSL.getSortCompare = function (default_locale) {
         return CSL.stringCompare;
     }
     var strcmp;
+    var strcmp_opts = {
+        sensitivity:"base",
+        ignorePunctuation:true,
+        numeric:true
+   }
     if (!default_locale) {
         default_locale = "en-US";
     }
     strcmp = function (a, b) {
-        return a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
+        return a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase(),default_locale,strcmp_opts);
     };
     var stripPunct = function (str) {
         return str.replace(/^[\[\]\'\"]*/g, "");
@@ -1807,7 +1812,8 @@ CSL.Engine.prototype.setStyleAttributes = function () {
     var dummy, attr, key, attributes, attrname;
     dummy = {};
     var cslXml = this.cslXml;
-    if (!this.cslXml.tagName || ("" + this.cslXml.tagName).toLowerCase() !== 'style') {
+	var tagName = this.cslXml.tagName ? ("" + this.cslXml.tagName).toLowerCase() : "";
+    if (tagName !== 'style' && tagName !== 'cslstyle') {
         if (this.cslXml.getElementsByTagName) {
             var cslXml = this.cslXml.getElementsByTagName('style')[0];
         }
@@ -2932,7 +2938,9 @@ CSL.Output.Queue.prototype.string = function (state, myblobs, blob) {
                 if (["@cite","@bibliography", "@display", "@showid"].indexOf(params[0]) === -1) {
                     continue;
                 }
-                blobs_start = state.fun.decorate[params[0]][params[1]].call(blob, state, blobs_start, params[2]);
+                if ("string" === typeof blobs_start) {
+                    blobs_start = state.fun.decorate[params[0]][params[1]].call(blob, state, blobs_start, params[2]);
+                }
             }
         }
     }
@@ -4446,7 +4454,7 @@ CSL.getCitationCluster = function (inputList, citationID) {
     for (var i=0,ilen=this.output.queue.length;i<ilen;i+=1) {
         CSL.Output.Queue.purgeEmptyBlobs(this.output.queue[i]);
     }
-    if (!this.tmp.suppress_decorations) {
+    if (!this.tmp.suppress_decorations && this.output.queue.length) {
         if (!(this.opt.development_extensions.apply_citation_wrapper
               && this.sys.wrapCitationEntry
               && !this.tmp.just_looking
