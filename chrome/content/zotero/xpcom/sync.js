@@ -4634,11 +4634,13 @@ Zotero.Sync.Server.Data = new function() {
 		}
 		var previousMultiFields = item.getUsedMultiFields(true);
 		for each(var f in previousMultiFields) {
-			if ((!obj.multifields || !obj.multifields._keys[f.fieldName]) && Zotero.ItemFields.isValidForType(f.fieldID, data.itemTypeID)) {
-				item.setField(f.fieldName,false,false,f.languageTag);
-			} else if (!obj.multifields._keys[f.fieldName][f.languageTag]) {
-				if (item.multi._keys[f.fieldName]) {
+			if (Zotero.ItemFields.isValidForType(f.fieldID, data.itemTypeID)) {
+				if (!obj.multifields || !obj.multifields._keys[f.fieldName]) {
 					item.setField(f.fieldName,false,false,f.languageTag);
+				} else if (obj.multifields && !obj.multifields._keys[f.fieldName][f.languageTag]) {
+					if (item.multi._keys[f.fieldName]) {
+						item.setField(f.fieldName,false,false,f.languageTag);
+					}
 				}
 			}
 		}
