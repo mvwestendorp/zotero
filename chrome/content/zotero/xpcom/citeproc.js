@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.539",
+    PROCESSOR_VERSION: "1.0.540",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -7213,6 +7213,10 @@ CSL.NameOutput.prototype.setCommonTerm = function () {
                 return;
             }
             freeters_offset += 1;
+        }
+        if (this.persons[v].length !== this.persons[vv].length) {
+            this.common_term = false;
+            return;
         }
         for (var j = 0, jlen = this.persons[v].length; j < jlen; j += 1) {
             if (this.etal_spec[v].persons[j] !== this.etal_spec[vv].persons[j]
