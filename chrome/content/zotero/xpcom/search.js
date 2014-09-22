@@ -2385,6 +2385,7 @@ Zotero.SearchConditions = new function(){
 			return Zotero.getString('searchConditions.' + str)
 		}
 		catch (e) {
+			Zotero.debug("String not found for searchConditions." + str, 2);
 			// OOOOO: Not sure if this problem is specific to the multilingual
 			// version ... with a completely empty Zotero, we get an error on
 			// these two fields for want of a localized form.  Not sure if

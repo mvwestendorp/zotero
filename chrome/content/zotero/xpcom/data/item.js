@@ -1067,11 +1067,12 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 	var itemTypeName = Zotero.ItemTypes.getName(itemTypeID);
 	
 	if (!title && (itemTypeID == 8 || itemTypeID == 10)) { // 'letter' and 'interview' itemTypeIDs
-		var creators = this.getCreators();
-		var authors = [];
-		var participants = [];
+		let creators = this.getCreators();
+		let authors = [];
+		let participants = [];
 		if (creators) {
-			for each(var creator in creators) {
+			for (let i=0; i<creators.length; i++) {
+				let creator = creators[i];
 				if ((itemTypeID == 8 && creator.creatorTypeID == 16) || // 'letter'/'recipient'
 						(itemTypeID == 10 && creator.creatorTypeID == 6)) { // 'interview'/'interviewee'
 					participants.push(creator);
@@ -1093,9 +1094,9 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 		var strParts = [];
 		
 		if (includeAuthorAndDate) {
-			var names = [];
-			for each(author in authors) {
-					names.push(author.multi.get("lastName", language));
+			let names = [];
+			for (let i=0; i<authors.length; i++) {
+				names.push(authors[i].multi.get("lastName", language));
 			}
 			
 			// TODO: Use same logic as getFirstCreatorSQL() (including "et al.")
@@ -1105,9 +1106,9 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 		}
 		
 		if (participants.length > 0) {
-			var names = [];
-			for each(participant in participants) {
-					names.push(participant.multi.get("lastName", language));
+			let names = [];
+			for (let i=0; i<4; i++) {
+				names.push(participants[i].multi.get("lastName", language));
 			}
 			switch (names.length) {
 				case 1:
