@@ -287,6 +287,7 @@
 					</hbox>
 					<separator style="height: 2px" flex="1"/>
 					<checkbox oncommand="Zotero_Citation_Dialog.confirmRegenerate(true)" id="suppress-author" label="&zotero.citation.suppressAuthor.label;" tabindex="6"/>
+					<checkbox oncommand="Zotero_Citation_Dialog.confirmRegenerate(true)" id="suppress-trailing-punctuation" label="&zotero.citation.suppressTrailingPunctuation.label;" tabindex="6"/>
 				</vbox>
 			</hbox>
 		</vbox>

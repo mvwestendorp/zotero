@@ -57,9 +57,13 @@ var Zotero_File_Interface_Bibliography = new function() {
 		//Zotero.debug("XXX == init() ==");
 		// Set font size from pref
 		// Affects bibliography.xul and integrationDocPrefs.xul
-		var bibContainer = document.getElementById("zotero-bibliography-container");
-		if(bibContainer) {
-			Zotero.setFontSize(document.getElementById("zotero-bibliography-container"));
+		var bibContainerMain = document.getElementById("zotero-bibliography-container-main");
+		if(bibContainerMain) {
+			Zotero.setFontSize(bibContainerMain);
+		}
+		var bibContainerInternal = document.getElementById("zotero-bibliography-container-internal");
+		if(bibContainerInternal) {
+			Zotero.setFontSize(bibContainerInternal);
 		}
 		
 		if(window.arguments && window.arguments.length) {
@@ -162,6 +166,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 			}
 			if(_io.automaticJournalAbbreviations) {
 				document.getElementById("automaticJournalAbbreviations-checkbox").checked = true;
+			}
+		}
+		if(document.getElementById("suppressTrailingPunctuation-checkbox")) {
+			if(_io.suppressTrailingPunctuation === undefined) {
+				_io.suppressTrailingPunctuation = Zotero.Prefs.get("export.citeSuppressTrailingPunctuation");
+			}
+			if(_io.suppressTrailingPunctuation) {
+				document.getElementById("suppressTrailingPunctuation-checkbox").checked = true;
 			}
 		}
 		if(document.getElementById("storeReferences")) {
@@ -308,6 +320,9 @@ var Zotero_File_Interface_Bibliography = new function() {
 			if(!automaticJournalAbbreviationsEl.hidden && _saveStyle) {
 				Zotero.Prefs.set("cite.automaticJournalAbbreviations", _io.automaticJournalAbbreviations);
 			}
+			var suppressTrailingPunctuationEl = document.getElementById("suppressTrailingPunctuation-checkbox");
+			_io.suppressTrailingPunctuation = suppressTrailingPunctuationEl.checked;
+			Zotero.Prefs.set("export.citeSuppressTrailingPunctuation", _io.suppressTrailingPunctuation);
 			_io.useEndnotes = document.getElementById("displayAs").selectedIndex;
 			_io.fieldType = (document.getElementById("formatUsing").selectedIndex == 0 ? _io.primaryFieldType : _io.secondaryFieldType);
 			_io.storeReferences = document.getElementById("storeReferences").checked;

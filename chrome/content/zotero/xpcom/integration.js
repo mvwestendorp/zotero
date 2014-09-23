@@ -2148,6 +2148,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		io.projectName = this.data.prefs.projectName;
 		io.groupID = this.data.prefs.groupID;
 		io.groupName = this.data.prefs.groupName;
+		io.suppressTrailingPunctuation = this.data.prefs.suppressTrailingPunctuation;
 	}
 	
 	var me = this;
@@ -2187,6 +2188,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.data.prefs.projectName = io.projectName;
 		me.data.prefs.groupID = io.groupID;
 		me.data.prefs.groupName = io.groupName;
+		me.data.prefs.suppressTrailingPunctuation = io.suppressTrailingPunctuation;
 		
 		if(!oldData || oldData.style.styleID != data.style.styleID
 				|| oldData.prefs.noteType != data.prefs.noteType
@@ -2202,6 +2204,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.style.setLangPrefsForCites(me.data.prefs, function(key){return 'citationLangPrefs'+key});
 		me.style.setLangPrefsForCiteAffixes(me.data.prefs.citationAffixes);
 		me.style.setAutoVietnameseNamesOption(Zotero.Prefs.get('csl.autoVietnameseNames'));
+		me.style.setSuppressTrailingPunctuation(Zotero.Prefs.get('export.citeSuppressTrailingPunctuation'));
 
 		return oldData || null;
 	});
@@ -2240,7 +2243,8 @@ Zotero.Integration.Session.prototype.reselectItem = function(doc, exception) {
  * Generates a field from a citation object
  */
 Zotero.Integration.Session.prototype.getCitationField = function(citation) {
-	const saveProperties = ["custom", "unsorted", "formattedCitation", "plainCitation", "dontUpdate"];
+	const saveProperties = ["custom", "unsorted", "formattedCitation", "plainCitation", "dontUpdate",
+ 		"suppress-trailing-punctuation"];
 	const saveCitationItemKeys = ["locator", "label", "suppress-author", "author-only", "prefix",
 		"suffix"];
 	var addSchema = false;
@@ -3109,6 +3113,7 @@ Zotero.Integration.DocumentData = function(string) {
 	this.prefs.projectName = '';
 	this.prefs.groupID = '';
 	this.prefs.groupName = '';
+	this.prefs.suppressTrailingPunctuation = false;
 	this.sessionID = null;
 	if(string) {
 		this.unserialize(string);
@@ -3191,6 +3196,7 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 	if(this.prefs["projectName"] === undefined) this.prefs["projectName"] = "";
 	if(this.prefs["groupID"] === undefined) this.prefs["groupID"] = "";
 	if(this.prefs["groupName"] === undefined) this.prefs["groupName"] = "";
+	if(this.prefs["suppressTrailingPunctuation"] === undefined) this.prefs["suppressTrailingPunctuation"] = false;
 	this.zoteroVersion = doc.documentElement.getAttribute("zotero-version");
 	if(!this.zoteroVersion) this.zoteroVersion = "2.0";
 	this.dataVersion = doc.documentElement.getAttribute("data-version");

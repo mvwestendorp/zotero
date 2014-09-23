@@ -111,6 +111,13 @@
 						&zotero.citation.suppressAuthor.label;
 					</html:label>
 				</html:div>
+				<html:div>
+					<html:input type="checkbox" id="suppress-trailing-punctuation"
+							onchange="Zotero_QuickFormat.onCitationPropertiesChanged(event)"/>
+					<html:label for="suppress-trailing-punctuation">
+						&zotero.citation.suppressTrailingPunctuation.label;
+					</html:label>
+				</html:div>
 			</rows>
 		</grid>
 		<vbox flex="1" align="center">

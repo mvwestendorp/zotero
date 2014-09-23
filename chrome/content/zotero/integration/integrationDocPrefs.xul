@@ -47,45 +47,54 @@
 	<tabbox width="600">
 	  <tabs id="doc-prefs-tabs">
 		<tab>&zotero.integration.prefs.lang.styleAndFormat;</tab>
+		<tab>&zotero.integration.prefs.lang.documentInternals;</tab>
 		<tab>&zotero.integration.prefs.lang.languages;</tab>
-		<tab>Project Name</tab>
+		<tab>&zotero.integration.prefs.lang.projectName;</tab>
 	  </tabs>
 	  <tabpanels id="doc-prefs-tabpanels">
 		<tabpanel>
-		  <vbox id="zotero-bibliography-container">
-		    <groupbox>
+		  <vbox id="zotero-bibliography-container-main">
+			<groupbox>
 			  <caption label="&zotero.bibliography.style.label;"/>
 			  <listbox id="style-listbox" onselect="Zotero_File_Interface_Bibliography.styleChanged()"/>
-		    </groupbox>
+			</groupbox>
 
-		    <groupbox>
+			<groupbox>
 			  <caption label="&zotero.integration.prefs.displayAs.label;"/>
 			  <radiogroup id="displayAs" orient="horizontal">
 				<radio id="footnotes" label="&zotero.integration.prefs.footnotes.label;" selected="true"/>
 				<radio id="endnotes" label="&zotero.integration.prefs.endnotes.label;"/>
 			  </radiogroup>
-		    </groupbox>
+			</groupbox>
 		
-		    <groupbox>
-			  <caption label="&zotero.integration.prefs.formatUsing.label;"/>
-			
-			  <radiogroup id="formatUsing" orient="vertical">
-				<radio id="fields" selected="true"/>
-				<label class="radioDescription" id="fields-caption"/>
-				<label class="radioDescription" id="fields-file-format-notice"/>
-				<radio id="bookmarks" label="&zotero.integration.prefs.bookmarks.label;"/>
-
-				<description width="200" class="radioDescription" id="bookmarks-caption">&zotero.integration.prefs.bookmarks.caption;</description>
-				<description width="200" class="radioDescription" id="bookmarks-file-format-notice"/>
-			  </radiogroup>
-			
+			<groupbox>
+			  <caption label="&zotero.integration.prefs.citationAppearance.label;"/>
 			  <vbox id="automaticJournalAbbreviations-vbox">
 				  <checkbox id="automaticJournalAbbreviations-checkbox" label="&zotero.integration.prefs.automaticJournalAbbeviations.label;"/>
-				  <description class="radioDescription">&zotero.integration.prefs.automaticJournalAbbeviations.caption;</description>
+				  <description class="radioDescription small-description">&zotero.integration.prefs.automaticJournalAbbeviations.caption;</description>
 			  </vbox>
-
+			  <checkbox id="suppressTrailingPunctuation-checkbox" label="&zotero.integration.prefs.suppressTrailingPunctuation.label;"/>
+			  <description class="radioDescription small-description">&zotero.integration.prefs.suppressTrailingPunctuation.caption;</description>
+			</groupbox>
+		  </vbox>
+		</tabpanel>
+		<tabpanel>
+		  <vbox id="zotero-bibliography-container-internal">
+			<groupbox>
+			  <caption label="&zotero.integration.prefs.formatUsing.label;"/>
+			  <radiogroup id="formatUsing" orient="vertical">
+				<radio id="fields" selected="true"/>
+				<label class="radioDescription small-description" id="fields-caption"/>
+				<label class="radioDescription small-description" id="fields-file-format-notice"/>
+				<radio id="bookmarks" label="&zotero.integration.prefs.bookmarks.label;"/>
+				<description width="200" class="radioDescription small-description" id="bookmarks-caption">&zotero.integration.prefs.bookmarks.caption;</description>
+				<description width="200" class="radioDescription small-description" id="bookmarks-file-format-notice"/>
+			  </radiogroup>
+			</groupbox>
+			<groupbox>
+			  <caption label="&zotero.integration.prefs.embeddedMetadata.label;"/>
 			  <checkbox id="storeReferences" label="&zotero.integration.prefs.storeReferences.label;"/>
-			  <description width="200" class="radioDescription">&zotero.integration.prefs.storeReferences.caption;</description>
+			  <description width="200" class="radioDescription small-description">&zotero.integration.prefs.storeReferences.caption;</description>
 		    </groupbox>
 		  </vbox>
 		</tabpanel>

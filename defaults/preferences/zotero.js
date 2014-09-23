@@ -110,6 +110,7 @@ pref("extensions.zotero.export.bibliographySettings", 'save-as-rtf');
 pref("extensions.zotero.export.bibliographyLocale", '');
 pref("extensions.zotero.export.displayCharsetOption", false);
 pref("extensions.zotero.export.citePaperJournalArticleURL", false);
+pref("extensions.zotero.export.citeSuppressTrailingPunctuation", false);
 pref("extensions.zotero.cite.automaticJournalAbbreviations", false);
 pref("extensions.zotero.import.charset", "auto");
 pref("extensions.zotero.import.createNewCollection.fromFileOpenHandler", true);

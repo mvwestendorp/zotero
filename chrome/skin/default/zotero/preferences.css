@@ -61,7 +61,7 @@ radio[pane]
 	-moz-box-pack: end;
 }
 
-#export-citePaperJournalArticleURL
+.small-description
 {
 	font-size: .85em;
 }
