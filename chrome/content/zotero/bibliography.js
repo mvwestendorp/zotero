@@ -104,12 +104,12 @@ var Zotero_File_Interface_Bibliography = new function() {
 
 		var linkTitlesToggle = document.getElementById('zotero-bibliography-title-links');
 		if (linkTitlesToggle) {
-            if (Zotero.Prefs.get('linkTitles')) {
-			    linkTitlesToggle.setAttribute('checked', true);
-		    } else {
-			    linkTitlesToggle.setAttribute('checked', false);
-		    }
-        }
+			if (Zotero.Prefs.get('linkTitles')) {
+				linkTitlesToggle.setAttribute('checked', true);
+			} else {
+				linkTitlesToggle.setAttribute('checked', false);
+			}
+		}
 		
 		if (selectIndex < 1) {
 			selectIndex = 0;
@@ -172,7 +172,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 			if(_io.suppressTrailingPunctuation === undefined) {
 				_io.suppressTrailingPunctuation = Zotero.Prefs.get("export.citeSuppressTrailingPunctuation");
 			}
-			if(_io.suppressTrailingPunctuation) {
+			if (_io.suppressTrailingPunctuation) {
 				document.getElementById("suppressTrailingPunctuation-checkbox").checked = true;
 			}
 		}
@@ -322,7 +322,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 			}
 			var suppressTrailingPunctuationEl = document.getElementById("suppressTrailingPunctuation-checkbox");
 			_io.suppressTrailingPunctuation = suppressTrailingPunctuationEl.checked;
-			Zotero.Prefs.set("export.citeSuppressTrailingPunctuation", _io.suppressTrailingPunctuation);
 			_io.useEndnotes = document.getElementById("displayAs").selectedIndex;
 			_io.fieldType = (document.getElementById("formatUsing").selectedIndex == 0 ? _io.primaryFieldType : _io.secondaryFieldType);
 			_io.storeReferences = document.getElementById("storeReferences").checked;

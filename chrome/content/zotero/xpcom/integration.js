@@ -2203,8 +2203,8 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.style.setLangTagsForCslSort(me.data.prefs.citationSort);
 		me.style.setLangPrefsForCites(me.data.prefs, function(key){return 'citationLangPrefs'+key});
 		me.style.setLangPrefsForCiteAffixes(me.data.prefs.citationAffixes);
+		me.style.setSuppressTrailingPunctuation(me.data.prefs.suppressTrailingPunctuation);
 		me.style.setAutoVietnameseNamesOption(Zotero.Prefs.get('csl.autoVietnameseNames'));
-		me.style.setSuppressTrailingPunctuation(Zotero.Prefs.get('export.citeSuppressTrailingPunctuation'));
 
 		return oldData || null;
 	});
@@ -3113,7 +3113,6 @@ Zotero.Integration.DocumentData = function(string) {
 	this.prefs.projectName = '';
 	this.prefs.groupID = '';
 	this.prefs.groupName = '';
-	this.prefs.suppressTrailingPunctuation = false;
 	this.sessionID = null;
 	if(string) {
 		this.unserialize(string);
