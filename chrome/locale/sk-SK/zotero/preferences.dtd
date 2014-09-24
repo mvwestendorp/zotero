@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "pri ukladaní položiek automaticky priložiť prepojené PDF a ostatné súbory">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Zahrnúť do referencií URL adresy článkov">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Keď táto voľba nie je vybraná, Zotero vloží URL adresy pri citovaní článkov (z odborných a populárnych časopisov alebo novín) iba v prípade, ak článok nemá špecifikovaný rozsah strán.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Získať ďalšie štýly...">
 <!ENTITY zotero.preferences.fontSize "Veľkosť písma:">
 <!ENTITY zotero.preferences.fontSize.large "veľké">

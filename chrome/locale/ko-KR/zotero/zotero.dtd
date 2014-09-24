@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "접두사:">
 <!ENTITY zotero.citation.suffix.label "접미사:">
 <!ENTITY zotero.citation.suppressAuthor.label "저자 숨기기">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "미분류 항목 보기">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Zotero 노트에 선택 내용 추가">
 <!ENTITY zotero.contextMenu.addTextToNewNote "선택한 내용으로 Zotero 노트 생성">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "책갈피는 Microsoft Word와 OpenOffice에서 보존되지만, 경우에 따라 변경될 수도 있습니다. 이 옵션이 선택되면, 호환성 때문에 인용이 각주나 미주에 삽입되지 않게 됩니다.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "북마크">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "인용 표시:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "미주">
 <!ENTITY zotero.integration.prefs.footnotes.label "각주">
 <!ENTITY zotero.integration.prefs.formatUsing.label "사용 형식:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "문서 안에 레퍼런스를 저장하면 파일 크기가 다소 증가할 수 있습니다. 하지만 문서를 Zotero 그룹을 통하지 않고도 공유할 수 있습니다. Zotero 3.0이상 버전이 필요한 기능입니다.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "문서 안에 레퍼런스 저장">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "참고문헌 목록 내 참조">
 <!ENTITY zotero.integration.showEditor.label "편집자 보이기">

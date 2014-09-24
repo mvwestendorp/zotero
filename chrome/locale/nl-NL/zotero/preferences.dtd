@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Automatisch gekoppelde PDF's en andere bestanden toevoegen bij het opslaan van items">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "URL's van artikelen aan verwijzingen toevoegen">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Als deze optie is uitgezet voegt Zotero alleen URLs toe aan verwijzingen van tijdschrift-, magazine en krantenartikelen als paginanummers ontbreken.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Meer stijlen installeren...">
 <!ENTITY zotero.preferences.fontSize "Lettergrootte:">
 <!ENTITY zotero.preferences.fontSize.large "Groot">

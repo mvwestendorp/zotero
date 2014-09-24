@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Præfiks:">
 <!ENTITY zotero.citation.suffix.label "Suffiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Undertryk forfatter/ophav">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Vis ukategoriserede elementer">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Overfør den markerede tekst til din note i Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Opret Zotero-element og note udfra markering">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Afkort automatisk journaltitler">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bogmærker bevares i både Microsoft Word og OpenOffice/LibreOffive, men kan blive ændret ved en fejl. Når denne mulighed er valgt, kan referencer ikke indsættes i fodnoter eller slutnoter.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Bogmærker">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Vis referencer som:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Slutnoter">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fodnoter">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Formater ved hjælp af:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "At gemme referencer i dit dokument gør filen en anelse større, men det gør det også muligt at dele dokumentet med andre ved hjælp af en Zotero-gruppe. At opdatere dokumenter oprettet med denne funktion kræver Zotero 3.0 eller højere.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Gem referencer i dokument">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Hurtigformater referencer">
 <!ENTITY zotero.integration.references.label "Referencer i referenceliste">
 <!ENTITY zotero.integration.showEditor.label "Vis editor">

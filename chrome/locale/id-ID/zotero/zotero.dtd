@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Prefiks:">
 <!ENTITY zotero.citation.suffix.label "Sufiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Sembunyikan Nama Penulis">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Tunjukkan Item-Item yang Belum Diisikan">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Tambahkan Pilihan ke Catatan Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Buat Item Zotero dan Catatan dari Pilihan">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmark terjaga dengan baik pada Microsoft Word dan OpenOffice, tetapi berpotensi mengalami perubahan akibat ketidaksengajaan. Demi alasan kompatibilitas, sitasi tidak dapat dimasukkan ke dalam catatan kaki atau catatan akhir bila opsi ini dipilih.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Bookmark">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Tampilkan Sitasi sebagai:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Catatan Akhir">
 <!ENTITY zotero.integration.prefs.footnotes.label "Catatan Kaki">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Format Menggunakan:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Menyimpan referensi pada dokumen Anda akan sedikit meningkatkan ukuran berkas, tetapi memungkinkan Anda untuk berbagi dokumen Anda dengan orang lain tanpa perlu menggunakan grup Zotero. Zotero versi 3.0 atau lebih baru diperlukan untuk memutakhirkan dokumen yang dibuat dengan pilihan ini.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Simpan referensi pada dokumen">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Format cepat kutipan">
 <!ENTITY zotero.integration.references.label "Referensi dalam Bibliografi">
 <!ENTITY zotero.integration.showEditor.label "Tunjukkan Editor">

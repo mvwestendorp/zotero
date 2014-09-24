@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "接頭辞:">
 <!ENTITY zotero.citation.suffix.label "接尾辞:">
 <!ENTITY zotero.citation.suppressAuthor.label "著者名の非表示">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "未整理のアイテムを表示">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "選択範囲を Zotero メモに追加">
 <!ENTITY zotero.contextMenu.addTextToNewNote "選択範囲から Zotero アイテムとメモを作成">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "雑誌名を自動的に簡略化する">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "ブックマークは Microsoft Word、LibreOffice 双方で保存されますが、誤って変更されてしまう場合があります。 &#xA; 互換性上の理由により、この機能を選んだ場合、出典表記を脚注や巻末注に挿入することができません。">
 <!ENTITY zotero.integration.prefs.bookmarks.label "ブックマーク">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "出典表記の出力形式:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "文末注">
 <!ENTITY zotero.integration.prefs.footnotes.label "脚注">
 <!ENTITY zotero.integration.prefs.formatUsing.label "スタイル:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "言語">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "ソート">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "音訳">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "文献情報をあなたの文書中に保存するとわずかにファイルサイズが大きくなりますが、あなたは Zotero グループを使わなくても他人とその文書を共有することが可能になります。このオプションで作成された文書を更新するには Zotero 3.0 以降が必要です。">
 <!ENTITY zotero.integration.prefs.storeReferences.label "文献情報を文書中に保存">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "出典表記の簡易フォーマット">
 <!ENTITY zotero.integration.references.label "参考文献目録に含まれる文献">
 <!ENTITY zotero.integration.showEditor.label "エディタを表示">

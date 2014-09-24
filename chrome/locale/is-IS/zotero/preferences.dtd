@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Hengja sjálfkrafa PDF skjöl og önnur gögn við færslur þegar þær eru vistaðar">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Sýna vefslóð til ritverka í heimildaskrá">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Þegar þetta val er ekki virkjað, þá mun Zotero einungis birta vefslóð í fræðigreinar, tímaritsgreinar og dagblaðagreinar ef ekkert síðubil er tiltekið.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Ná í viðbótar leturstíla...">
 <!ENTITY zotero.preferences.fontSize "Stærð leturs:">
 <!ENTITY zotero.preferences.fontSize.large "Stórt">

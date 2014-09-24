@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Eserleri kaydederken ilişkilendirilen PDF ve diğer dosyaları da otomatik olarak ekle">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Kaynakçalara makale URL'leri dahil edilsin">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Bu seçenek iptal edildiğinde, bilimsel dergi, magazin ve gazete makaleleri kaynak gösterilirken eğer bir sayfa aralığı belirtilmezse Zotero URL'leri dahil eder.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Ek stiller indir...">
 <!ENTITY zotero.preferences.fontSize "Yazıtipi boyutu:">
 <!ENTITY zotero.preferences.fontSize.large "Büyük">

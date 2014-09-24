@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Präfix:">
 <!ENTITY zotero.citation.suffix.label "Suffix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Autor unterdrücken">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Einträge ohne Sammlung anzeigen">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Auswahl zu Zotero-Notiz hinzufügen">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Zotero-Notiz aus Auswahl erstellen">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Zeitschriftentitel automatisch kürzen">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Lesezeichen werden zwischen Microsoft Word und OpenOffice.org erhalten, können sich aber versehentlich verändern. Aus &#xA;Kompatibilitätsgründen, werden Zitationen nicht in Fuß- oder Endnoten eingefügt, wenn diese Option ausgewählt ist.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Lesezeichen">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Literaturangaben anzeigen als:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Endnoten">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fußnoten">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Formatieren unter Verwendung von:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Das Speichern der Literaturangaben im Dokument erhöht die Dateigröße geringfügig, aber erlaubt es Ihnen, Ihr Dokument mit anderen zu teilen, ohne dass sie Zotero Groups verwenden müssen. Zotero 3.0 oder neuer ist notwendig, um Dokumente, die mit dieser Option erstellt wurden, zu aktualisieren.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Literaturangaben im Dokument speichen">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Schnellformatierung Zitation">
 <!ENTITY zotero.integration.references.label "Literaturangaben in Bibliographie">
 <!ENTITY zotero.integration.showEditor.label "Editor anzeigen">

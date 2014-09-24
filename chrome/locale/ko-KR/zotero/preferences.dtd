@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "항목 저장시 연관된 PDF 및 다른 파일을 자동으로 첨부">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "참조 내 신문 기사의 URL포함">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "이 선택사항을 사용안함으로 할 경우, 기사의 페이지 범위를 지정하고 있지 않는 인용된 잡지 및 신문 기사의 경우에만 Zotero에 URL을 삽입합니다.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "추가 스타일 받기...">
 <!ENTITY zotero.preferences.fontSize "글꼴 크기:">
 <!ENTITY zotero.preferences.fontSize.large "크게">

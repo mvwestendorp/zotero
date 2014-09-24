@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Allega automaticamente file PDF o di altro tipo durante il salvataggio degli elementi">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Inserisci gli URL degli articoli di giornale nelle citazioni">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Se l&apos;opzione è disattivata, Zotero includerà gli URL soltanto nelle citazioni degli articoli di giornale, rivista e quotidiano che non contengono un intervallo di pagine specificato.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Scarica ulteriori stili...">
 <!ENTITY zotero.preferences.fontSize "Dimensione testo:">
 <!ENTITY zotero.preferences.fontSize.large "grande">

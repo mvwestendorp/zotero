@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Tiền tố:">
 <!ENTITY zotero.citation.suffix.label "Hậu tố">
 <!ENTITY zotero.citation.suppressAuthor.label "Bỏ tên Tác giả">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Show Unfiled Items">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Thêm phần vừa chọn vào một ghi chép Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Tạo một biểu ghi và một ghi chép Zotero cho phần vừa chọn">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Các bookmarks được giữ nguyên giữa các tài liệu Microsoft Word và OpenOffice, nhưng đôi khi chúng có thể bị thay đổi một cách tình cờ.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Bookmarks">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Hiển thị các trích dẫn dưới dạng:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Chú thích cuối bài">
 <!ENTITY zotero.integration.prefs.footnotes.label "Chú thích cuối trang">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Định dạng đang sử dụng:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Store references in document">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "Các Tham khảo trong Thư tịch">
 <!ENTITY zotero.integration.showEditor.label "Show Editor">

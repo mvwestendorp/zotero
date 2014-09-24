@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Префікс">
 <!ENTITY zotero.citation.suffix.label "Суфікс">
 <!ENTITY zotero.citation.suppressAuthor.label "Прибрати автора">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Показати незаповненні записи">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Додати вибране до Примітки Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Створити Zotero запис та примітку з вибраного">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Автоматичне скорочення назв жуналів">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Закладки зберігаються при переході між Microsoft Word та LibreOffice, але можуть бути випадково змінені. З поглядів сумісності, коли ця операція виконана, цитати не можуть бути вставлені в виноски.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Закладки">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Показати цитати як:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Кінцеві виноски">
 <!ENTITY zotero.integration.prefs.footnotes.label "Виноски">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Форматувати використовуючи:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Зберігання посилань в вашому документі дещо збільшує розмір файлу, але дозволяє обмінюватись ними з іншими без використання групи Zotero. Для оновлення таких документів необхідно Zotero не нижче версії 3.0.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Збепегти посилання в документі">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Швидке форматування цитати">
 <!ENTITY zotero.integration.references.label "Посилання і бібліографії">
 <!ENTITY zotero.integration.showEditor.label "Покзати редактор">

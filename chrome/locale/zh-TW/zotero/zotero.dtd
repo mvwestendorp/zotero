@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "前綴：">
 <!ENTITY zotero.citation.suffix.label "後綴：">
 <!ENTITY zotero.citation.suppressAuthor.label "不顯示作者">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "顯示出未歸檔的項目">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "把選取區加入 Zotero 筆記">
 <!ENTITY zotero.contextMenu.addTextToNewNote "以選取區建立 Zotero 項目與筆記">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "書簽在Microsoft Word及OpenOffice之間應會被保留，但也可能意外的受到改變。為了相容性，在選用這個選項時文獻引用不能被插入到腳注或尾注中。">
 <!ENTITY zotero.integration.prefs.bookmarks.label "書籤">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "將引用文獻顯示成：">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "文末附註">
 <!ENTITY zotero.integration.prefs.footnotes.label "頁末註腳">
 <!ENTITY zotero.integration.prefs.formatUsing.label "用以格式化：">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "將參考文獻存在文件中會讓檔案大一點，但可以讓你在不使用Zotero群組下和別人分享文件。更新用這個選項建立的文件需要Zotero 3.0以上的版本。">
 <!ENTITY zotero.integration.prefs.storeReferences.label "將參考文獻存在文件中">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "參考書目中的參考文獻">
 <!ENTITY zotero.integration.showEditor.label "顯示編輯器">

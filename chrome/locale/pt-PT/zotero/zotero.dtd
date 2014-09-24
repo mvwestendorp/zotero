@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Prefixo:">
 <!ENTITY zotero.citation.suffix.label "Sufixo:">
 <!ENTITY zotero.citation.suppressAuthor.label "Suprimir Autor">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Mostrar Itens por Arquivar">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Adicionar Selecção a Nota Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Criar um Item e Nota Zotero a partir de uma Selecção">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Abreviar automaticamente títulos de publicações periódicas">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Os marcadores são preservados entre o Microsoft Word e o OpenOffice, mas podem ser acidentalmente modificados. Por razões de compatibilidade, as citações não podem ser inseridas em notas de pé-de-página ou em notas finais quando esta opção é escolhida.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Marcadores">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar Citações Como:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas finais">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas de pé-de-página">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Formatar Usando:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Armazenar referências no seu documento aumenta ligeiramente o tamanho do ficheiro, mas permitir-lhe-á partilhar o documento com outros sem usar um grupo Zotero. É necessário usar o Zotero 3.0 ou uma versão posterior para actualizar documentos criados com esta opção.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Armazenar referências no documento">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Formatação Rápida da Citação">
 <!ENTITY zotero.integration.references.label "Referências na Bibliografia">
 <!ENTITY zotero.integration.showEditor.label "Mostrar Editor">

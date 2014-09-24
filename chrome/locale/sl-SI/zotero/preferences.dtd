@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Samodejno pripni pridružene PDF-je in druge datoteke pri shranjevanju vnosov">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Vključi URL-je časopisnih člankov v sklice">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Če ta možnost ni vključena, Zotero vključi URL-je pri citiranju revij in časopisnih člankov le, če članek nima določenega obsega strani.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Dobi dodatne sloge ...">
 <!ENTITY zotero.preferences.fontSize "Velikost pisave:">
 <!ENTITY zotero.preferences.fontSize.large "velika">

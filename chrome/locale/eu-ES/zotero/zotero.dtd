@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Aurretik:">
 <!ENTITY zotero.citation.suffix.label "Atzetik:">
 <!ENTITY zotero.citation.suppressAuthor.label "Ezkutatu autorea">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Show Unfiled Items">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Gehitu hautapena Zotero Oharrari">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Sortu Zotero Itema eta Oharra hautapenetik">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Lastermarkak Microsoft Word zein OpenOffice-n erabil daitezke, baina baliteke nahigabe aldaketak jasatea. Konpatibilitatea dela eta, Lastermarkak aukeratuz gero erreferentziak ezin dira oin- eta amaiera-oharretan sartu.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Lastermarkak">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Erreferentzien diseinua:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Amaiera-oharrak">
 <!ENTITY zotero.integration.prefs.footnotes.label "Oin-oharrak">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Erabilitako formatua:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Store references in document">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "Erreferentziak bibliografian">
 <!ENTITY zotero.integration.showEditor.label "Show Editor">

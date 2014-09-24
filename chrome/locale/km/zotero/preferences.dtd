@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "ភ្ជាប់មកជាមួយដោយស្វ័យប្រវត្តិនូវឯកសារភីឌីអែហ្វ និង ឯកសារដទៃទៀត ខណៈពេលទាញរក្សាឯកសារទុក">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "បញ្ចូលគេហទំព័រនៃអត្ថបទស្រាវជ្រាវក្នុងឯកសារយោង">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "នៅពេលដែលជម្រើសនេះអស់លទ្ធភាព ហ្ស៊ូតេរ៉ូបញ្ចូលគេហទំព័រ នៅពេលយោងអត្ថបទទនានុប្បវត្តិ ទស្សនាវដ្តី និង កាសែត លើកលែង​តែអត្ថបទដែលពុំមានទំព័រជាក់លាក់។">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "បន្ថែមរចនាបថថ្មី...">
 <!ENTITY zotero.preferences.fontSize "ទំហំអក្សរៈ">
 <!ENTITY zotero.preferences.fontSize.large "ធំ">

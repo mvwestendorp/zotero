@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Lagra tilknytte PDF-filer og andre filer ved lagring av element">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Inkluderer URL til trykte artiklar i referansane">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Når dette alternativet ikkje er valt, vil Zotero berre oppgje URL til tidsskriftet, magasinet eller avisa, dersom artikkelen er registrert utan sidetal.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Hent fleire stilar …">
 <!ENTITY zotero.preferences.fontSize "Skriftstorleik">
 <!ENTITY zotero.preferences.fontSize.large "Stor">

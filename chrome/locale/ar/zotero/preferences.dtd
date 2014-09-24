@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "الارفاق التلقائي لملفات PDF والملفات الاخرى عند اضافة عنصر جديد من صفحة ويب">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "تضمين روابط الويب للمقالات البحثية في المراجع">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "عند تعطيل هذه الخاصية، يقوم زوتيرو بتضمين روابط الويب فقط عند توثيق مقالات (الدوريات أو المجلات أو الجرائد) التي لم يعين لها مدى للصفحات.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "احصل على انماط اضافية...">
 <!ENTITY zotero.preferences.fontSize "حجم الخط:">
 <!ENTITY zotero.preferences.fontSize.large "كبير">

@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "เติมหน้า:">
 <!ENTITY zotero.citation.suffix.label "เติมท้าย:">
 <!ENTITY zotero.citation.suppressAuthor.label "ละผู้แต่ง">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "แสดงรายการที่ไม่ได้จัดกลุ่ม">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "เพิ่มสิ่งที่เลือกไว้เข้าในหมายเหตุของ Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "สร้างรายการและหมายเหตุใหม่จากสิ่งที่เลือก">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "คั่นหน้าถูกคงไว้ผ่านไมโครซอฟท์เวิร์ดและโอเพ่นออฟฟิศ แต่อาจมีการเปลี่ยนแปลงได้โดยบังเอิญ สำหรับ &#xA;เหตุผลการเข้ากันได้ การอ้างอิงไม่สามารถแทรกในเชิงอรรถหรืออ้างอิงท้ายเรื่องเมื่อตัวเลือกนี้ถูกเลือก">
 <!ENTITY zotero.integration.prefs.bookmarks.label "คั่นหน้า">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "แสดงการอ้างอิงเป็น">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "อ้างอิงท้ายเรื่อง">
 <!ENTITY zotero.integration.prefs.footnotes.label "เชิงอรรถ">
 <!ENTITY zotero.integration.prefs.formatUsing.label "รูปแบบที่ใช้:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "เก็บเอกสารอ้างอิงในแฟ้มเอกสารของคุณจะทำให้ขนาดแฟ้มใหญ่ขึ้นเล็กน้อย แต่ช่วยให้คุณใช้แฟ้มเอกสารของคุณร่วมกับผู้อื่นได้โดยไม่ต้องใช้กลุ่มของ Zotero ต้องใช้ Zotero รุ่น 3.0 ขึ้นไปเพื่อการปรับแฟ้มเอกสารที่สร้างด้วยตัวเลือกนี้">
 <!ENTITY zotero.integration.prefs.storeReferences.label "จัดเก็บเอกสารอ้างอิงในแฟ้มเอกสาร">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "เอกสารอ้างอิงในบรรณานุกรม">
 <!ENTITY zotero.integration.showEditor.label "แสดงโปรแกรมจัดการข้อมูล">

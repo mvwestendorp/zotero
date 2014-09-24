@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "儲存項目時自動附加相關的 PDF 檔與其他檔案">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "包含參考文獻中論文文章的網址">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "停用此選項時，Zotero 在引用期刊、雜誌、報紙文章的時後，只會在沒有指定文章的頁面範圍時才包含網址。">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "獲取額外的樣式…">
 <!ENTITY zotero.preferences.fontSize "字型大小：">
 <!ENTITY zotero.preferences.fontSize.large "大">

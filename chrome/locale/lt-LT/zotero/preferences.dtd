@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Įrašant įrašus, automatiškai prisegti susijusius PDF dokumentus ir kitus failus">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Į nuorodas įtraukti popierinių straipsnių URL adresus">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Jei parinktis nepasirinkta, Zotero URL adresus įtrauks tik jei cituojamas žurnalo, laikraščio ar periodinio leidinio straipsnyje nenurodyti puslapiai.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Parsisiųsti papildomų stilių...">
 <!ENTITY zotero.preferences.fontSize "Šrifto dydis:">
 <!ENTITY zotero.preferences.fontSize.large "Didelis">

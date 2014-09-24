@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Lampirkan PDF dan berkas terkait lainnya secara automatis saat menyimpan item">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Masukkan URL artikel tulisan di dalam referensi">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Ketika opsi ini dimatikan, Zotero hanya akan memasukkan URL pada saat mengutip artikel  jurnal, majalah, dan koran yang tidak memiliki rentang halaman spesifik.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Dapatkan gaya tambahan">
 <!ENTITY zotero.preferences.fontSize "Ukuran font:">
 <!ENTITY zotero.preferences.fontSize.large "Besar">

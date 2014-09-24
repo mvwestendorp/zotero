@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Prefiks:">
 <!ENTITY zotero.citation.suffix.label "Sufiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Peida autor">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Teemata kirjed">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Lisada valitud tekst Zotero märkusele">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Luua valikust Zotero kirje ja märkus">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Järjehoidjad toimivad nii MS Wordi kui ka OpenOffice puhul, kuid võib juhtuda, et neid kogemata muudetakse. Ühilduvuse huvides ei ole võimalik lisada viiteid allmärkustele ja lõppmärkustele, kui see võimalus on aktiveeritud.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Järjehoidjaid">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Näidata viiteid:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Lõppmärkustena">
 <!ENTITY zotero.integration.prefs.footnotes.label "Joonealustena">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Vorminda kasutades:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Viidete salvestamine dokumendi sisse suurendab veidi failisuurust, kuid võimaldab teil seda dokumenti teiste Zotero kasutajatega jagada ilma Zotero gruppi kasutamata. Et sellist dokumenti redigeerida on vajalik Zotero 3.0 või hilisem verisoon.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Säilita viited dokumendiga koos">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "Referentsid bibliograafias">
 <!ENTITY zotero.integration.showEditor.label "Redaktori näitamine">

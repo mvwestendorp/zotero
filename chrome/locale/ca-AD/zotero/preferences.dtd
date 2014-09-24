@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Adjunta automàticament documents PDF associats i altres fitxers quan es desin els elements">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Inclou les URL dels articles a les referències">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Quan aquesta opció està deshabilitada, el Zotero inclou les URL quan se citen articles de premsa, revistes i revistes acadèmiques només si l'article no té un ran dge pàgines assignat.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Aconsegueix estils addicionals...">
 <!ENTITY zotero.preferences.fontSize "Mida de lletra:">
 <!ENTITY zotero.preferences.fontSize.large "Grossa">

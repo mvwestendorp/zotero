@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "แนบแฟ้ม PDF และแฟ้มอื่นโดยอัตโนมัติเมื่อบันทึกรายการ">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "รวม URLs ของบทความในเอกสารอ้างอิง">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "เมื่อไม่ใช้งานตัวเลือกนี้ Zotero จะรวม URLs เมื่ออ้างถึงวารสาร นิตยสารและหนังสือพิมพ์เฉพาะกรณีที่บทความนั้นไม่มีเลขหน้าเท่านั้น">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "รับรูปแบบเพิ่มเติม...">
 <!ENTITY zotero.preferences.fontSize "ขนาดตัวอักษร:">
 <!ENTITY zotero.preferences.fontSize.large "ใหญ่">

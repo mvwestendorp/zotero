@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Forskeyti:">
 <!ENTITY zotero.citation.suffix.label "Viðskeyti:">
 <!ENTITY zotero.citation.suppressAuthor.label "Fela höfund">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Show Unfiled Items">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Add Selection to Zotero Note">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Create Zotero Item and Note from Selection">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks are preserved across Microsoft Word and OpenOffice, but may be accidentally modified.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Bókamerki">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Birta tilvísnair sem:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Aftanmálsgreinar">
 <!ENTITY zotero.integration.prefs.footnotes.label "Neðanmálsgreinar">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Forsnið samkvæmt:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Vistun tilvísana í skjali veldur lítilsháttar stækkun skjalanna, en leyfir þér að deila þínum skjölum með öðrum án þess að notar Zotero tól. Til að uppfæra skjöl sem voru búin til með þessari tilvísunaraðferð þarf að nota Zotero útgáfu 3.0 eða síðari útgáfur.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Vista tilvísanir í skjali">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "Tilvitnanir í heimildaskrá">
 <!ENTITY zotero.integration.showEditor.label "Sýna ritil">

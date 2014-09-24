@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Predpona:">
 <!ENTITY zotero.citation.suffix.label "Prípona:">
 <!ENTITY zotero.citation.suppressAuthor.label "Vynechaj autora">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Zobraziť nezaradené exempláre">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Pridať výber do Zotera ako poznámku">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Pridať výber do Zotera ako nový exemplár a poznámku">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automaticky skracovať názvy časopisov">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Záložky sa môžu uchovať aj vo Worde a OpenOffice, ale môžu sa náhodne pozmeniť. Z dôvodu kompatibility sa citácie nemôžu vkladať do poznámok pod čiarou alebo do koncových poznámok pri výbere tejto možnosti.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "záložiek">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Zobraziť citácie ako:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "poznámky na konci textu">
 <!ENTITY zotero.integration.prefs.footnotes.label "poznámky pod čiarou">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Formátovať pomocou:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Ukladanie odkazov do vášho dokumentu nepatrne zväčší veľkosť súboru, ale vám umožní zdieľať váš dokument s ostatnými bez použitia skupín Zotera. Pre aktualizáciu dokumentov vytvorených s touto možnosťou sa vyžaduje Zotero 3.0 alebo novšie. ">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Ukladať odkazy do dokumentu">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Rýchle formátovanie citácie">
 <!ENTITY zotero.integration.references.label "Referencie v bibliografii">
 <!ENTITY zotero.integration.showEditor.label "Zobraziť editor">

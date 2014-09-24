@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "アイテムを作成するときに自動的に関連 PDF や他のファイルを添付する">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "論文の URL アドレスを参考文献目録に含む">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "この機能が無効化されていると、Zotero はページ範囲が指定されていない文献に限り、学術雑誌、雑誌論文、新聞記事を引用する際に、URL アドレスを含みます。">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "他の引用スタイルを入手する...">
 <!ENTITY zotero.preferences.fontSize "文字サイズ:">
 <!ENTITY zotero.preferences.fontSize.large "大">

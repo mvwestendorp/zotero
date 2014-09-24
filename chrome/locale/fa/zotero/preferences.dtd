@@ -43,6 +43,8 @@
 <!ENTITY zotero.preferences.downloadAssociatedFiles "پیوست خودکار پی‌دی‌اف‌ها و سایر پرونده‌های وابسته در زمان ذخیره آیتم‌ها">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "گنجاندن URL مقالات در مرجع‌دهی">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "در صورت غیرفعال بودن این گزینه، زوترو در یادکرد مقالات روزنامه و مجله، فقط به شرطی URL را می‌گنجاند که شماره صفحات مقاله، مشخص نشده باشد.">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
+<!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "دریافت شیوه‌های بیشتر...">
 <!ENTITY zotero.preferences.fontSize "اندازه قلم:">
 <!ENTITY zotero.preferences.fontSize.large "بزرگ">

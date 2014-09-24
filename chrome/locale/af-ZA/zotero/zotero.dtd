@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Voorvoegsel:">
 <!ENTITY zotero.citation.suffix.label "Agtervoegsel:">
 <!ENTITY zotero.citation.suppressAuthor.label "Onderdruk outeur">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Wys ongeliaseerde items">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Voeg seleksie by Zotero-nota">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Skep Zotero-item en -nota van seleksie">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automatically abbreviate journal titles">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks are preserved across Microsoft Word and OpenOffice, but may be accidentally modified.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Boekmerke">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Wys verwysings as:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Eindnotas">
 <!ENTITY zotero.integration.prefs.footnotes.label "Voetnotas">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Formaat gebruik:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Om die verwysings in die dokument te stoor vergroot die lêergrootte effens, maar laat u toe om die dokument met ander te deel sonder om 'n Zotero-groep te gebruik. Zotero 3.0 of later word benodig om dokumente wat met hierdie keuse geskep is, op te gradeer.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Stoor verwysings in dokument">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Quick Format Citation">
 <!ENTITY zotero.integration.references.label "Verwysings in bronnelys">
 <!ENTITY zotero.integration.showEditor.label "Wys redigeerder">

@@ -26,6 +26,7 @@
 <!ENTITY zotero.citation.prefix.label "Prefix:">
 <!ENTITY zotero.citation.suffix.label "Sufix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Suprimeix l'autor">
+<!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Mostra els elements no arxivats">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Afegeix la selecció a una nota del Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crea un element del Zotero i una nota amb la selecció">
@@ -64,10 +65,13 @@
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Abrevia automàticament els títols de les publicacions">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Les adreces d&apos;interès es conserven entre el Microsoft Word i l'OpenOffice però es poden veure modificades accidentalment.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Adreces d&apos;interès">
+<!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostra les cites com a:">
+<!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notes al final">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notes al peu">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Format utilitzat:">
+<!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
 <!ENTITY zotero.integration.prefs.lang.languages "Languages">
@@ -75,6 +79,7 @@
 <!ENTITY zotero.integration.prefs.lang.persons "Persons:">
 <!ENTITY zotero.integration.prefs.lang.places "Places:">
 <!ENTITY zotero.integration.prefs.lang.primary "primary">
+<!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
 <!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
@@ -84,6 +89,8 @@
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "L'emmagatzematge de les referències en el document augmenta lleugerament la mida del fitxer, però us permet compartir el document amb altres persones sense necessitat de fer servir un grup del Zotero. Per actualitzar els documents creats amb aquesta opció cal tenir la versió Zotero 3.0 o versions posteriors.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Emmagatzema les referències al document">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
+<!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Cita de format ràpid">
 <!ENTITY zotero.integration.references.label "Referències a la bibliografia">
 <!ENTITY zotero.integration.showEditor.label "Mostra l'editor">
