@@ -1107,7 +1107,8 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 		
 		if (participants.length > 0) {
 			let names = [];
-			for (let i=0; i<4; i++) {
+			let max = Math.min(4, participants.length);
+			for (let i=0; i<max; i++) {
 				names.push(participants[i].multi.get("lastName", language));
 			}
 			switch (names.length) {
