@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.541",
+    PROCESSOR_VERSION: "1.0.542",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -3212,19 +3212,30 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
         return false;
     }
     function matchLastChar(blob, chr) {
-        if (blob.strings.suffix.slice(0, 1) === chr) {
-            return true;
-        } else if ("string" === typeof blob.blobs) {
+        if (!PUNCT[chr]) {
+            return false;
+        }
+        if ("string" === typeof blob.blobs) {
             if (blob.blobs.slice(-1) === chr) {
                 return true;
             } else {
                 return false;
             }
+        } else {
+            var child = blob.blobs[blob.blobs.length-1];
+            if (child) {
+                var childChar = child.strings.suffix.slice(-1);
+                if (!childChar) {
+                    return matchLastChar(child,chr);
+                } else if (child.strings.suffix.slice(-1) == chr) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         }
-        for (var i=0,ilen=blob.blobs.length;i<ilen;i++) {
-            if (matchLastChar(blob.blobs[i])) return true;
-        }
-        return false;
     };
     function mergeChars (First, first, Second, second, merge_right) {
         FirstStrings = "blobs" === first ? First : First.strings;
@@ -3285,7 +3296,13 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
         }
     };
     function upward (parent) {
-        if ("object" !== typeof parent || "object" !== typeof parent.blobs || !parent.blobs.length) {
+        if (parent.blobs && "string" == typeof parent.blobs) {
+            if (PUNCT[parent.strings.suffix.slice(0,1)]
+                && parent.strings.suffix.slice(0,1) === parent.blobs.slice(-1)) {
+                parent.strings.suffix = parent.strings.suffix.slice(1);
+            }
+            return;
+        } else if ("object" !== typeof parent || "object" !== typeof parent.blobs || !parent.blobs.length) {
             return;
         }
         var parentDecorations = blobHasDecorations(parent,true);
@@ -3346,8 +3363,14 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             }
         }
     };
-    function downward (parent) {
-        if ("object" !== typeof parent || "object" !== typeof parent.blobs || !parent.blobs.length) {
+    function downward (parent, top) {
+        if (parent.blobs && "string" == typeof parent.blobs) {
+            if (PUNCT[parent.strings.suffix.slice(0,1)]
+                && parent.strings.suffix.slice(0,1) === parent.blobs.slice(-1)) {
+                parent.strings.suffix = parent.strings.suffix.slice(1);
+            }
+            return;
+        } else if ("object" !== typeof parent || "object" !== typeof parent.blobs || !parent.blobs.length) {
             return;
         }
         var parentStrings = parent.strings;
@@ -3382,24 +3405,27 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
                         if (PUNCT[parentChar]) {
                             if (!blobEndsInNumber(child)) {
                                 mergeChars(child, 'suffix', parent, 'suffix');
+                                if (parentStrings.suffix.slice(0,1) === ".") {
+                                    childStrings.suffix += parentStrings.suffix.slice(0,1);
+                                    parentStrings.suffix = parentStrings.suffix.slice(1);
+                                }
                             }
                         }
                         if (childStrings.suffix.slice(-1) === " " && parentStrings.suffix.slice(0,1)) {
                             parentStrings.suffix = parentStrings.suffix.slice(1);
                         }
-                    } else {
-                        if (matchLastChar(child,parent.strings.suffix.slice(0,1))) {
-                            parent.strings.suffix = parent.strings.suffix.slice(1);
-                        }   
                     }
                     if (PUNCT_OR_SPACE[childStrings.suffix.slice(0,1)]) {
                         if ("string" === typeof child.blobs && child.blobs.slice(-1) === childStrings.suffix.slice(0,1)) {
                             childStrings.suffix = childStrings.suffix.slice(1);
                         }
                         if (childStrings.suffix.slice(-1) === parentStrings.suffix.slice(0, 1)) {
-                            childStrings.suffix = childStrings.suffix.slice(0, -1);
+                            parentStrings.suffix = parentStrings.suffix.slice(0, -1);
                         }
                     }
+                }
+                if (matchLastChar(parent,parent.strings.suffix.slice(0,1))) {
+                    parent.strings.suffix = parent.strings.suffix.slice(1);
                 }
             } else if (parentStrings.delimiter) {
                 if (PUNCT_OR_SPACE[parentStrings.delimiter.slice(0,1)]
@@ -4943,7 +4969,7 @@ CSL.getBibliographyEntries = function (bibsection) {
         for (var j=0,jlen=this.output.queue.length;j<jlen;j+=1) {
             this.output.adjust.upward(this.output.queue[j]);
             this.output.adjust.leftward(this.output.queue[j]);
-            this.output.adjust.downward(this.output.queue[j]);
+            this.output.adjust.downward(this.output.queue[j],true);
             this.output.adjust.fix(this.output.queue[j]);
         }
         res = this.output.string(this, this.output.queue)[0];
