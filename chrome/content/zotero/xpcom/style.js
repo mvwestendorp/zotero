@@ -556,7 +556,6 @@ Zotero.Style.prototype.getCiteProc = function(automaticJournalAbbreviations, use
 	}
 
 	try {
-<<<<<<< HEAD
 		//var sys = new Zotero.Cite.System(automaticJournalAbbreviations);
 		var sys = new Zotero.Cite.System(false);
 		if (useVariableWrapper) {
