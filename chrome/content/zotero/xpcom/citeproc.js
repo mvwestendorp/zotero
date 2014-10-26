@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.542",
+    PROCESSOR_VERSION: "1.0.544",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -12462,7 +12462,8 @@ CSL.Util.PageRangeMangler.getFunction = function (state, rangeType) {
     listify = function (str) {
         var m, lst, ret;
         var hyphens = "\\s+\\-\\s+";
-        var delimRex = new RegExp("([^\\\\])[" + range_delimiter + "\\u2013]", "g");
+        var this_range_delimiter = range_delimiter === "-" ? "" : range_delimiter;
+        var delimRex = new RegExp("([^\\\\])[-" + this_range_delimiter + "\\u2013]", "g");
         str = str.replace(delimRex, "$1 - ").replace(/\s+-\s+/g, " - ");
         var rexm = new RegExp("([a-zA-Z]*[0-9]+" + hyphens + "[a-zA-Z]*[0-9]+)", "g");
         var rexlst = new RegExp("[a-zA-Z]*[0-9]+" + hyphens + "[a-zA-Z]*[0-9]+");
@@ -12696,7 +12697,7 @@ CSL.Util.FlipFlopper.prototype.init = function (str, blob) {
 };
 CSL.Util.FlipFlopper.prototype._normalizeString = function (str) {
     var i, ilen;
-    str = str.replace(/\s+'\s+/," ’ ","g");
+    str = str.replace(/\s+'\s+/g," ’ ");
     if (str.indexOf(this.quotechars[0]) > -1) {
         for (i = 0, ilen = 2; i < ilen; i += 1) {
             if (this.quotechars[i + 2]) {
@@ -13326,10 +13327,10 @@ CSL.Output.Formats.prototype.rtf = {
         return str+"\\tab ";
     },
     "@display/right-inline": function (state, str) {
-        return str+"\n";
+        return str+"\\line\r\n";
     },
     "@display/indent": function (state, str) {
-        return "\n\\tab "+str;
+        return "\n\\tab "+str+"\\line\r\n";
     },
     "@showid/true": function (state, str, cslid) {
         if (!state.tmp.just_looking && ! state.tmp.suppress_decorations) {
