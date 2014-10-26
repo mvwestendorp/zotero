@@ -425,6 +425,9 @@ Zotero.Translate.SandboxManager = function(sandboxLocation) {
 	};
 	this.sandbox.XMLSerializer.__exposedProps__ = {"prototype":"r"};
 	this.sandbox.XMLSerializer.prototype = {"__exposedProps__":{"serializeToString":"r"}};
+
+	var expr = "(function(x) { return function() { this.args = arguments; return x.apply(this); }.bind({}); })";
+	this._makeContentForwarder = Components.utils.evalInSandbox(expr, this.sandbox);
 }
 
 Zotero.Translate.SandboxManager.prototype = {
@@ -447,9 +450,7 @@ Zotero.Translate.SandboxManager.prototype = {
 	"importObject":function(object, passAsFirstArgument, attachTo) {
 		if(!attachTo) attachTo = this.sandbox.Zotero;
 		if(attachTo.wrappedJSObject) attachTo = attachTo.wrappedJSObject;
-		var newExposedProps = false,
-			sandbox = this.sandbox,
-			me = this;
+		var newExposedProps = false, sandbox = this.sandbox, me = this;
 		if(!object.__exposedProps__) newExposedProps = {};
 		for(var key in (newExposedProps ? object : object.__exposedProps__)) {
 			let localKey = key;
@@ -460,13 +461,27 @@ Zotero.Translate.SandboxManager.prototype = {
 			var isObject = typeof object[localKey] === "object";
 			if(isFunction || isObject) {
 				if(isFunction) {
-					attachTo[localKey] = function() {
-						var args = Array.prototype.slice.apply(arguments);
-						if(passAsFirstArgument) args.unshift(passAsFirstArgument);
-						return me._copyObject(object[localKey].apply(object, args));
-					};
+					if (Zotero.platformMajorVersion >= 33) {
+						attachTo[localKey] = this._makeContentForwarder(function() {
+							var args = Array.prototype.slice.apply(this.args.wrappedJSObject);
+							for(var i = 0; i<args.length; i++) {
+								// Make sure we keep XPCNativeWrappers
+								if(args[i] instanceof Components.interfaces.nsISupports) {
+									args[i] = new XPCNativeWrapper(args[i]);
+								}
+							}
+							if(passAsFirstArgument) args.unshift(passAsFirstArgument);
+							return me._copyObject(object[localKey].apply(object, args));
+						});
+					} else {
+						attachTo[localKey] = function() {
+							var args = Array.prototype.slice.apply(arguments);
+							if(passAsFirstArgument) args.unshift(passAsFirstArgument);
+							return me._copyObject(object[localKey].apply(object, args));
+						};
+					}
 				} else {
-					attachTo[localKey] = {};
+					attachTo[localKey] = new sandbox.Object();
 				}
 				
 				// attach members
@@ -477,7 +492,7 @@ Zotero.Translate.SandboxManager.prototype = {
 				attachTo[localKey] = object[localKey];
 			}
 		}
-		
+
 		if(newExposedProps) {
 			attachTo.__exposedProps__ = newExposedProps;
 		} else {
@@ -500,7 +515,7 @@ Zotero.Translate.SandboxManager.prototype = {
 	 * @return {Object}
 	 */
 	"_copyObject":function(obj, wm) {
-		if(!this._canCopy(obj)) return obj
+		if(!this._canCopy(obj)) return obj;
 		if(!wm) wm = new WeakMap();
 		var obj2 = (obj.constructor.name === "Array" ? this.sandbox.Array() : this.sandbox.Object());
 		var wobj2 = obj2.wrappedJSObject ? obj2.wrappedJSObject : obj2;

@@ -385,9 +385,17 @@ Zotero.Translate.Sandbox = {
 					if(sandbox) return sandbox;
 				}
 			};
-			
-			// TODO security is not super-tight here, as someone could pass something into arg
-			// that gets evaluated in the wrong scope in Fx < 4. We should wrap this.
+
+			if(Zotero.isFx && Zotero.platformMajorVersion >= 33) {
+				for(var i in safeTranslator) {
+					if (typeof(safeTranslator[i]) === "function") {
+						let func = safeTranslator[i];
+						safeTranslator[i] = translate._sandboxManager._makeContentForwarder(function() {
+							func.apply(safeTranslator, this.args.wrappedJSObject);
+						});
+					}
+				}
+			}
 			
 			return safeTranslator;
 		},
@@ -434,7 +442,7 @@ Zotero.Translate.Sandbox = {
 		 */
 		"selectItems":function(translate, items, callback) {
 			function transferObject(obj) {
-				return Zotero.isFx ? translate._sandboxManager.sandbox.JSON.parse(JSON.stringify(obj)) : obj;
+				return Zotero.isFx ? translate._sandboxManager._copyObject(obj) : obj;
 			}
 			
 			if(Zotero.Utilities.isEmpty(items)) {
@@ -1104,12 +1112,22 @@ Zotero.Translate.Base.prototype = {
 	 * @param 	{Boolean}				[saveAttachments=true]	Exclude attachments (e.g., snapshots) on import
 	 */
 	"translate":function(libraryID, saveAttachments) {		// initialize properties specific to each translation
-		this._currentState = "translate";
-		
 		if(!this.translator || !this.translator.length) {
-			this.complete(false, new Error("No translator specified"));
+			var args = arguments;
+			Zotero.debug("Translate: translate called without specifying a translator. Running detection first.");
+			this.setHandler('translators', function(me, translators) {
+				if(!translators.length) {
+					me.complete(false, "Could not find an appropriate translator");
+				} else {
+					me.setTranslator(translators);
+					Zotero.Translate.Base.prototype.translate.apply(me, args);
+				}
+			});
+			this.getTranslators();
 			return;
 		}
+		
+		this._currentState = "translate";
 		
 		this._libraryID = libraryID;
 		this._saveAttachments = saveAttachments === undefined || saveAttachments;
@@ -2150,6 +2168,19 @@ Zotero.Translate.Export.prototype._prepareTranslation = function() {
 	
 	this._sandboxManager.importObject(this._io);
 }
+
+/**
+ * Overload Zotero.Translate.Base#translate to make sure that
+ *   Zotero.Translate.Export#translate is not called without setting a
+ *   translator first. Doesn't make sense to run detection for export.
+ */
+Zotero.Translate.Export.prototype.translate = function() {
+	if(!this.translator || !this.translator.length) {
+		this.complete(false, new Error("Export translation initiated without setting a translator"));
+	} else {
+		Zotero.Translate.Base.prototype.translate.apply(this, arguments);
+	}
+};
 
 /**
  * Return the progress of the import operation, or null if progress cannot be determined

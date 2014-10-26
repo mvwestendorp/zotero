@@ -42,7 +42,7 @@ const ZOTERO_CONFIG = {
 	BOOKMARKLET_ORIGIN : 'https://www.zotero.org',
 	HTTP_BOOKMARKLET_ORIGIN : 'http://www.zotero.org',
 	BOOKMARKLET_URL: 'https://www.zotero.org/bookmarklet/',
-	VERSION: "4.0.23.SOURCE"
+	VERSION: "4.0.23.1.SOURCE"
 };
 
 // Commonly used imports accessible anywhere
@@ -2737,6 +2737,9 @@ Zotero.DragDrop = {
 				return false;
 			}
 			var win = sourceNode.ownerDocument.defaultView;
+			if (win.document.documentElement.getAttribute('windowtype') == 'zotero:search') {
+				return win.ZoteroAdvancedSearch.itemsView.itemGroup;
+			}
 			return win.ZoteroPane.collectionsView.itemGroup;
 		}
 		else {

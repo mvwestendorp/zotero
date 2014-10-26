@@ -464,6 +464,8 @@ Zotero.Style = function(arg) {
 		for each(category in Zotero.Utilities.xpath(doc,
 			'/csl:style/csl:info[1]/csl:category', Zotero.Styles.ns))
 		if(category.hasAttribute("term"))];
+	this.locale = Zotero.Utilities.xpathText(doc, '/csl:style/@default-locale',
+		Zotero.Styles.ns) || null;
 	this._class = doc.documentElement.getAttribute("class");
 	this._usesAbbreviation = !!Zotero.Utilities.xpath(doc,
 		'//csl:text[(@variable="container-title" and @form="short") or (@variable="container-title-short")][1]',
@@ -494,6 +496,7 @@ Zotero.Style.prototype.getCiteProc = function(automaticJournalAbbreviations, use
 	}
 	
 	// determine version of parent style
+	var overrideLocale = false; // to force dependent style locale
 	if(this.source) {
 		var parentStyle = Zotero.Styles.get(this.source);
 		if(!parentStyle) {
@@ -501,6 +504,14 @@ Zotero.Style.prototype.getCiteProc = function(automaticJournalAbbreviations, use
 				Zotero.Styles.ios.newFileURI(this.file).spec, null));
 		}
 		var version = parentStyle._version;
+		
+		// citeproc-js will not know anything about the dependent style, including
+		// the default-locale, so we need to force locale if a dependent style
+		// contains one
+		if(this.locale) {
+			overrideLocale = true;
+			locale = this.locale;
+		}
 	} else {
 		var version = this._version;
 	}
@@ -545,6 +556,7 @@ Zotero.Style.prototype.getCiteProc = function(automaticJournalAbbreviations, use
 	}
 
 	try {
+<<<<<<< HEAD
 		//var sys = new Zotero.Cite.System(automaticJournalAbbreviations);
 		var sys = new Zotero.Cite.System(false);
 		if (useVariableWrapper) {
@@ -552,7 +564,7 @@ Zotero.Style.prototype.getCiteProc = function(automaticJournalAbbreviations, use
 		} else {
 			sys.setVariableWrapper(false);
 		}
-		var citeproc = new Zotero.CiteProc.CSL.Engine(sys, xml, locale);
+		var citeproc = new Zotero.CiteProc.CSL.Engine(sys, xml, locale, overrideLocale);
 		Zotero.setCitationLanguages({}, citeproc);
 		citeproc.opt.trigraph = trigraph;
         // Was for: invoking special features of MLZ.
