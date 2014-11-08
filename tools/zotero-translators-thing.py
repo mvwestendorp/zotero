@@ -5,8 +5,8 @@ import MySQLdb,sys,os,re
 import json as simplejson
 from datetime import datetime
 from zipfile import ZipFile
-import elementtree.ElementTree as ET
-from elementtree.ElementTree import dump
+import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import dump
 import cgi
 import urllib
 
@@ -43,14 +43,14 @@ fields = ["translatorID", "label", "target", "minVersion", "maxVersion", "priori
 
 def processContent(content, forcedate=None):
     m = re.match("^({.*?})[\n\r]+([^}].*)", content, re.M|re.S)
-    open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("1: %s" % content)
+    open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("1: %s" % content)
     if m:
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("2")
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("2")
 
         metadata = simplejson.loads(m.group(1), encoding="utf-8")
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("3")
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("3")
         metadata["translator"] = m.group(2).strip("\n").decode("utf-8")
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("4: %s" % metadata["translator"].encode("utf-8"))
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("4: %s" % metadata["translator"].encode("utf-8"))
         params = []
         for field in fields:
 
@@ -73,7 +73,7 @@ def processContent(content, forcedate=None):
         #currtime = ET.SubElement(xml, "currentTime")
         #currtime.text = str(dbdate)
 
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("5")
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("5")
          
         # print metadata["label"].encode("utf8")
 
@@ -112,7 +112,7 @@ def processContent(content, forcedate=None):
         code = ET.SubElement(translator, "code")
         code.text = metadata["translator"]
 
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("6")
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("6")
 
         # Add the xml string to the array, and set the date as a number
         params.append(ET.tostring(translator, encoding="utf-8"))
@@ -123,7 +123,7 @@ def processContent(content, forcedate=None):
             metadata["lastUpdated"] = dt.strftime("%s")
             params[9] = int(dt.strftime("%s"))
 
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("7: %s\n" % len(params))
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("7: %s\n" % len(params))
 
         cur.execute("SELECT COUNT(*) FROM translators WHERE translatorID=%s", metadata["translatorID"])
         haveit = cur.fetchone()[0]
@@ -145,22 +145,26 @@ def processContent(content, forcedate=None):
 
         json = simplejson.dumps(metadata, encoding="utf-8", ensure_ascii=False, indent=4)
 
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("8: %s\n" % json.encode("utf-8"))
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("8: %s\n" % json.encode("utf-8"))
 
         return u"%s\n\n%s" % (json, mytranslator)
 
 def processFiles():
     # If running as CGI, grab added and modified files and update in filesystem
     if len(sys.argv) == 1:
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("HELLO\n")
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("HELLO\n")
         payload = simplejson.loads(fs.getvalue('payload'), encoding="utf-8")
-        open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("PAYLOAD: %s\n" % payload)
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("PAYLOAD: %s\n" % payload)
         paths = {}
-        for commit in payload['commits']:
-            for path in commit['added']:
-                paths[path] = True
-            for path in commit['modified']:
-                paths[path] = True
+	try:
+            for commit in payload['commits']:
+                for path in commit['added']:
+                    paths[path] = True
+                for path in commit['modified']:
+                    paths[path] = True
+        except:
+            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("paths=%s" % (paths,))
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("paths=%s" % (paths,))
         for path in paths:
             path = path.strip()
             if not path.endswith('.js') or not path.find('/') == -1:
@@ -170,35 +174,38 @@ def processFiles():
             ifh = fetcher.open("https://raw.githubusercontent.com/fbennett/translators/multi/%s" % (path,))
             content = ifh.read()
             ifh.close()
+            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write(content)
 
             # write file
-            open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("-2")
+            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("-2")
             content = processContent(content, forcedate=filedate)
             content = content.encode("utf-8")
-            #open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("-1")
+            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("-1")
             if content:
-                ofh = open("/home/fbennett/public_html/translators/src/%s" % (path,), "w+")
+                ofh = open(os.path.expanduser("~/public_html/translators/src/%s" % (path,)), "w+")
                 ofh.write(content)
                 ofh.close()
             else:
-                open("/home/fbennett/public_html/cgi-bin/WOW.txt", "w+").write("0 -- no error, no content")
+                open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("0 -- no error, no content")
+                pass
 
 
     # Update the zip file in both modes
-    myzip = ZipFile('/home/fbennett/public_html/translators/translators.zip', 'w')
+    myzip = ZipFile(os.path.expanduser("~/public_html/translators/translators.zip"), 'w')
     os.chdir("../translators/src")
     for filename in os.listdir("."):
         # If run as script with --init, write all files in filesystem to database
         if len(sys.argv) > 1 and sys.argv[1] == "--init":
-            content = open("/home/fbennett/public_html/translators/src/%s" % filename).read()
+	    print "Updating stuff ..."
+	    sys.exit()
+            content = open(os.path.expanduser("~/public_html/translators/src/%s" % filename)).read()
             processContent(content)
-        if len(sys.argv) > 1 and sys.argv[1] == "--init-force-to-utf8":
+        if len(sys.argv) > 1 and sys.argv[1] == "--init-all":
             print filename
-            content = open("/home/fbennett/public_html/translators/src/%s" % filename).read()
+            content = open(os.path.expanduser("~/public_html/translators/src/%s" % filename)).read()
             content = processContent(content, forcedate=filedate)
             if content:
-                content = open("/home/fbennett/public_html/translators/src/%s" % filename, 
-"w+").write(content.encode("utf-8"))
+                content = open(os.path.expanduser("~/public_html/translators/src/%s" % filename), "w+").write(content.encode("utf-8"))
             else:
                 print "    WARNING: translator had no content: %s" % filename
         myzip.write(filename)
