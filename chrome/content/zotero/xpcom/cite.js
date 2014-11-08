@@ -71,9 +71,8 @@ Zotero.Cite = {
 	 * @param {String} format The format of the output (html, text, or rtf)
 	 * @return {String} Bibliography or item list in specified format
 	 */
-	"makeFormattedBibliographyOrCitationList":function(style, items, format, asCitationList) {
+	"makeFormattedBibliographyOrCitationList":function(cslEngine, items, format, asCitationList) {
 		// true is for useVariableWrapper: see getCiteProc() in style.js and setVariableWrapper() in cite.js
-		var cslEngine = style.getCiteProc(null, true);
 		cslEngine.setOutputFormat(format);
 		cslEngine.updateItems([item.id for each(item in items)]);
 				
