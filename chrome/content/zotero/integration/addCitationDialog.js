@@ -707,7 +707,7 @@ var Zotero_Citation_Dialog = new function () {
 					for (var key in _itemData) {
 						_itemData[key][box] = domBox[property];
 					}
-				} else if(box == "label") {
+				} else if(property == "label") {
 					_itemData[_lastSelected][box] = _locatorNameArray[domBox.selectedIndex];
 				} else {
 					_itemData[_lastSelected][box] = domBox[property];
