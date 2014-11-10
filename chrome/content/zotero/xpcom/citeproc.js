@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.545",
+    PROCESSOR_VERSION: "1.0.547",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -2106,6 +2106,11 @@ CSL.Engine.prototype.retrieveItem = function (id) {
             if (Item.title.slice(0,offset) === shortTitle && Item.title.slice(offset).match(/^\s*:/)) {
                 Item["title-main"] = Item.title.slice(0,offset).replace(/\s+$/,"");
                 Item["title-sub"] = Item.title.slice(offset).replace(/^\s*:\s*/,"");
+                if (this.opt.development_extensions.uppercase_subtitles && Item["title-sub"]) {
+                    Item["title-sub"] = Item["title-sub"].slice(0,1).toUpperCase() + Item["title-sub"].slice(1);
+                }
+                var mainPlusJoinOffset = offset + Item.title.length - Item["title-main"].length - Item["title-sub"].length;
+                Item.title = Item.title.slice(0,mainPlusJoinOffset) + Item["title-sub"];
             }
         }
     }
@@ -3211,6 +3216,19 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
         if (blobHasDescendantQuotes(blob.blobs[blob.blobs.length-1])) return true;
         return false;
     }
+    function blobHasDescendantMergingPunctuation(parentChar,blob) {
+        var childChar = blob.strings.suffix.slice(-1);
+        if (!childChar && "string" === typeof blob.blobs) {
+            childChar = blob.blobs.slice(-1);
+        }
+        var mergedChars = RtoL_MAP[parentChar][childChar];
+        if (mergedChars && mergedChars.length === 1) {
+            return true;
+        }
+        if ("object" !== typeof blob.blobs) return false;
+        if (blobHasDescendantMergingPunctuation(parentChar,blob.blobs[blob.blobs.length-1])) return true;
+        return false;
+    }
     function matchLastChar(blob, chr) {
         if (!PUNCT[chr]) {
             return false;
@@ -3259,7 +3277,6 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             return RtoL_MAP[secondChar];
         }
         function matchOnLeft () {
-            var chr = FirstStrings[first].slice(-1);
             return LtoR_MAP[firstChar];
         }
         var match = merge_right ? matchOnLeft : matchOnRight;
@@ -3386,7 +3403,9 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
                 var delimChar = parentStrings.delimiter.slice(0, 1);
                 for (var i=parent.blobs.length-2;i>-1;i--) {
                     var childStrings = parent.blobs[i].strings;
-                    childStrings.suffix += delimChar;
+                    if (childStrings.suffix.slice(-1) !== delimChar) {
+                        childStrings.suffix += delimChar;
+                    }
                 }
                 parentStrings.delimiter = parentStrings.delimiter.slice(1);
             }
@@ -3400,20 +3419,28 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             var childIsNumber = blobIsNumber(child);
             if (i === (parent.blobs.length - 1)) {
                 if (true || !someChildrenAreNumbers) {
-                    if (!parentDecorations || blobHasDescendantQuotes(child)) {
-                        var parentChar = parentStrings.suffix.slice(0, 1);
+                    var parentChar = parentStrings.suffix.slice(0, 1);
+                    var allowMigration = blobHasDescendantQuotes(child);
+                    if (!allowMigration && PUNCT[parentChar]) {
+                        allowMigration = blobHasDescendantMergingPunctuation(parentChar,child);
+                    }
+                    if (allowMigration) {
                         if (PUNCT[parentChar]) {
                             if (!blobEndsInNumber(child)) {
-                                mergeChars(child, 'suffix', parent, 'suffix');
+                                if ("string" === typeof child.blobs) {
+                                    mergeChars(child, 'blobs', parent, 'suffix');
+                                } else {
+                                    mergeChars(child, 'suffix', parent, 'suffix');
+                                }
                                 if (parentStrings.suffix.slice(0,1) === ".") {
                                     childStrings.suffix += parentStrings.suffix.slice(0,1);
                                     parentStrings.suffix = parentStrings.suffix.slice(1);
                                 }
                             }
                         }
-                        if (childStrings.suffix.slice(-1) === " " && parentStrings.suffix.slice(0,1)) {
-                            parentStrings.suffix = parentStrings.suffix.slice(1);
-                        }
+                    }
+                    if (childStrings.suffix.slice(-1) === " " && parentStrings.suffix.slice(0,1) === " ") {
+                        parentStrings.suffix = parentStrings.suffix.slice(1);
                     }
                     if (PUNCT_OR_SPACE[childStrings.suffix.slice(0,1)]) {
                         if ("string" === typeof child.blobs && child.blobs.slice(-1) === childStrings.suffix.slice(0,1)) {
@@ -3448,6 +3475,35 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             this.downward(parent.blobs[i]);
         }
     };
+    function swapToTheLeft (child) {
+        var childChar = child.strings.suffix.slice(0,1);
+        if ("string" === typeof child.blobs) {
+            while (SWAP_IN[childChar]) {
+                mergeChars(child, 'blobs', child, 'suffix');
+                childChar = child.strings.suffix.slice(0,1);
+            }                                
+        } else {
+            while (SWAP_IN[childChar]) {
+                mergeChars(child.blobs[child.blobs.length-1], 'suffix', child, 'suffix');
+                childChar = child.strings.suffix.slice(0,1);
+            }
+        }
+    }
+    function swapToTheRight (child) {
+        if ("string" === typeof child.blobs) {
+            var childChar = child.blobs.slice(-1);
+            while (SWAP_OUT[childChar]) {
+                mergeChars(child, 'blobs', child, 'suffix', true);
+                childChar = child.blobs.slice(-1);
+            }
+        } else {
+            var childChar = child.blobs[child.blobs.length-1].strings.suffix.slice(-1);
+            while (SWAP_OUT[childChar]) {
+                mergeChars(child.blobs[child.blobs.length-1], 'suffix', child, 'suffix', true);
+                childChar = child.blobs[child.blobs.length-1].strings.suffix.slice(-1);
+            }
+        }
+    }
     function fix (parent) {
         if ("object" !== typeof parent || "object" !== typeof parent.blobs || !parent.blobs.length) {
             return;
@@ -3464,32 +3520,9 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             }
             if (quoteSwap) {
                 if (punctInQuote) {
-                    var childChar = child.strings.suffix.slice(0,1);
-                    if ("string" === typeof child.blobs) {
-                        while (SWAP_IN[childChar]) {
-                            mergeChars(child, 'blobs', child, 'suffix');
-                            childChar = child.strings.suffix.slice(0,1);
-                        }                                
-                    } else {
-                        while (SWAP_IN[childChar]) {
-                            mergeChars(child.blobs[child.blobs.length-1], 'suffix', child, 'suffix');
-                            childChar = child.strings.suffix.slice(0,1);
-                        }
-                    }
+                    swapToTheLeft(child);
                 } else {
-                    if ("string" === typeof child.blobs) {
-                        var childChar = child.blobs.slice(-1);
-                        while (SWAP_OUT[childChar]) {
-                            mergeChars(child, 'blobs', child, 'suffix', true);
-                            childChar = child.blobs.slice(-1);
-                        }
-                    } else {
-                        var childChar = child.blobs[child.blobs.length-1].strings.suffix.slice(-1);
-                        while (SWAP_OUT[childChar]) {
-                            mergeChars(child.blobs[child.blobs.length-1], 'suffix', child, 'suffix', true);
-                            childChar = child.blobs[child.blobs.length-1].strings.suffix.slice(-1);
-                        }
-                    }
+                    swapToTheRight(child);
                 }
             }
             lastChar = this.fix(parent.blobs[i]);
@@ -3606,6 +3639,18 @@ CSL.Engine.Opt = function () {
     this["parse-names"] = true;
     this.citation_number_slug = false;
     this.trigraph = "Aaaa00:AaAa00:AaAA00:AAAA00";
+    this.nodenames = [];
+    this.gender = {};
+    this['cite-lang-prefs'] = {
+        persons:['orig'],
+        institutions:['orig'],
+        titles:['orig','translat'],
+        journals:['translit'],
+        publishers:['orig'],
+        places:['orig'],
+        number:['translat']
+    };
+    this.has_layout_locale = false;
     this.development_extensions = {};
     this.development_extensions.field_hack = true;
     this.development_extensions.locator_date_and_revision = true;
@@ -3624,24 +3669,13 @@ CSL.Engine.Opt = function () {
     this.development_extensions.thin_non_breaking_space_html_hack = false;
     this.development_extensions.apply_citation_wrapper = false;
     this.development_extensions.main_title_from_short_title = false;
+    this.development_extensions.uppercase_subtitles = false;
     this.development_extensions.normalize_lang_keys_to_lowercase = false;
     this.development_extensions.strict_text_case_locales = false;
     this.development_extensions.rtl_support = false;
     this.development_extensions.strict_page_numbers = false;
     this.development_extensions.expect_and_symbol_form = false;
     this.development_extensions.require_explicit_legal_case_title_short = false;
-    this.nodenames = [];
-    this.gender = {};
-    this['cite-lang-prefs'] = {
-        persons:['orig'],
-        institutions:['orig'],
-        titles:['orig','translat'],
-        journals:['translit'],
-        publishers:['orig'],
-        places:['orig'],
-        number:['translat']
-    };
-    this.has_layout_locale = false;
 };
 CSL.Engine.Tmp = function () {
     this.names_max = new CSL.Stack();
@@ -8030,8 +8064,10 @@ CSL.NameOutput.prototype._givenName = function (name, pos, i) {
         }
     }
     var str = this._stripPeriods("given", name.given);
-    if (this.state.output.append(str, this.given_decor, true)) {
-        return this.state.output.pop();
+    var rendered = this.state.output.append(str, this.given_decor, true);
+    if (rendered) {
+        ret = this.state.output.pop();
+	    return ret;
     }
     return false;
 };
@@ -8041,8 +8077,16 @@ CSL.NameOutput.prototype._nameSuffix = function (name) {
         str = CSL.Util.Names.initializeWith(this.state, name.suffix, this.name.strings["initialize-with"], true);
     }
     str = this._stripPeriods("family", str);
-    if (this.state.output.append(str, "empty", true)) {
-        return this.state.output.pop();
+    var toSuffix = '';
+    if (str && str.slice(-1) === '.') {
+	str = str.slice(0, -1);
+	toSuffix = '.';
+    }
+    var rendered = this.state.output.append(str, "empty", true);
+    if (rendered) {
+        ret = this.state.output.pop();
+	ret.strings.suffix = toSuffix + ret.strings.suffix;
+	return ret;
     }
     return false;
 };
