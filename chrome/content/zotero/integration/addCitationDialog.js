@@ -705,7 +705,9 @@ var Zotero_Citation_Dialog = new function () {
 			if(_lastSelected) {
 				if (box == "suppress-trailing-punctuation") {
 					for (var key in _itemData) {
-						_itemData[key][box] = domBox[property];
+						if (_itemData[key]) {
+							_itemData[key][box] = domBox[property];
+						}
 					}
 				} else if(property == "label") {
 					_itemData[_lastSelected][box] = _locatorNameArray[domBox.selectedIndex];
