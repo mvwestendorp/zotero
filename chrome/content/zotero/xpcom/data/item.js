@@ -946,7 +946,7 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 	if (!loadIn) {
 		// Save date field etc as multipart dates
 		// fieldIDs represent: ['filingDate','newsCaseDate','priorityDate','publicationDate','originalDate','signingDate','openingDate','adoptionDate','conferenceDate']
-		if ((Zotero.ItemFields.isFieldOfBase(fieldID, 'date') || [121,1265,266,1268,1272,1277,1278,1279,1283].indexOf(fieldID) > -1)
+		if ((Zotero.ItemFields.isFieldOfBase(fieldID, 'date') || [121,1265,1266,1268,1272,1277,1278,1279,1283].indexOf(fieldID) > -1)
 			&& !Zotero.Date.isMultipart(value)) {
 			value = Zotero.Date.strToMultipart(value);
 		}
