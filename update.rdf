@@ -1,23 +1,26 @@
 <?xml version="1.0"?>
-<RDF:RDF xmlns:NS1="http://www.mozilla.org/2004/em-rdf#"
-         xmlns:NC="http://home.netscape.com/NC-rdf#"
-         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$8YTkx"
-                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   NS1:minVersion="3.6"
-                   NS1:maxVersion="31.*"
-                   NS1:updateLink="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi"
-                   NS1:updateInfoURL="http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xhtml"
-                   NS1:updateHash="sha1:e9b603fff1fbe3090ba97fb30aa27116ea317db5" />
-  <RDF:Description RDF:about="urn:mozilla:extension:zotero@chnm.gmu.edu"
-                   NS1:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJRRuhiLaWEiyIT0CV6jJr0DWX1knhG9iCyx03LAv4jF9rahyzIQe78Wc+HisjjE/jg0O9AsnNAu0MxnplcK03mtevvWp0YSp39PArMK/Nts74vZiPeDAc5BGnygmcalgu2Jps6hrHGPtSG0H8C4zVH7pjA39Zf+lJ34iXN1+T8N">
-    <NS1:updates RDF:resource="rdf:#$4YTkx"/>
-  </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$4YTkx">
-    <RDF:li RDF:resource="rdf:#$5YTkx"/>
-  </RDF:Seq>
-  <RDF:Description RDF:about="rdf:#$5YTkx"
-                   NS1:version="4.0.21m469">
-    <NS1:targetApplication RDF:resource="rdf:#$8YTkx"/>
-  </RDF:Description>
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/2004/em-rdf#">
+<!-- Zotero Extension -->
+<RDF:Description about="urn:mozilla:extension:zotero@chnm.gmu.edu">
+  <updates>
+    <RDF:Seq>
+      <RDF:li>
+        <RDF:Description>
+          <version>4.0.21m##REVISION##</version>
+          <targetApplication>
+            <RDF:Description>
+              <id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id>
+              <minVersion>3.6</minVersion>
+              <maxVersion>34.*</maxVersion>
+              <updateLink>http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xpi</updateLink>
+			  <updateInfoURL>http://gsl-nagoya-u.net/http/pub/zotero-multi-3.xhtml</updateInfoURL>
+              <updateHash>sha1:##SHA1HASH##</updateHash>
+            </RDF:Description>
+          </targetApplication>
+        </RDF:Description>
+      </RDF:li>
+    </RDF:Seq>
+  </updates>
+</RDF:Description>
 </RDF:RDF>
