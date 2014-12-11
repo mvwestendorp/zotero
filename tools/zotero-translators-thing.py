@@ -197,7 +197,7 @@ def processFiles():
         # If run as script with --init, write all files in filesystem to database
         if len(sys.argv) > 1 and sys.argv[1] == "--init":
 	    print "Updating stuff ..."
-	    sys.exit()
+	    #sys.exit()
             content = open(os.path.expanduser("~/public_html/translators/src/%s" % filename)).read()
             processContent(content)
         if len(sys.argv) > 1 and sys.argv[1] == "--init-all":
