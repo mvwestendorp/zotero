@@ -72,16 +72,15 @@ Zotero.Cite = {
 	 * @return {String} Bibliography or item list in specified format
 	 */
 	"makeFormattedBibliographyOrCitationList":function(cslEngine, items, format, asCitationList) {
-		// true is for useVariableWrapper: see getCiteProc() in style.js and setVariableWrapper() in cite.js
 		cslEngine.setOutputFormat(format);
 		cslEngine.updateItems([item.id for each(item in items)]);
-				
+		 		
 		if(!asCitationList) {
 			var bibliography = Zotero.Cite.makeFormattedBibliography(cslEngine, format);
 			if(bibliography) return bibliography;
 		}
 		
-		var styleClass = style.class;
+		var styleClass = cslEngine.opt.class;
 		var citations = [cslEngine.appendCitationCluster({"citationItems":[{"id":item.id}], "properties":{}}, true)[0][1]
 			for each(item in items)];
 		

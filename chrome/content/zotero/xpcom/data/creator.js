@@ -104,7 +104,7 @@ Zotero.Creator.prototype._set = function (field, val) {
 		case 'shortName':
 		case 'birthYear':
 			if (val) {
-				val = Zotero.Utilities.trim(val);
+				val = Zotero.Utilities.trim(val).normalize();
 			}
 			else {
 				val = '';

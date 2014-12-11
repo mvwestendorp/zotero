@@ -1088,7 +1088,7 @@ Zotero.Schema = new function(){
 		// Get the last timestamp we got from the server
 		var lastUpdated = this.getDBVersion('repository');
 		
-		var url = ZOTERO_CONFIG['REPOSITORY_URL'] + '/updated?'
+		var url = ZOTERO_CONFIG.REPOSITORY_URL + 'updated?'
 			+ (lastUpdated ? 'last=' + lastUpdated + '&' : '')
 			+ 'version=' + Zotero.version;
 		

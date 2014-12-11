@@ -419,7 +419,6 @@ var Zotero_File_Interface = new function() {
 		var clipboardService = Components.classes["@mozilla.org/widget/clipboard;1"].
 							   getService(Components.interfaces.nsIClipboard);
 		var style = Zotero.Styles.get(style);
-		
 		var cslEngine = style.getCiteProc(null, true);
 
 		// add HTML

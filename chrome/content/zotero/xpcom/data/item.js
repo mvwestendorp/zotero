@@ -811,8 +811,7 @@ Zotero.Item.prototype.setJurisdiction = function (value) {
  */
 Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top) {
 	if (typeof value == 'string') {
-		value = Zotero.Utilities.trim(value);
-		value = value.trim();
+		value = value.trim().normalize();
 	}
 	
 	this._disabledCheck();
