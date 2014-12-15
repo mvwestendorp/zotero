@@ -137,6 +137,8 @@
 				var editor = document.getElementById('zotero-csl-editor')
 				var iframe = document.getElementById('zotero-csl-preview-box');
 				
+				editor.styleEngine = true;
+
 				var items = Zotero.getActiveZoteroPane().getSelectedItems();
 				if (items.length == 0) {
 					iframe.contentDocument.documentElement.innerHTML = '<html><head><title></title></head><body><p style="color: red">No references selected in Zotero.</p></body></html>';
