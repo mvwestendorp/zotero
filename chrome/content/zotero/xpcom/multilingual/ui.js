@@ -95,7 +95,8 @@ Zotero.EXTENDED_FIELDS = {
 		"publisher":"publisher",
 		"publicationDate":"publication-date",
 		"reign":"genre",
-		"regnalYear":"collection-number"
+		"regnalYear":"collection-number",
+		"dateAmended": "event-date"
 	}, 
 	"audioRecording": {
 		"album":"container-title",
