@@ -1,4 +1,4 @@
--- 10061
+-- 10062
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -760,19 +760,20 @@ INSERT INTO itemTypeFields VALUES (20, 55, NULL, 6);    -- codeNumber (volume)
 INSERT INTO itemTypeFields VALUES (20, 10, NULL, 7);    -- pages
 INSERT INTO itemTypeFields VALUES (20, 100, NULL, 8);   -- dateEnacted
 INSERT INTO itemTypeFields VALUES (20, 1287, NULL, 9);   -- dateAmended   [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 15, NULL, 10);    -- section
-INSERT INTO itemTypeFields VALUES (20, 101, NULL, 11);  -- publicLawNumber
-INSERT INTO itemTypeFields VALUES (20, 1269, NULL, 12); -- reign            [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 1270, NULL, 13); -- regnalYear       [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 8, NULL, 14);    -- publisher        [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 1268, NULL, 15); -- publicationDate  [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 87, NULL, 16);   -- language
-INSERT INTO itemTypeFields VALUES (20, 1, NULL, 17);    -- url
-INSERT INTO itemTypeFields VALUES (20, 27, NULL, 18);   -- accessed
-INSERT INTO itemTypeFields VALUES (20, 40, NULL, 19);   -- session          Deprecated
-INSERT INTO itemTypeFields VALUES (20, 42, NULL, 20);   -- history          Deprecated
-INSERT INTO itemTypeFields VALUES (20, 2, NULL, 21);    -- rights
-INSERT INTO itemTypeFields VALUES (20, 22, NULL, 22);   -- extra
+INSERT INTO itemTypeFields VALUES (20, 1272, NULL, 10);   -- originalDate   [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 15, NULL, 11);    -- section
+INSERT INTO itemTypeFields VALUES (20, 101, NULL, 12);  -- publicLawNumber
+INSERT INTO itemTypeFields VALUES (20, 1269, NULL, 13); -- reign            [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 1270, NULL, 14); -- regnalYear       [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 8, NULL, 15);    -- publisher        [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 1268, NULL, 16); -- publicationDate  [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 87, NULL, 17);   -- language
+INSERT INTO itemTypeFields VALUES (20, 1, NULL, 18);    -- url
+INSERT INTO itemTypeFields VALUES (20, 27, NULL, 19);   -- accessed
+INSERT INTO itemTypeFields VALUES (20, 40, NULL, 20);   -- session          Deprecated
+INSERT INTO itemTypeFields VALUES (20, 42, NULL, 21);   -- history          Deprecated
+INSERT INTO itemTypeFields VALUES (20, 2, NULL, 22);    -- rights
+INSERT INTO itemTypeFields VALUES (20, 22, NULL, 23);   -- extra
 
 -- email
 INSERT INTO itemTypeFields VALUES (21, 113, NULL, 1);  -- title
