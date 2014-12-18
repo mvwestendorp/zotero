@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.547",
+    PROCESSOR_VERSION: "1.0.548",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -10428,7 +10428,11 @@ CSL.Parallel.prototype.StartCite = function (Item, item, prevItemID) {
         var basics_ok = true;
         var last_cite = this.sets.value().slice(-1)[0];
         if (last_cite && last_cite.Item) {
+            var lastJuris = last_cite.Item.jurisdiction ? last_cite.Item.jurisdiction.split(";")[0] : "";
+            var thisJuris = Item.jurisdiction ? Item.jurisdiction.split(";")[0] : "";
             if (last_cite.Item.title !== Item.title) {
+                basics_ok = false;
+            } else if (lastJuris !== thisJuris) {
                 basics_ok = false;
             } else if (last_cite.Item.type !== Item.type) {
                 basics_ok = false;
