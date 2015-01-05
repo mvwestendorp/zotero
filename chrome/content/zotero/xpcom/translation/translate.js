@@ -1501,6 +1501,7 @@ Zotero.Translate.Base.prototype = {
 		}
 		const createArrays = "['creators', 'notes', 'tags', 'seeAlso', 'attachments']";
 		var src = "var Zotero = {};"+
+		"Zotero.isMLZ = true;"+
 		"Zotero.Item = function (itemType) {"+
 				"const createArrays = "+createArrays+";"+
 				"this.itemType = itemType;"+
