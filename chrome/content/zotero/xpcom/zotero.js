@@ -223,6 +223,8 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		this.platformMajorVersion = parseInt(appInfo.platformVersion.match(/^[0-9]+/)[0]);
 		this.isFx = true;
 		
+		this.isMLZ = true;
+		
 		this.isStandalone = appInfo.ID == ZOTERO_CONFIG['GUID'];
 		if(this.isStandalone) {
 			this.version = appInfo.version;

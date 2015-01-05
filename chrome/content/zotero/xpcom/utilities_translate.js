@@ -62,6 +62,7 @@ Zotero.Utilities.addDateParserMonths = Zotero.DateParser.addDateParserMonths;
 Zotero.Utilities.Translate.prototype.createContextObject = Zotero.OpenURL.createContextObject;
 Zotero.Utilities.Translate.prototype.parseContextObject = Zotero.OpenURL.parseContextObject;
 Zotero.Utilities.Translate.prototype.ZlsValidator = Zotero.ZlsValidator;
+Zotero.Utilities.Translate.prototype.isMLZ = Zotero.isMLZ;
 
 /**
  * Hack to overloads {@link Zotero.Utilities.capitalizeTitle} to allow overriding capitalizeTitles 
