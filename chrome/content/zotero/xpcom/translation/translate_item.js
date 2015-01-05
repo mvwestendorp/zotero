@@ -575,7 +575,24 @@ Zotero.Translate.ItemSaver.prototype = {
 				}
 			}
 		}
-
+		
+		// If "extra" contains {:variable: XX} hacks, recast as CslJSON,
+		// then merge result back into newItem.
+		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
+			cslItem = Zotero.Utilities.itemToCSLJSON(newItem);
+			var extra = cslItem.note;
+			extra = extra.split(/{:([-a-z]+):([^\}]+)}/);
+			dump("XXX CSL(before)=" + JSON.stringify(cslItem));
+			for (var i=extra.length-2; i>0; i += -3) {
+				var varName = extra[i-1];
+				var varVal = extra[i];
+				cslItem[varName] = varVal;
+				extra = extra.slice(0,i-1).concat(extra.slice(i+1))
+			}
+			cslItem.note = extra.join(" ");
+			dump("XXX CSL(after)=" + JSON.stringify(cslItem));
+			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
+		}
 	},
 	
 	"_saveCreators":function(item, newItem) {
