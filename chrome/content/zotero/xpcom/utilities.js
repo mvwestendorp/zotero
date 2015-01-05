@@ -2080,6 +2080,9 @@ Zotero.Utilities = {
 		// map text fields
 		for(var variable in CSL_TEXT_MAPPINGS) {
 			if(variable in cslItem) {
+				if ("string" !== typeof cslItem[variable]) {
+					continue;
+				}
 				var textMappings = CSL_TEXT_MAPPINGS[variable];
 				for(var i in textMappings) {
 					var field = textMappings[i],
@@ -2187,7 +2190,7 @@ Zotero.Utilities = {
 								}
 								creator.multi._key[lang] = creatorVariant;
 							}
-                        }
+						}
 						if(Zotero.isFx && !Zotero.isBookmarklet && Zotero.platformMajorVersion >= 32) {
 							creator = Components.utils.cloneInto(creator, item);
 						}
