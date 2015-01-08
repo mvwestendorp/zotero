@@ -2445,6 +2445,7 @@
 					
 					t.select();
 					
+/*
 					t.addEventListener('blur', function (event) {
 						document.getBindingParent(this).blurHandler(this);
 					}, false);
@@ -2455,6 +2456,27 @@
 						+ this._defaultLastName 
 						+ '");'
 					);
+*/
+					// Leave text field open when window loses focus
+					var ignoreBlur = function () {
+						this.ignoreBlur = true;
+					}.bind(this);
+					var unignoreBlur = function () {
+						this.ignoreBlur = false;
+					}.bind(this);
+					addEventListener("deactivate", ignoreBlur);
+					addEventListener("activate", unignoreBlur);
+					
+					t.addEventListener('blur', function () {
+						var self = document.getBindingParent(this);
+						if (self.ignoreBlur) return;
+						
+						removeEventListener("deactivate", ignoreBlur);
+						removeEventListener("activate", unignoreBlur);
+						self.blurHandler(this);
+					});
+					t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
+					
 					this._tabDirection = false;
 					this._lastTabIndex = tabindex;
 //Zotero.debug("XXX showEditor() [end]");
