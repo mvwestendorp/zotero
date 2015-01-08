@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "ขยายความเห็นประกอบทั้งหมด">
 <!ENTITY zotero.annotate.toolbar.highlight.label "เน้นข้อความให้เด่นชัด">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "เลิกเน้นข้อความให้เด่นชัด">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliography">
 <!ENTITY zotero.bibliography.copyToClipboard.label "สำเนาไปยังคลิปบอร์ด">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

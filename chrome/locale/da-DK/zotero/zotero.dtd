@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Udfold alle annoteringer">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Marker tekst">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Fjern markering fra tekst">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Litteraturliste">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopier til udklipsholder">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

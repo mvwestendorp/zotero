@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Développer toutes les annotations">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Surligner le texte">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Supprimer le surlignage du texte">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliographie">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copier dans le presse-papiers">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Розгорнути всі анотації">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Виділити текст">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Зняти виділення тексту">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Бібліографія">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Скопіювати в буфер обміну">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Extinde toate adnotările">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Evidențiază text">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Renunță la evidențiere text">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografie">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copiază în memoria clipboard">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "모든 주석 펼치기">
 <!ENTITY zotero.annotate.toolbar.highlight.label "글자 강조">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "글자 강조 취소">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliography">
 <!ENTITY zotero.bibliography.copyToClipboard.label "클립보드로 복사">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

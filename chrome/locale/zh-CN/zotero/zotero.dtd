@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "展开所有标注">
 <!ENTITY zotero.annotate.toolbar.highlight.label "高亮文本">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "取消文本高亮">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "引文目录">
 <!ENTITY zotero.bibliography.copyToClipboard.label "复制到剪贴板">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

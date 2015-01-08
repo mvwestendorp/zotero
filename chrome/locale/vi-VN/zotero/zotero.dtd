@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Bung tất cả các Chú giải">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Đánh dấu đoạn văn bản">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Bỏ đánh dấu đoạn văn bản">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliography">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Sao chép vào Clipboard">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

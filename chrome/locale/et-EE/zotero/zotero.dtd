@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Annotatsioonide näitamine">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Teksti esiletõstmine">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Esiletõste eemaldamine">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliography">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Lõikepuhvrisse kopeerimine">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

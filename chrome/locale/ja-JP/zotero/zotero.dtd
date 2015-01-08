@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "すべての注釈を展開する">
 <!ENTITY zotero.annotate.toolbar.highlight.label "テキストを強調表示">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "テキストの強調表示を解除">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "参考文献目録">
 <!ENTITY zotero.bibliography.copyToClipboard.label "クリップボードにコピー">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

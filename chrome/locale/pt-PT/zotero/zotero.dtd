@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Expandir Todas as Anotações">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Destacar Texto">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Retirar Destaque a Texto">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografia:">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copiar">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">

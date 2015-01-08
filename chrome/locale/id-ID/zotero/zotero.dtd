@@ -5,6 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Kembangkan Semua Anotasi">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Tandai Teks">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Hilangkan Tanda pada Teks">
+<!ENTITY zotero.attachLink.label.link "Link:">
+<!ENTITY zotero.attachLink.label.title "Title:">
+<!ENTITY zotero.attachLink.title "Attach Link to URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografi">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Salin ke Clipboard">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
