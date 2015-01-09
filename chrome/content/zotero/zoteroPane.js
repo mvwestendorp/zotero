@@ -148,7 +148,6 @@ var ZoteroPane = new function()
 	}
 	
 	/**
-	/**
 	 * Called on window load or when has been reloaded after switching into or out of connector
 	 * mode
 	 */
@@ -355,11 +354,7 @@ var ZoteroPane = new function()
 		if(this.collectionsView) this.collectionsView.unregister();
 		if(this.itemsView) this.itemsView.unregister();
 		
-        try {
-		    observerService.removeObserver(_reloadObserver, "zotero-reloaded");
-        } catch (e) {
-            Zotero.debug("Error removing _reloadObserver(): "+e);
-        }
+		observerService.removeObserver(_reloadObserver, "zotero-reloaded");
 	}
 	
 	/**
