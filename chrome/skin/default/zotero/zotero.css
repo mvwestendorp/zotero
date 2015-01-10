@@ -56,7 +56,7 @@ toolbarpaletteitem[place="palette"] > #zotero-toolbar-button:active {
 
 #zotero-toolbar-button[cui-areatype="toolbar"],
 #zotero-toolbar-button:active[cui-areatype="toolbar"] {
-  list-style-image: url("mlz-m-16px-monochrome-button.svg") !important;
+  list-style-image: url("chrome://zotero/skin/mlz-m-16px-monochrome-button.svg") !important;
 }
 
 #addon-bar #zotero-toolbar-button {
