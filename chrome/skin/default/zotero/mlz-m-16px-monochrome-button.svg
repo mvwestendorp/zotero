@@ -14,8 +14,8 @@
    height="16"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="mlz-m-16px-monochrome-button.svg"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="button_base_icon_grayscale.svg"
    inkscape:export-filename="/home/bennett/src-local/zotero/branding/gree-button-16px-active.png"
    inkscape:export-xdpi="8.0325432"
    inkscape:export-ydpi="8.0325432">
@@ -416,6 +416,30 @@
        y1="244.39783"
        x2="167.46866"
        y2="317.99164" />
+    <filter
+       id="filter3070"
+       inkscape:label="Desaturate"
+       x="0"
+       y="0"
+       width="1"
+       height="1"
+       inkscape:menu="Color"
+       inkscape:menu-tooltip="Render in shades of gray by reducing saturation to zero"
+       color-interpolation-filters="sRGB">
+      <feColorMatrix
+         id="feColorMatrix3072"
+         type="saturate"
+         values="0" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3055"
+       id="linearGradient3066"
+       gradientUnits="userSpaceOnUse"
+       x1="167.34267"
+       y1="244.39783"
+       x2="167.46866"
+       y2="317.99164" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -424,20 +448,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="45.5625"
-     inkscape:cx="7.7105594"
-     inkscape:cy="9.5624174"
+     inkscape:zoom="9.0318584"
+     inkscape:cx="-29.006271"
+     inkscape:cy="-2.3783069"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1535"
+     inkscape:window-width="1375"
      inkscape:window-height="876"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:snap-global="true"
-     inkscape:snap-page="false"
-     height="524.41px"
+     showborder="true"
+     inkscape:showpageshadow="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -459,52 +483,50 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(-271.85516,-381.25218)">
-    <path
-       sodipodi:type="arc"
-       style="fill:#666666"
-       id="path3432"
-       sodipodi:cx="351.42856"
-       sodipodi:cy="327.36218"
-       sodipodi:rx="125.71429"
-       sodipodi:ry="125.71429"
-       d="m 477.03944,322.26436 a 125.71429,125.71429 0 1 1 -3.4e-4,-0.009 l -125.61054,5.10632 z"
-       sodipodi:start="6.2426233"
-       sodipodi:end="12.525741"
-       transform="matrix(0.06363537,0,0,0.06363537,257.51233,368.4444)"
-       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz_z_32px.png"
-       inkscape:export-xdpi="16.065086"
-       inkscape:export-ydpi="16.065086" />
-    <path
-       sodipodi:type="arc"
-       style="fill:url(#linearGradient4524);fill-opacity:1;filter:url(#filter4512)"
-       id="path4410"
-       sodipodi:cx="165"
-       sodipodi:cy="285.57648"
-       sodipodi:rx="48.57143"
-       sodipodi:ry="31.071428"
-       d="m 213.53148,284.3165 a 48.57143,31.071428 0 1 1 -1.3e-4,-0.002 L 165,285.57648 z"
-       sodipodi:start="6.2426233"
-       sodipodi:end="12.525741"
-       transform="matrix(0.11006045,0,0,0.10552806,261.56528,356.18918)"
-       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz-button-big.png"
-       inkscape:export-xdpi="146.72548"
-       inkscape:export-ydpi="146.72548" />
-    <text
-       xml:space="preserve"
-       style="font-size:3.63680768px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:536.99998856%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros"
-       x="279.67667"
-       y="386.95114"
-       id="text4516"
-       sodipodi:linespacing="536.99999%"
-       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz_z_32px.png"
-       inkscape:export-xdpi="16.065086"
-       inkscape:export-ydpi="16.065086"
-       transform="scale(0.98163547,1.0187081)"><tspan
-         sodipodi:role="line"
-         id="tspan4518"
-         x="279.67667"
-         y="386.95114"
-         style="font-size:13.09250927px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros">M</tspan></text>
+     transform="translate(-271.85516,-381.25222)">
+    <g
+       id="g3060"
+       transform="matrix(0.08954923,0,0,0.08725016,247.51074,362.48119)">
+      <path
+         inkscape:export-ydpi="16.065086"
+         inkscape:export-xdpi="16.065086"
+         inkscape:export-filename="/home/bennett/src/zotero/branding/mlz_z_32px.png"
+         transform="matrix(0.71299762,0,0,0.71435014,110.92282,73.595588)"
+         sodipodi:end="12.525741"
+         sodipodi:start="6.2426233"
+         d="m 477.03944,322.26436 a 125.71429,125.71429 0 1 1 -3.4e-4,-0.009 l -125.61054,5.10632 z"
+         sodipodi:ry="125.71429"
+         sodipodi:rx="125.71429"
+         sodipodi:cy="327.36218"
+         sodipodi:cx="351.42856"
+         id="path3432"
+         style="fill:#008000;filter:url(#filter3070)"
+         sodipodi:type="arc" />
+      <path
+         inkscape:export-ydpi="146.72548"
+         inkscape:export-xdpi="146.72548"
+         inkscape:export-filename="/home/bennett/src/zotero/branding/mlz-button-big.png"
+         transform="matrix(1.4093301,0,0,1.3124356,127.74005,-101.06547)"
+         sodipodi:end="12.525741"
+         sodipodi:start="6.2426233"
+         d="m 213.53148,284.3165 a 48.57143,31.071428 0 1 1 -1.3e-4,-0.002 L 165,285.57648 z"
+         sodipodi:ry="31.071428"
+         sodipodi:rx="48.57143"
+         sodipodi:cy="285.57648"
+         sodipodi:cx="165"
+         id="path4410"
+         style="fill:url(#linearGradient3066);fill-opacity:1;filter:url(#filter4512)"
+         sodipodi:type="arc" />
+      <g
+         id="text4516"
+         style="font-size:40.78695297px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:536.99998856%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros"
+         transform="scale(0.98070574,1.0196739)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path3066"
+           style="font-size:146.83303833px;fill:#ffffff;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros"
+           d="m 419.39012,355.6134 0,-107.04128 -18.94146,0 -31.12861,93.23898 -31.71593,-93.23898 -18.94147,0 0,107.04128 12.92131,0 0,-89.71498 30.39444,89.71498 14.38964,0 30.10077,-89.71498 0,89.71498 12.92131,0" />
+      </g>
+    </g>
   </g>
 </svg>
