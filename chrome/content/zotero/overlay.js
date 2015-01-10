@@ -75,7 +75,7 @@ var ZoteroOverlay = new function()
 							.getService(Components.interfaces.nsIPrefService)
 							.getBranch('extensions.zotero.');
 		
-		var addonBar = document.getElementById('addon-bar');
+		var addonBar = document.getElementById('nav-bar');
 		
 		var iconPref = prefBranch.getIntPref('statusBarIcon');
 		
@@ -114,7 +114,7 @@ var ZoteroOverlay = new function()
 				// If hidden in prefs, remove from add-on bar
 				else if (iconPref == 0) {
 					var toolbar = icon.parentNode;
-					if (toolbar.id == 'addon-bar') {
+					if (toolbar.id == 'nav-bar') {
 						var palette = document.getElementById("navigator-toolbox").palette;
 						palette.appendChild(icon);
 						toolbar.setAttribute("currentset", toolbar.currentSet);

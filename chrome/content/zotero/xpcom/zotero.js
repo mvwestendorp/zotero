@@ -2384,7 +2384,7 @@ Zotero.Prefs = new function(){
 							.getService(Components.interfaces.nsIWindowMediator)
 							.getMostRecentWindow("navigator:browser").document;
 				
-				var addonBar = doc.getElementById("addon-bar");
+				var addonBar = doc.getElementById("nav-bar");
 				var icon = doc.getElementById("zotero-toolbar-button");
 				// When the customize window is open, toolbar buttons seem to
 				// become wrapped in toolbarpaletteitems, which we need to remove
