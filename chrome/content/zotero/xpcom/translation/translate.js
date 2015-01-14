@@ -242,6 +242,9 @@ Zotero.Translate.Sandbox = {
 			};
 			safeTranslator.setDocument = function(arg) {
 				if (Zotero.isFx && !Zotero.isBookmarklet) {
+					if (arg.wrappedJSObject && arg.wrappedJSObject.__wrappedObject) {
+						arg = arg.wrappedJSObject.__wrappedObject;
+					}
 					return translation.setDocument(new XPCNativeWrapper(arg));
 				} else {
 					return translation.setDocument(arg);
@@ -256,6 +259,13 @@ Zotero.Translate.Sandbox = {
 							item = item.wrappedJSObject ? item.wrappedJSObject : item;
 							if(arg1 == "itemDone") {
 								item.complete = translate._sandboxZotero.Item.prototype.complete;
+							} else if(arg1 == "translators" && Zotero.isFx && !Zotero.isBookmarklet) {
+								var translators = new translate._sandboxManager.sandbox.Array();
+								translators = translators.wrappedJSObject || translators;
+								for (var i=0; i<item.length; i++) {
+									translators.push(item[i]);
+								}
+								item = translators;
 							}
 							arg2(obj, item);
 						} catch(e) {
@@ -388,7 +398,7 @@ Zotero.Translate.Sandbox = {
 					if (typeof(safeTranslator[i]) === "function") {
 						safeTranslator[i] = translate._sandboxManager._makeContentForwarder(function(func) {
 							return function() {
-								func.apply(safeTranslator, this.args.wrappedJSObject);
+								func.apply(safeTranslator, this.args.wrappedJSObject || this.args);
 							}
 						}(safeTranslator[i]));
 					}
@@ -1169,7 +1179,7 @@ Zotero.Translate.Base.prototype = {
 		
 		// translate
 		try {
-			this._sandboxManager.sandbox["do"+this._entryFunctionSuffix].apply(null, this._getParameters());
+			Function.prototype.apply.call(this._sandboxManager.sandbox["do"+this._entryFunctionSuffix], null, this._getParameters());
 		} catch(e) {
 			this.complete(false, e);
 			return false;
@@ -1442,7 +1452,7 @@ Zotero.Translate.Base.prototype = {
 		this.incrementAsyncProcesses("Zotero.Translate#getTranslators");
 		
 		try {
-			var returnValue = this._sandboxManager.sandbox["detect"+this._entryFunctionSuffix].apply(null, this._getParameters());
+			var returnValue = Function.prototype.apply.call(this._sandboxManager.sandbox["detect"+this._entryFunctionSuffix], null, this._getParameters());
 		} catch(e) {
 			this.complete(false, e);
 			return;
@@ -1717,7 +1727,14 @@ Zotero.Translate.Web.prototype._getSandboxLocation = function() {
 /**
  * Pass document and location to detect* and do* functions
  */
-Zotero.Translate.Web.prototype._getParameters = function() { return [this.document, this.location]; }
+Zotero.Translate.Web.prototype._getParameters = function() {
+	if (Zotero.Translate.DOMWrapper && Zotero.Translate.DOMWrapper.isWrapped(this.document)) {
+		return [this._sandboxManager.wrap(Zotero.Translate.DOMWrapper.unwrap(this.document), null,
+			                              this.document.__wrapperOverrides), this.location];
+	} else {
+		return [this.document, this.location];
+	}
+};
 
 /**
  * Prepare translation
@@ -1989,13 +2006,13 @@ Zotero.Translate.Import.prototype._loadTranslatorPrepareIO = function(translator
 	if(!this._io) {
 		if(Zotero.Translate.IO.Read && this.location && this.location instanceof Components.interfaces.nsIFile) {
 			try {
-				this._io = new Zotero.Translate.IO.Read(this.location);
+				this._io = new Zotero.Translate.IO.Read(this.location, this._sandboxManager);
 			} catch(e) {
 				err = e;
 			}
 		} else {
 			try {
-				this._io = new Zotero.Translate.IO.String(this._string, this.path ? this.path : "");
+				this._io = new Zotero.Translate.IO.String(this._string, this.path ? this.path : "", this._sandboxManager);
 			} catch(e) {
 				err = e;
 			}
@@ -2158,7 +2175,7 @@ Zotero.Translate.Export.prototype._prepareTranslation = function() {
 	// this is currently hackish since we pass null callbacks to the init function (they have
 	// callbacks to be consistent with import, but they are synchronous, so we ignore them)
 	if(!this.location) {
-		this._io = new Zotero.Translate.IO.String(null, this.path ? this.path : "");
+		this._io = new Zotero.Translate.IO.String(null, this.path ? this.path : "", this._sandboxManager);
 		this._io.init(configOptions["dataMode"], function() {});
 	} else if(!Zotero.Translate.IO.Write) {
 		throw new Error("Writing to files is not supported in this build of Zotero.");
@@ -2346,7 +2363,7 @@ Zotero.Translate.IO = {
 /**
  * @class Translate backend for translating from a string
  */
-Zotero.Translate.IO.String = function(string, uri) {
+Zotero.Translate.IO.String = function(string, uri, sandboxManager) {
 	if(string && typeof string === "string") {
 		this.string = string;
 	} else {
@@ -2355,6 +2372,7 @@ Zotero.Translate.IO.String = function(string, uri) {
 	this.contentLength = this.string.length;
 	this.bytesRead = 0;
 	this._uri = uri;
+	this._sandboxManager = sandboxManager;
 }
 
 Zotero.Translate.IO.String.prototype = {
@@ -2444,7 +2462,7 @@ Zotero.Translate.IO.String.prototype = {
 			this._xmlInvalid = true;
 			throw e;
 		}
-		return (Zotero.isFx ? Zotero.Translate.DOMWrapper.wrap(xml) : xml);
+		return (Zotero.isFx && !Zotero.isBookmarklet ? this._sandboxManager.wrap(xml) : xml);
 	},
 	
 	"init":function(newMode, callback) {
