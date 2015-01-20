@@ -3841,6 +3841,34 @@ Zotero.Schema = new function(){
 						Zotero.DB.query(sql, sqlParams);
 					}
 				}
+				if (i==10002) {
+                    // Get conversion mapping JSON
+                    conversionMap = JSON.parse(Zotero.File.getContentsFromURL("resource://zotero/schema/jurisdiction-map-10002.json"));
+                    for (var key in conversionMap) {
+                        // get itemIDs from itemData
+                        var sql = "SELECT itemID FROM itemData JOIN itemDataValues USING(valueID) WHERE value=?";
+                        var sqlParams = [key];
+                        var itemIDs = Zotero.DB.columnQuery(sql, sqlParams);
+                        if (itemIDs && itemIDs.length) {
+                            var sql = "SELECT valueID FROM itemDataValues WHERE value=?";
+                            var sqlParams = [conversionMap[key]];
+                            var newValueID = Zotero.DB.valueQuery(sql, sqlParams);
+                            if (!newValueID) {
+                                var xsql = "INSERT INTO itemDataValues VALUES(NULL, ?)";
+                                var xsqlParams = [conversionMap[key]];
+                                Zotero.DB.query(xsql, xsqlParams);
+                                newValueID = Zotero.DB.valueQuery(sql, sqlParams);
+                            }
+                            for (var i=0,ilen=itemIDs.length;i<ilen;i++) {
+                                var sql = "UPDATE itemData SET valueID=? WHERE itemID=? AND fieldID=1261";
+                                Zotero.DB.query(sql, [newValueID, row.itemID]);
+                                // Delete old jurisdiction key
+                                var sql = "DELETE FROM itemDataValues WHERE value=?";
+                                Zotero.DB.query(sql, key);
+                            }
+                        }
+                    }
+                }
 				Zotero.wait();
 			}
 			
