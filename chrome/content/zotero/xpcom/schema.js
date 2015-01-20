@@ -1896,6 +1896,7 @@ Zotero.Schema = new function(){
 			//
 			// Each block performs the changes necessary to move from the
 			// previous revision to that one.
+
 			for (var i=fromVersion + 1; i<=toVersion; i++){
 				if (i==1){
 					Zotero.DB.query("DELETE FROM version WHERE schema='schema'");
@@ -3852,16 +3853,18 @@ Zotero.Schema = new function(){
                         if (itemIDs && itemIDs.length) {
                             var sql = "SELECT valueID FROM itemDataValues WHERE value=?";
                             var sqlParams = [conversionMap[key]];
+                            dump("XXX key="+key+"\n");
+                            dump("XXX   conversionMap[key]="+conversionMap[key]+"\n");
                             var newValueID = Zotero.DB.valueQuery(sql, sqlParams);
                             if (!newValueID) {
-                                var xsql = "INSERT INTO itemDataValues VALUES(NULL, ?)";
-                                var xsqlParams = [conversionMap[key]];
-                                Zotero.DB.query(xsql, xsqlParams);
+                                var insertSql = "INSERT INTO itemDataValues VALUES(NULL, ?)";
+                                var sqlParams = [conversionMap[key]];
+                                Zotero.DB.query(insertSql, sqlParams);
                                 newValueID = Zotero.DB.valueQuery(sql, sqlParams);
                             }
-                            for (var i=0,ilen=itemIDs.length;i<ilen;i++) {
+                            for (var j=0,jlen=itemIDs.length;j<jlen;j++) {
                                 var sql = "UPDATE itemData SET valueID=? WHERE itemID=? AND fieldID=1261";
-                                Zotero.DB.query(sql, [newValueID, row.itemID]);
+                                Zotero.DB.query(sql, [newValueID, itemIDs[j]]);
                                 // Delete old jurisdiction key
                                 var sql = "DELETE FROM itemDataValues WHERE value=?";
                                 Zotero.DB.query(sql, key);
