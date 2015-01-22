@@ -92,7 +92,7 @@ Zotero.Schema = new function(){
 		return false;
 	}
 	
-	
+		
 	this.userDataUpgradeRequired = function () {
 		var dbVersion = this.getDBVersion('userdata');
 		var schemaVersion = _getSchemaSQLVersion('userdata');
@@ -233,6 +233,13 @@ Zotero.Schema = new function(){
 				// MLZ: update language tables if required.
 				var up5 = _updateSchema('zls')
 				if (up5) Zotero.wait();
+
+				// MLZ: update language tables if required.
+				var up6 = _updateSchema('jurisdictions')
+				if (up6) {
+                    _populateJurisdictions();
+                    Zotero.wait();
+                }
 
 				Zotero.DB.commitTransaction();
 			}
@@ -1458,7 +1465,6 @@ Zotero.Schema = new function(){
 		return schemaVersion;
 	}
 	
-	
 	/*
 	 * Load in SQL schema
 	 *
@@ -1471,8 +1477,7 @@ Zotero.Schema = new function(){
 		
 		return Zotero.File.getContentsFromURL("resource://zotero/schema/"+schema+".sql");
 	}
-	
-	
+
 	/*
 	 * Determine the SQL statements necessary to drop the tables and indexed
 	 * in a given schema file
@@ -1622,6 +1627,32 @@ Zotero.Schema = new function(){
 			return false;
 		}
 	};
+
+	function _populateJurisdictions () {
+        var jObj = JSON.parse(Zotero.File.getContentsFromURL("resource://zotero/schema/jurisdictions.json"));
+        var jurisdictionSql = "INSERT INTO jurisdictions VALUES(?, ?, ?);"
+        var courtJurisdictionSql = "INSERT INTO courtJurisdictions VALUES(NULL, ?, ?);"
+        var courtSql = "INSERT INTO courts VALUES(?, ?, ?);"
+        for (var i=0,ilen=jObj.jurisdictions.length;i<ilen;i++) {
+            var entry = jObj.jurisdictions[i];
+            if ('number' === typeof entry[1]) {
+                entry[0] = jObj.jurisdictions[entry[1]][0] + '|' + entry[0]
+                entry[2] = jObj.jurisdictions[entry[1]][2] + ":" + entry[2]
+            }
+            Zotero.DB.query(jurisdictionSql, [{'int': i},{'string': entry[2]},{'string': entry[0]}])
+        }
+        var courtIndex = 0;
+        for (var courtKey in jObj.courts) {
+            var entry = jObj.courts[courtKey];
+            var courtName = entry.name;
+            Zotero.DB.query(courtSql, [{'int': courtIndex},{'string': courtKey},{'string': courtName}])
+            for (var j=0,jlen=entry.indexes.length;j<jlen;j+=1) {
+                var jurisdictionIndex = entry.indexes[j];
+                Zotero.DB.query(courtJurisdictionSql, [{'int': jurisdictionIndex},{'int': courtIndex}])
+            }
+            courtIndex += 1;
+        }
+    }
 
 	/**
 	* Process the response from the repository
@@ -3844,7 +3875,7 @@ Zotero.Schema = new function(){
 				}
 				if (i==10002) {
                     // Get conversion mapping JSON
-                    conversionMap = JSON.parse(Zotero.File.getContentsFromURL("resource://zotero/schema/jurisdiction-map-10002.json"));
+                    var conversionMap = JSON.parse(Zotero.File.getContentsFromURL("resource://zotero/schema/jurisdiction-map-10002.json"));
                     for (var key in conversionMap) {
                         // get itemIDs from itemData
                         var sql = "SELECT itemID FROM itemData JOIN itemDataValues USING(valueID) WHERE value=?";

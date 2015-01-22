@@ -828,6 +828,38 @@ Zotero.Cite.System.prototype = {
 		} else {
 			this.variableWrapper = null;
 		}
+    },
+
+    "getHumanForm":function(jurisdictionKey, courtKey) {
+        var ret;
+        if (jurisdictionKey && courtKey) {
+            var sql = "SELECT courtName FROM jurisdictions "
+                + "JOIN courtJurisdictions USING(jurisdictionIdx) "
+                + "JOIN courts USING(courtIdx) "
+                + "WHERE jurisdictionID=? AND courtID=?";
+            var sqlParams = [jurisdictionKey, courtKey];
+        } else if (jurisdictionKey) {
+            var sql = "SELECT jurisdictionName FROM jurisdictions "
+                + "WHERE jurisdictionID=?";
+            var sqlParams = [jurisdictionKey];
+        } else {
+            return false;
+        }
+        var res = Zotero.DB.valueQuery(sql, sqlParams);
+        if (res) {
+            if (!courtKey) {
+                // Do not chop court names or country names
+                res = res.split("|");
+                if (res.length > 2) {
+                    ret = res.slice(1).join("|");
+                }
+            }
+        } else if (courtKey) {
+            ret = courtKey
+        } else {
+            ret = jurisdictionKey
+        }
+        return ret;
     }
 }
 

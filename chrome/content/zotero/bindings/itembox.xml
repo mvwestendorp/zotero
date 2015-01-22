@@ -337,12 +337,12 @@
 			  </body>
 			</method>
 
-            <method name="buildLanguageMenu">
+			<method name="buildLanguageMenu">
 				<body>
-                  <![CDATA[
-                    var menu = this._multiSpawnMenu;
+				  <![CDATA[
+					var menu = this._multiSpawnMenu;
 					if (Zotero.CachedLanguages.menuHasChanged()) {
-                    	// Remove all nodes
+						// Remove all nodes
 						for (var i=0,ilen=menu.childNodes.length;i<ilen;i+=1) {
 							menu.removeChild(menu.childNodes[0]);
 						}
@@ -367,8 +367,8 @@
 						}
 					}
 				  ]]>
-                </body>
-            </method>
+				</body>
+			</method>
 
 			<method name="twiddleLanguageMenu">
 				<parameter name="triggerNode"/>
@@ -379,7 +379,7 @@
 					var menu = this._multiSpawnMenu;
 					if (!this.hasLang()) {
 						event.preventDefault();
-                        return false;
+						return false;
 					}
 					// Hide languages that are already used.
 					var row = Zotero.getAncestorByTagName(triggerNode, 'row');
@@ -991,6 +991,11 @@
 						}
 						boxedvalue.appendChild(jurisdictionDefault);
 						row.appendChild(boxedvalue);
+					} else if (fieldname == 'court') {
+						value.setAttribute("tooltiptext", value.getAttribute("label"));
+						var boxedvalue = document.createElement("hbox");
+						boxedvalue.appendChild(value);
+						row.appendChild(boxedvalue);
 					} else {
 						row.appendChild(value);
 					}
@@ -1024,7 +1029,7 @@
 			  <parameter name="language"/>
 				<body>
 				  <![CDATA[
-                    var node = this._triggerNode;
+					var node = this._triggerNode;
 					var row = Zotero.getAncestorByTagName(node, 'row');
 					var fieldstring = row.firstChild.getAttribute('fieldname');
 					var servantLang = row.firstChild.getAttribute('servantLang');
@@ -1979,6 +1984,42 @@
 			</method>
 
 
+			<method name="showCourtEditor">
+				<parameter name="node"/>
+				<body>
+				<![CDATA[
+					var tabindex = node.getAttribute("ztabindex");
+
+					
+					var jurisdictionID = document.getElementById("jurisdiction-menu").getAttribute("value");
+
+					var value = node.getAttribute('label');
+					var textbox = document.createElement('textbox');
+					textbox.setAttribute("ztabindex", tabindex);
+					textbox.setAttribute('value',value);
+					
+					textbox.setAttribute("oldComment",node.getAttribute("value"));
+					textbox.setAttribute("oldValue",node.getAttribute("label"));
+					textbox.setAttribute("flex","1");
+					textbox.setAttribute('emptytext','Select a court or enter its name');
+					textbox.setAttribute('type','autocomplete');
+					textbox.setAttribute('autocompletesearch','zotero');
+					textbox.setAttribute('autocompletesearchparam','{"fieldName":"courts", "jurisdictionID": "' + jurisdictionID + '"}');
+
+					textbox.setAttribute('onkeypress','document.getBindingParent(this).handleJurisdictionKeypress(event);');
+					textbox.setAttribute('ontextentered','document.getBindingParent(this).handleJurisdictionAutoCompleteSelect(this)');
+					node.parentNode.replaceChild(textbox, node)
+					textbox.addEventListener('blur', function (event) {
+						document.getBindingParent(this).hideCourtEditor(this);
+					}, false);
+					 textbox.select();
+					this._tabDirection = false;
+					this._lastTabIndex = tabindex;
+				]]>
+				</body>
+			</method>
+
+
 			<method name="handleJurisdictionKeypress">
 				<parameter name="event"/>
 				<body>
@@ -2044,11 +2085,46 @@
 			</method>
 
 
+			<method name="hideCourtEditor">
+				<parameter name="node"/>
+				<parameter name="result"/>
+				<body>
+				<![CDATA[
+
+				  var valueElement = document.createElement("menulist");
+
+				  if (!result) {
+					var rawValue = node.value;
+				  	result = {val:rawValue,comment:rawValue};
+					if (rawValue) {
+					  valueElement.setAttribute("style","background:yellow;");
+					}
+				  }
+				  
+				  var tabindex = node.setAttribute("ztabindex", tabindex);
+
+				  valueElement.setAttribute("id","court-menu");
+				  valueElement.setAttribute("ztabindex", tabindex);
+				  valueElement.setAttribute("flex","1");
+				  valueElement.setAttribute("class", "zotero-clicky");
+				  valueElement.setAttribute("onclick","document.getBindingParent(this).showCourtEditor(this);");
+				  valueElement.setAttribute("value",result.comment);
+				  valueElement.setAttribute("label",result.val);
+				  valueElement.setAttribute("tooltiptext",result.val);
+				  node.parentNode.replaceChild(valueElement,node);
+				  this.item.setField("court",result.comment);
+				  this.item.save();
+				]]>
+				</body>
+			</method>
+
+
 			<method name="handleJurisdictionAutoCompleteSelect">
 				<parameter name="textbox"/>
 				<body>
 				<![CDATA[
 				  var result;
+				  var fieldname = Zotero.getAncestorByTagName(textbox, "row").firstChild.getAttribute("fieldname");
 				  if (textbox.value) {
 				   	// Comment is the tag code, value is the tag description
 				   	result = this.getJurisdictionResult(textbox);
@@ -2056,7 +2132,11 @@
 				  // Close editor
 				  // comment = key
 				  // val = description
-				  this.hideJurisdictionEditor(textbox, result);
+				  if (fieldname === "jurisdiction") {
+					this.hideJurisdictionEditor(textbox, result);
+				  } else {
+					this.hideCourtEditor(textbox, result);
+				  }
 				]]>
 				</body>
 			</method>
@@ -2116,6 +2196,21 @@
 							valueElement.setAttribute("value", value);
 						}
 					}
+					else if (fieldName === 'court') {
+						var valueElement = document.createElement("menulist");
+						valueElement.setAttribute("id","court-menu");
+						var jurisdictionValue = this.item.getField("jurisdiction",true);
+						var value = this.item.getField("court",true);
+						if (jurisdictionValue && value) {
+							var label = Zotero.DB.valueQuery("SELECT courtName FROM jurisdictions JOIN courtJurisdictions USING(jurisdictionIdx) JOIN courts USING(courtIdx) WHERE jurisdictionID=? AND courtID=?",[jurisdictionValue,value]);
+							if (!label) {
+								label = value;
+								valueElement.setAttribute("style","background:yellow;");
+							}
+							valueElement.setAttribute("label", label);
+							valueElement.setAttribute("value", value);
+						}
+					}
 					else if (useVbox) {
 						var valueElement = document.createElement("vbox");
 					}
@@ -2129,6 +2224,10 @@
 					if (this._fieldIsClickable(fieldName)) {
 						if (fieldName == 'jurisdiction') {
 							valueElement.setAttribute("onclick","document.getBindingParent(this).showJurisdictionEditor(this);");
+							valueElement.className = 'zotero-clicky';
+							return valueElement;
+						} else if (fieldName == 'court') {
+							valueElement.setAttribute("onclick","document.getBindingParent(this).showCourtEditor(this);");
 							valueElement.className = 'zotero-clicky';
 							return valueElement;
 						} else {
@@ -2756,28 +2855,8 @@
  				</body>
 			</method>
 			
-			<method name="jurisdictionMenuTab">
-				<parameter name="event"/>
-				<body>
-				<![CDATA[
-					var elem = event.target;
-					var ztabindex = elem.getAttribute("ztabindex");
-					var tabindex = parseInt(elem.getAttribute("ztabindex"),10);
-					if (!event.shiftKey) {
-						tabindex += 1;
-					} else {
-						// Shift-tab
-						tabindex += -1;
-					}
-					var nextelem = this._dynamicFields.getElementsByAttribute("ztabindex",tabindex)[0];
-					nextelem.click();
-					event.preventDefault();
- 				]]>
- 				</body>
-			</method>
 			
 			
-
 			<method name="hideEditor">
 				<parameter name="textbox"/>
 				<body>
@@ -3784,7 +3863,7 @@ if (oldCreator.id) {
 				  <menupopup id="multi-spawn-popup" 
 							 position="after_start"
 							 onpopupshowing="document.getBindingParent(this).buildLanguageMenu();
-                                var triggerNode = null;
+								var triggerNode = null;
 								if (event.target.triggerNode) {
 								  triggerNode = event.target.triggerNode;
 								  if (document.getBindingParent(this)._contextMenuUsed) {
@@ -3796,7 +3875,7 @@ if (oldCreator.id) {
 									this.childNodes[1].setAttribute('hidden', false);
 									document.getBindingParent(this)._leftClick = true;
 								  }
-                                  document.getBindingParent(this)._triggerNode = event.target.triggerNode;
+								  document.getBindingParent(this)._triggerNode = event.target.triggerNode;
 								} else if (document.getBindingParent(this)._triggerNode) {
 								  triggerNode = document.getBindingParent(this)._triggerNode;
 								  this.childNodes[0].setAttribute('hidden', true);
@@ -3804,7 +3883,7 @@ if (oldCreator.id) {
 								  document.getBindingParent(this)._leftClick = true;
 								}
 								document.getBindingParent(this)._contextMenuUsed = false;
-                                document.getBindingParent(this).twiddleLanguageMenu(triggerNode);">
+								document.getBindingParent(this).twiddleLanguageMenu(triggerNode);">
 					<label id="zotero-lang-add"
 						   style="font-weight:bold;" 
 						   value="&zotero.items.menu.addTag;" hidden="true"/>
@@ -3864,7 +3943,7 @@ if (oldCreator.id) {
 						<menu id="zotero-creator-lang-menu"
 							position="start_after"
 							onmouseover="var triggerNode = document.getBindingParent(this)._triggerNode;
-                            document.getBindingParent(this).buildLanguageMenu();
+							document.getBindingParent(this).buildLanguageMenu();
 							document.getBindingParent(this)._multiSpawnPopup.openPopup(triggerNode,'bottomleft topright', null, null, true);"
 							label="&zotero.items.menu.changeTag;"/>
 

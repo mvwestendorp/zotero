@@ -96,6 +96,15 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
 		
+		case 'courts':
+			var sql = 'SELECT courtName as val,courtID as comment FROM jurisdictions '
+				+ 'JOIN courtJurisdictions USING(jurisdictionIdx) '
+				+ 'JOIN courts USING(courtIdx) '
+	 	 		+ 'WHERE jurisdictionID=? AND courtName LIKE ? ORDER BY courtName';
+			var sqlParams = [searchParams.jurisdictionID, '%' + searchString + '%'];
+			statement = this._zotero.DB.getStatement(sql, sqlParams);
+			break;
+		
 		case 'tag':
 			var sql = "SELECT DISTINCT name AS val, NULL AS comment FROM tags WHERE name LIKE ?";
 			var sqlParams = [searchString + '%'];
