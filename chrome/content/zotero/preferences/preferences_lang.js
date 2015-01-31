@@ -307,6 +307,7 @@ Zotero_Preferences.Lang = {
  	    label.setAttribute('type',subtagdata.type);
  	    label.setAttribute('style','font-size:larger;margin:0px;');
  	    box.appendChild(label);
+ 	    Zotero.CachedLanguages.taint();
     },
     
     handleLangKeypress: function (event, type) {
@@ -363,6 +364,7 @@ Zotero_Preferences.Lang = {
  				    textbox.blur();
  			    }
  		    }
+ 	        Zotero.CachedLanguages.taint();
  	    }
     },
     
@@ -370,7 +372,6 @@ Zotero_Preferences.Lang = {
  	    // XXXZ This does not run for primary tags ... system uses
  	    // cachedLanguages instead. Should be using cachedLanguages
  	    // for everything?
-        Zotero.debug("KKK I'm trying!");
  	    var tag = Zotero_Preferences.Lang.getTagFromTagdata(tagdata);
  	    var parent = Zotero_Preferences.Lang.getTagFromTagdata(tagdata.slice(0,-1));
  	    var sql = "INSERT INTO zlsTags VALUES (?,?,?)";
@@ -447,6 +448,7 @@ Zotero_Preferences.Lang = {
  		    Zotero.DB.query(sql,[tag]);
  	    }
  	    Zotero_Preferences.Lang.refreshLanguages();
+ 	    Zotero.CachedLanguages.taint();
     },
     
     tagDependents: function (tag) {

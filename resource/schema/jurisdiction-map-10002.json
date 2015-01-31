@@ -100,6 +100,7 @@
   "us;ct": "us:ct", 
   "us;dc": "us:dc", 
   "us;de": "us:de", 
+  "us;federal": "us", 
   "us;federal;1-cir": "us:c1", 
   "us;federal;1-cir-bankr": "us:c1", 
   "us;federal;10-cir": "us:c10", 

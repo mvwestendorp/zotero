@@ -331,7 +331,7 @@ Zotero.Creator.prototype.checkinCreatorData = function (fields) {
 	
 	if (!ret.dataID) {
 		ret.dataID = Zotero.Creators.getDataID(fields, true);
-        // Adapted from Zotero 3.0 branch, 28 Feb 2012 (commit: cb19ac18f7f0817e814ffea3ce05769a1c6b289d)
+		// Adapted from Zotero 3.0 branch, 28 Feb 2012 (commit: cb19ac18f7f0817e814ffea3ce05769a1c6b289d)
 		if (ret.dataID != dataID) {
 			fields._creatorDataID = ret.dataID;
 	}

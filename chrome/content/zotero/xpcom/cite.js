@@ -803,7 +803,7 @@ Zotero.Cite.System.prototype = {
 				if (params.variableNames[0] === 'title' 
 					&& (params.itemData.URL || params.itemData.URL_REAL || params.itemData.DOI)
 					&& params.context === "bibliography") {
-                    
+					
 					var URL = null;
 					var DOI = params.itemData.DOI;
 					if (DOI) {
@@ -828,39 +828,42 @@ Zotero.Cite.System.prototype = {
 		} else {
 			this.variableWrapper = null;
 		}
-    },
+	},
 
-    "getHumanForm":function(jurisdictionKey, courtKey) {
-        var ret;
-        if (jurisdictionKey && courtKey) {
-            var sql = "SELECT courtName FROM jurisdictions "
-                + "JOIN courtJurisdictions USING(jurisdictionIdx) "
-                + "JOIN courts USING(courtIdx) "
-                + "WHERE jurisdictionID=? AND courtID=?";
-            var sqlParams = [jurisdictionKey, courtKey];
-        } else if (jurisdictionKey) {
-            var sql = "SELECT jurisdictionName FROM jurisdictions "
-                + "WHERE jurisdictionID=?";
-            var sqlParams = [jurisdictionKey];
-        } else {
-            return false;
-        }
-        var res = Zotero.DB.valueQuery(sql, sqlParams);
-        if (res) {
-            if (!courtKey) {
-                // Do not chop court names or country names
-                res = res.split("|");
-                if (res.length > 2) {
-                    ret = res.slice(1).join("|");
-                }
-            }
-        } else if (courtKey) {
-            ret = courtKey
-        } else {
-            ret = jurisdictionKey
-        }
-        return ret;
-    }
+	"getHumanForm":function(jurisdictionKey, courtKey) {
+		var ret;
+		var res;
+		if (jurisdictionKey && courtKey) {
+			res = Zotero.Utilities.getCourtName(jurisdictionKey,courtKey);
+		} else {
+			if (jurisdictionKey) {
+				var sql = "SELECT jurisdictionName FROM jurisdictions "
+					+ "WHERE jurisdictionID=?";
+				var sqlParams = [jurisdictionKey];
+			} else {
+				return false;
+			}
+			res = Zotero.DB.valueQuery(sql, sqlParams);
+		}
+		if (res) {
+			if (!courtKey) {
+				// Do not chop court names or country names
+				res = res.split("|");
+				if (res.length > 2) {
+					ret = res.slice(1).join("|");
+				} else {
+					ret = res.join("|");
+				}
+			} else {
+				ret = res;
+			}
+		} else if (courtKey) {
+			ret = courtKey
+		} else {
+			ret = jurisdictionKey
+		}
+		return ret;
+	}
 }
 
 Zotero.Cite._monthStrings = false;

@@ -270,6 +270,25 @@ label.zotero-text-link {
 
 .zotero-alien-clicky:hover {
 	border: 1px solid rgb(109, 149, 224);
+    border-radius: 0.6em;
+}
+
+
+rows.multi .zotero-alien-clicky
+{	
+    color: #666;
+    font-size: 90%;
+	border-radius: 6px;
+	border-bottom: 1px solid #aaa;
+	border-left: 2px solid #aaa;
+    padding-right: 0.6em;
+}
+
+rows.multi .zotero-alien-clicky:hover {
+	border-bottom: 1px solid #aaa;
+	border-left: 2px solid #aaa;
+	border-right: 1px solid #aaa;
+	border-top: 1px solid #aaa;
 }
 
 

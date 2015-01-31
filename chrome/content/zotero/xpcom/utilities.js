@@ -385,44 +385,6 @@ Zotero.Utilities = {
 		return fields;
 	},
 	
-	/**
-	 * Retrieves the list of available content languages
-	 */
-	"languageList":function (item) {
-		// XXXX This should really be placed behind a cache in
-		// CachedLanguages(). Code needs a general tidying up.
-		if (item) {
-			var itemLanguages = {};
-			var insertSql = "INSERT INTO zlsTags VALUES (?,?,?)";
-			var snoopSql = "SELECT COUNT (*) FROM zlsTags WHERE tag=?";
-			for (var fieldID in item.multi._keys) {
-				for (var langTag in item.multi._keys[fieldID]) {
-					itemLanguages[langTag] = true;
-				}
-				if (item.multi.main[fieldID]) {
-					itemLanguages[item.multi.main[fieldID]] = true;
-				}
-			}
-			for (var tag in itemLanguages) {
-				if (!Zotero.DB.valueQuery(snoopSql, [tag])) {
-					Zotero.DB.query(insertSql, [tag,tag,null]);
-				}
-			}
-		}
-		var sql = 'SELECT nickname,tag from zlsTags';
-		var result = Zotero.DB.query(sql);
-		if (result) {
-			// Was using strcmp from itemTreeView, but that's
-			// no longer accessible.
-			result.sort(function(a,b){
-				return a.nickname.localeCompare(b.nickname);
-			});
-		} else {
-			result = [];
-		};
-		return result;
-	},
-
 	"composeDoc":function(doc, titleOrHead, object, suppressURL) {
 		var o;
 		var content = false;
@@ -1848,7 +1810,7 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} item
 	 * @return {Object} The CSL item
 	 */
-	"itemToCSLJSON":function(arrayItem, ignoreURL, portableJSON) {
+	"itemToCSLJSON":function(arrayItem, ignoreURL, portableJSON, stopAuthority) {
 
 		// convert toArray() if needed.
 		if(arrayItem instanceof Zotero.Item) {
@@ -1937,33 +1899,37 @@ Zotero.Utilities = {
 			arrayItem.creators = [];
 		}
 		var creators = arrayItem.creators.slice();
-
-		if (!portableJSON) {
+		
+		if (!portableJSON && !stopAuthority) {
 			// XXX This, too, should be happening inside the processor
 			// XXX If this is CSL, shouldn't these be given and family?
 			// Stir in authority variable
 			if (cslItem.authority) {
 				var nameObj = {
 					'creatorType':'authority',
-					'family':cslItem.authority,
-					'given':'',
+					'lastName':cslItem.authority,
+					'firstName':'',
 					'fieldMode': 1,
 					'multi':{'_key':{}}
 				}
 				// _lsts not used in cslItem. Arguably it could be, to fix priorities. One day.
 				for (var langTag in cslItem.multi._keys.authority) {
 					nameObj.multi._key[langTag] = {
-						'family':cslItem.multi._keys.authority[langTag],
-						'given':''
+						'lastName':cslItem.multi._keys.authority[langTag],
+						'firstName':''
 					}
 				}
-				nameObj.multi.main = arrayItem.multi.main.authority;
+				if (cslItem.multi._keys.authority) {
+					delete cslItem.multi._keys.authority;
+				}
+				nameObj.multi.main = cslItem.multi.main.authority;
 				creators.push(nameObj);
 				delete cslItem.authority;
 			}
 		}
 
-		for each(var creator in creators) {
+		for (var i=0,ilen=creators.length;i<ilen;i++) {
+			var creator = creators[i];
 			if(creator.creatorType == authorFieldName) {
 				var creatorType = "author";
 			} else if (creator.creatorType === 'authority') {
@@ -1974,7 +1940,7 @@ Zotero.Utilities = {
 			
 			var creatorType = CSL_NAMES_MAPPINGS[creatorType];
 			if(!creatorType) continue;
-			
+
 			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
 				var nameObj = {
 					'family':creator.lastName, 
@@ -2417,5 +2383,63 @@ Zotero.Utilities = {
 	 * Provides unicode support and other additional features for regular expressions
 	 * See https://github.com/slevithan/xregexp for usage
 	 */
-	 "XRegExp": XRegExp
+	"XRegExp": XRegExp,
+
+	"getCourtName":function(jurisdictionID, courtID, fallback) {
+		var countryID = jurisdictionID.split(":")[0];
+		var sql = "SELECT courtName FROM jurisdictions JU "
+			+ "JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) "
+			+ "JOIN courts USING(courtIdx) "
+			+ "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
+			+ "JOIN courtNames CN USING(courtNameIdx) "
+			+ "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx "
+			+ "WHERE courtID=? AND JU.jurisdictionID=? AND CO.jurisdictionID=?";
+		var res = Zotero.DB.valueQuery(sql,[courtID,jurisdictionID,countryID]);
+		return res || !fallback ? res : courtID;
+	},
+
+	"getCourtID":function(jurisdictionID, courtName, fallback) {
+		var countryID = jurisdictionID.split(":")[0];
+		var sql = "SELECT courtID FROM jurisdictions JU "
+			+ "JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) "
+			+ "JOIN courts USING(courtIdx) "
+			+ "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
+			+ "JOIN courtNames CN USING(courtNameIdx) "
+			+ "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx "
+			+ "WHERE courtName=? AND JU.jurisdictionID=? AND CO.jurisdictionID=?";
+		var res = Zotero.DB.valueQuery(sql,[courtName,jurisdictionID,countryID]);
+		return res || !fallback ? res : courtName;
+	},
+
+	"getJurisdictionName":function(jurisdictionID, fallback) {
+		var sql = "SELECT jurisdictionName FROM jurisdictions "
+			+ "WHERE jurisdictionID=?;";
+		var res = Zotero.DB.valueQuery(sql, [jurisdictionID]);
+		return res || !fallback ? res : jurisdictionID;
+	},
+
+	"remapCourtName":function(oldJurisdictionID,newJurisdictionID,courtIdOrName) {
+		if (!courtIdOrName) {
+			return "";
+		}
+		// Do we have an ID or a name
+		var isId = false;
+		if (courtIdOrName.match(/^[.a-z0-9]$/)) {
+			isId = true;
+		}
+		var newValue = courtIdOrName;
+		if (isId) {
+			// Try for a name in the new jurisdiction
+			var courtName = Zotero.Utilities.getCourtName(newJurisdictionID, courtIdOrName);
+			if (!courtName) {
+				// No luck, so try in the old jurisdiction, falling back to the bare ID
+				newValue = Zotero.Utilities.getCourtName(oldJurisdictionID, courtIdOrName, true);
+			}
+			// If found in the new jurisdiction, reuse the ID
+		} else {
+			// Try to map to an ID in the new jurisdiction, falling back to the name
+			newValue = Zotero.Utilities.getCourtID(newJurisdictionID, courtIdOrName, true);
+		}
+		return newValue;
+	}
 }

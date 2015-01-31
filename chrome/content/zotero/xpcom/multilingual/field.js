@@ -18,16 +18,19 @@ Zotero.MultiField = function(parent){
 };
 
 Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top) {
-
 	if (!fieldID) {
 		Zotero.debug("MultiField.set called without specifying fieldID");
 		return;
 	}
-
 	// Add or edit (if field is empty, deletion will be handled
 	// in item.save())
-	if (!lang || (lang === this.main[fieldID] || force_top)) {
-		if (value || !this._lsts[fieldID] || !this._lsts[fieldID].length) {
+	if (!lang || lang === this.main[fieldID] || force_top) {
+		// XXX Throw error if language exists on multi.
+		if (this.hasLang(lang, fieldID, true)) {
+			Zotero.debug("XXX Attempt to save existing tag to main: " + lang);
+			throw "Attempt to save existing tag to main: " + lang;
+		}
+		if (value) {
 			this.parent[fieldID] = value;
 			if (lang && force_top) {
 				this.main[fieldID] = lang;
@@ -48,10 +51,10 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top) {
 Zotero.MultiField.prototype.get = function (fieldID, langs, honorEmpty) {
 	var val, lang;
 	if (!this.parent._itemDataLoaded) {
-        // Safer path to initialisation, may avoid "itemID not set for object" error.
-	    if ((this.parent._id || this.parent._key) && !this.parent._primaryDataLoaded) {
-		    this.parent.loadPrimaryData(true);
-	    }
+		// Safer path to initialisation, may avoid "itemID not set for object" error.
+		if ((this.parent._id || this.parent._key) && !this.parent._primaryDataLoaded) {
+			this.parent.loadPrimaryData(true);
+		}
 		this.parent._loadItemData();
 	}
 	fieldID = Zotero.ItemFields.getID(fieldID);
@@ -78,7 +81,21 @@ Zotero.MultiField.prototype.get = function (fieldID, langs, honorEmpty) {
 	return val ? val : '';
 };
 
+Zotero.MultiField.prototype.mainLang = function (fieldID) {
+	if (!fieldID) {
+		throw "MultiField.mainLang() called without fieldID"
+	}
+	fieldID = Zotero.ItemFields.getID(fieldID);
+	if (this.main[fieldID]) {
+		return this.main[fieldID];
+	}
+	return false;
+};
+
 Zotero.MultiField.prototype.langs = function (fieldID) {
+	if (!fieldID) {
+		throw "MultiField.langs() called without fieldID"
+	}
 	fieldID = Zotero.ItemFields.getID(fieldID);
 	if (this._lsts[fieldID]) {
 		return this._lsts[fieldID];
@@ -87,9 +104,11 @@ Zotero.MultiField.prototype.langs = function (fieldID) {
 };
 
 
-Zotero.MultiField.prototype.hasLang = function (langTag, field) {
+Zotero.MultiField.prototype.hasLang = function (langTag, field, multiOnly) {
 	var fieldID = Zotero.ItemFields.getID(field);
-	if (this.main[fieldID] === langTag || (this._keys[fieldID] && this._keys[fieldID][langTag])) {
+	if (!multiOnly && this.main[fieldID] === langTag) {
+		return true;
+	} else if (this._keys[fieldID] && this._keys[fieldID][langTag]) {
 		return true;
 	}
 	return false;
@@ -156,6 +175,9 @@ Zotero.MultiField.prototype.merge = function (otherItem, shy) {
 }
 
 Zotero.MultiField.prototype.data = function (fieldID) {
+	if (!fieldID) {
+		throw "MultiField.data() called without fieldID"
+	}
 	var fieldID = Zotero.ItemFields.getID(fieldID);
 	return [{languageTag: this._lsts[fieldID][i],value: this._keys[fieldID][this._lsts[fieldID][i]]} for (i in this._lsts[fieldID])];
 };

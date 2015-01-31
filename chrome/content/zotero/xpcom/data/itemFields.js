@@ -382,9 +382,8 @@ Zotero.ItemFields = new function() {
 			'abstractNote',
 			'extra',
 			'caseName',
-			'court',
-            'title',
-            'nameOfAct',
+			'title',
+			'nameOfAct',
 			'publicationTitle',
 			// TEMP - NSF
 			'address'

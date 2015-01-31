@@ -986,6 +986,7 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 		//			&& this._itemData[fieldID] === value)) {
 		//	return false;
 		//}
+
 		if (
 			(!this._itemData[fieldID] && !value) 
 			|| (
@@ -1019,7 +1020,7 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 	if (lang && lang !== this.multi.main[fieldID] && this._itemData[fieldID]) {
 		this.multi._set(fieldID, value, lang, force_top);
 	} else {
-	this._itemData[fieldID] = value;
+		this._itemData[fieldID] = value;
 		if (lang) {
 			// OOOOO: Should normalize language tag before this operation.
 			// (not sure how this will play during a delete operation)
@@ -1146,12 +1147,15 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 	else if (itemTypeID == 17) { // 'case' itemTypeID
 		if (title) { // common law cases always have case names, but come from multiple reporters
 			var reporter = this.getField('reporter', false, true, language);
-			if (reporter) { 
+			if (reporter) {
 				title = title + ' (' + reporter + ')';
 			} else {
-				var court = this.getField('court');
-				if (court) {
-					title = title + ' (' + court + ')';
+				var jurisdictionID = this.getField('jurisdiction');
+				var courtID = this.getField('court');
+				if (jurisdictionID && courtID) {
+					var courtName = Zotero.Utilities.getCourtName(jurisdictionID,courtID);
+					courtName = courtName ? courtName : courtID;
+					title = title + ' (' + courtName + ')';
 				}
 			}
 		} else if (this.getField('shortTitle')) { // civil law cases have only shortTitle as case name ...
@@ -1160,8 +1164,11 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 			var strParts = [];
 			var caseinfo = "";
 			
-			var part = this.getField('court', false, true, language);
-			if (part) {
+			var jurisdictionID = this.getField('jurisdiction');
+			var courtID = this.getField('court', false, true, language);
+			if (jurisdictionID && courtID) {
+				var courtName = Zotero.Utilities.getCourtName(jurisdictionID,courtID);
+				var part = courtName ? courtName : courtID;
 				strParts.push(part);
 			}
 			
@@ -1311,6 +1318,45 @@ Zotero.Item.prototype.getCreators = function() {
 	return this._creators;
 }
 
+/*
+ * Swap two creators and their multilingual variants
+ *
+ * |indexOne|: the position of one item to be swapped.
+ * |indexTwo|: the position of the other item.
+ */
+Zotero.Item.prototype.swapCreators = function(indexOne, indexTwo) {
+	var creatorOne = this.getCreator(indexOne);
+	var creatorTwo = this.getCreator(indexTwo);
+	var langTags = creatorOne.multi.langs();
+	var creatorTwoLangs = creatorTwo.multi.langs();
+	for (var i=0,ilen=creatorTwoLangs.length;i<ilen;i++) {
+	var langTag = creatorTwoLangs[i];
+	if (!creatorOne.multi.hasLang(langTag, true)) {
+		langTags.push(langTag);
+	}
+	}
+	this._creators[indexOne] = creatorTwo;
+	this._creators[indexTwo] = creatorOne;
+	if (!this._changedCreators) {
+	this._changedCreators = {};
+	}
+	this._changedCreators[indexOne] = true;
+	this._changedCreators[indexTwo] = true;
+	if (!this._changedAltCreators) {
+	this._changedAltCreators = {};
+	}
+	if (!this._changedAltCreators[indexOne]) {
+	this._changedAltCreators[indexOne] = {};
+	}
+	if (!this._changedAltCreators[indexTwo]) {
+	this._changedAltCreators[indexTwo] = {};
+	}
+	for (var i=0,ilen=langTags.length;i<ilen;i++) {
+	var langTag = langTags[i];
+	this._changedAltCreators[indexOne][langTag] = true;
+	this._changedAltCreators[indexTwo][langTag] = true;
+	}
+}
 
 /*
  * Set or update the creator at the specified position
@@ -1373,11 +1419,12 @@ Zotero.Item.prototype.setCreator = function(orderIndex,
 	if (mytarget &&
 			mytarget.id == creator.id &&
 			this._creators[orderIndex].creatorTypeID == creatorTypeID &&
+			this._creators[orderIndex].multi.mainLang() == langTag &&
 			!creator.hasChanged()) {
 		Zotero.debug("Creator in position " + orderIndex + " hasn't changed", 4);
 		return false;
 	}
-	
+
 	var headlineChange = false;
 	var multiChange = false;
 	if (!this._creators[orderIndex]) {
@@ -1418,24 +1465,24 @@ Zotero.Item.prototype.setCreator = function(orderIndex,
 	}
 	
 	if (headlineChange !== false) {
-	if (!this._changedCreators) {
+		if (!this._changedCreators) {
 		this._changedCreators = {};
-
+		
 		var oldCreators = this._getOldCreators()
 		this._markFieldChange('creators', oldCreators);
-	}
-	this._changedCreators[orderIndex] = true;
+		}
+		this._changedCreators[orderIndex] = true;
 		if (forceInsert) {
-			for (var i = orderIndex, ilen = this._creators.length; i < ilen; i += 1) {
-				this._changedCreators[i] = true;
-			}
+		for (var i = orderIndex, ilen = this._creators.length; i < ilen; i += 1) {
+			this._changedCreators[i] = true;
+		}
 		}
 	} else if (multiChange) {
 		if (!this._changedAltCreators) {
-			this._changedAltCreators = {};
+		this._changedAltCreators = {};
 		}
 		if (!this._changedAltCreators[orderIndex]) {
-			this._changedAltCreators[orderIndex] = {};
+		this._changedAltCreators[orderIndex] = {};
 		}
 		this._changedAltCreators[orderIndex][langTag] = true;
 	}
@@ -1462,12 +1509,7 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, langTag) {
 	}
 	
 	if (langTag) {
-		delete creator.multi._key[langTag];
-		for (var i = creator.multi._lst.length - 1; i > -1; i += -1) {
-			if (creator.multi._lst[i] === langTag) {
-				creator.multi._lst = creator.multi._lst.slice(0, i).concat(creator.multi._lst.slice(i + 1));
-			}
-		}
+		creator.multi.removeCreator(langTag);
 		if (!this._changedAltCreators) {
 			this._changedAltCreators = {};
 		}
@@ -1475,37 +1517,38 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, langTag) {
 			this._changedAltCreators[orderIndex] = {};
 		}
 		this._changedAltCreators[orderIndex][langTag] = true;
+		// XXX ??? purge.creators ???
 		return true;
 	} else {
-
+		
 		creator.ref._changed = true;
 		if (!this._changedCreators) {
 			this._changedCreators = {};
 		}
-
-		if (creator.ref.id && creator.ref.countLinkedItems() == 1) {
-		Zotero.Prefs.set('purge.creators', true);
-	}
-	
-	// Save copy of old creators for notifier
-	if (!this._changedCreators) {
-		this._changedCreators = {};
 		
-		var oldCreators = this._getOldCreators();
-		this._markFieldChange('creators', oldCreators);
-	}
-	
-	// Shift creator orderIndexes down, going to length+1 so we clear the last one
-	for (var i=orderIndex, max=this._creators.length+1; i<max; i++) {
-		var next = this._creators[i+1] ? this._creators[i+1] : false;
-		if (next) {
-			this._creators[i] = next;
-			} else {
-			this._creators.splice(i, 1);
+		if (creator.ref.id && creator.ref.countLinkedItems() == 1) {
+			Zotero.Prefs.set('purge.creators', true);
 		}
-		this._changedCreators[i] = true;
-	}
-	return true;
+		
+		// Save copy of old creators for notifier
+		if (!this._changedCreators) {
+		this._changedCreators = {};
+			
+			var oldCreators = this._getOldCreators();
+			this._markFieldChange('creators', oldCreators);
+		}
+		
+		// Shift creator orderIndexes down, going to length+1 so we clear the last one
+		for (var i=orderIndex, max=this._creators.length+1; i<max; i++) {
+			var next = this._creators[i+1] ? this._creators[i+1] : false;
+			if (next) {
+				this._creators[i] = next;
+			} else {
+				this._creators.splice(i, 1);
+			}
+			this._changedCreators[i] = true;
+		}
+		return true;
 	}
 }
 

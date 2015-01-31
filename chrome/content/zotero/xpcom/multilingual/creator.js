@@ -37,6 +37,8 @@ Zotero.MultiCreator.prototype.setFields = function (fields, lang) {
 			this._key[lang].birthYear = this.parent.birthYear;
 		}
 
+		// ??? What about altCreatorsChanged (which does work)
+
 		this._key[lang]._changed = true;
 	}
 	this.parent._changed = true;
@@ -65,12 +67,34 @@ Zotero.MultiCreator.prototype.get = function (field, langs) {
 	}
 };
 
-Zotero.MultiCreator.prototype.getCreator = function (langTag) {
-	if (langTag === this.main) {
+Zotero.MultiCreator.prototype.getCreator = function (langTag, strictMode) {
+	if (langTag === this.main && !strictMode) {
 		return this.parent;
 	} else {
 		return this._key[langTag];
 	}
+};
+
+Zotero.MultiCreator.prototype.removeCreator = function (langTag) {
+	var creator = null;
+	if (!langTag) {
+		throw "Attempt to remove multi creator without langTag"
+	}
+	if (this._key[langTag]) {
+		var creator = this._key[langTag];
+		delete this._key[langTag];
+		for (var i=this._lst.length-1;i>-1;i--) {
+			if (this._lst[i] === langTag) {
+			   this._lst = this._lst.slice(0,i).concat(this._lst.slice(i+1));
+			}
+		}
+		// Save must be done separately.
+	}
+	return creator;
+}
+
+Zotero.MultiCreator.prototype.mainLang = function () {
+	return this.main;
 };
 
 
@@ -87,8 +111,8 @@ Zotero.MultiCreator.prototype.data = function () {
 };
 
 
-Zotero.MultiCreator.prototype.hasLang = function (langTag) {
-	if (this.main === langTag || this._key[langTag]) {
+Zotero.MultiCreator.prototype.hasLang = function (langTag, multiOnly) {
+	if ((!multiOnly && this.main === langTag) || this._key[langTag]) {
 		return true;
 	}
 	return false;
@@ -110,6 +134,7 @@ Zotero.MultiCreator.prototype.changeLangTag = function (oldTag, newTag) {
 			}
 		}
 		this._key[newTag] = this._key[oldTag];
+		delete this._key[oldTag];
 		this._key[newTag]._changed = true;
 	}
 };

@@ -194,9 +194,9 @@ var ZoteroItemPane = new function() {
 			    box.notesTab = notesTab;
 			    box.updateNotesTab = updateItemTab;
 		    }
-		}
-		// XXXXX The trunk works with a straight assignment here.
-		//box.item = item;
+		} else if (index == 0) {
+		    box.item = item;
+        }
 	}
 	
 	

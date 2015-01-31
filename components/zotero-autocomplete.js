@@ -90,18 +90,28 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 			break;
 		
 		case 'jurisdictions':
-			var sql = 'SELECT jurisdictionName as val,jurisdictionID as comment FROM jurisdictions '
-				+ 'WHERE jurisdictionName LIKE ? ORDER BY jurisdictionName'
+			var sql = 'SELECT '
+			+ 'CASE instr(jurisdictionName,"|") > 0 AND instr(substr(jurisdictionName,instr(jurisdictionName,"|")+1),"|") > 0 '
+			+   'WHEN 1 '
+			+   'THEN substr(jurisdictionName,instr(jurisdictionName,"|")+1) '
+			+   'ELSE jurisdictionName '
+			+ 'END as val,'
+			+ 'jurisdictionID as comment '
+			+ 'FROM jurisdictions '
+			+ 'WHERE jurisdictionName LIKE ? ORDER BY jurisdictionIdx'
 			var sqlParams = ['%' + searchString + '%'];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
 		
 		case 'courts':
-			var sql = 'SELECT courtName as val,courtID as comment FROM jurisdictions '
-				+ 'JOIN courtJurisdictions USING(jurisdictionIdx) '
+			var sql = 'SELECT courtName as val,courtID as comment FROM jurisdictions JU '
+				+ 'JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) '
 				+ 'JOIN courts USING(courtIdx) '
-	 	 		+ 'WHERE jurisdictionID=? AND courtName LIKE ? ORDER BY courtName';
-			var sqlParams = [searchParams.jurisdictionID, '%' + searchString + '%'];
+				+ 'JOIN countryCourtLinks CCL USING (countryCourtLinkIdx) '
+				+ 'JOIN courtNames CN USING (courtNameIdx) '
+				+ 'JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx '
+	 	 		+ 'WHERE JU.jurisdictionID=? AND CO.jurisdictionID=? AND courtName LIKE ? ORDER BY CJL.jurisdictionIdx';
+ 			var sqlParams = [searchParams.jurisdictionID, searchParams.countryID, '%' + searchString + '%'];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
 		

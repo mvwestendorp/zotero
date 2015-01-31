@@ -60,13 +60,13 @@ Zotero.CachedLanguagePreferences = new Zotero.CachedLanguagePreferences();
  */
 Zotero.CachedLanguages = new function() {
 	var _languages = {};
-		
-	this.menuHasChanged = menuHasChanged;
-		
-	this._languagesLoaded = false;
+	var _languagesLoaded = false;
+	
 	this.getNickname = getNickname;
 	this.taint = taint;
 	this.hasTag = hasTag;
+	this.getLanguageList = getLanguageList;
+	this.getVariantList = getVariantList;
 
 	function hasTag(langTag) {
 		if (_languages[langTag]) {
@@ -77,17 +77,9 @@ Zotero.CachedLanguages = new function() {
 	};
 
 	function taint () {
-		this._languagesLoaded = false;
+		_languagesLoaded = false;
 	}
 	
-	function menuHasChanged () {
-		if (this._languagesLoaded) {
-			return false;
-		} else {
-			return true;
-		}
-	};
-
 	function load () {
 		for (var key in _languages) {
 			delete _languages[key];
@@ -98,16 +90,16 @@ Zotero.CachedLanguages = new function() {
 			var tag = tags[i].tag;
 			var nickname = tags[i].nickname;
 			_languages[tag] = nickname;
-			this._languagesLoaded = true;
 		}
+		_languagesLoaded = true;
 	}
 
 	function getNickname(tag) {
-		// Add language(s) for tag on cache failure.
-		// Returns undefined if tag is invalid.
-		if (!this._languagesLoaded) {
+		if (!_languagesLoaded) {
 			load();
 		}
+		// Add language(s) for tag on cache failure.
+		// Returns undefined if tag is invalid.
 		if ("undefined" === typeof _languages[tag]) {
 			var validator = Zotero.zlsValidator;
 			var res = validator.validate(tag);
@@ -115,10 +107,121 @@ Zotero.CachedLanguages = new function() {
 				tag = [validator.tagdata[i].subtag for (i in validator.tagdata)].join("-");
 				var sql = 'INSERT INTO zlsTags VALUES(?,?,NULL)';
 				Zotero.DB.query(sql,[tag,tag]);
-				_languages[tag] = tag;
-				this._languagesLoaded = false;
+				load();
 			}
 		}
 		return _languages[tag];
+	}
+
+	function getLanguageList (item, fieldNameOrIndex, isMulti) {
+		return _languageList(item, fieldNameOrIndex, null, true, isMulti);
+	}
+
+	function getVariantList (item, fieldNameOrIndex, tag) {
+		return _languageList(item, fieldNameOrIndex, tag);
+	}
+
+	function _languageList (item, fieldNameOrIndex, variantsOnly, languagesOnly, multiField) {
+		var item, isItem, fieldName, creator;
+		if ('number' === typeof fieldNameOrIndex) {
+			creator = item.getCreator(fieldNameOrIndex);
+		if (!creator) {
+		return [];
+		}
+			isItem = false;
+		} else {
+			fieldName = fieldNameOrIndex;
+			isItem = true;
+		}
+		var mainLang = null;
+	if (item) {
+			if (isItem) {
+				if (fieldName) {
+					mainLang = item.multi.mainLang(fieldName);
+				}
+			} else {
+				fieldName = true;
+				mainLang = creator.multi.mainLang();
+			}
+		var checkLanguages = {};
+		var insertSql = "INSERT INTO zlsTags VALUES (?,?,?)";
+		var snoopSql = "SELECT COUNT (*) FROM zlsTags WHERE tag=?";
+		for (var fieldID in item.multi._keys) {
+		for (var langTag in item.multi._keys[fieldID]) {
+			checkLanguages[langTag] = true;
+		}
+		if (item.multi.main[fieldID]) {
+			checkLanguages[item.multi.main[fieldID]] = true;
+		}
+		}
+		for (var tag in checkLanguages) {
+		if (!Zotero.DB.valueQuery(snoopSql, [tag])) {
+			Zotero.DB.query(insertSql, [tag,tag,null]);
+					_languagesLoaded = false;
+		}
+		}
+	}
+		var mainLangRex;
+		if (mainLang) {
+			mainLangStub = mainLang.replace(/^([a-z]+)-.*/, "$1");
+			mainLangRex = new RegExp("^(" + mainLangStub + "(-.+)*|[a-z]{2,3}(?:-[A-Z]{2})*)$")
+		} else {
+			mainLangRex = new RegExp("^([a-z]{2,3}(?:-[A-Z]{2})*)$")
+		}
+		if (!_languagesLoaded) {
+			load();
+		}
+		var result = [];
+		var itemMultiLangs;
+		// Ugh.
+		if (item) {
+			if (isItem && fieldName) {
+				itemMultiLangs = item.multi.langs(fieldName);
+			} else if (!isItem) {
+				itemMultiLangs = creator.multi.langs();
+			} else {
+				itemMultiLangs = [];
+			}
+		} else {
+			itemMultiLangs = [];
+		}
+		for (var tag in _languages) {
+			
+			// Check tags on the item for this field.
+
+			if (item && !mainLang && languagesOnly) {
+				// For languagesOnly (i.e. main language selections), skip
+				// tags that already exist on the item for this field,
+				// IFF the main language is not yet set.
+				if (itemMultiLangs.indexOf(tag) > -1) {
+					continue;
+				}
+			}
+
+			if (languagesOnly && !tag.match(/^[a-z]{2,3}(?:-[A-Z]{2})*$/)) {
+				continue;
+			}
+
+			if (languagesOnly && multiField && (mainLang === tag || itemMultiLangs.indexOf(tag) > -1)) {
+				continue;
+			}
+
+			if (variantsOnly && (mainLang === tag || !mainLangRex.exec(tag) || itemMultiLangs.indexOf(tag) > -1)) {
+				continue;
+			}
+			result.push({tag:tag, nickname:_languages[tag]})
+		}
+		if (item) {
+			// If we have no main language, and we are returning for baseTag
+			// (i.e. language variants), return only if there are two or more
+			// items in the menu, to (try to) leave some room for maneuver.
+			if (variantsOnly && !mainLang && result.length < 2) {
+				result = [];
+			}
+		}
+		result.sort(function(a,b){
+			return a.nickname.localeCompare(b.nickname);
+		});
+		return result;
 	}
 };
