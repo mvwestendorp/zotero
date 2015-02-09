@@ -2862,6 +2862,8 @@
 				<body>
 				<![CDATA[
 					var val = this._getFieldValue(label);
+                    var row = Zotero.getAncestorByTagName(label, "row");
+                    var fieldName = row.firstChild.getAttribute("fieldname");
 					switch (mode) {
 						case 'title':
 							var newVal = Zotero.Utilities.capitalizeTitle(val.toLowerCase(), true);
@@ -2878,7 +2880,7 @@
 							throw ("Invalid transform mode '" + mode + "' in zoteroitembox.textTransform()");
 					}
 					this._setFieldValue(label, newVal);
-					this._modifyField(label.getAttribute('fieldname'), newVal, this.saveOnEdit);
+					this._modifyField(fieldName, newVal, this.saveOnEdit);
 
 				]]>
 				</body>
