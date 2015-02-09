@@ -690,32 +690,6 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			}
 		}
 		
-		Zotero.DB.beginTransaction();
-		try {
-			var dbEditTypeIDs = [17, 20];
-			for (var i = 0, ilen = dbEditTypeIDs.length; i < ilen; i += 1) {
-				var dbEditTypeID = dbEditTypeIDs[i];
-				var shortTitleIdx = Zotero.DB.valueQuery("SELECT orderIndex FROM itemTypeFields WHERE itemTypeID=? AND fieldID=116", [dbEditTypeID]);
-				if (shortTitleIdx && shortTitleIdx != 2) {
-					var rows = Zotero.DB.query("SELECT orderIndex FROM itemTypeFields WHERE itemTypeID=?", [dbEditTypeID]);
-					for (var j = rows.length; j > 1; j += -1) {
-						var row = rows[j];
-						if (j === shortTitleIdx) {
-							Zotero.DB.query("UPDATE itemTypeFields SET orderIndex=0 WHERE orderIndex=? AND itemTypeID=?", [j, dbEditTypeID]);
-						} else if (j < shortTitleIdx) {
-							Zotero.DB.query("UPDATE itemTypeFields SET orderIndex=? WHERE orderIndex=? AND itemTypeID=?", [(j + 1), j, dbEditTypeID]);
-						}
-					}
-					Zotero.DB.query("UPDATE itemTypeFields SET orderIndex=2 WHERE orderIndex=0 AND itemTypeID=?", [dbEditTypeID]);
-				}
-			}
-			Zotero.DB.commitTransaction();
-		} catch(e){
-			Zotero.debug(e);
-			Zotero.DB.rollbackTransaction();
-			throw(e);
-		}
-
 		Zotero.Fulltext.init();
 		
 		Zotero.DB.startDummyStatement();

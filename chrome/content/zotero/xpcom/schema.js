@@ -237,9 +237,10 @@ Zotero.Schema = new function(){
 				// MLZ: update language tables if required.
 				var up6 = _updateSchema('jurisdictions')
 				if (up6) {
+                    Zotero.wait();
 					_populateJurisdictions();
-					Zotero.wait();
-				}
+                    Zotero.wait();
+                }
 
 				Zotero.DB.commitTransaction();
 			}
@@ -1514,6 +1515,8 @@ Zotero.Schema = new function(){
 			Zotero.DB.query(_getSchemaSQL('triggers'));
 			Zotero.DB.query(_getSchemaSQL('multilingual'));
 			Zotero.DB.query(_getSchemaSQL('zls'));
+			Zotero.DB.query(_getSchemaSQL('jurisdictions'));
+			_populateJurisdictions();
 			Zotero.Schema.updateCustomTables(true);
 			
 			_updateDBVersion('system', _getSchemaSQLVersion('system'));
@@ -1521,6 +1524,7 @@ Zotero.Schema = new function(){
 			_updateDBVersion('triggers', _getSchemaSQLVersion('triggers'));
 			_updateDBVersion('multilingual', _getSchemaSQLVersion('multilingual'));
 			_updateDBVersion('zls', _getSchemaSQLVersion('zls'));
+			_updateDBVersion('jurisdictions', _getSchemaSQLVersion('jurisdictions'));
 			
 			if (!Zotero.Schema.skipDefaultData) {
 				// Quick Start Guide web page item

@@ -1961,7 +1961,7 @@
 						this.forceJurisdiction(this.item.itemTypeID);
 						var value = this.item.getField("jurisdiction",true);
 						if (value) {
-							var label = Zotero.DB.valueQuery("SELECT jurisdictionName FROM jurisdictions WHERE jurisdictionID=?",[value]);
+							var label = Zotero.Utilities.getJurisdictionName(value);
 							if (!label) {
 								label = value;
 								valueElement.setAttribute("style","background:yellow;");

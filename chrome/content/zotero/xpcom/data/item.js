@@ -1153,7 +1153,7 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 				var jurisdictionID = this.getField('jurisdiction');
 				var courtID = this.getField('court');
 				if (jurisdictionID && courtID) {
-					var courtName = Zotero.Utilities.getCourtName(jurisdictionID,courtID);
+					var courtName = Zotero.Utilities.getCourtName(jurisdictionID,courtID, true);
 					courtName = courtName ? courtName : courtID;
 					title = title + ' (' + courtName + ')';
 				}
@@ -1167,8 +1167,7 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 			var jurisdictionID = this.getField('jurisdiction');
 			var courtID = this.getField('court', false, true, language);
 			if (jurisdictionID && courtID) {
-				var courtName = Zotero.Utilities.getCourtName(jurisdictionID,courtID);
-				var part = courtName ? courtName : courtID;
+				var part = Zotero.Utilities.getCourtName(jurisdictionID,courtID, true);
 				strParts.push(part);
 			}
 			

@@ -837,13 +837,10 @@ Zotero.Cite.System.prototype = {
 			res = Zotero.Utilities.getCourtName(jurisdictionKey,courtKey);
 		} else {
 			if (jurisdictionKey) {
-				var sql = "SELECT jurisdictionName FROM jurisdictions "
-					+ "WHERE jurisdictionID=?";
-				var sqlParams = [jurisdictionKey];
+				res = Zotero.Utilities.getJurisdictionName(jurisdictionKey);
 			} else {
 				return false;
 			}
-			res = Zotero.DB.valueQuery(sql, sqlParams);
 		}
 		if (res) {
 			if (!courtKey) {

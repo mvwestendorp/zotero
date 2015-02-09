@@ -1,4 +1,4 @@
--- 10062
+-- 10063
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -668,9 +668,9 @@ INSERT INTO itemTypeFields VALUES (16, 22, NULL, 22);  -- extra
 
 -- case
 INSERT INTO itemTypeFields VALUES (17, 111, NULL, 1);   -- caseName
-INSERT INTO itemTypeFields VALUES (17, 90, NULL, 2);    -- abstract
-INSERT INTO itemTypeFields VALUES (17, 1261, NULL, 3);  -- jurisdiction     [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 116, NULL, 4);   -- shortTitle
+INSERT INTO itemTypeFields VALUES (17, 116, NULL, 2);   -- shortTitle
+INSERT INTO itemTypeFields VALUES (17, 90, NULL, 3);    -- abstract
+INSERT INTO itemTypeFields VALUES (17, 1261, NULL, 4);  -- jurisdiction     [ADDED]
 INSERT INTO itemTypeFields VALUES (17, 44, NULL, 5);    -- court
 INSERT INTO itemTypeFields VALUES (17, 7, NULL, 6);     -- place            [ADDED]
 INSERT INTO itemTypeFields VALUES (17, 117, NULL, 7);   -- docketNumber
@@ -752,9 +752,9 @@ INSERT INTO itemTypeFields VALUES (19, 22, NULL, 24);   -- extra
 
 -- statute
 INSERT INTO itemTypeFields VALUES (20, 112, NULL, 1);   -- nameOfAct
-INSERT INTO itemTypeFields VALUES (20, 90, NULL, 2);    -- abstract
-INSERT INTO itemTypeFields VALUES (20, 1261, NULL, 3);  -- jurisdiction     [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 116, NULL, 4);   -- shortTitle
+INSERT INTO itemTypeFields VALUES (20, 116, NULL, 2);   -- shortTitle
+INSERT INTO itemTypeFields VALUES (20, 90, NULL, 3);    -- abstract
+INSERT INTO itemTypeFields VALUES (20, 1261, NULL, 4);  -- jurisdiction     [ADDED]
 INSERT INTO itemTypeFields VALUES (20, 36, NULL, 5);    -- code
 INSERT INTO itemTypeFields VALUES (20, 55, NULL, 6);    -- codeNumber (volume)
 INSERT INTO itemTypeFields VALUES (20, 10, NULL, 7);    -- pages
