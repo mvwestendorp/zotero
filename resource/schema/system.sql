@@ -1,4 +1,4 @@
--- 10064
+-- 10066
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -434,8 +434,8 @@ INSERT INTO itemTypeFields VALUES (4, 12, NULL, 3);
 INSERT INTO itemTypeFields VALUES (4, 4, NULL, 4);
 INSERT INTO itemTypeFields VALUES (4, 5, NULL, 5);
 INSERT INTO itemTypeFields VALUES (4, 10, NULL, 6);
-INSERT INTO itemTypeFields VALUES (4, 1284, NULL, 7);    -- status [ADDED]
-INSERT INTO itemTypeFields VALUES (4, 14, NULL, 8);
+INSERT INTO itemTypeFields VALUES (4, 14, NULL, 7);
+INSERT INTO itemTypeFields VALUES (4, 1284, NULL, 8);    -- status [ADDED]
 INSERT INTO itemTypeFields VALUES (4, 3, NULL, 9);
 INSERT INTO itemTypeFields VALUES (4, 28, NULL, 10);
 INSERT INTO itemTypeFields VALUES (4, 29, NULL, 11);
