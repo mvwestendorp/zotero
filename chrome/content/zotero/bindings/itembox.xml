@@ -1558,8 +1558,8 @@
 						this.forceJurisdiction(itemTypeID);
 						
 						if (this.saveOnEdit) {
-							this.item.save();
 							this.refresh();
+							this.item.save();
 						}
 						else {
 							this.refresh();
