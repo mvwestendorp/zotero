@@ -2318,6 +2318,7 @@
 						removeEventListener("activate", unignoreBlur);
 						self.blurHandler(this);
 					});
+					t.setAttribute('onkeydown', "return document.getBindingParent(this).handleKeyDown(event)");
 					t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
 					
 					this._tabDirection = false;
@@ -2404,7 +2405,7 @@
 			</method>
 			
 			
-			<method name="handleKeyPress">
+			<method name="handleKeyDown">
 				<parameter name="event"/>
 				<body>
 				<![CDATA[
@@ -2430,7 +2431,24 @@
 								return false;
 							}
 							break;
+					}
+					
+					return true;
 
+				]]>
+				</body>
+			</method>
+			
+			
+			<method name="handleKeyPress">
+				<parameter name="event"/>
+				<body>
+				<![CDATA[
+					var target = event.target;
+					var focused = document.commandDispatcher.focusedElement;
+					
+					switch (event.keyCode)
+					{
 						case 39:
 						case 37:
 							if (event.ctrlKey && target.getAttribute('fieldname').slice(0,7) === 'creator') {
@@ -2441,10 +2459,10 @@
 									var lastName = target.parentNode.firstChild;
 									var firstNameValue = firstName.value;
 									var lastNameValue = lastName.value;
-									if (lastNameValue === defaultLastName) {
+									if (lastNameValue === this._defaultLastName) {
 										lastNameValue = "";
 									}
-									if (firstNameValue === defaultFirstName) {
+									if (firstNameValue === this._defaultFirstName) {
 										firstNameValue = "";
 									}
 									if (event.keyCode == 37) {
@@ -2455,10 +2473,10 @@
 										lastName.value = lastNameValue.slice(0,-1);
 									}
 									if (!firstName.value) {
-										firstName.value = defaultFirstName;
+										firstName.value = this._defaultFirstName;
 									}
 									if (!lastName.value) {
-										lastName.value = defaultLastName;
+										lastName.value = this._defaultLastName;
 									}
 									return false;
 								}
@@ -2915,8 +2933,8 @@
 				<body>
 				<![CDATA[
 					var val = this._getFieldValue(label);
-                    var row = Zotero.getAncestorByTagName(label, "row");
-                    var fieldName = row.firstChild.getAttribute("fieldname");
+					var row = Zotero.getAncestorByTagName(label, "row");
+					var fieldName = row.firstChild.getAttribute("fieldname");
 					switch (mode) {
 						case 'title':
 							var newVal = Zotero.Utilities.capitalizeTitle(val.toLowerCase(), true);
