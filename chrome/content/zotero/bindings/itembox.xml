@@ -1559,6 +1559,7 @@
 						
 						if (this.saveOnEdit) {
 							this.item.save();
+							this.refresh();
 						}
 						else {
 							this.refresh();
