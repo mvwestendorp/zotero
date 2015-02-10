@@ -571,7 +571,9 @@
 							label.setAttribute('tooltiptext',langNickname);
 						}
 						if (this.editable) {
-							label.classList.add('zotero-alien-clicky');
+							if (parentNode || Zotero.CachedLanguages.getLanguageList().length) {
+								label.classList.add('zotero-alien-clicky');
+							}
 						}
 					}
 					
@@ -3505,7 +3507,7 @@
 						onpopupshowing="
 						/* Abort if no languages available */
 						var item = document.getBindingParent(this).item;
-						if (!Zotero.CachedLanguages.getLanguageList(item)) {
+						if (!Zotero.CachedLanguages.getLanguageList(item).length) {
 							return false;
 						}
 						/* Popup Node */
@@ -3576,7 +3578,7 @@
 											itemNode.setAttribute('style', 'font-style:italic;');
 										}
 									} else {
-										if (!mainFieldValue.multi.hasLang(tag)) {
+										if (!mainFieldValue.multi || !mainFieldValue.multi.hasLang(tag)) {
 											itemNode.setAttribute('style', 'font-style:italic;');
 										}
 									}
@@ -3600,7 +3602,7 @@
 									setLanguageMenu('Add Variant', variantList,null,'add',mainFieldValue);
 								}
 								languageList = Zotero.CachedLanguages.getLanguageList(item, fieldName, false);
-								setLanguageMenu('Set Main Language', languageList,'radio','main',mainFieldValue);
+								setLanguageMenu('Set Field Language', languageList,'radio','main',mainFieldValue);
 							} else {
 								languageList = Zotero.CachedLanguages.getVariantList(item, fieldName, true);
 								var multiFieldValue = item.getField(fieldName, null, null, rowLang);
@@ -3619,7 +3621,7 @@
 									setLanguageMenu('Add Variant', variantList,null,'creatorAdd',mainFieldValue);
 								}
 								languageList = Zotero.CachedLanguages.getLanguageList(item, creatorIndex, false);
-								setLanguageMenu('Set Main Language', languageList,'radio','creatorMain',mainFieldValue);
+								setLanguageMenu('Set Field Language', languageList,'radio','creatorMain',mainFieldValue);
 							} else {
 								languageList = Zotero.CachedLanguages.getVariantList(item, creatorIndex, true);
 								setLanguageMenu('Change Language',languageList,'radio','creatorChange',mainFieldValue);
@@ -3629,7 +3631,7 @@
 							}
 						}
 						} catch(e) {
-							Zotero.debug('XXX OOPS: '+e);
+							Zotero.debug('XXX MLZ LANGUAGE MENU OOPS: '+e);
 						}
 						return true;">
 						<menuitem label="Bogus Menu"

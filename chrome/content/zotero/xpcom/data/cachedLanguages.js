@@ -125,42 +125,39 @@ Zotero.CachedLanguages = new function() {
 		var item, isItem, fieldName, creator;
 		if ('number' === typeof fieldNameOrIndex) {
 			creator = item.getCreator(fieldNameOrIndex);
-		if (!creator) {
-		return [];
-		}
 			isItem = false;
 		} else {
 			fieldName = fieldNameOrIndex;
 			isItem = true;
 		}
 		var mainLang = null;
-	if (item) {
+		if (item) {
 			if (isItem) {
 				if (fieldName) {
 					mainLang = item.multi.mainLang(fieldName);
 				}
-			} else {
+			} else if (creator) {
 				fieldName = true;
 				mainLang = creator.multi.mainLang();
 			}
-		var checkLanguages = {};
-		var insertSql = "INSERT INTO zlsTags VALUES (?,?,?)";
-		var snoopSql = "SELECT COUNT (*) FROM zlsTags WHERE tag=?";
-		for (var fieldID in item.multi._keys) {
-		for (var langTag in item.multi._keys[fieldID]) {
-			checkLanguages[langTag] = true;
-		}
-		if (item.multi.main[fieldID]) {
-			checkLanguages[item.multi.main[fieldID]] = true;
-		}
-		}
-		for (var tag in checkLanguages) {
-		if (!Zotero.DB.valueQuery(snoopSql, [tag])) {
-			Zotero.DB.query(insertSql, [tag,tag,null]);
+			var checkLanguages = {};
+			var insertSql = "INSERT INTO zlsTags VALUES (?,?,?)";
+			var snoopSql = "SELECT COUNT (*) FROM zlsTags WHERE tag=?";
+			for (var fieldID in item.multi._keys) {
+				for (var langTag in item.multi._keys[fieldID]) {
+					checkLanguages[langTag] = true;
+				}
+				if (item.multi.main[fieldID]) {
+					checkLanguages[item.multi.main[fieldID]] = true;
+				}
+			}
+			for (var tag in checkLanguages) {
+				if (!Zotero.DB.valueQuery(snoopSql, [tag])) {
+					Zotero.DB.query(insertSql, [tag,tag,null]);
 					_languagesLoaded = false;
+				}
+			}
 		}
-		}
-	}
 		var mainLangRex;
 		if (mainLang) {
 			mainLangStub = mainLang.replace(/^([a-z]+)-.*/, "$1");
@@ -177,7 +174,7 @@ Zotero.CachedLanguages = new function() {
 		if (item) {
 			if (isItem && fieldName) {
 				itemMultiLangs = item.multi.langs(fieldName);
-			} else if (!isItem) {
+			} else if (!isItem && creator) {
 				itemMultiLangs = creator.multi.langs();
 			} else {
 				itemMultiLangs = [];
@@ -186,7 +183,7 @@ Zotero.CachedLanguages = new function() {
 			itemMultiLangs = [];
 		}
 		for (var tag in _languages) {
-			
+		
 			// Check tags on the item for this field.
 
 			if (item && !mainLang && languagesOnly) {
