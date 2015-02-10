@@ -2413,6 +2413,58 @@
 					
 					switch (event.keyCode)
 					{
+						case 73:
+							if (event.ctrlKey) {
+								event.preventDefault();
+								// Apply italics
+								var selectionStart = target.selectionStart;
+								var selectionEnd = target.selectionEnd;
+								if (selectionStart !== selectionEnd) {
+									var start = target.value.slice(0,selectionStart);
+									var middle = target.value.slice(selectionStart,selectionEnd);
+									var end = target.value.slice(selectionEnd);
+									if (middle) {
+										target.value = (start + '<i>' + middle + '</i>' + end);
+									}
+								}
+								return false;
+							}
+							break;
+
+						case 39:
+						case 37:
+							if (event.ctrlKey && target.getAttribute('fieldname').slice(0,7) === 'creator') {
+								event.preventDefault();
+								// Move to left one char at a time
+								if (!target.parentNode.lastChild.hidden) {
+									var firstName = target.parentNode.lastChild;
+									var lastName = target.parentNode.firstChild;
+									var firstNameValue = firstName.value;
+									var lastNameValue = lastName.value;
+									if (lastNameValue === defaultLastName) {
+										lastNameValue = "";
+									}
+									if (firstNameValue === defaultFirstName) {
+										firstNameValue = "";
+									}
+									if (event.keyCode == 37) {
+										lastName.value = lastNameValue + firstNameValue.slice(0,1);
+										firstName.value = firstNameValue.slice(1);
+									} else if (event.keyCode == 39) {
+										firstName.value = lastNameValue.slice(-1) + firstNameValue;
+										lastName.value = lastNameValue.slice(0,-1);
+									}
+									if (!firstName.value) {
+										firstName.value = defaultFirstName;
+									}
+									if (!lastName.value) {
+										lastName.value = defaultLastName;
+									}
+									return false;
+								}
+							}
+							break;
+
 						case event.DOM_VK_RETURN:
 							var fieldname = target.getAttribute('fieldname');
 							// Use shift-enter as the save action for the larger fields
