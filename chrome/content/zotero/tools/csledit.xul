@@ -56,7 +56,6 @@
 					<menuitem label="ibid" value="2"/>
 					<menuitem label="ibid-with-locator" value="3"/>
 					<menuitem label="near-note" value="4"/>
->>>>>>> 161733b207e7effc152447afb8c3b45350269154
 				</menupopup>
 			</menulist>
 			<menulist id="zotero-csl-list" style="min-height: 1.6em; min-width: 100px" initialized="false" flex="1" oncommand="Zotero_CSL_Editor.loadCSL(this.selectedItem.value)"/>
