@@ -1154,7 +1154,6 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 				var courtID = this.getField('court');
 				if (jurisdictionID && courtID) {
 					var courtName = Zotero.Utilities.getCourtName(jurisdictionID,courtID, true);
-					courtName = courtName ? courtName : courtID;
 					title = title + ' (' + courtName + ')';
 				}
 			}

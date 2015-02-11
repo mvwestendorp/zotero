@@ -56,13 +56,14 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 	
 	this._zotero.debug("Starting autocomplete search with data '"
 		+ searchParams + "'" + " and string '" + searchString + "'");
-	
+
 	searchParams = JSON.parse(searchParams);
 	if (!searchParams) {
 		throw new Error("Invalid JSON passed to autocomplete");
 	}
+
 	var [fieldName, , subField] = searchParams.fieldName.split("-");
-	
+
 	this.stopSearch();
 	
 	var self = this;
@@ -98,20 +99,31 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 			+ 'END as val,'
 			+ 'jurisdictionID as comment '
 			+ 'FROM jurisdictions '
-			+ 'WHERE jurisdictionName LIKE ? ORDER BY jurisdictionIdx'
+			+ 'WHERE jurisdictionName LIKE ? ORDER BY jurisdictionIdx '
+			+ 'LIMIT 50;';
 			var sqlParams = ['%' + searchString + '%'];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
 		
 		case 'courts':
-			var sql = 'SELECT courtName as val,courtID as comment FROM jurisdictions JU '
+			var paramSegs = searchParams.jurisdictionName.split("|").length;
+			var paramChop = (searchParams.jurisdictionName.length+2);
+			var sql = 'SELECT '
+				+ 'CASE ?=JU.segmentCount '
+				+ 'WHEN 1 '
+				+ 'THEN courtName '
+				+ 'ELSE substr(JU.jurisdictionName,?) || ": " || courtName '
+				+ 'END as val,'
+				+ 'courtID as comment FROM jurisdictions JU '
 				+ 'JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) '
 				+ 'JOIN courts USING(courtIdx) '
 				+ 'JOIN countryCourtLinks CCL USING (countryCourtLinkIdx) '
 				+ 'JOIN courtNames CN USING (courtNameIdx) '
 				+ 'JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx '
-	 	 		+ 'WHERE JU.jurisdictionID=? AND CO.jurisdictionID=? AND courtName LIKE ? ORDER BY CJL.jurisdictionIdx';
- 			var sqlParams = [searchParams.jurisdictionID, searchParams.countryID, '%' + searchString + '%'];
+	 	 		+ 'WHERE JU.jurisdictionName LIKE ? AND CO.jurisdictionID=? AND courtName LIKE ? '
+				+ 'ORDER BY JU.segmentCount,CJL.jurisdictionIdx '
+				+ 'LIMIT 50;';
+ 		var sqlParams = [paramSegs,paramChop,searchParams.jurisdictionName + '%', searchParams.countryID, '%' + searchString + '%'];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
 		

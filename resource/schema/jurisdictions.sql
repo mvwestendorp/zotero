@@ -1,12 +1,14 @@
--- 2
+-- 3
 DROP TABLE IF EXISTS jurisdictions;
 CREATE TABLE jurisdictions (
 	jurisdictionIdx INTEGER PRIMARY KEY,
 	jurisdictionID TEXT UNIQUE NOT NULL,
-	jurisdictionName TEXT NOT NULL
+	jurisdictionName TEXT NOT NULL,
+    segmentCount INTEGER NOT NULL
 );
 CREATE INDEX jurisdictions_jurisdictionID ON jurisdictions(jurisdictionID);
 CREATE INDEX jurisdictions_jurisdictionName ON jurisdictions(jurisdictionName);
+CREATE INDEX jurisdictions_segmentCount ON jurisdictions(segmentCount);
 
 DROP TABLE IF EXISTS courtNames;
 CREATE TABLE courtNames (

@@ -1735,6 +1735,7 @@
 				<![CDATA[
 					var tabindex = node.getAttribute("ztabindex");
 					var jurisdictionID = document.getElementById("jurisdiction-menu").getAttribute("value");
+					var jurisdictionName = Zotero.Utilities.getJurisdictionName(jurisdictionID);
 					var countryID = jurisdictionID.split(":")[0];
 					var value = node.getAttribute('label');
 					var textbox = document.createElement('textbox');
@@ -1749,7 +1750,7 @@
 					textbox.setAttribute('autocompletesearch','zotero');
 					let params = {
 						fieldName: 'courts',
-						jurisdictionID: jurisdictionID,
+						jurisdictionName: jurisdictionName,
 						countryID: countryID
 					}
 					textbox.setAttribute('ontextentered',
@@ -1834,6 +1835,7 @@
 					if (courtNodes.snapshotLength) {
 						var courtNode = courtNodes.snapshotItem(0);
 						var courtIdOrName = courtNode.getAttribute('value');
+						var oldCourtName = courtNode.getAttribute('label');
 						var oldJurisdictionID = node.getAttribute('oldComment');
 						var newJurisdictionID = result.comment;
 						var newCourtID = Zotero.Utilities.remapCourtName(oldJurisdictionID, newJurisdictionID, courtIdOrName);
@@ -1844,10 +1846,12 @@
 							courtNode.setAttribute('value', newCourtName);
 							courtNode.removeAttribute('style');
 						} else {
-							courtNode.setAttribute('value', newCourtID);
+							this.item.setField('court', oldCourtName);
+							courtNode.setAttribute('value', oldCourtName);
 							courtNode.setAttribute('style', 'background:yellow;');
 						}
 					}
+					this.item.save();
 
 					if (this._tabDirection) {
 						var focusBox = this._dynamicFields;
@@ -1864,6 +1868,7 @@
 				<body>
 				<![CDATA[
 					var valueElement = document.createElement("menulist");
+
 					if (!result) {
 						var newValue = node.value;
 						var jurisdictionID = this.item.getField('jurisdiction');
@@ -1871,6 +1876,30 @@
 				  		result = {val:newValue,comment:newComment};
 						if (newValue == newComment) {
 							valueElement.setAttribute("style","background:yellow;");
+						}
+					} else {
+						var m = result.val.match(/^([^:]+):\s+(.*)$/);
+						if (m) {
+							var jurisdictionStub = m[1];
+							result.val = m[2];
+							var xpath = '*[local-name()="row"]/'
+								+ '*[local-name()="label" and @fieldname="jurisdiction"]/'
+								+ 'following-sibling::*[local-name()="hbox"]/'
+								+ '*[local-name()="menulist"]';
+							var jurisdictionNodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+							if (jurisdictionNodes.snapshotLength) {
+								var jurisdictionNode = jurisdictionNodes.snapshotItem(0);
+								var jurisdictionName = jurisdictionNode.getAttribute('label');
+								jurisdictionName = jurisdictionName + "|" + jurisdictionStub;
+								var jurisdictionID = Zotero.Utilities.getJurisdictionID(jurisdictionName);
+								jurisdictionName = Zotero.Utilities.getJurisdictionName(jurisdictionID);
+								if (jurisdictionName.split("|").length>2) {
+									jurisdictionName = jurisdictionName.split("|").slice(1).join("|");
+								}
+								jurisdictionNode.setAttribute('value', jurisdictionID);
+								jurisdictionNode.setAttribute('label', jurisdictionName);
+								this.item.setField('jurisdiction', jurisdictionID);
+							}
 						}
 					}
 					
@@ -1904,7 +1933,7 @@
 					var result = false;
 					var controller = textbox.controller;
 					if (!controller.matchCount) return;
-					
+
 					for (var i=0; i<controller.matchCount; i++) {
 						if (controller.getValueAt(i) == textbox.value) {
 							result = {val:controller.getValueAt(i),comment:controller.getCommentAt(i)};
@@ -2176,7 +2205,7 @@
 						this._dynamicFields.focus();
 					}
 					
-					Zotero.debug('XXX Showing editor');
+					Zotero.debug('Showing editor');
 					
 					var fieldName = elem.getAttribute('fieldname');
 					var tabindex = elem.getAttribute('ztabindex');

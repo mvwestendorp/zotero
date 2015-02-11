@@ -2418,6 +2418,13 @@ Zotero.Utilities = {
 		return res || !fallback ? res : jurisdictionID;
 	},
 
+	"getJurisdictionID":function(jurisdictionName, fallback) {
+		var sql = "SELECT jurisdictionID FROM jurisdictions "
+			+ "WHERE jurisdictionName=? OR jurisdictionName LIKE ?;";
+		var res = Zotero.DB.valueQuery(sql, [jurisdictionName, '%|' + jurisdictionName]);
+		return res || !fallback ? res : jurisdictionName;
+	},
+
 	"remapCourtName":function(oldJurisdictionID,newJurisdictionID,courtIdOrName) {
 		if (!courtIdOrName) {
 			return "";

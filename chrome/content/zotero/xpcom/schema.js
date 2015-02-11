@@ -237,10 +237,10 @@ Zotero.Schema = new function(){
 				// MLZ: update language tables if required.
 				var up6 = _updateSchema('jurisdictions')
 				if (up6) {
-                    Zotero.wait();
+					Zotero.wait();
 					_populateJurisdictions();
-                    Zotero.wait();
-                }
+					Zotero.wait();
+				}
 
 				Zotero.DB.commitTransaction();
 			}
@@ -1634,7 +1634,7 @@ Zotero.Schema = new function(){
 
 	function _populateJurisdictions () {
 		var jObj = JSON.parse(Zotero.File.getContentsFromURL("resource://zotero/schema/jurisdictions.json"));
-		var jurisdictionsSql = "INSERT INTO jurisdictions VALUES (?, ?, ?);";
+		var jurisdictionsSql = "INSERT INTO jurisdictions VALUES (?, ?, ?, ?);";
 		var courtNamesSql = "INSERT INTO courtNames VALUES (?, ?);";
 		var countryCourtLinksSql = "INSERT INTO countryCourtLinks VALUES (?, ?, ?);";
 		var courtsSql = "INSERT INTO courts VALUES(?, ?, ?);";
@@ -1667,9 +1667,11 @@ Zotero.Schema = new function(){
 				var jurisdictionData = jurisdictionSpider.run(entry[2]);
 				var entryZero = jurisdictionData[0] + ":" + entry[0];
 				var entryOne = jurisdictionData[1] + "|" + entry[1];
-				Zotero.DB.query(jurisdictionsSql, [i, entryZero, entryOne]);
+				var segmentCount = entryOne.split("|").length;
+				Zotero.DB.query(jurisdictionsSql, [i, entryZero, entryOne, segmentCount]);
 			} else {
-				Zotero.DB.query(jurisdictionsSql, [i, entry[0], entry[1]])
+				var segmentCount = entry[1].split("|").length;
+				Zotero.DB.query(jurisdictionsSql, [i, entry[0], entry[1], segmentCount])
 			}
 		}
 		for (var i=0,ilen=jObj.courtNames.length;i<ilen;i++) {
