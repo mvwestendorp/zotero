@@ -99,8 +99,8 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 			+ 'END as val,'
 			+ 'jurisdictionID as comment '
 			+ 'FROM jurisdictions '
-			+ 'WHERE jurisdictionName LIKE ? ORDER BY jurisdictionIdx '
-			+ 'LIMIT 50;';
+			+ 'WHERE jurisdictionName LIKE ? ORDER BY segmentCount,jurisdictionIdx '
+			+ 'LIMIT 100;';
 			var sqlParams = ['%' + searchString + '%'];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
@@ -121,8 +121,8 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 				+ 'JOIN courtNames CN USING (courtNameIdx) '
 				+ 'JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx '
 	 	 		+ 'WHERE JU.jurisdictionName LIKE ? AND CO.jurisdictionID=? AND courtName LIKE ? '
-				+ 'ORDER BY JU.segmentCount,CJL.jurisdictionIdx '
-				+ 'LIMIT 50;';
+				+ 'ORDER BY JU.segmentCount,CJL.jurisdictionIdx ';
+				+ 'LIMIT 100;';
  		var sqlParams = [paramSegs,paramChop,searchParams.jurisdictionName + '%', searchParams.countryID, '%' + searchString + '%'];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
