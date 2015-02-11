@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Tüm Açıklamaları Genişlet">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Metni Vurgula">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Metni Vurgulama">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Bağlantı">
+<!ENTITY zotero.attachLink.label.title "Başlık">
+<!ENTITY zotero.attachLink.title "URI'ye Bağlantı Ekle.">
 <!ENTITY zotero.bibliography.bibliography "Bibliyografya">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Pano'ya Kopyala">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Not:">
 <!ENTITY zotero.general.ok "Tamam">
 <!ENTITY zotero.general.optional "(İsteğe bağlı)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Hepsini Seç">
 <!ENTITY zotero.integration.addEditCitation.title "Gönderme Ekle/Düzenle">
 <!ENTITY zotero.integration.classicView.label "Klasik Görünüm">

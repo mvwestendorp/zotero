@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Oharra:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(aukerakoa)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Hautatu guztiak">
 <!ENTITY zotero.integration.addEditCitation.title "Erreferentzia gehitu/editatu">
 <!ENTITY zotero.integration.classicView.label "Classic View">

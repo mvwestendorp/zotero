@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Note:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Valgfri)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Select All">
 <!ENTITY zotero.integration.addEditCitation.title "Legg til/endre henvisning">
 <!ENTITY zotero.integration.classicView.label "Classic View">

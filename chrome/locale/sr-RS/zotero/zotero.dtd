@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Белешка:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(произвољно)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Изабери све">
 <!ENTITY zotero.integration.addEditCitation.title "Додај/уреди цитације">
 <!ENTITY zotero.integration.classicView.label "Classic View">

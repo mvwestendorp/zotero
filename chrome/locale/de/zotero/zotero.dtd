@@ -6,8 +6,8 @@
 <!ENTITY zotero.annotate.toolbar.highlight.label "Text hervorheben">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Text nicht hervorheben">
 <!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.title "Titel:">
+<!ENTITY zotero.attachLink.title "Link zu einer URI anhängen">
 <!ENTITY zotero.bibliography.bibliography "Bibliografie">
 <!ENTITY zotero.bibliography.copyToClipboard.label "In die Zwischenablage kopieren">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Anmerkung:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optional)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Alles auswählen">
 <!ENTITY zotero.integration.addEditCitation.title "Zitation hinzufügen/ändern">
 <!ENTITY zotero.integration.classicView.label "Klassische Ansicht">
@@ -113,7 +115,7 @@
 <!ENTITY zotero.items.dateAdded_column "hinzugefügt am">
 <!ENTITY zotero.items.dateModified_column "geändert am">
 <!ENTITY zotero.items.date_column "Datum">
-<!ENTITY zotero.items.edition_column "Ausgabe">
+<!ENTITY zotero.items.edition_column "Auflage">
 <!ENTITY zotero.items.extra_column "Extra">
 <!ENTITY zotero.items.genre_column "Genre">
 <!ENTITY zotero.items.issue_column "Ausgabe">

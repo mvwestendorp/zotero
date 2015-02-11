@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Expandir todas las anotaciones">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Resaltar">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Normalizar">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Enlace:">
+<!ENTITY zotero.attachLink.label.title "Título:">
+<!ENTITY zotero.attachLink.title "Adjuntar enlace a URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografía">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copiar al portapapeles">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opcional)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Seleccionar todo">
 <!ENTITY zotero.integration.addEditCitation.title "Añadir o modificar cita">
 <!ENTITY zotero.integration.classicView.label "Vista clásica">

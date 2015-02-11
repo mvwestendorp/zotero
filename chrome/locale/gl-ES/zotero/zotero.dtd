@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Expandir todas as anotacións">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Resaltar o texto">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Non resaltar o texto">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Ligazón:">
+<!ENTITY zotero.attachLink.label.title "Título:">
+<!ENTITY zotero.attachLink.title "Engadirlle unha ligazón á URI:">
 <!ENTITY zotero.bibliography.bibliography "Bibliografía:">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copiar no portaretallos">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -46,7 +46,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Espere mentres que se presenta o informe de erro.">
 <!ENTITY zotero.errorReport.submitted "Presentouse o informe de erro .">
 <!ENTITY zotero.errorReport.title "Informe de erros de Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Isto pode conter mensaxes que non estean relacionadas con Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Formato:">
 <!ENTITY zotero.exportOptions.title "Exportar...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opcións do tradutor">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "Aceptar">
 <!ENTITY zotero.general.optional "(Opcional)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Marcar todo">
 <!ENTITY zotero.integration.addEditCitation.title "Engadir/Editar a cita">
 <!ENTITY zotero.integration.classicView.label "Vista clásica">
@@ -150,7 +152,7 @@
 <!ENTITY zotero.items.series_column "Serie">
 <!ENTITY zotero.items.system_column "Sistema">
 <!ENTITY zotero.items.title_column "Título">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "Tipo de elemento">
 <!ENTITY zotero.items.volume_column "Volume">
 <!ENTITY zotero.items.year_column "Ano">
 <!ENTITY zotero.lookup.button.search "Buscar">

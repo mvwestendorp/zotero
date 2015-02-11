@@ -46,7 +46,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "正在提交错误报告, 请稍候.">
 <!ENTITY zotero.errorReport.submitted "错误报告已经提交.">
 <!ENTITY zotero.errorReport.title "Zotero 错误报告">
-<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "这里可能包括和Zotero无关的消息。">
 <!ENTITY zotero.exportOptions.format.label "格式:">
 <!ENTITY zotero.exportOptions.title "导出...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "转换器选项">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "笔记:">
 <!ENTITY zotero.general.ok "确定">
 <!ENTITY zotero.general.optional "(可选)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "全选">
 <!ENTITY zotero.integration.addEditCitation.title "添加/编辑引文">
 <!ENTITY zotero.integration.classicView.label "经典视图">
@@ -150,7 +152,7 @@
 <!ENTITY zotero.items.series_column "系列">
 <!ENTITY zotero.items.system_column "系统">
 <!ENTITY zotero.items.title_column "标题">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "条目类型">
 <!ENTITY zotero.items.volume_column "卷">
 <!ENTITY zotero.items.year_column "年">
 <!ENTITY zotero.lookup.button.search "搜索">

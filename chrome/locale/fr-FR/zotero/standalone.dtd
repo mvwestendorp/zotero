@@ -1,5 +1,5 @@
 <!ENTITY aboutProduct.accesskey "p">
-<!ENTITY aboutProduct.label "À propos &brandShortName;">
+<!ENTITY aboutProduct.label "À propos de &brandShortName;">
 <!ENTITY addons.label "Extensions">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Inverser le sens de la page">

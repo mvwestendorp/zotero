@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "หมายเหตุ:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(ทางเลือก)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "เลือกทั้งหมด">
 <!ENTITY zotero.integration.addEditCitation.title "เพิ่ม/แก้ไขการอ้างอิง">
 <!ENTITY zotero.integration.classicView.label "มุมมองแบบคลาสสิก">

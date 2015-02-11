@@ -12,7 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Išči v podzbirkah">
 <!ENTITY zotero.search.saveSearch "Shrani iskanje">
 <!ENTITY zotero.search.search "Išči">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.searchInLibrary "Išči v knjižnici:">
 <!ENTITY zotero.search.textModes.phrase "Fraza">
 <!ENTITY zotero.search.textModes.phraseBinary "Fraza (vključno z bin. datotekami)">
 <!ENTITY zotero.search.textModes.regexp "Reg. izraz">

@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Rozbaliť všetky anotácie">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Zvýrazniť text">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Zrušiť zvýraznenie">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Odkaz:">
+<!ENTITY zotero.attachLink.label.title "Názov:">
+<!ENTITY zotero.attachLink.title "Priložiť odkaz k URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografia">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Skopírovať do schránky">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Poznámka:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Voliteľné)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Označiť všetko">
 <!ENTITY zotero.integration.addEditCitation.title "Pridať/Upraviť citáciu">
 <!ENTITY zotero.integration.classicView.label "Klasický náhľad">

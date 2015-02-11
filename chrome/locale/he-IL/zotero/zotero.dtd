@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "פתק:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optional)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "בחר הכל">
 <!ENTITY zotero.integration.addEditCitation.title "Add/Edit Citation">
 <!ENTITY zotero.integration.classicView.label "תצוגה קלאסית">

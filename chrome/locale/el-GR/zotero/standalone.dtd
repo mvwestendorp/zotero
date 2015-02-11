@@ -1,37 +1,37 @@
-<!ENTITY aboutProduct.accesskey "A">
-<!ENTITY aboutProduct.label "About &brandShortName;">
-<!ENTITY addons.label "Add-ons">
+<!ENTITY aboutProduct.accesskey "Α">
+<!ENTITY aboutProduct.label "Σχετικά με ">
+<!ENTITY addons.label "Πρόσθετα">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
-<!ENTITY bidiSwitchPageDirectionItem.label "Switch Page Direction">
+<!ENTITY bidiSwitchPageDirectionItem.label "Αλλαγή κατεύθυνσης σελίδας">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
 <!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
-<!ENTITY bidiSwitchTextDirectionItem.label "Switch Text Direction">
-<!ENTITY bringAllToFront.label "Bring All to Front">
+<!ENTITY bidiSwitchTextDirectionItem.label "Αλλαγή κατεύθυνσης κειμένου">
+<!ENTITY bringAllToFront.label "Όλα στο προσκήνιο">
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
-<!ENTITY closeCmd.label "Close">
-<!ENTITY copyBibliographyCmd.label "Copy Bibliography">
-<!ENTITY copyCitationCmd.label "Copy Citation">
+<!ENTITY closeCmd.label "Κλείσιμο">
+<!ENTITY copyBibliographyCmd.label "Αντιγραφή βιβλιογραφίας">
+<!ENTITY copyCitationCmd.label "Αντιγραφή παραπομπής/παράθεσης">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
-<!ENTITY copyCmd.label "Copy">
+<!ENTITY copyCmd.label "Αντιγραφή">
 <!ENTITY cutCmd.accesskey "t">
-<!ENTITY cutCmd.key "X">
-<!ENTITY cutCmd.label "Cut">
+<!ENTITY cutCmd.key "Χ">
+<!ENTITY cutCmd.label "Αποκοπή">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
-<!ENTITY deleteCmd.label "Delete">
-<!ENTITY editMenu.accesskey "E">
-<!ENTITY editMenu.label "Edit">
+<!ENTITY deleteCmd.label "Διαγραφή">
+<!ENTITY editMenu.accesskey "Ε">
+<!ENTITY editMenu.label "Επεξεργασία">
 <!ENTITY fileMenu.accesskey "F">
-<!ENTITY fileMenu.label "File">
+<!ENTITY fileMenu.label "Αρχείο">
 <!ENTITY findAgainCmd.accesskey "g">
 <!ENTITY findAgainCmd.commandkey "g">
 <!ENTITY findAgainCmd.commandkey2 "VK_F3">
 <!ENTITY findAgainCmd.label "Find Again">
 <!ENTITY findCmd.accesskey "F">
 <!ENTITY findCmd.commandkey "f">
-<!ENTITY findCmd.label "Find">
+<!ENTITY findCmd.label "Εύρεση">
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
@@ -53,61 +53,61 @@
 <!ENTITY fullZoomToggleCmd.accesskey "T">
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
-<!ENTITY helpCheckForUpdates.label "Check for Updates…">
+<!ENTITY helpCheckForUpdates.label "Έλεγχος για ενημερώσεις...">
 <!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Submit Feedback…">
+<!ENTITY helpFeedbackPage.label "Επικοινωνία...">
 <!ENTITY helpMac.commandkey "?">
-<!ENTITY helpMenu.accesskey "H">
-<!ENTITY helpMenu.label "Help">
-<!ENTITY helpMenuWin.accesskey "H">
-<!ENTITY helpMenuWin.label "Help">
+<!ENTITY helpMenu.accesskey "Η">
+<!ENTITY helpMenu.label "Βοήθεια">
+<!ENTITY helpMenuWin.accesskey "Η">
+<!ENTITY helpMenuWin.label "Βοήθεια">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors to Zotero…">
-<!ENTITY helpTroubleshootingInfo.accesskey "T">
-<!ENTITY helpTroubleshootingInfo.label "Troubleshooting Information">
-<!ENTITY hideOtherAppsCmdMac.commandkey "H">
-<!ENTITY hideOtherAppsCmdMac.label "Hide Others">
+<!ENTITY helpReportErrors.label "Αναφέρετε Σφάλματα στο Zotero...">
+<!ENTITY helpTroubleshootingInfo.accesskey "Τ">
+<!ENTITY helpTroubleshootingInfo.label "Πληροφορίες για αντιμετώπιση προβλημάτων">
+<!ENTITY hideOtherAppsCmdMac.commandkey "Η">
+<!ENTITY hideOtherAppsCmdMac.label "Απόκρυψη άλλων">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
-<!ENTITY hideThisAppCmdMac.label "Hide &brandShortName;">
+<!ENTITY hideThisAppCmdMac.label "Απόκρυψη ">
 <!ENTITY minimizeWindow.key "m">
-<!ENTITY minimizeWindow.label "Minimize">
+<!ENTITY minimizeWindow.label "Ελαχιστοποίηση">
 <!ENTITY pageSetupCmd.accesskey "U">
-<!ENTITY pageSetupCmd.label "Page Setup…">
+<!ENTITY pageSetupCmd.label "Ρυθμίσεις σελίδας...">
 <!ENTITY pasteCmd.accesskey "P">
 <!ENTITY pasteCmd.key "V">
-<!ENTITY pasteCmd.label "Paste">
-<!ENTITY preferencesCmd.accesskey "O">
-<!ENTITY preferencesCmd.label "Preferences">
+<!ENTITY pasteCmd.label "Επικόλληση">
+<!ENTITY preferencesCmd.accesskey "Ο">
+<!ENTITY preferencesCmd.label "Προτιμήσεις">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "Preferences…">
+<!ENTITY preferencesCmdMac.label "Προτιμήσεις...">
 <!ENTITY preferencesCmdUnix.accesskey "n">
-<!ENTITY preferencesCmdUnix.label "Preferences">
-<!ENTITY printCmd.accesskey "P">
+<!ENTITY preferencesCmdUnix.label "Προτιμήσεις">
+<!ENTITY printCmd.accesskey "Ρ">
 <!ENTITY printCmd.key "P">
-<!ENTITY printCmd.label "Print…">
+<!ENTITY printCmd.label "Εκτύπωση...">
 <!ENTITY productHelp.accesskey "D">
-<!ENTITY productHelp.label "Support and Documentation">
+<!ENTITY productHelp.label "Υποστήριξη και Τεκμηρίωση">
 <!ENTITY quitApplicationCmd.accesskey "Q">
-<!ENTITY quitApplicationCmd.label "Quit">
+<!ENTITY quitApplicationCmd.label "Κλείσιμο">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Quit Zotero">
+<!ENTITY quitApplicationCmdMac.label "Κλείσιμο Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
-<!ENTITY quitApplicationCmdWin.label "Exit">
+<!ENTITY quitApplicationCmdWin.label "Έξοδος">
 <!ENTITY redoCmd.accesskey "R">
-<!ENTITY redoCmd.key "Y">
-<!ENTITY redoCmd.label "Redo">
+<!ENTITY redoCmd.key "Υ">
+<!ENTITY redoCmd.label "Επανάληψη">
 <!ENTITY saveCmd.accesskey "A">
 <!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.label "Save…">
-<!ENTITY selectAllCmd.accesskey "A">
-<!ENTITY selectAllCmd.key "A">
-<!ENTITY selectAllCmd.label "Select All">
-<!ENTITY servicesMenuMac.label "Services">
-<!ENTITY showAllAppsCmdMac.label "Show All">
-<!ENTITY toolsMenu.accesskey "T">
-<!ENTITY toolsMenu.label "Tools">
+<!ENTITY saveCmd.label "Αποθήκευση...">
+<!ENTITY selectAllCmd.accesskey "Α">
+<!ENTITY selectAllCmd.key "Α">
+<!ENTITY selectAllCmd.label "Επιλογή όλων">
+<!ENTITY servicesMenuMac.label "Υπηρεσίες">
+<!ENTITY showAllAppsCmdMac.label "Εμφάνιση όλων">
+<!ENTITY toolsMenu.accesskey "Τ">
+<!ENTITY toolsMenu.label "Εργαλεία">
 <!ENTITY undoCmd.accesskey "U">
-<!ENTITY undoCmd.key "Z">
-<!ENTITY undoCmd.label "Undo">
-<!ENTITY windowMenu.label "Window">
-<!ENTITY zoomWindow.label "Zoom">
+<!ENTITY undoCmd.key "Ζ">
+<!ENTITY undoCmd.label "Επαναφορά">
+<!ENTITY windowMenu.label "Παράθυρο">
+<!ENTITY zoomWindow.label "Μεγέθυνση">

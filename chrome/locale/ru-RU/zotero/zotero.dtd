@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Примечание:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Опционально)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Выбрать всё">
 <!ENTITY zotero.integration.addEditCitation.title "Добавить/редактировать цитату">
 <!ENTITY zotero.integration.classicView.label "Классический вид">

@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Chú ý:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Không bắt buộc)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Select All">
 <!ENTITY zotero.integration.addEditCitation.title "Thêm/Soạn thảo Trích dẫn">
 <!ENTITY zotero.integration.classicView.label "Classic View">

@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "កំណត់ចំណាំ:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(ជម្រើស)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "ជ្រើសរើសទាំងអស់">
 <!ENTITY zotero.integration.addEditCitation.title "បន្ថែម ឬ កែតម្រូវអាគតដ្ឋាន">
 <!ENTITY zotero.integration.classicView.label "មើលតាមទម្រង់បុរាណ">

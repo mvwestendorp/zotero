@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Catatan:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opsional)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Pilih Semua">
 <!ENTITY zotero.integration.addEditCitation.title "Tambahkan/Edit Sitasi">
 <!ENTITY zotero.integration.classicView.label "Tampilan Klasik">

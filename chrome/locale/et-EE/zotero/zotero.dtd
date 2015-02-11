@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Märkus:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Valikuline)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Valida kõik">
 <!ENTITY zotero.integration.addEditCitation.title "Lisa/toimeta viidet">
 <!ENTITY zotero.integration.classicView.label "Tavaline vaade">

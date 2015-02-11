@@ -1,6 +1,6 @@
 <!ENTITY aboutProduct.accesskey "A">
-<!ENTITY aboutProduct.label "About &brandShortName;">
-<!ENTITY addons.label "Add-ons">
+<!ENTITY aboutProduct.label "درباره زوترو">
+<!ENTITY addons.label "افزودنی‌ها">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Switch Page Direction">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
@@ -9,29 +9,29 @@
 <!ENTITY bringAllToFront.label "Bring All to Front">
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
-<!ENTITY closeCmd.label "Close">
+<!ENTITY closeCmd.label "بستن">
 <!ENTITY copyBibliographyCmd.label "Copy Bibliography">
 <!ENTITY copyCitationCmd.label "Copy Citation">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
-<!ENTITY copyCmd.label "Copy">
+<!ENTITY copyCmd.label "کپی">
 <!ENTITY cutCmd.accesskey "t">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Cut">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
-<!ENTITY deleteCmd.label "Delete">
+<!ENTITY deleteCmd.label "حذف">
 <!ENTITY editMenu.accesskey "E">
-<!ENTITY editMenu.label "Edit">
+<!ENTITY editMenu.label "ویرایش">
 <!ENTITY fileMenu.accesskey "F">
-<!ENTITY fileMenu.label "File">
+<!ENTITY fileMenu.label "پرونده">
 <!ENTITY findAgainCmd.accesskey "g">
 <!ENTITY findAgainCmd.commandkey "g">
 <!ENTITY findAgainCmd.commandkey2 "VK_F3">
 <!ENTITY findAgainCmd.label "Find Again">
 <!ENTITY findCmd.accesskey "F">
 <!ENTITY findCmd.commandkey "f">
-<!ENTITY findCmd.label "Find">
+<!ENTITY findCmd.label "یافتن">
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
@@ -53,61 +53,61 @@
 <!ENTITY fullZoomToggleCmd.accesskey "T">
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
-<!ENTITY helpCheckForUpdates.label "Check for Updates…">
+<!ENTITY helpCheckForUpdates.label "بررسی بروزرسانی...">
 <!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Submit Feedback…">
-<!ENTITY helpMac.commandkey "?">
+<!ENTITY helpFeedbackPage.label "ارسال بازخورد...">
+<!ENTITY helpMac.commandkey "؟">
 <!ENTITY helpMenu.accesskey "H">
-<!ENTITY helpMenu.label "Help">
+<!ENTITY helpMenu.label "راهنما">
 <!ENTITY helpMenuWin.accesskey "H">
-<!ENTITY helpMenuWin.label "Help">
+<!ENTITY helpMenuWin.label "راهنما">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors to Zotero…">
+<!ENTITY helpReportErrors.label "گزارش خطاها به زوترو">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
-<!ENTITY helpTroubleshootingInfo.label "Troubleshooting Information">
+<!ENTITY helpTroubleshootingInfo.label "اطلاعات عیب‌یابی">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY hideOtherAppsCmdMac.label "Hide Others">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Hide &brandShortName;">
 <!ENTITY minimizeWindow.key "m">
-<!ENTITY minimizeWindow.label "Minimize">
+<!ENTITY minimizeWindow.label "کوچک‌ کردن">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "Page Setup…">
 <!ENTITY pasteCmd.accesskey "P">
 <!ENTITY pasteCmd.key "V">
 <!ENTITY pasteCmd.label "Paste">
 <!ENTITY preferencesCmd.accesskey "O">
-<!ENTITY preferencesCmd.label "Preferences">
+<!ENTITY preferencesCmd.label "تنظیمات">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "Preferences…">
+<!ENTITY preferencesCmdMac.label "تنظیمات">
 <!ENTITY preferencesCmdUnix.accesskey "n">
-<!ENTITY preferencesCmdUnix.label "Preferences">
+<!ENTITY preferencesCmdUnix.label "تنظیمات">
 <!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
-<!ENTITY printCmd.label "Print…">
+<!ENTITY printCmd.label "پرینت">
 <!ENTITY productHelp.accesskey "D">
 <!ENTITY productHelp.label "Support and Documentation">
 <!ENTITY quitApplicationCmd.accesskey "Q">
-<!ENTITY quitApplicationCmd.label "Quit">
+<!ENTITY quitApplicationCmd.label "خروج">
 <!ENTITY quitApplicationCmdMac.key "Q">
 <!ENTITY quitApplicationCmdMac.label "Quit Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
-<!ENTITY quitApplicationCmdWin.label "Exit">
+<!ENTITY quitApplicationCmdWin.label "خروج">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Redo">
-<!ENTITY saveCmd.accesskey "A">
+<!ENTITY saveCmd.accesskey "S">
 <!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.label "Save…">
+<!ENTITY saveCmd.label "ذخیره...">
 <!ENTITY selectAllCmd.accesskey "A">
 <!ENTITY selectAllCmd.key "A">
-<!ENTITY selectAllCmd.label "Select All">
+<!ENTITY selectAllCmd.label "انتخاب همه">
 <!ENTITY servicesMenuMac.label "Services">
-<!ENTITY showAllAppsCmdMac.label "Show All">
+<!ENTITY showAllAppsCmdMac.label "نمایش همه">
 <!ENTITY toolsMenu.accesskey "T">
-<!ENTITY toolsMenu.label "Tools">
+<!ENTITY toolsMenu.label "ابزارها">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Undo">
-<!ENTITY windowMenu.label "Window">
-<!ENTITY zoomWindow.label "Zoom">
+<!ENTITY windowMenu.label "پنجره">
+<!ENTITY zoomWindow.label "بزرگنمایی">

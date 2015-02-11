@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Expandeix totes les anotacions">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Marca el text">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Desmarca el text">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Enllaç:">
+<!ENTITY zotero.attachLink.label.title "Títol:">
+<!ENTITY zotero.attachLink.title "Adjunta l'enllaç a l'URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografia">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Desa al porta-retalls">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -46,7 +46,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Espereu mentre s&apos;envia l&apos;informe d&apos;error.">
 <!ENTITY zotero.errorReport.submitted "L&apos;informe d&apos;error ha estat enviat correctament.">
 <!ENTITY zotero.errorReport.title "Informe d'error de Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Això pot incloure missatges no relacionats amb el Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Format:">
 <!ENTITY zotero.exportOptions.title "Exporta...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opcions del traductor">
@@ -54,12 +54,14 @@
 <!ENTITY zotero.file.noneSelected.label "No heu seleccionat cap fitxer">
 <!ENTITY zotero.general.cancel "Cancel·la">
 <!ENTITY zotero.general.delete "Suprimeix">
-<!ENTITY zotero.general.deselectAll "Desselecciona tot">
+<!ENTITY zotero.general.deselectAll "Anul·la la selecció">
 <!ENTITY zotero.general.edit "Edita">
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "D'acord">
 <!ENTITY zotero.general.optional "(Opcional)">
-<!ENTITY zotero.general.selectAll "Selecciona tot">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.selectAll "Selecciona-ho tot">
 <!ENTITY zotero.integration.addEditCitation.title "Afegeix / Edita la cita">
 <!ENTITY zotero.integration.classicView.label "Vista clàssica">
 <!ENTITY zotero.integration.docPrefs.title "Preferències del document">
@@ -150,7 +152,7 @@
 <!ENTITY zotero.items.series_column "Sèrie">
 <!ENTITY zotero.items.system_column "Sistema">
 <!ENTITY zotero.items.title_column "Títol">
-<!ENTITY zotero.items.type_column "Item Type">
+<!ENTITY zotero.items.type_column "Tipus d'element">
 <!ENTITY zotero.items.volume_column "Volum">
 <!ENTITY zotero.items.year_column "Any">
 <!ENTITY zotero.lookup.button.search "Cerca">

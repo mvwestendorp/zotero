@@ -12,8 +12,8 @@
 <!ENTITY zotero.search.recursive.label "جستجو در زیرشاخه‌ها">
 <!ENTITY zotero.search.saveSearch "ذخیره جستجو">
 <!ENTITY zotero.search.search "جستجو">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.searchInLibrary "جستجو در کتابخانه:">
 <!ENTITY zotero.search.textModes.phrase "عبارت">
 <!ENTITY zotero.search.textModes.phraseBinary "عبارت (شامل پرونده‌های دودویی)‏">
-<!ENTITY zotero.search.textModes.regexp "Regexp">
+<!ENTITY zotero.search.textModes.regexp "عبارت با قاعده (Regexp)">
 <!ENTITY zotero.search.textModes.regexpCS "Regexp (حساس به حروف کوچک و بزرگ)">

@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Aantekening:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optioneel)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Alles selecteren">
 <!ENTITY zotero.integration.addEditCitation.title "Verwijzing toevoegen/aanpassen">
 <!ENTITY zotero.integration.classicView.label "Klassieke weergave">

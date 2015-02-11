@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Développer toutes les annotations">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Surligner le texte">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Supprimer le surlignage du texte">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Lien :">
+<!ENTITY zotero.attachLink.label.title "Titre :">
+<!ENTITY zotero.attachLink.title "Joindre un lien vers un URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliographie">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copier dans le presse-papiers">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -46,7 +46,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Veuillez patienter pendant la transmission du rapport d'erreur.">
 <!ENTITY zotero.errorReport.submitted "Le rapport d'erreur a été transmis.">
 <!ENTITY zotero.errorReport.title "Rapport d'erreur Zotero">
-<!ENTITY zotero.errorReport.unrelatedMessages "Cela peut contenir des messages sans lien avec Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Il peut y avoir des messages sans lien avec Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Format :">
 <!ENTITY zotero.exportOptions.title "Exporter…">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Options du convertisseur">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Note :">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optionnel)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Tout sélectionner">
 <!ENTITY zotero.integration.addEditCitation.title "Ajouter/Modifier la citation">
 <!ENTITY zotero.integration.classicView.label "Vue classique">
@@ -124,10 +126,10 @@
 <!ENTITY zotero.items.medium_column "Média/Format">
 <!ENTITY zotero.items.menu.addTag "Ajouter une étiquette">
 <!ENTITY zotero.items.menu.attach "Ajouter une pièce jointe">
-<!ENTITY zotero.items.menu.attach.file "Joindre une copie enregistrée du fichier…">
-<!ENTITY zotero.items.menu.attach.fileLink "Joindre un lien vers le fichier…">
-<!ENTITY zotero.items.menu.attach.link "Joindre le lien vers la page courante">
-<!ENTITY zotero.items.menu.attach.link.uri "Joindre le lien vers l'URI…">
+<!ENTITY zotero.items.menu.attach.file "Joindre une copie enregistrée d'un fichier…">
+<!ENTITY zotero.items.menu.attach.fileLink "Joindre un lien vers un fichier…">
+<!ENTITY zotero.items.menu.attach.link "Joindre un lien vers la page courante">
+<!ENTITY zotero.items.menu.attach.link.uri "Joindre un lien vers un URI…">
 <!ENTITY zotero.items.menu.attach.note "Ajouter une note">
 <!ENTITY zotero.items.menu.attach.snapshot "Joindre une capture de la page courante">
 <!ENTITY zotero.items.menu.changeTag "Changer l'étiquette">

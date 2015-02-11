@@ -2,12 +2,12 @@
 <!ENTITY zotero.about.close "بستن">
 <!ENTITY zotero.about.localizations "محلی‌سازی:">
 <!ENTITY zotero.alumni "فارغ‌التحصیلان:">
-<!ENTITY zotero.citationProcessing "Citation &amp; Bibliography Processing">
+<!ENTITY zotero.citationProcessing "پردازش استناد و کتابنامه">
 <!ENTITY zotero.createdby "محصولی از:">
 <!ENTITY zotero.developers "توسعه‌دهندگان:">
-<!ENTITY zotero.director "Director:">
+<!ENTITY zotero.director "مدیر">
 <!ENTITY zotero.directors "مدیران:">
 <!ENTITY zotero.executiveProducer "مدیر اجرایی:">
-<!ENTITY zotero.moreCreditsAndAcknowledgements "More Credits &amp; Acknowledgements">
+<!ENTITY zotero.moreCreditsAndAcknowledgements "سایر همکاران و سپاسگزاری">
 <!ENTITY zotero.thanks "تشکر ویژه از:">
 <!ENTITY zotero.version "نگارش">

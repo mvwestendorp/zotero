@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "노트:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(선택항목)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "모두 선택">
 <!ENTITY zotero.integration.addEditCitation.title "인용 추가/편집">
 <!ENTITY zotero.integration.classicView.label "클래식 뷰">

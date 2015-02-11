@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "ملاحظة:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(اختياري)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "تحديد الكل">
 <!ENTITY zotero.integration.addEditCitation.title "اضافة/تحرير استشهاد مرجعي">
 <!ENTITY zotero.integration.classicView.label "عرض تقليدي">

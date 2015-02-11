@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "すべての注釈を展開する">
 <!ENTITY zotero.annotate.toolbar.highlight.label "テキストを強調表示">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "テキストの強調表示を解除">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "リンク:">
+<!ENTITY zotero.attachLink.label.title "題:">
+<!ENTITY zotero.attachLink.title "URIへのリンクを添付する">
 <!ENTITY zotero.bibliography.bibliography "参考文献目録">
 <!ENTITY zotero.bibliography.copyToClipboard.label "クリップボードにコピー">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "メモ:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "（任意）">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "すべて選択">
 <!ENTITY zotero.integration.addEditCitation.title "出典表記を追加・編集">
 <!ENTITY zotero.integration.classicView.label "クラシック表示">

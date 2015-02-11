@@ -12,7 +12,7 @@
 <!ENTITY zotero.search.recursive.label "Caută în subdosare">
 <!ENTITY zotero.search.saveSearch "Salvează căutarea">
 <!ENTITY zotero.search.search "Caută">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.searchInLibrary "Caută în bibliotecă:">
 <!ENTITY zotero.search.textModes.phrase "Expresie">
 <!ENTITY zotero.search.textModes.phraseBinary "Expresie (include fișierele binare)">
 <!ENTITY zotero.search.textModes.regexp "Expresii regulate">

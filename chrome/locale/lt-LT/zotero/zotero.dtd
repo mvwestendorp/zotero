@@ -46,7 +46,7 @@
 <!ENTITY zotero.errorReport.submissionInProgress "Prašome palaukti kol siunčiamas klaidų sąrašas.">
 <!ENTITY zotero.errorReport.submitted "Jūsų klaidų sąrašas buvo nusiųstas.">
 <!ENTITY zotero.errorReport.title "Pranešimas apie klaidą Zotero programoje">
-<!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Zotero.">
+<!ENTITY zotero.errorReport.unrelatedMessages "Čia gali būti pranešimų, visai nesusijusių su Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Formatas:">
 <!ENTITY zotero.exportOptions.title "Eksportuoti...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Vertimo parinktys">
@@ -59,6 +59,8 @@
 <!ENTITY zotero.general.note "Pastaba:">
 <!ENTITY zotero.general.ok "Gerai">
 <!ENTITY zotero.general.optional "(Neprivalomas)">
+<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Pažymėti viską">
 <!ENTITY zotero.integration.addEditCitation.title "Pridėti/redaguoti citavimą">
 <!ENTITY zotero.integration.classicView.label "Klasikinis rodinys">
@@ -98,7 +100,7 @@
 <!ENTITY zotero.integration.references.label "Nuorodos bibliogafijoje">
 <!ENTITY zotero.integration.showEditor.label "Rodyti rengyklę">
 <!ENTITY zotero.item.add "Pridėti">
-<!ENTITY zotero.item.attachment.file.show "Rodyti failą">
+<!ENTITY zotero.item.attachment.file.show "Atverti failo aplanką">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Sukeisti vardus ir pavardes">
 <!ENTITY zotero.item.textTransform "Teksto trasformavimas">
@@ -113,10 +115,10 @@
 <!ENTITY zotero.items.dateAdded_column "Pridėjimo laikas">
 <!ENTITY zotero.items.dateModified_column "Keitimo laikas">
 <!ENTITY zotero.items.date_column "Data">
-<!ENTITY zotero.items.edition_column "Leidimas">
+<!ENTITY zotero.items.edition_column "Leidimas/numeris">
 <!ENTITY zotero.items.extra_column "Papildoma">
 <!ENTITY zotero.items.genre_column "Žanras">
-<!ENTITY zotero.items.issue_column "Leidimas">
+<!ENTITY zotero.items.issue_column "Numeris">
 <!ENTITY zotero.items.itemType "Įrašo tipas">
 <!ENTITY zotero.items.journalAbbr_column "Žurnalo santrumpa">
 <!ENTITY zotero.items.language_column "Kalba">

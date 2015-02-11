@@ -1,4 +1,4 @@
-<!ENTITY zotero.search.clear "Puhastada">
+<!ENTITY zotero.search.clear "Tühjendada">
 <!ENTITY zotero.search.date.units.days "päevi">
 <!ENTITY zotero.search.date.units.months "kuid">
 <!ENTITY zotero.search.date.units.years "aastaid">
@@ -11,8 +11,8 @@
 <!ENTITY zotero.search.noChildren "Näidata vaid juurtasandi kirjeid">
 <!ENTITY zotero.search.recursive.label "Otsida alamkataloogidest">
 <!ENTITY zotero.search.saveSearch "Otsing salvestada">
-<!ENTITY zotero.search.search "Otsida">
-<!ENTITY zotero.search.searchInLibrary "Search in library:">
+<!ENTITY zotero.search.search "Otsing">
+<!ENTITY zotero.search.searchInLibrary "Otsing kataloogist:">
 <!ENTITY zotero.search.textModes.phrase "Fraas">
 <!ENTITY zotero.search.textModes.phraseBinary "Fraas (ka binaarfailidest)">
 <!ENTITY zotero.search.textModes.regexp "Regexp">
