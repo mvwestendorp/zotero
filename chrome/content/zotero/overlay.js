@@ -75,18 +75,17 @@ var ZoteroOverlay = new function()
 							.getService(Components.interfaces.nsIPrefService)
 							.getBranch('extensions.zotero.');
 		
-		var addonBar = document.getElementById('nav-bar');
+		var navBar = document.getElementById('nav-bar');
 		
 		var iconPref = prefBranch.getIntPref('statusBarIcon');
 		
-		// If this is the first run, add icon to add-on bar if not
-		// in the window already and not hidden by the Zotero prefs
+		// Add icon to toolbar if not in the window already and not hidden by the pref
 		if (!document.getElementById("zotero-toolbar-button") && iconPref != 0) {
-			addonBar.insertItem("zotero-toolbar-button");
-			addonBar.setAttribute("currentset", addonBar.currentSet);
-			document.persist(addonBar.id, "currentset");
-			addonBar.setAttribute("collapsed", false);
-			document.persist(addonBar.id, "collapsed");
+			navBar.insertItem("zotero-toolbar-button");
+			navBar.setAttribute("currentset", navBar.currentSet);
+			document.persist(navBar.id, "currentset");
+			navBar.setAttribute("collapsed", false);
+			document.persist(navBar.id, "collapsed");
 		}
 		
 		var icon = document.getElementById('zotero-toolbar-button');
@@ -108,11 +107,8 @@ var ZoteroOverlay = new function()
 				}
 				icon.setAttribute('tooltiptext', str);
 				
-				if (iconPref == 1) {
-					icon.setAttribute('compact', true);
-				}
 				// If hidden in prefs, remove from add-on bar
-				else if (iconPref == 0) {
+				if (iconPref == 0) {
 					var toolbar = icon.parentNode;
 					if (toolbar.id == 'nav-bar') {
 						var palette = document.getElementById("navigator-toolbox").palette;
@@ -197,19 +193,16 @@ var ZoteroOverlay = new function()
 	
     function onToolbarChange(e) {
     	// e.target seems to be navigator-toolbox in all cases,
-    	// so check the addon-bar directly
-    	var addonBar = document.getElementById("addon-bar");
+    	// so check the nav-bar directly
+    	var navBar = document.getElementById("nav-bar");
     	var icon = document.getElementById("zotero-toolbar-button");
     	if (icon) {
-    		// If dragged to add-on bar
-			if (addonBar.getElementsByAttribute("id", "zotero-toolbar-button").length) {
+    		// If dragged to nav bar
+			if (navBar.getElementsByAttribute("id", "zotero-toolbar-button").length) {
 				var statusBarPref = Zotero.Prefs.get("statusBarIcon");
 				// If pref set to hide, force to full
 				if (statusBarPref == 0) {
-					Zotero.Prefs.set("statusBarIcon", 2)
-				}
-				else if (statusBarPref == 1) {
-					icon.setAttribute("compact", true);
+					Zotero.Prefs.set("statusBarIcon", 1)
 				}
 				return;
 			}

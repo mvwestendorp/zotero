@@ -631,6 +631,13 @@ Zotero.Translate.Sandbox = {
 				
 				for(var i=0; i<item.attachments.length; i++) {
 					var attachment = item.attachments[i];
+					
+					// Web translators are not allowed to use attachment.path
+					if (attachment.path) {
+						if (!attachment.url) attachment.url = attachment.path;
+						delete attachment.path;
+					}
+					
 					if(attachment.url) {
 						// Remap attachment (but not link) URLs
 						attachment.url = translate.resolveURL(attachment.url, attachment.snapshot === false);
@@ -1728,7 +1735,9 @@ Zotero.Translate.Web.prototype._getSandboxLocation = function() {
  * Pass document and location to detect* and do* functions
  */
 Zotero.Translate.Web.prototype._getParameters = function() {
-	if (Zotero.Translate.DOMWrapper && Zotero.Translate.DOMWrapper.isWrapped(this.document)) {
+	if (Zotero.Translate.DOMWrapper &&
+		Zotero.Translate.DOMWrapper.isWrapped(this.document) &&
+		Zotero.platformMajorVersion >= 35) {
 		return [this._sandboxManager.wrap(Zotero.Translate.DOMWrapper.unwrap(this.document), null,
 			                              this.document.__wrapperOverrides), this.location];
 	} else {

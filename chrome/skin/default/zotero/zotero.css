@@ -59,22 +59,6 @@ toolbarpaletteitem[place="palette"] > #zotero-toolbar-button:active {
   list-style-image: url("chrome://zotero/skin/mlz-m-16px-monochrome-button.svg") !important;
 }
 
-#addon-bar #zotero-toolbar-button {
-	list-style-image: url(chrome://zotero/skin/mlz_status_bar.png);
-	width: 151px;
-	height: 18px;
-}
-
-#addon-bar #zotero-toolbar-button[compact="true"] {
-	width: 47px;
-	list-style-image: url(chrome://zotero/skin/mlz_status_bar_compact.png);
-}
-
-#addon-bar #zotero-toolbar-button[error="true"] {
-	list-style-image: url(chrome://zotero/skin/mlz_status_bar_error.png);
-}
-
-
 /* Bindings */
 textbox[multiline="true"][type="timed"]
 {
