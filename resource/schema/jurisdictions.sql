@@ -1,4 +1,4 @@
--- 3
+-- 4
 DROP TABLE IF EXISTS jurisdictions;
 CREATE TABLE jurisdictions (
 	jurisdictionIdx INTEGER PRIMARY KEY,
