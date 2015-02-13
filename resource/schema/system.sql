@@ -1,4 +1,4 @@
--- 10066
+-- 10067
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -709,18 +709,19 @@ INSERT INTO itemTypeFields VALUES (18, 1264, NULL, 10); -- session type      [AD
 INSERT INTO itemTypeFields VALUES (18, 40, NULL, 11);  -- session
 INSERT INTO itemTypeFields VALUES (18, 99, NULL, 12);  -- documentNumber
 INSERT INTO itemTypeFields VALUES (18, 14, NULL, 13);  -- date
-INSERT INTO itemTypeFields VALUES (18, 10, NULL, 14);  -- pages
-INSERT INTO itemTypeFields VALUES (18, 19, NULL, 15);  -- archiveLocation   [ADDED]
-INSERT INTO itemTypeFields VALUES (18, 43, NULL, 16);  -- reporter          [ADDED]
-INSERT INTO itemTypeFields VALUES (18, 8, NULL, 17);   -- publisher
-INSERT INTO itemTypeFields VALUES (18, 87, NULL, 18);  -- language
-INSERT INTO itemTypeFields VALUES (18, 1, NULL, 19);   -- url
-INSERT INTO itemTypeFields VALUES (18, 27, NULL, 20);  -- accessed
-INSERT INTO itemTypeFields VALUES (18, 45, NULL, 21);  -- numberOfVolumes   Deprecated
-INSERT INTO itemTypeFields VALUES (18, 42, NULL, 22);  -- history           Deprecated
-INSERT INTO itemTypeFields VALUES (18, 7, NULL, 23);   -- place             Deprecated
-INSERT INTO itemTypeFields VALUES (18, 2, NULL, 24);   -- rights
-INSERT INTO itemTypeFields VALUES (18, 22, NULL, 25);  -- extra
+INSERT INTO itemTypeFields VALUES (18, 4, NULL, 14);   -- volume            [ADDED]
+INSERT INTO itemTypeFields VALUES (18, 10, NULL, 15);  -- pages
+INSERT INTO itemTypeFields VALUES (18, 19, NULL, 16);  -- archiveLocation   [ADDED]
+INSERT INTO itemTypeFields VALUES (18, 43, NULL, 17);  -- reporter          [ADDED]
+INSERT INTO itemTypeFields VALUES (18, 8, NULL, 18);   -- publisher
+INSERT INTO itemTypeFields VALUES (18, 87, NULL, 19);  -- language
+INSERT INTO itemTypeFields VALUES (18, 1, NULL, 20);   -- url
+INSERT INTO itemTypeFields VALUES (18, 27, NULL, 21);  -- accessed
+INSERT INTO itemTypeFields VALUES (18, 45, NULL, 22);  -- numberOfVolumes   Deprecated
+INSERT INTO itemTypeFields VALUES (18, 42, NULL, 23);  -- history           Deprecated
+INSERT INTO itemTypeFields VALUES (18, 7, NULL, 24);   -- place             Deprecated
+INSERT INTO itemTypeFields VALUES (18, 2, NULL, 25);   -- rights
+INSERT INTO itemTypeFields VALUES (18, 22, NULL, 26);  -- extra
 
 -- patent
 INSERT INTO itemTypeFields VALUES (19, 110, NULL, 1);   -- title

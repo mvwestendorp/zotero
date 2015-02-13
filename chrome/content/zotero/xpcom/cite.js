@@ -590,8 +590,12 @@ Zotero.Cite.System.prototype = {
 		}
 		
 		// Clean up committee/legislativeBody
-		if (cslItem.committee && cslItem.authority) {
-			cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
+		if (cslItem.committee) {
+			if (cslItem.authority) {
+				cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
+			} else {
+				cslItem.authority = cslItem.committee;
+			}
 			delete cslItem.committee;
 		}
 

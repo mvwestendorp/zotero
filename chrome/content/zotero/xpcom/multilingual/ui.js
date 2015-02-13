@@ -65,7 +65,8 @@ Zotero.EXTENDED_FIELDS = {
 		"archiveLocation":"archive_location",
 		"reporter":"container-title",
 		"meetingName":"chapter-number",
-		"meetingNumber":"number"
+		"meetingNumber":"number",
+		"volume":"volume"
 	},
 	"artwork": {
 		"websiteTitle":"container-title"
