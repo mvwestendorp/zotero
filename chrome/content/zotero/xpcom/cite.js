@@ -863,7 +863,7 @@ Zotero.Cite.System.prototype = {
 		} else {
 			ret = jurisdictionKey
 		}
-		return ret;
+		return ret ? "" + ret : "";
 	}
 }
 
