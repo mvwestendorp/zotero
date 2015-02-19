@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.0.554",
+    PROCESSOR_VERSION: "1.0.557",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1130,7 +1130,7 @@ CSL.getMinVal = function () {
     return this.tmp["et-al-min"];
 };
 CSL.tokenExec = function (token, Item, item) {
-    var next, maybenext, exec, pos, len, debug;
+    var next, maybenext, exec, debug;
     debug = false;
     next = token.next;
     maybenext = false;
@@ -1146,9 +1146,8 @@ CSL.tokenExec = function (token, Item, item) {
     if (token.test) {
         next = record.call(this,token.test(Item, item));
     }
-    len = token.execs.length;
-    for (pos = 0; pos < len; pos += 1) {
-        exec = token.execs[pos];
+    for (var i=0,ilen=token.execs.length;i<ilen;i++) {
+        exec = token.execs[i];
         maybenext = exec.call(token, this, Item, item);
         if (maybenext) {
             next = maybenext;
@@ -1156,7 +1155,7 @@ CSL.tokenExec = function (token, Item, item) {
     }
     return next;
 };
-CSL.expandMacro = function (macro_key_token) {
+CSL.expandMacro = function (macro_key_token, target) {
     var mkey, start_token, key, end_token, navi, macro_nodes, newoutput, mergeoutput, end_of_macro, func;
     mkey = macro_key_token.postponed_macro;
     if (this.build.macro_stack.indexOf(mkey) > -1) {
@@ -1181,11 +1180,14 @@ CSL.expandMacro = function (macro_key_token) {
     }
     macro_key_token.tokentype = CSL.START;
     macro_key_token.cslid = macroid;
-    CSL.Node.group.build.call(macro_key_token, this, this[this.build.area].tokens, true);
+    if (mkey.slice(0,6) === "juris-") {
+        macro_key_token.juris = mkey;
+    }
+    CSL.Node.group.build.call(macro_key_token, this, target);
     if (!this.sys.xml.getNodeValue(macro_nodes)) {
         throw "CSL style error: undefined macro \"" + mkey + "\"";
     }
-    var builder = CSL.makeBuilder(this);
+    var builder = CSL.makeBuilder(this, target);
     builder(macro_nodes[0]);
     end_of_macro = new CSL.Token("group", CSL.END);
 	if (macro_key_token.decorations) {
@@ -1199,10 +1201,13 @@ CSL.expandMacro = function (macro_key_token) {
         };
         end_of_macro.execs.push(func);
     }
-    CSL.Node.group.build.call(end_of_macro, this, this[this.build.area].tokens, true);
+    if (macro_key_token.juris) {
+        end_of_macro.juris = mkey;
+    }
+    CSL.Node.group.build.call(end_of_macro, this, target);
     this.build.macro_stack.pop();
 };
-CSL.XmlToToken = function (state, tokentype) {
+CSL.XmlToToken = function (state, tokentype, explicitTarget) {
     var name, txt, attrfuncs, attributes, decorations, token, key, target;
     name = state.sys.xml.nodename(this);
     if (state.build.skip && state.build.skip !== name) {
@@ -1246,7 +1251,11 @@ CSL.XmlToToken = function (state, tokentype) {
     } else if (tokentype === CSL.END && attributes['@variable']) {
         token.hasVariable = true;
     }
-    target = state[state.build.area].tokens;
+    if (explicitTarget) {
+        target = explicitTarget;
+    } else {
+        target = state[state.build.area].tokens;
+    }
     CSL.Node[name].build.call(token, state, target);
 };
 CSL.DateParser = function () {
@@ -1742,8 +1751,13 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.locale[this.opt.lang].opts["skip-words-regexp"] = makeRegExp(this.locale[this.opt.lang].opts["skip-words"]);
     this.output.adjust = new CSL.Output.Queue.adjust(this.getOpt('punctuation-in-quote'));
     this.registry = new CSL.Registry(this);
-    this.buildTokenLists("citation");
-    this.buildTokenLists("bibliography");
+    this.build.area = "citation";
+    var area_nodes = this.sys.xml.getNodesByName(this.cslXml, this.build.area);
+    this.buildTokenLists(area_nodes, this[this.build.area].tokens);
+    this.build.area = "bibliography";
+    var area_nodes = this.sys.xml.getNodesByName(this.cslXml, this.build.area);
+    this.buildTokenLists(area_nodes, this[this.build.area].tokens);
+    this.juris = {};
     this.configureTokenLists();
     this.disambiguate = new CSL.Disambiguation(this);
     this.splice_delimiter = false;
@@ -1765,15 +1779,15 @@ CSL.Engine.prototype.setCloseQuotesArray = function () {
     ret.push("'");
     this.opt.close_quotes_array = ret;
 };
-CSL.makeBuilder = function (me) {
+CSL.makeBuilder = function (me, target) {
     function enterFunc (node) {
-        CSL.XmlToToken.call(node, me, CSL.START);
+        CSL.XmlToToken.call(node, me, CSL.START, target);
     };
     function leaveFunc (node) {
-        CSL.XmlToToken.call(node, me, CSL.END);
+        CSL.XmlToToken.call(node, me, CSL.END, target);
     };
     function singletonFunc (node) {
-        CSL.XmlToToken.call(node, me, CSL.SINGLETON);
+        CSL.XmlToToken.call(node, me, CSL.SINGLETON, target);
     };
     function buildStyle (node) {
         var starttag, origparent;
@@ -1798,14 +1812,9 @@ CSL.makeBuilder = function (me) {
     }
     return buildStyle;
 };
-CSL.Engine.prototype.buildTokenLists = function (area) {
-    var builder = CSL.makeBuilder(this);
-    var area_nodes;
-    area_nodes = this.sys.xml.getNodesByName(this.cslXml, area);
-    if (!this.sys.xml.getNodeValue(area_nodes)) {
-        return;
-    }
-    this.build.area = area;
+CSL.Engine.prototype.buildTokenLists = function (area_nodes, target) {
+    if (!this.sys.xml.getNodeValue(area_nodes)) return;
+    var builder = CSL.makeBuilder(this, target);
     var mynode = area_nodes[0];
     builder(mynode);
 };
@@ -1930,38 +1939,43 @@ CSL.Engine.getField = function (mode, hash, term, form, plural, gender) {
 };
 CSL.Engine.prototype.configureTokenLists = function () {
     var dateparts_master, area, pos, token, dateparts, part, ppos, pppos, len, llen, lllen;
-    dateparts_master = ["year", "month", "day"];
     len = CSL.AREAS.length;
     for (pos = 0; pos < len; pos += 1) {
         area = CSL.AREAS[pos];
-        llen = this[area].tokens.length - 1;
-        for (ppos = llen; ppos > -1; ppos += -1) {
-            token = this[area].tokens[ppos];
-            if ("date" === token.name && CSL.END === token.tokentype) {
-                dateparts = [];
-            }
-            if ("date-part" === token.name && token.strings.name) {
-                lllen = dateparts_master.length;
-                for (pppos = 0; pppos < lllen; pppos += 1) {
-                    part = dateparts_master[pppos];
-                    if (part === token.strings.name) {
-                        dateparts.push(token.strings.name);
-                    }
-                }
-            }
-            if ("date" === token.name && CSL.START === token.tokentype) {
-                dateparts.reverse();
-                token.dateparts = dateparts;
-            }
-            token.next = (ppos + 1);
-            if (token.name && CSL.Node[token.name].configure) {
-                CSL.Node[token.name].configure.call(token, this, ppos);
-            }
-        }
+        var tokens = this[area].tokens;
+        this.configureTokenList(tokens);
     }
     this.version = CSL.version;
     return this.state;
 };
+CSL.Engine.prototype.configureTokenList = function (tokens) {
+    var dateparts_master, area, pos, token, dateparts, part, ppos, pppos, len, llen, lllen;
+    dateparts_master = ["year", "month", "day"];
+    llen = tokens.length - 1;
+    for (ppos = llen; ppos > -1; ppos += -1) {
+        token = tokens[ppos];
+        if ("date" === token.name && CSL.END === token.tokentype) {
+            dateparts = [];
+        }
+        if ("date-part" === token.name && token.strings.name) {
+            lllen = dateparts_master.length;
+            for (pppos = 0; pppos < lllen; pppos += 1) {
+                part = dateparts_master[pppos];
+                if (part === token.strings.name) {
+                    dateparts.push(token.strings.name);
+                }
+            }
+        }
+        if ("date" === token.name && CSL.START === token.tokentype) {
+            dateparts.reverse();
+            token.dateparts = dateparts;
+        }
+        token.next = (ppos + 1);
+        if (token.name && CSL.Node[token.name].configure) {
+            CSL.Node[token.name].configure.call(token, this, ppos);
+        }
+    }
+}
 CSL.Engine.prototype.retrieveItems = function (ids) {
     var ret, pos, len;
     ret = [];
@@ -3544,6 +3558,7 @@ CSL.Engine.Opt = function () {
     this.has_disambiguate = false;
     this.mode = "html";
     this.dates = {};
+    this.jurisdictions_seen = {};
     this["locale-sort"] = [];
     this["locale-translit"] = [];
     this["locale-translat"] = [];
@@ -6026,7 +6041,80 @@ CSL.Node.group = {
             this.execs.push(func);
         }
         target.push(this);
+        if (this.tokentype === CSL.START) {
+            if (this.juris) {
+                var choose_start = new CSL.Token("choose", CSL.START);
+                CSL.Node.choose.build.call(choose_start, state, target);
+                var if_start = new CSL.Token("if", CSL.START);
+                var stdMacros = {
+                    "juris-title": true,
+                    "juris-title-short": true,
+                    "juris-main": true,
+                    "juris-main-short": true,
+                    "juris-comma-pinpoint": true,
+                    "juris-space-pinpoint": true,
+                    "juris-tail": true,
+                    "juris-tail-short": true
+                };
+                func = function (macroName) {
+                    return function (Item) {
+                        if (!stdMacros[macroName] || !Item.jurisdiction) return false;
+                        var jurisdiction = Item.jurisdiction;
+                        if (!state.opt.jurisdictions_seen[jurisdiction]) {
+                            var res = state.sys.retrieveStyleModule(state, jurisdiction);
+                            if (res) {
+                                state.juris[jurisdiction] = {};
+                                var myXml = state.sys.xml.makeXml(res);
+                                var myNodes = state.sys.xml.getNodesByName(myXml, "macro");
+                                var myCount = 0;
+                                for (var i=0,ilen=myNodes.length;i<ilen;i++) {
+                                    var myName = state.sys.xml.getAttributeValue(myNodes[i], "name");
+                                    if (!stdMacros[myName]) continue;
+                                    myCount++;
+                                    state.juris[jurisdiction][myName] = [];
+                                    state.buildTokenLists(myNodes[i], state.juris[jurisdiction][myName]);
+                                    state.configureTokenList(state.juris[jurisdiction][myName]);
+                                }
+                            }
+                            state.opt.jurisdictions_seen[jurisdiction] = true;
+                            if (myCount < Object.keys(stdMacros).length) {
+                                throw "CSL ERROR: Incomplete jurisdiction style module for: " + jurisdiction;
+                            }
+                        }
+                        if (state.juris[Item.jurisdiction]) {
+                            return true;
+                        }
+                        return false;
+                    };
+                }(this.juris, stdMacros);
+                if_start.tests.push(func);
+                if_start.test = state.fun.match.any(if_start, state, if_start.tests);
+                target.push(if_start);
+                var text_node = new CSL.Token("text", CSL.SINGLETON);
+                func = function (state, Item) {
+                    var next = 0;
+                    if (state.juris[Item.jurisdiction][this.juris]) {
+                        while (next < state.juris[Item.jurisdiction][this.juris].length) {
+                            next = CSL.tokenExec.call(state, state.juris[Item.jurisdiction][this.juris][next], Item, item);
+                        }
+                    }
+                }
+                text_node.juris = this.juris;
+                text_node.execs.push(func);
+                target.push(text_node);
+                var if_end = new CSL.Token("if", CSL.END);
+                CSL.Node.if.build.call(if_end, state, target);
+                var else_start = new CSL.Token("else", CSL.START);
+                CSL.Node.else.build.call(else_start, state, target);
+            }
+        }
         if (this.tokentype === CSL.END) {
+            if (this.juris) {
+                var else_end = new CSL.Token("else", CSL.END);
+                CSL.Node.else.build.call(else_end, state, target);
+                var choose_end = new CSL.Token("choose", CSL.END);
+                CSL.Node.choose.build.call(choose_end, state, target);
+            }
             if (state.build.substitute_level.value()) {
                 state.build.substitute_level.replace((state.build.substitute_level.value() - 1));
             }
@@ -6221,6 +6309,7 @@ CSL.Node["institution-part"] = {
 };
 CSL.Node.key = {
     build: function (state, target) {
+        target = state[state.build.root + "_sort"].tokens;
         var func, i, ilen;
         var debug = false;
         var start_key = new CSL.Token("key", CSL.START);
@@ -6334,7 +6423,7 @@ CSL.Node.key = {
         } else { // macro
             var token = new CSL.Token("text", CSL.SINGLETON);
             token.postponed_macro = this.postponed_macro;
-            CSL.expandMacro.call(state, token);
+            CSL.expandMacro.call(state, token, target);
         }
         var end_key = new CSL.Token("key", CSL.END);
         func = function (state, Item) {
@@ -6349,7 +6438,7 @@ CSL.Node.key = {
                 keystring = undefined;
                 state.tmp.empty_date = false;
             }
-            state[state.tmp.area].keys.push(keystring);
+            state[state[state.tmp.area].root + "_sort"].keys.push(keystring);
             state.tmp.value = [];
         };
         end_key.execs.push(func);
@@ -6495,7 +6584,7 @@ CSL.Node.layout = {
                             sp = " ";
                         }
                         var ignorePredecessor = false;
-                        if (CSL.TERMINAL_PUNCTUATION.slice(0,-1).indexOf(test_char) > -1 && item.prefix.indexOf(" ") > -1) {
+                        if (CSL.TERMINAL_PUNCTUATION.slice(0,-1).indexOf(test_char) > -1 && item.prefix.trim().indexOf(" ") > -1) {
                             state.tmp.term_predecessor = false;
                             ignorePredecessor = true;
                         }
@@ -7016,7 +7105,8 @@ CSL.NameOutput.prototype._truncateNameList = function (container, variable, inde
     if (this.state[this.state[this.state.tmp.area].root].opt.max_number_of_names 
         && lst.length > 50 
         && lst.length > (this.state[this.state[this.state.tmp.area].root].opt.max_number_of_names + 2)) {
-        lst = lst.slice(0, this.state[this.state[this.state.tmp.area].root].opt.max_number_of_names + 2);
+        var limit = this.state[this.state[this.state.tmp.area].root].opt.max_number_of_names;
+        lst = lst.slice(0, limit+1).concat(lst.slice(-1));
     }
     return lst;
 };
@@ -9050,7 +9140,7 @@ CSL.Node.text = {
     build: function (state, target) {
         var variable, func, form, plural, id, num, number, formatter, firstoutput, specialdelimiter, label, myname, names, name, year, suffix, term, dp, len, pos, n, m, value, flag;
         if (this.postponed_macro) {
-            return CSL.expandMacro.call(state, this);
+            return CSL.expandMacro.call(state, this, target);
         } else {
             CSL.Util.substituteStart.call(this, state, target);
             if (!this.variables_real) {
@@ -10045,8 +10135,8 @@ CSL.Attributes["@match"] = function (state, arg) {
 };
 CSL.Attributes["@names-min"] = function (state, arg) {
     var val = parseInt(arg, 10);
-    if (state[state.tmp.area].opt.max_number_of_names < val) {
-        state[state.tmp.area].opt.max_number_of_names = val;
+    if (state[state.build.area].opt.max_number_of_names < val) {
+        state[state.build.area].opt.max_number_of_names = val;
     }
     this.strings["et-al-min"] = val;
 };
@@ -10148,8 +10238,8 @@ CSL.Attributes["@name-delimiter"] = function (state, arg) {
 };
 CSL.Attributes["@et-al-min"] = function (state, arg) {
     var val = parseInt(arg, 10);
-    if (state[state.tmp.area].opt.max_number_of_names < val) {
-        state[state.tmp.area].opt.max_number_of_names = val;
+    if (state[state.build.area].opt.max_number_of_names < val) {
+        state[state.build.area].opt.max_number_of_names = val;
     }
     state.setOpt(this, "et-al-min", val);
 };
@@ -10165,8 +10255,8 @@ CSL.Attributes["@et-al-use-last"] = function (state, arg) {
 };
 CSL.Attributes["@et-al-subsequent-min"] = function (state, arg) {
     var val = parseInt(arg, 10);
-    if (state[state.tmp.area].opt.max_number_of_names < val) {
-        state[state.tmp.area].opt.max_number_of_names = val;
+    if (state[state.build.area].opt.max_number_of_names < val) {
+        state[state.build.area].opt.max_number_of_names = val;
     }
     state.setOpt(this, "et-al-subsequent-min", val);
 };
