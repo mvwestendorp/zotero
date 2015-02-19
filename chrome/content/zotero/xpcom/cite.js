@@ -835,35 +835,24 @@ Zotero.Cite.System.prototype = {
 	},
 
 	"getHumanForm":function(jurisdictionKey, courtKey) {
-		var ret;
-		var res;
-		if (jurisdictionKey && courtKey) {
-			res = Zotero.Utilities.getCourtName(jurisdictionKey,courtKey);
-		} else {
-			if (jurisdictionKey) {
-				res = Zotero.Utilities.getJurisdictionName(jurisdictionKey);
-			} else {
-				return false;
-			}
-		}
+	    var ret;
+	    var res;
+	    if (jurisdictionKey && courtKey) {
+		ret = Zotero.Utilities.getCourtName(jurisdictionKey, courtKey, true);
+	    } else if (jurisdictionKey) {
+		res = Zotero.Utilities.getJurisdictionName(jurisdictionKey);
 		if (res) {
-			if (!courtKey) {
-				// Do not chop court names or country names
-				res = res.split("|");
-				if (res.length > 2) {
-					ret = res.slice(1).join("|");
-				} else {
-					ret = res.join("|");
-				}
-			} else {
-				ret = res;
-			}
-		} else if (courtKey) {
-			ret = courtKey
+		    res = res.split("|");
+		    if (res.length > 2) {
+			ret = res.slice(1).join("|");
+		    } else {
+			ret = res.join("|");
+		    }
 		} else {
-			ret = jurisdictionKey
+		    ret = res;
 		}
-		return ret ? "" + ret : "";
+	    }
+	    return ret ? "" + ret : "";
 	}
 }
 
