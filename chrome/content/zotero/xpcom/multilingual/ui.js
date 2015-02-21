@@ -95,6 +95,7 @@ Zotero.EXTENDED_FIELDS = {
 		"jurisdiction":"jurisdiction",
 		"publisher":"publisher",
 		"publicationDate":"publication-date",
+		"originalDate":"original-date",
 		"reign":"genre",
 		"regnalYear":"collection-number",
 		"dateAmended": "event-date"
