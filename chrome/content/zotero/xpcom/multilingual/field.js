@@ -55,7 +55,11 @@ Zotero.MultiField.prototype.get = function (fieldID, langs, honorEmpty) {
 		if ((this.parent._id || this.parent._key) && !this.parent._primaryDataLoaded) {
 			this.parent.loadPrimaryData(true);
 		}
-		this.parent._loadItemData();
+		if (this.parent.id) {
+			this.parent._loadItemData();
+		} else {
+			return '';
+		}
 	}
 	fieldID = Zotero.ItemFields.getID(fieldID);
 	if ("object" === typeof langs) {
