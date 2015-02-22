@@ -234,9 +234,14 @@ Zotero.setupLocale = function(document) {
 		// Render locale menulist
 		const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
-/////		
 
+		/*
+		 * UI selection
+		 */
+		
 		var localeMenulist = document.getElementById("ui-menulist");
+		// Flag at init, to avoid immediate select warning
+		localeMenulist.disableSelect = true;
 		// Wipe out any existing menupopup
 		if (localeMenulist.firstChild) {
 			localeMenulist.removeChild(firstChild);
@@ -253,11 +258,6 @@ Zotero.setupLocale = function(document) {
  		while(availableLocales.hasMore()) {
 			locale = availableLocales.getNext();
 			locales.push({value: locale, label: Zotero.LANGUAGE_NAMES[locale]});
-			if (locale == selectedLocale) {
-				// Is this the current locale?
-				localeMenulist.setAttribute('label', Zotero.LANGUAGE_NAMES[locale]);
-				localeMenulist.setAttribute('value', locale);
-			}
 		}
 		// Sort the list by name
 		locales.sort( function(a,b){return a.label.localeCompare(b.label)});
@@ -269,20 +269,31 @@ Zotero.setupLocale = function(document) {
 			var locale = locales[i];
 			var menuitem = document.createElement("menuitem");
 			menuitem.setAttribute("value", locale.value);
-			menuitem.setAttribute("label", locale.label);	
+			menuitem.setAttribute("label", locale.label);
 			menupopup.appendChild(menuitem);
+			if (locale.value === selectedLocale) {
+				selectedItem =  menuitem;
+			}
 		}
+		localeMenulist.selectedItem = selectedItem;
+		localeMenulist.disableSelect = false;
+		localeMenulist.oldIdx = localeMenulist.selectedIndex;
 
-		var availableLocales = [];
-        for (var key in Zotero.CiteProc.CSL.LANGS) {
-            availableLocales.push(key);
-        }
+		/*
+		 * CSL selection 
+		 */
+		
+		var locales = [];
+		for (var key in Zotero.CiteProc.CSL.LANGS) {
+			locales.push({value: key, label: Zotero.CiteProc.CSL.LANGS[key]});
+		}
 		var selectedLocale = Zotero.Prefs.get('export.bibliographyLocale');
-		if (!selectedLocale || !availableLocales[selectedLocale]) {
+		if (!selectedLocale || !Zotero.CiteProc.CSL.LANGS[selectedLocale]) {
 			Zotero.Prefs.set('export.bibliographyLocale', 'en-US');
+			selectedLocale = Zotero.Prefs.get('export.bibliographyLocale');
 		}
 
-		var localeMenulist = document.getElementById("locale-menulist");
+		var localeMenulist = document.getElementById("csl-menulist");
 		// Wipe out any existing menupopup
 		if (localeMenulist.firstChild) {
 			localeMenulist.removeChild(firstChild);
@@ -293,22 +304,9 @@ Zotero.setupLocale = function(document) {
 		
 		var selectedItem = null;
 
-		// Get the list of locales and assign names to each item
-		var locale;
-        var locales = [];
-        for (var i=0, ilen=availableLocales.length; i<ilen; i += 1) {
-            locale = availableLocales[i];
-            if (Zotero.CiteProc.CSL.LANGS[locale]) {
-			    locales.push({value: locale, label: Zotero.CiteProc.CSL.LANGS[locale]});
-			    if (locale == selectedLocale) {
-				    // Is this the current locale?
-				    localeMenulist.setAttribute('label', Zotero.CiteProc.CSL.LANGS[locale]);
-				    localeMenulist.setAttribute('value', locale);
-			    }
-            }
-        }
 		// Sort the list by name
 		locales.sort( function(a,b){return a.label.localeCompare(b.label)} );
+
 		// Render the list
 		for (var i = 0, ilen = locales.length; i < ilen; i += 1) {
 			var locale = locales[i];
@@ -316,7 +314,13 @@ Zotero.setupLocale = function(document) {
 			menuitem.setAttribute("value", locale.value);
 			menuitem.setAttribute("label", locale.label);	
 			menupopup.appendChild(menuitem);
+			if (locale.value === selectedLocale) {
+				selectedItem =  menuitem;
+			}
 		}
+		localeMenulist.selectedItem = selectedItem;
+		localeMenulist.disableSelect = false;
+
 	} catch (err) {
 		Zotero.debug ("PPP Failed to render locale menulist: " + err);	
 	}	

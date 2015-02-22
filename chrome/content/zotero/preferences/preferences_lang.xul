@@ -72,13 +72,13 @@
             <rows>
               <row>
                 <caption label="&zotero.preferences.lang.ui;"/>
-                <menulist id="ui-menulist" onselect="window.openDialog('chrome://zotero/content/languageSwitchConfirmation.xul', 'Switch Interface Language', 'chrome,centerscreen', document, Zotero);">
+                <menulist id="ui-menulist" onselect="if (!this.disableSelect){window.openDialog('chrome://zotero/content/languageSwitchConfirmation.xul', 'Switch Interface Language', 'chrome,centerscreen', document, Zotero, this.oldIdx);}">
                   <!-- generated list items go in here -->
                 </menulist>
               </row>
               <row>
                 <caption label="&zotero.preferences.lang.csl;"/>
-                <menulist id="locale-menulist" onselect="var lang = this.selectedItem.value;Zotero.Prefs.set('export.bibliographyLocale', lang)">
+                <menulist id="csl-menulist" onselect="if (!this.disableSelect){var lang=this.selectedItem.value;Zotero.Prefs.set('export.bibliographyLocale',lang)}">
                 </menulist>
               </row>
             </rows>

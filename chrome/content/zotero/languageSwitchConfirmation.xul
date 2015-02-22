@@ -28,7 +28,7 @@
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	title="" buttons="cancel,accept"
 	id="zotero-languageSwitchConfirmation"
-    ondialogcancel="var doc = window.arguments[0];var zot = window.arguments[1];idx = window.arguments[2];var menu = doc.getElementById('locale-menulist');menu.selectedIndex = zot.LANGUAGE_INDEX[zot.locale];"
+	ondialogcancel="var doc = window.arguments[0];var zot = window.arguments[1];var oldIdx = window.arguments[2];var menu=doc.getElementById('ui-menulist');menu.selectedIndex=oldIdx;"
 	ondialogaccept="var doc = window.arguments[0];var zot = window.arguments[1];zot.switchLocale(doc);">
     <vbox flex="1">
             <description maxwidth="250">
