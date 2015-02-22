@@ -835,24 +835,34 @@ Zotero.Cite.System.prototype = {
 	},
 
 	"getHumanForm":function(jurisdictionKey, courtKey) {
-	    var ret;
-	    var res;
-	    if (jurisdictionKey && courtKey) {
+		var ret;
+		var res;
+		if (jurisdictionKey && courtKey) {
 		ret = Zotero.Utilities.getCourtName(jurisdictionKey, courtKey, true);
-	    } else if (jurisdictionKey) {
+		} else if (jurisdictionKey) {
 		res = Zotero.Utilities.getJurisdictionName(jurisdictionKey);
 		if (res) {
-		    res = res.split("|");
-		    if (res.length > 2) {
+			res = res.split("|");
+			if (res.length > 2) {
 			ret = res.slice(1).join("|");
-		    } else {
+			} else {
 			ret = res.join("|");
-		    }
+			}
 		} else {
-		    ret = res;
+			ret = res;
 		}
-	    }
-	    return ret ? "" + ret : "";
+		}
+		return ret ? "" + ret : "";
+	},
+
+	"retrieveStyleModule": function(jurisdiction, preference) {
+		var id = preference ? jurisdiction + "-" + preference : jurisdiction;
+		var module = Zotero.Styles.get("http://citationstylist.org/modules/" + id);
+		var ret = false;
+		if (module) {
+			ret = module.getXML();
+		}
+		return ret;
 	}
 }
 
