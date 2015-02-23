@@ -1419,8 +1419,7 @@ Zotero.Item.prototype.setCreator = function(orderIndex,
 			this._creators[orderIndex].creatorTypeID == creatorTypeID &&
 			this._creators[orderIndex].multi.mainLang() == langTag &&
 			!creator.hasChanged()) {
-		Zotero.debug("Creator in position " + orderIndex + " hasn't changed", 4);
-		return false;
+			return false;
 	}
 
 	var headlineChange = false;
@@ -1464,23 +1463,23 @@ Zotero.Item.prototype.setCreator = function(orderIndex,
 	
 	if (headlineChange !== false) {
 		if (!this._changedCreators) {
-		this._changedCreators = {};
-		
-		var oldCreators = this._getOldCreators()
-		this._markFieldChange('creators', oldCreators);
+			this._changedCreators = {};
+			
+			var oldCreators = this._getOldCreators()
+			this._markFieldChange('creators', oldCreators);
 		}
 		this._changedCreators[orderIndex] = true;
 		if (forceInsert) {
-		for (var i = orderIndex, ilen = this._creators.length; i < ilen; i += 1) {
-			this._changedCreators[i] = true;
-		}
+			for (var i = orderIndex, ilen = this._creators.length; i < ilen; i += 1) {
+				this._changedCreators[i] = true;
+			}
 		}
 	} else if (multiChange) {
 		if (!this._changedAltCreators) {
-		this._changedAltCreators = {};
+			this._changedAltCreators = {};
 		}
 		if (!this._changedAltCreators[orderIndex]) {
-		this._changedAltCreators[orderIndex] = {};
+			this._changedAltCreators[orderIndex] = {};
 		}
 		this._changedAltCreators[orderIndex][langTag] = true;
 	}
@@ -2171,7 +2170,7 @@ Zotero.Item.prototype.save = function(options) {
 					/*
 					if (!creator.ref.exists()) {
 						throw ("Creator in position " + orderIndex + " doesn't exist");
-					}
+				}
 					*/
 					
 					/*
