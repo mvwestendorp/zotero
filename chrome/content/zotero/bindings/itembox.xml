@@ -414,31 +414,27 @@
 							// XXX Also get the values of main.
 							var mainLang = this.item.multi.mainLang(fieldName);
 							var mainValue = this.item.getField(fieldName);
-
-							// XXX Save the variant empty to scrub it from the memory/DB object.
-							// XXX This does not work, and the subsequent setField with force_top
-							// XXX sets the same value on main that still lurks in the multi list.
-							// XXX That should never happen, and should not be permitted.
-							this.item.setField(fieldName, "", null, tag);
-							this.item.save()
-
-							// XXX Set the former variant values on main with modifyField() (not saving) and update UI
+							
+							// setField() with different content and a different language
+							// tag on the headline field did not have a happy ending:
+							// there appears to be a bug there.
+							// This combination works, though.
+							this.item.setField(fieldName, null, null, tag);
 							this.item.multi.changeLangTag(mainLang, tag, fieldName);
-							this._modifyField(fieldName, variantValue, null, tag, true);
+							this.item.setField(fieldName,variantValue);
+							this.item.setField(fieldName, mainValue, null, mainLang);
+							this.item.save();
+							
+							// We fix up the UI after the save is out of the way.
+							// No refresh, only a tabindex update.
 							this._selectField = false;
 							this.addFieldRow(999999,fieldName, variantValue, parentRow.parentNode, parentRow);
 							parentRow.parentNode.removeChild(parentRow);
 
-							// XXX Set the former main values as a variant with _modifyField() (saving this time)
-							this._modifyField(fieldName, mainValue, true, mainLang)
-
-							// XXX Insert a fresh row before the matching variant
-							// XXX   with the main values, and then remove the old one.
 							this._selectField = false;
 							this.addFieldRow(999999,fieldName, mainValue, rows, row, mainLang);
 							rows.removeChild(row);
-
-							// XXX Update tabindexes.
+							
 							this.multiTabUpdate();
 						}
 					} else {
@@ -641,7 +637,7 @@
 						this._selectField = false;
 					}
 					
-					// In field merge mode, add a button to switch field versions
+					// In field merge mode, add a button to switchfield versions
 					else if (this.mode == 'fieldmerge' && typeof this._fieldAlternatives[fieldName] != 'undefined') {
 						var button = document.createElement("toolbarbutton");
 						button.className = 'zotero-field-version-button';
