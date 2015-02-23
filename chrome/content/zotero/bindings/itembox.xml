@@ -1069,10 +1069,12 @@
 					// getCreatorFields(), switchCreatorMode() and handleCreatorAutoCompleteSelect()
 					// may need need to be adjusted if this DOM structure changes
 					
+					var creatorPos = this._creatorCount;
 					if (parentNode) {
-						this._creatorCount--;
+						var parentLabel = parentNode.previousSibling.firstChild;
+						creatorPos = parentLabel.getAttribute("fieldname").split("-")[1];
 					}
-					
+
 					if (!creator) {
 						creator = {
 							firstName: '',
@@ -1101,7 +1103,8 @@
 							document.getBindingParent(this).openCreatorTypeMenu(event);
 						});
 					}
-					typeBox.setAttribute("fieldname", 'creator-' + this._creatorCount + '-typeID');
+					
+					typeBox.setAttribute("fieldname", 'creator-' + creatorPos + '-typeID');
 					if (langTag) {
 						typeBox.setAttribute("zlang", langTag);
 						typeBox.setAttribute("tooltiptext", Zotero.CachedLanguages.getNickname(langTag));
@@ -1137,7 +1140,7 @@
 					firstlast.className = 'creator-name-box';
 					firstlast.setAttribute("flex","1");
 					var tabindex = this._tabIndexMinCreators + (this._creatorCount * 2);
-					var fieldName = 'creator-' + this._creatorCount + '-lastName';
+					var fieldName = 'creator-' + creatorPos + '-lastName';
 					var lastNameLabel = firstlast.appendChild(
 						this.createValueElement(
 							lastName,
@@ -1152,7 +1155,7 @@
 					comma.className = 'comma';
 					firstlast.appendChild(comma);
 					
-					var fieldName = 'creator-' + this._creatorCount + '-firstName';
+					var fieldName = 'creator-' + creatorPos + '-firstName';
 					firstlast.appendChild(
 						this.createValueElement(
 							firstName,
@@ -1175,7 +1178,7 @@
 					// Single/double field toggle
 					var toggleButton = document.createElement('label');
 					toggleButton.setAttribute('fieldname',
-						'creator-' + this._creatorCount + '-fieldMode');
+						'creator-' + creatorPos + '-fieldMode');
 					toggleButton.className = 'zotero-field-toggle zotero-clicky';
 					hbox.appendChild(toggleButton);
 					
@@ -1190,7 +1193,7 @@
 					else {
 						removeButton.setAttribute("onclick",
 							"document.getBindingParent(this).removeCreator("
-							+ this._creatorCount
+							+ creatorPos
 							+ ", this.parentNode.parentNode)");
 					}
 					hbox.appendChild(removeButton);
