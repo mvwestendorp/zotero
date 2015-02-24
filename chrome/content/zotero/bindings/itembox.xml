@@ -324,12 +324,9 @@
 						this.item.setCreator(creatorIndex, mainCreator, creatorTypeID, mainLang);
 						this.item.save();
 					} else {
-						// If no matching value exists, just adjust the UI
-						var langNickname = Zotero.CachedLanguages.getNickname(tag);
-						node.setAttribute('zlang',tag);
-						node.setAttribute('tooltiptext',langNickname);
-						var mainCreator = creator.ref;
-						this.modifyCreator(creatorIndex, mainCreator, null, tag);
+						// If no matching value exists, just update and save
+						this.item.setCreator(creatorIndex, creator.ref, creatorTypeID, tag, true);
+						this.item.save();
 					}
 				]]>
 				</body>
