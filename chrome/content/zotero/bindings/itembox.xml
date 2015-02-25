@@ -349,11 +349,17 @@
 						fieldMode: mainCreator.ref.fieldMode
 					}
 					var row = Zotero.getAncestorByTagName(node,'row');
-					var rows = row.nextSibling;
-					if (!rows || 'rows' !== rows.tagName || !rows.classList.contains('multi')) {
-						rows = document.createElement('rows');
+					var parent = row.parentNode;
+					var sibling = row.nextSibling;
+					if (!sibling || 'rows' !== sibling.tagName || !sibling.classList.contains('multi')) {
+						var rows = document.createElement('rows');
 						rows.classList.add('multi')
-						row.parentNode.insertBefore(rows,row.nextSibling)
+						parent.insertBefore(rows,sibling)
+						if (!row.nextSibling || !row.nextSibling.classList.contains('multi')) {
+							parent.insertBefore(rows, sibling);
+						}
+					} else {
+						var rows = sibling;
 					}
 					var creator = new Zotero.Creator;
 					creator.setFields(fields);
@@ -675,6 +681,11 @@
 				<parameter name="skipFields"/>
 				<body>
 				<![CDATA[
+					if (this.blockRefresh) {
+						this.blockRefresh = false;
+						return;
+					}
+
 					if (!this.item) {
 						Zotero.debug('No item to refresh', 2);
 						return;
@@ -970,6 +981,7 @@
 				<parameter name="nextElement"/>
 				<body>
 				<![CDATA[
+
 					// Add click event to row
 					if (this._rowIsClickable(value.getAttribute('fieldname'))) {
 						row.className = 'zotero-clicky';
@@ -1226,8 +1238,10 @@
 					if (parentNode) {
 						placementFlag = false;
 					}
+					var p = parentNode ? parentNode.ownerDocument : parentNode;
+					var n = nextNode ? nextNode.ownerDocument : nextNode;
 					var row = this.addDynamicRow(typeBox, hbox, placementFlag, true, parentNode, nextNode);
-					
+
 					if (unsaved) {
 						this.multiTabUpdate();
 					}
@@ -1245,10 +1259,6 @@
 						lastNameLabel.click();
 					}
 
-					if (parentNode) {
-						this._creatorCount++;
-					}
-					
 					return row;
 				]]>
 				</body>
@@ -1378,7 +1388,7 @@
 					var hbox = button.previousSibling;
 					var lastName = hbox.firstChild;
 					var comma = hbox.firstChild.nextSibling;
-					var firstName = hbox.lastChild;
+					var firstName = hbox.firstChild.nextSibling.nextSibling;
 					var langTag = row.firstChild.getAttribute("zlang");
 					
 					// Switch to single-field mode
@@ -1627,7 +1637,6 @@
 				<parameter name="itemTypeID"/>
 				<body>
 				<![CDATA[
-						// XXXX Factor this out to a function. It will be used in two places.
 						var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
 						var fields = Zotero.ItemFields.getItemTypeFields(itemTypeID);
 						if (fields.indexOf(jurisdictionID) > -1) {
@@ -2026,7 +2035,8 @@
 					if (!isMulti && fieldName === 'jurisdiction') {
 						var valueElement = document.createElement("menulist");
 						valueElement.setAttribute("id","jurisdiction-menu");
-						// XXXX Set default here if req.
+
+						// Set default here if req.
 						this.forceJurisdiction(this.item.itemTypeID);
 						var value = this.item.getField("jurisdiction",true);
 						if (value) {
@@ -2187,6 +2197,7 @@
 						}
 						valueElement.setAttribute('crop', 'end');
 						valueElement.setAttribute('value',valueText);
+						valueElement.value = valueText;
 					}
 					else {
 						// Wrap to multiple lines
@@ -2204,6 +2215,8 @@
 				<parameter name="labelToDelete"/>
 				<body>
 				<![CDATA[
+					// Are you multi?
+					isMulti = labelToDelete.parentNode.classList.contains('multi');
 					// If unsaved row, just remove element
 					if (!this.item.hasCreatorAt(index)) {
 						labelToDelete.parentNode.removeChild(labelToDelete);
@@ -2213,12 +2226,12 @@
 						var button = elems[elems.length-1];
 						var creatorFields = this.getCreatorFields(Zotero.getAncestorByTagName(button, 'row'));
 						this._enablePlusButton(button, creatorFields.creatorTypeID, creatorFields.fieldMode);
-						
-						this._creatorCount--;
+						if (!isMulti) {
+							this._creatorCount--;
+						}
 						return;
 					}
 					// Block delete if there are multilingual variants
-					isMulti = labelToDelete.parentNode.classList.contains('multi');
 					if (isMulti) {
 						var langTag = labelToDelete.firstChild.getAttribute("zlang");
 						this.item.removeCreator(index, langTag);
@@ -3139,6 +3152,7 @@
 									this.item.setCreator(index, oldCreator.ref, creatorTypeID, langTag, true);
 								}
 								if (this.saveOnEdit) {
+									this.blockRefresh = true;
 									this.item.save();
 								}
 							}
@@ -3229,6 +3243,7 @@
 				catch (e) {
 					Zotero.debug(e);
 					Components.utils.reportError(e);
+					Zotero.DB.rollbackTransaction();
 					throw (e);
 				}
 				]]>
@@ -3246,6 +3261,7 @@
 					var firstName = fields.firstName;
 					fields.lastName = firstName;
 					fields.firstName = lastName;
+					this.saveOnEdit = false;
 					this.modifyCreator(creatorIndex, fields);
 					this.item.save();
 				]]></body>
@@ -3543,7 +3559,7 @@
 								creatorTypeID: typeID
 							};
 							itemBox._updateAutoCompleteParams(row, changedParams);
-
+							
 							itemBox.modifyCreator(index, fields);"/>
 					<menupopup id="zotero-field-transform-menu">
 						<menu label="&zotero.item.textTransform;">

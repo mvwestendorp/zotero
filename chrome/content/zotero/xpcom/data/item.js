@@ -1536,7 +1536,22 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, langTag) {
 		}
 		
 		// Shift creator orderIndexes down, going to length+1 so we clear the last one
+		if (!this._changedAltCreators) {
+			this._changedAltCreators = {};
+		}
 		for (var i=orderIndex, max=this._creators.length+1; i<max; i++) {
+			// Flag all multi creators at their original positions
+			if (!this._changedAltCreators[i]) {
+				this._changedAltCreators[i] = {};
+			}
+			if (this._creators[i]) {
+				var myTags = this._creators[i].multi.langs();
+				for (var j=0,jlen=myTags.length;j<jlen;j++) {
+					var langTag = myTags[j];
+					this._changedAltCreators[i][langTag] = (i-1);
+					this._creators[i].multi._key[langTag].changed = true;
+				}
+			}
 			var next = this._creators[i+1] ? this._creators[i+1] : false;
 			if (next) {
 				this._creators[i] = next;
@@ -2108,16 +2123,16 @@ Zotero.Item.prototype.save = function(options) {
 						for (var langTag in this.multi._keys[fieldID]) {
 							del.alt.push([del.main[k], langTag]);
 						}
-						}
 					}
-					
-						
+				}
+				
+				
 				if (del.alt.length) {
 					/*
 					// Add to history
 					for (var i in del) {
-						Zotero.History.remove('itemData', 'itemID-fieldID',
-							[this.id, del[i]]);
+					Zotero.History.remove('itemData', 'itemID-fieldID',
+					[this.id, del[i]]);
 					}
 					*/
 
@@ -2129,8 +2144,8 @@ Zotero.Item.prototype.save = function(options) {
 					for (var i = 0, ilen = del.alt.length; i < ilen; i += 1) {
 						for (var k = 0; k < 2; k += 1) {
 							lst.push(del.alt[i][k]);
+						}
 					}
-				}
 					Zotero.DB.query(sql, [this.id].concat(lst));
 				}
 				if (del.main.length) {
@@ -2224,11 +2239,26 @@ Zotero.Item.prototype.save = function(options) {
 			
 			if (this._changedAltCreators) {
 				// Multilingual entries
+
+				// Assure that we step through these in forward sequence, in case a creator
+				// has been removed and we are renumbering.
+				var orderIndices = [];
 				for (var orderIndex in this._changedAltCreators) {
+					orderIndices.push(parseInt(orderIndex, 10));
+				}
+				orderIndices.sort();
+				for (var i in orderIndices) {
+					var orderIndex = orderIndices[i];
 					Zotero.debug('A multilingual entry under creator ' + orderIndex + ' has changed', 4);
-					var creator = this.getCreator(orderIndex);
 
 					for (var langTag in this._changedAltCreators[orderIndex]) {
+
+						var newIndex = orderIndex;
+						var tryIndex = this._changedAltCreators[orderIndex][langTag];
+						if ("number" === typeof tryIndex) {
+							newIndex = tryIndex;
+						}
+						var creator = this.getCreator(newIndex);
 
 						var sql2 = 'DELETE FROM itemCreatorsAlt WHERE itemID=?'
 							+ ' AND orderIndex=? AND languageTag=?';
@@ -2239,7 +2269,7 @@ Zotero.Item.prototype.save = function(options) {
 						}
 						
 						if (creator.multi._key[langTag].hasChanged()) {
-							// Zotero.debug("Auto-saving changed multilingual creator " + creator.multi._key[langTag].id + " for library "+creator.multi._key[langTag].libraryID);
+							Zotero.debug("Auto-saving changed multilingual creator " + creator.multi._key[langTag].id + " for library "+creator.multi._key[langTag].libraryID);
 							creator.multi._key[langTag].save();
 						}
 						var creatorID = creator.multi._key[langTag].id;
@@ -2249,7 +2279,7 @@ Zotero.Item.prototype.save = function(options) {
 							{ int: this.id },
 							{ int: creatorID },
 							{ int: creator.creatorTypeID },
-							{ int: orderIndex },
+							{ int: newIndex },
 							langTag
 						];
 						Zotero.DB.query(sql, sqlValues);
