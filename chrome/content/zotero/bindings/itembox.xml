@@ -2488,11 +2488,15 @@
 						}
 						
 						var row = Zotero.getAncestorByTagName(textbox, 'row');
-						
+						var langTag = row.firstChild.getAttribute("zlang");
+						var isMulti = false;
+						if (row.parentNode.classList.contains('multi')) {
+							isMulti = true;
+						}
 						var fields = this.getCreatorFields(row);
 						fields[creatorField] = creator[creatorField];
 						fields[otherField] = creator[otherField];
-						this.modifyCreator(creatorIndex, fields);
+						this.modifyCreator(creatorIndex, fields, null, langTag, isMulti);
 					}
 					
 					// Otherwise let the autocomplete popup handle matters
