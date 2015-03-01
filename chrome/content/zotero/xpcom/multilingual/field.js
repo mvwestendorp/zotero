@@ -31,7 +31,7 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top) {
 			throw "Attempt to save existing tag to main: " + lang;
 		}
 		if (value) {
-			this.parent[fieldID] = value;
+			this.parent._itemData[fieldID] = value;
 			if (lang && force_top) {
 				this.main[fieldID] = lang;
 			}
