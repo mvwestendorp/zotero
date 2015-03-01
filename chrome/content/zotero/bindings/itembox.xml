@@ -117,6 +117,10 @@
 					if (!(val instanceof Zotero.Item)) {
 						throw ("<zoteroitembox>.item must be a Zotero.Item");
 					}
+					if (this._suppressRefresh) {
+						this._suppressRefresh = false;
+						return;
+					}
 					
 					// When changing items, reset truncation of creator list
 					if (!this._item || val.id != this._item.id) {
@@ -422,16 +426,18 @@
 							// tag on the headline field did not have a happy ending:
 							// there appears to be a bug there.
 							// This combination works, though.
+
 							this.item.setField(fieldName, null, null, tag);
-							this.item.multi.changeLangTag(mainLang, tag, fieldName);
-							this.item.setField(fieldName,variantValue);
+							//this.item.multi.changeLangTag(mainLang, tag, fieldName);
+							this.item.setField(fieldName,variantValue, null, tag, true);
 							this.item.setField(fieldName, mainValue, null, mainLang);
 							this.item.save();
-							
+
 							// We fix up the UI after the save is out of the way.
 							// No refresh, only a tabindex update.
 							this._selectField = false;
-							this.addFieldRow(999999,fieldName, variantValue, parentRow.parentNode, parentRow);
+							this.addFieldRow(999999,fieldName, variantValue, parentRow.parentNode, parentRow, tag);
+							this.addFieldRow(999999,fieldName, variantValue, null, null, tag);
 							parentRow.parentNode.removeChild(parentRow);
 
 							this._selectField = false;
@@ -504,6 +510,11 @@
 				<body>
 				<![CDATA[
 					var val = '';
+					
+					var isMulti = false;
+					if (parentNode && parentNode.classList.contains('multi')) {
+						isMulti = true;
+					}
 					
 					if (fieldName) {
 						var fieldID = Zotero.ItemFields.getID(fieldName);
@@ -585,7 +596,7 @@
 					}
 					
 					if (fieldName) {
-						if (langTag) {
+						if (isMulti && langTag) {
 							var variantName = Zotero.CachedLanguages.getNickname(langTag);
 							label.setAttribute("value", variantName);
 						} else {
@@ -981,7 +992,11 @@
 				<parameter name="nextElement"/>
 				<body>
 				<![CDATA[
-
+						 
+					var isMulti = false;
+					if (parentElement && parentElement.classList.contains('multi')) {
+						isMulti = true;
+					}
 					// Add click event to row
 					if (this._rowIsClickable(value.getAttribute('fieldname'))) {
 						row.className = 'zotero-clicky';
@@ -990,7 +1005,7 @@
 						}, false);
 					}
 					
-					if (!parentElement && value.getAttribute('fieldname') == 'jurisdiction') {
+					if (!isMulti && value.getAttribute('fieldname') == 'jurisdiction') {
 						var innerValue = value;
 						innerValue.setAttribute("tooltiptext", value.getAttribute("label"));
 						value = document.createElement("hbox");
@@ -1006,14 +1021,14 @@
 						var row = document.createElement("row");
 						row.appendChild(label);
 						row.appendChild(value);
-					} else if (!parentElement && value.getAttribute('fieldname') == 'court') {
+					} else if (!isMulti && value.getAttribute('fieldname') == 'court') {
 						//value.setAttribute("tooltiptext", value.getAttribute("label"));
 						var row = document.createElement("row");
 						row.appendChild(label);
 						var boxedvalue = document.createElement("hbox");
 						boxedvalue.appendChild(value);
 						row.appendChild(boxedvalue);
-					} else if (isCreatorElement && !parentElement) {
+					} else if (isCreatorElement && !isMulti) {
 						var row = document.createElement('rows');
 						row.classList.add('creator');
 						var subrow = document.createElement('row');
