@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="juris-m-32px-australis.svg"
+   inkscape:export-filename="/home/bennett/src-local/zotero/branding/gree-button-16px-active.png"
+   inkscape:export-xdpi="8.0325432"
+   inkscape:export-ydpi="8.0325432">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3055"
+       inkscape:collect="always">
+      <stop
+         id="stop3057"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop3063"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0;" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       id="filter4512"
+       x="-0.12526583"
+       width="1.2505317"
+       y="-0.19581785"
+       height="1.3916357">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="5.0703626"
+         id="feGaussianBlur4514" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3055"
+       id="linearGradient4524"
+       gradientUnits="userSpaceOnUse"
+       x1="167.34267"
+       y1="244.39783"
+       x2="167.46866"
+       y2="317.99164" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="346.14925"
+     inkscape:cy="807.61225"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1375"
+     inkscape:window-height="876"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <path
+       sodipodi:type="arc"
+       style="fill:#008000"
+       id="path3432"
+       sodipodi:cx="351.42856"
+       sodipodi:cy="327.36218"
+       sodipodi:rx="125.71429"
+       sodipodi:ry="125.71429"
+       d="m 477.03944,322.26436 a 125.71429,125.71429 0 1 1 -3.4e-4,-0.009 l -125.61054,5.10632 z"
+       sodipodi:start="6.2426233"
+       sodipodi:end="12.525741"
+       transform="matrix(0.71299762,0,0,0.71435014,110.92282,73.595588)"
+       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz_z_32px.png"
+       inkscape:export-xdpi="16.065086"
+       inkscape:export-ydpi="16.065086" />
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#linearGradient4524);fill-opacity:1;filter:url(#filter4512)"
+       id="path4410"
+       sodipodi:cx="165"
+       sodipodi:cy="285.57648"
+       sodipodi:rx="48.57143"
+       sodipodi:ry="31.071428"
+       d="m 213.53148,284.3165 a 48.57143,31.071428 0 1 1 -1.3e-4,-0.002 L 165,285.57648 z"
+       sodipodi:start="6.2426233"
+       sodipodi:end="12.525741"
+       transform="matrix(1.4093301,0,0,1.4611048,127.74005,-149.95046)"
+       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz-button-big.png"
+       inkscape:export-xdpi="146.72548"
+       inkscape:export-ydpi="146.72548" />
+    <text
+       xml:space="preserve"
+       style="font-size:40.78695297000000153px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:536.99998856000001979%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros"
+       x="307.65018"
+       y="355.6134"
+       id="text4516"
+       sodipodi:linespacing="536.99999%"
+       inkscape:export-filename="/home/bennett/src/zotero/branding/mlz_z_32px.png"
+       inkscape:export-xdpi="16.065086"
+       inkscape:export-ydpi="16.065086"
+       transform="scale(0.98070574,1.0196739)"><tspan
+         sodipodi:role="line"
+         id="tspan4518"
+         x="307.65018"
+         y="355.6134"
+         style="font-size:146.83303832999999372px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:TeXGyreHeros;-inkscape-font-specification:TeXGyreHeros">M</tspan></text>
+  </g>
+</svg>
