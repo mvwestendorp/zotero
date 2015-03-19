@@ -614,13 +614,20 @@ Zotero.Utilities = {
 	/**
 	 * Clean and validate ISBN.
 	 * Return isbn if valid, otherwise return false
+	 * @param {String} isbn
+	 * @param {Boolean} [dontValidate=false] Do not validate check digit
+	 * @return {String|Boolean} Valid ISBN or false
 	 */
-	"cleanISBN":function(/**String*/ isbn) {
+	"cleanISBN":function(isbn, dontValidate) {
 		isbn = isbn.replace(/[^0-9a-z]+/ig, '').toUpperCase()	//we only want to ignore punctuation, spaces
-						.match(/(?:97[89][0-9]{10}|[0-9]{9}[0-9X])/);	//13 digit or 10 digit
+						.match(/\b(?:97[89][0-9]{10}|[0-9]{9}[0-9X])\b/);	//13 digit or 10 digit
 		if(!isbn) return false;
 		isbn = isbn[0];
-
+		
+		if (dontValidate && (isbn.length == 10 || isbn.length == 13)) {
+			return isbn;
+		}
+		
 		if(isbn.length == 10) {
 			// Verify ISBN-10 checksum
 			var sum = 0;
@@ -645,6 +652,34 @@ Zotero.Utilities = {
 		}
 
 		return false;
+	},
+	
+	/*
+	 * Convert ISBN 10 to ISBN 13
+	 * @param {String} isbn ISBN 10 or ISBN 13
+	 *   cleanISBN
+	 * @return {String} ISBN-13
+	 */
+	"toISBN13": function(isbn) {
+		if (!/^(?:97[89])?\d{9}[\dxX]$/.test(isbn)
+			&& !(isbn = Zotero.Utilities.cleanISBN(isbn))
+		) {
+			throw new Error('Invalid ISBN: ' + isbn);
+		}
+		
+		if (isbn.length == 13) return isbn; // Recalculate check digit?
+		
+		isbn = '978' + isbn.substr(0,9);
+		
+		var sum = 0;
+		for (var i = 0; i < 12; i++) {
+			sum += isbn[i] * (i%2 ? 3 : 1);
+		}
+		
+		var checkDigit = 10 - (sum % 10);
+		if (checkDigit == 10) checkDigit = 0;
+		
+		return isbn + checkDigit;
 	},
 
 	/**
@@ -1431,15 +1466,15 @@ Zotero.Utilities = {
 				// document, we need to use selectNodes
 				if(namespaces) {
 					var ieNamespaces = [];
-					for(var i in namespaces) {
-						if(!i) continue;
-						ieNamespaces.push('xmlns:'+i+'="'+Zotero.Utilities.htmlSpecialChars(namespaces[i])+'"');
+					for(var j in namespaces) {
+						if(!j) continue;
+						ieNamespaces.push('xmlns:'+j+'="'+Zotero.Utilities.htmlSpecialChars(namespaces[j])+'"');
 					}
 					rootDoc.setProperty("SelectionNamespaces", ieNamespaces.join(" "));
 				}
 				var nodes = element.selectNodes(xpath);
-				for(var i=0; i<nodes.length; i++) {
-					results.push(nodes[i]);
+				for(var j=0; j<nodes.length; j++) {
+					results.push(nodes[j]);
 				}
 			} else {
 				throw new Error("XPath functionality not available");
@@ -1816,27 +1851,25 @@ Zotero.Utilities = {
 
 	/**
 	 * Converts an item from toArray() format to citeproc-js JSON
-	 * @param {Zotero.Item} item
+	 * @param {Zotero.Item} zoteroItem
 	 * @return {Object} The CSL item
 	 */
-	"itemToCSLJSON":function(arrayItem, ignoreURL, portableJSON, stopAuthority) {
-
-		// convert toArray() if needed.
-		if(arrayItem instanceof Zotero.Item) {
-			arrayItem = arrayItem.toArray();
+     "itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
+		if (zoteroItem instanceof Zotero.Item) {
+			zoteroItem = zoteroItem.toArray();
 		}
-
+		
 		if (portableJSON) {
 			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(arrayItem);
 		}
 
-		var itemType = arrayItem.itemType;
+		var itemType = zoteroItem.itemType;
 		var itemTypeID = Zotero.ItemTypes.getID(itemType);
-		var cslType = CSL_TYPE_MAPPINGS[itemType];
-		if(!cslType) cslType = "article";
-
+		var cslType = CSL_TYPE_MAPPINGS[zoteroItem.itemType] || "article";
+		var itemTypeID = Zotero.ItemTypes.getID(zoteroItem.itemType);
+		
 		var cslItem = {
-			'id':arrayItem.id,
+			'id':zoteroItem.itemID,
 			'type':cslType
 		}
 		if (!portableJSON) {
@@ -1847,47 +1880,62 @@ Zotero.Utilities = {
 		};
 		
 		if (!portableJSON) {
-			if (!arrayItem.libraryID) {
-				cslItem.system_id = "0_" + arrayItem.key;
+			if (!zoteroItem.libraryID) {
+				cslItem.system_id = "0_" + zoteroItem.key;
 			} else {
-				cslItem.system_id = arrayItem.libraryID + "_" + arrayItem.key;
+				cslItem.system_id = arrayItem.libraryID + "_" + zoteroItem.key;
 			}
 		}
 		
-		cslItem.id = arrayItem.itemID;
+		cslItem.id = zoteroItem.itemID;
 
 		// get all text variables (there must be a better way)
-		// TODO: does citeproc-js permit short forms?
 		for(var variable in CSL_TEXT_MAPPINGS) {
 			var fields = CSL_TEXT_MAPPINGS[variable];
+            // Not in Zotero
 			if(variable == "URL" && ignoreURL) continue;
-			for each(var field in fields) {
-				var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, field);
-				if (!fieldID) {
-					fieldID = Zotero.ItemFields.getID(field);
-				}
-				var fieldName = Zotero.ItemFields.getName(fieldID);
-				var value = arrayItem[fieldName];
-				if(value && value != "") {
-					// Strip enclosing quotes
-					if(value.match(/^".+"$/)) {
-						value = value.substr(1, value.length-2);
+			for(var i=0, n=fields.length; i<n; i++) {
+				var field = fields[i],
+					value = null;
+				
+				if(field in zoteroItem) {
+					value = zoteroItem[field];
+				} else {
+					var fieldID = Zotero.ItemFields.getID(field),
+						baseMapping;
+					if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)
+							&& (baseMapping = Zotero.ItemFields.getBaseIDFromTypeAndField(itemTypeID, fieldID))) {
+						value = zoteroItem[Zotero.ItemTypes.getName(baseMapping)];
 					}
-
-					// OOPS. Field names need to be remapped here.
-
+				}
+				
+				if (!value) continue;
+				
+				if (typeof value == 'string') {
+					if (field == 'ISBN') {
+						// Only use the first ISBN in CSL JSON
+						var isbn = value.match(/^(?:97[89]-?)?(?:\d-?){9}[\dx](?!-)\b/i);
+						if (isbn) value = isbn[0];
+					}
+					
+					// Strip enclosing quotes
+					if(value.charAt(0) == '"' && value.indexOf('"', 1) == value.length - 1) {
+						value = value.substring(1, value.length-1);
+					}
 					cslItem[variable] = value;
+
 					if (!portableJSON) {
-						if (arrayItem.multi && arrayItem.multi.main[fieldName]) {
-							cslItem.multi.main[variable] = arrayItem.multi.main[fieldName]
+						if (zoteroItem.multi && zoteroItem.multi.main[field]) {
+							cslItem.multi.main[variable] = zoteroItem.multi.main[field]
 						}
-						if (arrayItem.multi && arrayItem.multi._keys[fieldName]) {
+						if (zoteroItem.multi && zoteroItem.multi._keys[field]) {
 							cslItem.multi._keys[variable] = {};
-							for (var langTag in arrayItem.multi._keys[fieldName]) {
-								cslItem.multi._keys[variable][langTag] = arrayItem.multi._keys[fieldName][langTag];
+							for (var langTag in zoteroItem.multi._keys[field]) {
+								cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[field][langTag];
 							}
 						}
 					}
+
 					break;
 				}
 			}
@@ -1902,17 +1950,10 @@ Zotero.Utilities = {
 		}
 
 		// separate name variables
-		var authorID = Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID);
-		var authorFieldName = Zotero.CreatorTypes.getName(authorID);
-		if ("undefined" === typeof arrayItem.creators) {
-			arrayItem.creators = [];
-		}
-		var creators = arrayItem.creators.slice();
-		
+		var author = Zotero.CreatorTypes.getName(Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID));
+		var creators = zoteroItem.creators;
+
 		if (!portableJSON && !stopAuthority) {
-			// XXX This, too, should be happening inside the processor
-			// XXX If this is CSL, shouldn't these be given and family?
-			// Stir in authority variable
 			if (cslItem.authority) {
 				var nameObj = {
 					'creatorType':'authority',
@@ -1936,20 +1977,17 @@ Zotero.Utilities = {
 				delete cslItem.authority;
 			}
 		}
-
-		for (var i=0,ilen=creators.length;i<ilen;i++) {
+        
+		for(var i=0; i<creators.length; i++) {
 			var creator = creators[i];
-			if(creator.creatorType == authorFieldName) {
-				var creatorType = "author";
-			} else if (creator.creatorType === 'authority') {
-				var creatorType = 'authority';
-			} else {
-				var creatorType = creator.creatorType;
+			var creatorType = creator.creatorType;
+			if(creatorType == author) {
+				creatorType = "author";
 			}
 			
-			var creatorType = CSL_NAMES_MAPPINGS[creatorType];
+			creatorType = CSL_NAMES_MAPPINGS[creatorType];
 			if(!creatorType) continue;
-
+			
 			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
 				var nameObj = {
 					'family':creator.lastName, 
@@ -2054,15 +2092,15 @@ Zotero.Utilities = {
 		}
 
 		// extract PMID
-		var extra = arrayItem["note"];
+		var extra = zoteroItem.extra;
 		if(typeof extra === "string") {
 			var m = /(?:^|\n)PMID:\s*([0-9]+)/.exec(extra);
 			if(m) cslItem.PMID = m[1];
-			m = /(?:^|\n)PMCID:\s*([0-9]+)/.exec(extra);
+			m = /(?:^|\n)PMCID:\s*((?:PMC)?[0-9]+)/.exec(extra);
 			if(m) cslItem.PMCID = m[1];
 		}
 		
-		//this._cache[arrayItem.id] = cslItem;
+		//this._cache[zoteroItem.id] = cslItem;
 		return cslItem;
 	},
 	

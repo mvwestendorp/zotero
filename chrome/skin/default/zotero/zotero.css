@@ -22,42 +22,52 @@
 }
 
 /*
-  Add-on bar and toolbar icon
-*/
-
-/* Old styling */
-#zotero-toolbar-button {
-	list-style-image: url(chrome://zotero/skin/mlz-mlz-24px.png);
+ *
+ * Toolbar icons
+ *
+ */
+#zotero-toolbar-main-button,
+#zotero-toolbar-main-button-single {
+	list-style-image: url("chrome://zotero/skin/juris-m-32px-australis.svg");
 }
 
-#zotero-toolbar-button:active {
-	list-style-image: url(chrome://zotero/skin/mlz-mlz-24px-active.png);
+#zotero-toolbar-save-button,
+#zotero-toolbar-save-button-single {
+	list-style-image: url("chrome://zotero/skin/treeitem-webpage.png");
 }
 
-toolbar[iconsize="small"] #zotero-toolbar-button {
-	list-style-image: url(chrome://zotero/skin/mlz-mlz-16px.png);
-    width: 29px;
-    height: 16px;
+#zotero-toolbar-save-button[cui-areatype="menu-panel"],
+#zotero-toolbar-save-button-single[cui-areatype="menu-panel"],
+toolbarpaletteitem[place="palette"] #zotero-toolbar-save-button,
+toolbarpaletteitem[place="palette"] #zotero-toolbar-save-button-single {
+	list-style-image: url("chrome://zotero/skin/treeitem-webpage@2x.png");
 }
 
-toolbar[iconsize="small"] #zotero-toolbar-button:active {
-	list-style-image: url(chrome://zotero/skin/mlz-mlz-16px-active.png);
-    width: 29px;
-    height: 16px;
+@media (min-resolution: 1.5dppx) {
+	#zotero-toolbar-save-button[cui-areatype="toolbar"],
+	#zotero-toolbar-save-button-single[cui-areatype="toolbar"] {
+		list-style-image: url("chrome://zotero/skin/treeitem-webpage@2x.png");
+	}
 }
 
-/* Australis styling */
-#zotero-toolbar-button[cui-areatype="menu-panel"],
-toolbarpaletteitem[place="palette"] > #zotero-toolbar-button,
-#zotero-toolbar-button:active[cui-areatype="menu-panel"],
-toolbarpaletteitem[place="palette"] > #zotero-toolbar-button:active {
-  list-style-image: url("chrome://zotero/skin/mlz-m-32px-monochrome-button.svg");
+/* Show single icon for combo buttons in palette */
+toolbarpaletteitem[place="palette"] #zotero-toolbar-main-button {
+	list-style-image: url("chrome://zotero/skin/juris-m-32px-australis.svg");
+}
+toolbarpaletteitem[place="palette"] #zotero-toolbar-buttons separator,
+toolbarpaletteitem[place="palette"] #zotero-toolbar-buttons #zotero-toolbar-save-button {
+	display:none;
 }
 
-#zotero-toolbar-button[cui-areatype="toolbar"],
-#zotero-toolbar-button:active[cui-areatype="toolbar"] {
-  list-style-image: url("chrome://zotero/skin/mlz-m-16px-monochrome-button.svg") !important;
+/* Show webpage icon in gray when no translators */
+#zotero-toolbar-save-button:not(.translate),
+#zotero-toolbar-save-button-single:not(.translate),
+#zotero-toolbar-save-button[disabled="true"],
+#zotero-toolbar-save-button-single[disabled="true"] {
+	filter: grayscale(100%);
 }
+
+/* End toolbar icons */
 
 /* Bindings */
 textbox[multiline="true"][type="timed"]

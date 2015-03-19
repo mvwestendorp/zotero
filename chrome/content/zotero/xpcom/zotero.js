@@ -54,6 +54,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 	this.join = join;
 	this.randomString = randomString;
 	this.moveToUnique = moveToUnique;
+	this.reinit = reinit; // defined in zotero-service.js
 	
 	// Public properties
 	this.initialized = false;
@@ -216,6 +217,8 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		
 		this.mainThread = Components.classes["@mozilla.org/thread-manager;1"].getService().mainThread;
 		
+		this.clientName = ZOTERO_CONFIG.CLIENT_NAME;
+		
 		var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
 			.getService(Components.interfaces.nsIXULAppInfo);
 		this.platformVersion = appInfo.platformVersion;
@@ -295,6 +298,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		else {
 			Zotero.dir = 'ltr';
 		}
+		Zotero.rtl = Zotero.dir == 'rtl';
 
 		// Make sure that Zotero Standalone is not running as root
 		if(Zotero.isStandalone && !Zotero.isWin) _checkRoot();
