@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Lisada">
 <!ENTITY zotero.item.attachment.file.show "Faili näitamine">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap first/last names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Teksti muutmine">
 <!ENTITY zotero.item.textTransform.sentencecase "Lause tõst">
 <!ENTITY zotero.item.textTransform.titlecase "Suurteks Algustähtedeks">

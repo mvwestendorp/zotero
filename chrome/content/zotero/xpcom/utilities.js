@@ -1854,13 +1854,13 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} zoteroItem
 	 * @return {Object} The CSL item
 	 */
-     "itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
+    "itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
 		if (zoteroItem instanceof Zotero.Item) {
 			zoteroItem = zoteroItem.toArray();
 		}
 		
 		if (portableJSON) {
-			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(arrayItem);
+			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(zoteroItem);
 		}
 
 		var itemType = zoteroItem.itemType;
@@ -1883,7 +1883,7 @@ Zotero.Utilities = {
 			if (!zoteroItem.libraryID) {
 				cslItem.system_id = "0_" + zoteroItem.key;
 			} else {
-				cslItem.system_id = arrayItem.libraryID + "_" + zoteroItem.key;
+				cslItem.system_id = zoteroItem.libraryID + "_" + zoteroItem.key;
 			}
 		}
 		
@@ -2039,7 +2039,7 @@ Zotero.Utilities = {
 					var fieldID = Zotero.ItemFields.getID(zVar);
 				}
 				var fieldName = Zotero.ItemFields.getName(fieldID);
-				date = arrayItem[fieldName];
+				date = zoteroItem[fieldName];
 				if (date) {
 					break;
 				}

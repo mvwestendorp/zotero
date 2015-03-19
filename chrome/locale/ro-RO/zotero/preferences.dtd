@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Fișiere și dosare">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Dosar de bază:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Dosarul de bază pentru anexe atașate">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero va folosi căi relative pentru fișierele anexate în directorul de bază, permițând accesarea fișierelor pe diferite calculatoare atâta timp cât structura fișierelor în dosarul de bază rămâne aceeași.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Diverse">
 <!ENTITY zotero.preferences.openAboutConfig "Deschide about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Deschide about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Deschide editorul CSL">
-<!ENTITY zotero.preferences.openCSLPreview "Deschide Previzualizare CSL">
+<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
+<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "Deschide URL">
 <!ENTITY zotero.preferences.openurl.custom "Personalizează...">
 <!ENTITY zotero.preferences.openurl.search "Caută rezolvatori">

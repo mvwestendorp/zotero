@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "الملفات والمجلدات">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "الفهرس الرئيسي:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "أخرى">
 <!ENTITY zotero.preferences.openAboutConfig "فتح about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Open about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "افتح محرر لغة نمط الاستشهاد">
-<!ENTITY zotero.preferences.openCSLPreview "افتح مستعرض لغة نمط الاستشهاد">
+<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
+<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "الرابط المفتوح">
 <!ENTITY zotero.preferences.openurl.custom "تخصيص...">
 <!ENTITY zotero.preferences.openurl.search "البحث عن مقرر">

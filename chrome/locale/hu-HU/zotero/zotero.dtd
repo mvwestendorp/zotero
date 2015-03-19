@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Hozzáadás">
 <!ENTITY zotero.item.attachment.file.show "Fájl mutatása">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Keresztnév/vezetéknév felcserélése">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Szöveg átalakítása">
 <!ENTITY zotero.item.textTransform.sentencecase "Mondatkezdő">
 <!ENTITY zotero.item.textTransform.titlecase "Szókezdő">

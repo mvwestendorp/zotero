@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Filer og mapper">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Databasefolder:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Tilknyttet databasefolder for vedhæftninger">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero vil benytte relative stier for tilknyttede vedhæftede filer i databasefolderen, hvilket giver dig mulighed for at tilgå filerne med forskellige computere så længe filstrukturen i databasefolderen forbliver den samme">
@@ -29,7 +30,7 @@
 <!ENTITY zotero.preferences.dataDir.useProfile "Brug profil-mappen">
 <!ENTITY zotero.preferences.dbMaintenance "Vedligeholdelse af databasen">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "Tjek databasens gyldighed">
-<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Reset formater...">
+<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Nulstil formater...">
 <!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Reset &quot;oversættere&quot;...">
 <!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Reset &quot;oversættere&quot; og formater...">
 <!ENTITY zotero.preferences.debugOutputLogging "Debug logning af output">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Forskelligt">
 <!ENTITY zotero.preferences.openAboutConfig "Åbn about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Åben about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Åbn CSL-Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Åbn CSL-Preview">
+<!ENTITY zotero.preferences.openCSLEdit "Åbn formatredigering">
+<!ENTITY zotero.preferences.openCSLPreview "Åbn formatforhåndsvisning">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Tilpas...">
 <!ENTITY zotero.preferences.openurl.search "Søg efter &quot;resolvers&quot;">

@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Datoteke in mape">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Osnovna mapa:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Osnovna mapa za povezane priponke">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero bo uporabil relativne poti za povezane datotečne priponke v osnovni mapi, kar omogoča dostop do datotek na različnih računalnikih, vse dokler ostaja datotečna struktura v osnovni mapi enaka.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Razno">
 <!ENTITY zotero.preferences.openAboutConfig "Odpri about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Odprite about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Odpri urejevalnik CSL">
-<!ENTITY zotero.preferences.openCSLPreview "Odpri predogled CSL">
+<!ENTITY zotero.preferences.openCSLEdit "Odpri urejevalnik sloga">
+<!ENTITY zotero.preferences.openCSLPreview "Odpri predogled sloga">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Po meri ...">
 <!ENTITY zotero.preferences.openurl.search "Išči razločitelje">

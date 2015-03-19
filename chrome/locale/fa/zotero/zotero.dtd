@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "افزودن">
 <!ENTITY zotero.item.attachment.file.show "نمایش محل ذخیره پرونده">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap first/last names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "تبدیل متن">
 <!ENTITY zotero.item.textTransform.sentencecase "Sentence case">
 <!ENTITY zotero.item.textTransform.titlecase "حروف اول بزرگ">

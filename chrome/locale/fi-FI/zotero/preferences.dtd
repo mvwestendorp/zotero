@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Tiedostot ja kansiot">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Juurikansio:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linkattujen liitteiden juurikansio">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero käyttää suhteellisia polkuja viitatakseen tiedostoliitteisiin juurikansiossa, joten voit käyttää tiedostoja eri tietokoneilla, kunhan tiedostorakenne juurikansion sisällä pysyy samana.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Sekalaista">
 <!ENTITY zotero.preferences.openAboutConfig "Avaa about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Avaa about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Avaa CSL-muokkain">
-<!ENTITY zotero.preferences.openCSLPreview "Avaa CSL-esikatselu">
+<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
+<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Oma asetus...">
 <!ENTITY zotero.preferences.openurl.search "Etsi linkkipalvelimia">

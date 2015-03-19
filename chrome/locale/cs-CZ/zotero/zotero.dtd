@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Přidat">
 <!ENTITY zotero.item.attachment.file.show "Ukázat soubor">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Přehodit jméno/příjmení">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Převést text">
 <!ENTITY zotero.item.textTransform.sentencecase "Velké první písmeno">
 <!ENTITY zotero.item.textTransform.titlecase "Velká Písmena">

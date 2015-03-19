@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Dateien und Ordner">
+<!ENTITY zotero.preferences.advanced.keys "Tastenkombinationen">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Basisverzeichnis:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Basisverzeichnis für verknüpfte Dateianhänge">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero verwendet relative Pfade für verknüpfte Dateine innerhalb des Basisverzeichnisses, so dass Sie auf verschiedenen Computern Zugang auf die Datein haben, solange die Ordnerstruktur im Basisverzeichnis die gleiche ist.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Verschiedenes">
 <!ENTITY zotero.preferences.openAboutConfig "about:config öffnen">
 <!ENTITY zotero.preferences.openAboutMemory "about:memory öffnen">
-<!ENTITY zotero.preferences.openCSLEdit "CSL Editor öffnen">
-<!ENTITY zotero.preferences.openCSLPreview "CSL Vorschau öffnen">
+<!ENTITY zotero.preferences.openCSLEdit "Zitierstil Editor öffnen">
+<!ENTITY zotero.preferences.openCSLPreview "Zitierstil Vorschau öffnen">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Eigene...">
 <!ENTITY zotero.preferences.openurl.search "Nach Resolvern suchen">

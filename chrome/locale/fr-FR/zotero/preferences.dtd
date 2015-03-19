@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Fichiers et dossiers">
+<!ENTITY zotero.preferences.advanced.keys "Raccourcis clavier">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Répertoire de base :">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Répertoire de base pour les pièces jointes liées">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero utilisera un chemin relatif pour l'emplacement des pièces jointes liées - uniquement celles-ci - à l'intérieur du répertoire de base. Cela vous permet d'accéder à ces fichiers depuis différents ordinateurs dès lors que la structure des dossiers et fichiers dans ce répertoire de base reste la même.">
@@ -62,19 +63,19 @@
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "En copiant des documents entre des bibliothèques, inclure :">
 <!ENTITY zotero.preferences.items "documents">
 <!ENTITY zotero.preferences.keys.changesTakeEffect "Les modifications ne prennent effet que dans les nouvelles fenêtres.">
-<!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Copier les citations du document sélectionné dans le presse-papiers">
-<!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Copier les documents sélectionnés dans le presse-papiers">
-<!ENTITY zotero.preferences.keys.focusLibrariesPane "Bascule vers le panneau Ma Bibliothèque">
+<!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Copier dans le presse-papiers les documents sélectionnés, comme des citations">
+<!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Copier dans le presse-papiers les documents sélectionnés, comme une bibliographie">
+<!ENTITY zotero.preferences.keys.focusLibrariesPane "Placer le curseur dans le volet de gauche (bibliothèques)">
 <!ENTITY zotero.preferences.keys.importFromClipboard "Importer du presse-papiers">
 <!ENTITY zotero.preferences.keys.library "Bibliothèque">
 <!ENTITY zotero.preferences.keys.newItem "Créer un nouveau document">
 <!ENTITY zotero.preferences.keys.newNote "Créer une nouvelle note">
-<!ENTITY zotero.preferences.keys.openZotero "Ouvrir/fermer le panneau Zotero">
+<!ENTITY zotero.preferences.keys.openZotero "Ouvrir / Fermer le panneau Zotero">
 <!ENTITY zotero.preferences.keys.overrideGlobal "Essayer de gérer les conflits de raccourcis">
 <!ENTITY zotero.preferences.keys.quicksearch "Recherche rapide">
 <!ENTITY zotero.preferences.keys.saveToZotero "Enregistrer dans Zotero (icône de la barre d'adresse)">
-<!ENTITY zotero.preferences.keys.toggleFullscreen "Bascule du mode plein écran">
-<!ENTITY zotero.preferences.keys.toggleTagSelector "Bascule du sélecteur de marqueurs">
+<!ENTITY zotero.preferences.keys.toggleFullscreen "Activer / Désactiver le mode plein écran">
+<!ENTITY zotero.preferences.keys.toggleTagSelector "Afficher / Cacher le sélecteur de marqueurs">
 <!ENTITY zotero.preferences.lang.addLanguage "Ajouter une langue">
 <!ENTITY zotero.preferences.lang.configureCitations "(3) Configurer les citations &#8680;">
 <!ENTITY zotero.preferences.lang.csl "CSL :">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Divers">
 <!ENTITY zotero.preferences.openAboutConfig "Ouvrir about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Ouvrir about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Ouvrir CSL Editor (test des styles installés)">
-<!ENTITY zotero.preferences.openCSLPreview "Ouvrir CSL Preview (aperçu des styles installés)">
+<!ENTITY zotero.preferences.openCSLEdit "Ouvrir l'Éditeur de style">
+<!ENTITY zotero.preferences.openCSLPreview "Ouvrir l'Aperçu des styles">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Personnaliser…">
 <!ENTITY zotero.preferences.openurl.search "Chercher des résolveurs de liens">

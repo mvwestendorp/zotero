@@ -59,8 +59,8 @@
 <!ENTITY zotero.general.note "Not:">
 <!ENTITY zotero.general.ok "Tamam">
 <!ENTITY zotero.general.optional "(İsteğe bağlı)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Yenile">
+<!ENTITY zotero.general.saveAs "Farklı Kaydet...">
 <!ENTITY zotero.general.selectAll "Hepsini Seç">
 <!ENTITY zotero.integration.addEditCitation.title "Gönderme Ekle/Düzenle">
 <!ENTITY zotero.integration.classicView.label "Klasik Görünüm">
@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Ekle">
 <!ENTITY zotero.item.attachment.file.show "Dosyayı Göster">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "İlk ve soy adlarını takas et">
+<!ENTITY zotero.item.creatorTransform.nameSwap "İlk ve Soyadları Takas Et">
 <!ENTITY zotero.item.textTransform "Metni Dönüştür">
 <!ENTITY zotero.item.textTransform.sentencecase "Cümle Biçimi">
 <!ENTITY zotero.item.textTransform.titlecase "Başlık Biçimi">

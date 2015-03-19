@@ -59,8 +59,8 @@
 <!ENTITY zotero.general.note "Note :">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optionnel)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Actualiser">
+<!ENTITY zotero.general.saveAs "Enregistrer sous…">
 <!ENTITY zotero.general.selectAll "Tout sélectionner">
 <!ENTITY zotero.integration.addEditCitation.title "Ajouter/Modifier la citation">
 <!ENTITY zotero.integration.classicView.label "Vue classique">
@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Ajouter">
 <!ENTITY zotero.item.attachment.file.show "Localiser le fichier">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Inverser les prénom/nom">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Inverser prénom/nom">
 <!ENTITY zotero.item.textTransform "Transformer le texte">
 <!ENTITY zotero.item.textTransform.sentencecase "Lettre capitale en début de phrase">
 <!ENTITY zotero.item.textTransform.titlecase "Initiales En Majuscules">
@@ -274,8 +274,8 @@
 <!ENTITY zotero.toolbar.removeItem.label "Supprimer le document…">
 <!ENTITY zotero.toolbar.rtfScan.label "Analyse d'un fichier RTF…">
 <!ENTITY zotero.toolbar.supportAndDocumentation "Assistance et documentation">
-<!ENTITY zotero.toolbar.tab.tooltip "Bascule du mode onglet">
-<!ENTITY zotero.toolbar.tagSelector.label "Montrer/cacher le sélecteur de marqueurs">
+<!ENTITY zotero.toolbar.tab.tooltip "Activer / Désactiver le mode onglet">
+<!ENTITY zotero.toolbar.tagSelector.label "Afficher / Cacher le sélecteur de marqueurs">
 <!ENTITY zotero.toolbar.timeline.label "Créer une chronologie">
 <!ENTITY zotero.upgrade.autoBackup "Votre base de données actuelle va être sauvegardée automatiquement avant toute modification.">
 <!ENTITY zotero.upgrade.changeLogAfterLink "pour découvrir les nouveautés.">

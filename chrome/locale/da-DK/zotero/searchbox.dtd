@@ -8,7 +8,7 @@
 <!ENTITY zotero.search.joinMode.prefix "Match">
 <!ENTITY zotero.search.joinMode.suffix "de følgende:">
 <!ENTITY zotero.search.name "Navn:">
-<!ENTITY zotero.search.noChildren "Vis kun de øverste Elementer">
+<!ENTITY zotero.search.noChildren "Vis kun elementer på øverste niveau">
 <!ENTITY zotero.search.recursive.label "Søg i underliggende mapper">
 <!ENTITY zotero.search.saveSearch "Gem søgning">
 <!ENTITY zotero.search.search "Søg">

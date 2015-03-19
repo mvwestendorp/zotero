@@ -54,14 +54,14 @@
 <!ENTITY zotero.file.noneSelected.label "Ingen fil vald">
 <!ENTITY zotero.general.cancel "Avbryt">
 <!ENTITY zotero.general.delete "Radera">
-<!ENTITY zotero.general.deselectAll "Välj bort alla">
+<!ENTITY zotero.general.deselectAll "Avmarkera allt">
 <!ENTITY zotero.general.edit "Ändra">
 <!ENTITY zotero.general.note "Anteckning:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Valfritt)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
-<!ENTITY zotero.general.selectAll "Välj alla">
+<!ENTITY zotero.general.refresh "Uppdatera">
+<!ENTITY zotero.general.saveAs "Spara som…">
+<!ENTITY zotero.general.selectAll "Markera allt">
 <!ENTITY zotero.integration.addEditCitation.title "Lägg till/redigera källhänvisning">
 <!ENTITY zotero.integration.classicView.label "Klassisk vy">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentinställningar">
@@ -202,7 +202,7 @@
 <!ENTITY zotero.selectitems.cancel.label "Ångra">
 <!ENTITY zotero.selectitems.intro.label "Välj vilka källor du vill lägga till i ditt bibliotek">
 <!ENTITY zotero.selectitems.select.label "Ok">
-<!ENTITY zotero.selectitems.title "Välj källor">
+<!ENTITY zotero.selectitems.title "Markera källor">
 <!ENTITY zotero.sync.button "Synkronisera med Zoteros server">
 <!ENTITY zotero.sync.error "Synkroniseringsfel">
 <!ENTITY zotero.sync.longTagFixer.character "tecken">
@@ -228,14 +228,14 @@
 <!ENTITY zotero.tagColorChooser.setColor "Ställ in färg">
 <!ENTITY zotero.tagColorChooser.title "Ange etikettens färg och plats">
 <!ENTITY zotero.tagSelector.assignColor "Ange färg…">
-<!ENTITY zotero.tagSelector.clearAll "Välj bort alla">
-<!ENTITY zotero.tagSelector.clearVisible "Välj bort synliga">
+<!ENTITY zotero.tagSelector.clearAll "Avmarkera alla">
+<!ENTITY zotero.tagSelector.clearVisible "Avmarkera synliga">
 <!ENTITY zotero.tagSelector.deleteTag "Radera etikett...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Visa alla etiketter i detta bibliotek">
 <!ENTITY zotero.tagSelector.filter "Filter:">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Inga etiketter att visa">
 <!ENTITY zotero.tagSelector.renameTag "Ändra namn på etikett...">
-<!ENTITY zotero.tagSelector.selectVisible "Välj synliga">
+<!ENTITY zotero.tagSelector.selectVisible "Markera synliga">
 <!ENTITY zotero.tagSelector.showAutomatic "Visa automatiskt">
 <!ENTITY zotero.toolbar.about.label "Om Zotero">
 <!ENTITY zotero.toolbar.actions.label "Åtgärder">
@@ -275,7 +275,7 @@
 <!ENTITY zotero.toolbar.rtfScan.label "Läs in RTF...">
 <!ENTITY zotero.toolbar.supportAndDocumentation "Hjälp och dokumentation">
 <!ENTITY zotero.toolbar.tab.tooltip "Växla flikläge">
-<!ENTITY zotero.toolbar.tagSelector.label "Visa/Göm etikettväljare">
+<!ENTITY zotero.toolbar.tagSelector.label "Visa/göm etikettväljare">
 <!ENTITY zotero.toolbar.timeline.label "Skapa tidslinje">
 <!ENTITY zotero.upgrade.autoBackup "Din existerande databas kommer att säkerhetskopieras innan några ändringar görs.">
 <!ENTITY zotero.upgrade.changeLogAfterLink "för att se vad som är nytt eller ändrat.">

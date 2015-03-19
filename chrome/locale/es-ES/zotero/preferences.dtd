@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Archivos y carpetas">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Directorio base:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Directorio base de adjuntos enlazados">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero usará caminos relativos para los archivos adjuntos enlazados dentro del directorio base, permitiéndole acceder a los archivos desde diferentes ordenadores, siempre que la estructura de archivos dentro del directorio base se mantenga igual.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Miscelánea">
 <!ENTITY zotero.preferences.openAboutConfig "Abrir about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Abrir about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Abrir editor CSL">
-<!ENTITY zotero.preferences.openCSLPreview "Abrir prevista CSL">
+<!ENTITY zotero.preferences.openCSLEdit "Abrir editor de estilo">
+<!ENTITY zotero.preferences.openCSLPreview "Abrir previsualizador de estilo">
 <!ENTITY zotero.preferences.openurl.caption "AbrirURL">
 <!ENTITY zotero.preferences.openurl.custom "Personalizar...">
 <!ENTITY zotero.preferences.openurl.search "Buscar servidores">

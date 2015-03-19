@@ -59,8 +59,8 @@
 <!ENTITY zotero.general.note "Poznámka:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Voliteľné)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Obnoviť">
+<!ENTITY zotero.general.saveAs "Uložiť ako...">
 <!ENTITY zotero.general.selectAll "Označiť všetko">
 <!ENTITY zotero.integration.addEditCitation.title "Pridať/Upraviť citáciu">
 <!ENTITY zotero.integration.classicView.label "Klasický náhľad">

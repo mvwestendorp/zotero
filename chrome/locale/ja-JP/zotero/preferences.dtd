@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "ファイルとフォルダ">
+<!ENTITY zotero.preferences.advanced.keys "ショートカット">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "基本ディレクトリ">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "リンク付き添付ファイルの基本ディレクトリ">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero は、基本ディレクトリの中のリンク付き添付ファイルについて相対パスを使用します。これにより、基本ディレクトリのファイル構造が同じである限り、異なるコンピューター上のファイルへのアクセスが可能になります。">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "各種設定">
 <!ENTITY zotero.preferences.openAboutConfig "about:config を開く">
 <!ENTITY zotero.preferences.openAboutMemory "about:memory 画面を開く">
-<!ENTITY zotero.preferences.openCSLEdit "CSL エディタを開く">
-<!ENTITY zotero.preferences.openCSLPreview "CSL プレビューを開く">
+<!ENTITY zotero.preferences.openCSLEdit "スタイルエディタを開く">
+<!ENTITY zotero.preferences.openCSLPreview "スタイルのプレビューを開く">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "カスタム設定...">
 <!ENTITY zotero.preferences.openurl.search "リンク・リゾルバを検索">

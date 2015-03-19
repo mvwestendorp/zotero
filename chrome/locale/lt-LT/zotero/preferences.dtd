@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Failai ir katalogai">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Pagrindinis katalogas:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Susietų priedų pagrindinis katalogas">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero failams, kurie prisegti prie įrašų, naudos santykinius kelius pagrindinio katalogo atžvilgiu, tad failus galėsite pasiekti bet kuriame savo kompiuteryje, žinoma, jei failų struktūra pagrindiniuose kataloguose bus tokia pati.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Įvairios">
 <!ENTITY zotero.preferences.openAboutConfig "Atverti about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Atverti about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Atverti CSL rengyklę">
-<!ENTITY zotero.preferences.openCSLPreview "Atverti CSL žiūryklę">
+<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
+<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Savitas...">
 <!ENTITY zotero.preferences.openurl.search "Sprendiklių paieška">

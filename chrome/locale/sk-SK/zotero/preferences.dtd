@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Súbory a adresáre">
+<!ENTITY zotero.preferences.advanced.keys "Klávesové skratky">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Základný adresár:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Základný adresár prepojených príloh">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero použije relatívne cesty pre prepojené súbory príloh vo vnútri základného adresára, čím vám sprístupní súbory na rôznych počítačoch pokiaľ štruktúra súborov vo vnútri základného adresára zostáva rovnaká.">
@@ -61,7 +62,7 @@
 <!ENTITY zotero.preferences.groups.tags "značky">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Pri kopírovaní položiek medzi knižnicami, zahrnúť:">
 <!ENTITY zotero.preferences.items "položiek">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Zmeny sa prejavia iba v novo otvorených oknách.">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Zmeny sa prejavia iba v novootvorených oknách.">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Kopírovať vybrané citácie do schránky">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Kopírovať vybrané položky do schránky">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Tabla knižníc Focus">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Rôzne">
 <!ENTITY zotero.preferences.openAboutConfig "Otvoriť about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Otvoriť about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Otvoriť CSL Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Otvoriť ukážku CSL ">
+<!ENTITY zotero.preferences.openCSLEdit "Otvoriť editor štýlov">
+<!ENTITY zotero.preferences.openCSLPreview "Otvoriť ukážku štýlu">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Vlastné...">
 <!ENTITY zotero.preferences.openurl.search "Hľadať resolvery">
@@ -200,7 +201,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Obnoviť históriu synchronizácie súborov">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Nechať server znovu preveriť, či obsahuje všetky lokálne prílohy.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Obnoviť dáta zo servera Zotero">
-<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Vymazať všetky lokálne dáta a nahradiť ich dátami servera.">
+<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Vymazať všetky lokálne dáta a nahradiť ich dátami na serveri.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Nahradiť dáta na serveri Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Vymazať všetky dáta na serveri a nahradiť ich lokálnymi.">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Nasledujúce operácie treba použiť iba v zriedkavých, špecifických situáciách a nie pre všeobecné odstraňovanie chýb. V mnohých prípadoch obnova zapríčiní dodatočné problémy. Pozri ">

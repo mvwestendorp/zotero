@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Добавить">
 <!ENTITY zotero.item.attachment.file.show "Показать файл">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Переключение имя/фамилия">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Трансформировать Текст">
 <!ENTITY zotero.item.textTransform.sentencecase "Как в предложении">
 <!ENTITY zotero.item.textTransform.titlecase "Каждое Слово с Заглавной">

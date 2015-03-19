@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Adicionar">
 <!ENTITY zotero.item.attachment.file.show "Mostrar arquivos">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Trocar primeiro/último nomes">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Transformar texto">
 <!ENTITY zotero.item.textTransform.sentencecase "Maiúscula no início da frase">
 <!ENTITY zotero.item.textTransform.titlecase "Iniciais Em Maiúsculo">

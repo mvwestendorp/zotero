@@ -1,4 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "文件和文件夹">
+<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "根目录:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "链接附件的根目录">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "在根目录中, Zotero 对链接附件使用相对路径, 因此只要文件结构相同, 您可以在不同的电脑上访问这些附件.">
@@ -114,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "杂项">
 <!ENTITY zotero.preferences.openAboutConfig "打开配置编辑器">
 <!ENTITY zotero.preferences.openAboutMemory "打开内存管理器">
-<!ENTITY zotero.preferences.openCSLEdit "打开 CSL 编辑器">
-<!ENTITY zotero.preferences.openCSLPreview "打开 CSL 预览">
+<!ENTITY zotero.preferences.openCSLEdit "打开样式编辑器">
+<!ENTITY zotero.preferences.openCSLPreview "打开样式预览">
 <!ENTITY zotero.preferences.openurl.caption "打开 URL">
 <!ENTITY zotero.preferences.openurl.custom "自定义...">
 <!ENTITY zotero.preferences.openurl.search "搜索解析器">

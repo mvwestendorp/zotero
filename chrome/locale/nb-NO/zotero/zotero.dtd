@@ -102,7 +102,7 @@
 <!ENTITY zotero.item.add "Legg til">
 <!ENTITY zotero.item.attachment.file.show "Vis fil">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap first/last names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Gjør om tekst">
 <!ENTITY zotero.item.textTransform.sentencecase "Sentence case">
 <!ENTITY zotero.item.textTransform.titlecase "Tittel-format">

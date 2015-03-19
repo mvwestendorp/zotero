@@ -59,8 +59,8 @@
 <!ENTITY zotero.general.note "Anmerkung:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optional)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Aktualisieren">
+<!ENTITY zotero.general.saveAs "Speichern als...">
 <!ENTITY zotero.general.selectAll "Alles auswählen">
 <!ENTITY zotero.integration.addEditCitation.title "Zitation hinzufügen/ändern">
 <!ENTITY zotero.integration.classicView.label "Klassische Ansicht">
