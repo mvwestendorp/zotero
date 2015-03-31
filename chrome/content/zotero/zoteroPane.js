@@ -1610,7 +1610,13 @@ var ZoteroPane = new function()
 			var prompt = (force && !fromMenu) ? false : toTrash;
 		}
 		else if (itemGroup.isCollection()) {
-			// In collection, only prompt if trashing
+			
+			// Ignore unmodified action if only child items are selected
+			if (!force && this.itemsView.getSelectedItems().every(item => !item.isTopLevelItem())) {
+				return;
+			}
+			
+			// In collection
 			var prompt = force ? toTrash : toRemove;
 		}
 		else if (itemGroup.isSearch() || itemGroup.isUnfiled() || itemGroup.isDuplicates()) {
@@ -4089,6 +4095,14 @@ var ZoteroPane = new function()
 			if(!el) return;
 			var elValues = serializedValues[id];
 			for(var attr in elValues) {
+				// TEMP: For now, ignore persisted collapsed state for item pane splitter
+				if (el.id == 'zotero-items-splitter') continue;
+				// And don't restore to min-width if splitter was collapsed
+				if (el.id == 'zotero-item-pane' && attr == 'width' && elValues[attr] == 250
+						&& 'zotero-items-splitter' in serializedValues
+						&& serializedValues['zotero-items-splitter'].state == 'collapsed') {
+					continue;
+				}
 				el.setAttribute(attr, elValues[attr]);
 			}
 		}
