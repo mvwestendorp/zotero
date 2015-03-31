@@ -250,7 +250,7 @@
 <!ENTITY zotero.toolbar.cancelOrphansView.label "Cancel orphans view">
 <!ENTITY zotero.toolbar.duplicate.label "Çift Girişleri Göster">
 <!ENTITY zotero.toolbar.duplicatesView.label "Duplicates view">
-<!ENTITY zotero.toolbar.emptyTrash.label "Çöpü Boşalt">
+<!ENTITY zotero.toolbar.emptyTrash.label "Çöp Sepetini Boşalt">
 <!ENTITY zotero.toolbar.export.label "Kitaplığı Dışarı Aktar...">
 <!ENTITY zotero.toolbar.import.label "İçeri Aktar...">
 <!ENTITY zotero.toolbar.importFromClipboard "Panodan İçeri Aktar">

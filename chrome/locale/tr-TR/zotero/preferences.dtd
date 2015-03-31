@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Dosyalar ve Klasörler">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Kısayollar">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Temel dizin:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Bağlantılanmış Eklenti Temel Dizini">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero, bağlantılanmış dosya eklentileri için göreceli yollar kullanacaktır. Bu, temel dizininizdeki dosya yapınız aynı kaldığı sürece, dosyalarınıza değişik bilgisayarlarda ulaşımınızı sağlamaktadır.">
@@ -214,7 +214,7 @@
 <!ENTITY zotero.preferences.sync.username "Kullanıcı:">
 <!ENTITY zotero.preferences.title "Zotero Tercihleri">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "gün">
-<!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Bu kadar zaman önce çöpe gönderilmiş eserleri otomatik olarak sil:">
+<!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Bu kadar zaman önce Çöp Sepetine gönderilmiş eserleri otomatik olarak sil:">
 <!ENTITY zotero.preferences.updateNow "Şimdi Güncelle">
 <!ENTITY zotero.preferences.userInterface "Kullanıcı Arabirimi">
 <!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Zotero.org'a, kullanılan Zotero sürümüne göre içeriği özelleştirme yetkisi ver.">

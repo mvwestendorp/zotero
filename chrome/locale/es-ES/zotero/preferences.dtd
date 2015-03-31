@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Archivos y carpetas">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Atajos">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Directorio base:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Directorio base de adjuntos enlazados">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero usará caminos relativos para los archivos adjuntos enlazados dentro del directorio base, permitiéndole acceder a los archivos desde diferentes ordenadores, siempre que la estructura de archivos dentro del directorio base se mantenga igual.">
@@ -36,11 +36,11 @@
 <!ENTITY zotero.preferences.debugOutputLogging "Registro de emisión de depuración">
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Limpiar salida">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Activar tras el reinicio">
-<!ENTITY zotero.preferences.debugOutputLogging.linesLogged "líneas en el registro">
+<!ENTITY zotero.preferences.debugOutputLogging.linesLogged "líneas registradas">
 <!ENTITY zotero.preferences.debugOutputLogging.message "La emisión de depuración puede ayudar a los desarrolladores de Zotero a diagnosticar problemas. Como el registro de depuración enlentece a Zotero, deberías dejarlo desactivado normalmente a menos que algún desarrollador de Zotero te pida la salida de depuración.">
 <!ENTITY zotero.preferences.debugOutputLogging.submitToServer "Enviar al servidor Zotero">
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "Ver salida">
-<!ENTITY zotero.preferences.default "Inicial:">
+<!ENTITY zotero.preferences.default "Predeterminado:">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Adjuntar automáticamente los archivos PDF y de otros tipos al guardar elementos">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Incluir los URL de los artículos en las referencias">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Sin esta opción, Zotero solo incluye los URL al citar artículos de revistas y periódicos si el artículo no tiene un intervalo de páginas especificado.">
@@ -75,7 +75,7 @@
 <!ENTITY zotero.preferences.keys.quicksearch "Búsqueda rápida">
 <!ENTITY zotero.preferences.keys.saveToZotero "Guardar en Zotero (ícono de la barra de direcciones)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Conmutar el modo de pantalla completa">
-<!ENTITY zotero.preferences.keys.toggleTagSelector "Conmutar el selector de marcas">
+<!ENTITY zotero.preferences.keys.toggleTagSelector "Conmutar el selector de etiquetas">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
 <!ENTITY zotero.preferences.lang.configureCitations "(3) Configure citations &#8680;">
 <!ENTITY zotero.preferences.lang.csl "CSL:">
@@ -193,7 +193,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "términos y condiciones">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
 <!ENTITY zotero.preferences.sync.lostPassword "¿Olvidó su contraseña?">
-<!ENTITY zotero.preferences.sync.password "Clave:">
+<!ENTITY zotero.preferences.sync.password "Contraseña:">
 <!ENTITY zotero.preferences.sync.reset "Reestablecer">
 <!ENTITY zotero.preferences.sync.reset.button "Restablecer…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Sincronización completa con el servidor Zotero">
