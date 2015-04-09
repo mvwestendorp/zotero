@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Datoteke in mape">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Tipke za bližnjice">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Osnovna mapa:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Osnovna mapa za povezane priponke">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero bo uporabil relativne poti za povezane datotečne priponke v osnovni mapi, kar omogoča dostop do datotek na različnih računalnikih, vse dokler ostaja datotečna struktura v osnovni mapi enaka.">

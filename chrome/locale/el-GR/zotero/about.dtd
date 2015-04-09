@@ -2,12 +2,12 @@
 <!ENTITY zotero.about.close "Κλείσιμο">
 <!ENTITY zotero.about.localizations "Μεταφράσεις:">
 <!ENTITY zotero.alumni "Απόφοιτοι:">
-<!ENTITY zotero.citationProcessing "Citation &amp; Bibliography Processing">
+<!ENTITY zotero.citationProcessing "Παραμπομπές &amp; Βιβλιογραφική επεξεργασία">
 <!ENTITY zotero.createdby "Δημιουργήθηκε Από:">
 <!ENTITY zotero.developers "Προγραμματιστές:">
 <!ENTITY zotero.director "Director:">
 <!ENTITY zotero.directors "Διευθυντές:">
 <!ENTITY zotero.executiveProducer "Εκτελεστικός Παραγωγός:">
-<!ENTITY zotero.moreCreditsAndAcknowledgements "More Credits &amp; Acknowledgements">
+<!ENTITY zotero.moreCreditsAndAcknowledgements "Συντελεστές και ευχαριστίες">
 <!ENTITY zotero.thanks "Ειδικές Ευχαριστίες:">
 <!ENTITY zotero.version "έκδοση">
