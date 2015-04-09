@@ -1729,6 +1729,9 @@ Zotero.Schema = new function(){
 		var styleUpdates = xmlhttp.responseXML.getElementsByTagName('style');
 		
 		var updatePDFTools = function () {
+			// No updates for PPC
+			if (Zotero.platform == 'MacPPC') return;
+			
 			let pdfToolsUpdates = xmlhttp.responseXML.getElementsByTagName('pdftools');
 			if (pdfToolsUpdates.length) {
 				let availableVersion = pdfToolsUpdates[0].getAttribute('version');
@@ -1740,17 +1743,49 @@ Zotero.Schema = new function(){
 					return;
 				}
 				
-				if (Zotero.Fulltext.pdfInfoIsRegistered()) {
-					let currentVersion = Zotero.Fulltext.pdfInfoVersion;
-					if (currentVersion < availableVersion || currentVersion == '3.02'
-							|| currentVersion == 'UNKNOWN') {
+				// TEMP
+				if (Zotero.isWin) {
+					if (Zotero.Fulltext.pdfInfoIsRegistered()) {
+						if (Zotero.Fulltext.pdfInfoVersion != '3.02a') {
+							installInfo = true;
+						}
+					}
+					// Install missing component if one is installed
+					else if (Zotero.Fulltext.pdfConverterIsRegistered()) {
 						installInfo = true;
 					}
+					if (Zotero.Fulltext.pdfConverterIsRegistered()) {
+						if (Zotero.Fulltext.pdfConverterVersion != '3.02a') {
+							installConverter = true;
+						}
+					}
+					// Install missing component if one is installed
+					else if (Zotero.Fulltext.pdfInfoIsRegistered()) {
+						installConverter = true;
+					}
+					availableVersion = '3.02';
 				}
-				if (Zotero.Fulltext.pdfConverterIsRegistered()) {
-					let currentVersion = Zotero.Fulltext.pdfConverterVersion;
-					if (currentVersion < availableVersion || currentVersion == '3.02'
-							|| currentVersion == 'UNKNOWN') {
+				else {
+					if (Zotero.Fulltext.pdfInfoIsRegistered()) {
+						let currentVersion = Zotero.Fulltext.pdfInfoVersion;
+						if (currentVersion < availableVersion || currentVersion.startsWith('3.02')
+								|| currentVersion == 'UNKNOWN') {
+							installInfo = true;
+						}
+					}
+					// Install missing component if one is installed
+					else if (Zotero.Fulltext.pdfConverterIsRegistered()) {
+						installInfo = true;
+					}
+					if (Zotero.Fulltext.pdfConverterIsRegistered()) {
+						let currentVersion = Zotero.Fulltext.pdfConverterVersion;
+						if (currentVersion < availableVersion || currentVersion.startsWith('3.02')
+								|| currentVersion == 'UNKNOWN') {
+							installConverter = true;
+						}
+					}
+					// Install missing component if one is installed
+					else if (Zotero.Fulltext.pdfInfoIsRegistered()) {
 						installConverter = true;
 					}
 				}
@@ -1794,8 +1829,11 @@ Zotero.Schema = new function(){
 				else if (installConverter) {
 					Zotero.Fulltext.downloadPDFTool('converter', availableVersion, checkResult);
 				}
-				else {
+				else if (installInfo) {
 					Zotero.Fulltext.downloadPDFTool('info', availableVersion, checkResult);
+				}
+				else {
+					Zotero.debug("PDF tools are up to date");
 				}
 			}
 		};

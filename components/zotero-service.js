@@ -455,6 +455,10 @@ ZoteroCommandLineHandler.prototype = {
 				}
 			}
 		}
+		
+		if (cmdLine.handleFlag("ZoteroNoUserInput", false)) {
+			zInitOptions.noUserInput = true;
+		}
 	},
 	
 	contractID: "@mozilla.org/commandlinehandler/general-startup;1?type=zotero",

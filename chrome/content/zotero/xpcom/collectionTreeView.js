@@ -421,6 +421,8 @@ Zotero.CollectionTreeView.prototype.getCellText = function(row, column)
 
 Zotero.CollectionTreeView.prototype.getImageSrc = function(row, col)
 {
+	var suffix = Zotero.hiDPI ? "@2x" : "";
+	
 	var itemGroup = this._getItemAtRow(row);
 	var collectionType = itemGroup.type;
 	
@@ -458,10 +460,13 @@ Zotero.CollectionTreeView.prototype.getImageSrc = function(row, col)
 		
 		case 'collection':
 		case 'search':
-			return "chrome://zotero-platform/content/treesource-" + collectionType + ".png";
+			if (Zotero.isMac) {
+				return "chrome://zotero-platform/content/treesource-" + collectionType + ".png";
+			}
+			break;
 	}
 	
-	return "chrome://zotero/skin/treesource-" + collectionType + ".png";
+	return "chrome://zotero/skin/treesource-" + collectionType + suffix + ".png";
 }
 
 Zotero.CollectionTreeView.prototype.isContainer = function(row)
@@ -2143,21 +2148,6 @@ Zotero.ItemGroup.prototype.getSearchResults = function(asTempTable) {
 	
 	if(!Zotero.ItemGroupCache.lastResults) {
 		var s = this.getSearchObject();
-	
-		// FIXME: Hack to exclude group libraries for now
-		if (this.isSearch()) {
-			var currentLibraryID = this.ref.libraryID;
-			if (currentLibraryID) {
-				s.addCondition('libraryID', 'is', currentLibraryID);
-			}
-			else {
-				var groups = Zotero.Groups.getAll();
-				for each(var group in groups) {
-					s.addCondition('libraryID', 'isNot', group.libraryID);
-				}
-			}
-		}
-		
 		Zotero.ItemGroupCache.lastResults = s.search();
 		Zotero.ItemGroupCache.lastItemGroup = this;
 	}
