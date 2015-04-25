@@ -70,9 +70,13 @@ echo "$ZOTERO_UNIT_PATH" > "$PROFILE/extensions/zotero-unit@zotero.org"
 makePath ZOTERO_PATH "`dirname "$CWD"`"
 echo "$ZOTERO_PATH" > "$PROFILE/extensions/zotero@chnm.gmu.edu"
 
+# Create data directory
+mkdir "$PROFILE/zotero"
+
 cat <<EOF > "$PROFILE/prefs.js"
 user_pref("extensions.autoDisableScopes", 0);
 user_pref("extensions.zotero.debug.log", $DEBUG);
+user_pref("extensions.zotero.debug.time", $DEBUG);
 user_pref("extensions.zotero.firstRunGuidance", false);
 user_pref("extensions.zotero.firstRun2", false);
 EOF

@@ -615,12 +615,12 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			}
 			catch (e) {
 				if (e.toString().match('newer than SQL file')) {
-					let versions = e.toString().match(/\((\d+) < \d+\)/);
+					let versions = e.toString().match(/\((\d+) < (\d+)\)/);
 					let kbURL = "https://www.zotero.org/support/kb/newer_db_version";
 					let msg = Zotero.getString('startupError.zoteroVersionIsOlder') + " "
 						+ Zotero.getString('startupError.zoteroVersionIsOlder.upgrade') + "\n\n"
-						+ Zotero.getString('startupError.zoteroVersionIsOlder.current', Zotero.version) + "\n"
-						+ (versions ? "DB: " + versions[1] + "\n\n" : "\n")
+						+ Zotero.getString('startupError.zoteroVersionIsOlder.current', Zotero.version)
+						+ (versions ? " (" + versions[1] + " < " + versions[2] + ")" : "") + "\n\n"
 						+ Zotero.getString('general.seeForMoreInformation', kbURL);
 					Zotero.startupError = msg;
 					_startupErrorHandler = function() {
@@ -1343,6 +1343,29 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			err.fileName ? err.fileName : (err.filename ? err.filename : null), null,
 			err.lineNumber ? err.lineNumber : null, null);
 	}
+	
+	
+	/**
+	 * Display an alert in a given window
+	 *
+	 * This is just a wrapper around nsIPromptService.alert() that takes the Zotero.noUserInput
+	 * flag into consideration
+	 *
+	 * @param {Window}
+	 * @param {String} title
+	 * @param {String} msg
+	 */
+	this.alert = function (window, title, msg) {
+		if (this.noUserInput) {
+			Zotero.debug("Not displaying alert: " + title + ": " + msg);
+			return;
+		}
+		
+		var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			.getService(Components.interfaces.nsIPromptService);
+		ps.alert(window, title, msg);
+	}
+	
 	
 	function getErrors(asStrings) {
 		var errors = [];
