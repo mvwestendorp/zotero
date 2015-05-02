@@ -478,6 +478,20 @@ Zotero.Cite.getAbbreviation = new function() {
 };
 
 /**
+ * An initial version of retrieveStyleModule().
+ * (may be replaced by plugin version)
+ */
+Zotero.Cite.retrieveStyleModule = function(jurisdiction, preference) {
+	var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
+	var module = Zotero.Styles.get("http://juris-m.github.io/modules/" + id);
+	var ret = false;
+	if (module) {
+		ret = module.getXML();
+	}
+	return ret;
+}
+
+/**
  * citeproc-js system object
  * @class
  */
@@ -485,6 +499,7 @@ Zotero.Cite.System = function(automaticJournalAbbreviations) {
 	if(automaticJournalAbbreviations) {
 		this.getAbbreviation = Zotero.Cite.getAbbreviation;
 	}
+    this.retrieveStyleModule = Zotero.Cite.retrieveStyleModule;
 }
 
 Zotero.Cite.System.prototype = {
@@ -664,16 +679,6 @@ Zotero.Cite.System.prototype = {
 		}
 		}
 		return ret ? "" + ret : "";
-	},
-
-	"retrieveStyleModule": function(jurisdiction, preference) {
-		var id = preference ? jurisdiction + "-" + preference : jurisdiction;
-		var module = Zotero.Styles.get("http://citationstylist.org/modules/" + id);
-		var ret = false;
-		if (module) {
-			ret = module.getXML();
-		}
-		return ret;
 	}
 }
 
