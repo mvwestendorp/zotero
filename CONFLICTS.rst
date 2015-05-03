@@ -64,7 +64,7 @@ This did not have a happy ending ...
 
 In fact, that did not work out well at all. When only the installer ID is
 changed in Juris-M, the clash of classIDs in the second of the two to hit
-the Extension Manager to barf: the first-loaded extension is destroyed, and
+the Extension Manager cause it to barf: the first-loaded extension is destroyed, and
 the second fails to load. What the user sees is ... nothing. Both extensions
 appear in the Add-Ons, but neither produces any UI. Very bad.
 
