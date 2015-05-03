@@ -1075,7 +1075,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 	}
 	
 	function getZoteroDatabase(name, ext){
-		name = name ? name + '.sqlite' : 'zotero.sqlite';
+		name = name ? name + '.sqlite' : 'jurism.sqlite';
 		ext = ext ? '.' + ext : '';
 		
 		var file = Zotero.getZoteroDirectory();
@@ -1146,7 +1146,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 					
 					if (file.directoryEntries.hasMoreElements()) {
 						var dbfile = file.clone();
-						dbfile.append('zotero.sqlite');
+						dbfile.append('jurism.sqlite');
 						
 						// Warn if non-empty and no zotero.sqlite
 						if (!dbfile.exists()) {

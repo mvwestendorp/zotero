@@ -79,6 +79,7 @@ const xpcomFilesLocal = [
 	'data/relations',
 	'data/tag',
 	'data/tags',
+	'jurism-db-copy',
 	'db',
 	'duplicates',
 	'fulltext',

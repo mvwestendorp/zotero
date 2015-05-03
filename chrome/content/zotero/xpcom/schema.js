@@ -268,7 +268,7 @@ Zotero.Schema = new function(){
 						if (file.isDirectory()) {
 							continue;
 						}
-						var matches = file.leafName.match(/zotero\.sqlite\.([0-9]{2,})\.bak/);
+						var matches = file.leafName.match(/jurism\.sqlite\.([0-9]{2,})\.bak/);
 						if (!matches) {
 							continue;
 						}
