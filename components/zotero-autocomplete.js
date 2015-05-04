@@ -25,7 +25,7 @@
 
 const ZOTERO_AC_CONTRACTID = '@mozilla.org/autocomplete/search;1?name=zotero';
 const ZOTERO_AC_CLASSNAME = 'Zotero AutoComplete';
-const ZOTERO_AC_CID = Components.ID('{06a2ed11-d0a4-4ff0-a56f-a44545eee6ea}');
+const ZOTERO_AC_CID = Components.ID('{8f90026f-17f9-4164-b81e-3475a771ae88}');
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;

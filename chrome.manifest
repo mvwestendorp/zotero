@@ -65,14 +65,14 @@ overlay chrome://mozapps/content/downloads/unknownContentType.xul chrome://zoter
 style	chrome://browser/content/browser.xul	chrome://zotero/skin/zotero.css
 style	chrome://global/content/customizeToolbar.xul	chrome://zotero/skin/zotero.css
 
-component	{e4c61080-ec2d-11da-8ad9-0800200c9a66}			components/zotero-service.js
-component	{531828f8-a16c-46be-b9aa-14845c3b010f}			components/zotero-service.js
-contract	@zotero.org/Zotero;1 							{e4c61080-ec2d-11da-8ad9-0800200c9a66}
-contract	@mozilla.org/commandlinehandler/general-startup;1?type=zotero 	{531828f8-a16c-46be-b9aa-14845c3b010f}
+component	{8949be43-db0e-4c1b-b00b-13650b56a1f1}			components/zotero-service.js
+component	{6ea73a15-2a20-47b5-8fb4-059f9e4aa44b}			components/zotero-service.js
+contract	@zotero.org/Zotero;1 							{8949be43-db0e-4c1b-b00b-13650b56a1f1}
+contract	@mozilla.org/commandlinehandler/general-startup;1?type=zotero 	{6ea73a15-2a20-47b5-8fb4-059f9e4aa44b}
 category	command-line-handler 	m-zotero	@mozilla.org/commandlinehandler/general-startup;1?type=zotero
 
-component	{06a2ed11-d0a4-4ff0-a56f-a44545eee6ea}			components/zotero-autocomplete.js
-contract	@mozilla.org/autocomplete/search;1?name=zotero 	{06a2ed11-d0a4-4ff0-a56f-a44545eee6ea}
+component	{8f90026f-17f9-4164-b81e-3475a771ae88}			components/zotero-autocomplete.js
+contract	@mozilla.org/autocomplete/search;1?name=zotero 	{8f90026f-17f9-4164-b81e-3475a771ae88}
 
-component	{9BC3D762-9038-486A-9D70-C997AF848A7C}			components/zotero-protocol-handler.js
-contract	@mozilla.org/network/protocol;1?name=zotero 	{9BC3D762-9038-486A-9D70-C997AF848A7C}
+component	{25154cf8-9bb0-4a36-aff9-8674233da3f6}			components/zotero-protocol-handler.js
+contract	@mozilla.org/network/protocol;1?name=zotero 	{25154cf8-9bb0-4a36-aff9-8674233da3f6}
