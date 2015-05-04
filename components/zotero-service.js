@@ -31,6 +31,18 @@ Components.utils.import("resource://gre/modules/AddonManager.jsm");
 AddonManager.getAddonByID("zotero@chnm.gmu.edu", function(zoteroAddon) {
     if (zoteroAddon && !zoteroAddon.userDisabled) {
         AddonManager.getAddonByID("juris-m@juris-m.github.io", function (jurismAddon) {
+            // Send the user a message
+            var msg = "The Juris-M reference manager has been installed,\n"
+                + "but will be disabled because Zotero or MLZ are also\n"
+                + "installed and enabled in this browser.\n\n"
+                + "To run Juris-M, you must manually re-enable it\n"
+                + "after disabling or removing the Zotero or MLZ\n"
+                + "extension.\n\n"
+                + "Firefox will restart when you click \"Okay\".";
+		    Cc["@mozilla.org/embedcomp/prompt-service;1"]
+			    .getService(Ci.nsIPromptService)
+			    .alert(null, "Juris-M", msg);
+            
             jurismAddon.userDisabled = true;
             Services.prefs.setBoolPref("browser.sessionstore.resume_session_once", true);
             const nsIAppStartup = Components.interfaces.nsIAppStartup;
