@@ -4,7 +4,7 @@
   <Description about="urn:mozilla:install-manifest">  
     <em:id>juris-m@juris-m.github.io</em:id>
     <em:name>Juris-M</em:name>
-    <em:version>4.0.27m1beta1</em:version>
+    <em:version>4.0.27m1beta2</em:version>
     <em:creator>Center for History and New Media<br/>George Mason University</em:creator>
     <em:creator>Frank Bennett</em:creator>
     <em:contributor>Dan Cohen</em:contributor>
@@ -19,7 +19,15 @@
     <em:iconURL>chrome://zotero/skin/mlz_z_32px.png</em:iconURL>
     <em:type>2</em:type>
     <em:unpack>true</em:unpack>
-    <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDJqWvOZqiHGp8hLJI92KIp6t1pKP2Q2t+5glUh7JSl+2pdt8y9ANHT1Bx3YrKDi1xwXJ7FNi4mss5XFqEmuJf2TDn02+V6D0hFsNEsSlkCcsznwnCYzeU8GKAhlgjeXz7YPQswLLSk61af/hIhdYUEyYQbxmIAOHDHgMeRcuYJ+QIDAQAB</em:updateKey>
+    <em:updateKey>
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsknZz0mHwhMpappMJe85
+3WeKMu+EjNfYAnBIcw/gTmzuOqnrfQcW3kJtkk/zX5GgXpbXjbv27C60cu2ORd/g
+8TJ1UANhAgJmbObGwr2Gml9KTIxOWmmEAPaCxGR89LgzmUQY2jJ0LQbzXm28OWnf
+gm3JjXhmKfNrBwXLpK1rCHiVJLlABkk3MykCVzB+3K0opGAbKhzAEYI1t8O43d+g
+WOSiHHF0CKKBYZ6o00iybJiSoPK36+kgY5ZnpsSoCdCtr0FMbA7uQnRDSUPmswE0
+WsMNdJu3z+d/j5roL8wDCcQw3eHsgbDj25WATPWtQmyMISdIrbG5uVEmtg+iWn/3
+jwIDAQAB
+    </em:updateKey>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>

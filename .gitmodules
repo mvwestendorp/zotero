@@ -7,3 +7,9 @@
 [submodule "chrome/content/zotero/locale/csl"]
 	path = chrome/content/zotero/locale/csl
 	url = git@github.com:fbennett/locales.git
+[submodule "test/resource/chai"]
+	path = test/resource/chai
+	url = https://github.com/chaijs/chai.git
+[submodule "test/resource/mocha"]
+	path = test/resource/mocha
+	url = https://github.com/mochajs/mocha.git
