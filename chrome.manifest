@@ -1,6 +1,6 @@
 content	zotero				chrome/content/zotero/
 content	zotero-platform		chrome/content/zotero-platform/		platform
-resource zotero				resource/
+resource	zotero				resource/
 
 locale	zotero	en-US		chrome/locale/en-US/zotero/
 locale	zotero	af-ZA		chrome/locale/af-ZA/zotero/
@@ -27,7 +27,7 @@ locale	zotero	it-IT		chrome/locale/it-IT/zotero/
 locale	zotero	ja-JP		chrome/locale/ja-JP/zotero/
 locale	zotero	km			chrome/locale/km/zotero/
 locale	zotero	ko-KR		chrome/locale/ko-KR/zotero/
-locale  zotero  lt-LT           chrome/locale/lt-LT/zotero/
+locale	zotero  lt-LT           chrome/locale/lt-LT/zotero/
 locale	zotero	mn-MN		chrome/locale/mn-MN/zotero/
 locale	zotero	nb-NO		chrome/locale/nb-NO/zotero/
 locale	zotero	nn-NO		chrome/locale/nn-NO/zotero/
@@ -37,7 +37,7 @@ locale	zotero	pt-BR		chrome/locale/pt-BR/zotero/
 locale	zotero	pt-PT		chrome/locale/pt-PT/zotero/
 locale	zotero	ro-RO		chrome/locale/ro-RO/zotero/
 locale	zotero	ru-RU		chrome/locale/ru-RU/zotero/
-locale  zotero  sk-SK		chrome/locale/sk-SK/zotero/
+locale	zotero  sk-SK		chrome/locale/sk-SK/zotero/
 locale	zotero	sl-SI		chrome/locale/sl-SI/zotero/
 locale	zotero	sr-RS		chrome/locale/sr-RS/zotero/
 locale	zotero	sv-SE		chrome/locale/sv-SE/zotero/
@@ -48,7 +48,7 @@ locale	zotero	vi-VN		chrome/locale/vi-VN/zotero/
 locale	zotero	zh-CN		chrome/locale/zh-CN/zotero/
 locale	zotero	zh-TW		chrome/locale/zh-TW/zotero/
 
-skin		zotero	default		chrome/skin/default/zotero/
+skin	zotero	default		chrome/skin/default/zotero/
 
 overlay	chrome://browser/content/browser.xul	chrome://zotero/content/overlay.xul
 
