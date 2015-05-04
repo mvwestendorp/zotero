@@ -27,6 +27,7 @@
 
 <?xml-stylesheet href="chrome://zotero/skin/overlay.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero-platform/content/overlay.css" type="text/css"?>
+<?xul-overlay href="chrome://zotero/skin/juris-m-logo.svg"?>
 
 <!DOCTYPE overlay [
 	<!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd"> %globalDTD;
@@ -35,7 +36,8 @@
 ]>
 
 <overlay id="zotero"
-	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    xmlns:svg="http://www.w3.org/2000/svg">
 	
 	<script src="include.js"/>
 	<script src="zoteroPane.js" type="application/javascript;version=1.8"/>
@@ -103,11 +105,11 @@
 					<toolbarbutton id="zotero-tb-collection-add" class="zotero-tb-button" tooltiptext="&zotero.toolbar.newCollection.label;" command="cmd_zotero_newCollection"/>
 					<toolbarbutton id="zotero-tb-group-add" class="zotero-tb-button" tooltiptext="&zotero.toolbar.newGroup;" oncommand="ZoteroPane_Local.newGroup()"/>
 					<spacer flex="1"/>
-					<vbox>
-						<hbox>
-						  <label value="MLZ: ReadMe" style="margin:0;padding:0 0.4em 0 0.4em;border-radius:0.5em 0.5em;background:white;text-decoration:none;border:1px solid black;" class="text-link" onclick="ZoteroPane_Local.openMlzWelcomeDialog()" />
-						</hbox>
-					</vbox>
+                    <vbox>
+                      <hbox onclick="ZoteroPane_Local.openMlzWelcomeDialog();">
+                        <svg:svg id="juris-m-logo"/>
+                      </hbox>
+                    </vbox>
 					<spacer flex="1"/>
 					<toolbarbutton id="zotero-tb-actions-menu" class="zotero-tb-button" tooltiptext="&zotero.toolbar.actions.label;" type="menu">
 						<menupopup id="zotero-tb-actions-popup">
