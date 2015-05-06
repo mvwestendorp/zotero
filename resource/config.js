@@ -1,5 +1,5 @@
 var ZOTERO_CONFIG = {
-	GUID: 'zotero@chnm.gmu.edu',
+	GUID: 'juris-m@juris-m.github.io',
 	CLIENT_NAME: 'Juris-M',
 	REPOSITORY_URL: 'https://gator3143.hostgator.com/~fbennett/cgi-bin/',
 	REPOSITORY_CHECK_INTERVAL: 86400, // 24 hours
