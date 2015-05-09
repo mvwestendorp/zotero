@@ -409,7 +409,12 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 				return false;
 			}
 		}
-		
+
+		/*
+		 * Copy former Zotero database if appropriate
+		 */
+		this.copyZoteroDatabaseToJurism();
+
 		// Register shutdown handler to call Zotero.shutdown()
 		var _shutdownObserver = {observe:function() { Zotero.shutdown().done() }};
 		Services.obs.addObserver(_shutdownObserver, "quit-application", false);
@@ -474,6 +479,21 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		
 		return true;
 	}
+	 
+	this.copyZoteroDatabaseToJurism = function () {
+		var extensions = ["sqlite", "sqlite-journal"];
+		for (var i=0,ilen=extensions.length;i<ilen;i++) {
+			var ext = extensions[i];
+			var oldFile = Zotero.getZoteroDirectory();
+			oldFile.append("zotero." + ext);
+			var newFile = Zotero.getZoteroDirectory();
+			newFile.append("jurism." + ext);
+			if (oldFile.exists() && !newFile.exists()) {
+				oldFile.copyTo(null, "jurism." + ext);
+			}
+		}
+	}
+	 
 	
 	/**
 	 * Triggers events when initialization finishes
