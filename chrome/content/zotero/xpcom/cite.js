@@ -664,19 +664,19 @@ Zotero.Cite.System.prototype = {
 		var ret;
 		var res;
 		if (jurisdictionKey && courtKey) {
-		ret = Zotero.Utilities.getCourtName(jurisdictionKey, courtKey, true);
+		    ret = Zotero.Utilities.getCourtName(jurisdictionKey, courtKey, true);
 		} else if (jurisdictionKey) {
-		res = Zotero.Utilities.getJurisdictionName(jurisdictionKey);
-		if (res) {
-			res = res.split("|");
-			if (res.length > 2) {
-			ret = res.slice(1).join("|");
-			} else {
-			ret = res.join("|");
-			}
-		} else {
-			ret = res;
-		}
+		    res = Zotero.Utilities.getJurisdictionName(jurisdictionKey);
+		    if (res) {
+			    res = res.split("|");
+			    if (res.length > 2) {
+			        ret = res.slice(1).join("|");
+			    } else {
+			        ret = res.join("|");
+			    }
+		    } else {
+			    ret = res;
+		    }
 		}
 		return ret ? "" + ret : "";
 	}
