@@ -563,7 +563,7 @@
 							return;
 						}
 					}
-					
+
 					var valueElement = this.createValueElement(
 						val, fieldName, tabindex, !!parentNode
 					);
@@ -1005,7 +1005,21 @@
 						}, false);
 					}
 					
-					if (!isMulti && value.getAttribute('fieldname') == 'jurisdiction') {
+                    if (!isMulti && value.getAttribute('fieldname') == 'gazetteFlag') {
+                        var value = document.createElement("hbox");
+                        var gazetteFlag = document.createElement("checkbox");
+						// gazetteFlag.setAttribute("label","gazette");
+						gazetteFlag.setAttribute("id","gazette-flag");
+						gazetteFlag.setAttribute("oncommand","document.getBindingParent(this).gazetteFlagCommand(this);");
+						if (this.item.getField("gazetteFlag")) {
+							gazetteFlag.setAttribute("checked",true);
+						}
+						value.appendChild(gazetteFlag);
+						var row = document.createElement("row");
+						row.appendChild(label);
+						row.appendChild(value);
+
+                    } else if (!isMulti && value.getAttribute('fieldname') == 'jurisdiction') {
 						var innerValue = value;
 						innerValue.setAttribute("tooltiptext", value.getAttribute("label"));
 						value = document.createElement("hbox");
@@ -1079,7 +1093,21 @@
 			  </body>
 			</method>
 
-			
+			<method name="gazetteFlagCommand">
+			  <parameter name="node"/>
+			  <body>
+				<![CDATA[
+					var checked = node.getAttribute("checked");
+					if (checked) {
+                        this.item.setField("gazetteFlag", "1");
+					} else {
+						this.item.setField("gazetteFlag", "");
+					}
+                    this.item.save();
+				]]>
+			  </body>
+			</method>
+
 			<method name="addCreatorRow">
 				<parameter name="creator"/>
 				<parameter name="creatorTypeID"/>

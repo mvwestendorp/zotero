@@ -98,7 +98,8 @@ Zotero.EXTENDED_FIELDS = {
 		"originalDate":"original-date",
 		"reign":"genre",
 		"regnalYear":"collection-number",
-		"dateAmended": "event-date"
+		"dateAmended": "event-date",
+        "gazetteFlag": "gazette-flag"
 	}, 
 	"audioRecording": {
 		"album":"container-title",
@@ -130,7 +131,8 @@ Zotero.EXTENDED_FIELDS = {
 		"publisher":"publisher",
 		"publicationDate":"publication-date",
 		"regulatoryBody":"authority",
-		"regulationType":"genre"
+		"regulationType":"genre",
+        "gazetteFlag": "gazette-flag"
 	},
 	"treaty": {
 		"reporter":"container-title",

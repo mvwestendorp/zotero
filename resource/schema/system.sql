@@ -1,4 +1,4 @@
--- 10067
+-- 10068
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -376,6 +376,7 @@ INSERT INTO fields VALUES (1284,'status',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1285,'publicationNumber',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1286,'volumeTitle',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1287,'dateAmended',NULL);              -- [ADDED]
+INSERT INTO fields VALUES (1288,'gazetteFlag',NULL);              -- [ADDED]
 
 -- book
 INSERT INTO itemTypeFields VALUES (2, 110, NULL, 1);
@@ -749,32 +750,31 @@ INSERT INTO itemTypeFields VALUES (19, 53, NULL, 22);   -- References           
 INSERT INTO itemTypeFields VALUES (19, 2, NULL, 23);    -- rights
 INSERT INTO itemTypeFields VALUES (19, 22, NULL, 24);   -- extra
 
-
-
 -- statute
 INSERT INTO itemTypeFields VALUES (20, 112, NULL, 1);   -- nameOfAct
 INSERT INTO itemTypeFields VALUES (20, 116, NULL, 2);   -- shortTitle
-INSERT INTO itemTypeFields VALUES (20, 90, NULL, 3);    -- abstract
-INSERT INTO itemTypeFields VALUES (20, 1261, NULL, 4);  -- jurisdiction     [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 36, NULL, 5);    -- code
-INSERT INTO itemTypeFields VALUES (20, 55, NULL, 6);    -- codeNumber (volume)
-INSERT INTO itemTypeFields VALUES (20, 10, NULL, 7);    -- pages
-INSERT INTO itemTypeFields VALUES (20, 100, NULL, 8);   -- dateEnacted
-INSERT INTO itemTypeFields VALUES (20, 1287, NULL, 9);   -- dateAmended   [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 1272, NULL, 10);   -- originalDate   [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 15, NULL, 11);    -- section
-INSERT INTO itemTypeFields VALUES (20, 101, NULL, 12);  -- publicLawNumber
-INSERT INTO itemTypeFields VALUES (20, 1269, NULL, 13); -- reign            [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 1270, NULL, 14); -- regnalYear       [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 8, NULL, 15);    -- publisher        [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 1268, NULL, 16); -- publicationDate  [ADDED]
-INSERT INTO itemTypeFields VALUES (20, 87, NULL, 17);   -- language
-INSERT INTO itemTypeFields VALUES (20, 1, NULL, 18);    -- url
-INSERT INTO itemTypeFields VALUES (20, 27, NULL, 19);   -- accessed
-INSERT INTO itemTypeFields VALUES (20, 40, NULL, 20);   -- session          Deprecated
-INSERT INTO itemTypeFields VALUES (20, 42, NULL, 21);   -- history          Deprecated
-INSERT INTO itemTypeFields VALUES (20, 2, NULL, 22);    -- rights
-INSERT INTO itemTypeFields VALUES (20, 22, NULL, 23);   -- extra
+INSERT INTO itemTypeFields VALUES (20, 1288, NULL, 3);  -- gazetteFlag
+INSERT INTO itemTypeFields VALUES (20, 90, NULL, 4);    -- abstract
+INSERT INTO itemTypeFields VALUES (20, 1261, NULL, 5);  -- jurisdiction     [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 36, NULL, 6);    -- code
+INSERT INTO itemTypeFields VALUES (20, 55, NULL, 7);    -- codeNumber (volume)
+INSERT INTO itemTypeFields VALUES (20, 10, NULL, 8);    -- pages
+INSERT INTO itemTypeFields VALUES (20, 100, NULL, 9);   -- dateEnacted
+INSERT INTO itemTypeFields VALUES (20, 1287, NULL, 10);   -- dateAmended   [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 1272, NULL, 11);   -- originalDate   [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 15, NULL, 12);    -- section
+INSERT INTO itemTypeFields VALUES (20, 101, NULL, 13);  -- publicLawNumber
+INSERT INTO itemTypeFields VALUES (20, 1269, NULL, 14); -- reign            [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 1270, NULL, 15); -- regnalYear       [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 8, NULL, 16);    -- publisher        [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 1268, NULL, 17); -- publicationDate  [ADDED]
+INSERT INTO itemTypeFields VALUES (20, 87, NULL, 18);   -- language
+INSERT INTO itemTypeFields VALUES (20, 1, NULL, 19);    -- url
+INSERT INTO itemTypeFields VALUES (20, 27, NULL, 20);   -- accessed
+INSERT INTO itemTypeFields VALUES (20, 40, NULL, 21);   -- session          Deprecated
+INSERT INTO itemTypeFields VALUES (20, 42, NULL, 22);   -- history          Deprecated
+INSERT INTO itemTypeFields VALUES (20, 2, NULL, 23);    -- rights
+INSERT INTO itemTypeFields VALUES (20, 22, NULL, 24);   -- extra
 
 -- email
 INSERT INTO itemTypeFields VALUES (21, 113, NULL, 1);  -- title
@@ -1127,26 +1127,27 @@ INSERT INTO itemTypeFields VALUES (1262, 22, NULL, 21);   -- extra
 
 -- [NEW] regulation (clone of gazette)
 INSERT INTO itemTypeFields VALUES (1263, 112, NULL, 1);   -- nameOfAct
-INSERT INTO itemTypeFields VALUES (1263, 90, NULL, 2);    -- abstract
-INSERT INTO itemTypeFields VALUES (1263, 1261, NULL, 3);  -- jurisdiction
-INSERT INTO itemTypeFields VALUES (1263, 116, NULL, 4);   -- shortTitle
-INSERT INTO itemTypeFields VALUES (1263, 1282, NULL, 5);   -- authority [ADDED]
-INSERT INTO itemTypeFields VALUES (1263, 1281, NULL, 6);   -- regulationType [ADDED]
-INSERT INTO itemTypeFields VALUES (1263, 101, NULL, 7);   -- publicLawNumber
-INSERT INTO itemTypeFields VALUES (1263, 36, NULL, 8);    -- code           (for reporter)
-INSERT INTO itemTypeFields VALUES (1263, 55, NULL, 9);    -- codeNumber     (for volume)
-INSERT INTO itemTypeFields VALUES (1263, 10, NULL, 10);    -- pages
-INSERT INTO itemTypeFields VALUES (1263, 100, NULL, 11);   -- dateEnacted
-INSERT INTO itemTypeFields VALUES (1263, 15, NULL, 12);   -- section
-INSERT INTO itemTypeFields VALUES (1263, 8, NULL, 13);    -- publisher       [ADDED]
-INSERT INTO itemTypeFields VALUES (1263, 1268, NULL, 14); -- publicationDate [ADDED]
-INSERT INTO itemTypeFields VALUES (1263, 87, NULL, 15);   -- language
-INSERT INTO itemTypeFields VALUES (1263, 1, NULL, 16);    -- url
-INSERT INTO itemTypeFields VALUES (1263, 27, NULL, 17);   -- accessed
-INSERT INTO itemTypeFields VALUES (1263, 40, NULL, 18);   -- session         Deprecated
-INSERT INTO itemTypeFields VALUES (1263, 42, NULL, 19);   -- history         Deprecated
-INSERT INTO itemTypeFields VALUES (1263, 2, NULL, 20);    -- rights
-INSERT INTO itemTypeFields VALUES (1263, 22, NULL, 21);   -- extra
+INSERT INTO itemTypeFields VALUES (1263, 116, NULL, 2);   -- shortTitle
+INSERT INTO itemTypeFields VALUES (1263, 1288, NULL, 3);  -- gazetteFlag
+INSERT INTO itemTypeFields VALUES (1263, 90, NULL, 4);    -- abstract
+INSERT INTO itemTypeFields VALUES (1263, 1261, NULL, 5);  -- jurisdiction
+INSERT INTO itemTypeFields VALUES (1263, 1282, NULL, 6);   -- authority [ADDED]
+INSERT INTO itemTypeFields VALUES (1263, 1281, NULL, 7);   -- regulationType [ADDED]
+INSERT INTO itemTypeFields VALUES (1263, 101, NULL, 8);   -- publicLawNumber
+INSERT INTO itemTypeFields VALUES (1263, 36, NULL, 9);    -- code           (for reporter)
+INSERT INTO itemTypeFields VALUES (1263, 55, NULL, 10);    -- codeNumber     (for volume)
+INSERT INTO itemTypeFields VALUES (1263, 10, NULL, 11);    -- pages
+INSERT INTO itemTypeFields VALUES (1263, 100, NULL, 12);   -- dateEnacted
+INSERT INTO itemTypeFields VALUES (1263, 15, NULL, 13);   -- section
+INSERT INTO itemTypeFields VALUES (1263, 8, NULL, 14);    -- publisher       [ADDED]
+INSERT INTO itemTypeFields VALUES (1263, 1268, NULL, 15); -- publicationDate [ADDED]
+INSERT INTO itemTypeFields VALUES (1263, 87, NULL, 16);   -- language
+INSERT INTO itemTypeFields VALUES (1263, 1, NULL, 17);    -- url
+INSERT INTO itemTypeFields VALUES (1263, 27, NULL, 18);   -- accessed
+INSERT INTO itemTypeFields VALUES (1263, 40, NULL, 19);   -- session         Deprecated
+INSERT INTO itemTypeFields VALUES (1263, 42, NULL, 20);   -- history         Deprecated
+INSERT INTO itemTypeFields VALUES (1263, 2, NULL, 21);    -- rights
+INSERT INTO itemTypeFields VALUES (1263, 22, NULL, 22);   -- extra
 
 -- [NEW] classic (derived from manuscript)
 INSERT INTO itemTypeFields VALUES (1264, 110, NULL, 1);  -- title
