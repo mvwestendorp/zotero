@@ -99,25 +99,14 @@ function xx-unpatch-sources-after-build () {
 }
 
 function build-the-plugin () {
-    echo a
     xx-patch-sources-before-build
-    echo b
     set-install-version
-    echo c
     xx-remove-and-replace-old-build-dir
-    echo d
     xx-save-aside-deleted-translators-list
-    echo e
     xx-copy-files-into-xpi
-    echo f
     xx-zip-up-styles
-    echo g
     xx-zip-up-translators
-    echo h
     xx-add-styles-and-translators-to-zip
-    echo i
     xx-cleanup
-    echo j
     xx-unpatch-sources-after-build
-    echo k
 }
