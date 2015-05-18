@@ -281,9 +281,8 @@
 <!ENTITY zotero.upgrade.changeLogAfterLink "για να δείτε τι νεότερο υπάρχει.">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "Παρακαλώ διαβάστε">
 <!ENTITY zotero.upgrade.changeLogLink "τον κατάλογο των αλλαγών (changelog)">
-<!ENTITY zotero.upgrade.ifZoteroChoice "If this is not desired, cancel the upgrade process now, and reinstall the official Zotero client.">
 <!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
-<!ENTITY zotero.upgrade.ifZoteroWarning "After conversion, the database will be accessible only to MLZ clients.">
+<!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "Αυτή είναι μια κύρια αναβάθμιση.">
 <!ENTITY zotero.upgrade.majorUpgradeAfterLink "πριν συνεχίσετε.">
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Βεβαιωθείτε ότι έχετε επανεξετάσει τις">

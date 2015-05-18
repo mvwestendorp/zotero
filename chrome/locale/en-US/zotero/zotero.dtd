@@ -281,8 +281,8 @@
 <!ENTITY zotero.upgrade.changeLogAfterLink "to find out what's new.">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "Please see">
 <!ENTITY zotero.upgrade.changeLogLink "the changelog">
-<!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.ifZoteroInfo "If this is a first-time install on a computer with an existing Zotero database, Juris-M will make a copy of it, and use the copy as your initial Juris-M database. You can sync Juris-M to your original Zotero account. You can return to official Zotero at any time by reinstalling or reenabling the official Zotero client.">
+<!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "This is a major upgrade.">
 <!ENTITY zotero.upgrade.majorUpgradeAfterLink "before continuing.">
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Be sure you have reviewed the">
