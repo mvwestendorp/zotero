@@ -89,7 +89,8 @@ Zotero.EXTENDED_FIELDS = {
 		"supplementName":"genre",
 		"issue":"issue",
 		"archive":"archive",
-		"archiveLocation":"archive_location"
+		"archiveLocation":"archive_location",
+        "documentName":"document-name"
 	}, 
 	"statute": {
 		"jurisdiction":"jurisdiction",
@@ -119,7 +120,9 @@ Zotero.EXTENDED_FIELDS = {
 		"bookTitle":"container-title",
 		"jurisdiction":"jurisdiction",
 		"status":"status",
-		"medium":"medium"
+		"medium":"medium",
+		"committee":"committee",
+        "assemblyNumber": "collection-number"
 	},
 	"gazette": {
 		"jurisdiction":"jurisdiction",

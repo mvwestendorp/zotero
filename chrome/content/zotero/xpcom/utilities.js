@@ -62,6 +62,7 @@ const CSL_TEXT_MAPPINGS = {
 	"authority":["court", "legislativeBody", "issuingAuthority","institution"],
 	"committee":["committee"],
     "gazette-flag":["gazetteFlag"],
+    "document-name":["documentName"],
 	"page":["pages"],
 	"volume":["volume","codeNumber"],
 	"volume-title":["volumeTitle"],

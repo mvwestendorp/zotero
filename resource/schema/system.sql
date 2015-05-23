@@ -1,4 +1,4 @@
--- 10068
+-- 10070
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -377,6 +377,7 @@ INSERT INTO fields VALUES (1285,'publicationNumber',NULL);              -- [ADDE
 INSERT INTO fields VALUES (1286,'volumeTitle',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1287,'dateAmended',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1288,'gazetteFlag',NULL);              -- [ADDED]
+INSERT INTO fields VALUES (1289,'documentName',NULL);             -- [ADDED]
 
 -- book
 INSERT INTO itemTypeFields VALUES (2, 110, NULL, 1);
@@ -629,19 +630,21 @@ INSERT INTO itemTypeFields VALUES (15, 28, NULL, 7);    -- seriesTitle
 INSERT INTO itemTypeFields VALUES (15, 109, NULL, 8);     -- medium [ADDED]
 INSERT INTO itemTypeFields VALUES (15, 7, NULL, 9);     -- place
 INSERT INTO itemTypeFields VALUES (15, 31, NULL, 10);    -- institution
-INSERT INTO itemTypeFields VALUES (15, 14, NULL, 11);    -- date
-INSERT INTO itemTypeFields VALUES (15, 10, NULL, 12);    -- pages
-INSERT INTO itemTypeFields VALUES (15, 87, NULL, 13);   -- language
-INSERT INTO itemTypeFields VALUES (15, 116, NULL, 14);  -- shortTitle
-INSERT INTO itemTypeFields VALUES (15, 1261, NULL, 15); -- jurisdiction     [ADDED]
-INSERT INTO itemTypeFields VALUES (15, 1, NULL, 16);    -- url
-INSERT INTO itemTypeFields VALUES (15, 27, NULL, 17);   -- accessed
-INSERT INTO itemTypeFields VALUES (15, 123, NULL, 18);  -- archive
-INSERT INTO itemTypeFields VALUES (15, 19, NULL, 19);   -- archiveLocation
-INSERT INTO itemTypeFields VALUES (15, 62, NULL, 20);   -- libraryCatalog
-INSERT INTO itemTypeFields VALUES (15, 18, NULL, 21);   -- callNumber
-INSERT INTO itemTypeFields VALUES (15, 2, NULL, 22);    -- rights
-INSERT INTO itemTypeFields VALUES (15, 22, NULL, 23);   -- extra
+INSERT INTO itemTypeFields VALUES (15, 46, NULL, 11);    -- committee [ADDED]
+INSERT INTO itemTypeFields VALUES (15, 1262, NULL, 12);  -- assemblyNumber [ADDED]
+INSERT INTO itemTypeFields VALUES (15, 14, NULL, 13);    -- date
+INSERT INTO itemTypeFields VALUES (15, 10, NULL, 14);    -- pages
+INSERT INTO itemTypeFields VALUES (15, 87, NULL, 15);   -- language
+INSERT INTO itemTypeFields VALUES (15, 116, NULL, 16);  -- shortTitle
+INSERT INTO itemTypeFields VALUES (15, 1261, NULL, 17); -- jurisdiction     [ADDED]
+INSERT INTO itemTypeFields VALUES (15, 1, NULL, 18);    -- url
+INSERT INTO itemTypeFields VALUES (15, 27, NULL, 19);   -- accessed
+INSERT INTO itemTypeFields VALUES (15, 123, NULL, 20);  -- archive
+INSERT INTO itemTypeFields VALUES (15, 19, NULL, 21);   -- archiveLocation
+INSERT INTO itemTypeFields VALUES (15, 62, NULL, 22);   -- libraryCatalog
+INSERT INTO itemTypeFields VALUES (15, 18, NULL, 23);   -- callNumber
+INSERT INTO itemTypeFields VALUES (15, 2, NULL, 24);    -- rights
+INSERT INTO itemTypeFields VALUES (15, 22, NULL, 25);   -- extra
 
 -- bill
 INSERT INTO itemTypeFields VALUES (16, 110, NULL, 1);  -- title
@@ -670,31 +673,32 @@ INSERT INTO itemTypeFields VALUES (16, 22, NULL, 22);  -- extra
 -- case
 INSERT INTO itemTypeFields VALUES (17, 111, NULL, 1);   -- caseName
 INSERT INTO itemTypeFields VALUES (17, 116, NULL, 2);   -- shortTitle
-INSERT INTO itemTypeFields VALUES (17, 90, NULL, 3);    -- abstract
-INSERT INTO itemTypeFields VALUES (17, 1261, NULL, 4);  -- jurisdiction     [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 44, NULL, 5);    -- court
-INSERT INTO itemTypeFields VALUES (17, 7, NULL, 6);     -- place            [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 117, NULL, 7);   -- docketNumber
-INSERT INTO itemTypeFields VALUES (17, 43, NULL, 8);    -- reporter
-INSERT INTO itemTypeFields VALUES (17, 1267, NULL, 9);  -- yearAsVolume     [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 97, NULL, 10);   -- reporterVolume
-INSERT INTO itemTypeFields VALUES (17, 98, NULL, 11);   -- firstPage
-INSERT INTO itemTypeFields VALUES (17, 96, NULL, 12);   -- dateDecided
-INSERT INTO itemTypeFields VALUES (17, 121,NULL, 13);   -- filingDate       [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 1269, NULL, 14); -- reign            [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 18 , NULL, 15);  -- call-number      [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 8, NULL, 16);    -- publisher        [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 1268, NULL, 17); -- publicationDate  [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 1271, NULL, 18); -- supplementName   [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 5, NULL, 19);    -- issue            [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 123, NULL, 20);  -- archive          [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 19, NULL, 21);   -- archiveLocation  [ADDED]
-INSERT INTO itemTypeFields VALUES (17, 87, NULL, 22);   -- language
-INSERT INTO itemTypeFields VALUES (17, 1, NULL, 23);    -- url
-INSERT INTO itemTypeFields VALUES (17, 27, NULL, 24);   -- accessed
-INSERT INTO itemTypeFields VALUES (17, 42, NULL, 25);   -- history
-INSERT INTO itemTypeFields VALUES (17, 2, NULL, 26);    -- rights
-INSERT INTO itemTypeFields VALUES (17, 22, NULL, 27);   -- extra
+INSERT INTO itemTypeFields VALUES (17, 1289, NULL, 3);   -- documentName
+INSERT INTO itemTypeFields VALUES (17, 90, NULL, 4);    -- abstract
+INSERT INTO itemTypeFields VALUES (17, 1261, NULL, 5);  -- jurisdiction     [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 44, NULL, 6);    -- court
+INSERT INTO itemTypeFields VALUES (17, 7, NULL, 7);     -- place            [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 117, NULL, 8);   -- docketNumber
+INSERT INTO itemTypeFields VALUES (17, 43, NULL, 9);    -- reporter
+INSERT INTO itemTypeFields VALUES (17, 1267, NULL, 10);  -- yearAsVolume     [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 97, NULL, 11);   -- reporterVolume
+INSERT INTO itemTypeFields VALUES (17, 98, NULL, 12);   -- firstPage
+INSERT INTO itemTypeFields VALUES (17, 96, NULL, 13);   -- dateDecided
+INSERT INTO itemTypeFields VALUES (17, 121,NULL, 14);   -- filingDate       [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 1269, NULL, 15); -- reign            [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 18 , NULL, 16);  -- call-number      [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 8, NULL, 17);    -- publisher        [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 1268, NULL, 18); -- publicationDate  [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 1271, NULL, 19); -- supplementName   [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 5, NULL, 20);    -- issue            [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 123, NULL, 21);  -- archive          [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 19, NULL, 22);   -- archiveLocation  [ADDED]
+INSERT INTO itemTypeFields VALUES (17, 87, NULL, 23);   -- language
+INSERT INTO itemTypeFields VALUES (17, 1, NULL, 24);    -- url
+INSERT INTO itemTypeFields VALUES (17, 27, NULL, 25);   -- accessed
+INSERT INTO itemTypeFields VALUES (17, 42, NULL, 26);   -- history
+INSERT INTO itemTypeFields VALUES (17, 2, NULL, 27);    -- rights
+INSERT INTO itemTypeFields VALUES (17, 22, NULL, 28);   -- extra
 
 -- hearing
 INSERT INTO itemTypeFields VALUES (18, 110, NULL, 1);  -- title
