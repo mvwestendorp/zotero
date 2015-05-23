@@ -281,15 +281,14 @@
 <!ENTITY zotero.upgrade.changeLogAfterLink "to find out what's new.">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "Please see">
 <!ENTITY zotero.upgrade.changeLogLink "the changelog">
-<!ENTITY zotero.upgrade.ifZoteroChoice "If this is not desired, cancel the upgrade process now, and reinstall the official Zotero client.">
-<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
-<!ENTITY zotero.upgrade.ifZoteroWarning "After conversion, the database will be accessible only to MLZ clients.">
+<!ENTITY zotero.upgrade.ifZoteroInfo "If this is a first-time install on a computer with an existing Zotero database, Juris-M will make a copy of it, and use the copy as your initial Juris-M database. You can sync Juris-M to your original Zotero account. You can return to official Zotero at any time by reinstalling or reenabling the official Zotero client.">
+<!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "This is a major upgrade.">
 <!ENTITY zotero.upgrade.majorUpgradeAfterLink "before continuing.">
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Be sure you have reviewed the">
 <!ENTITY zotero.upgrade.majorUpgradeLink "upgrade instructions">
-<!ENTITY zotero.upgrade.newVersionInstalled "You have installed a new version of Zotero.">
+<!ENTITY zotero.upgrade.newVersionInstalled "You have installed a new version of the Juris-M reference manager.">
 <!ENTITY zotero.upgrade.title "Zotero Upgrade Wizard">
 <!ENTITY zotero.upgrade.upgradeInProgress "Please wait for the upgrade process to finish. This may take a few minutes.">
-<!ENTITY zotero.upgrade.upgradeRequired "Your Zotero database must be upgraded to work with the new version.">
+<!ENTITY zotero.upgrade.upgradeRequired "Your Juris-M database must be upgraded to work with the new version.">
 <!ENTITY zotero.upgrade.upgradeSucceeded "Your Zotero database has been successfully upgraded.">
