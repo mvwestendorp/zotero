@@ -14,13 +14,12 @@
 	ondialogaccept="return true;">
 	
 	<vbox id="mlz-welcome-content" width="600">
-		<label id="name" value="MLZ: ReadMe"/>
-		<label class="subhead" value="Description"/>
+		<label id="name" value="Juris-M: for legal and multilingual research"/>
         <description class="subcontent">
-          Multilingual Zotero (MLZ) is a variant of the Zotero
-          reference manager, with support for <span style="font-style:italic;">legal citation styles</span>
-          and <span style="font-style:italic;">multilingual content</span>. MLZ is written and maintained by
-          <label class="zotero-text-link"
+          Juris-M is a variant of the Zotero reference manager, with
+          extensions to support legal citation styles and multilingual
+          content. The system is written and maintained by <label
+          class="zotero-text-link"
           href="http://gsl-nagoya-u.net/faculty/cache/gsliF_Bennett.html"
           value="Frank Bennett"/>, author of the citation formatter
           (<label class="zotero-text-link"
@@ -28,11 +27,11 @@
           value="citeproc-js"/>) that runs in Zotero itself.
         </description>
         <description class="subcontent">
-          (Please note that MLZ is not directly supported by the Zotero
-          development team. If you do not require its special
-          features, you are encouraged to use <label
+          Juris-M is not directly supported by the Zotero
+          development team: if you do not require its special
+          features, you may prefer to use <label
           class="zotero-text-link" href="http://zotero.org"
-          value="official Zotero"/> instead.)
+          value="official Zotero"/> instead.
         </description>
 		<label class="subhead" value="Components"/>
         <description class="subcontent">
