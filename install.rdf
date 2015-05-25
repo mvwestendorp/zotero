@@ -15,7 +15,7 @@
     <em:homepageURL>https://juris-m.github.io</em:homepageURL>
     <em:optionsURL>chrome://zotero/content/preferences/preferences.xul</em:optionsURL>
     <em:aboutURL>chrome://zotero/content/about.xul</em:aboutURL>
-    <em:updateURL>https://juris-m.github.io/juris-m/update.rdf</em:updateURL>
+    <em:updateURL>https://juris-m.github.io/jurism/update.rdf</em:updateURL>
     <em:iconURL>chrome://zotero/skin/mlz_z_32px.png</em:iconURL>
     <em:type>2</em:type>
     <em:unpack>true</em:unpack>
