@@ -13,7 +13,7 @@
                                 <em:minVersion>3.6</em:minVersion>
                                 <em:maxVersion>38.*</em:maxVersion>
                                 <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m2/jurism-v4.0.27m2.xpi</em:updateLink>
-                                <em:updateHash>sha1:1e51aee172de0cfbe681c9b102c2f32e5bf1a2bc</em:updateHash>
+                                <em:updateHash>sha1:219b075e965aa0e7a71bf428d0ebd47d1e68d4ae</em:updateHash>
                             </rdf:Description>
                         </em:targetApplication>
                     </rdf:Description>
@@ -21,12 +21,12 @@
             </rdf:Seq>
         </em:updates>
         <em:signature>
-            MIIBEjALBgkqhkiG9w0BAQ0DggEBAFSvqZeyct6jEpBvWPMkAO7mkiNdsAqGHwG7
-            wtYaLUQPjsnO0lDq4942kr3t/snb61ecmukB+B4XOwfcend4NEiq9+SH6C3i2lgL
-            /44haQyTEHVd7InVRwQLw4X0JF1lwM791StH+WUpXmD+mrGnRZLuzmXyTUVEVAgs
-            uOp18E/48am8cMFNCAD8sp9iSjrP/BtxUYNtS5JHJKzlxqI0La0hX6c4AjFuHLlf
-            EfySu5pDovnzfrEL4Jw87MidL6EJsKVzaoenvgyXOCMR3aMVEljmwRcg35WfkOwO
-            v50PutQvLq250g2MXRUHkAIu/b1elYZ60Kge1iHvhP7CYQGMPyw=
+            MIIBEjALBgkqhkiG9w0BAQ0DggEBABY5LSiI1+DvF6H+dXEhdSuEBqNQt24i++GF
+            AJsnGfDx2853bGkKvk8KoByqNRvUCn+V4/joa2jgbEOFCjXOiKLAlwIqTqPst79b
+            tyz07JvAuhwc1W3/s+XP3zB+NCRDfmyZe+32SxYCl0DmVUha8/4xvCL1NVAnpx62
+            bTBNnr2ddC2Oda9XS9pEm+MSyoRHoU/xAIBT0SYr6XLal+i5QnAXYrYo8jFPrmcO
+            hjpB8E1rBLjyG3t93QkqCOfCOOEIPHSKrQVvV+qw7QKS1ox/5xaHgADVz66tCUCv
+            LVRtsiY4yvcrfwhGk5V132e9UVVIkbCmWgurLqYExmYkA9gMS+4=
         </em:signature>
     </rdf:Description>
 </rdf:RDF>
