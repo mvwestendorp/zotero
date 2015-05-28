@@ -3766,6 +3766,10 @@
 						<menuitem label="Bogus Menu"
 							oncommand="alert('Boo!');"/>
 					</menupopup>
+					<menupopup id="zotero-doi-menu">
+						<menuitem id="zotero-doi-menu-view-online" label="&zotero.item.viewOnline;"/>
+						<menuitem id="zotero-doi-menu-copy" label="&zotero.item.copyAsURL;"/>
+					</menupopup>
 					<zoteroguidancepanel id="zotero-author-guidance" about="authorMenu" position="after_end" x="-25"/>
 				</popupset>
 				<grid flex="1">

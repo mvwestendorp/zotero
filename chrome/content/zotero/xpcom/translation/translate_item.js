@@ -870,9 +870,10 @@ Zotero.Translate.ItemSaver.prototype = {
 }
 
 Zotero.Translate.ItemGetter = function() {
-	this._itemsLeft = null;
+	this._itemsLeft = [];
 	this._collectionsLeft = null;
 	this._exportFileDirectory = null;
+	this.legacy = false;
 };
 
 Zotero.Translate.ItemGetter.prototype = {
@@ -911,11 +912,11 @@ Zotero.Translate.ItemGetter.prototype = {
 		this.numItems = this._itemsLeft.length;
 	},
 	
-	"setAll":function(getChildCollections) {
-		this._itemsLeft = Zotero.Items.getAll(true);
+	"setAll":function(libraryID, getChildCollections) {
+		this._itemsLeft = Zotero.Items.getAll(true, libraryID);
 		
 		if(getChildCollections) {
-			this._collectionsLeft = Zotero.getCollections();
+			this._collectionsLeft = Zotero.getCollections(null, true, libraryID);
 		}
 		
 		this.numItems = this._itemsLeft.length;
@@ -953,13 +954,8 @@ Zotero.Translate.ItemGetter.prototype = {
 	 * Converts an attachment to array format and copies it to the export folder if desired
 	 */
 	"_attachmentToArray":function(attachment) {
-		var attachmentArray = this._itemToArray(attachment);
+		var attachmentArray = Zotero.Utilities.Internal.itemToExportFormat(attachment, this.legacy);
 		var linkMode = attachment.attachmentLinkMode;
-		
-		// Get mime type
-		attachmentArray.mimeType = attachmentArray.uniqueFields.mimeType = attachment.attachmentMIMEType;
-		// Get charset
-		attachmentArray.charset = attachmentArray.uniqueFields.charset = attachment.attachmentCharset;
 		if(linkMode != Zotero.Attachments.LINK_MODE_LINKED_URL) {
 			var attachFile = attachment.getFile();
 			attachmentArray.localPath = attachFile.path;
@@ -970,7 +966,7 @@ Zotero.Translate.ItemGetter.prototype = {
 				// Add path and filename if not an internet link
 				var attachFile = attachment.getFile();
 				if(attachFile) {
-					attachmentArray.defaultPath = "files/" + attachmentArray.itemID + "/" + attachFile.leafName;
+					attachmentArray.defaultPath = "files/" + attachment.id + "/" + attachFile.leafName;
 					attachmentArray.filename = attachFile.leafName;
 					
 					/**
@@ -1084,38 +1080,7 @@ Zotero.Translate.ItemGetter.prototype = {
 			}
 		}
 		
-		attachmentArray.itemType = "attachment";
-		
 		return attachmentArray;
-	},
-		
-	/**
-	 * Converts an item to array format
-	 */
-	"_itemToArray":function(returnItem) {
-		// TODO use Zotero.Item#serialize()
-		var returnItemArray = returnItem.toArray();
-		
-		// Remove SQL date from multipart dates
-		if (returnItemArray.date) {
-			returnItemArray.date = Zotero.Date.multipartToStr(returnItemArray.date);
-		}
-		
-		var returnItemArray = Zotero.Utilities.itemToExportFormat(returnItemArray);
-		
-		// TODO: Change tag.tag references in translators to tag.name
-		// once translators are 1.5-only
-		// TODO: Preserve tag type?
-		if (returnItemArray.tags) {
-			for (var i in returnItemArray.tags) {
-				returnItemArray.tags[i].tag = returnItemArray.tags[i].fields.name;
-			}
-		}
-		
-		// add URI
-		returnItemArray.uri = Zotero.URI.getItemURI(returnItem);
-		
-		return returnItemArray;
 	},
 	
 	/**
@@ -1129,10 +1094,10 @@ Zotero.Translate.ItemGetter.prototype = {
 				var returnItemArray = this._attachmentToArray(returnItem);
 				if(returnItemArray) return returnItemArray;
 			} else {
-				var returnItemArray = this._itemToArray(returnItem);
+				var returnItemArray = Zotero.Utilities.Internal.itemToExportFormat(returnItem, this.legacy);
 				
 				// get attachments, although only urls will be passed if exportFileData is off
-				returnItemArray.attachments = new Array();
+				returnItemArray.attachments = [];
 				var attachments = returnItem.getAttachments();
 				for each(var attachmentID in attachments) {
 					var attachment = Zotero.Items.get(attachmentID);
