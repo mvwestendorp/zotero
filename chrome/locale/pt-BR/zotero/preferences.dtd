@@ -1,8 +1,8 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Arquivos e Pastas">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Atalhos">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Diretório base:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Anexo Relacionado Diretório Base">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero utilizará caminhos parentes para arquivos anexados com link dentro do diretório base, permitindo assim que você acesse arquivos em diferentes computadores conquanto que a estrutura de arquivos do diretório base permaneça o mesma.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero utilizará caminhos relativos para anexos de arquivos a partir do diretório base, permitindo o acesso a esses arquivos em diferentes computadores, desde que a estrutura dos arquivos dentro do diretório base permaneça a mesma">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Reverter para Caminhos Absolutos...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Escolha...">
 <!ENTITY zotero.preferences.autoUpdate "Conferir automaticamente a existência de atualizações de traduções e estilos">
@@ -115,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Outras preferências">
 <!ENTITY zotero.preferences.openAboutConfig "Abrir about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Abrir about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
+<!ENTITY zotero.preferences.openCSLEdit "Abrir o editor de estilos">
+<!ENTITY zotero.preferences.openCSLPreview "Abrir a visualização de estilos">
 <!ENTITY zotero.preferences.openurl.caption "Abrir URL">
 <!ENTITY zotero.preferences.openurl.custom "Personalizar...">
 <!ENTITY zotero.preferences.openurl.search "Procurar resolvedores">
@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - O caminho da página a ser acessada, excluindo a barra inicial (p.ex., about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opções de proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Esquema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Habilitar redirecionamento de proxy">
 <!ENTITY zotero.preferences.proxies.variables "Você pode usar as seguintes variáveis em seu esquema de proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Cópia rápida">

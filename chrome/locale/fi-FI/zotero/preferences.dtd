@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Välitetyn sivun polku ilman alussa olevaa kauttaviivaa (esim. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Välityspalvelinten asetukset">
 <!ENTITY zotero.preferences.proxies.scheme "Skeema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Käytä välityspalvelinta uudelleenohjaukseen">
 <!ENTITY zotero.preferences.proxies.variables "Voit käyttää seuraavia muuttujia välityspalvelinskeemassa:">
 <!ENTITY zotero.preferences.quickCopy.caption "Pikakopiointi">

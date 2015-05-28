@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Sökvägen till proxysidan utan föregående / (t.ex., about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proxyinställningar">
 <!ENTITY zotero.preferences.proxies.scheme "Inställningar">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Kom ihåg tidigare proxyservrar automatiskt">
 <!ENTITY zotero.preferences.proxies.variables "Du kan använda följande inställningar för din proxyserver:">
 <!ENTITY zotero.preferences.quickCopy.caption "Snabbkopiera">

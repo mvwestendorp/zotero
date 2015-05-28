@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Editor anzeigen">
 <!ENTITY zotero.item.add "Hinzufügen">
 <!ENTITY zotero.item.attachment.file.show "Datei zeigen">
+<!ENTITY zotero.item.copyAsURL "Als URL kopieren">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Vorname/Nachname tauschen">
 <!ENTITY zotero.item.textTransform "Text transformieren">
 <!ENTITY zotero.item.textTransform.sentencecase "englische Satz-Großschreibung">
 <!ENTITY zotero.item.textTransform.titlecase "englische Titel-Großschreibung">
+<!ENTITY zotero.item.viewOnline "Online anzeigen">
 <!ENTITY zotero.items.accessDate_column "Zugriffsdatum">
 <!ENTITY zotero.items.archiveLocation_column "Standort im Archiv">
 <!ENTITY zotero.items.archive_column "Archiv">

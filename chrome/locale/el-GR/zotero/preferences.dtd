@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Η διαδρομή της διαμεσολαβούμενης σελίδας, χωρίς την πλάγια κάθετο στην αρχή (π.χ. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Επιλογές διαμεσολαβητή">
 <!ENTITY zotero.preferences.proxies.scheme "Σχήμα">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Ενεργοποίηση της ανακατεύθυνσης διαμεσολαβητή">
 <!ENTITY zotero.preferences.proxies.variables "Στο σχήμα διακομιστών σας, μπορείτε να χρησιμοποιείτε τις ακόλουθες μεταβλητές:">
 <!ENTITY zotero.preferences.quickCopy.caption "Γρήγορη αντιγραφή">

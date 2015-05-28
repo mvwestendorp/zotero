@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - A proxyn keresztül megtekintett oldal címe az első perjel nélkül (pl.: about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proxy-beállítások">
 <!ENTITY zotero.preferences.proxies.scheme "Séma">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Emlékezzen a proxyn keresztül megtekintett erőforrásokra">
 <!ENTITY zotero.preferences.proxies.variables "A következő változók használhatóak a proxy sémában:">
 <!ENTITY zotero.preferences.quickCopy.caption "Gyorsmásolás">

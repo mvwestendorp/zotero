@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - เส้นทางของหน้าพร็อกซี่ไม่ใส่เครื่องหมายทับ &quot;/&quot; นำหน้า (เช่น about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "ตัวเลือกของพร็อกซี่">
 <!ENTITY zotero.preferences.proxies.scheme "แบบแผน">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "เปิดการเปลี่ยนทิศทางพร็อกซี่">
 <!ENTITY zotero.preferences.proxies.variables "คุณอาจใช้ตัวแปรต่อไปนี้ในแบบแผนพร็อกซี่ของคุณ:">
 <!ENTITY zotero.preferences.quickCopy.caption "ทำสำเนาอย่างเร็ว">

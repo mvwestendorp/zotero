@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - مسار الصفحة (مثل، about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "خيارات الوكيل">
 <!ENTITY zotero.preferences.proxies.scheme "المخطط">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "اعادة التوجيه عن طريق الوكلاء المستخدمين مسبقا">
 <!ENTITY zotero.preferences.proxies.variables "يمكنك استخدام المتغيرات التالية في مخطط الوكيل لديك:">
 <!ENTITY zotero.preferences.quickCopy.caption "النسخ السريع">

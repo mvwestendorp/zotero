@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "檔案與資料夾">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "快捷鍵">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "庫目錄：">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "連到的附件檔的庫目錄">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero 會使用連到的附件檔的庫目錄內的相對路徑，讓你可在不同電腦存取檔案，只要庫目錄內的檔案結構保持不變即可。">
@@ -115,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "雜項">
 <!ENTITY zotero.preferences.openAboutConfig "開啟 about:config">
 <!ENTITY zotero.preferences.openAboutMemory "開啟 about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
+<!ENTITY zotero.preferences.openCSLEdit "開啟文獻格式編輯器">
+<!ENTITY zotero.preferences.openCSLPreview "預覽文獻格式">
 <!ENTITY zotero.preferences.openurl.caption "開啟 URL">
 <!ENTITY zotero.preferences.openurl.custom "自訂…">
 <!ENTITY zotero.preferences.openurl.search "搜尋解析器">
@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - 透過 proxy 連接之網頁的路徑名稱，需去除開頭的斜線 (例如：about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "代理伺服器選項">
 <!ENTITY zotero.preferences.proxies.scheme "架構式">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "啟用代理伺服器轉導向">
 <!ENTITY zotero.preferences.proxies.variables "可使用後面變數於代理伺服器架構式：">
 <!ENTITY zotero.preferences.quickCopy.caption "快速複製">

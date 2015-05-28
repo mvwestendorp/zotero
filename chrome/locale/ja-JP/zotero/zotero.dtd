@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "エディタを表示">
 <!ENTITY zotero.item.add "追加">
 <!ENTITY zotero.item.attachment.file.show "ファイルを表示">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "姓と名を置き替える">
 <!ENTITY zotero.item.textTransform "テキストの大文字・小文字を指定する">
 <!ENTITY zotero.item.textTransform.sentencecase "各文の先頭を大文字に">
 <!ENTITY zotero.item.textTransform.titlecase "各単語の先頭を大文字に">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "アクセス日時">
 <!ENTITY zotero.items.archiveLocation_column "アーカイブ内の場所">
 <!ENTITY zotero.items.archive_column "アーカイブ">

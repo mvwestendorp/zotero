@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "显示编辑器">
 <!ENTITY zotero.item.add "添加">
 <!ENTITY zotero.item.attachment.file.show "打开文件目录">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "交换 首/尾 名称">
 <!ENTITY zotero.item.textTransform "格式变换">
 <!ENTITY zotero.item.textTransform.sentencecase "句首大写">
 <!ENTITY zotero.item.textTransform.titlecase "标题大写">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "访问时间">
 <!ENTITY zotero.items.archiveLocation_column "归档位置">
 <!ENTITY zotero.items.archive_column "归档">

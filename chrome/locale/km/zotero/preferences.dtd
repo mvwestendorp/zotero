@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - ផ្លូវនែទំព័រមានសិទ្ធិប្រទានរួមទាំងបន្ទាត់ទ្រេត (ឧទាហរណ៍ about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "ជម្រើសសិទ្ធិប្រទាន">
 <!ENTITY zotero.preferences.proxies.scheme "គម្រោងការ">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "អាចប្តូរទិសសិទ្ធិប្រទាន">
 <!ENTITY zotero.preferences.proxies.variables "អ្នកអាចប្រើធាតុផ្សេងៗដូចខាងក្រោមនៅក្នុងគម្រោការសិទិ្ធប្រទានរបស់អ្នក:">
 <!ENTITY zotero.preferences.quickCopy.caption "ចម្លងលឿន">

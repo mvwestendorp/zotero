@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Path laman yang terproksi selain daripada slash utama (misalnya, tentang/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Pilihan Proksi">
 <!ENTITY zotero.preferences.proxies.scheme "Skema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Aktifkan pengalihan proksi">
 <!ENTITY zotero.preferences.proxies.variables "Anda dapat menggunakan variabel-variabel berikut ini dalam skema proksi Anda:">
 <!ENTITY zotero.preferences.quickCopy.caption "Salin Cepat">

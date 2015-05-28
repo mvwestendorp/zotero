@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Calea paginii proxy, excluzând primele bare oblice (de ex., despre/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opțiuni pentru serverele proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Schemă">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Reamintește automat resursele proxy">
 <!ENTITY zotero.preferences.proxies.variables "Ai putea folosi următoarele variabile în schema serverului tău proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Copiere rapidă">

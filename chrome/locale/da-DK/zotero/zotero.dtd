@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Vis editor">
 <!ENTITY zotero.item.add "Tilføj">
 <!ENTITY zotero.item.attachment.file.show "Vis fil">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Ombyt fornavn/efternavn">
 <!ENTITY zotero.item.textTransform "Transformer tekst">
 <!ENTITY zotero.item.textTransform.sentencecase "Første bogstav med stort">
 <!ENTITY zotero.item.textTransform.titlecase "Betydende ord med stort ">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Set">
 <!ENTITY zotero.items.archiveLocation_column "Loc. i arkiv">
 <!ENTITY zotero.items.archive_column "Arkiv">

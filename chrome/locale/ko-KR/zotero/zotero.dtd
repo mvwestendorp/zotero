@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "편집자 보이기">
 <!ENTITY zotero.item.add "추가">
 <!ENTITY zotero.item.attachment.file.show "파일 보이기">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "글자 변형">
 <!ENTITY zotero.item.textTransform.sentencecase "문장 첫머리는 대문자">
 <!ENTITY zotero.item.textTransform.titlecase "글차 첫머리는 대문자">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "접근일">
 <!ENTITY zotero.items.archiveLocation_column "Loc. in Archive">
 <!ENTITY zotero.items.archive_column "Archive">

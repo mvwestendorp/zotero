@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Išplėsti visas anotacijas">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Paryškinti tekstą">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Panaikinti teksto paryškinimą">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Nuoroda:">
+<!ENTITY zotero.attachLink.label.title "Pavadinimas">
+<!ENTITY zotero.attachLink.title "Įtraukti nuorodą (URI)">
 <!ENTITY zotero.bibliography.bibliography "Bibliografija">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopijuoti į iškaprinę">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,8 +59,8 @@
 <!ENTITY zotero.general.note "Pastaba:">
 <!ENTITY zotero.general.ok "Gerai">
 <!ENTITY zotero.general.optional "(Neprivalomas)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Atnaujinti">
+<!ENTITY zotero.general.saveAs "Įrašyti kaip...">
 <!ENTITY zotero.general.selectAll "Pažymėti viską">
 <!ENTITY zotero.integration.addEditCitation.title "Pridėti/redaguoti citavimą">
 <!ENTITY zotero.integration.classicView.label "Klasikinis rodinys">
@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Rodyti rengyklę">
 <!ENTITY zotero.item.add "Pridėti">
 <!ENTITY zotero.item.attachment.file.show "Atverti failo aplanką">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Sukeisti vardus ir pavardes">
 <!ENTITY zotero.item.textTransform "Teksto trasformavimas">
 <!ENTITY zotero.item.textTransform.sentencecase "Sakinio pavidalu">
 <!ENTITY zotero.item.textTransform.titlecase "Antraštės raidžių lygis">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Žiūrėta">
 <!ENTITY zotero.items.archiveLocation_column "Vieta archyve">
 <!ENTITY zotero.items.archive_column "Archyvas">

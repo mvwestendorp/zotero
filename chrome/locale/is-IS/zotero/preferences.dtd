@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Slóðin á leppuðu síðuna en án upphafsskástriks (t.d. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Leppastillingar">
 <!ENTITY zotero.preferences.proxies.scheme "Skipulag">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Virkja framvísun leppa">
 <!ENTITY zotero.preferences.proxies.variables "Þú mátt nota eftirtaldar breytur í leppaskipulagi:">
 <!ENTITY zotero.preferences.quickCopy.caption "Flýtiafrit">

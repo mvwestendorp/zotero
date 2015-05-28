@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Pfad der Zieladresse ohne den Querstrich am Anfang (z. B. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proxy-Optionen">
 <!ENTITY zotero.preferences.proxies.scheme "Schema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Proxy-Weiterleitung aktivieren">
 <!ENTITY zotero.preferences.proxies.variables "Sie können die folgenden Variablen in Ihrem Proxy-Schema verwenden:">
 <!ENTITY zotero.preferences.quickCopy.caption "Quick-Copy">

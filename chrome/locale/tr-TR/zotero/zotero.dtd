@@ -38,8 +38,8 @@
 <!ENTITY zotero.downloadManager.label "Zotero'ya Kaydet">
 <!ENTITY zotero.downloadManager.noPDFTools.description "Bu özelliği kullanabilmek için, önce Zotero tercihlerindeki Arama bölmesinde PDF araçlarını kurmanız gerekmektedir.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Ekler şu an seçili olan kitaplığa kaydedilemedi. Bu eser kitaplığınıza kaydedilecek.">
-<!ENTITY zotero.duplicatesMerge.fieldSelect "Eserin diğer sürümlerinden hangi alanların tutulacağını seç:">
-<!ENTITY zotero.duplicatesMerge.versionSelect "Eserin hangi sürümünün asıl eser olarak kullanılacağını seç:">
+<!ENTITY zotero.duplicatesMerge.fieldSelect "Eserin diğer versiyonlarından hangi alanların tutulacağını seç:">
+<!ENTITY zotero.duplicatesMerge.versionSelect "Eserin hangi versiyonunun asıl eser olarak kullanılacağını seç:">
 <!ENTITY zotero.errorReport.notReviewed "Genellikle hata raporları forumlara gönderilmediği sürece incelenmez.">
 <!ENTITY zotero.errorReport.postToForums "Lütfen Zotero forumlarına (forums.zotero.org) bir ileti gönderiniz, ve bu iletide bu Rapor Kimlik Numarasını, sorunun bir tanımı ve bu sorunu yeniden oluşturabilmek için yapılanları adım adım yazınız.">
 <!ENTITY zotero.errorReport.reportID "Rapor Kimlik Numarası:">
@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Düzenleyiciyi Göster">
 <!ENTITY zotero.item.add "Ekle">
 <!ENTITY zotero.item.attachment.file.show "Dosyayı Göster">
+<!ENTITY zotero.item.copyAsURL "URL'i Kopyala">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "İlk ve Soyadları Takas Et">
 <!ENTITY zotero.item.textTransform "Metni Dönüştür">
 <!ENTITY zotero.item.textTransform.sentencecase "Cümle Biçimi">
 <!ENTITY zotero.item.textTransform.titlecase "Başlık Biçimi">
+<!ENTITY zotero.item.viewOnline "Çevrimiçi Göster">
 <!ENTITY zotero.items.accessDate_column "Erişildi">
 <!ENTITY zotero.items.archiveLocation_column "Arşivdeki Yeri">
 <!ENTITY zotero.items.archive_column "Arşiv">

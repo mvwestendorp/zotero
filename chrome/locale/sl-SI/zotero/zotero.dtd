@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Pokaži urejevalnik">
 <!ENTITY zotero.item.add "Dodaj">
 <!ENTITY zotero.item.attachment.file.show "Pokaži datoteko">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Zamenjaj ime/priimek">
 <!ENTITY zotero.item.textTransform "Preoblikuj besedilo">
 <!ENTITY zotero.item.textTransform.sentencecase "Kot v stavku">
 <!ENTITY zotero.item.textTransform.titlecase "Velike Začetnice">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Dostopano">
 <!ENTITY zotero.items.archiveLocation_column "Mesto v arhivu">
 <!ENTITY zotero.items.archive_column "Arhiv">

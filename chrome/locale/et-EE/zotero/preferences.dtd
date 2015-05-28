@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Lehekülje rada ilma kaldkriipsuta (nt about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proksi seaded">
 <!ENTITY zotero.preferences.proxies.scheme "Skeem">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Pidada meeles prokside kaudu kasutatavad allikad">
 <!ENTITY zotero.preferences.proxies.variables "Proksi skeemides võib kasutada järgnevaid muutujaid:">
 <!ENTITY zotero.preferences.quickCopy.caption "Kiirkopeerimine">

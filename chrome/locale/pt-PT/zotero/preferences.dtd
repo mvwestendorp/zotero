@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - O caminho para a cópia local da página excluindo a barra inicial (e.g., about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opções de Cópias Locais">
 <!ENTITY zotero.preferences.proxies.scheme "Esquema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Lembrar automaticamente recursos com cópia local">
 <!ENTITY zotero.preferences.proxies.variables "Pode usar as seguintes variáveis no seu esquema de cópias locais:">
 <!ENTITY zotero.preferences.quickCopy.caption "Cópia Rápida">

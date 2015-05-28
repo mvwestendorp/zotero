@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - مسیر صفحه‌ای که نیاز به پیشکار دارد، بدون علامت ممیز اول (مثلا about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "گزینه‌های پیشکار">
 <!ENTITY zotero.preferences.proxies.scheme "الگو">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "فعال کردن هدایت به پیشکار">
 <!ENTITY zotero.preferences.proxies.variables "می‌توانید از متغیرهای زیر در الگوی پیشکار خود استفاده کنید:">
 <!ENTITY zotero.preferences.quickCopy.caption "رونوشت سریع">

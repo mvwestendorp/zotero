@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - 프록시로 연결된 페이지의 경로. 맨 앞에 / 제외(예 : about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "프록시 선택사항">
 <!ENTITY zotero.preferences.proxies.scheme "Scheme">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "이전에 사용한 프록시를 통해 투명하게 요청 재지정">
 <!ENTITY zotero.preferences.proxies.variables "해당 프록시 구조에 있는 변수를 사용해야 합니다 : ">
 <!ENTITY zotero.preferences.quickCopy.caption "빠른 복사">

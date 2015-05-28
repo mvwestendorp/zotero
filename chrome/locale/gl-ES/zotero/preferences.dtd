@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - A ruta da páxina a través do proxy excluíndo a barra á esquerda (slash) (por exemplo, about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opcións de Proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Esquema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Activar o redireccionamento por proxy">
 <!ENTITY zotero.preferences.proxies.variables "Pode usar as seguintes variables no seu esquema de proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Copia rápida">

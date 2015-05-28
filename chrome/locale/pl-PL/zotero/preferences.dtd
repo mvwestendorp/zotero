@@ -24,15 +24,15 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Brak aktualnie zainstalowanych wtyczek procesorów tekstu.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Użyj klasycznego okna Dodaj cytowanie">
 <!ENTITY zotero.preferences.dataDir "Miejsce przechowywania:">
-<!ENTITY zotero.preferences.dataDir.choose "Przeglądaj">
+<!ENTITY zotero.preferences.dataDir.choose "Przeglądaj...">
 <!ENTITY zotero.preferences.dataDir.custom "Określ katalog:">
 <!ENTITY zotero.preferences.dataDir.reveal "Wyświetl katalog bazy danych">
 <!ENTITY zotero.preferences.dataDir.useProfile "Użyj katalogu profilu">
 <!ENTITY zotero.preferences.dbMaintenance "Konserwacja bazy danych">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "Sprawdź spójność bazy danych">
-<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Resetuj style...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Resetuj translatory...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Resetuj translatory i style...">
+<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Przywróć style...">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Przywróć translatory...">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Przywróć translatory i style...">
 <!ENTITY zotero.preferences.debugOutputLogging "Logowanie informacji debugowania">
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Wyczyść wyjście">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Włącz po ponownym uruchomieniu">
@@ -106,7 +106,7 @@
 <!ENTITY zotero.preferences.lang.transliteration "Transliteration">
 <!ENTITY zotero.preferences.lang.ui "UI:">
 <!ENTITY zotero.preferences.lang.variant "Variant">
-<!ENTITY zotero.preferences.locate.addDescription "Aby dodać silnik wyszukiwania, którego nie ma na liście, odwiedź określony silnik wyszukiwania w przeglądarce i wybierz 'Dodaj' na pasku wyszukiwania Zotero.">
+<!ENTITY zotero.preferences.locate.addDescription "Aby dodać silnik wyszukiwania, którego nie ma na liście, odwiedź określony silnik wyszukiwania w przeglądarce i wybierz &quot;Dodaj&quot; na pasku wyszukiwania Zotero.">
 <!ENTITY zotero.preferences.locate.description "Opis">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Zarządzanie silnikami wyszukiwania">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "Silnik wyszukiwania rozszerza możliwości menu wyszukiwania w panelu informacji. Włączając silniki wyszukiwania na poniższej liście, zostaną one dodane do rozwijanego i mogą zostać użyte do wyszukiwania zasobów z twojej biblioteki w sieci internet.">
@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Ścieżka do trasowanej strony bez pierwszego ukośnika (np. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opcje serwerów proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Schemat">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Niewidocznie przekierowuj żądania za pomocą poprzednio używanych serwerów proxy">
 <!ENTITY zotero.preferences.proxies.variables "Możesz użyć następujących zmiennych w swoim schemacie proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Szybka kopia">
@@ -166,7 +167,7 @@
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Format wyjściowy">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Ustawienia właściwe tylko dla danej strony:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Zgłoś niedziałający translator strony">
-<!ENTITY zotero.preferences.search.fulltextCache "Bufor wyszukiwań typu &quot;full-text&quot;">
+<!ENTITY zotero.preferences.search.fulltextCache "Bufor wyszukiwań pełnotekstowych">
 <!ENTITY zotero.preferences.search.indexStats "Statystyki indeksowania">
 <!ENTITY zotero.preferences.search.indexStats.indexed "Zindeksowane:">
 <!ENTITY zotero.preferences.search.indexStats.partial "Częściowo zindeksowane:">

@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Pot posredovane strani brez vodilne poševnice (npr. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Možnosti posredovalnih strežnikov">
 <!ENTITY zotero.preferences.proxies.scheme "Shema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Omogoči preusmeritev posredovalnih strežnikov">
 <!ENTITY zotero.preferences.proxies.variables "V shemi posredovalnih strežnikov lahko uporabite naslednje spremenljivke:">
 <!ENTITY zotero.preferences.quickCopy.caption "Hitro kopiraj">

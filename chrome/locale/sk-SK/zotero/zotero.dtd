@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Zobraziť editor">
 <!ENTITY zotero.item.add "Pridať">
 <!ENTITY zotero.item.attachment.file.show "Zobraziť súbor">
+<!ENTITY zotero.item.copyAsURL "Kopírovať ako URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Vymeniť meno/priezvisko">
 <!ENTITY zotero.item.textTransform "Preveď text">
 <!ENTITY zotero.item.textTransform.sentencecase "Prvé veľké písmeno vo vete">
 <!ENTITY zotero.item.textTransform.titlecase "Prvé Veľké">
+<!ENTITY zotero.item.viewOnline "Zobraziť online">
 <!ENTITY zotero.items.accessDate_column "Citované">
 <!ENTITY zotero.items.archiveLocation_column "Umiestnenie v archíve">
 <!ENTITY zotero.items.archive_column "Archív">

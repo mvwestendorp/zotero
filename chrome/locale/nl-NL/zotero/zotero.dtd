@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Bewerker tonen">
 <!ENTITY zotero.item.add "Toevoegen">
 <!ENTITY zotero.item.attachment.file.show "Bestand tonen">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Draai Voor-/Achter- namen om">
 <!ENTITY zotero.item.textTransform "Hoofdlettergebruik wijzigen">
 <!ENTITY zotero.item.textTransform.sentencecase "Eerste woord (van een zin)">
 <!ENTITY zotero.item.textTransform.titlecase "Alle woorden (Elke Eerste Letter)">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Geraadpleegd">
 <!ENTITY zotero.items.archiveLocation_column "Locatie in archief">
 <!ENTITY zotero.items.archive_column "Archief">

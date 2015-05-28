@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Het pad van de proxy-omgeleide webpagina zonder begin-slash (b.v. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proxy instellingen">
 <!ENTITY zotero.preferences.proxies.scheme "Systeem">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Proxy-omleiding inschakelen">
 <!ENTITY zotero.preferences.proxies.variables "U kunt de volgende variabelen gebruiken in uw proxy-systeem:">
 <!ENTITY zotero.preferences.quickCopy.caption "Snelle kopie">

@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - шлях сторінки що перенаправляється, виключаючи першу косу риску (наприклад, about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Налаштування проксі">
 <!ENTITY zotero.preferences.proxies.scheme "Схема">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Використати перенаправлення">
 <!ENTITY zotero.preferences.proxies.variables "Ви можете використовувати наступні змінні в схемі проксі:">
 <!ENTITY zotero.preferences.quickCopy.caption "Швидке копіювання">

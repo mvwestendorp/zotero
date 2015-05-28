@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Cesta ke konkrétní stránce bez prvního lomítka (např. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Možnosti Proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Schéma">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Automaticky přesměrovávat požadavky skrz dříve použité proxy servery.">
 <!ENTITY zotero.preferences.proxies.variables "Ve svém proxy schématu můžete použít následující proměnné:">
 <!ENTITY zotero.preferences.quickCopy.caption "Rychlé kopírování">

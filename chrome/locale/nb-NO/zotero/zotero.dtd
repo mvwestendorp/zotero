@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Show Editor">
 <!ENTITY zotero.item.add "Legg til">
 <!ENTITY zotero.item.attachment.file.show "Vis fil">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Gjør om tekst">
 <!ENTITY zotero.item.textTransform.sentencecase "Sentence case">
 <!ENTITY zotero.item.textTransform.titlecase "Tittel-format">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Sist åpnet">
 <!ENTITY zotero.items.archiveLocation_column "Loc. in Archive">
 <!ENTITY zotero.items.archive_column "Archive">

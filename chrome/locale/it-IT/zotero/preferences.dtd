@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Il percorso della pagina raggiunta tramite proxy, senza lo slash iniziale (es. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opzioni del proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Schema">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Abilita il reindirizzamento tramite proxy">
 <!ENTITY zotero.preferences.proxies.variables "Puoi usare queste variabili nello schema del proxy">
 <!ENTITY zotero.preferences.quickCopy.caption "Copia veloce">

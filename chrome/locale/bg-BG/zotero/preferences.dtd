@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Пътека към проксираната страница без водещата наклонена черта (напр., about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Настройки на проксито">
 <!ENTITY zotero.preferences.proxies.scheme "Схема">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Автоматично запомня ресурсите на прокситата">
 <!ENTITY zotero.preferences.proxies.variables "Можете да използвате следните променливи във Вашата прокси схема:">
 <!ENTITY zotero.preferences.quickCopy.caption "Бързо копиране">

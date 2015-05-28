@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - El camí de la pàgina del servidor intermediari sense la barra principal (per exemple, about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opcions del servidor intermediari">
 <!ENTITY zotero.preferences.proxies.scheme "Combinació">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Habilita la redirecció del servidor intermediari">
 <!ENTITY zotero.preferences.proxies.variables "Podeu fer servir les variables següents en la combinació del servidor intermediari:">
 <!ENTITY zotero.preferences.quickCopy.caption "Còpia ràpida">

@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Stien til proxy-siden med udeladelse af første skråstreg (fx. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proxy-indstillinger">
 <!ENTITY zotero.preferences.proxies.scheme "Scheme">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Send forespørgsler gennem tidligere anvendte proxyer">
 <!ENTITY zotero.preferences.proxies.variables "Du kan bruge følgende variable ved tilknytningen af proxyer">
 <!ENTITY zotero.preferences.quickCopy.caption "Hurtig kopi">

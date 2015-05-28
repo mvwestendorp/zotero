@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Le chemin vers la page transmise via un serveur mandataire en excluant la barre oblique initiale (ex. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Options des serveurs mandataires">
 <!ENTITY zotero.preferences.proxies.scheme "Schéma">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Activer la redirection par un serveur mandataire (proxy)">
 <!ENTITY zotero.preferences.proxies.variables "Vous pouvez utiliser les variables suivantes dans votre schéma de mandataire :">
 <!ENTITY zotero.preferences.quickCopy.caption "Copie rapide">

@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Redaktori näitamine">
 <!ENTITY zotero.item.add "Lisada">
 <!ENTITY zotero.item.attachment.file.show "Faili näitamine">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Teksti muutmine">
 <!ENTITY zotero.item.textTransform.sentencecase "Lause tõst">
 <!ENTITY zotero.item.textTransform.titlecase "Suurteks Algustähtedeks">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Vaadatud">
 <!ENTITY zotero.items.archiveLocation_column "Loc. in Archive">
 <!ENTITY zotero.items.archive_column "Archive">

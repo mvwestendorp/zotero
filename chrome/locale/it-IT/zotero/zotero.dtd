@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Mostra l'editor">
 <!ENTITY zotero.item.add "Aggiungi">
 <!ENTITY zotero.item.attachment.file.show "Visualizza file">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Modifica testo">
 <!ENTITY zotero.item.textTransform.sentencecase "Maiuscole">
 <!ENTITY zotero.item.textTransform.titlecase "Maiuscolo">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Consultato">
 <!ENTITY zotero.items.archiveLocation_column "Posizione in archivio">
 <!ENTITY zotero.items.archive_column "Archivio">

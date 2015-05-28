@@ -5,9 +5,9 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "展開所有備註">
 <!ENTITY zotero.annotate.toolbar.highlight.label "高亮標示文字">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "去除文字的高亮標示">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "連結：">
+<!ENTITY zotero.attachLink.label.title "標題：">
+<!ENTITY zotero.attachLink.title "附加連結到 URI…">
 <!ENTITY zotero.bibliography.bibliography "參考文獻表">
 <!ENTITY zotero.bibliography.copyToClipboard.label "複製到剪貼簿">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
@@ -59,8 +59,8 @@
 <!ENTITY zotero.general.note "注意：">
 <!ENTITY zotero.general.ok "確定">
 <!ENTITY zotero.general.optional "(選用)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "重新整理">
+<!ENTITY zotero.general.saveAs "另存新檔...">
 <!ENTITY zotero.general.selectAll "全選">
 <!ENTITY zotero.integration.addEditCitation.title "新增/編輯引用文獻條">
 <!ENTITY zotero.integration.classicView.label "傳統的外觀">
@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "顯示編輯器">
 <!ENTITY zotero.item.add "加入">
 <!ENTITY zotero.item.attachment.file.show "顯示檔案">
+<!ENTITY zotero.item.copyAsURL "複製成 URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "互換西方語言方式的名/姓">
 <!ENTITY zotero.item.textTransform "轉換文字">
 <!ENTITY zotero.item.textTransform.sentencecase "句首字母大小寫">
 <!ENTITY zotero.item.textTransform.titlecase "標題大小寫">
+<!ENTITY zotero.item.viewOnline "線上檢視">
 <!ENTITY zotero.items.accessDate_column "取用">
 <!ENTITY zotero.items.archiveLocation_column "文件庫中的位置">
 <!ENTITY zotero.items.archive_column "存庫">

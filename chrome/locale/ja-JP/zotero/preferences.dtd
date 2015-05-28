@@ -152,6 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - 先頭のスラッシュを除いたプロキシページのパス (例, about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "プロキシ設定">
 <!ENTITY zotero.preferences.proxies.scheme "スキーム">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "プロキシ転送を有効化する">
 <!ENTITY zotero.preferences.proxies.variables "以下の変数をあなたのプロキシ・スキームに使用することができます:">
 <!ENTITY zotero.preferences.quickCopy.caption "クィックコピー">

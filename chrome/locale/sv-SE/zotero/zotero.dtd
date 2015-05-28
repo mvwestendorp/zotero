@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Visa redigerare">
 <!ENTITY zotero.item.add "Lägg till">
 <!ENTITY zotero.item.attachment.file.show "Visa fil">
+<!ENTITY zotero.item.copyAsURL "Kopiera som URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Skifta för-/efternamn">
 <!ENTITY zotero.item.textTransform "Omvandla text">
 <!ENTITY zotero.item.textTransform.sentencecase "Vanlig versalisering">
 <!ENTITY zotero.item.textTransform.titlecase "Engelsk Titelskrivning">
+<!ENTITY zotero.item.viewOnline "Visa online">
 <!ENTITY zotero.items.accessDate_column "Hämtdatum">
 <!ENTITY zotero.items.archiveLocation_column "Hitta i arkiv">
 <!ENTITY zotero.items.archive_column "Arkiv">

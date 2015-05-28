@@ -101,11 +101,13 @@
 <!ENTITY zotero.integration.showEditor.label "Εμφάνιση επεξεργαστή">
 <!ENTITY zotero.item.add "Προσθήκη">
 <!ENTITY zotero.item.attachment.file.show "Εμφάνιση αρχείου">
+<!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Εναλλαγή πρώτου ονόματος/επιθέτου">
 <!ENTITY zotero.item.textTransform "Μετασχηματισμός κειμένου">
 <!ENTITY zotero.item.textTransform.sentencecase "Μορφή γραμμάτων πρότασης">
 <!ENTITY zotero.item.textTransform.titlecase "Μορφή γραμμάτων τίτλου">
+<!ENTITY zotero.item.viewOnline "View Online">
 <!ENTITY zotero.items.accessDate_column "Πρόσβαση">
 <!ENTITY zotero.items.archiveLocation_column "Θέση στο Αρχείο">
 <!ENTITY zotero.items.archive_column "Αρχείο">
