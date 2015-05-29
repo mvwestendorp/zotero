@@ -2009,6 +2009,7 @@ Zotero.Translate.Import.prototype._loadTranslator = function(translator, callbac
 	// call super
 	var me = this;
 	Zotero.Translate.Base.prototype._loadTranslator.call(this, translator, function() {
+        Zotero.debug("XXXX translator: " + translator.label);
 		me._loadTranslatorPrepareIO(translator, callback);
 	});
 }
