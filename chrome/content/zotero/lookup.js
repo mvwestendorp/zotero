@@ -117,6 +117,10 @@ const Zotero_Lookup = new function () {
 
 				// be lenient about translators
 				var translators = translate.getTranslators();
+                for (var i=0,ilen=translators.length;i<ilen;i++) {
+                    Zotero.debug("XXXX LISTED: "+translators[i].label+" "+translators[i].priority);
+                }
+
 				translate.setTranslator(translators);
 
 				translate.setHandler("done", function(translate, success) {

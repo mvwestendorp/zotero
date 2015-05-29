@@ -1514,6 +1514,7 @@ Zotero.Translate.Base.prototype = {
 		} else {
 			Zotero.debug("\tNo suitable translators found");
 		}
+        Zotero.debug("XXXX COLLECTED");
 		this._runHandler("translators", this._foundTranslators);
 	},
 	
