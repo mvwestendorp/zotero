@@ -1826,7 +1826,7 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} zoteroItem
 	 * @return {Object} The CSL item
 	 */
-    "itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
+	"itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
 		if (zoteroItem instanceof Zotero.Item) {
 			zoteroItem = Zotero.Utilities.Internal.itemToExportFormat(zoteroItem);
 		}
@@ -1931,14 +1931,16 @@ Zotero.Utilities = {
 		var creators = zoteroItem.creators;
 
 		if (!portableJSON && !stopAuthority) {
-            if (!creators) creators = [];
+			if (!creators) creators = [];
 			if (cslItem.authority) {
 				var nameObj = {
 					'creatorType':'authority',
 					'lastName':cslItem.authority,
 					'firstName':'',
 					'fieldMode': 1,
-					'multi':{'_key':{}}
+					'multi':{
+						'_key': {}
+					}
 				}
 				// _lsts not used in cslItem. Arguably it could be, to fix priorities. One day.
 				for (var langTag in cslItem.multi._keys.authority) {
@@ -1955,7 +1957,7 @@ Zotero.Utilities = {
 				delete cslItem.authority;
 			}
 		}
-        
+		
 		for(var i=0; creators && i<creators.length; i++) {
 			var creator = creators[i];
 			var creatorType = creator.creatorType;
@@ -1969,8 +1971,10 @@ Zotero.Utilities = {
 			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
 				var nameObj = {
 					'family':creator.lastName, 
-					'given':creator.firstName,
-					'isInstitution': creator.fieldMode
+					'given':creator.firstName
+				}
+				if (creator.fieldMode) {
+					nameObj.isInstitution = creator.fieldMode;
 				}
 			} else {
 				var nameObj = {
@@ -1983,15 +1987,19 @@ Zotero.Utilities = {
 				if (!nameObj.multi) {
 					nameObj.multi = {};
 					nameObj.multi._key = {};
-					nameObj.multi.main = creator.multi.main;
+					if (creator.multi.main) {
+						nameObj.multi.main = creator.multi.main;
+					}
 				}
 				for (var langTag in creator.multi._key) {
 					if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
 						nameObj.multi._key[langTag] = {
 							'family':creator.multi._key[langTag].lastName,
-							'given':creator.multi._key[langTag].firstName,
-							'isInstitution': creator.fieldMode
+							'given':creator.multi._key[langTag].firstName
 						};
+						if (creator.fieldMode) {
+							nameObj.multi._key[langTag].isInstitution = creator.fieldMode;
+						}
 					} else {
 						nameObj.multi._key[langTag] = {
 							'family':creator.multi._key[langTag].lastName,
