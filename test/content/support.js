@@ -202,6 +202,21 @@ function resetDB() {
  * Equivalent to JSON.stringify, except that object properties are stringified
  * in a sorted order.
  */
+function stableStringify(obj) {
+	return JSON.stringify(obj, function(k, v){
+		if (v && "object" === typeof v && !Array.isArray(v)) {
+            var o = {},
+                keys = Object.keys(v).sort();
+            for (var i=0,ilen=keys.length;i<ilen;i++) {
+                o[keys[i]] = v[keys[i]];
+            }
+            return o;
+		}
+        return v;
+	}, "\t");
+}
+
+
 function stableStringify(obj, level, label) {
 	if (!level) level = 0;
 	let indent = '\t'.repeat(level);
@@ -280,7 +295,11 @@ function generateAllTypesAndFieldsData() {
 		if (excludeItemTypes.indexOf(itemTypes[i].name) != -1) continue;
 		
 		let itemFields = data[itemTypes[i].name] = {
-			itemType: itemTypes[i].name
+			itemType: itemTypes[i].name,
+            multi: {
+                main: {},
+                _keys: {}
+            }
 		};
 		
 		let fields = Zotero.ItemFields.getItemTypeFields(itemTypes[i].id);
@@ -302,6 +321,11 @@ function generateAllTypesAndFieldsData() {
 			}
 			
 			itemFields[name] = value;
+
+            if (Zotero.multiFieldNames[name]) {
+                itemFields.multi._keys[name] = {};
+                itemFields.multi._keys[name].zz = value + "ay";
+            }
 		}
 		
 		let creatorTypes = Zotero.CreatorTypes.getTypesForItemType(itemTypes[i].id),
@@ -311,7 +335,15 @@ function generateAllTypesAndFieldsData() {
 			creators.push({
 				creatorType: typeName,
 				firstName: typeName + 'First',
-				lastName: typeName + 'Last'
+				lastName: typeName + 'Last',
+                multi: {
+                    _key: {
+                        zz: {
+                            firstName: typeName + 'Firstay',
+                            lastName: typeName + 'Lastay'
+                        }
+                    }
+                }
 			});
 		}
 	}
