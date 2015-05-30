@@ -5726,7 +5726,11 @@ Zotero.Item.prototype.toJSON = function(options) {
 		itemType: Zotero.ItemTypes.getName(this.itemTypeID),
 		tags: [],
 		collections: [],
-		relations: {}
+		relations: {},
+		multi: {
+			main: {},
+			_keys: {}
+		}
 	};
 	
 	// Type-specific fields
@@ -5745,6 +5749,19 @@ Zotero.Item.prototype.toJSON = function(options) {
 			}
 			
 			obj[name] = val;
+
+			let mainLang = this.multi.mainLang(i)
+			if (mainLang) {
+				obj.multi.main[name] = mainlang;
+			}
+
+			let langs = this.multi.langs(name);
+			for (let j=0,jlen=langs.length;j<jlen;j++) {
+				obj.multi._keys[name] = {
+					[langs[j]]: this.multi.get(i, langs[j], true)
+
+				}
+			}
 		}
 	}
 	
@@ -5754,15 +5771,32 @@ Zotero.Item.prototype.toJSON = function(options) {
 		let creators = this.getCreators();
 		for (let i=0; i<creators.length; i++) {
 			let creator = creators[i].ref;
+			let creatorMulti = creators[i].multi;
 			let creatorObj = {
-				creatorType: Zotero.CreatorTypes.getName(creators[i].creatorTypeID)
+				creatorType: Zotero.CreatorTypes.getName(creators[i].creatorTypeID),
+				multi: {
+					_key: {}
+				}
 			};
 			
+			var mainLang = creatorMulti.mainLang();
+			if (creatorMulti.mainLang()) {
+				creatorObj.multi.main = mainLang;
+			}
+
 			if (creator.fieldMode == 1) {
 				creatorObj.name = creator.lastName;
 			} else {
 				creatorObj.lastName = creator.lastName;
 				creatorObj.firstName = creator.firstName;
+			}
+
+			var langs = creatorMulti.langs();
+			for (let j=0,jlen=langs.length;j<jlen;j++) {
+				creatorObj.multi._key[langs[j]] = {
+					lastName: creatorMulti.get("lastName", langs[j]),
+					firstName: creatorMulti.get("firstName", langs[j])
+				}
 			}
 			
 			obj.creators.push(creatorObj);

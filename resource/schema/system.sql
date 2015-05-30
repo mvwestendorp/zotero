@@ -1,4 +1,4 @@
--- 10071
+-- 10072
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -639,12 +639,13 @@ INSERT INTO itemTypeFields VALUES (15, 116, NULL, 16);  -- shortTitle
 INSERT INTO itemTypeFields VALUES (15, 1261, NULL, 17); -- jurisdiction     [ADDED]
 INSERT INTO itemTypeFields VALUES (15, 1, NULL, 18);    -- url
 INSERT INTO itemTypeFields VALUES (15, 27, NULL, 19);   -- accessed
-INSERT INTO itemTypeFields VALUES (15, 123, NULL, 20);  -- archive
-INSERT INTO itemTypeFields VALUES (15, 19, NULL, 21);   -- archiveLocation
-INSERT INTO itemTypeFields VALUES (15, 62, NULL, 22);   -- libraryCatalog
-INSERT INTO itemTypeFields VALUES (15, 18, NULL, 23);   -- callNumber
-INSERT INTO itemTypeFields VALUES (15, 2, NULL, 24);    -- rights
-INSERT INTO itemTypeFields VALUES (15, 22, NULL, 25);   -- extra
+INSERT INTO itemTypeFields VALUES (15, 8, NULL, 20);    -- publisher        [ADDED]
+INSERT INTO itemTypeFields VALUES (15, 123, NULL, 21);  -- archive
+INSERT INTO itemTypeFields VALUES (15, 19, NULL, 22);   -- archiveLocation
+INSERT INTO itemTypeFields VALUES (15, 62, NULL, 23);   -- libraryCatalog
+INSERT INTO itemTypeFields VALUES (15, 18, NULL, 24);   -- callNumber
+INSERT INTO itemTypeFields VALUES (15, 2, NULL, 25);    -- rights
+INSERT INTO itemTypeFields VALUES (15, 22, NULL, 26);   -- extra
 
 -- bill
 INSERT INTO itemTypeFields VALUES (16, 110, NULL, 1);  -- title
@@ -1194,6 +1195,7 @@ INSERT INTO baseFieldMappings VALUES (16, 4, 94); -- bill/volume/codeVolume
 INSERT INTO baseFieldMappings VALUES (17, 4, 97); -- case/volume/reporterVolume
 INSERT INTO baseFieldMappings VALUES (7, 8, 89); -- thesis/publisher/university
 INSERT INTO baseFieldMappings VALUES (11, 8, 21); -- film/publisher/distributor
+-- INSERT INTO baseFieldMappings VALUES (15, 8, 31); -- report/publisher/institution
 INSERT INTO baseFieldMappings VALUES (26, 8, 72); -- audioRecording/publisher/label
 INSERT INTO baseFieldMappings VALUES (28, 8, 76); -- videoRecording/publisher/studio
 INSERT INTO baseFieldMappings VALUES (29, 8, 78); -- tvBroadcast/publisher/network
