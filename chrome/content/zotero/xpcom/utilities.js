@@ -61,8 +61,8 @@ const CSL_TEXT_MAPPINGS = {
 	"publisher-place":["place"],
 	"authority":["court", "legislativeBody", "issuingAuthority","institution"],
 	"committee":["committee"],
-    "gazette-flag":["gazetteFlag"],
-    "document-name":["documentName"],
+	"gazette-flag":["gazetteFlag"],
+	"document-name":["documentName"],
 	"page":["pages"],
 	"volume":["volume","codeNumber"],
 	"volume-title":["volumeTitle"],
@@ -1840,7 +1840,7 @@ Zotero.Utilities = {
 		
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroItem.itemType);
 		
-        // Juris-M: used in FORCE FIELDS below
+		// Juris-M: used in FORCE FIELDS below
 		var itemType = zoteroItem.itemType;
 
 		var cslItem = {
@@ -1867,7 +1867,7 @@ Zotero.Utilities = {
 		// get all text variables (there must be a better way)
 		for(var variable in CSL_TEXT_MAPPINGS) {
 			var fields = CSL_TEXT_MAPPINGS[variable];
-            // Not in Zotero
+			// Not in Zotero
 			if(variable == "URL" && ignoreURL) continue;
 			for(var i=0, n=fields.length; i<n; i++) {
 				var field = fields[i],
@@ -2019,16 +2019,16 @@ Zotero.Utilities = {
 		// get date variables
 		for(var variable in CSL_DATE_MAPPINGS) {
 			for (var i=0,ilen=CSL_DATE_MAPPINGS[variable].length;i<ilen;i++) {
-                var zVar = CSL_DATE_MAPPINGS[variable][i];
-			    var date = zoteroItem[zVar];
-			    if (!date) {
-				    var typeSpecificFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, zVar);
-				    if (typeSpecificFieldID) {
-					    date = zoteroItem[Zotero.ItemFields.getName(typeSpecificFieldID)];
-                        if (date) break;
-				    }
-			    }
-                if (date) break;
+				var zVar = CSL_DATE_MAPPINGS[variable][i];
+				var date = zoteroItem[zVar];
+				if (!date) {
+					var typeSpecificFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, zVar);
+					if (typeSpecificFieldID) {
+						date = zoteroItem[Zotero.ItemFields.getName(typeSpecificFieldID)];
+						if (date) break;
+					}
+				}
+				if (date) break;
 			}
 			if(date) {
 				if (Zotero.Prefs.get('hackUseCiteprocJsDateParser')) {
