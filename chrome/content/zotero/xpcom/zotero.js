@@ -730,25 +730,25 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		var multiBaseFields = ['title', 'shortTitle','publicationTitle', 'series', 'seriesTitle', 'seriesText','publisher', 'reporter', 'court','place','edition','archive','archiveLocation','committee','type','legislativeBody','resolutionLabel','supplementName','institution','jurisdiction'];
 		Zotero.multiFieldIds = {};
 		Zotero.multiFieldNames = {};
-		sql = "SELECT fieldID FROM fields " +
+		var sql = "SELECT fieldID FROM fields " +
 					  "WHERE fieldName in ('" + multiBaseFields.join("','") + "')";
-		res = Zotero.DB.query(sql);
-		for (i = 0, ilen = res.length; i < ilen; i += 1) {
+		var res = Zotero.DB.query(sql);
+		for (let i = 0, ilen = res.length; i < ilen; i += 1) {
 			Zotero.multiFieldIds[parseInt(res[i].fieldID)] = true;
 		}
 
-		sql = "SELECT fieldID from baseFieldMappings " +
+		var sql = "SELECT fieldID from baseFieldMappings " +
 				  "WHERE baseFieldID in ('" + [key for (key in Zotero.multiFieldIds)].join("','") + "')";
-		res = Zotero.DB.query(sql);
-		for (i = 0, ilen = res.length; i < ilen; i += 1) {
+		var res = Zotero.DB.query(sql);
+		for (let i = 0, ilen = res.length; i < ilen; i += 1) {
 			Zotero.multiFieldIds[parseInt(res[i].fieldID)] = true;
 		}
 
-		sql = "SELECT fieldName from fields " +
+		var sql = "SELECT fieldName from fields " +
 				  "WHERE fieldID in (" + [key for (key in Zotero.multiFieldIds)].join(",") + ")";
-		res = Zotero.DB.query(sql);
+		var res = Zotero.DB.query(sql);
 
-		for (i = 0, ilen = res.length; i < ilen; i += 1) {
+		for (let i = 0, ilen = res.length; i < ilen; i += 1) {
 			Zotero.multiFieldNames[res[i].fieldName] = true;
 		}
 
