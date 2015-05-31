@@ -64,6 +64,9 @@
 				"archive_location": {
 					"zz": "Archive locationay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"shortTitle": {
 					"zz": "Short titleay"
 				},
@@ -170,8 +173,17 @@
 				"collection-title": {
 					"zz": "Series titleay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
+				"edition": {
+					"zz": "8ay"
+				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"publisher": {
+					"zz": "Publisheray"
 				},
 				"publisher-place": {
 					"zz": "Placeay"
@@ -288,6 +300,9 @@
 				"event": {
 					"zz": "Resolution labelay"
 				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"jurisdiction": {
 					"zz": "Jurisdictionay"
 				},
@@ -380,6 +395,12 @@
 		"language": "en-US",
 		"multi": {
 			"_keys": {
+				"container-title": {
+					"zz": "Publication titleay"
+				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"shortTitle": {
 					"zz": "Short titleay"
 				},
@@ -677,6 +698,9 @@
 				"collection-title": {
 					"zz": "Seriesay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"edition": {
 					"zz": "8ay"
 				},
@@ -842,6 +866,9 @@
 				"archive_location": {
 					"zz": "Archive locationay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"event-place": {
 					"zz": "Placeay"
 				},
@@ -856,6 +883,9 @@
 				},
 				"shortTitle": {
 					"zz": "Short titleay"
+				},
+				"title": {
+					"zz": "Titleay"
 				}
 			},
 			"main": {}
@@ -961,6 +991,9 @@
 				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"genre": {
+					"zz": "Typeay"
 				},
 				"publisher-place": {
 					"zz": "Placeay"
@@ -1073,6 +1106,9 @@
 				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"publisher": {
+					"zz": "Publisheray"
 				},
 				"publisher-place": {
 					"zz": "Placeay"
@@ -1225,6 +1261,9 @@
 				"collection-title": {
 					"zz": "Seriesay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"event-place": {
 					"zz": "Placeay"
 				},
@@ -1370,6 +1409,9 @@
 				},
 				"collection-title": {
 					"zz": "Seriesay"
+				},
+				"container-title": {
+					"zz": "Publication titleay"
 				},
 				"edition": {
 					"zz": "8ay"
@@ -1599,6 +1641,9 @@
 			"_keys": {
 				"shortTitle": {
 					"zz": "Short titleay"
+				},
+				"title": {
+					"zz": "Titleay"
 				}
 			},
 			"main": {}
@@ -1726,6 +1771,9 @@
 				"collection-title": {
 					"zz": "Seriesay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"edition": {
 					"zz": "8ay"
 				},
@@ -1838,6 +1886,12 @@
 				"archive_location": {
 					"zz": "Archive locationay"
 				},
+				"genre": {
+					"zz": "Typeay"
+				},
+				"publisher": {
+					"zz": "Publisheray"
+				},
 				"shortTitle": {
 					"zz": "Short titleay"
 				},
@@ -1910,6 +1964,12 @@
 		"language": "en-US",
 		"multi": {
 			"_keys": {
+				"container-title": {
+					"zz": "Publication titleay"
+				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"shortTitle": {
 					"zz": "Short titleay"
 				},
@@ -1991,6 +2051,9 @@
 				},
 				"shortTitle": {
 					"zz": "Short titleay"
+				},
+				"title": {
+					"zz": "Titleay"
 				}
 			},
 			"main": {}
@@ -2103,11 +2166,17 @@
 				"committee": {
 					"zz": "Committeeay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"event": {
 					"zz": "Resolution labelay"
 				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"genre": {
+					"zz": "Typeay"
 				},
 				"jurisdiction": {
 					"zz": "Jurisdictionay"
@@ -2532,6 +2601,9 @@
 				"archive_location": {
 					"zz": "Archive locationay"
 				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"shortTitle": {
 					"zz": "Short titleay"
 				},
@@ -2747,6 +2819,9 @@
 				"event-place": {
 					"zz": "Placeay"
 				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"publisher-place": {
 					"zz": "Placeay"
 				},
@@ -2875,6 +2950,9 @@
 				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"genre": {
+					"zz": "Typeay"
 				},
 				"publisher": {
 					"zz": "Publisheray"
@@ -3345,6 +3423,9 @@
 				"event-place": {
 					"zz": "Placeay"
 				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"publisher-place": {
 					"zz": "Placeay"
 				},
@@ -3435,8 +3516,14 @@
 				"archive_location": {
 					"zz": "Archive locationay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"publisher": {
+					"zz": "Publisheray"
 				},
 				"publisher-place": {
 					"zz": "Placeay"
@@ -3492,7 +3579,13 @@
 				"given": "",
 				"isInstitution": 1,
 				"multi": {
-					"_key": {}
+					"_key": {
+						"zz": {
+							"family": "Legislative bodyay",
+							"given": "",
+							"isInstitution": 1
+						}
+					}
 				}
 			}
 		],
@@ -3528,6 +3621,9 @@
 		"language": "en-US",
 		"multi": {
 			"_keys": {
+				"genre": {
+					"zz": "Typeay"
+				},
 				"jurisdiction": {
 					"zz": "Jurisdictionay"
 				},
@@ -3536,6 +3632,9 @@
 				},
 				"shortTitle": {
 					"zz": "Short titleay"
+				},
+				"title": {
+					"zz": "Titleay"
 				}
 			},
 			"main": {}
@@ -3670,8 +3769,14 @@
 				"committee": {
 					"zz": "Committeeay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"genre": {
+					"zz": "Typeay"
 				},
 				"jurisdiction": {
 					"zz": "Jurisdictionay"
@@ -3919,6 +4024,9 @@
 				},
 				"shortTitle": {
 					"zz": "Short titleay"
+				},
+				"title": {
+					"zz": "Titleay"
 				}
 			},
 			"main": {}
@@ -4023,6 +4131,12 @@
 				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"genre": {
+					"zz": "Typeay"
+				},
+				"publisher": {
+					"zz": "Publisheray"
 				},
 				"publisher-place": {
 					"zz": "Placeay"
@@ -4275,8 +4389,14 @@
 				"archive_location": {
 					"zz": "Archive locationay"
 				},
+				"container-title": {
+					"zz": "Publication titleay"
+				},
 				"event-place": {
 					"zz": "Placeay"
+				},
+				"publisher": {
+					"zz": "Publisheray"
 				},
 				"publisher-place": {
 					"zz": "Placeay"
@@ -4381,6 +4501,9 @@
 				"event-place": {
 					"zz": "Placeay"
 				},
+				"publisher": {
+					"zz": "Publisheray"
+				},
 				"publisher-place": {
 					"zz": "Placeay"
 				},
@@ -4459,6 +4582,12 @@
 		"language": "en-US",
 		"multi": {
 			"_keys": {
+				"container-title": {
+					"zz": "Publication titleay"
+				},
+				"genre": {
+					"zz": "Typeay"
+				},
 				"shortTitle": {
 					"zz": "Short titleay"
 				},

@@ -1871,9 +1871,11 @@ Zotero.Utilities = {
 			if(variable == "URL" && ignoreURL) continue;
 			for(var i=0, n=fields.length; i<n; i++) {
 				var field = fields[i],
+					baseFieldName,
 					value = null;
 				
 				if(field in zoteroItem) {
+					baseFieldName = field;
 					value = zoteroItem[field];
 				} else {
 					if (field == 'versionNumber') field = 'version'; // Until https://github.com/zotero/zotero/issues/670
@@ -1882,7 +1884,8 @@ Zotero.Utilities = {
 					if(fieldID
 						&& (typeFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID))
 					) {
-						value = zoteroItem[Zotero.ItemFields.getName(typeFieldID)];
+						baseFieldName = Zotero.ItemFields.getName(typeFieldID);
+						value = zoteroItem[baseFieldName];
 					}
 				}
 				
@@ -1902,13 +1905,13 @@ Zotero.Utilities = {
 					cslItem[variable] = value;
 
 					if (!portableJSON) {
-						if (zoteroItem.multi && zoteroItem.multi.main[field]) {
-							cslItem.multi.main[variable] = zoteroItem.multi.main[field]
+						if (zoteroItem.multi && zoteroItem.multi.main[baseFieldName]) {
+							cslItem.multi.main[variable] = zoteroItem.multi.main[baseFieldName]
 						}
-						if (zoteroItem.multi && zoteroItem.multi._keys[field]) {
+						if (zoteroItem.multi && zoteroItem.multi._keys[baseFieldName]) {
 							cslItem.multi._keys[variable] = {};
-							for (var langTag in zoteroItem.multi._keys[field]) {
-								cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[field][langTag];
+							for (var langTag in zoteroItem.multi._keys[baseFieldName]) {
+								cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[baseFieldName][langTag];
 							}
 						}
 					}
