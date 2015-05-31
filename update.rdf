@@ -6,14 +6,14 @@
             <rdf:Seq>
                 <rdf:li>
                     <rdf:Description>
-                        <em:version>4.0.27m2</em:version>
+                        <em:version>4.0.27m3</em:version>
                         <em:targetApplication>
                             <rdf:Description>
                                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                                 <em:minVersion>3.6</em:minVersion>
                                 <em:maxVersion>38.*</em:maxVersion>
-                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m2/jurism-v4.0.27m2.xpi</em:updateLink>
-                                <em:updateHash>sha1:219b075e965aa0e7a71bf428d0ebd47d1e68d4ae</em:updateHash>
+                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m3/jurism-v4.0.27m3.xpi</em:updateLink>
+                                <em:updateHash>sha1:d2505434cf9b6ef783df9ed67662d605bdcf7d25</em:updateHash>
                             </rdf:Description>
                         </em:targetApplication>
                     </rdf:Description>
@@ -21,12 +21,12 @@
             </rdf:Seq>
         </em:updates>
         <em:signature>
-            MIIBEjALBgkqhkiG9w0BAQ0DggEBABY5LSiI1+DvF6H+dXEhdSuEBqNQt24i++GF
-            AJsnGfDx2853bGkKvk8KoByqNRvUCn+V4/joa2jgbEOFCjXOiKLAlwIqTqPst79b
-            tyz07JvAuhwc1W3/s+XP3zB+NCRDfmyZe+32SxYCl0DmVUha8/4xvCL1NVAnpx62
-            bTBNnr2ddC2Oda9XS9pEm+MSyoRHoU/xAIBT0SYr6XLal+i5QnAXYrYo8jFPrmcO
-            hjpB8E1rBLjyG3t93QkqCOfCOOEIPHSKrQVvV+qw7QKS1ox/5xaHgADVz66tCUCv
-            LVRtsiY4yvcrfwhGk5V132e9UVVIkbCmWgurLqYExmYkA9gMS+4=
+            MIIBEjALBgkqhkiG9w0BAQ0DggEBACmke9l3tC7p9gEvqDDL9HvHw8Qkukp4mgRO
+            QDZ02rTnj3A7XFlOo5nv3hD2Iurm2vWoBT1kyMYcLwvqqsc/RhSVZkxfLnXyNO1e
+            2A7yrLqizO7xovuIaESXGsUtPR1eMtsdW5DHwTOL9YtslMMIPdyRfLXwCnmDD0fo
+            6TNG9+pepNJQ5SL3r7ryTyWmD2ZqedBxLTOdqwNwZqVBilMMjbMB4kISbROYmlaJ
+            m1YUwIIXNzrjWbCOog76Beiv/8aCNYmFIIDxOcIqLWd9YmtzMU00UtB7ONA1eicD
+            2FmhTtyWa2lWqcSBqnZbOtMfGMvWQEhRJimc5E7WM12LwhK33NQ=
         </em:signature>
     </rdf:Description>
 </rdf:RDF>
