@@ -4391,6 +4391,13 @@ var ZoteroPane = new function()
 		window.openDialog('chrome://zotero/content/about.xul', 'about', 'chrome');
 	}
 	
+ 	/**
+	 * Opens the MLZ Welcome dialog
+	 */
+	this.openMlzWelcomeDialog = function() {
+		window.openDialog('chrome://zotero/content/mlzwelcome.xul', 'mlzwelcome', 'chrome');
+	}
+	
 	/**
 	 * Adds or removes a function to be called when Zotero is reloaded by switching into or out of
 	 * the connector

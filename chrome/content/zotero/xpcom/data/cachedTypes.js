@@ -443,6 +443,7 @@ Zotero.ItemTypes = new function() {
 			case 'podcast':
 			case 'presentation':
 			case 'radioBroadcast':
+			case 'regulation':
 			case 'statute':
 			case 'thesis':
 			case 'tvBroadcast':

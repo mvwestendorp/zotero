@@ -1,0 +1,22 @@
+--- chrome/content/zotero/zoteroPane.xul
++++ chrome/content/zotero/zoteroPane.xul
+@@ -68,16 +70,16 @@
+ 	
+ 	<popup id="contentAreaContextMenu">
+ 		<menu id="zotero-content-area-context-menu" label="Zotero">
+-			<menupopup>
++			<menupopup onpopupshowing="ZoteroPane_Local._triggerNode = event.target.triggerNode;">
+ 				<menuitem id="zotero-context-item-from-page" class="menu-iconic"
+ 					label="&zotero.toolbar.newItemFromPage.label;"
+ 					command="cmd_zotero_newItemFromCurrentPage"/>
+ 				<menuitem id="zotero-context-add-to-current-note" class="menu-iconic"
+ 					label="&zotero.contextMenu.addTextToCurrentNote;" hidden="true"
+-					oncommand="var str = event.currentTarget.ownerDocument.popupNode.ownerDocument.defaultView.getSelection().toString(); var uri = event.currentTarget.ownerDocument.popupNode.ownerDocument.location.href; ZoteroPane.addTextToNote(str, uri)"/>
++					oncommand="var str = ZoteroPane_Local._triggerNode.ownerDocument.defaultView.getSelection().toString(); var uri = ZoteroPane_Local._triggerNode.ownerDocument.location.href; ZoteroPane.addTextToNote(str, uri)"/>
+ 				<menuitem id="zotero-context-add-to-new-note" class="menu-iconic"
+ 					label="&zotero.contextMenu.addTextToNewNote;" hidden="true"
+-					oncommand="var str = event.currentTarget.ownerDocument.popupNode.ownerDocument.defaultView.getSelection().toString(); var uri = event.currentTarget.ownerDocument.popupNode.ownerDocument.location.href; var itemID = ZoteroPane.addItemFromPage(); ZoteroPane.newNote(false, itemID, str, uri)"/>
++					oncommand="var str = ZoteroPane_Local._triggerNode.ownerDocument.defaultView.getSelection().toString(); var uri = ZoteroPane_Local._triggerNode.ownerDocument.location.href; var itemID = ZoteroPane.addItemFromPage(); ZoteroPane.newNote(false, itemID, str, uri)"/>
+ 				<menuitem id="zotero-context-save-link-as-item" class="menu-iconic"
+ 					label="&zotero.contextMenu.saveLinkAsItem;" hidden="true"
+ 					oncommand="ZoteroPane.addItemFromURL(window.gContextMenu.linkURL, 'temporaryPDFHack')"/>

@@ -1,0 +1,8 @@
+--- resource/schema/system.sql
++++ resource/schema/system.sql
+@@ -1,4 +1,4 @@
+--- 31
++-- 10072
+ 
+ -- Copyright (c) 2009 Center for History and New Media
+ --                    George Mason University, Fairfax, Virginia, USA

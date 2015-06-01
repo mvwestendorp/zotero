@@ -1,0 +1,31 @@
+XXX This gratuitous MLZ patch dropped in 5.0 migration
+
+--- chrome/content/zotero/xpcom/integration.js
++++ chrome/content/zotero/xpcom/integration.js
+@@ -2409,2 +2509,2 @@
+ 			}
+ 		} else {
+			if(citationItem.key) {
+-				zoteroItem = Zotero.Items.getByKey(citationItem.key);
++				// official Zotero uses key, but library and key seem to be needed
++				// to avoid a (very, very small) possibility of ambiguity.
++				//zoteroItem = Zotero.Items.getByKey(citationItem.key);
++				var m = ("" + citationItem.key).match(/(?:([0-9]+)_)*(.*)/);
++				var libraryID = m[1] === "0" ? null : m[1];
++				zoteroItem = Zotero.Items.getByLibraryAndKey(libraryID, m[2]);
+ 			} else if(citationItem.itemID) {
+ 				zoteroItem = Zotero.Items.get(citationItem.itemID);
+ 			} else if(citationItem.id) {
+@@ -2840,7 +2980,11 @@
+ 		} else {
+ 			for(var itemID in documentData.uncited) {
+ 				// if not yet in item set, add to item set
+-				var zoteroItem = Zotero.Items.getByKey(itemID);
++				// see above
++				//var zoteroItem = Zotero.Items.getByKey(itemID);
++				var m = ("" + itemID).match(/(?:([0-9]+)_)*(.*)/);
++				var libraryID = m[1] === "0" ? null : m[1];
++				var zoteroItem = Zotero.Items.getByLibraryAndKey(libraryID, m[2]);
+ 				if(!zoteroItem) zoteroItem = Zotero.Items.get(itemID);
+ 				if(zoteroItem) this.uncitedItems[zoteroItem.id] = true;
+ 			}

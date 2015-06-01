@@ -554,12 +554,46 @@ Zotero.DataObject.prototype._markAllDataTypeLoadStates = function (loaded) {
  * @param {String} field
  * @param {} oldValue
  */
-Zotero.DataObject.prototype._markFieldChange = function (field, oldValue) {
+
+// XXX zzz Logical problem here. To change value on an existing variant,
+// XXX zzz we need the CURRENT langTag. To change the value on main, we
+// XXX zzz need the OLD langTag. Which is used can depend on whether forceTop
+// XXX zzz is in force, but it's confusing.
+
+Zotero.DataObject.prototype._markFieldChange = function (field, oldValue, langTag, forceTop) {
 	// Only save if object already exists and field not already changed
-	if (!this.id || typeof this._previousData[field] != 'undefined') {
+	if (!this.id) {
 		return;
 	}
-	this._previousData[field] = oldValue;
+    if (langTag) {
+        if (field === 'creators') {
+            if (!this._previousData.multi) {
+                this._previousData.multi = {_key:{}};
+            }
+        } else {
+            if (!this._previousData.multi) {
+                this._previousData.multi = {_keys:{},main:{}};
+            }
+        }
+    }
+    if (!langTag || forceTop) {
+        if (typeof this._previousData[field] == 'undefined') {
+	        this._previousData[field] = oldValue;
+        }
+        if (langTag) {
+            if (typeof this._previousData.multi.main[field] == 'undefined') {
+                this._previousData.multi.main[field] = langTag;
+            }
+        }
+    } else {
+        // langTag && !forceTop
+        if (!this._previousData.multi._keys[field]) {
+            this._previousData.multi._keys[field] = {};
+        }
+        if (typeof this._previousData.multi._keys[field][langTag] == 'undefined') {
+            this._previousData.multi._keys[field][langTag] = oldValue;
+        }
+    }
 }
 
 /**
@@ -583,6 +617,10 @@ Zotero.DataObject.prototype._clearChanged = function (dataType) {
  */
 Zotero.DataObject.prototype._clearFieldChange = function (field) {
 	delete this._previousData[field];
+    if (this._previousData.multi) {
+        delete this._previousData.multi.main[field];
+        delete this._previousData.multi._keys[field];
+    }
 }
 
 

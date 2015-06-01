@@ -724,6 +724,7 @@ Zotero.Utilities.Internal = {
 			
 			return item;
 		}
+
 	},
 	
 	/**

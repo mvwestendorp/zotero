@@ -1,0 +1,73 @@
+--- chrome/content/zotero/xpcom/translation/translate_item.js
++++ chrome/content/zotero/xpcom/translation/translate_item.js
+@@ -710,7 +782,27 @@
+ 					lastName: creator.lastName
+ 				};
+ 			}
+-			
++
++			var defaultLanguage;
++			var multi = {};
++			var lst = [];
++			if (creator.multi) {
++				var itemLanguage;
++				if (item.language) {
++					itemLanguage = item.language.split(/\s*[; ]\s*/)[0];
++				}
++				if (creator.multi.main !== itemLanguage) {
++					defaultLanguage = creator.multi.main;
++				}
++				var lst = creator.multi._lst.slice();
++				for (lang in creator.multi._key) {
++					multi[lang] = {
++						firstName: creator.multi._key[lang].firstName,
++						lastName: creator.multi._key[lang].lastName
++					}
++				}
++			}
++
+ 			var creator = null;
+ 			var creatorDataID = Zotero.Creators.getDataID(fields);
+ 			if(creatorDataID) {
+@@ -728,7 +820,40 @@
+ 				var creatorID = creator.save();
+ 			}
+ 			
+-			newItem.setCreator(creatorIndex++, creator, creatorTypeID);
++			newItem.setCreator(creatorIndex++, creator, creatorTypeID, defaultLanguage);
++
++			for (var j = 0, jlen = lst.length; j < jlen; j += 1) {
++				// Normalize lang
++				// Patch code by Florian Ziche.
++				var langTag = lst[j];
++				if(Zotero.zlsValidator.validate(langTag)) {
++					langTag = [Zotero.zlsValidator.tagdata[j].subtag for (j in Zotero.zlsValidator.tagdata)].join("-");
++					if (!Zotero.CachedLanguages.hasTag(langTag)) {
++						Zotero.CachedLanguages.getNickname(langTag);
++					}
++				} else {
++					continue;
++				}
++				var mcreator = null;
++				var mfields = multi[langTag];
++				var mcreatorDataID = Zotero.Creators.getDataID(mfields);
++				
++				if(mcreatorDataID) {
++					var mlinkedCreators = Zotero.Creators.getCreatorsWithData(mcreatorDataID, this._libraryID);
++					if (mlinkedCreators) {
++						// TODO: support identical creators via popup? ugh...
++						var mcreatorID = mlinkedCreators[0];
++						mcreator = Zotero.Creators.get(mcreatorID);
++					}
++				}
++				if(!mcreator) {
++					mcreator = new Zotero.Creator;
++					mcreator.libraryID = this._libraryID;
++					mcreator.setFields(mfields);
++					var mcreatorID = mcreator.save();
++				}
++				newItem.setCreator(i, mcreator, creatorTypeID, langTag);
++			}
+ 		}
+ 	},
+ 	

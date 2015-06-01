@@ -1,0 +1,10 @@
+--- chrome/content/zotero/xpcom/translation/translate.js
++++ chrome/content/zotero/xpcom/translation/translate.js
+@@ -2010,6 +2013,7 @@
+ 	// call super
+ 	var me = this;
+ 	Zotero.Translate.Base.prototype._loadTranslator.call(this, translator, function() {
++        Zotero.debug("XXXX translator: " + translator.label);
+ 		me._loadTranslatorPrepareIO(translator, callback);
+ 	});
+ }

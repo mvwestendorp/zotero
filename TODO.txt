@@ -1,0 +1,3 @@
+
+translate_item.js.rej contains changes that need to be mapped through
+to creators.js - our next target in the migration, looks like.

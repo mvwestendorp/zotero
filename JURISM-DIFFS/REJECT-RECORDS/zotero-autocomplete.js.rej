@@ -1,0 +1,19 @@
+--- components/zotero-autocomplete.js
++++ components/zotero-autocomplete.js
+@@ -56,13 +56,14 @@
+ 	
+ 	this._zotero.debug("Starting autocomplete search with data '"
+ 		+ searchParams + "'" + " and string '" + searchString + "'");
+-	
++
+ 	searchParams = JSON.parse(searchParams);
+ 	if (!searchParams) {
+ 		throw new Error("Invalid JSON passed to autocomplete");
+ 	}
++
+ 	var [fieldName, , subField] = searchParams.fieldName.split("-");
+-	
++
+ 	this.stopSearch();
+ 	
+ 	var self = this;

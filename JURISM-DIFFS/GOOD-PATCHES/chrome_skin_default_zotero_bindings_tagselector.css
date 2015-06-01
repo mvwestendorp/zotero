@@ -1,0 +1,26 @@
+diff --git a/chrome/skin/default/zotero/bindings/tagselector.css b/chrome/skin/default/zotero/bindings/tagselector.css
+index f5f11e5..4128f8e 100644
+--- a/chrome/skin/default/zotero/bindings/tagselector.css
++++ b/chrome/skin/default/zotero/bindings/tagselector.css
+@@ -74,4 +74,19 @@ toolbarbutton.zotero-clicky
+ #view-settings-menu .toolbarbutton-menu-dropmarker
+ {
+ 	margin-left: -12px !important;
+-}
+\ No newline at end of file
++}
++
++#tags-toggle label.project-name {
++	border-radius: 6px !important;
++	border: 2px solid #333333 !important;
++}
++
++#tags-toggle label.project-name.zotero-clicky {
++	border: 2px solid #333333 !important;
++}
++
++#tags-toggle label.project-name[inScope=false]
++{
++	opacity: .6 !important;
++}
++

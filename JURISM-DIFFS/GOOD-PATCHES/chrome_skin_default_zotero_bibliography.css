@@ -1,0 +1,15 @@
+diff --git a/chrome/skin/default/zotero/bibliography.css b/chrome/skin/default/zotero/bibliography.css
+index bc665e1..b78ecb6 100644
+--- a/chrome/skin/default/zotero/bibliography.css
++++ b/chrome/skin/default/zotero/bibliography.css
+@@ -8,9 +8,3 @@ radio:not(:first-child)
+ {
+ 	margin-top: .5em;
+ }
+-
+-.radioDescription
+-{
+-	margin: 0 0 3px 20px;
+-	font-size: .85em;
+-}
+\ No newline at end of file

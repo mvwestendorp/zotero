@@ -2030,7 +2030,7 @@ Zotero.SearchConditions = new function(){
 					contains: true,
 					doesNotContain: true
 				},
-				table: 'itemCreators',
+				table: '(SELECT * FROM itemCreators UNION SELECT itemID,creatorID,creatorTypeID,orderIndex FROM itemCreatorsAlt)',
 				field: "TRIM(firstName || ' ' || lastName)"
 			},
 			
@@ -2042,7 +2042,7 @@ Zotero.SearchConditions = new function(){
 					contains: true,
 					doesNotContain: true
 				},
-				table: 'itemCreators',
+				table: '(SELECT * FROM itemCreators UNION SELECT itemID,creatorID,creatorTypeID,orderIndex FROM itemCreatorsAlt)',
 				field: 'lastName',
 				special: true
 			},
@@ -2055,10 +2055,10 @@ Zotero.SearchConditions = new function(){
 					contains: true,
 					doesNotContain: true
 				},
-				table: 'itemData',
+				table: '(SELECT * FROM itemData UNION SELECT itemID,fieldID,valueID FROM itemDataAlt)',
 				field: 'value',
 				aliases: yield Zotero.DB.columnQueryAsync("SELECT fieldName FROM fieldsCombined "
-					+ "WHERE fieldName NOT IN ('accessDate', 'date', 'pages', "
+					+ "WHERE fieldName NOT IN ('accessDate', 'date', 'pages', 'firstPage', "
 					+ "'section','seriesNumber','issue')"),
 				template: true // mark for special handling
 			},
@@ -2103,7 +2103,7 @@ Zotero.SearchConditions = new function(){
 				},
 				table: 'itemData',
 				field: 'value',
-				aliases: ['pages', 'section', 'seriesNumber','issue'],
+				aliases: ['pages', 'firstPage', 'section', 'seriesNumber','issue'],
 				template: true // mark for special handling
 			},
 			

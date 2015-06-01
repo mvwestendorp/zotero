@@ -1,0 +1,22 @@
+--- resource/schema/userdata.sql
++++ resource/schema/userdata.sql
+@@ -1,4 +1,4 @@
+--- 78
++-- 10002
+ 
+ -- Copyright (c) 2009 Center for History and New Media
+ --                    George Mason University, Fairfax, Virginia, USA
+@@ -156,6 +159,7 @@
+ );
+ CREATE INDEX creators_creatorDataID ON creators(creatorDataID);
+ 
++
+ -- Unique creator data, which can be associated with more than one creator
+ CREATE TABLE creatorData (
+     creatorDataID INTEGER PRIMARY KEY,
+@@ -404,4 +408,5 @@
+ 	translatorJSON TEXT,
+ 	code TEXT,
+ 	lastModifiedTime INT
+-);+);
++

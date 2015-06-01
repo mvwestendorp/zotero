@@ -1,0 +1,25 @@
+diff --git a/chrome/skin/default/zotero/itemPane.css b/chrome/skin/default/zotero/itemPane.css
+index eb07374..a9702ca 100644
+--- a/chrome/skin/default/zotero/itemPane.css
++++ b/chrome/skin/default/zotero/itemPane.css
+@@ -12,6 +12,8 @@
+ {
+ 	margin-top: 0 !important;
+ 	margin-bottom: 0 !important;
++	font-weight: bold !important;
++	color: #888888;
+ }
+ 
+ #zotero-view-tabbox tabs tab .tab-text
+@@ -20,6 +22,11 @@
+ 	margin-bottom: .25em !important;
+ }
+ 
++#zotero-view-tabbox tabs tab[has-content="true"]
++{
++	color: #000000;
++}
++
+ #zotero-view-item
+ {
+ 	padding: 1.5em .25em .25em;

@@ -23,6 +23,33 @@
     ***** END LICENSE BLOCK *****
 */
 
+/*
+ * Juris-M upgrades
+ *
+ * The Juris-M schema is built from five sources:
+ *   (1) system.sql         [in Zotero] (ok)
+ *   (2) userdata.sql       [in Zotero] (ok)
+ *   (3) multilingual.sql   [new] (done)
+ *   (4) jurisdictions.json [new] (done)
+ *   (5) zls.json           [new] (done)
+ *
+ * Among these, (1), (4) & (5) provide static portions of the schema,
+ * and can be replaced entirely when their version is bumped.
+ *
+ * Item (3) is entirely under the control of Juris-M; its upgrade
+ * steps are independent of the underlying Zotero schema, and it can
+ * be handled in a dedicated upgrade block.
+ *
+ * Item (2) is entirely under the control of Zotero; the Juris-M
+ * code accessing the tables it defines tracks that of Zotero,
+ * so no exceptional upgrade steps are required for it in Juris-M
+ * (apart from a minor cleanup operation to drop an index defined
+ * in the legacy MLZ schema, and to reset the schema version number
+ * to track Zotero schema versioning).
+ */
+
+
+
 Zotero.Schema = new function(){
 	this.skipDefaultData = false;
 	this.dbInitialized = false;
@@ -80,9 +107,9 @@ Zotero.Schema = new function(){
 		// 'compatibility' is incremented manually by upgrade steps in order to break DB
 		// compatibility with older versions.
 		var versions = yield Zotero.Promise.all([
-			this.getDBVersion('userdata'), this.getDBVersion('compatibility')
+			this.getDBVersion('userdata'), this.getDBVersion('compatibility'), this.getDBVersion('multilingual')
 		]);
-		var [userdata, compatibility] = versions;
+		var [userdata, compatibility, multilingual] = versions;
 		if (!userdata) {
 			Zotero.debug('Database does not exist -- creating\n');
 			return _initializeSchema()
@@ -126,6 +153,9 @@ Zotero.Schema = new function(){
 				yield _updateCustomTables(updated);
 			}
 			updated = yield _migrateUserDataSchema(userdata);
+			var multiUpdated = yield _migrateUserMultiDataSchema(multilingual);
+			yield _updateSchema('zls');
+			yield _updateSchema('jurisdictions');
 			yield _updateSchema('triggers');
 			
 			// Populate combined tables for custom types and fields -- this is likely temporary
@@ -1449,6 +1479,17 @@ Zotero.Schema = new function(){
 			yield _getSchemaSQL('userdata').then(function (sql) {
 				return Zotero.DB.executeSQLFile(sql);
 			});
+			yield _getSchemaSQL('multilingual').then(function (sql) {
+				return Zotero.DB.executeSQLFile(sql);
+			});
+			yield _getSchemaSQL('zls').then(function (sql) {
+				return Zotero.DB.executeSQLFile(sql);
+			});
+			yield _getSchemaSQL('jurisdictions').then(function (sql) {
+				return Zotero.DB.executeSQLFile(sql);
+			});
+			Zotero.debug("XXX POPULATING JURISDICTIONS! [first-install]");
+			yield _populateJurisdictions();
 			yield _getSchemaSQL('triggers').then(function (sql) {
 				return Zotero.DB.executeSQLFile(sql);
 			});
@@ -1459,6 +1500,15 @@ Zotero.Schema = new function(){
 			});
 			yield _getSchemaSQLVersion('userdata').then(function (version) {
 				return _updateDBVersion('userdata', version);
+			});
+			yield _getSchemaSQLVersion('multilingual').then(function (version) {
+				return _updateDBVersion('multilingual', version);
+			});
+			yield _getSchemaSQLVersion('zls').then(function (version) {
+				return _updateDBVersion('zls', version);
+			});
+			yield _getSchemaSQLVersion('jurisdictions').then(function (version) {
+				return _updateDBVersion('jurisdictions', version);
 			});
 			yield _getSchemaSQLVersion('triggers').then(function (version) {
 				return _updateDBVersion('triggers', version);
@@ -1533,6 +1583,12 @@ Zotero.Schema = new function(){
 					return Zotero.DB.executeSQLFile(sql);
 				})
 				.then(function () {
+					if (schema === 'jurisdictions') {
+						Zotero.debug("XXX POPULATING JURISDICTIONS! [update]");
+						return _populateJurisdictions();
+					}
+				})
+				.then(function () {
 					return _updateDBVersion(schema, schemaVersion);
 				});
 			}
@@ -1543,6 +1599,88 @@ Zotero.Schema = new function(){
 	}
 	
 	
+	/*
+	 * (re)Populate the jurisdiction table
+	 */
+	var _populateJurisdictions = Zotero.Promise.coroutine(function*() {
+		Zotero.debug("Populating jurisdictions");
+		var jsonStr = yield Zotero.File.getContentsFromURLAsync("resource://zotero/schema/jurisdictions.json");
+		var jObj = JSON.parse(jsonStr);
+		yield _setJurisdictionData(jObj);
+		yield _setCourtNames(jObj);
+		yield _setCountryCourtLinks(jObj);
+		yield _setCourts(jObj);
+		yield _setCourtJurisdictionLinks(jObj);
+	})
+	
+	var _setJurisdictionData = Zotero.Promise.coroutine(function* (jObj) {
+		var jurisdictionsSql = "INSERT INTO jurisdictions VALUES (?, ?, ?, ?);";
+		var JurisdictionSpider = function(jObj) {
+			this.jObj = jObj;
+			this.jurisdictionIdLst = [];
+			this.jurisdictionNameLst = [];
+		}
+		JurisdictionSpider.prototype.run = function (idx) {
+			var elem = this.jObj.jurisdictions[idx];
+			this.jurisdictionIdLst.push(elem[0]);
+			this.jurisdictionNameLst.push(elem[1]);
+			if (elem.length === 3) {
+			   this.run(elem[2]);
+			}
+			jIdLst = this.jurisdictionIdLst.slice();
+			jIdLst.reverse();
+			jNameLst = this.jurisdictionNameLst.slice();
+			jNameLst.reverse();
+			return [jIdLst.join(":"), jNameLst.join("|")];
+		}
+		for (let i=0,ilen=jObj.jurisdictions.length;i<ilen;i++) {
+			let entry = jObj.jurisdictions[i];
+			if (entry[2]) {
+				let jurisdictionSpider = new JurisdictionSpider(jObj);
+				let jurisdictionData = jurisdictionSpider.run(entry[2]);
+				let entryZero = jurisdictionData[0] + ":" + entry[0];
+				let entryOne = jurisdictionData[1] + "|" + entry[1];
+				let segmentCount = entryOne.split("|").length;
+				yield Zotero.DB.queryAsync(jurisdictionsSql, [i, entryZero, entryOne, segmentCount]);
+			} else {
+				let segmentCount = entry[1].split("|").length;
+				yield Zotero.DB.queryAsync(jurisdictionsSql, [i, entry[0], entry[1], segmentCount])
+			}
+		}
+	});
+
+	var _setCourtNames = Zotero.Promise.coroutine(function* (jObj) {
+		var courtNamesSql = "INSERT INTO courtNames VALUES (?, ?);";
+		for (let i=0,ilen=jObj.courtNames.length;i<ilen;i++) {
+			let entry = jObj.courtNames[i];
+			yield Zotero.DB.queryAsync(courtNamesSql, [i, entry]);
+		}
+	});
+
+	var _setCountryCourtLinks = Zotero.Promise.coroutine(function* (jObj) {
+		var countryCourtLinksSql = "INSERT INTO countryCourtLinks VALUES (?, ?, ?);";
+		for (let i=0,ilen=jObj.countryCourtLinks.length;i<ilen;i++) {
+			let entry = jObj.countryCourtLinks[i];
+			yield Zotero.DB.queryAsync(countryCourtLinksSql, [i, entry[0], entry[1]]);
+		}
+	});
+
+	var _setCourts = Zotero.Promise.coroutine(function* (jObj) {
+		var courtsSql = "INSERT INTO courts VALUES(?, ?, ?);";
+		for (let i=0,ilen=jObj.courts.length;i<ilen;i++) {
+			let entry = jObj.courts[i];
+			yield Zotero.DB.queryAsync(courtsSql, [i, entry[0], entry[1]]);
+		}
+	});
+
+	var _setCourtJurisdictionLinks = Zotero.Promise.coroutine(function* (jObj) {
+		var courtJurisdictionLinksSql = "INSERT INTO courtJurisdictionLinks VALUES (?, ?);";
+		for (let i=0,ilen=jObj.courtJurisdictionLinks.length;i<ilen;i++) {
+			let entry = jObj.courtJurisdictionLinks[i];
+			yield Zotero.DB.queryAsync(courtJurisdictionLinksSql, [entry[0], entry[1]]);
+		}
+	});
+
 	/**
 	 * Process the response from the repository
 	 *
@@ -1922,10 +2060,16 @@ Zotero.Schema = new function(){
 		if (fromVersion >= toVersion) {
 			return false;
 		}
-		
+
 		Zotero.debug('Updating user data tables from version ' + fromVersion + ' to ' + toVersion);
 		
 		Zotero.DB.requireTransaction();
+
+		// If at max table version of old sync-version Juris-M, restore to max sync Zotero version and layout
+		if (fromVersion === 10002) {
+			yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemDataValues_value");
+			yield _updateDBVersion('userdata', 80);
+		}
 		
 		// Step through version changes until we reach the current version
 		//
@@ -2272,6 +2416,72 @@ Zotero.Schema = new function(){
 		}
 		
 		yield _updateDBVersion('userdata', toVersion);
+		return true;
+	});
+	var _migrateUserMultiDataSchema = Zotero.Promise.coroutine(function* (fromVersion) {
+		var toVersion = yield _getSchemaSQLVersion('multilingual');
+		
+		if (fromVersion >= toVersion) {
+			return false;
+		}
+
+		Zotero.debug('Updating user multilingual data tables from version ' + fromVersion + ' to ' + toVersion);
+		
+		Zotero.DB.requireTransaction();
+
+		for (let i = fromVersion + 1; i <= toVersion; i++) {
+			if (i == 3) {
+				Zotero.debug("XXX Running upgrade from multilingual v3 ... ?");
+                // Rename each table
+                // Create new table
+                // Populate each table from the old table
+                // Drop indexes
+                // Recreate indexes
+
+                // zlsPreferences
+				yield Zotero.DB.queryAsync("ALTER TABLE zlsPreferences RENAME TO zlsPreferencesOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE zlsPreferences (\n	profile TEXT NOT NULL,\n	param TEXT NOT NULL,\n	tag TEXT NOT NULL,\n	PRIMARY KEY (profile, param, tag),\n    FOREIGN KEY (tag) REFERENCES zlsTags(tag) ON DELETE CASCADE\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO zlsPreferences SELECT * FROM zlsPreferencesOld");
+				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS zlsPreferences_param");
+				yield Zotero.DB.queryAsync("CREATE INDEX zlsPreferences_param ON zlsPreferences(param, profile)");
+
+                // itemCreatorsMain
+				yield Zotero.DB.queryAsync("ALTER TABLE itemCreatorsMain RENAME TO itemCreatorsMainOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE itemCreatorsMain (\n    itemID INT,\n    creatorID INT NOT NULL,\n    creatorTypeID INT NOT NULL DEFAULT 1,\n    orderIndex INT DEFAULT 0,\n	languageTag TEXT,\n	PRIMARY KEY (itemID, creatorID, creatorTypeID, orderIndex),\n    UNIQUE (itemID, orderIndex),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (creatorID) REFERENCES creators(creatorID) ON DELETE CASCADE,\n    FOREIGN KEY (creatorTypeID) REFERENCES creatorTypes(creatorTypeID)\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemCreatorsMain SELECT * FROM itemCreatorsMainOld");
+				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemCreatorsMain_creatorTypeID");
+				yield Zotero.DB.queryAsync("CREATE INDEX itemCreatorsMain_creatorTypeID ON itemCreatorsMain(creatorTypeID)");
+
+                // itemCreatorsAlt
+				yield Zotero.DB.queryAsync("ALTER TABLE itemCreatorsAlt RENAME TO itemCreatorsAltOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE itemCreatorsAlt (\n    itemID INT,\n    creatorID INT,\n    creatorTypeID INT DEFAULT 1,\n    orderIndex INT DEFAULT 0,\n	languageTag TEXT,\n    PRIMARY KEY (itemID, creatorID, creatorTypeID, orderIndex, languageTag),\n    UNIQUE (itemID, orderIndex, languageTag),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (creatorID) REFERENCES creators(creatorID) ON DELETE CASCADE,\n    FOREIGN KEY (creatorTypeID) REFERENCES creatorTypes(creatorTypeID)\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemCreatorsAlt SELECT * FROM itemCreatorsAltOld");
+				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemCreatorsAlt_creatorTypeID");
+				yield Zotero.DB.queryAsync("CREATE INDEX itemCreatorsAlt_creatorTypeID ON itemCreatorsAlt(creatorTypeID)");
+
+                // itemDataMain
+				yield Zotero.DB.queryAsync("ALTER TABLE itemDataMain RENAME TO itemDataMainOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE itemDataMain (\n    itemID INTEGER,\n    fieldID INTEGER,\n    languageTag TEXT,\n	PRIMARY KEY (itemID, fieldID),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (fieldID) REFERENCES fieldsCombined(fieldID)\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemDataMain SELECT * FROM itemDataMainOld");
+				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemDataMain_fieldID");
+				yield Zotero.DB.queryAsync("CREATE INDEX itemDataMain_fieldID ON itemDataMain(fieldID)");
+
+                // itemDataAlt
+				yield Zotero.DB.queryAsync("ALTER TABLE itemDataAlt RENAME TO itemDataAltOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE itemDataAlt (\n    itemID INTEGER,\n    fieldID INTEGER,\n    languageTag TEXT,\n    valueID INTEGER,\n	PRIMARY KEY (itemID, fieldID, languageTag),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (fieldID) REFERENCES fieldsCombined(fieldID),\n    FOREIGN KEY (valueID) REFERENCES itemDataValues(valueID)\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemDataAlt SELECT * FROM itemDataAltOld");
+				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemDataAlt_fieldID");
+				yield Zotero.DB.queryAsync("CREATE INDEX itemDataAlt_fieldID ON itemDataAlt(fieldID)");
+
+                // Drop the old tables
+				yield Zotero.DB.queryAsync("DROP TABLE zlsPreferencesOld");
+				yield Zotero.DB.queryAsync("DROP TABLE itemCreatorsMainOld");
+				yield Zotero.DB.queryAsync("DROP TABLE itemCreatorsAltOld");
+				yield Zotero.DB.queryAsync("DROP TABLE itemDataMainOld");
+				yield Zotero.DB.queryAsync("DROP TABLE itemDataAltOld");
+			}
+		}
+		yield _updateDBVersion('multilingual', toVersion);
 		return true;
 	});
 }

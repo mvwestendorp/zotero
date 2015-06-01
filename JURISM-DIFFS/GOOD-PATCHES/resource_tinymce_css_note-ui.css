@@ -1,0 +1,13 @@
+diff --git a/resource/tinymce/css/note-ui.css b/resource/tinymce/css/note-ui.css
+index 0e687a6..b2d03b5 100644
+--- a/resource/tinymce/css/note-ui.css
++++ b/resource/tinymce/css/note-ui.css
+@@ -14,7 +14,7 @@ html, body {
+ table.mceLayout > tbody > tr.mceLast {
+ 	position: absolute;
+ 	display: block;
+-	top: 54px;
++	top: 80px;
+ 	bottom: 2px;
+ 	left: 1px;
+ 	right: 1px;

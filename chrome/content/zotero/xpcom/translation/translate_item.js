@@ -584,9 +584,15 @@ Zotero.Translate.ItemSaver.prototype = {
 	"_saveFields":function(item, newItem) {
 		// fields that should be handled differently
 		const skipFields = ["note", "notes", "itemID", "attachments", "tags", "seeAlso",
-							"itemType", "complete", "creators"];
-		
+							"itemType", "complete", "creators", "multi"];
+
 		var typeID = Zotero.ItemTypes.getID(item.itemType);
+		var itemLanguage = undefined;
+		var defaultLanguage;
+		if (item.language) {
+			itemLanguage = item.language.split(/\s*[; ]\s*/)[0];
+		}
+
 		var fieldID;
 		for(var field in item) {
 			// loop through item fields
@@ -608,11 +614,77 @@ Zotero.Translate.ItemSaver.prototype = {
 				
 				// if field is valid for this type, set field
 				if(fieldID && Zotero.ItemFields.isValidForType(fieldID, typeID)) {
-					newItem.setField(fieldID, item[field]);
+					defaultLanguage = undefined;
+					if (item.multi && item.multi.main) {
+						var itemMultiMain = item.multi.main[field];
+						if(Zotero.zlsValidator.validate(itemMultiMain)) {
+							itemMultiMain = [Zotero.zlsValidator.tagdata[k].subtag for (k in Zotero.zlsValidator.tagdata)].join("-");
+							if (!Zotero.CachedLanguages.hasTag(itemMultiMain)) {
+								Zotero.CachedLanguages.getNickname(itemMultiMain);
+							}
+							if (itemMultiMain !== itemLanguage) {
+								defaultLanguage = itemMultiMain;
+							}
+						}
+					}
+					newItem.setField(fieldID, item[field], false, defaultLanguage, true);
+					if (item.multi && item.multi._lsts[field]) {
+						for (var j = 0, jlen = item.multi._lsts[field].length; j < jlen; j += 1) {
+							var langTag = item.multi._lsts[field][j];
+							// Normalize lang
+							// Patch code by Florian Ziche.
+							var langTag = item.multi._lsts[field][j];
+							if(Zotero.zlsValidator.validate(langTag)) {
+								langTag = [Zotero.zlsValidator.tagdata[k].subtag for (k in Zotero.zlsValidator.tagdata)].join("-");
+								if (!Zotero.CachedLanguages.hasTag(langTag)) {
+									Zotero.CachedLanguages.getNickname(langTag);
+								}
+							} else {
+								continue;
+							}
+							newItem.setField(fieldID, item.multi._keys[field][langTag], false, langTag);
+						}
+					}
 				} else {
 					Zotero.debug("Translate: Discarded field "+field+" for item: field not valid for type "+item.itemType, 3);
 				}
 			}
+		}
+		
+		var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
+		var fields = Zotero.ItemFields.getItemTypeFields(typeID);
+		if (fields.indexOf(jurisdictionID) > -1) {
+			if (["report","journalArticle","newspaperArticle"].indexOf(item.itemType) === -1) {
+				if (!newItem.getField(jurisdictionID)) {
+					var jurisdictionDefault = Zotero.Prefs.get("import.jurisdictionDefault");
+					var jurisdictionFallback = Zotero.Prefs.get("import.jurisdictionFallback");
+					if (jurisdictionDefault) {
+						newItem.setField(jurisdictionID,jurisdictionDefault);
+					} else if (jurisdictionFallback) {
+						newItem.setField(jurisdictionID,jurisdictionFallback);
+					} else {
+						newItem.setField(jurisdictionID,"us");
+					}
+				}
+			}
+		}
+		
+		// If "extra" contains {:variable: XX} hacks, recast as CslJSON,
+		// then merge result back into newItem.
+		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
+			cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true);
+			var extra = cslItem.note;
+			extra = extra.split(/{:([-a-z]+):([^\}]+)}/);
+			//dump("XXX CSL(before)=" + JSON.stringify(cslItem)+"\n");
+			for (var i=extra.length-2; i>0; i += -3) {
+				var varName = extra[i-1];
+				var varVal = extra[i];
+				cslItem[varName] = varVal;
+				extra = extra.slice(0,i-1).concat(extra.slice(i+1))
+			}
+			cslItem.note = extra.join(" ");
+			//dump("XXX CSL(after)=" + JSON.stringify(cslItem)+"\n");
+			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
 		}
 	},
 	

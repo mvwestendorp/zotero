@@ -1,0 +1,7 @@
+diff --git a/version/beta.txt b/version/beta.txt
+new file mode 100644
+index 0000000..d00491f
+--- /dev/null
++++ b/version/beta.txt
+@@ -0,0 +1 @@
++1

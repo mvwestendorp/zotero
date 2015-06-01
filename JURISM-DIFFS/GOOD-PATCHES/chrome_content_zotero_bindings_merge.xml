@@ -1,0 +1,13 @@
+diff --git a/chrome/content/zotero/bindings/merge.xml b/chrome/content/zotero/bindings/merge.xml
+index 4483e49..8d665a9 100644
+--- a/chrome/content/zotero/bindings/merge.xml
++++ b/chrome/content/zotero/bindings/merge.xml
+@@ -139,7 +139,7 @@
+ 					
+ 					if (this._leftpane.ref != 'deleted'
+ 							&& this._rightpane.ref != 'deleted') {
+-						
++
+ 						var dm1 = this._leftpane.ref.getField('dateModified');
+ 						if (dm1) {
+ 							dm1 = Zotero.Date.sqlToDate(dm1);

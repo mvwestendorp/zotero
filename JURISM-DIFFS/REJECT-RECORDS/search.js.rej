@@ -1,0 +1,56 @@
+--- chrome/content/zotero/xpcom/search.js
++++ chrome/content/zotero/xpcom/search.js
+@@ -755,6 +755,9 @@
+ 			else {
+ 				Zotero.debug('Running subsearch against fulltext word index');
+ 				var s = new Zotero.Search();
++				if (this._scope) {
++					s.addCondition("libraryID", "is", this._scope.libraryID);
++				}
+ 				
+ 				// Add any necessary conditions to the fulltext word search --
+ 				// those that are required in an ANY search and any outside the
+@@ -769,7 +772,6 @@
+ 						continue;
+ 					}
+ 					else if (c.condition == 'fulltextContent' ||
+-							c.condition == 'fulltextContent' ||
+ 								inQS) {
+ 						continue;
+ 					}
+@@ -2161,10 +2163,10 @@
+ 					contains: true,
+ 					doesNotContain: true
+ 				},
+-				table: 'itemData',
++				table: '(SELECT * FROM itemData UNION SELECT itemID,fieldID,valueID FROM itemDataAlt)',
+ 				field: 'value',
+ 				aliases: Zotero.DB.columnQuery("SELECT fieldName FROM fieldsCombined " +
+-					"WHERE fieldName NOT IN ('accessDate', 'date', 'pages', " +
++					"WHERE fieldName NOT IN ('accessDate', 'date', 'pages','firstPage', " +
+ 					"'section','seriesNumber','issue')"),
+ 				template: true // mark for special handling
+ 			},
+@@ -2408,7 +2410,21 @@
+ 		}
+ 		catch (e) {
+ 			Zotero.debug("String not found for searchConditions." + str, 2);
+-			return Zotero.ItemFields.getLocalizedString(null, str);
++			// OOOOO: Not sure if this problem is specific to the multilingual
++			// version ... with a completely empty Zotero, we get an error on
++			// these two fields for want of a localized form.  Not sure if
++			// their inclusion (they're pulled out of the itemData table by
++			// the build of the "field" condition in this file) is an
++			// error, or whether there should be localized forms somewhere.
++			// For the present, this workaround allows startup.
++			if (str === 'firstCreator') {
++				var ret = "firstCreator";
++			} else if (str === 'sortCreator') {
++				var ret = "sortCreator";
++			} else {
++				var ret = Zotero.ItemFields.getLocalizedString(null, str);
++			}
++			return ret;
+ 		}
+ 	}
+ 	

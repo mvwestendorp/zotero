@@ -1,0 +1,76 @@
+diff --git a/chrome/skin/default/zotero/preferences.css b/chrome/skin/default/zotero/preferences.css
+index b04a418..6a522b7 100644
+--- a/chrome/skin/default/zotero/preferences.css
++++ b/chrome/skin/default/zotero/preferences.css
+@@ -1,3 +1,45 @@
++.language-role-highlight {
++	background:#fdfdfd;
++    -moz-transition: background-color 0s linear 0.25s;
++}
++
++/*
++ * .translit-primary {
++ * }
++ * .translit-secondary {
++ * }
++ */
++
++.compact label {
++    margin: 0;
++}
++
++.translit-primary label {
++	margin: 0 0 0 0;
++}
++.translit-secondary label {
++	margin: 0 0 0 0;
++}
++.translat-primary label {
++	margin: 0 0 0 0;
++}
++.translat-secondary label {
++	margin: 0 0 0 0;
++}
++
++/* 
++ * .translit {
++ * }
++ * .translat {
++ * }
++ */
++
++row.compact {
++	margin: 0 0 0 0 !important;
++	padding: 0 0 0 0 !important;
++}
++
++
+ prefwindow .chromeclass-toolbar
+ {
+ 	display: -moz-box !important; /* Ignore toolbar collapse button on OS X */
+@@ -19,7 +61,7 @@ radio[pane]
+ 	-moz-box-pack: end;
+ }
+ 
+-#export-citePaperJournalArticleURL
++.small-description
+ {
+ 	font-size: .85em;
+ }
+@@ -75,7 +117,7 @@ grid row hbox:first-child
+ 
+ #showIn radio
+ {
+-	width: 120px;
++	width: 214px;
+ }
+ 
+ #fontSize radio
+@@ -262,3 +304,7 @@ treechildren::-moz-tree-checkbox(checked){
+      in your extension or elsewhere. */
+   list-style-image: url("chrome://global/skin/checkbox/cbox-check.gif");
+ }
++
++label.zotero-clicky.thin-border {
++	border: 1px solid rgb(109, 149, 224);
++}

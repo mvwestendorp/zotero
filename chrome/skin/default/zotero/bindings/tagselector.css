@@ -75,3 +75,18 @@ toolbarbutton.zotero-clicky
 {
 	margin-left: -12px !important;
 }
+
+#tags-toggle label.project-name {
+	border-radius: 6px !important;
+	border: 2px solid #333333 !important;
+}
+
+#tags-toggle label.project-name.zotero-clicky {
+	border: 2px solid #333333 !important;
+}
+
+#tags-toggle label.project-name[inScope=false]
+{
+	opacity: .6 !important;
+}
+

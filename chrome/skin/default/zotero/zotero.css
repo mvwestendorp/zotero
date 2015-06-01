@@ -28,7 +28,7 @@
  */
 #zotero-toolbar-main-button,
 #zotero-toolbar-main-button-single {
-	list-style-image: url("chrome://zotero/skin/zotero-z-32px-australis.svg");
+	list-style-image: url("chrome://zotero/skin/juris-m-32px-australis.svg");
 }
 
 #zotero-toolbar-save-button,
@@ -45,7 +45,7 @@ toolbarpaletteitem[place="palette"] #zotero-toolbar-save-button-single {
 
 /* Show single icon for combo buttons in palette */
 toolbarpaletteitem[place="palette"] #zotero-toolbar-main-button {
-	list-style-image: url("chrome://zotero/skin/zotero-z-32px-australis.svg");
+	list-style-image: url("chrome://zotero/skin/juris-m-32px-australis.svg");
 }
 toolbarpaletteitem[place="palette"] #zotero-toolbar-buttons separator,
 toolbarpaletteitem[place="palette"] #zotero-toolbar-buttons #zotero-toolbar-save-button {
@@ -59,8 +59,8 @@ toolbarpaletteitem[place="palette"] #zotero-toolbar-buttons #zotero-toolbar-save
 #zotero-toolbar-save-button-single[disabled="true"] {
 	filter: grayscale(100%);
 }
-/* End toolbar icons */
 
+/* End toolbar icons */
 
 /* Bindings */
 textbox[multiline="true"][type="timed"]
@@ -161,6 +161,16 @@ dialog[resizable="true"]
 	-moz-binding: url('chrome://zotero/content/bindings/resizabledialog.xml#resizabledialog');
 }
 
+.zotero-langy {
+	background-image: -moz-linear-gradient(left, #efebe7, white);
+	font-size: smaller;
+	padding-right: 0.5em;
+	border-bottom-width: medium;
+	border-bottom-color: #efebe7;
+	border-bottom-style: solid;
+	color: rgb(100, 100, 100);
+}
+
 zoteroguidancepanel
 {
 	-moz-binding: url('chrome://zotero/content/bindings/guidancepanel.xml#guidancepanel');
@@ -238,6 +248,34 @@ label.zotero-text-link {
 .zotero-message-error
 {
 	font-weight: bold;
+}
+
+.zotero-alien-clicky
+{	
+	-moz-border-radius: 6px;
+	border: 1px solid transparent;
+}
+
+.zotero-alien-clicky:hover {
+	border: 1px solid rgb(109, 149, 224);
+    border-radius: 0.6em;
+}
+
+rows.multi .zotero-alien-clicky
+{	
+    color: #666;
+    font-size: 90%;
+	border-radius: 6px;
+	border-bottom: 1px solid #aaa;
+	border-left: 2px solid #aaa;
+    padding-right: 0.6em;
+}
+
+rows.multi .zotero-alien-clicky:hover {
+	border-bottom: 1px solid #aaa;
+	border-left: 2px solid #aaa;
+	border-right: 1px solid #aaa;
+	border-top: 1px solid #aaa;
 }
 
 #zotero-progress-box

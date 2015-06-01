@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <!--
     ***** BEGIN LICENSE BLOCK *****
     
@@ -82,6 +82,7 @@
 								<treecol
 									id="zotero-items-column-title" primary="true"
 									label="&zotero.items.title_column;"
+									crop="center"
 									flex="4" persist="width ordinal hidden sortActive sortDirection"/>
 								<splitter class="tree-splitter"/>
 								<treecol
@@ -117,6 +118,11 @@
 								<treecol
 									id="zotero-items-column-journalAbbreviation" hidden="true"
 									label="&zotero.items.journalAbbr_column;"
+									flex="1" persist="width ordinal hidden sortActive sortDirection"/>
+								<splitter class="tree-splitter"/>
+								<treecol
+                                    id="zotero-items-column-reporter" hidden="true"
+									label="&zotero.items.reporter_column;"
 									flex="1" persist="width ordinal hidden sortActive sortDirection"/>
 								<splitter class="tree-splitter"/>
 								<treecol
@@ -281,6 +287,7 @@
 					</hbox>
 					<separator style="height: 2px" flex="1"/>
 					<checkbox oncommand="Zotero_Citation_Dialog.confirmRegenerate(true)" id="suppress-author" label="&zotero.citation.suppressAuthor.label;" tabindex="6"/>
+					<checkbox oncommand="Zotero_Citation_Dialog.confirmRegenerate(true)" id="suppress-trailing-punctuation" label="&zotero.citation.suppressTrailingPunctuation.label;" tabindex="6"/>
 				</vbox>
 			</hbox>
 		</vbox>

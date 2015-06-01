@@ -1,33 +1,39 @@
 <?xml version="1.0"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-
-  <Description about="urn:mozilla:install-manifest">
-  
-    <em:id>zotero@chnm.gmu.edu</em:id>
-    <em:name>Zotero</em:name>
-    <em:version>4.1.SOURCE</em:version>
+  <Description about="urn:mozilla:install-manifest">  
+    <em:id>juris-m@juris-m.github.io</em:id>
+    <em:name>Juris-M</em:name>
+    <em:version>4.0.27m6</em:version>
     <em:creator>Center for History and New Media<br/>George Mason University</em:creator>
+    <em:creator>Frank Bennett</em:creator>
     <em:contributor>Dan Cohen</em:contributor>
     <em:contributor>Sean Takats</em:contributor>
     <em:developer>Simon Kornblith</em:developer>
     <em:developer>David Norton</em:developer>
     <em:developer>Dan Stillman</em:developer>
-    <em:homepageURL>http://www.zotero.org</em:homepageURL>
+    <em:homepageURL>https://juris-m.github.io</em:homepageURL>
     <em:optionsURL>chrome://zotero/content/preferences/preferences.xul</em:optionsURL>
     <em:aboutURL>chrome://zotero/content/about.xul</em:aboutURL>
-    <em:iconURL>chrome://zotero/skin/zotero-new-z-48px.png</em:iconURL>
-    <em:updateURL>https://www.zotero.org/download/update-source.rdf</em:updateURL>
-    <em:type>2</em:type> <!-- type=extension --> 
-    
-    <!-- Firefox -->
+    <em:updateURL>https://juris-m.github.io/jurism/update.rdf</em:updateURL>
+    <em:iconURL>chrome://zotero/skin/mlz_z_32px.png</em:iconURL>
+    <em:type>2</em:type>
+    <em:unpack>true</em:unpack>
+    <em:updateKey>
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsknZz0mHwhMpappMJe85
+3WeKMu+EjNfYAnBIcw/gTmzuOqnrfQcW3kJtkk/zX5GgXpbXjbv27C60cu2ORd/g
+8TJ1UANhAgJmbObGwr2Gml9KTIxOWmmEAPaCxGR89LgzmUQY2jJ0LQbzXm28OWnf
+gm3JjXhmKfNrBwXLpK1rCHiVJLlABkk3MykCVzB+3K0opGAbKhzAEYI1t8O43d+g
+WOSiHHF0CKKBYZ6o00iybJiSoPK36+kgY5ZnpsSoCdCtr0FMbA7uQnRDSUPmswE0
+WsMNdJu3z+d/j5roL8wDCcQw3eHsgbDj25WATPWtQmyMISdIrbG5uVEmtg+iWn/3
+jwIDAQAB
+    </em:updateKey>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>31.0</em:minVersion>
-        <em:maxVersion>37.*</em:maxVersion>
+        <em:minVersion>3.6</em:minVersion>
+        <em:maxVersion>38.*</em:maxVersion>
       </Description>
     </em:targetApplication>
-    
-  </Description>
+</Description>
 </RDF>

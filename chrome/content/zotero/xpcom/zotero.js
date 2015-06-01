@@ -157,6 +157,7 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 	 * @return {Boolean|Promise:Boolean}
 	 */
 	function init(options) {
+		var i, ilen, res, sql;
 		if (this.initialized || this.skipLoading) {
 			return false;
 		}
@@ -387,6 +388,11 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				}
 			}
 			
+			/*
+			 * Copy former Zotero database if appropriate
+			 */
+			this.copyZoteroDatabaseToJurism();
+			
 			// Register shutdown handler to call Zotero.shutdown()
 			var _shutdownObserver = {observe:function() { Zotero.shutdown().done() }};
 			Services.obs.addObserver(_shutdownObserver, "quit-application", false);
@@ -454,6 +460,25 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 			return true;
 		}.bind(this));
 	}
+
+	 /*
+      * Makes a copy of Zotero database, leaving original untouched.
+      * This must block, so sync mode is okay.
+      */
+	this.copyZoteroDatabaseToJurism = function () {
+		var extensions = ["sqlite", "sqlite-journal"];
+		for (var i=0,ilen=extensions.length;i<ilen;i++) {
+			var ext = extensions[i];
+			var oldFile = Zotero.getZoteroDirectory();
+			oldFile.append("zotero." + ext);
+			var newFile = Zotero.getZoteroDirectory();
+			newFile.append("jurism." + ext);
+			if (oldFile.exists() && !newFile.exists()) {
+				oldFile.copyTo(null, "jurism." + ext);
+			}
+		}
+	}
+	 
 	
 	/**
 	 * Triggers events when initialization finishes
@@ -595,6 +620,9 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				yield Zotero.CharacterSets.init();
 				yield Zotero.FileTypes.init();
 				
+				// Initialize multilingual field info
+				yield Zotero.Multi.init();
+				
 				Zotero.locked = false;
 				
 				// Initialize various services
@@ -619,6 +647,12 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				
 				// Initialize Locate Manager
 				Zotero.LocateManager.init();
+				
+				// Initialize Jurisdictions mapper
+				Zotero.Jurisdiction.init();
+
+                // Initialize CachedLanguages
+                yield Zotero.CachedLanguages.init();
 				
 				Zotero.Collections.init();
 				Zotero.Items.init();
@@ -1007,7 +1041,7 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 	}
 	
 	function getZoteroDatabase(name, ext){
-		name = name ? name + '.sqlite' : 'zotero.sqlite';
+		name = name ? name + '.sqlite' : 'jurism.sqlite';
 		ext = ext ? '.' + ext : '';
 		
 		var file = Zotero.getZoteroDirectory();
@@ -1074,7 +1108,7 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 					
 					if (file.directoryEntries.hasMoreElements()) {
 						var dbfile = file.clone();
-						dbfile.append('zotero.sqlite');
+						dbfile.append('jurism.sqlite');
 						
 						// Warn if non-empty and no zotero.sqlite
 						if (!dbfile.exists()) {

@@ -1,0 +1,29 @@
+diff --git a/chrome/skin/default/zotero/about.css b/chrome/skin/default/zotero/about.css
+index b68d972..2905585 100644
+--- a/chrome/skin/default/zotero/about.css
++++ b/chrome/skin/default/zotero/about.css
+@@ -35,6 +35,12 @@ dialog
+ 	margin-bottom: 5px;
+ }
+ 
++#mlz-welcome description.subcontent
++{
++	margin-left: 1em;
++	margin-bottom: 5px;
++}
++
+ #zotero-translators-list {
+ 	margin: .3em 0;
+ 	height: 9em;
+@@ -52,4 +58,9 @@ dialog
+ 
+ #zotero-translators-list label:not(.locale) {
+ 	margin-left: 1.25em;
+-}
+\ No newline at end of file
++}
++
++description label.zotero-text-link {
++	margin-left: 0px;
++	margin-right: 0px;
++}

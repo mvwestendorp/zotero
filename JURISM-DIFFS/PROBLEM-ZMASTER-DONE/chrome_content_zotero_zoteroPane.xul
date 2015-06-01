@@ -1,0 +1,75 @@
+diff --git a/chrome/content/zotero/zoteroPane.xul b/chrome/content/zotero/zoteroPane.xul
+index 36c8a7f..8864dd8 100644
+--- a/chrome/content/zotero/zoteroPane.xul
++++ b/chrome/content/zotero/zoteroPane.xul
+@@ -27,6 +27,7 @@
+ 
+ <?xml-stylesheet href="chrome://zotero/skin/overlay.css" type="text/css"?>
+ <?xml-stylesheet href="chrome://zotero-platform/content/overlay.css" type="text/css"?>
++<?xul-overlay href="chrome://zotero/skin/juris-m-logo.svg"?>
+ 
+ <!DOCTYPE overlay [
+ 	<!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd"> %globalDTD;
+@@ -35,7 +36,8 @@
+ ]>
+ 
+ <overlay id="zotero"
+-	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
++	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
++    xmlns:svg="http://www.w3.org/2000/svg">
+ 	
+ 	<script src="include.js"/>
+ 	<script src="zoteroPane.js" type="application/javascript;version=1.8"/>
+@@ -66,16 +68,16 @@
+ 	
+ 	<popup id="contentAreaContextMenu">
+ 		<menu id="zotero-content-area-context-menu" label="Zotero">
+-			<menupopup>
++			<menupopup onpopupshowing="ZoteroPane_Local._triggerNode = event.target.triggerNode;">
+ 				<menuitem id="zotero-context-item-from-page" class="menu-iconic"
+ 					label="&zotero.toolbar.newItemFromPage.label;"
+ 					command="cmd_zotero_newItemFromCurrentPage"/>
+ 				<menuitem id="zotero-context-add-to-current-note" class="menu-iconic"
+ 					label="&zotero.contextMenu.addTextToCurrentNote;" hidden="true"
+-					oncommand="var str = event.currentTarget.ownerDocument.popupNode.ownerDocument.defaultView.getSelection().toString(); var uri = event.currentTarget.ownerDocument.popupNode.ownerDocument.location.href; ZoteroPane.addTextToNote(str, uri)"/>
++					oncommand="var str = ZoteroPane_Local._triggerNode.ownerDocument.defaultView.getSelection().toString(); var uri = ZoteroPane_Local._triggerNode.ownerDocument.location.href; ZoteroPane.addTextToNote(str, uri)"/>
+ 				<menuitem id="zotero-context-add-to-new-note" class="menu-iconic"
+ 					label="&zotero.contextMenu.addTextToNewNote;" hidden="true"
+-					oncommand="var str = event.currentTarget.ownerDocument.popupNode.ownerDocument.defaultView.getSelection().toString(); var uri = event.currentTarget.ownerDocument.popupNode.ownerDocument.location.href; var itemID = ZoteroPane.addItemFromPage(); ZoteroPane.newNote(false, itemID, str, uri)"/>
++					oncommand="var str = ZoteroPane_Local._triggerNode.ownerDocument.defaultView.getSelection().toString(); var uri = ZoteroPane_Local._triggerNode.ownerDocument.location.href; var itemID = ZoteroPane.addItemFromPage(); ZoteroPane.newNote(false, itemID, str, uri)"/>
+ 				<menuitem id="zotero-context-save-link-as-item" class="menu-iconic"
+ 					label="&zotero.contextMenu.saveLinkAsItem;" hidden="true"
+ 					oncommand="ZoteroPane.addItemFromURL(window.gContextMenu.linkURL, 'temporaryPDFHack')"/>
+@@ -103,6 +105,12 @@
+ 					<toolbarbutton id="zotero-tb-collection-add" class="zotero-tb-button" tooltiptext="&zotero.toolbar.newCollection.label;" command="cmd_zotero_newCollection"/>
+ 					<toolbarbutton id="zotero-tb-group-add" class="zotero-tb-button" tooltiptext="&zotero.toolbar.newGroup;" oncommand="ZoteroPane_Local.newGroup()"/>
+ 					<spacer flex="1"/>
++                    <vbox>
++                      <hbox onclick="ZoteroPane_Local.openMlzWelcomeDialog();">
++                        <svg:svg id="juris-m-logo"/>
++                      </hbox>
++                    </vbox>
++					<spacer flex="1"/>
+ 					<toolbarbutton id="zotero-tb-actions-menu" class="zotero-tb-button" tooltiptext="&zotero.toolbar.actions.label;" type="menu">
+ 						<menupopup id="zotero-tb-actions-popup">
+ 							<menuitem id="zotero-tb-actions-import" label="&zotero.toolbar.import.label;" command="cmd_zotero_import"/>
+@@ -351,6 +359,7 @@
+ 								<treecol
+ 									id="zotero-items-column-title" primary="true"
+ 									label="&zotero.items.title_column;"
++									crop="center"
+ 									flex="4" zotero-persist="width ordinal hidden sortActive sortDirection"/>
+ 								<splitter class="tree-splitter"/>
+ 								<treecol
+@@ -390,6 +399,11 @@
+ 									flex="1" zotero-persist="width ordinal hidden sortActive sortDirection"/>
+ 								<splitter class="tree-splitter"/>
+ 								<treecol
++									id="zotero-items-column-reporter" hidden="true"
++									label="&zotero.items.reporter_column;"
++									flex="1" zotero-persist="width ordinal hidden sortActive sortDirection"/>
++								<splitter class="tree-splitter"/>
++								<treecol
+ 									id="zotero-items-column-language" hidden="true"
+ 									submenu="true"
+ 									label="&zotero.items.language_column;"

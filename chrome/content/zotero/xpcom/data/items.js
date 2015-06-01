@@ -218,12 +218,13 @@ Zotero.Items = function() {
 		}
 		
 		var t = new Date;
+		var missingItems;
 		
 		fields = fields.concat();
 		
 		// Needed for display titles for some item types
 		if (fields.indexOf('title') != -1) {
-			fields.push('reporter', 'court');
+			fields.push('reporter', 'court', 'codeNumber', 'codeVolume', 'code', 'committee', 'meetingNumber', 'section', 'court', 'jurisdiction', 'date');
 		}
 		
 		Zotero.debug("Caching fields [" + fields.join() + "]"
@@ -299,13 +300,44 @@ Zotero.Items = function() {
 		var allItemIDs = yield Zotero.DB.columnQueryAsync(sql, params);
 		var itemFieldsCached = {};
 		
-		var sql = "SELECT itemID, fieldID, value FROM items JOIN itemData USING (itemID) "
-			+ "JOIN itemDataValues USING (valueID) WHERE libraryID=?";
+		var sql = "SELECT I.itemID, ID.fieldID, "
+			+ "CASE "
+			+   "WHEN ID.fieldID in (1261) THEN "
+			+   "CASE "
+			+	  "WHEN JU.jurisdictionName IS NULL "
+			+	  "THEN value "
+			+	  "ELSE substr('000' || cast(length(value) as TEXT), -3, 3) || value || JU.jurisdictionName "
+			+   "END "
+			+   "WHEN ID.fieldID in (44) THEN "
+			+   "CASE "
+			+	  "WHEN CT.courtName IS NULL "
+			+	  "THEN value "
+			+	  "ELSE substr('000' || cast(length(value) as TEXT), -3, 3) || value || CT.courtName "
+			+   "END "
+			+   "ELSE value "
+			+ "END AS value "
+            + "FROM items I JOIN itemData ID USING (itemID) "
+			+   "JOIN itemDataValues IDV USING(valueID) "
+			+   "LEFT JOIN jurisdictions JU ON JU.jurisdictionID=value AND ID.fieldID IN (1261) "
+            +   "LEFT JOIN ("
+            +     "SELECT itemID,value AS jurisdictionID "
+            +     "FROM itemData NATURAL JOIN itemDataValues WHERE itemData.fieldID=1261"
+            +   ") CID ON CID.itemID=ID.itemID "
+            +   "LEFT JOIN (SELECT C.courtID,CN.courtName,J.jurisdictionID "
+            +     "FROM jurisdictions J "
+            +     "JOIN courtJurisdictionLinks USING(jurisdictionIdx) "
+			+     "JOIN courts C USING(courtIdx) "
+			+     "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
+			+     "JOIN courtNames CN USING(courtNameIdx) "
+ 			+     "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx"
+            +   ") CT ON CT.jurisdictionID=CID.jurisdictionID AND CT.courtID=IDV.value "
+			+   "LEFT JOIN itemDataMain IDM ON IDM.itemID=ID.itemID AND IDM.fieldID=ID.fieldID "
+			+ "WHERE libraryID=?";
 		var params = [libraryID];
 		if (items) {
 			sql += " AND itemID IN (" + items.join() + ")";
 		}
-		sql += " AND fieldID IN (" + fieldIDs.join() + ")";
+		sql += " AND ID.fieldID IN (" + fieldIDs.join() + ")";
 		yield Zotero.DB.queryAsync(
 			sql,
 			params,
@@ -431,6 +463,20 @@ Zotero.Items = function() {
 				// All other operations are additive only and do not affect the,
 				// old item, which will be put in the trash
 				
+				// Add multilingual field segments to each field on master when none present
+				// true is for a shy merge (merge only if no multilingual data for target language)
+				item.multi.merge(otherItem, true);
+
+				// Add multilingual creator segments to each creator on master when none present
+				var creators = item.getCreators();
+				var otherCreators = otherItem.getCreators();
+				if (creators.length === otherCreators.length) {
+					for (var i = 0, ilen = creators.length; i < ilen; i += 1) {
+						// true is for a shy merge (merge only if no multilingual data for target language)
+						creators[i].multi.merge(item, i, otherCreators[i], true);
+					}
+				}
+
 				// Add collections to master
 				var collectionIDs = otherItem.getCollections();
 				for each(var collectionID in collectionIDs) {
@@ -616,7 +662,7 @@ Zotero.Items = function() {
 		}
 		
 		var sql = "DELETE FROM itemDataValues WHERE valueID NOT IN "
-					+ "(SELECT valueID FROM itemData)";
+					+ "(SELECT valueID FROM itemData UNION SELECT valueID FROM itemDataAlt)";
 		yield Zotero.DB.queryAsync(sql);
 		
 		// Purge unused charsetIDs (if attachments were deleted)
@@ -644,6 +690,7 @@ Zotero.Items = function() {
 	var _firstCreatorSQL = '';
 	function _getFirstCreatorSQL() {
 		if (_firstCreatorSQL) {
+            //Zotero.debug("XXX _firstCreatorSQL [FROM CACHE]: "+_firstCreatorSQL);
 			return _firstCreatorSQL;
 		}
 		
@@ -660,30 +707,66 @@ Zotero.Items = function() {
 			") " +
 			"WHEN 0 THEN NULL " +
 			"WHEN 1 THEN (" +
-				"SELECT lastName FROM itemCreators IC NATURAL JOIN creators " +
+				"SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
 				"LEFT JOIN itemTypeCreatorTypes ITCT " +
 				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1" +
+				"WHERE IC.itemID=O.itemID AND primaryField=1" +
 			") " +
 			"WHEN 2 THEN (" +
 				"SELECT " +
-				"(SELECT lastName FROM itemCreators IC NATURAL JOIN creators " +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+							"LEFT JOIN " + 
+								"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+									"FROM itemCreatorsAlt " +
+										"NATURAL JOIN creators " +
+									"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+							"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
 				"LEFT JOIN itemTypeCreatorTypes ITCT " +
 				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1)" +
+				"WHERE IC.itemID=O.itemID AND primaryField=1 ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' " + localizedAnd + " ' || " +
-				"(SELECT lastName FROM itemCreators IC NATURAL JOIN creators " +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+							"LEFT JOIN " + 
+								"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+									"FROM itemCreatorsAlt " +
+										"NATURAL JOIN creators " +
+									"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+							"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
 				"LEFT JOIN itemTypeCreatorTypes ITCT " +
 				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1,1)" +
+				"WHERE IC.itemID=O.itemID AND primaryField=1 ORDER BY IC.orderIndex LIMIT 1,1)" +
 			") " +
 			"ELSE (" +
 				"SELECT " +
-				"(SELECT lastName FROM itemCreators IC NATURAL JOIN creators " +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+							"LEFT JOIN " + 
+								"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+									"FROM itemCreatorsAlt " +
+										"NATURAL JOIN creators " +
+									"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+							"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
 				"LEFT JOIN itemTypeCreatorTypes ITCT " +
 				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1)" +
-				" || ' " + localizedEtAl + "' " + 
+				"WHERE IC.itemID=O.itemID AND primaryField=1 ORDER BY IC.orderIndex LIMIT 1) " +
+				" || ' " + localizedEtAl + "' " +
 			") " +
 			"END, " +
 			
@@ -693,21 +776,57 @@ Zotero.Items = function() {
 			") " +
 			"WHEN 0 THEN NULL " +
 			"WHEN 1 THEN (" +
-				"SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3)" +
+				"SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (3)" +
 			") " +
 			"WHEN 2 THEN (" +
 				"SELECT " +
-				"(SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1)" +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (3) ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' " + localizedAnd + " ' || " +
-				"(SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1,1) " +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (3) ORDER BY IC.orderIndex LIMIT 1,1)" +
 			") " +
 			"ELSE (" +
 				"SELECT " +
-				"(SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1)" +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (3) ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' " + localizedEtAl + "' " +
 			") " +
 			"END, " +
@@ -718,42 +837,97 @@ Zotero.Items = function() {
 			") " +
 			"WHEN 0 THEN NULL " +
 			"WHEN 1 THEN (" +
-				"SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2)" +
+				"SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (2)" +
 			") " +
 			"WHEN 2 THEN (" +
 				"SELECT " +
-				"(SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1)" +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (2) ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' " + localizedAnd + " ' || " +
-				"(SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1,1) " +
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (2) ORDER BY IC.orderIndex LIMIT 1,1)" +
 			") " +
 			"ELSE (" +
 				"SELECT " +
-				"(SELECT lastName FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1)" +
-				" || ' " + localizedEtAl + "' " + 
+				"(SELECT COALESCE(lastNameAlt,lastName) AS lastName FROM itemCreators IC " +
+					"NATURAL JOIN (SELECT itemID,orderIndex,lastName " +
+						"FROM itemCreators " +
+							"NATURAL JOIN creators) C " +
+						"LEFT JOIN " + 
+					   		"(SELECT itemID,orderIndex,lastName AS lastNameAlt " +
+							   	"FROM itemCreatorsAlt " +
+						   			"NATURAL JOIN creators " +
+								"WHERE languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroDisplay')) A " +
+				   		"ON A.itemID=C.itemID AND A.orderIndex=C.orderIndex " +
+				"WHERE IC.itemID=O.itemID AND IC.creatorTypeID IN (2) ORDER BY IC.orderIndex LIMIT 1)" +
+				" || ' " + localizedEtAl + "' " +
 			") " +
 			"END" +
 		") AS firstCreator";
 		
 		_firstCreatorSQL = sql;
-		return sql;
+        //Zotero.debug("XXX _firstCreatorSQL [AS GENERATED]: "+_firstCreatorSQL);
+		return _firstCreatorSQL;
 	}
 	
 	
 	/*
 	 * Generate SQL to retrieve sortCreator field
 	 */
+
+	// Not used: "ORDER BY CASE WHEN languageTag IS NULL THEN 1 ELSE 0 END, languageTag " +
+
 	var _sortCreatorSQL = '';
 	function _getSortCreatorSQL() {
 		if (_sortCreatorSQL) {
+            //Zotero.debug("XXX _sortCreatorSQL [FROM CACHE]: "+_sortCreatorSQL);
 			return _sortCreatorSQL;
 		}
 		
 		var nameSQL = "lastName || ' ' || firstName ";
 		
+		function creatorsSQL(selectParam) {
+			return "SELECT " + nameSQL + "FROM itemCreators IC " +
+				"LEFT JOIN itemCreatorsAlt ICA USING(itemID,creatorID,creatorTypeID,orderIndex) " +
+				"JOIN creators USING(creatorID) " +
+				"LEFT JOIN itemTypeCreatorTypes ITCT " +
+				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
+				"WHERE IC.itemID=O.itemID AND " + selectParam + " " +
+				"AND (languageTag IS NULL OR " +
+				"languageTag in (SELECT tag FROM zlsPreferences WHERE param='zoteroSort')) ";
+        }
+		var primariesSQL = creatorsSQL("primaryField=1");
+		var editorsSQL = creatorsSQL("IC.creatorTypeID IN (3)");
+		var contributorsSQL = creatorsSQL("IC.creatorTypeID IN (2)");
+
 		var sql = "COALESCE(" +
 			// First try for primary creator types
 			"CASE (" +
@@ -764,39 +938,32 @@ Zotero.Items = function() {
 			") " +
 			"WHEN 0 THEN NULL " +
 			"WHEN 1 THEN (" +
-				"SELECT " + nameSQL + "FROM itemCreators IC NATURAL JOIN creators " +
-				"LEFT JOIN itemTypeCreatorTypes ITCT " +
-				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1" +
+				primariesSQL +
+				"GROUP BY IC.orderIndex LIMIT 1" +
 			") " +
 			"WHEN 2 THEN (" +
 				"SELECT " +
-				"(SELECT " + nameSQL + " FROM itemCreators IC NATURAL JOIN creators " +
-				"LEFT JOIN itemTypeCreatorTypes ITCT " +
-				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1)" +
+				"(" +
+				primariesSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators IC NATURAL JOIN creators " +
-				"LEFT JOIN itemTypeCreatorTypes ITCT " +
-				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1,1)" +
+				"(" +
+				primariesSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1,1)" +
 			") " +
 			"ELSE (" +
 				"SELECT " +
-				"(SELECT " + nameSQL + " FROM itemCreators IC NATURAL JOIN creators " +
-				"LEFT JOIN itemTypeCreatorTypes ITCT " +
-				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1)" +
+				"(" +
+				primariesSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators IC NATURAL JOIN creators " +
-				"LEFT JOIN itemTypeCreatorTypes ITCT " +
-				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 1,1)" +
+				"(" +
+				primariesSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1,1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators IC NATURAL JOIN creators " +
-				"LEFT JOIN itemTypeCreatorTypes ITCT " +
-				"ON (IC.creatorTypeID=ITCT.creatorTypeID AND ITCT.itemTypeID=O.itemTypeID) " +
-				"WHERE itemID=O.itemID AND primaryField=1 ORDER BY orderIndex LIMIT 2,1)" +
+				"(" +
+				primariesSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 2,1)" +
 			") " +
 			"END, " +
 			
@@ -806,27 +973,32 @@ Zotero.Items = function() {
 			") " +
 			"WHEN 0 THEN NULL " +
 			"WHEN 1 THEN (" +
-				"SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3)" +
+				editorsSQL +
+				"GROUP BY IC.orderIndex LIMIT 1" +
 			") " +
 			"WHEN 2 THEN (" +
 				"SELECT " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1)" +
+				"(" +
+				editorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1,1) " +
+				"(" +
+				editorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1,1) " +
 			") " +
 			"ELSE (" +
 				"SELECT " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1)" +
+				"(" +
+				editorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 1,1)" +
+				"(" +
+				editorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1,1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (3) ORDER BY orderIndex LIMIT 2,1)" +
+				"(" +
+				editorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 2,1)" +
 			") " +
 			"END, " +
 			
@@ -836,34 +1008,40 @@ Zotero.Items = function() {
 			") " +
 			"WHEN 0 THEN NULL " +
 			"WHEN 1 THEN (" +
-				"SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2)" +
+				contributorsSQL +
+				"GROUP BY IC.orderIndex LIMIT 1" +
 			") " +
 			"WHEN 2 THEN (" +
 				"SELECT " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1)" +
+				"(" +
+				contributorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' ' || " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1,1) " +
+				"(" +
+				contributorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1,1) " +
 			") " +
 			"ELSE (" +
 				"SELECT " +
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1)" +
+				"(" +
+				contributorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1)" +
 				" || ' ' || " + 
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 1,1)" +
+				"(" +
+				contributorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 1,1)" +
 				" || ' ' || " + 
-				"(SELECT " + nameSQL + " FROM itemCreators NATURAL JOIN creators " +
-				"WHERE itemID=O.itemID AND creatorTypeID IN (2) ORDER BY orderIndex LIMIT 2,1)" +
+				"(" +
+				contributorsSQL +
+				"GROUP BY IC.orderIndex ORDER BY IC.orderIndex LIMIT 2,1)" +
 			") " +
 			"END" +
 		") AS sortCreator";
 		
 		_sortCreatorSQL = sql;
-		return sql;
-	}
+        //Zotero.debug("XXX _sortCreatorSQL [AS GENERATED]: "+_sortCreatorSQL);
+		return _sortCreatorSQL;
+    }	    
 	
 	
 	this.getSortTitle = function(title) {

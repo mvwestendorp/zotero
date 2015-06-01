@@ -1,0 +1,13 @@
+diff --git a/chrome/content/zotero/overlay.xul b/chrome/content/zotero/overlay.xul
+index 8c08dd6..0d397e0 100644
+--- a/chrome/content/zotero/overlay.xul
++++ b/chrome/content/zotero/overlay.xul
+@@ -68,7 +68,7 @@
+ 	<menupopup id="menu_ToolsPopup">
+ 		<menuseparator id="zoteroSeparator" insertbefore="devToolsSeparator"/>
+ 		<menuitem id="tools-zotero" insertbefore="devToolsSeparator"
+-			oncommand="ZoteroOverlay.toggleDisplay();" label="Zotero"
++			oncommand="ZoteroOverlay.toggleDisplay();" label="ML-Zotero"
+ 			key="key_openZotero"/>
+ 	</menupopup>
+ 	

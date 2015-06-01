@@ -513,7 +513,8 @@ Zotero.DataObjects.prototype.isEditable = function (obj) {
 
 
 Zotero.DataObjects.prototype.editCheck = function (obj) {
-	if (!Zotero.Sync.Server.updatesInProgress && !Zotero.Sync.Storage.updatesInProgress && !this.isEditable(obj)) {
+	if (!Zotero.Sync.Server.updatesInProgress && !Zotero.Sync.Storage.updatesInProgress && !this.isEditable(obj)
+			&& !(this._ZDO_object === 'tag' && obj.type === 10000)) {
 		throw ("Cannot edit " + this._ZDO_object + " in read-only Zotero library");
 	}
 }

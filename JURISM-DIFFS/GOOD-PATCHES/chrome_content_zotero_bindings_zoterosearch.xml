@@ -1,0 +1,12 @@
+diff --git a/chrome/content/zotero/bindings/zoterosearch.xml b/chrome/content/zotero/bindings/zoterosearch.xml
+index ad51467..b14fab6 100644
+--- a/chrome/content/zotero/bindings/zoterosearch.xml
++++ b/chrome/content/zotero/bindings/zoterosearch.xml
+@@ -345,6 +345,7 @@
+ 							if (!this.id(conditions[i]['name'] + '-tooltip')) {
+ 								var fieldName = null;
+ 								try {
++                                    Zotero.debug("YYY run getLocalizedString() from zoterosearch.xml ...");
+ 									fieldName = Zotero.ItemFields.getLocalizedString(null, conditions[i].name);
+ 								}
+ 								catch (e) {}

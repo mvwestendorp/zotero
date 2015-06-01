@@ -1,0 +1,182 @@
+--- chrome/content/zotero/xpcom/utilities.js
++++ chrome/content/zotero/xpcom/utilities.js
+@@ -1820,35 +2161,62 @@
+ 		
+ 		return newItems;
+ 	},
+-	
++
+ 	/**
+ 	 * Converts an item from toArray() format to citeproc-js JSON
+ 	 * @param {Zotero.Item} zoteroItem
+ 	 * @return {Object} The CSL item
+ 	 */
+-	"itemToCSLJSON":function(zoteroItem) {
++	"itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
+ 		if (zoteroItem instanceof Zotero.Item) {
+ 			zoteroItem = Zotero.Utilities.Internal.itemToExportFormat(zoteroItem);
+ 		}
+ 		
++		if (portableJSON) {
++			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(zoteroItem);
++		}
++
+ 		var cslType = CSL_TYPE_MAPPINGS[zoteroItem.itemType];
+ 		if (!cslType) throw new Error('Unexpected Zotero Item type "' + zoteroItem.itemType + '"');
+ 		
+ 		var itemTypeID = Zotero.ItemTypes.getID(zoteroItem.itemType);
+ 		
++		// Juris-M: used in FORCE FIELDS below
++		var itemType = zoteroItem.itemType;
++
+ 		var cslItem = {
+ 			'id':zoteroItem.uri,
+ 			'type':cslType
++		}
++		if (!portableJSON) {
++			cslItem.multi = {
++				'main':{},
++				'_keys':{}
++			}
+ 		};
+ 		
++		if (!portableJSON) {
++			if (!zoteroItem.libraryID) {
++				cslItem.system_id = "0_" + zoteroItem.key;
++			} else {
++				cslItem.system_id = zoteroItem.libraryID + "_" + zoteroItem.key;
++			}
++		}
++		
++		cslItem.id = zoteroItem.itemID;
++
+ 		// get all text variables (there must be a better way)
+ 		for(var variable in CSL_TEXT_MAPPINGS) {
+ 			var fields = CSL_TEXT_MAPPINGS[variable];
++			// Not in Zotero
++			if(variable == "URL" && ignoreURL) continue;
+ 			for(var i=0, n=fields.length; i<n; i++) {
+ 				var field = fields[i],
++					baseFieldName,
+ 					value = null;
+ 				
+ 				if(field in zoteroItem) {
++					baseFieldName = field;
+ 					value = zoteroItem[field];
+ 				} else {
+ 					if (field == 'versionNumber') field = 'version'; // Until https://github.com/zotero/zotero/issues/670
+@@ -1876,14 +2245,64 @@
+ 						value = value.substring(1, value.length-1);
+ 					}
+ 					cslItem[variable] = value;
++
++					if (!portableJSON) {
++						if (zoteroItem.multi && zoteroItem.multi.main[baseFieldName]) {
++							cslItem.multi.main[variable] = zoteroItem.multi.main[baseFieldName]
++						}
++						if (zoteroItem.multi && zoteroItem.multi._keys[baseFieldName]) {
++							cslItem.multi._keys[variable] = {};
++							for (var langTag in zoteroItem.multi._keys[baseFieldName]) {
++								cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[baseFieldName][langTag];
++							}
++						}
++					}
++
+ 					break;
+ 				}
+ 			}
+ 		}
+ 		
++		// Clean up committee/legislativeBody
++		// XXX This could use some attention on reverse conversion
++		// XXX Actually, this should really be happening inside the processor
++		if (cslItem.committee && cslItem.authority) {
++			cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
++			delete cslItem.committee;
++		}
++
+ 		// separate name variables
+ 		var author = Zotero.CreatorTypes.getName(Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID));
+ 		var creators = zoteroItem.creators;
++
++		if (!portableJSON && !stopAuthority) {
++			if (!creators) creators = [];
++			if (cslItem.authority) {
++				var nameObj = {
++					'creatorType':'authority',
++					'lastName':cslItem.authority,
++					'firstName':'',
++					'fieldMode': 1,
++					'multi':{
++						'_key': {}
++					}
++				}
++				// _lsts not used in cslItem. Arguably it could be, to fix priorities. One day.
++				for (var langTag in cslItem.multi._keys.authority) {
++					nameObj.multi._key[langTag] = {
++						'lastName':cslItem.multi._keys.authority[langTag],
++						'firstName':''
++					}
++				}
++				if (cslItem.multi._keys.authority) {
++					delete cslItem.multi._keys.authority;
++				}
++				nameObj.multi.main = cslItem.multi.main.authority;
++				creators.push(nameObj);
++				delete cslItem.authority;
++			}
++		}
++		
+ 		for(var i=0; creators && i<creators.length; i++) {
+ 			var creator = creators[i];
+ 			var creatorType = creator.creatorType;
+@@ -1894,8 +2313,47 @@
+ 			creatorType = CSL_NAMES_MAPPINGS[creatorType];
+ 			if(!creatorType) continue;
+ 			
+-			var nameObj = {'family':creator.lastName, 'given':creator.firstName};
+-			
++			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
++				var nameObj = {
++					'family':creator.lastName, 
++					'given':creator.firstName
++				}
++				if (creator.fieldMode) {
++					nameObj.isInstitution = creator.fieldMode;
++				}
++			} else {
++				var nameObj = {
++					'family':creator.lastName, 
++					'given':creator.firstName
++				}
++			}
++		
++			if (!portableJSON) {
++				if (!nameObj.multi) {
++					nameObj.multi = {};
++					nameObj.multi._key = {};
++					if (creator.multi.main) {
++						nameObj.multi.main = creator.multi.main;
++					}
++				}
++				for (var langTag in creator.multi._key) {
++					if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
++						nameObj.multi._key[langTag] = {
++							'family':creator.multi._key[langTag].lastName,
++							'given':creator.multi._key[langTag].firstName
++						};
++						if (creator.fieldMode) {
++							nameObj.multi._key[langTag].isInstitution = creator.fieldMode;
++						}
++					} else {
++						nameObj.multi._key[langTag] = {
++							'family':creator.multi._key[langTag].lastName,
++							'given':creator.multi._key[langTag].firstName
++						};
++					}
++				}
++			}
++
+ 			if(cslItem[creatorType]) {
+ 				cslItem[creatorType].push(nameObj);
+ 			} else {

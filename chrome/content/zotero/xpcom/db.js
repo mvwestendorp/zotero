@@ -1314,4 +1314,4 @@ Zotero.DBConnection.prototype._getTypedValue = function (statement, i) {
 
 
 // Initialize main database connection
-Zotero.DB = new Zotero.DBConnection('zotero');
+Zotero.DB = new Zotero.DBConnection('jurism');

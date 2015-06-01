@@ -1,0 +1,22 @@
+diff --git a/chrome/content/zotero/tab.xul b/chrome/content/zotero/tab.xul
+index fba0401..1886302 100644
+--- a/chrome/content/zotero/tab.xul
++++ b/chrome/content/zotero/tab.xul
+@@ -18,7 +18,7 @@
+ %brandDTD;
+ ]>
+ 
+-<page id="zotero-tab" title="Zotero" role="application"
++<page id="zotero-tab" title="ML-Zotero" role="application"
+ 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+ 		xmlns:xhtml="http://www.w3.org/1999/xhtml" disablefastfind="true"
+ 		flex="1"> 
+@@ -27,7 +27,7 @@
+ 	<script type="application/javascript"
+ 		src="chrome://global/content/contentAreaUtils.js"/>
+ 	<xhtml:link rel="shortcut icon"
+-		href="chrome://zotero/skin/zotero-z-16px.png" style="display:none"/>
++		href="chrome://zotero/skin/mlz-mlz-16px.png" style="display:none"/>
+ 	<popup id="contentAreaContextMenu">
+ 		<menuitem id="context-undo"
+ 				label="&undoCmd.label;"

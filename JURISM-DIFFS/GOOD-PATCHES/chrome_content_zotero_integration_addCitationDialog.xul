@@ -1,0 +1,38 @@
+diff --git a/chrome/content/zotero/integration/addCitationDialog.xul b/chrome/content/zotero/integration/addCitationDialog.xul
+index 7e4bab6..a7cab01 100644
+--- a/chrome/content/zotero/integration/addCitationDialog.xul
++++ b/chrome/content/zotero/integration/addCitationDialog.xul
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0"?>
++<?xml version="1.0"?>
+ <!--
+     ***** BEGIN LICENSE BLOCK *****
+     
+@@ -82,6 +82,7 @@
+ 								<treecol
+ 									id="zotero-items-column-title" primary="true"
+ 									label="&zotero.items.title_column;"
++									crop="center"
+ 									flex="4" persist="width ordinal hidden sortActive sortDirection"/>
+ 								<splitter class="tree-splitter"/>
+ 								<treecol
+@@ -120,6 +121,11 @@
+ 									flex="1" persist="width ordinal hidden sortActive sortDirection"/>
+ 								<splitter class="tree-splitter"/>
+ 								<treecol
++                                    id="zotero-items-column-reporter" hidden="true"
++									label="&zotero.items.reporter_column;"
++									flex="1" persist="width ordinal hidden sortActive sortDirection"/>
++								<splitter class="tree-splitter"/>
++								<treecol
+ 									id="zotero-items-column-language" hidden="true"
+ 									label="&zotero.items.language_column;"
+ 									flex="1" persist="width ordinal hidden sortActive sortDirection"/>
+@@ -281,6 +287,7 @@
+ 					</hbox>
+ 					<separator style="height: 2px" flex="1"/>
+ 					<checkbox oncommand="Zotero_Citation_Dialog.confirmRegenerate(true)" id="suppress-author" label="&zotero.citation.suppressAuthor.label;" tabindex="6"/>
++					<checkbox oncommand="Zotero_Citation_Dialog.confirmRegenerate(true)" id="suppress-trailing-punctuation" label="&zotero.citation.suppressTrailingPunctuation.label;" tabindex="6"/>
+ 				</vbox>
+ 			</hbox>
+ 		</vbox>

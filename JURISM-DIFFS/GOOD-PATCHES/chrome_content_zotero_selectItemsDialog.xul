@@ -1,0 +1,12 @@
+diff --git a/chrome/content/zotero/selectItemsDialog.xul b/chrome/content/zotero/selectItemsDialog.xul
+index e356ce5..34bec12 100644
+--- a/chrome/content/zotero/selectItemsDialog.xul
++++ b/chrome/content/zotero/selectItemsDialog.xul
+@@ -74,6 +74,7 @@
+ 				<treecol
+ 					id="zotero-items-column-title" primary="true"
+ 					label="&zotero.items.title_column;"
++					crop="center"
+ 					flex="4" persist="width ordinal hidden sortActive sortDirection"/>
+ 				<splitter class="tree-splitter"/>
+ 				<treecol

@@ -1,0 +1,14 @@
+--- chrome/content/zotero/xpcom/style.js
++++ chrome/content/zotero/xpcom/style.js
+@@ -141,9 +154,10 @@
+ 			}
+ 			i++;
+ 		}
++        _visibleStyles.sort(_sortVisibleStyles);
+ 		return i;
+ 	}
+-	
++
+ 	/**
+ 	 * Gets a style with a given ID
+ 	 * @param {String} id

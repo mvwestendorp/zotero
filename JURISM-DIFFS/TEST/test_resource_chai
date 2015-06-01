@@ -1,0 +1,7 @@
+diff --git a/test/resource/chai b/test/resource/chai
+index d7cafca..66e6bb6 160000
+--- a/test/resource/chai
++++ b/test/resource/chai
+@@ -1 +1 @@
+-Subproject commit d7cafca0232756f767275bb00e66930a7823b027
++Subproject commit 66e6bb60afe05750cf4b1a6ad5d4c08fa59deca8
