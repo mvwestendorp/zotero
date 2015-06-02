@@ -1821,7 +1821,10 @@ Zotero.Item.prototype.save = function(options) {
 		    // XXX OH, DARN. NEED TO TICK THROUGH THE FIELDS WITHIN EACH MEMO.
 		    // XXX TRY AGAIN!
 
-			if (this._changedItemData || this._changedItemDataMain || this._changedItemDataAlt) {
+		    var segments = ["_changedItemData", "_changedItemDataMain", "_changedItemDataAlt"];
+		    for (var i = 0, ilen = segments.length; i < ilen; i++) {
+			var segment = segments[i];
+			for (var fieldID in this[segment]) {
 				// Use manual bound parameters to speed things up
 
 				sql = "SELECT valueID FROM itemDataValues WHERE value=?";
@@ -1842,11 +1845,14 @@ Zotero.Item.prototype.save = function(options) {
 				// OOOOO: Outer loop provides toggle to modify update
 				// as appropriate for multilingual metadata.
 
-			    if (this._changedItemData || this._changedItemDataMain) {
+			    if (segment === "_changedItemData") {
+				this._insertMainOrAlt(stmt, branch, itemID, fieldID, mainLanguageTag);
+			    }
+			    if (segment === "_changedItemDataMain") {
 				var mainLanguageTag = this.multi.main[fieldID];
 				this._insertMainOrAlt(stmt, branch, itemID, fieldID, mainLanguageTag);
 			    }
-			    if (this._changedItemDataAlt) {
+			    if (segment === "_changedItemDataAlt") {
 				for (var languageTag in this.multi._keys[fieldID]) {
 				    this._insertMainOrAlt(stmt, branch, itemID, fieldID, languageTag);
 				}
@@ -2120,6 +2126,9 @@ Zotero.Item.prototype.save = function(options) {
 			//
 			// ItemData
 			//
+
+		    // XXX ALIGN WITH THE LOOPING PATTERN ABOVE
+
 			if (this._changedItemData || this._changedItemDataMain || this._changedItemDataAlt) {
 				var stmt = {};
 
