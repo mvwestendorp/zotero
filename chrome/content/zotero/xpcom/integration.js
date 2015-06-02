@@ -1688,6 +1688,8 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 	// Act only if the document defines a projectName
 	if (projectName) {
 
+	    Zotero.debug("XXX GOT[1]: projectName="+projectName);
+
 		// If a project name has only one associated document, we may
 		// want to purge the tag from all libraries where it might have 
 		// on each update.
@@ -1703,9 +1705,13 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 		var existingIDs = Zotero.Items.exist(ids);
 		//var nonexistingIDs = ids.filter(function(x){return existingIDs.indexOf(x) == -1});
 		for (var i=0,ilen=existingIDs.length;i<ilen;i+=1) {
+		    
 			var itemID = existingIDs[i];
 			// We can't get the libraryID from the processor registry
 			var libraryID = Zotero.Items.get(itemID).libraryID;
+
+		    Zotero.debug("XXX GOT[2]: libraryID="+libraryID);
+
 			if (!libraryTagMap[libraryID]) {
 				// Reuse an existing project name if we can
 				var existingTagID = Zotero.Tags.getID(projectName, 10000, libraryID);
@@ -2291,7 +2297,9 @@ Zotero.Integration.Session.prototype.getCitationField = function(citation) {
 			// add itemData only if requested
 			if(this.data.prefs.storeReferences) {
 				var zoteroItem = Zotero.Items.get(citationItem.id);
+			        Zotero.debug("XXX GOT[00]: do itemToCSLJSON()");
 				serializeCitationItem.itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem, undefined, true);
+			        Zotero.debug("XXX    done");
 				addSchema = true;
 			}
 		}
@@ -2450,10 +2458,14 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			}
 			
 			if(!zoteroItem) {
+			    Zotero.debug("XXX GOT[3]: !zoteroItem");
 				if(citationItem.itemData) {
+				    Zotero.debug("XXX GOT[4]: citationItem.itemData");
 					if (this.data.prefs.groupID) {
+					    Zotero.debug("XXX GOT[5]: this.data.prefs.groupID");
 						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
 						if (libraryID) {
+						    Zotero.debug("XXX GOT[6]: libraryID");
 							var itemData = citationItem.itemData;
 							zoteroItem = new Zotero.Item();
 							// true is for portableJSON (MLZ decoding)
@@ -2484,6 +2496,7 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 							citationItem.libraryID = zoteroItem.libraryID;
 						}
 					} else {
+					    Zotero.debug("XXX GOT[7]: Oh, shit! How bad is that?");
 						// add new embedded item
 						var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
 						

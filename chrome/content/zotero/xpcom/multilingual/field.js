@@ -125,12 +125,10 @@ Zotero.MultiField.prototype.changeLangTag = function (oldTag, newTag, field) {
 	}
 	if (!oldTag || oldTag === this.main[fieldID]) {
 		this.main[fieldID] = newTag;
-		if (!this.parent._changedItemData) {
-	   		this.parent._changedItemData = {};
-	   		this.parent._changedItemData.main = {};
-	   		this.parent._changedItemData.alt = {};
+		if (!this.parent._changedItemDataMain) {
+	   		this.parent._changedItemDataMain = {};
 		}
-		this.parent._changedItemData.main[fieldID] = true;
+		this.parent._changedItemDataMain[fieldID] = true;
 	} else if (this._keys[fieldID] && this._keys[fieldID][oldTag]) {
 		for (var i = 0, ilen = this._lsts[fieldID].length; i < ilen; i += 1) {
 			if (this._lsts[fieldID][i] === oldTag) {
@@ -140,12 +138,10 @@ Zotero.MultiField.prototype.changeLangTag = function (oldTag, newTag, field) {
 		}
 		this._keys[fieldID][newTag] = this._keys[fieldID][oldTag];
 		this._keys[fieldID][oldTag] = '';
-		if (!this.parent._changedItemData) {
-	   		this.parent._changedItemData = {};
-	   		this.parent._changedItemData.main = {};
-	   		this.parent._changedItemData.alt = {};
+		if (!this.parent._changedItemDataAlt) {
+	   		this.parent._changedItemDataAlt = {};
 		}
-		this.parent._changedItemData.alt[fieldID] = true;
+		this.parent._changedItemDataAlt[fieldID] = true;
 	}
 };
 
@@ -164,13 +160,11 @@ Zotero.MultiField.prototype.merge = function (otherItem, shy) {
 					this._lsts[fieldID].push(langTag);
 				}
 				if (this._keys[fieldID][langTag] != otherItem.multi._keys[fieldID][langTag]) {
-					if (!this.parent._changedItemData) {
-						this.parent._changedItemData = {};
-	   					this.parent._changedItemData.main = {};
-	   					this.parent._changedItemData.alt = {};
+					if (!this.parent._changedItemDataAlt) {
+	   					this.parent._changedItemDataAlt = {};
 					}
 					this._keys[fieldID][langTag] = otherItem.multi._keys[fieldID][langTag];
-					this.parent._changedItemData.alt[fieldID] = true;
+					this.parent._changedItemDataAlt[fieldID] = true;
 					this.parent._changed = true;
 				}
 			}
@@ -189,10 +183,8 @@ Zotero.MultiField.prototype.data = function (fieldID) {
 
 Zotero.MultiField.prototype.clone = function (parent) {
 	var clone = new Zotero.MultiField(parent);
-	if (!clone.parent._changedItemData) {
-		clone.parent._changedItemData = {};
-	   	clone.parent._changedItemData.main = {};
-	   	clone.parent._changedItemData.alt = {};
+	if (!clone.parent._changedItemDataAlt) {
+	   	clone.parent._changedItemDataAlt = {};
 	}
 	for (var fieldID in this._lsts) {
 		clone._lsts[fieldID] = this._lsts[fieldID].slice();
@@ -201,7 +193,7 @@ Zotero.MultiField.prototype.clone = function (parent) {
 		clone._keys[fieldID] = {};
 		for (var langTag in this._keys[fieldID]) {
 			clone._keys[fieldID][langTag] = this._keys[fieldID][langTag];
-			clone.parent._changedItemData.alt[fieldID] = true;
+			clone.parent._changedItemDataAlt[fieldID] = true;
 		}
 	}
 	return clone;

@@ -72,6 +72,8 @@ Zotero.Item.prototype._init = function () {
 	this._changed = {};
 	this._changedPrimaryData = false;
 	this._changedItemData = false;
+	this._changedItemDataMain = false;
+	this._changedItemDataAlt = false;
 	this._changedCreators = false;
 	this._changedAltCreators = false;
 	this._changedDeleted = false;
@@ -476,15 +478,34 @@ Zotero.Item.prototype.loadFromRow = function(row, reload) {
  * Check if any data fields have changed since last save
  */
 Zotero.Item.prototype.hasChanged = function() {
-	return !!(Object.keys(this._changed).length
+	var res = !!(Object.keys(this._changed).length
 		|| this._changedPrimaryData
 		|| this._changedItemData
+		|| this._changedItemDataMain
+		|| this._changedItemDataAlt
 		|| this._changedCreators
 		|| this._changedAltCreators
 		|| this._changedDeleted
 		|| this._changedNote
 		|| this._changedSource
 		|| this._changedAttachmentData);
+    var obj = {
+	len: Object.keys(this._changed).length,
+	primaryData: this._changedPrimaryData,
+	itemData: this._changedItemData,
+	itemDataMain: this._changedItemDataMain,
+	itemDataAlt: this._changedItemDataAlt,
+	creators: this._changedCreators,
+	altCreators: this._changedAltCreators,
+	deleted: this._changedDeleted,
+	note: this._changedNote,
+	source: this._changedSource,
+	attachmentData: this._changedAttachmentData
+    }
+    if (res) {
+	Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
+    }
+    return res
 }
 
 
@@ -1050,20 +1071,22 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 	}
 	
 	if (!loadIn) {
-		// XXX Probably too busy. Shouldn't this check whether
-		// the values have actually changed?
-		if (!this._changedItemData) {
-			this._changedItemData = {};
-			this._changedItemData.main = {};
-			this._changedItemData.alt = {};
-		}
-		if (Zotero.multiFieldIds[fieldID] && lang && lang !== this.multi.main[fieldID]) {
-			if (!this._changedItemData.alt[fieldID]) {
-				this._changedItemData.alt[fieldID] = true;
-			}
+	    // XXX Probably too busy. Shouldn't this check whether
+	    // the values have actually changed?
+		this._changedItemData.alt = {};
+	    if (Zotero.multiFieldIds[fieldID] && lang) {
+		if (lang === this.multi.main[fieldID]) {
+		    if (!this._changedItemDataMain) {
+			this._changedItemDataMain = {};
+		    }
+		    this._changedItemDataMain[fieldID] = true;
 		} else {
-			this._changedItemData.main[fieldID] = true;
+		    if (!this._changedItemDataAlt) {
+			this._changedItemDataAlt = {};
+		    }
+		    this._changedItemDataAlt[fieldID] = true;
 		}
+	    }
 	}
 
 	return true;
@@ -1794,7 +1817,11 @@ Zotero.Item.prototype.save = function(options) {
 			//
 			// ItemData
 			//
-			if (this._changedItemData) {
+
+		    // XXX OH, DARN. NEED TO TICK THROUGH THE FIELDS WITHIN EACH MEMO.
+		    // XXX TRY AGAIN!
+
+			if (this._changedItemData || this._changedItemDataMain || this._changedItemDataAlt) {
 				// Use manual bound parameters to speed things up
 
 				sql = "SELECT valueID FROM itemDataValues WHERE value=?";
@@ -1814,19 +1841,16 @@ Zotero.Item.prototype.save = function(options) {
 						
 				// OOOOO: Outer loop provides toggle to modify update
 				// as appropriate for multilingual metadata.
-				for (var branch in {main: true, alt: true}) {
-					for (fieldID in this._changedItemData[branch]) {
-						var languageTag;
-						if (branch === 'main') {
-							languageTag = this.multi.main[fieldID];
-							this._insertMainOrAlt(stmt, branch, itemID, fieldID, languageTag);
-						} else {
-							for (var languageTag in this.multi._keys[fieldID]) {
-								this._insertMainOrAlt(stmt, branch, itemID, fieldID, languageTag);
-						}
-					}
-					}
+
+			    if (this._changedItemData || this._changedItemDataMain) {
+				var mainLanguageTag = this.multi.main[fieldID];
+				this._insertMainOrAlt(stmt, branch, itemID, fieldID, mainLanguageTag);
+			    }
+			    if (this._changedItemDataAlt) {
+				for (var languageTag in this.multi._keys[fieldID]) {
+				    this._insertMainOrAlt(stmt, branch, itemID, fieldID, languageTag);
 				}
+			    }
 			}
 			//
 			// Creators
@@ -2096,7 +2120,7 @@ Zotero.Item.prototype.save = function(options) {
 			//
 			// ItemData
 			//
-			if (this._changedItemData) {
+			if (this._changedItemData || this._changedItemDataMain || this._changedItemDataAlt) {
 				var stmt = {};
 
 				var del = {};
