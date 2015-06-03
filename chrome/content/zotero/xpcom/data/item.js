@@ -230,14 +230,17 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 		}
 	}
 	
+	// Just being careful here - fieldID may be fine.
+	var origFieldID = Zotero.ItemFields.getID(field);
+	var fieldID;
 	if (includeBaseMapped) {
-		var fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(
+		fieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(
 			this.itemTypeID, field
 		);
 	}
 	
 	if (!fieldID) {
-		var fieldID = Zotero.ItemFields.getID(field);
+		fieldID = origFieldID;
 	}
 	
 	if (typeof this._itemData[fieldID] == 'undefined') {
@@ -249,7 +252,7 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 		this._loadItemData();
 	}
 	
-	if (Zotero.multiFieldIds[fieldID]) {
+	if (Zotero.multiFieldIds[origFieldID]) {
 		var value = this.multi.get(fieldID, language, honorEmpty);
 	} else {
 		var value = this._itemData[fieldID] ? this._itemData[fieldID] : '';
@@ -479,33 +482,33 @@ Zotero.Item.prototype.loadFromRow = function(row, reload) {
  */
 Zotero.Item.prototype.hasChanged = function() {
 	var res = !!(Object.keys(this._changed).length
-		|| this._changedPrimaryData
-		|| this._changedItemData
-		|| this._changedItemDataMain
-		|| this._changedItemDataAlt
-		|| this._changedCreators
-		|| this._changedAltCreators
-		|| this._changedDeleted
-		|| this._changedNote
-		|| this._changedSource
-		|| this._changedAttachmentData);
-    var obj = {
-	len: Object.keys(this._changed).length,
-	primaryData: this._changedPrimaryData,
-	itemData: this._changedItemData,
-	itemDataMain: this._changedItemDataMain,
-	itemDataAlt: this._changedItemDataAlt,
-	creators: this._changedCreators,
-	altCreators: this._changedAltCreators,
-	deleted: this._changedDeleted,
-	note: this._changedNote,
-	source: this._changedSource,
-	attachmentData: this._changedAttachmentData
-    }
-    if (res) {
-	Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
-    }
-    return res
+		         || this._changedPrimaryData
+		         || this._changedItemData
+		         || this._changedItemDataMain
+		         || this._changedItemDataAlt
+		         || this._changedCreators
+		         || this._changedAltCreators
+		         || this._changedDeleted
+		         || this._changedNote
+		         || this._changedSource
+		         || this._changedAttachmentData);
+	var obj = {
+		len: Object.keys(this._changed).length,
+		primaryData: this._changedPrimaryData,
+		itemData: this._changedItemData,
+		itemDataMain: this._changedItemDataMain,
+		itemDataAlt: this._changedItemDataAlt,
+		creators: this._changedCreators,
+		altCreators: this._changedAltCreators,
+		deleted: this._changedDeleted,
+		note: this._changedNote,
+		source: this._changedSource,
+		attachmentData: this._changedAttachmentData
+	}
+	//if (res) {
+	//	Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
+	//}
+	return res
 }
 
 
@@ -1022,73 +1025,54 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 				value = "\u202b" + value + "\u202c";
 			}
 		}
-		// Official 3.0 branch uses this for the condition below
-		//if ((typeof this._itemData[fieldID] == 'undefined' && value === false)
-		//		|| (typeof this._itemData[fieldID] != 'undefined'
-		//			&& this._itemData[fieldID] === value)) {
-		//	return false;
-		//}
 
-		if (
-			(!this._itemData[fieldID] && !value) 
-			|| (
-				value
-				&& (!lang || lang === this.multi.main[fieldID])
-					&& (this._itemData[fieldID] + "") === (value + "")
-				)
-			|| (
-				value
-				&& lang
-				&& this.multi._keys[fieldID]
-				&& this.multi._keys[fieldID][lang] === value
-				)
-			) {
-			return false;
+		// If existing value, make sure it's actually changing
+		if (Zotero.multiFieldIds[fieldID]) {
+			var multiUpdateMode = this.multi._set(fieldID, value, lang, force_top, true);
+			if (!multiUpdateMode) {
+				return false;
+			}
+		} else {
+			if ((typeof this._itemData[fieldID] == 'undefined' && value === false)
+				|| (typeof this._itemData[fieldID] != 'undefined'
+					&& this._itemData[fieldID] === value)) {
+				return false;
+			}
 		}
 		
 		// Save a copy of the field before modifying
-		// (This should probably be extended to catch multilingual field values)
+		// XXX Account for multilingual field values.
 		this._markFieldChange(
 			Zotero.ItemFields.getName(field), this._itemData[fieldID]
 		);
 	}
 	
-	// Set with multi.set() if:
-	// - lang exists; AND
-	// - lang does NOT equal the language of the main entry; AND
-	// - main entry already has a value.
-	// Otherwise, set value in main entry.
-
-	if (lang && lang !== this.multi.main[fieldID] && this._itemData[fieldID]) {
+	if (Zotero.multiFieldIds[fieldID]) {
 		this.multi._set(fieldID, value, lang, force_top);
 	} else {
 		this._itemData[fieldID] = value;
-		if (lang) {
-			// OOOOO: Should normalize language tag before this operation.
-			// (not sure how this will play during a delete operation)
-			this.multi.main[fieldID] = lang;
-		}
 	}
 	
 	if (!loadIn) {
-	    // XXX Probably too busy. Shouldn't this check whether
-	    // the values have actually changed?
-		this._changedItemData.alt = {};
-	    if (Zotero.multiFieldIds[fieldID] && lang) {
-		if (lang === this.multi.main[fieldID]) {
-		    if (!this._changedItemDataMain) {
-			this._changedItemDataMain = {};
-		    }
-		    this._changedItemDataMain[fieldID] = true;
+		if (Zotero.multiFieldIds[fieldID]) {
+			if (multiUpdateMode === "main") {
+				if (!this._changedItemDataMain) {
+					this._changedItemDataMain = {};
+				}
+				this._changedItemDataMain[fieldID] = true;
+			} else {
+				if (!this._changedItemDataAlt) {
+					this._changedItemDataAlt = {};
+				}
+				this._changedItemDataAlt[fieldID] = true;
+			}
 		} else {
-		    if (!this._changedItemDataAlt) {
-			this._changedItemDataAlt = {};
-		    }
-		    this._changedItemDataAlt[fieldID] = true;
+			if (!this._changedItemData) {
+				this._changedItemData = {};
+			}
+			this._changedItemData[fieldID] = true;
 		}
-	    }
 	}
-
 	return true;
 }
 
@@ -1802,7 +1786,7 @@ Zotero.Item.prototype.save = function(options) {
 			catch (e) {
 				if (l &&
 					((e.indexOf && e.indexOf('fki_items_libraryID_libraries_libraryID') != -1)
-						|| (!Zotero.Libraries.exists(l)))) {
+					 || (!Zotero.Libraries.exists(l)))) {
 					var msg = "Library " + l + " for item " + k + " not found";;
 					var e = new Zotero.Error(msg, "MISSING_OBJECT");
 				}
@@ -1813,50 +1797,43 @@ Zotero.Item.prototype.save = function(options) {
 			}
 			
 			var stmt = {};
-
+			
 			//
 			// ItemData
 			//
-
-		    // XXX OH, DARN. NEED TO TICK THROUGH THE FIELDS WITHIN EACH MEMO.
-		    // XXX TRY AGAIN!
-
-		    var segments = ["_changedItemData", "_changedItemDataMain", "_changedItemDataAlt"];
-		    for (var i = 0, ilen = segments.length; i < ilen; i++) {
-			var segment = segments[i];
-			for (var fieldID in this[segment]) {
-				// Use manual bound parameters to speed things up
-
-				sql = "SELECT valueID FROM itemDataValues WHERE value=?";
-				stmt.valueStatement = Zotero.DB.getStatement(sql);
-				
-				sql = "INSERT INTO itemDataValues VALUES (?,?)";
-				stmt.insertValueStatement = Zotero.DB.getStatement(sql);
-				
-				sql = "INSERT INTO itemData VALUES (?,?,?)";
-				stmt.insertStatement = Zotero.DB.getStatement(sql);
-							
-				sql = "INSERT INTO itemDataMain VALUES (?,?,?)";
-				stmt.insertMainStatement = Zotero.DB.getStatement(sql);
-							
-				sql = "INSERT INTO itemDataAlt VALUES (?,?,?,?)";
-				stmt.insertAltStatement = Zotero.DB.getStatement(sql);
-						
-				// OOOOO: Outer loop provides toggle to modify update
-				// as appropriate for multilingual metadata.
-
-			    if (segment === "_changedItemData") {
-				this._insertMainOrAlt(stmt, branch, itemID, fieldID, mainLanguageTag);
-			    }
-			    if (segment === "_changedItemDataMain") {
-				var mainLanguageTag = this.multi.main[fieldID];
-				this._insertMainOrAlt(stmt, branch, itemID, fieldID, mainLanguageTag);
-			    }
-			    if (segment === "_changedItemDataAlt") {
-				for (var languageTag in this.multi._keys[fieldID]) {
-				    this._insertMainOrAlt(stmt, branch, itemID, fieldID, languageTag);
+			
+			// Use manual bound parameters to speed things up
+			sql = "SELECT valueID FROM itemDataValues WHERE value=?";
+			stmt.valueStatement = Zotero.DB.getStatement(sql);
+			
+			sql = "INSERT INTO itemDataValues VALUES (?,?)";
+			stmt.insertValueStatement = Zotero.DB.getStatement(sql);
+			
+			sql = "INSERT INTO itemData VALUES (?,?,?)";
+			stmt.insertStatement = Zotero.DB.getStatement(sql);
+			
+			sql = "INSERT INTO itemDataMain VALUES (?,?,?)";
+			stmt.insertMainStatement = Zotero.DB.getStatement(sql);
+			
+			sql = "INSERT INTO itemDataAlt VALUES (?,?,?,?)";
+			stmt.insertAltStatement = Zotero.DB.getStatement(sql);
+			
+			var segments = ["_changedItemData", "_changedItemDataMain", "_changedItemDataAlt"];
+			for (var i = 0, ilen = segments.length; i < ilen; i++) {
+				var segment = segments[i];
+				if (this[segment]) {
+					for (var fieldID in this[segment]) {
+						if (segment === "_changedItemData" || segment === "_changedItemDataMain") {
+							var mainLanguageTag = this.multi.main[fieldID];
+							this._insertMainOrAlt(stmt, "main", itemID, fieldID, mainLanguageTag);
+						}
+						if (segment === "_changedItemDataAlt") {
+							for (var languageTag in this.multi._keys[fieldID]) {
+								this._insertMainOrAlt(stmt, "alt", itemID, fieldID, languageTag);
+							}
+						}
+					}
 				}
-			    }
 			}
 			//
 			// Creators
@@ -1867,9 +1844,9 @@ Zotero.Item.prototype.save = function(options) {
 					var creator = this.getCreator(orderIndex);
 					
 					/*
-					if (!creator.ref.exists()) {
-						throw ("Creator in position " + orderIndex + " doesn't exist");
-					}
+					  if (!creator.ref.exists()) {
+					  throw ("Creator in position " + orderIndex + " doesn't exist");
+					  }
 					*/
 					
 					if (!creator) {
@@ -1883,8 +1860,8 @@ Zotero.Item.prototype.save = function(options) {
 					
 					sql = 'INSERT INTO itemCreators VALUES (?, ?, ?, ?)';
 					Zotero.DB.query(sql,
-						[{ int: itemID }, { int: creator.ref.id },
-						{ int: creator.creatorTypeID }, { int: orderIndex }]);
+						            [{ int: itemID }, { int: creator.ref.id },
+						             { int: creator.creatorTypeID }, { int: orderIndex }]);
 					
 					if (creator.multi.main) {
 						// OOOOO: languageTag needs to be handled in load() etc.
@@ -1931,9 +1908,9 @@ Zotero.Item.prototype.save = function(options) {
 					}
 					
 					/*
-					Zotero.History.add('itemCreators',
-						'itemID-creatorID-creatorTypeID',
-						[this.id, creatorID, creator['creatorTypeID']]);
+					  Zotero.History.add('itemCreators',
+					  'itemID-creatorID-creatorTypeID',
+					  [this.id, creatorID, creator['creatorTypeID']]);
 					*/
 				}
 			}
@@ -1954,7 +1931,7 @@ Zotero.Item.prototype.save = function(options) {
 			// Note
 			if (this.isNote() || this._changedNote) {
 				sql = "INSERT INTO itemNotes "
-						+ "(itemID, sourceItemID, note, title) VALUES (?,?,?,?)";
+					+ "(itemID, sourceItemID, note, title) VALUES (?,?,?,?)";
 				var parent = this.isNote() ? this.getSource() : null;
 				var noteText = this._noteText ? this._noteText : '';
 				// Add <div> wrapper if not present
@@ -2033,12 +2010,12 @@ Zotero.Item.prototype.save = function(options) {
 				Zotero.Notifier.trigger('modify', 'item', newSourceItem.id, newSourceItemNotifierData);
 				
 				switch (Zotero.ItemTypes.getName(this.itemTypeID)) {
-					case 'note':
-						newSourceItem.incrementNoteCount();
-						break;
-					case 'attachment':
-						newSourceItem.incrementAttachmentCount();
-						break;
+				case 'note':
+					newSourceItem.incrementNoteCount();
+					break;
+				case 'attachment':
+					newSourceItem.incrementAttachmentCount();
+					break;
 				}
 			}
 			
@@ -2126,12 +2103,9 @@ Zotero.Item.prototype.save = function(options) {
 			//
 			// ItemData
 			//
-
-		    // XXX ALIGN WITH THE LOOPING PATTERN ABOVE
-
 			if (this._changedItemData || this._changedItemDataMain || this._changedItemDataAlt) {
 				var stmt = {};
-
+				
 				var del = {};
 				del.main = [];
 				del.alt = [];
@@ -2144,32 +2118,37 @@ Zotero.Item.prototype.save = function(options) {
 				
 				sql = "REPLACE INTO itemData VALUES (?,?,?)";
 				stmt.replaceStatement = Zotero.DB.getStatement(sql);
-					
+				
 				sql = "REPLACE INTO itemDataMain VALUES (?,?,?)";
 				stmt.replaceMainStatement = Zotero.DB.getStatement(sql);
-					
+				
 				sql = "REPLACE INTO itemDataAlt VALUES (?,?,?,?)";
 				stmt.replaceAltStatement = Zotero.DB.getStatement(sql);
-							
+				
 				// Oh, I gotcha. Deleting main should implicitly delete
+				
 				// alt as well.
-						
-				for (var branch in {main: true, alt: true}) {
-					for (fieldID in this._changedItemData[branch]) {
-						var languageTag;
-						if (branch === 'main') {
-							languageTag = this.multi.main[fieldID];
-							// This is ugly
-							del = this._replaceMainOrAlt(stmt, branch, fieldID, languageTag, del);
-						} else {
-							for (var languageTag in this.multi._keys[fieldID]) {
-								// This is ugly too
-								del = this._replaceMainOrAlt(stmt, branch, fieldID, languageTag, del);
-					}
-					}
-					}
+
+  				var segments = ["_changedItemData", "_changedItemDataMain", "_changedItemDataAlt"];
+				for (var i = 0, ilen = segments.length; i < ilen; i++) {
+					var segment = segments[i];
+					if (this[segment]) {
+						for (fieldID in this[segment]) {
+							var languageTag;
+							if ('_changedItemData' === segment || '_changedItemDataMain' === segment) {
+								languageTag = this.multi.main[fieldID];
+								// This is ugly
+								del = this._replaceMainOrAlt(stmt, 'main', fieldID, languageTag, del);
+							} else {
+								for (var languageTag in this.multi._keys[fieldID]) {
+									// This is ugly too
+									del = this._replaceMainOrAlt(stmt, 'alt', fieldID, languageTag, del);
+								}
+							}
 						}
-						
+					}
+				}
+				
 				// If deleting main value, delete multi with it
 				for (var k = 0, klen = del.main.length; k < klen; k += 1) {
 					// del.main[k] is the fieldID
@@ -2206,8 +2185,8 @@ Zotero.Item.prototype.save = function(options) {
 					/*
 					// Add to history
 					for (var i in del) {
-						Zotero.History.remove('itemData', 'itemID-fieldID',
-							[this.id, del[i]]);
+					Zotero.History.remove('itemData', 'itemID-fieldID',
+					[this.id, del[i]]);
 					}
 					*/
 					sql = 'DELETE from itemDataMain WHERE itemID=? '
@@ -2223,7 +2202,6 @@ Zotero.Item.prototype.save = function(options) {
 					Zotero.DB.query(sql, [this.id].concat(del.main));
 				}
 			}
-			
 			//
 			// Creators
 			//
@@ -2237,15 +2215,15 @@ Zotero.Item.prototype.save = function(options) {
 					var creator = this.getCreator(orderIndex);
 					
 					/*
-					if (!creator.ref.exists()) {
-						throw ("Creator in position " + orderIndex + " doesn't exist");
-				}
+					  if (!creator.ref.exists()) {
+					  throw ("Creator in position " + orderIndex + " doesn't exist");
+					  }
 					*/
 					
 					/*
 					// Delete at position
 					Zotero.History.remove('itemCreators', 'itemID-orderIndex',
-						[this.id, orderIndex]);
+					[this.id, orderIndex]);
 					*/
 					
 					var sql2 = 'DELETE FROM itemCreators WHERE itemID=?'
@@ -2275,7 +2253,7 @@ Zotero.Item.prototype.save = function(options) {
 					if (creator.multi.main) {
 						// OOOOO: languageTag needs to be handled in load() etc.
 						sql = 'DELETE FROM itemCreatorsMain WHERE itemID=? AND creatorID=? AND creatorTypeID=? AND orderIndex=?'
-							Zotero.DB.query(sql, [{int: this.id},{int: creator.ref.id},{int: creator.creatorTypeID},{int: orderIndex}]);
+						Zotero.DB.query(sql, [{int: this.id},{int: creator.ref.id},{int: creator.creatorTypeID},{int: orderIndex}]);
 						sql = 'INSERT INTO itemCreatorsMain VALUES (?, ?, ?, ?, ?)';
 						Zotero.DB.query(sql,
 										[{ int: this.id }, { int: creator.ref.id },
@@ -2284,9 +2262,9 @@ Zotero.Item.prototype.save = function(options) {
 					}
 
 					/*
-					Zotero.History.add('itemCreators',
-						'itemID-creatorID-creatorTypeID',
-						[this.id, creatorID, creator['creatorTypeID']]);
+					  Zotero.History.add('itemCreators',
+					  'itemID-creatorID-creatorTypeID',
+					  [this.id, creatorID, creator['creatorTypeID']]);
 					*/
 				}
 			}
@@ -2378,7 +2356,7 @@ Zotero.Item.prototype.save = function(options) {
 			if (this._changedNote) {
 				if (this._noteText === null || this._noteTitle === null) {
 					throw ('Cached note values not set with this._changedNote '
-						+ ' set to true in Item.save()');
+						   + ' set to true in Item.save()');
 				}
 				
 				var parent = this.isNote() ? this.getSource() : null;
@@ -2401,7 +2379,7 @@ Zotero.Item.prototype.save = function(options) {
 				// Row might not yet exist for new embedded attachment notes
 				else {
 					sql = "INSERT INTO itemNotes "
-							+ "(itemID, sourceItemID, note, title) VALUES (?,?,?,?)";
+						+ "(itemID, sourceItemID, note, title) VALUES (?,?,?,?)";
 					var bindParams = [
 						this.id,
 						parent ? parent : null,
@@ -2516,7 +2494,7 @@ Zotero.Item.prototype.save = function(options) {
 					else if (oldSourceItemKey) {
 						var oldSourceItemNotifierData = null;
 						Zotero.debug("Old source item " + oldSourceItemKey
-							+ " didn't exist in Zotero.Item.save()", 2);
+							         + " didn't exist in Zotero.Item.save()", 2);
 					}
 				}
 				
@@ -2527,7 +2505,7 @@ Zotero.Item.prototype.save = function(options) {
 				// there is one
 				if (!oldSourceItemKey) {
 					var sql = "SELECT collectionID FROM collectionItems "
-								+ "WHERE itemID=?";
+						+ "WHERE itemID=?";
 					var changedCollections = Zotero.DB.columnQuery(sql, this.id);
 					if (changedCollections) {
 						sql = "UPDATE collections SET dateModified=CURRENT_TIMESTAMP, clientDateModified=CURRENT_TIMESTAMP "
@@ -2554,9 +2532,9 @@ Zotero.Item.prototype.save = function(options) {
 				
 				// Update DB, if not a note or attachment we already changed above
 				if (!this._changedAttachmentData &&
-						(!this._changedNote || !this.isNote())) {
+					(!this._changedNote || !this.isNote())) {
 					var sql = "UPDATE item" + Type + "s SET sourceItemID=? "
-								+ "WHERE itemID=?";
+						+ "WHERE itemID=?";
 					var bindParams = [
 						newSourceItem ? newSourceItem.id : null, this.id
 					];
@@ -2566,23 +2544,23 @@ Zotero.Item.prototype.save = function(options) {
 				// Update the counts of the previous and new sources
 				if (oldSourceItem) {
 					switch (type) {
-						case 'note':
-							oldSourceItem.decrementNoteCount();
-							break;
-						case 'attachment':
-							oldSourceItem.decrementAttachmentCount();
-							break;
+					case 'note':
+						oldSourceItem.decrementNoteCount();
+						break;
+					case 'attachment':
+						oldSourceItem.decrementAttachmentCount();
+						break;
 					}
 				}
 				
 				if (newSourceItem) {
 					switch (type) {
-						case 'note':
-							newSourceItem.incrementNoteCount();
-							break;
-						case 'attachment':
-							newSourceItem.incrementAttachmentCount();
-							break;
+					case 'note':
+						newSourceItem.incrementNoteCount();
+						break;
+					case 'attachment':
+						newSourceItem.incrementAttachmentCount();
+						break;
 					}
 				}
 			}
@@ -6031,7 +6009,7 @@ Zotero.Item.prototype._loadItemData = function() {
 		}
 		throw ('ItemID not set for object before attempting to load data');
 	}
-	
+
 	// OOOOO: This needs to grab field item data with hints
 	// necessary to allot data to correct locations within
 	// the Zotero item.

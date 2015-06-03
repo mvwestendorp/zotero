@@ -182,13 +182,8 @@ Zotero.Item.prototype.setMultiField = function (field, val, lang) {
 
 	}
 	// Over-aggressive.  Should check for equality.
-	if (!this._changedItemData) {
-		this._changedItemData = {};
-		this._changedItemData.main = {};
-		this._changedItemData.alt = {};
-	}
-	this._changedItemData.main[fieldID] = true;
-	this._changedItemData.alt[fieldID] = true;
+	this._changedItemDataMain[fieldID] = true;
+	this._changedItemDataAlt[fieldID] = true;
 };
 
 

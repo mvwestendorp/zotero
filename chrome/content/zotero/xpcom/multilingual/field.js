@@ -17,10 +17,9 @@ Zotero.MultiField = function(parent){
 	this._lsts = {};
 };
 
-Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top) {
+Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, justLooking) {
 	if (!fieldID) {
-		Zotero.debug("MultiField.set called without specifying fieldID");
-		return;
+		throw "MultiField._set called without specifying fieldID";
 	}
 	// Add or edit (if field is empty, deletion will be handled
 	// in item.save())
@@ -30,21 +29,49 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top) {
 			Zotero.debug("XXX Attempt to save existing tag to main: " + lang);
 			throw "Attempt to save existing tag to main: " + lang;
 		}
-		if (value) {
-			this.parent._itemData[fieldID] = value;
-			if (lang && force_top) {
-				this.main[fieldID] = lang;
+		if (justLooking) {
+			if (value === this.parent._itemData[fieldID] && (!lang || lang === this.main[fieldID])) {
+				return false;
+			} else {
+				return "main";
+			}
+		} else {
+			if (value) {
+				this.parent._itemData[fieldID] = value;
+				if (!this.parent._changedItemData) {
+					this.parent._changedItemData = {};
+				}
+				this.parent._changedItemData[fieldID] = true;
+				if (lang && force_top) {
+					this.main[fieldID] = lang;
+				if (!this.parent._changedItemDataMain) {
+					this.parent._changedItemDataMain = {};
+				}
+					this.parent._changedItemDataMain[fieldID] = true;
+				}
 			}
 		}
 	} else {
-		if (!this._keys[fieldID]) {
-			this._keys[fieldID] = {};
-			this._lsts[fieldID] = [];
+		if (justLooking) {
+			if (this._keys[fieldID] && this._keys[fieldID][lang] && this._keys[fieldID][lang] === value) {
+				return false;
+			} else {
+				return "alt";
+			}
+		} else {
+			if (!this._keys[fieldID]) {
+				this._keys[fieldID] = {};
+				this._lsts[fieldID] = [];
+			}
+			if (!this._keys[fieldID][lang]) {
+				this._lsts[fieldID].push(lang);
+			}
+			this._keys[fieldID][lang] = value;
+			if (!this._changedItemDataAlt) {
+				this._changedItemDataAlt = {};
+			}
+			this._changedItemDataAlt[fieldID] = true;
 		}
-		if (!this._keys[fieldID][lang]) {
-			this._lsts[fieldID].push(lang);
-		}
-		this._keys[fieldID][lang] = value;
 	}
 };
 
