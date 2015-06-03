@@ -505,9 +505,9 @@ Zotero.Item.prototype.hasChanged = function() {
 		source: this._changedSource,
 		attachmentData: this._changedAttachmentData
 	}
-	//if (res) {
-	//	Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
-	//}
+	if (res) {
+		Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
+	}
 	return res
 }
 
@@ -1818,13 +1818,14 @@ Zotero.Item.prototype.save = function(options) {
 			sql = "INSERT INTO itemDataAlt VALUES (?,?,?,?)";
 			stmt.insertAltStatement = Zotero.DB.getStatement(sql);
 			
-			var segments = ["_changedItemData", "_changedItemDataMain", "_changedItemDataAlt"];
+			var segments = ["_changedItemData", "_changedItemDataAlt"];
 			for (var i = 0, ilen = segments.length; i < ilen; i++) {
 				var segment = segments[i];
 				if (this[segment]) {
 					for (var fieldID in this[segment]) {
-						if (segment === "_changedItemData" || segment === "_changedItemDataMain") {
+						if (segment === "_changedItemData") {
 							var mainLanguageTag = this.multi.main[fieldID];
+						    Zotero.debug("XXX ZZ "+itemID+" "+fieldID+" "+mainLanguageTag);
 							this._insertMainOrAlt(stmt, "main", itemID, fieldID, mainLanguageTag);
 						}
 						if (segment === "_changedItemDataAlt") {
