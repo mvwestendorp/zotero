@@ -480,7 +480,7 @@ Zotero.Item.prototype.loadFromRow = function(row, reload) {
  * Check if any data fields have changed since last save
  */
 Zotero.Item.prototype.hasChanged = function() {
-	var res = !!(Object.keys(this._changed).length
+	var return !!(Object.keys(this._changed).length
 		         || this._changedPrimaryData
 		         || this._changedItemData
 		         || this._changedItemDataAlt
@@ -490,6 +490,7 @@ Zotero.Item.prototype.hasChanged = function() {
 		         || this._changedNote
 		         || this._changedSource
 		         || this._changedAttachmentData);
+    /*
 	var obj = {
 		len: Object.keys(this._changed).length,
 		primaryData: this._changedPrimaryData,
@@ -506,6 +507,7 @@ Zotero.Item.prototype.hasChanged = function() {
 		Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
 	}
 	return res
+    */
 }
 
 
@@ -1816,7 +1818,6 @@ Zotero.Item.prototype.save = function(options) {
 					for (var fieldID in this[segment]) {
 						if (segment === "_changedItemData") {
 							var mainLanguageTag = this.multi.main[fieldID];
-						    Zotero.debug("XXX ZZ "+itemID+" "+fieldID+" "+mainLanguageTag);
 							this._insertMainOrAlt(stmt, "main", itemID, fieldID, mainLanguageTag);
 						}
 						if (segment === "_changedItemDataAlt") {
