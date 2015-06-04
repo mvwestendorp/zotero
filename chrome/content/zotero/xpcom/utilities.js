@@ -292,9 +292,6 @@ Zotero.Utilities = {
 			if (!obj.multi.main) {
 				obj.multi.main = {};
 			}
-			if (!obj.multi._lsts) {
-				obj.multi._lsts = {};
-			}
 			if (!obj.multi._keys) {
 				obj.multi._keys = {};
 			}
@@ -306,14 +303,10 @@ Zotero.Utilities = {
 				obj.multi.main[field] = languageTag;
 			}
 		} else if (languageTag) {
-			if (!obj.multi._lsts[field]) {
-				obj.multi._lsts[field] = [];
+			if (!obj.multi._keys[field]) {
 				obj.multi._keys[field] = {};
 			}
 			obj.multi._keys[field][languageTag] = val;
-			if (obj.multi._lsts[field].indexOf(languageTag) === -1) {
-				obj.multi._lsts[field].push(languageTag);
-			}
 		}
 	},
 
@@ -1945,7 +1938,6 @@ Zotero.Utilities = {
 						'_key': {}
 					}
 				}
-				// _lsts not used in cslItem. Arguably it could be, to fix priorities. One day.
 				for (var langTag in cslItem.multi._keys.authority) {
 					nameObj.multi._key[langTag] = {
 						'lastName':cslItem.multi._keys.authority[langTag],

@@ -72,7 +72,6 @@ Zotero.Item.prototype._init = function () {
 	this._changed = {};
 	this._changedPrimaryData = false;
 	this._changedItemData = false;
-	this._changedItemDataMain = false;
 	this._changedItemDataAlt = false;
 	this._changedCreators = false;
 	this._changedAltCreators = false;
@@ -484,7 +483,6 @@ Zotero.Item.prototype.hasChanged = function() {
 	var res = !!(Object.keys(this._changed).length
 		         || this._changedPrimaryData
 		         || this._changedItemData
-		         || this._changedItemDataMain
 		         || this._changedItemDataAlt
 		         || this._changedCreators
 		         || this._changedAltCreators
@@ -496,7 +494,6 @@ Zotero.Item.prototype.hasChanged = function() {
 		len: Object.keys(this._changed).length,
 		primaryData: this._changedPrimaryData,
 		itemData: this._changedItemData,
-		itemDataMain: this._changedItemDataMain,
 		itemDataAlt: this._changedItemDataAlt,
 		creators: this._changedCreators,
 		altCreators: this._changedAltCreators,
@@ -534,7 +531,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 		
 		var copiedFields = [];
 		var copiedMultilingualFieldData = {};
-		var copiedMultilingualLanguageLists = {};
 		
 		// Special cases handled below
 		var bookTypeID = Zotero.ItemTypes.getID('book');
@@ -551,7 +547,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 				if (this._itemData[bookTitleFieldID] && !this._itemData[titleFieldID]) {
 					copiedFields.push([titleFieldID, this._itemData[bookTitleFieldID]]);
 					if (this.multi._keys[bookTitleFieldID]) {
-						copiedMultilingualLanguageLists[titleFieldID] = this.multi._lsts[bookTitleFieldID].slice();
 						copiedMultilingualFieldData[titleFieldID] = {};
 						for (var langTag in this.multi._keys[bookTitleFieldID]) {
 							copiedMultilingualFieldData[titleFieldID][langTag] = this.multi._keys[bookTitleFieldID][langTag];
@@ -580,7 +575,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 						if (this.multi._keys[oldFieldID]) {
 							if (!copiedMultilingualFieldData[newFieldID]) {
 								copiedMultilingualFieldData[newFieldID] = {};
-								copiedMultilingualLanguageLists[newFieldID] = this.multi._lsts[oldFieldID].slice();
 								for (var langTag in this.multi._keys[oldFieldID]) {
 									copiedMultilingualFieldData[newFieldID][langTag] = this.multi._keys[oldFieldID][langTag];
 								}
@@ -612,7 +606,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 					if (!copiedMultilingualFieldData[bookTitleFieldID]) {
 						copiedMultilingualFieldData[bookTitleFieldID] = {};
 					}
-					copiedMultilingualLanguageLists[bookTitleFieldID] = this.multi._lsts[titleFieldID].slice();
 					for (var langTag in this.multi._keys[titleFieldID]) {
 						copiedMultilingualFieldData[bookTitleFieldID][langTag] = this.multi._keys[titleFieldID][langTag];
 					}
@@ -631,7 +624,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 				copiedFields.push([fieldID, this.getField(fieldID)]);
 				if (!copiedMultilingualFieldData[fieldID]) {
 					if (this.multi._keys[fieldID]) {
-						copiedMultilingualLanguageLists[fieldID] = this.multi._lsts[fieldID].slice();
 						copiedMultilingualFieldData[fieldID] = {};
 						for (var langTag in this.multi._keys[fieldID]) {
 							copiedMultilingualFieldData[fieldID][langTag] = this.multi._keys[fieldID][langTag];
@@ -701,7 +693,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 			}
 			if (copiedMultilingualFieldData[f[0]]) {
 				this.multi._keys[f[0]] = {};
-				this.multi._lsts[f[0]] = copiedMultilingualLanguageLists[f[0]];
 				for (var langTag in copiedMultilingualFieldData[f[0]]) {
 					this.setField(f[0], copiedMultilingualFieldData[f[0]][langTag], true, langTag);
 				}
@@ -1055,11 +1046,11 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 	
 	if (!loadIn) {
 		if (Zotero.multiFieldIds[fieldID]) {
-			if (multiUpdateMode === "main") {
-				if (!this._changedItemDataMain) {
-					this._changedItemDataMain = {};
+			if (multiUpdateMode === "MAIN") {
+				if (!this._changedItemData) {
+					this._changedItemData = {};
 				}
-				this._changedItemDataMain[fieldID] = true;
+				this._changedItemData[fieldID] = true;
 			} else {
 				if (!this._changedItemDataAlt) {
 					this._changedItemDataAlt = {};
@@ -2104,7 +2095,7 @@ Zotero.Item.prototype.save = function(options) {
 			//
 			// ItemData
 			//
-			if (this._changedItemData || this._changedItemDataMain || this._changedItemDataAlt) {
+			if (this._changedItemData || this._changedItemDataAlt) {
 				var stmt = {};
 				
 				var del = {};
@@ -2130,13 +2121,13 @@ Zotero.Item.prototype.save = function(options) {
 				
 				// alt as well.
 
-  				var segments = ["_changedItemData", "_changedItemDataMain", "_changedItemDataAlt"];
+  				var segments = ["_changedItemData", "_changedItemDataAlt"];
 				for (var i = 0, ilen = segments.length; i < ilen; i++) {
 					var segment = segments[i];
 					if (this[segment]) {
 						for (fieldID in this[segment]) {
 							var languageTag;
-							if ('_changedItemData' === segment || '_changedItemDataMain' === segment) {
+							if ('_changedItemData' === segment) {
 								languageTag = this.multi.main[fieldID];
 								// This is ugly
 								del = this._replaceMainOrAlt(stmt, 'main', fieldID, languageTag, del);
@@ -5369,7 +5360,6 @@ Zotero.Item.prototype.toArray = function (mode) {
 	arr.multi = {};
 	arr.multi.main = {};
 	arr.multi._keys = {};
-	arr.multi._lsts = {};
 	
 	// Primary fields
 	for each(var i in Zotero.Items.primaryFields) {
@@ -5415,13 +5405,9 @@ Zotero.Item.prototype.toArray = function (mode) {
 		var fieldName = Zotero.ItemFields.getName(fieldID);
 		if (!arr.multi._keys[fieldName]) {
 			arr.multi._keys[fieldName] = {};
-			arr.multi._lsts[fieldName] = [];
 		}
 		for (var languageTag in this.multi._keys[fieldID]) {
 			arr.multi._keys[fieldName][languageTag] = this.multi._keys[fieldID][languageTag];
-			if (arr.multi._lsts[fieldName].indexOf(languageTag) === -1) {
-				arr.multi._lsts[fieldName].push(languageTag);
-			}
 		}
 	}
 
@@ -5545,7 +5531,6 @@ Zotero.Item.prototype.serialize = function(mode) {
 	arr.multi = {};
 	arr.multi.main = {};
 	arr.multi._keys = {};
-	arr.multi._lsts = {};
 	
 	// Primary and virtual fields
 	for each(var i in Zotero.Items.primaryFields) {
@@ -5591,13 +5576,9 @@ Zotero.Item.prototype.serialize = function(mode) {
 		var fieldName = Zotero.ItemFields.getName(fieldID);
 		if (!arr.multi._keys[fieldName]) {
 			arr.multi._keys[fieldName] = {};
-			arr.multi._lsts[fieldName] = [];
 		}
 		for (var langTag in this.multi._keys[fieldID]) {
 			arr.multi._keys[fieldName][langTag] = this.multi._keys[fieldID][langTag];
-			if (arr.multi._lsts[fieldName].indexOf(langTag) === -1) {
-				arr.multi._lsts[fieldName].push(langTag);
-			}
 		}
 	}
 	

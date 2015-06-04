@@ -1572,7 +1572,7 @@ Zotero.Translate.Base.prototype = {
 				"for(var i=0, n=createArrays.length; i<n; i++) {"+
 					"this[createArrays[i]] = [];"+
 				"};"+
-                "this.multi = {main:{},_lsts:{},_keys:{}}"+
+                "this.multi = {main:{},_keys:{}}"+
 		"};";
 		
 		if(this instanceof Zotero.Translate.Export || this instanceof Zotero.Translate.Import) {

@@ -14,7 +14,6 @@ Zotero.MultiField = function(parent){
 	this.parent = parent;
 	this.main = {};
 	this._keys = {};
-	this._lsts = {};
 };
 
 Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, justLooking) {
@@ -24,41 +23,43 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 	// Add or edit (if field is empty, deletion will be handled
 	// in item.save())
 	if (!lang || lang === this.main[fieldID] || force_top) {
-		// XXX Throw error if language exists on multi.
+        // MAIN mode
 		if (this.hasLang(lang, fieldID, true)) {
-			Zotero.debug("XXX Attempt to save existing tag to main: " + lang);
 			throw "Attempt to save existing tag to main: " + lang;
 		}
-		if (value === this.parent._itemData[fieldID]) {
+		if (value === this.parent._itemData[fieldID] && (!lang || lang === this.main[fieldID])) {
 			// no action, in either mode
 			return false;
 		} else {
 			// main
 			if (justLooking) {
-				return "main";
+				return "MAIN";
 			} else {
+                // Set the field value
 				this.parent._itemData[fieldID] = value;
-				if (lang && force_top) {
+				if (lang) {
+                    // If there is a lang value, set it; never unset the headline field lang
 					this.main[fieldID] = lang;
 				}
 			}
 		}
 	} else {
-		if (justLooking) {
-			if (this._keys[fieldID] && this._keys[fieldID] && this._keys[fieldID][lang] == value) {
-				return false;
+        // ALT mode
+        if (lang === this.main[fieldID]) {
+            throw "Attempt to save main tag value to alt: " + lang;
+        }
+		if (this._keys[fieldID] && this._keys[fieldID] && this._keys[fieldID][lang] == value) {
+            // No action in either mode
+            return false;
+        } else {
+		    if (justLooking) {
+				return "ALT";
 			} else {
-				return "alt";
+			    if (!this._keys[fieldID]) {
+				    this._keys[fieldID] = {};
+			    }
+			    this._keys[fieldID][lang] = value;
 			}
-		} else {
-			if (!this._keys[fieldID]) {
-				this._keys[fieldID] = {};
-				this._lsts[fieldID] = [];
-			}
-			if (!this._keys[fieldID][lang]) {
-				this._lsts[fieldID].push(lang);
-			}
-			this._keys[fieldID][lang] = value;
 		}
 	}
 };
@@ -116,8 +117,8 @@ Zotero.MultiField.prototype.langs = function (fieldID) {
 		throw "MultiField.langs() called without fieldID"
 	}
 	fieldID = Zotero.ItemFields.getID(fieldID);
-	if (this._lsts[fieldID]) {
-		return this._lsts[fieldID];
+	if (this._keys[fieldID]) {
+		return Object.keys(this._keys[fieldID]);
 	}
 	return [];
 };
@@ -140,17 +141,11 @@ Zotero.MultiField.prototype.changeLangTag = function (oldTag, newTag, field) {
 	}
 	if (!oldTag || oldTag === this.main[fieldID]) {
 		this.main[fieldID] = newTag;
-		if (!this.parent._changedItemDataMain) {
-	   		this.parent._changedItemDataMain = {};
+		if (!this.parent._changedItemData) {
+	   		this.parent._changedItemData = {};
 		}
-		this.parent._changedItemDataMain[fieldID] = true;
+		this.parent._changedItemData[fieldID] = true;
 	} else if (this._keys[fieldID] && this._keys[fieldID][oldTag]) {
-		for (var i = 0, ilen = this._lsts[fieldID].length; i < ilen; i += 1) {
-			if (this._lsts[fieldID][i] === oldTag) {
-				this._lsts[fieldID][i] = newTag;
-				break;
-			}
-		}
 		this._keys[fieldID][newTag] = this._keys[fieldID][oldTag];
 		this._keys[fieldID][oldTag] = '';
 		if (!this.parent._changedItemDataAlt) {
@@ -165,15 +160,11 @@ Zotero.MultiField.prototype.merge = function (otherItem, shy) {
 		if (!this.parent._itemData[fieldID]) {
 			continue;
 		}
-		if (!this._lsts[fieldID]) {
-			this._lsts[fieldID] = [];
+		if (!this._keys[fieldID]) {
 			this._keys[fieldID] = {};
 		}
 		for (var langTag in otherItem.multi._keys[fieldID]) {
 			if (!shy || (shy && !this._keys[fieldID][langTag])) {
-				if (!this._lsts[fieldID].indexOf(langTag) === -1) {
-					this._lsts[fieldID].push(langTag);
-				}
 				if (this._keys[fieldID][langTag] != otherItem.multi._keys[fieldID][langTag]) {
 					if (!this.parent._changedItemDataAlt) {
 	   					this.parent._changedItemDataAlt = {};
@@ -192,7 +183,7 @@ Zotero.MultiField.prototype.data = function (fieldID) {
 		throw "MultiField.data() called without fieldID"
 	}
 	var fieldID = Zotero.ItemFields.getID(fieldID);
-	return [{languageTag: this._lsts[fieldID][i],value: this._keys[fieldID][this._lsts[fieldID][i]]} for (i in this._lsts[fieldID])];
+	return [{languageTag: langTag,value: this._keys[fieldID][langTag]} for (langTag in this._keys[fieldID])];
 };
 
 
@@ -200,9 +191,6 @@ Zotero.MultiField.prototype.clone = function (parent) {
 	var clone = new Zotero.MultiField(parent);
 	if (!clone.parent._changedItemDataAlt) {
 	   	clone.parent._changedItemDataAlt = {};
-	}
-	for (var fieldID in this._lsts) {
-		clone._lsts[fieldID] = this._lsts[fieldID].slice();
 	}
 	for (var fieldID in this._keys) {
 		clone._keys[fieldID] = {};

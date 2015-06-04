@@ -616,12 +616,10 @@ Zotero.Translate.ItemSaver.prototype = {
 						}
 					}
 					newItem.setField(fieldID, item[field], false, defaultLanguage, true);
-					if (item.multi && item.multi._lsts[field]) {
-						for (var j = 0, jlen = item.multi._lsts[field].length; j < jlen; j += 1) {
-							var langTag = item.multi._lsts[field][j];
+					if (item.multi && item.multi._keys && item.multi._keys[field]) {
+						for (var langTag in item.multi._keys[field]) {
 							// Normalize lang
 							// Patch code by Florian Ziche.
-							var langTag = item.multi._lsts[field][j];
 							if(Zotero.zlsValidator.validate(langTag)) {
 								langTag = [Zotero.zlsValidator.tagdata[k].subtag for (k in Zotero.zlsValidator.tagdata)].join("-");
 								if (!Zotero.CachedLanguages.hasTag(langTag)) {
