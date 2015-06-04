@@ -38,16 +38,8 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 		} else {
 			if (value) {
 				this.parent._itemData[fieldID] = value;
-				if (!this.parent._changedItemData) {
-					this.parent._changedItemData = {};
-				}
-				this.parent._changedItemData[fieldID] = true;
 				if (lang && force_top) {
 					this.main[fieldID] = lang;
-				if (!this.parent._changedItemDataMain) {
-					this.parent._changedItemDataMain = {};
-				}
-					this.parent._changedItemDataMain[fieldID] = true;
 				}
 			}
 		}
@@ -67,10 +59,6 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 				this._lsts[fieldID].push(lang);
 			}
 			this._keys[fieldID][lang] = value;
-			if (!this._changedItemDataAlt) {
-				this._changedItemDataAlt = {};
-			}
-			this._changedItemDataAlt[fieldID] = true;
 		}
 	}
 };
