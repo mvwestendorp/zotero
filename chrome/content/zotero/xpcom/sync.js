@@ -4337,7 +4337,7 @@ Zotero.Sync.Server.Data = new function() {
 			if (item.primary) {
 				item.primary.itemType = syncItemType;
 			} else {
-				item.type = syncItemType;
+				item.itemType = syncItemType;
 			}
 		}
 		// Get extended fields, if any
