@@ -410,8 +410,6 @@ Zotero.Utilities.Internal = {
 			
 			if (legacy) addCompatibilityMappings(item, zoteroItem);
 			
-            addMultilingualMappings(item, zoteroItem);
-
 			return item;
 		}
 		
@@ -502,11 +500,6 @@ Zotero.Utilities.Internal = {
 			
 			return item;
 		}
-		
-        function addMultilingualMappings(item, zoteroItem) {
-            
-        }
-		
 	},
 	
 	/**
