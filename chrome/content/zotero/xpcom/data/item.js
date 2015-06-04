@@ -480,7 +480,7 @@ Zotero.Item.prototype.loadFromRow = function(row, reload) {
  * Check if any data fields have changed since last save
  */
 Zotero.Item.prototype.hasChanged = function() {
-	var return !!(Object.keys(this._changed).length
+	return !!(Object.keys(this._changed).length
 		         || this._changedPrimaryData
 		         || this._changedItemData
 		         || this._changedItemDataAlt
