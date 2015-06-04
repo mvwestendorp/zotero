@@ -29,14 +29,14 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 			Zotero.debug("XXX Attempt to save existing tag to main: " + lang);
 			throw "Attempt to save existing tag to main: " + lang;
 		}
-		if (justLooking) {
-			if (value === this.parent._itemData[fieldID] && (!lang || lang === this.main[fieldID])) {
-				return false;
-			} else {
-				return "main";
-			}
+		if (value === this.parent._itemData[fieldID]) {
+			// no action, in either mode
+			return false;
 		} else {
-			if (value) {
+			// main
+			if (justLooking) {
+				return "main";
+			} else {
 				this.parent._itemData[fieldID] = value;
 				if (lang && force_top) {
 					this.main[fieldID] = lang;
@@ -45,7 +45,7 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 		}
 	} else {
 		if (justLooking) {
-			if (this._keys[fieldID] && this._keys[fieldID][lang] && this._keys[fieldID][lang] === value) {
+			if (this._keys[fieldID] && this._keys[fieldID] && this._keys[fieldID][lang] == value) {
 				return false;
 			} else {
 				return "alt";
