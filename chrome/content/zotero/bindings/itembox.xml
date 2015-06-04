@@ -556,7 +556,7 @@
 								&& !Zotero.Items.isPrimaryField(fieldName)
 								&& (Zotero.ItemFields.isFieldOfBase(Zotero.ItemFields.getID(fieldName), 'date')
 									// TEMP - filingDate
-									|| fieldName == 'filingDate')
+									|| ['filingDate', 'issueDate', 'dateDecided', 'dateEnacted', 'newsCaseDate', 'priorityDate', 'publicationDate', 'originalDate', 'signingDate', 'openingDate', 'adoptionDate', 'conferenceDate', 'dateAmended'].indexOf(fieldName) > -1)
 								// TEMP - NSF
 								&& fieldName != 'dateSent') {
 							this.addDateRow(fieldName, this.item.getField(fieldName, true), tabindex);
