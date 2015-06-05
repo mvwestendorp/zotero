@@ -114,6 +114,16 @@ const CSL_DATE_MAPPINGS = {
 	"publication-date":["publicationDate"]
 }
 
+const CSL_DATE_VARIABLES = function() {
+	var ret = {};
+	for (var key in CSL_DATE_MAPPINGS) {
+		for (var i=0,ilen=CSL_DATE_MAPPINGS[key].length;i<ilen;i++) {
+			ret[CSL_DATE_MAPPINGS[key][i]] = true;
+		}
+	}
+	return ret;
+}();
+
 /*
  * Mappings for types
  */
@@ -193,6 +203,10 @@ const CSL_FORCE_REMAP = {
  * @class Functions for text manipulation and other miscellaneous purposes
  */
 Zotero.Utilities = {
+
+	"isDate": function(varName) {
+		return CSL_DATE_VARIABLES[varName] ? true : false;
+	},
 
 	"getCslTypeFromItemType":function(itemType) {
 		return CSL_TYPE_MAPPINGS[itemType];
@@ -1825,6 +1839,12 @@ Zotero.Utilities = {
 		}
 		
 		if (portableJSON) {
+			// Normalize date format to something spartan and unambiguous
+			for (var field in zoteroItem) {
+				if (Zotero.Utilities.isDate(field) && Zotero.Date.isMultipart(zoteroItem[field])) {
+					zoteroItem[field] = Zotero.Date.multipartToSQL(zoteroItem[field]);
+				}
+			}
 			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(zoteroItem);
 		}
 
