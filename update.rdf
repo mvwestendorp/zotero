@@ -6,14 +6,14 @@
             <rdf:Seq>
                 <rdf:li>
                     <rdf:Description>
-                        <em:version>4.0.27m4</em:version>
+                        <em:version>4.0.27m5</em:version>
                         <em:targetApplication>
                             <rdf:Description>
                                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                                 <em:minVersion>3.6</em:minVersion>
                                 <em:maxVersion>38.*</em:maxVersion>
-                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m4/jurism-v4.0.27m4.xpi</em:updateLink>
-                                <em:updateHash>sha1:dfd8f2a43e6c51f36e34bd5e9a12a3b891fd7531</em:updateHash>
+                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m5/jurism-v4.0.27m5.xpi</em:updateLink>
+                                <em:updateHash>sha1:50b4c69b7f5a7d64d81ef958d2f4efe590e7d1ca</em:updateHash>
                             </rdf:Description>
                         </em:targetApplication>
                     </rdf:Description>
@@ -21,12 +21,12 @@
             </rdf:Seq>
         </em:updates>
         <em:signature>
-            MIIBEjALBgkqhkiG9w0BAQ0DggEBAINfkhnAxAUOvxXyB3iuET3FJvajpLsNjUzO
-            XEUrjoFz7g7sImHtiya6MbGSkskXGLtuyxtrUWuKTMF0Vhkr0dUMZ3k+QhynmNA/
-            HquoV55jad5tSON7q5qN5Lck3QwnvoIxF+g17yPdttOiXmemP2uIHDgKBB1xGiS0
-            R9qZbQ5MU9jNGNhZl+ndo4XL1mZwebbwbtn3FUTxiSQYfgJmLd65o85IGBgyNnnJ
-            iGOGyJfBkDkcWzXqD1RmoaFSsnjklYwezXqrRn3+BxeLW06LvUEyhiQgvydB6S3m
-            WosaZh9reZzFAIANaehRXHa/zxuKt50HG4cVsKXrEBlNdh6SRKs=
+            MIIBEjALBgkqhkiG9w0BAQ0DggEBAHtTmbYHrj9JzZQwduf5sswvoaj0wvy6K2LO
+            h2ozgVGprLz5MYVbzbXUu832ywE8V6xeXF8OMKZSPjEOMpudOPGId1gxhxrJlcy4
+            bkoaEG5UvvUuiGJGLTCCMXixsIjCJq/eVubprAHAgcW5wgCR1B1bROcjDXNItgwH
+            t3djTm48mxYqUyDgO2+nn1WvvmFD2zk4ZMvoY85LLzpo+PTxy+3J3dvQ4Xa5uooE
+            cZN934pb1PWHrFitEX9GiFx4mf5bUrvb3LzNsOHAOdsYb5TUxytnimRNw9c256A3
+            2kbJ11QL0vtjBWvE1RleVUS+F0y8p+rRSDh/2Ot3ezhfTf1QW4s=
         </em:signature>
     </rdf:Description>
 </rdf:RDF>
