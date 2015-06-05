@@ -6,14 +6,14 @@
             <rdf:Seq>
                 <rdf:li>
                     <rdf:Description>
-                        <em:version>4.0.27m3</em:version>
+                        <em:version>4.0.27m4</em:version>
                         <em:targetApplication>
                             <rdf:Description>
                                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                                 <em:minVersion>3.6</em:minVersion>
                                 <em:maxVersion>38.*</em:maxVersion>
-                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m3/jurism-v4.0.27m3.xpi</em:updateLink>
-                                <em:updateHash>sha1:d2505434cf9b6ef783df9ed67662d605bdcf7d25</em:updateHash>
+                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m4/jurism-v4.0.27m4.xpi</em:updateLink>
+                                <em:updateHash>sha1:dfd8f2a43e6c51f36e34bd5e9a12a3b891fd7531</em:updateHash>
                             </rdf:Description>
                         </em:targetApplication>
                     </rdf:Description>
@@ -21,12 +21,12 @@
             </rdf:Seq>
         </em:updates>
         <em:signature>
-            MIIBEjALBgkqhkiG9w0BAQ0DggEBACmke9l3tC7p9gEvqDDL9HvHw8Qkukp4mgRO
-            QDZ02rTnj3A7XFlOo5nv3hD2Iurm2vWoBT1kyMYcLwvqqsc/RhSVZkxfLnXyNO1e
-            2A7yrLqizO7xovuIaESXGsUtPR1eMtsdW5DHwTOL9YtslMMIPdyRfLXwCnmDD0fo
-            6TNG9+pepNJQ5SL3r7ryTyWmD2ZqedBxLTOdqwNwZqVBilMMjbMB4kISbROYmlaJ
-            m1YUwIIXNzrjWbCOog76Beiv/8aCNYmFIIDxOcIqLWd9YmtzMU00UtB7ONA1eicD
-            2FmhTtyWa2lWqcSBqnZbOtMfGMvWQEhRJimc5E7WM12LwhK33NQ=
+            MIIBEjALBgkqhkiG9w0BAQ0DggEBAINfkhnAxAUOvxXyB3iuET3FJvajpLsNjUzO
+            XEUrjoFz7g7sImHtiya6MbGSkskXGLtuyxtrUWuKTMF0Vhkr0dUMZ3k+QhynmNA/
+            HquoV55jad5tSON7q5qN5Lck3QwnvoIxF+g17yPdttOiXmemP2uIHDgKBB1xGiS0
+            R9qZbQ5MU9jNGNhZl+ndo4XL1mZwebbwbtn3FUTxiSQYfgJmLd65o85IGBgyNnnJ
+            iGOGyJfBkDkcWzXqD1RmoaFSsnjklYwezXqrRn3+BxeLW06LvUEyhiQgvydB6S3m
+            WosaZh9reZzFAIANaehRXHa/zxuKt50HG4cVsKXrEBlNdh6SRKs=
         </em:signature>
     </rdf:Description>
 </rdf:RDF>
