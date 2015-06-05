@@ -2158,6 +2158,29 @@ Zotero.Utilities = {
 			}
 		}
 		
+
+		var jurisdictionFieldID = Zotero.ItemFields.getID("jurisdiction");
+		if (Zotero.ItemFields.isValidForType(jurisdictionFieldID, itemTypeID) && ["report","newspaperArticle","journalArticle"].indexOf(zoteroType) === -1) {
+			var val = cslItem["jurisdiction"];
+			if (!val) {
+				// XXX Replicated code pattern: move this to a function.
+				var jurisdictionDefault = Zotero.Prefs.get("import.jurisdictionDefault");
+				var jurisdictionFallback = Zotero.Prefs.get("import.jurisdictionFallback");
+				if (jurisdictionDefault) {
+					val = jurisdictionDefault;
+				} else if (jurisdictionFallback) {
+					val = jurisdictionFallback;
+				} else {
+					val = "us";
+				}
+			}
+			if (isZoteroItem) {
+				item.setField(jurisdictionFieldID, val);
+			} else {
+				item.jurisdiction = val;
+			}
+		}
+
 		// separate name variables
 		var doneNames = {};
 		for(var field in CSL_NAMES_MAPPINGS) {
