@@ -1983,17 +1983,23 @@ Zotero.Utilities = {
 			creatorType = CSL_NAMES_MAPPINGS[creatorType];
 			if(!creatorType) continue;
 			
+			var lastName = creator.lastName;
+			var fieldMode = creator.fieldMode;
+			if (creator.name) {
+				lastName = creator.name;
+				fieldMode = 1;
+			}
 			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
 				var nameObj = {
-					'family':creator.lastName, 
+					'family':lastName,
 					'given':creator.firstName
 				}
 				if (creator.fieldMode) {
-					nameObj.isInstitution = creator.fieldMode;
+					nameObj.isInstitution = fieldMode;
 				}
 			} else {
 				var nameObj = {
-					'family':creator.lastName, 
+					'family':lastName, 
 					'given':creator.firstName
 				}
 			}
