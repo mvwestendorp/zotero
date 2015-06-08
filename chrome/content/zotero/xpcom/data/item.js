@@ -5746,7 +5746,7 @@ Zotero.Item.prototype.toJSON = function(options) {
 
 			let mainLang = this.multi.mainLang(i)
 			if (mainLang) {
-				obj.multi.main[name] = mainlang;
+				obj.multi.main[name] = mainLang;
 			}
 
 			let langs = this.multi.langs(name);
