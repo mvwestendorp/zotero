@@ -6,14 +6,14 @@
             <rdf:Seq>
                 <rdf:li>
                     <rdf:Description>
-                        <em:version>4.0.27m6</em:version>
+                        <em:version>4.0.27m7</em:version>
                         <em:targetApplication>
                             <rdf:Description>
                                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                                 <em:minVersion>3.6</em:minVersion>
                                 <em:maxVersion>38.*</em:maxVersion>
-                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m6/jurism-v4.0.27m6.xpi</em:updateLink>
-                                <em:updateHash>sha1:eb606f2080a6a43c3f0254d6f23fa3d528364d9c</em:updateHash>
+                                <em:updateLink>https://github.com/Juris-M/zotero/releases/download/v4.0.27m7/jurism-v4.0.27m7.xpi</em:updateLink>
+                                <em:updateHash>sha1:f0a7d0bd97214759e3bf4f3e570bbfb4e0352ec2</em:updateHash>
                             </rdf:Description>
                         </em:targetApplication>
                     </rdf:Description>
@@ -21,12 +21,12 @@
             </rdf:Seq>
         </em:updates>
         <em:signature>
-            MIIBEjALBgkqhkiG9w0BAQ0DggEBAIxjuABhxnSjNej2TZHmzAVHPTp3KwgAxGOQ
-            INHUB3hPmvF1cSS8Ztg8VJEeLnwgWCYZuMRMAWTNkPK5Y0WK3zcZyKn+/wJszPE7
-            AIUtBQZ2iMnbT2r0IE4mRHoO1mtmUYQK6cOMeFO1LQZXqtxsi80ZXxEBF2B5Qm4T
-            QXYG65I/Y71mI67OO2c1Oj1maF4FGOmx5CRl7+ueEaCaldMKxf4prCILO/gAkrh2
-            SdhXk+sAIW++iO/AKaDGLyLnyBHsYmvaqV+pf2aXHVvSgLt6v0zZLB++L6U2xP+t
-            xZd66MIkmmpDHIDetQep9LQpYxFvHqpxhn+jvX0Wg+tx8nwD3Co=
+            MIIBEjALBgkqhkiG9w0BAQ0DggEBABd2cYIno3o5nlXg4EDsvwTlQCpPLyP7xRkH
+            qJI4hyGcvHm5QO+vX75QUCHHLf+PQZnPoChMUHZA23R+ou2sm4JHAJhb7JB3VxsJ
+            uP3PAhpIhPsjtmD+vIxXBDL3OWXHA1ZpY+26vVlUhgfp/i7hYwPGUIjHuteWfxQf
+            hrAwG1Y7DVBCX5EyfajuEpC9EVR1rWUKrrwRhV16Kx1/c9BevV4BR8mJjIpeT9Ns
+            MvSUeURgg6Cj1ZysgqnTyBld7Mt8Yvo4IlFDZ2hzK+x2rF916Psa2+M+FBSekZM6
+            SRR6y5UO8pfkzSmgHyYa/+k04oUxCLw5+B8V6HduGT12HjqbmZc=
         </em:signature>
     </rdf:Description>
 </rdf:RDF>
