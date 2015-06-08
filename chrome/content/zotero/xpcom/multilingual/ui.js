@@ -122,7 +122,8 @@ Zotero.EXTENDED_FIELDS = {
 		"status":"status",
 		"medium":"medium",
 		"committee":"committee",
-        "assemblyNumber": "collection-number"
+        "assemblyNumber": "collection-number",
+	"publisher": "publisher"
 	},
 	"gazette": {
 		"jurisdiction":"jurisdiction",
