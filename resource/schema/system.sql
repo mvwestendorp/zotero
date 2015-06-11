@@ -1,4 +1,4 @@
--- 10073
+-- 10074
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -555,18 +555,19 @@ INSERT INTO itemTypeFields VALUES (9, 22, NULL, 16);
 
 INSERT INTO itemTypeFields VALUES (10, 110, NULL, 1); -- title
 INSERT INTO itemTypeFields VALUES (10, 90, NULL, 2);  -- abstractNote
-INSERT INTO itemTypeFields VALUES (10, 14, NULL, 3);  -- date
-INSERT INTO itemTypeFields VALUES (10, 64, NULL, 4);  -- interviewMedium
-INSERT INTO itemTypeFields VALUES (10, 87, NULL, 5);  -- language
-INSERT INTO itemTypeFields VALUES (10, 116, NULL, 6); -- shortTitle
-INSERT INTO itemTypeFields VALUES (10, 1, NULL, 7);   -- url
-INSERT INTO itemTypeFields VALUES (10, 27, NULL, 8);  -- accessDate
-INSERT INTO itemTypeFields VALUES (10, 123, NULL, 9); -- archive
-INSERT INTO itemTypeFields VALUES (10, 19, NULL, 10); -- archiveLocation
-INSERT INTO itemTypeFields VALUES (10, 62, NULL, 11); -- libraryCatalog
-INSERT INTO itemTypeFields VALUES (10, 18, NULL, 12); -- callNumber
-INSERT INTO itemTypeFields VALUES (10, 2, NULL, 13);  -- rights
-INSERT INTO itemTypeFields VALUES (10, 22, NULL, 14); -- extra
+INSERT INTO itemTypeFields VALUES (10, 7, NULL, 3);  -- [ADDED] place
+INSERT INTO itemTypeFields VALUES (10, 14, NULL, 4);  -- date
+INSERT INTO itemTypeFields VALUES (10, 64, NULL, 5);  -- interviewMedium
+INSERT INTO itemTypeFields VALUES (10, 87, NULL, 6);  -- language
+INSERT INTO itemTypeFields VALUES (10, 116, NULL, 7); -- shortTitle
+INSERT INTO itemTypeFields VALUES (10, 1, NULL, 8);   -- url
+INSERT INTO itemTypeFields VALUES (10, 27, NULL, 9);  -- accessDate
+INSERT INTO itemTypeFields VALUES (10, 123, NULL, 10); -- archive
+INSERT INTO itemTypeFields VALUES (10, 19, NULL, 11); -- archiveLocation
+INSERT INTO itemTypeFields VALUES (10, 62, NULL, 12); -- libraryCatalog
+INSERT INTO itemTypeFields VALUES (10, 18, NULL, 13); -- callNumber
+INSERT INTO itemTypeFields VALUES (10, 2, NULL, 14);  -- rights
+INSERT INTO itemTypeFields VALUES (10, 22, NULL, 15); -- extra
 
 INSERT INTO itemTypeFields VALUES (11, 110, NULL, 1);
 INSERT INTO itemTypeFields VALUES (11, 90, NULL, 2);

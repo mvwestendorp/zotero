@@ -40,6 +40,9 @@ Zotero.EXTENDED_FIELDS = {
         "issue":"issue",
         "institution":"authority"
 	},
+	"interview": {
+		"place": "event-place"
+	},
 	"magazineArticle": {
 		"place":"publisher-place",
 		"publisher":"publisher"
