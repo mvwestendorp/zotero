@@ -40,6 +40,10 @@ Zotero.EXTENDED_FIELDS = {
         "issue":"issue",
         "institution":"authority"
 	},
+	"magazineArticle": {
+		"place":"publisher-place",
+		"publisher":"publisher"
+	},
 	"newspaperArticle": {
 		"jurisdiction":"jurisdiction",
 		"newsCaseDate":"original-date",

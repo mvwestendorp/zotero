@@ -1,4 +1,4 @@
--- 10072
+-- 10073
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -458,22 +458,24 @@ INSERT INTO itemTypeFields VALUES (4, 22, NULL, 25);
 
 INSERT INTO itemTypeFields VALUES (5, 110, NULL, 1);
 INSERT INTO itemTypeFields VALUES (5, 90, NULL, 2);
-INSERT INTO itemTypeFields VALUES (5, 12, NULL, 3);
-INSERT INTO itemTypeFields VALUES (5, 4, NULL, 4);
-INSERT INTO itemTypeFields VALUES (5, 5, NULL, 5);
-INSERT INTO itemTypeFields VALUES (5, 14, NULL, 6);
-INSERT INTO itemTypeFields VALUES (5, 10, NULL, 7);
-INSERT INTO itemTypeFields VALUES (5, 87, NULL, 8);
-INSERT INTO itemTypeFields VALUES (5, 13, NULL, 9);
-INSERT INTO itemTypeFields VALUES (5, 116, NULL, 10);
-INSERT INTO itemTypeFields VALUES (5, 1, NULL, 11);
-INSERT INTO itemTypeFields VALUES (5, 27, NULL, 12);
-INSERT INTO itemTypeFields VALUES (5, 123, NULL, 13);
-INSERT INTO itemTypeFields VALUES (5, 19, NULL, 14);
-INSERT INTO itemTypeFields VALUES (5, 62, NULL, 15);
-INSERT INTO itemTypeFields VALUES (5, 18, NULL, 16);
-INSERT INTO itemTypeFields VALUES (5, 2, NULL, 17);
-INSERT INTO itemTypeFields VALUES (5, 22, NULL, 18);
+INSERT INTO itemTypeFields VALUES (5, 7, NULL, 3);   -- [ADDED]
+INSERT INTO itemTypeFields VALUES (5, 8, NULL, 4);   -- [ADDED]
+INSERT INTO itemTypeFields VALUES (5, 12, NULL, 5);
+INSERT INTO itemTypeFields VALUES (5, 4, NULL, 6);
+INSERT INTO itemTypeFields VALUES (5, 5, NULL, 7);
+INSERT INTO itemTypeFields VALUES (5, 14, NULL, 8);
+INSERT INTO itemTypeFields VALUES (5, 10, NULL, 9);
+INSERT INTO itemTypeFields VALUES (5, 87, NULL, 10);
+INSERT INTO itemTypeFields VALUES (5, 13, NULL, 11);
+INSERT INTO itemTypeFields VALUES (5, 116, NULL, 12);
+INSERT INTO itemTypeFields VALUES (5, 1, NULL, 13);
+INSERT INTO itemTypeFields VALUES (5, 27, NULL, 14);
+INSERT INTO itemTypeFields VALUES (5, 123, NULL, 15);
+INSERT INTO itemTypeFields VALUES (5, 19, NULL, 16);
+INSERT INTO itemTypeFields VALUES (5, 62, NULL, 17);
+INSERT INTO itemTypeFields VALUES (5, 18, NULL, 18);
+INSERT INTO itemTypeFields VALUES (5, 2, NULL, 19);
+INSERT INTO itemTypeFields VALUES (5, 22, NULL, 20);
 
 -- newspaperArticle
 INSERT INTO itemTypeFields VALUES (6, 110, NULL, 1);   -- title
