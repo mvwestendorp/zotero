@@ -23,9 +23,10 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 	// Add or edit (if field is empty, deletion will be handled
 	// in item.save())
 	if (!lang || lang === this.main[fieldID] || force_top) {
-        // MAIN mode
+		// MAIN mode
 		if (this.hasLang(lang, fieldID, true)) {
-			throw "Attempt to save existing tag to main: " + lang;
+			lang = undefined;
+			Zotero.debug("JURISM: Attempt to save existing tag to main: " + lang + ", for field " + fieldID + " and value (" + value + ") on item " + this.parent.key + " with force_top=" + force_top + " and justLooking=" + justLooking);
 		}
 		if (value === this.parent._itemData[fieldID] && (!lang || lang === this.main[fieldID])) {
 			// no action, in either mode
@@ -35,10 +36,10 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 			if (justLooking) {
 				return "MAIN";
 			} else {
-                // Set the field value
+				// Set the field value
 				this.parent._itemData[fieldID] = value;
 				if (lang) {
-                    // If there is a lang value, set it; never unset the headline field lang
+					// If there is a lang value, set it; never unset the headline field lang
 					this.main[fieldID] = lang;
 				}
 			}
