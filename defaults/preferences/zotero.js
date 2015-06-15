@@ -4,7 +4,7 @@
 // http://www.zotero.org/documentation/hidden_prefs
 
 // Hack
-pref("extensions.zotero.hackUseCiteprocJsDateParser", false);
+pref("extensions.zotero.hackUseCiteprocJsDateParser", true);
 
 pref("extensions.zotero.firstRun2", true);
 pref("extensions.zotero@chnm.gmu.edu.description", "chrome://zotero/locale/zotero.properties");
