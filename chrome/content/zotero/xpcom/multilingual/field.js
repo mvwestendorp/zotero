@@ -45,27 +45,27 @@ Zotero.MultiField.prototype._set = function (fieldID, value, lang, force_top, ju
 			}
 		}
 	} else {
-        // ALT mode
-        if (lang === this.main[fieldID]) {
-            throw "Attempt to save main tag value to alt: " + lang;
-        }
+		// ALT mode
+		if (lang === this.main[fieldID]) {
+			throw "Attempt to save main tag value to alt: " + lang;
+		}
 		if (this._keys[fieldID] && this._keys[fieldID] && this._keys[fieldID][lang] == value) {
-            // No action in either mode
-            return false;
-        } else {
-		    if (justLooking) {
+			// No action in either mode
+			return false;
+		} else {
+			if (justLooking) {
 				return "ALT";
 			} else {
-			    if (!this._keys[fieldID]) {
-				    this._keys[fieldID] = {};
-			    }
-			    this._keys[fieldID][lang] = value;
+				if (!this._keys[fieldID]) {
+					this._keys[fieldID] = {};
+				}
+				this._keys[fieldID][lang] = value;
 			}
 		}
 	}
 };
 
-Zotero.MultiField.prototype.get = function (fieldID, langs, honorEmpty) {
+Zotero.MultiField.prototype.get = function (fieldID, langs, honorEmpty, multiOnly) {
 	var val, lang;
 	if (!this.parent._itemDataLoaded) {
 		// Safer path to initialisation, may avoid "itemID not set for object" error.
@@ -90,10 +90,10 @@ Zotero.MultiField.prototype.get = function (fieldID, langs, honorEmpty) {
 		lang = langs;
 	}
 
-	if (!lang || lang === this.main[fieldID]) {
+	if (!multiOnly && (!lang || lang === this.main[fieldID])) {
 		val = this.parent._itemData[fieldID];
 	} else {
-		if (this._keys[fieldID] && this._keys[fieldID][lang]) {
+		if (lang && this._keys[fieldID] && this._keys[fieldID][lang]) {
 			val = this._keys[fieldID][lang];
 		} else if (!honorEmpty) {
 			val = this.parent._itemData[fieldID];
@@ -135,24 +135,62 @@ Zotero.MultiField.prototype.hasLang = function (langTag, field, multiOnly) {
 	return false;
 };
 
+Zotero.MultiField.prototype.setMainChange = function(fieldID) {
+	if (!this.parent._changedItemData) {
+	   	this.parent._changedItemData = {};
+	}
+	this.parent._changedItemData[fieldID] = true;
+}
+
+Zotero.MultiField.prototype.setAltChange = function(fieldID, languageTag) {
+	if (!this.parent._changedItemDataAlt) {
+	   	this.parent._changedItemDataAlt = {};
+	}
+	if (!this.parent._changedItemDataAlt[fieldID]) {
+		this.parent._changedItemDataAlt[fieldID] = {};
+	}
+	this.parent._changedItemDataAlt[fieldID][languageTag] = true;
+}
+
 Zotero.MultiField.prototype.changeLangTag = function (oldTag, newTag, field) {
 	var fieldID = Zotero.ItemFields.getID(field);
-	if (this.main[fieldID] === newTag || (this._keys[fieldID] && this._keys[fieldID][newTag])) {
-		throw "Attempt to change to existing language tag in creator";
-	}
-	if (!oldTag || oldTag === this.main[fieldID]) {
-		this.main[fieldID] = newTag;
-		if (!this.parent._changedItemData) {
-	   		this.parent._changedItemData = {};
+
+	// Three possibilities here.
+	// (1) oldTag is null, newTag has value
+	// (2) oldTag is main, newTag value does not exist
+	// (3) oldTag is main, newTag value exists
+	// (4) oldTag is alt
+
+	if (!oldTag) {
+		// (1) add tag to main, protecting against clash
+		if (this._keys[fieldID] && this._keys[fieldID][newTag]) {
+			throw "Attempt to change to existing alt language tag in main (field.js)";
 		}
-		this.parent._changedItemData[fieldID] = true;
-	} else if (this._keys[fieldID] && this._keys[fieldID][oldTag]) {
+		this.main[fieldID] = newTag;
+		this.setMainChange(fieldID);
+	} else if (oldTag === this.main[fieldID]) {
+		// Definitely doing this, at the very least
+		// (2) set main field tag
+		this.main[fieldID] = newTag;
+		this.setMainChange(fieldID);
+		if (this._keys[fieldID] && this._keys[fieldID][newTag]) {
+			// (3) swap main and alt fields and tags
+			var oldMainValue = this.parent._itemData[fieldID];
+			this.parent._itemData[fieldID] = this._keys[fieldID][newTag];
+			this._keys[fieldID][newTag] = '';
+			this._keys[fieldID][oldTag] = oldMainValue;
+			this.setAltChange(fieldID, newTag);
+			this.setAltChange(fieldID, oldTag);
+		}
+	} else {
+		// (4) set tag on alt, protecting against clash
+		if (this._keys[fieldID] && this._keys[fieldID][newTag]) {
+			throw "Attempt to change to existing alt language tag in alt (field.js)";
+		}
 		this._keys[fieldID][newTag] = this._keys[fieldID][oldTag];
 		this._keys[fieldID][oldTag] = '';
-		if (!this.parent._changedItemDataAlt) {
-	   		this.parent._changedItemDataAlt = {};
-		}
-		this.parent._changedItemDataAlt[fieldID] = true;
+		this.setAltChange(fieldID, newTag);
+		this.setAltChange(fieldID, oldTag);
 	}
 };
 
@@ -167,11 +205,8 @@ Zotero.MultiField.prototype.merge = function (otherItem, shy) {
 		for (var langTag in otherItem.multi._keys[fieldID]) {
 			if (!shy || (shy && !this._keys[fieldID][langTag])) {
 				if (this._keys[fieldID][langTag] != otherItem.multi._keys[fieldID][langTag]) {
-					if (!this.parent._changedItemDataAlt) {
-	   					this.parent._changedItemDataAlt = {};
-					}
 					this._keys[fieldID][langTag] = otherItem.multi._keys[fieldID][langTag];
-					this.parent._changedItemDataAlt[fieldID] = true;
+					this.setAltChange(fieldID, langTag);
 					this.parent._changed = true;
 				}
 			}
@@ -190,14 +225,11 @@ Zotero.MultiField.prototype.data = function (fieldID) {
 
 Zotero.MultiField.prototype.clone = function (parent) {
 	var clone = new Zotero.MultiField(parent);
-	if (!clone.parent._changedItemDataAlt) {
-	   	clone.parent._changedItemDataAlt = {};
-	}
 	for (var fieldID in this._keys) {
 		clone._keys[fieldID] = {};
 		for (var langTag in this._keys[fieldID]) {
 			clone._keys[fieldID][langTag] = this._keys[fieldID][langTag];
-			clone.parent._changedItemDataAlt[fieldID] = true;
+			clone.setAltChange(fieldID, langTag);
 		}
 	}
 	return clone;

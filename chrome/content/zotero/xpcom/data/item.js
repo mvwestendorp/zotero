@@ -1057,7 +1057,10 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 				if (!this._changedItemDataAlt) {
 					this._changedItemDataAlt = {};
 				}
-				this._changedItemDataAlt[fieldID] = true;
+				if (!this._changedItemDataAlt[fieldID]) {
+					this._changedItemDataAlt[fieldID] = {};
+				}
+				this._changedItemDataAlt[fieldID][lang] = true;
 			}
 		} else {
 			if (!this._changedItemData) {
@@ -1821,7 +1824,7 @@ Zotero.Item.prototype.save = function(options) {
 							this._insertMainOrAlt(stmt, "main", itemID, fieldID, mainLanguageTag);
 						}
 						if (segment === "_changedItemDataAlt") {
-							for (var languageTag in this.multi._keys[fieldID]) {
+							for (var languageTag in this[segment][fieldID]) {
 								this._insertMainOrAlt(stmt, "alt", itemID, fieldID, languageTag);
 							}
 						}
@@ -1853,8 +1856,8 @@ Zotero.Item.prototype.save = function(options) {
 					
 					sql = 'INSERT INTO itemCreators VALUES (?, ?, ?, ?)';
 					Zotero.DB.query(sql,
-						            [{ int: itemID }, { int: creator.ref.id },
-						             { int: creator.creatorTypeID }, { int: orderIndex }]);
+									[{ int: itemID }, { int: creator.ref.id },
+									 { int: creator.creatorTypeID }, { int: orderIndex }]);
 					
 					if (creator.multi.main) {
 						// OOOOO: languageTag needs to be handled in load() etc.
@@ -2133,9 +2136,11 @@ Zotero.Item.prototype.save = function(options) {
 								// This is ugly
 								del = this._replaceMainOrAlt(stmt, 'main', fieldID, languageTag, del);
 							} else {
-								for (var languageTag in this.multi._keys[fieldID]) {
+								for (var languageTag in this[segment][fieldID]) {
 									// This is ugly too
-									del = this._replaceMainOrAlt(stmt, 'alt', fieldID, languageTag, del);
+									// It's exceptionally ugly now.
+									// The true is for multiOnly
+									del = this._replaceMainOrAlt(stmt, 'alt', fieldID, languageTag, del, true);
 								}
 							}
 						}
@@ -2143,14 +2148,15 @@ Zotero.Item.prototype.save = function(options) {
 				}
 				
 				// If deleting main value, delete multi with it
-				for (var k = 0, klen = del.main.length; k < klen; k += 1) {
-					// del.main[k] is the fieldID
-					if (this.multi._keys[del.main[k]]) {
-						for (var langTag in this.multi._keys[fieldID]) {
-							del.alt.push([del.main[k], langTag]);
-						}
-					}
-				}
+				// *** This made no sense, since matching keys are not SUPPOSED to be allowed ***
+				//for (var k = 0, klen = del.main.length; k < klen; k += 1) {
+				//	// del.main[k] is the fieldID
+				//	if (this.multi._keys[del.main[k]]) {
+				//		for (var langTag in this.multi._keys[fieldID]) {
+				//			del.alt.push([del.main[k], langTag]);
+				//		}
+				//	}
+				//}
 				
 				
 				if (del.alt.length) {
@@ -2780,18 +2786,26 @@ Zotero.Item.prototype._insertMainOrAlt = function(stmt, branch, itemID, fieldID,
 //
 // Second of two helper functions for item.save()
 //
-Zotero.Item.prototype._replaceMainOrAlt = function(stmt, branch, fieldID, languageTag, del) {
+Zotero.Item.prototype._replaceMainOrAlt = function(stmt, branch, fieldID, languageTag, del, multiOnly) {
 
+	// Ugly, ugly, ugly.
 	// The final true toggle enables return of empty values from multilingual
 	// alt metadata requests.
-	var value = this.getField(fieldID, true, false, languageTag, true);
-	
+	var value;
+	if (multiOnly) {
+		// First true is for honorEmpty
+		// Second true is for multiOnly
+		value = this.multi.get(fieldID, languageTag, true, true);
+	} else {
+		value = this.getField(fieldID, true, false, languageTag, true);
+	}
+
 	// If field changed and is empty, mark row for deletion
 	if (!value) {
-		if (!languageTag || this.multi.main[fieldID] === languageTag) {
-			del.main.push(fieldID);
-		} else {
+		if (multiOnly) {
 			del.alt.push([fieldID,languageTag]);
+		} else {
+			del.main.push(fieldID);
 		}
 		return del;
 	}
@@ -6005,24 +6019,41 @@ Zotero.Item.prototype._loadItemData = function() {
 	
 	var fields = Zotero.DB.query(sql, this.id);
 	
-	for each(var field in fields) {
+	for (var i=0,ilen=fields.length; i<ilen;i++) {
+		var field = fields[i];
 	   	// the final true argument forces recognition of main (headline) langTag
 	   	this.setField(field.fieldID, field.value, true, field.languageTag, true);
 	}
 
-	var sql = "SELECT fieldID, value, languageTag "
-				+ "FROM itemDataAlt NATURAL JOIN itemDataValues "
-				+ "WHERE itemID=?";
+	// JURISM: Phantom alt field value bug.
+
+	// JURISM: When switching between item types, alt field values were not
+	// JURISM: switching item types to follow. The previous version of this
+	// JURISM: SQL call was permissive of fieldIDs not valid for the item
+	// JURISM: type. Alt fields with invalid IDs did not delete in the
+	// JURISM: database, with the result that setting of the phantom field's
+	// JURISM: language tag in main would block, and writes to main would fail.
+
+	// JURISM: The underlying bug (in _changedItemDataAlt) has been fixed.
+
+	// JURISM: By ignoring invalid field values here, stray values in user
+	// JURISM: will be orphaned until purged by a cleanup. That can be
+	// JURISM: on upgrade at some point.
+
+	//var sql = "SELECT fieldID, value, languageTag FROM itemData NATURAL JOIN itemDataAlt NATURAL JOIN itemDataValues WHERE itemID=?";
+	var sql = "SELECT fieldID, value, languageTag FROM itemData LEFT JOIN itemDataAlt IDA USING(itemID,fieldID) JOIN itemDataValues IDV ON  IDA.valueID=IDV.valueID WHERE itemID=?";
 
 	var alts = Zotero.DB.query(sql, this.id);
 
-	for each(var field in alts) {
+	for (var i=0,ilen=alts.length;i<ilen;i++) {
+		var field = alts[i];
 		this.setField(field.fieldID, field.value, true, field.languageTag);
 	}
 	
 	// Mark nonexistent fields as loaded
 	var itemTypeFields = Zotero.ItemFields.getItemTypeFields(this.itemTypeID);
-	for each(var fieldID in itemTypeFields) {
+	for (var i=0,ilen=itemTypeFields.length;i<ilen;i++) {
+		var fieldID = itemTypeFields[i];
 		if (this._itemData[fieldID] === null) {
 			this._itemData[fieldID] = false;
 		}

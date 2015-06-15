@@ -422,29 +422,9 @@
 							var mainLang = this.item.multi.mainLang(fieldName);
 							var mainValue = this.item.getField(fieldName);
 							
-							// setField() with different content and a different language
-							// tag on the headline field did not have a happy ending:
-							// there appears to be a bug there.
-							// This combination works, though.
-
-							this.item.setField(fieldName, null, null, tag);
-							//this.item.multi.changeLangTag(mainLang, tag, fieldName);
-							this.item.setField(fieldName,variantValue, null, tag, true);
-							this.item.setField(fieldName, mainValue, null, mainLang);
+							this.item.multi.changeLangTag(mainLang, tag, fieldName);
 							this.item.save();
-
-							// We fix up the UI after the save is out of the way.
-							// No refresh, only a tabindex update.
-							this._selectField = false;
-							this.addFieldRow(999999,fieldName, variantValue, parentRow.parentNode, parentRow, tag);
-							this.addFieldRow(999999,fieldName, variantValue, null, null, tag);
-							parentRow.parentNode.removeChild(parentRow);
-
-							this._selectField = false;
-							this.addFieldRow(999999,fieldName, mainValue, rows, row, mainLang);
-							rows.removeChild(row);
-							
-							this.multiTabUpdate();
+                            this.refresh();
 						}
 					} else {
 						// XXX If no matching value exists, just adjust the UI as below.
