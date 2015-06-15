@@ -2451,11 +2451,16 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 				}
 			}
 			
+            // Well, dammit, Phuc's thesis still won't extract. Why not?
 			if(!zoteroItem) {
+                Zotero.debug("ZZZ NO ZOTERO ITEM");
 				if(citationItem.itemData) {
+                    Zotero.debug("ZZZ HAS citationItem.itemData");
 					if (this.data.prefs.groupID) {
+                        Zotero.debug("ZZZ HAS this.data.prefs.groupID");
 						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
 						if (libraryID) {
+                            Zotero.debug("XXX HAS libraryID");
 							var itemData = citationItem.itemData;
 							zoteroItem = new Zotero.Item();
 							// true is for portableJSON (MLZ decoding)
@@ -2465,10 +2470,12 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 							citationItem.itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem, undefined, false);
 							var newURIs = this.uriMap.getURIsForItemID(zoteroItem.id);
 							if (citationItem.uris && citationItem.uris.length) {
+                                Zotero.debug("ZZZ HAVE URIs");
 								// Set up to reselect the newly created item
 								this.reselectedItems[citationItem.uris[0]] = zoteroItem.id;
 								// Prefer the newly created item over the private copy
 								for (var j=newURIs.length-1;j>-1;j+=-1) {
+                                    Zotero.debug("ZZZ UNSHIFTING -- WHAT DOES THIS MEAN? ("+j+")");
 									citationItem.uris.unshift(newURIs[j]);
 								}
 							} else if (citationItem.key) {
