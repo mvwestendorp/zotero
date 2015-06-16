@@ -240,9 +240,9 @@ Zotero.setupLocale = function(document) {
 		var xulChromeReg = chromeRegService.QueryInterface(Components.interfaces.nsIXULChromeRegistry);
 		var toolkitChromeReg = chromeRegService.QueryInterface(Components.interfaces.nsIToolkitChromeRegistry);
 		
-		var selectedLocale = xulChromeReg.getSelectedLocale("zotero");
+		var selectedLocale = xulChromeReg.getSelectedLocale("jurism");
 
-		var availableLocales = toolkitChromeReg.getLocalesForPackage("zotero");
+		var availableLocales = toolkitChromeReg.getLocalesForPackage("jurism");
 		
 		// Render locale menulist
 		const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
