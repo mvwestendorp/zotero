@@ -963,6 +963,7 @@ Zotero.Integration.Document.prototype._getSession = function _getSession(require
 		return this._session.setDocPrefs(this._doc, this._app.primaryFieldType,
 		this._app.secondaryFieldType).then(function(status) {
 			// save doc prefs in doc
+		    Zotero.debug("ZZZ setDocumentData() [1]");
 			me._doc.setDocumentData(me._session.data.serializeXML());
 			
 			if(haveFields) {
@@ -1008,6 +1009,7 @@ Zotero.Integration.Document.prototype._getSession = function _getSession(require
 				if(e instanceof Zotero.Exception.Alert && e.name === "integration.error.invalidStyle") {
 					return this._session.setDocPrefs(this._doc, this._app.primaryFieldType,
 					this._app.secondaryFieldType).then(function(status) {			
+		    Zotero.debug("ZZZ setDocumentData() [2]");
 						me._doc.setDocumentData(me._session.data.serializeXML());
 						me._session.reload = true;
 						return me._session;
@@ -1017,6 +1019,7 @@ Zotero.Integration.Document.prototype._getSession = function _getSession(require
 				}
 			}
 			
+		    Zotero.debug("ZZZ setDocumentData() [3]");
 			this._doc.setDocumentData(this._session.data.serializeXML());
 			this._session.reload = true;
 		}
@@ -1177,6 +1180,7 @@ Zotero.Integration.Document.prototype.setDocPrefs = function() {
 		oldData = aOldData;
 		
 		// Write document data to document
+		    Zotero.debug("ZZZ setDocumentData() [4]");
 		me._doc.setDocumentData(me._session.data.serializeXML());
 		
 		// If oldData is null, then there was no document data, so we don't need to update
@@ -1644,6 +1648,7 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 				
 				// set bibliographyStyleHasBeenSet parameter to prevent further changes	
 				this._session.data.style.bibliographyStyleHasBeenSet = true;
+		    Zotero.debug("ZZZ setDocumentData() [5]");
 				this._doc.setDocumentData(this._session.data.serializeXML());
 			}
 		}
@@ -1683,6 +1688,7 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 	// Update projectName tags on Zotero-side
 	var projectName = this._session.data.prefs.projectName;
 	var groupID = this._session.data.prefs.groupID;
+    Zotero.debug("ZZZ updating the document, we have groupID="+groupID);
 	var groupName = this._session.data.prefs.groupName;
 
 	// Act only if the document defines a projectName
@@ -2149,6 +2155,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		io.citationAffixes = this.data.prefs.citationAffixes;
 		io.projectName = this.data.prefs.projectName;
 		io.groupID = this.data.prefs.groupID;
+	    Zotero.debug("ZZZ While setting doc prefs i guess, we have io.groupID="+io.groupID);
 		io.groupName = this.data.prefs.groupName;
 		io.suppressTrailingPunctuation = this.data.prefs.suppressTrailingPunctuation;
 	}
@@ -2170,9 +2177,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		data.prefs.storeReferences = io.storeReferences;
 		data.prefs.automaticJournalAbbreviations = io.automaticJournalAbbreviations;
 
-		me.setData(data, oldData && 
-		oldData.prefs.automaticJournalAbbreviations !=
-		data.prefs.automaticJournalAbbreviations);
+		me.setData(data, oldData && oldData.prefs.automaticJournalAbbreviations != data.prefs.automaticJournalAbbreviations);
 
 		// need to do this after setting the data so that we know if it's a note style
 		me.data.prefs.noteType = me.style && me.styleClass == "note" ? io.useEndnotes+1 : 0;
@@ -2189,6 +2194,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.data.prefs.citationAffixes = io.citationAffixes;
 		me.data.prefs.projectName = io.projectName;
 		me.data.prefs.groupID = io.groupID;
+	    Zotero.debug("ZZZ integration first blood? me.date.prefs.groupID="+me.data.prefs.groupID);
 		me.data.prefs.groupName = io.groupName;
 		me.data.prefs.suppressTrailingPunctuation = io.suppressTrailingPunctuation;
 		
@@ -2455,9 +2461,9 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			if(!zoteroItem) {
                 Zotero.debug("ZZZ NO ZOTERO ITEM");
 				if(citationItem.itemData) {
-                    Zotero.debug("ZZZ HAS citationItem.itemData");
+                    Zotero.debug("ZZZ HAS citationItem.itemData: "+this.data.prefs.groupID);
 					if (this.data.prefs.groupID) {
-                        Zotero.debug("ZZZ HAS this.data.prefs.groupID");
+                        Zotero.debug("ZZZ HAS this.data.prefs.groupID="+this.data.prefs.groupID);
 						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
 						if (libraryID) {
                             Zotero.debug("XXX HAS libraryID");
@@ -3119,6 +3125,7 @@ Zotero.Integration.DocumentData = function(string) {
 	this.prefs.citationAffixes = [,,,,,,,,,,,,,,,,,,];
 	this.prefs.projectName = '';
 	this.prefs.groupID = '';
+    Zotero.debug("ZZZ DocumentData time. this.prefs.groupID is an empty string");
 	this.prefs.groupName = '';
 	this.sessionID = null;
 	if(string) {
@@ -3201,6 +3208,7 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 	if(this.prefs["automaticJournalAbbreviations"] === undefined) this.prefs["automaticJournalAbbreviations"] = false;
 	if(this.prefs["projectName"] === undefined) this.prefs["projectName"] = "";
 	if(this.prefs["groupID"] === undefined) this.prefs["groupID"] = "";
+    Zotero.debug("ZZZ groupID was undefined, so we set it to an empty string instead");
 	if(this.prefs["groupName"] === undefined) this.prefs["groupName"] = "";
 	if(this.prefs["suppressTrailingPunctuation"] === undefined) this.prefs["suppressTrailingPunctuation"] = false;
 	this.zoteroVersion = doc.documentElement.getAttribute("zotero-version");

@@ -325,6 +325,9 @@ var Zotero_File_Interface_Bibliography = new function() {
 			_io.useEndnotes = document.getElementById("displayAs").selectedIndex;
 			_io.fieldType = (document.getElementById("formatUsing").selectedIndex == 0 ? _io.primaryFieldType : _io.secondaryFieldType);
 			_io.storeReferences = document.getElementById("storeReferences").checked;
+			var groupName = document.getElementById('group-name');
+			_io.groupID = groupName.value ? groupName.value : '';
+			_io.groupName = groupName.label ? groupName.label : '';
 		}
 		
 		// save style (this happens only for "Export Bibliography," or Word
@@ -633,13 +636,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 		newNode.setAttribute('id', 'project-name');
 		newNode.setAttribute('flex','1');
 		newNode.setAttribute('onkeydown','Zotero_File_Interface_Bibliography.closeProjectName(event);');
+		newNode.setAttribute('onblur','Zotero_File_Interface_Bibliography.closeProjectName(event);');
 		newNode.setAttribute('value',projectName);
 		parent.appendChild(newNode);
 		newNode.focus();
 	}
 
 	function closeProjectName (event) {
-		if (keyCodeMap[event.keyCode] === 'Enter') {
+		if ((event.type == 'keydown' && keyCodeMap[event.keyCode] === 'Enter') || event.type == 'blur') {
 			event.preventDefault();
 			var node = event.target;
 			var projectName = node.value;
@@ -795,13 +799,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 			toggleGroupNameSafetyCatch(false);
 		} else {
 			toggleGroupNameSafetyCatch(true);
-		}
-		if (groupName.value == 0) {
-			_io['groupID'] = '';
-			_io['groupName'] = '';
-		} else {
-			_io['groupID'] = groupName.value;
-			_io['groupName'] = groupName.label;
 		}
 		displayGroupName();
 	}
