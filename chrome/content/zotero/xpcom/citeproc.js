@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.25",
+    PROCESSOR_VERSION: "1.1.26",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -2139,7 +2139,7 @@ CSL.Engine.prototype.retrieveItem = function (id) {
 		if (Item.language) {
             Item.language = Item.language.toLowerCase();
 			var lst = Item.language.split("<");
-            if (lst.length === 1) {
+            if (lst.length > 0) {
                 var languageName = this.sys.getLanguageName(lst[0]);
                 if (languageName) {
                     Item["language-name"] = languageName;
@@ -9511,7 +9511,8 @@ CSL.Node.text = {
                         state.parallel.AppendToVariable(Item[parallel_variable],parallel_variable);
                     };
                     this.execs.push(func);
-                    if (CSL.MULTI_FIELDS.indexOf(this.variables_real[0]) > -1) {
+                    if (CSL.MULTI_FIELDS.indexOf(this.variables_real[0]) > -1
+                        || ["language-name", "language-name-original"].indexOf(this.variables_real[0]) > -1) {
                         var abbrevfam = this.variables[0];
                         var abbrfall = false;
                         var altvar = false;
@@ -11253,7 +11254,7 @@ CSL.Transform = function (state) {
         if (CSL.NUMERIC_VARIABLES.indexOf(myabbrev_family) > -1) {
             myabbrev_family = "number";
         }
-        if (["publisher-place", "event-place", "jurisdiction", "archive-place"].indexOf(myabbrev_family) > -1) {
+        if (["publisher-place", "event-place", "jurisdiction", "archive-place", "language-name", "language-name-original"].indexOf(myabbrev_family) > -1) {
             myabbrev_family = "place";
         }
         if (["publisher", "authority"].indexOf(myabbrev_family) > -1) {
