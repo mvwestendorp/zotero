@@ -37,12 +37,11 @@ function add-xpi-to-github-release () {
 }
 
 function publish-update () {
-    # Generate a signed update manifest
-    echo PRIVATES: "${HOME}/juris-m-distrib-keys/keyfile.pem"
-    echo JAGGIES: "${HOME}/bin/doorkey-jaggies.txt"
-    #uhura -o update-TRANSFER.rdf -h -k "${HOME}/juris-m-distrib-keys/keyfile.pem" -p "@${HOME}/bin/doorkey-jaggies.txt" "${RELEASE_DIR}/${CLIENT}-v${VERSION}.xpi" "https://github.com/Juris-M/${FORK}/releases/download/v${VERSION_STUB}/${CLIENT}-v${VERSION}.xpi"
-    uhura -o update-TRANSFER.rdf -k "${HOME}/juris-m-distrib-keys/keyfile.pem" "${RELEASE_DIR}/${CLIENT}-v${VERSION}.xpi" "https://github.com/Juris-M/${FORK}/releases/download/v${VERSION_STUB}/${CLIENT}-v${VERSION}.xpi"
-    echo Done, I guess.
+    # Prepare the update manifest
+    cp update-TEMPLATE.rdf update-TRANSER.rdf
+    sed -si "s/<em:version>.*<\/em:version>/<em:version>${VERSION_STUB}<\/em:version>/" update-TRANSFER.rdf
+    sed -si "s/\/.*\/.*<\/em:updateLink>/\/v${VERSION_STUB}\/${CLIENT}-v${VERSION_STUB}.xpi<\/em:updateLink>/" update-TRANSFER.rdf
+
     # Slip the update manifest over to the gh-pages branch, commit, and push
     git checkout gh-pages >> "${LOG_FILE}" 2<&1
     if [ ! -f update.rdf ]; then
