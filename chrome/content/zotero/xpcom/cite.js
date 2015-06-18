@@ -699,7 +699,7 @@ Zotero.Cite.System.prototype = {
 			+	 'OR NOT SC.value=?'
 			+ ');'
 		var sqlParams = [str, 'language', 'collection'];
-		return Zotero.DB.columnQuery(sql, sqlParams);
+		return Zotero.DB.valueQuery(sql, sqlParams);
 	}
 
 }
