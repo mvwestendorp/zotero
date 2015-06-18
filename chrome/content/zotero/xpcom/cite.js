@@ -682,7 +682,26 @@ Zotero.Cite.System.prototype = {
 		    }
 		}
 		return ret ? "" + ret : "";
+	},
+
+	"getLanguageName": function(str) {
+		// Attempt to remap an element
+		var sql = 'SELECT D.value as lang FROM zlsSubtags S '
+			+ 'LEFT JOIN zlsSubtagData TA ON S.subtag=TA.id '
+			+ 'LEFT JOIN zlsSubtagData D ON S.description=D.id '
+			+ 'LEFT JOIN zlsSubtagData TY ON S.type=TY.id '
+			+ 'LEFT JOIN zlsSubtagData SC ON S.scope=SC.id '
+			+ 'WHERE TA.value=? '
+			+ 'AND S.deprecated IS NULL '
+			+ 'AND TY.value=? '
+			+ 'AND ('
+			+	 'S.scope IS NULL '
+			+	 'OR NOT SC.value=?'
+			+ ');'
+		var sqlParams = [str, 'language', 'collection'];
+		return Zotero.DB.columnQuery(sql, sqlParams);
 	}
+
 }
 
 Zotero.Cite._monthStrings = false;

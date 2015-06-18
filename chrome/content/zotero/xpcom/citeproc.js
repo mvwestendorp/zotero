@@ -2135,6 +2135,24 @@ CSL.Engine.prototype.retrieveItem = function (id) {
             }
         }
     }
+    if (this.sys.getLanguageName && Item.language) {
+		if (Item.language) {
+            Item.language = Item.language.toLowerCase();
+			var lst = Item.language.split("<");
+            if (lst.length === 1) {
+                var languageName = this.sys.getLanguageName(lst[0]);
+                if (languageName) {
+                    Item["language-name"] = languageName;
+                }
+            }
+			if (lst.length === 2) {
+				var originalLanguage = this.sys.getLanguageName(lst[1]);
+				if (originalLanguage) {
+					Item["language-name-original"] = originalLanguage;
+				}
+			}
+		}
+    }
     if (Item.page) {
         Item["page-first"] = Item.page;
         var num = "" + Item.page;
