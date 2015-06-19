@@ -5757,17 +5757,17 @@ Zotero.Item.prototype.toJSON = function(options) {
 			}
 			
 			obj[name] = val;
-
+			
 			let mainLang = this.multi.mainLang(i)
 			if (mainLang) {
 				obj.multi.main[name] = mainLang;
 			}
-
+			
 			let langs = this.multi.langs(name);
-			for (let j=0,jlen=langs.length;j<jlen;j++) {
-				obj.multi._keys[name] = {
-					[langs[j]]: this.multi.get(i, langs[j], true)
-
+			if (langs && langs.length) {
+				obj.multi._keys[name] = {};
+				for (let j=0,jlen=langs.length;j<jlen;j++) {
+					obj.multi._keys[name][langs[j]] = this.multi.get(i, langs[j], true);
 				}
 			}
 		}
