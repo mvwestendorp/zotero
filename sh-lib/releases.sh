@@ -12,6 +12,7 @@ function create-github-release () {
         --user "${DOORKEY}" \
         "https://api.github.com/repos/Juris-M/${FORK}/releases/tags/${RELEASE_TAG}" \
         | ~/bin/jq '.upload_url')
+    echo "FIRST ${UPLOAD_URL}"
     if [ "$UPLOAD_URL" == "" ]; then
         # Create the release
         DAT=$(printf '{"tag_name": "%s", "name": "%s", "body":"%s", "draft": false, "prerelease": %d}' "$RELEASE_TAG" "$RELEASE_NAME" "$RELEASE_BODY" "$IS_BETA")
@@ -21,11 +22,17 @@ function create-github-release () {
             "https://api.github.com/repos/Juris-M/${FORK}/releases" \
             | ~/bin/jq '.upload_url')
     fi
+    echo "SECOND ${UPLOAD_URL}"
     UPLOAD_URL=$(echo $UPLOAD_URL | sed -e "s/\"\(.*\){.*/\1/")
+    echo "THIRD ${UPLOAD_URL}"
 }
 
 function add-xpi-to-github-release () {
     # Upload "asset"
+    echo "DOORKEY: ${DOORKEY}"
+    echo "UPLOAD_URL: ${UPLOAD_URL}"
+    echo "CLIENT: ${CLIENT}"
+    echo "VERSION: ${VERSION}"
     NAME=$(curl --fail --silent --show-error \
         --user "${DOORKEY}" \
         -H "Accept: application/vnd.github.manifold-preview" \
