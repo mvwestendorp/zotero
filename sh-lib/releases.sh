@@ -38,7 +38,7 @@ function add-xpi-to-github-release () {
 
 function publish-update () {
     # Prepare the update manifest
-    cp update-TEMPLATE.rdf update-TRANSER.rdf
+    cp update-TEMPLATE.rdf update-TRANSFER.rdf
     sed -si "s/<em:version>.*<\/em:version>/<em:version>${VERSION_STUB}<\/em:version>/" update-TRANSFER.rdf
     sed -si "s/\/.*\/.*<\/em:updateLink>/\/v${VERSION_STUB}\/${CLIENT}-v${VERSION_STUB}.xpi<\/em:updateLink>/" update-TRANSFER.rdf
 
