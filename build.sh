@@ -36,9 +36,9 @@ VERSION_ROOT="4.0.27m"
 # Functions for repo management
 . sh-lib/repo.sh
 
-if [ $RELEASE -gt 1 ]; then
-  DOORKEY=$(cat "${HOME}/bin/doorkey.txt")
-fi
+#if [ $RELEASE -gt 1 ]; then
+#  DOORKEY=$(cat "${HOME}/bin/doorkey.txt")
+#fi
 
 # Perform release ops
 case $RELEASE in
