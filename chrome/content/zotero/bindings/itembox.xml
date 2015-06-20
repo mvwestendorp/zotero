@@ -3045,6 +3045,9 @@
 					var fieldName = row.firstChild.getAttribute("fieldname");
 					var langTag = row.firstChild.getAttribute('zlang');
 					var isMulti = row.parentNode.classList.contains('multi');
+                    Zotero.debug("XXXX langTag="+langTag);
+                    Zotero.debug("XXXX isMulti="+isMulti);
+                    Zotero.debug("XXXX this.saveOnEdit="+this.saveOnEdit);
 					switch (mode) {
 						case 'title':
 							var newVal = Zotero.Utilities.capitalizeTitle(val.toLowerCase(), true);
@@ -3061,7 +3064,7 @@
 							throw ("Invalid transform mode '" + mode + "' in zoteroitembox.textTransform()");
 					}
 					this._setFieldValue(label, newVal);
-					this._modifyField(fieldName, newVal, this.saveOnEdit, langTag, isMulti);
+					this._modifyField(fieldName, newVal, this.saveOnEdit, langTag, !isMulti);
 
 				]]>
 				</body>
