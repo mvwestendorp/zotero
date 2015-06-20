@@ -1994,7 +1994,7 @@ Zotero.Utilities = {
 					'family':lastName,
 					'given':creator.firstName
 				}
-				if (creator.fieldMode) {
+				if (fieldMode) {
 					nameObj.isInstitution = fieldMode;
 				}
 			} else {
