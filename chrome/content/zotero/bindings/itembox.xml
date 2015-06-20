@@ -3284,12 +3284,14 @@
 					var typeBox = row.getElementsByClassName('creator-type-label')[0];
 					var creatorIndex = parseInt(typeBox.getAttribute('fieldname').split('-')[1]);
 					var fields = this.getCreatorFields(row);
+					var langTag = row.firstChild.getAttribute('zlang');
+					var isMulti = row.parentNode.classList.contains('multi');
 					var lastName = fields.lastName;
 					var firstName = fields.firstName;
 					fields.lastName = firstName;
 					fields.firstName = lastName;
 					this.saveOnEdit = false;
-					this.modifyCreator(creatorIndex, fields);
+					this.modifyCreator(creatorIndex, fields, null, langTag, isMulti);
 					this.item.save();
 				]]></body>
 			</method>
