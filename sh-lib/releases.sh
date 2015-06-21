@@ -29,10 +29,6 @@ function create-github-release () {
 
 function add-xpi-to-github-release () {
     # Upload "asset"
-    echo "DOORKEY: ${DOORKEY}"
-    echo "UPLOAD_URL: ${UPLOAD_URL}"
-    echo "CLIENT: ${CLIENT}"
-    echo "VERSION: ${VERSION}"
     NAME=$(curl --fail --silent --show-error \
         --user "${DOORKEY}" \
         -H "Accept: application/vnd.github.manifold-preview" \
