@@ -1934,20 +1934,13 @@ Zotero.Utilities = {
 			}
 		}
 		
-		// Clean up committee/legislativeBody
-		// XXX This could use some attention on reverse conversion
-		// XXX Actually, this should really be happening inside the processor
-
-		// XXX Do not combine these fields, set both as separate creators
-		//if (cslItem.committee && cslItem.authority) {
-		//	cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
-		//	delete cslItem.committee;
-		//}
-
 		// separate name variables
 		var author = Zotero.CreatorTypes.getName(Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID));
 		var creators = zoteroItem.creators;
 
+        /*
+         * This is already covered in citeproc-js. 
+         *
 		if (!portableJSON && !stopAuthority) {
 			if (!creators) creators = [];
 			var honoraryCreators = ["authority", "committee"];
@@ -1978,6 +1971,7 @@ Zotero.Utilities = {
 				}
 			}
 		}
+        */
 		
 		for(var i=0; creators && i<creators.length; i++) {
 			var creator = creators[i];
