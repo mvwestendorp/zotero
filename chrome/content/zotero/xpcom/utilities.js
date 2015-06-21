@@ -1937,10 +1937,12 @@ Zotero.Utilities = {
 		// Clean up committee/legislativeBody
 		// XXX This could use some attention on reverse conversion
 		// XXX Actually, this should really be happening inside the processor
-		if (cslItem.committee && cslItem.authority) {
-			cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
-			delete cslItem.committee;
-		}
+
+		// XXX Do not combine these fields, set both as separate creators
+		//if (cslItem.committee && cslItem.authority) {
+		//	cslItem.authority = [cslItem.authority,cslItem.committee].join("|");
+		//	delete cslItem.committee;
+		//}
 
 		// separate name variables
 		var author = Zotero.CreatorTypes.getName(Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID));
@@ -1948,28 +1950,32 @@ Zotero.Utilities = {
 
 		if (!portableJSON && !stopAuthority) {
 			if (!creators) creators = [];
-			if (cslItem.authority) {
-				var nameObj = {
-					'creatorType':'authority',
-					'lastName':cslItem.authority,
-					'firstName':'',
-					'fieldMode': 1,
-					'multi':{
-						'_key': {}
+			var honoraryCreators = ["authority", "committee"];
+			for (var i=0,ilen=honoraryCreators.length;i<ilen;i++) {
+				let hCreator = honoraryCreators[i];
+				if (cslItem[hCreator]) {
+					var nameObj = {
+						'creatorType':hCreator,
+						'lastName':cslItem[hCreator],
+						'firstName':'',
+						'fieldMode': 1,
+						'multi':{
+							'_key': {}
+						}
 					}
-				}
-				for (var langTag in cslItem.multi._keys.authority) {
-					nameObj.multi._key[langTag] = {
-						'lastName':cslItem.multi._keys.authority[langTag],
-						'firstName':''
+					for (var langTag in cslItem.multi._keys[hCreator]) {
+						nameObj.multi._key[langTag] = {
+							'lastName':cslItem.multi._keys[hCreator][langTag],
+							'firstName':''
+						}
 					}
+					if (cslItem.multi._keys[hCreator]) {
+						delete cslItem.multi._keys[hCreator];
+					}
+					nameObj.multi.main = cslItem.multi.main[hCreator];
+					creators.push(nameObj);
+					delete cslItem[hCreator];
 				}
-				if (cslItem.multi._keys.authority) {
-					delete cslItem.multi._keys.authority;
-				}
-				nameObj.multi.main = cslItem.multi.main.authority;
-				creators.push(nameObj);
-				delete cslItem.authority;
 			}
 		}
 		
