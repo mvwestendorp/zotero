@@ -1,4 +1,4 @@
--- 10074
+-- 10075
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -378,6 +378,7 @@ INSERT INTO fields VALUES (1286,'volumeTitle',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1287,'dateAmended',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1288,'gazetteFlag',NULL);              -- [ADDED]
 INSERT INTO fields VALUES (1289,'documentName',NULL);             -- [ADDED]
+INSERT INTO fields VALUES (1290,'parentTreaty',NULL);             -- [ADDED]
 
 -- book
 INSERT INTO itemTypeFields VALUES (2, 110, NULL, 1);
@@ -1117,21 +1118,23 @@ INSERT INTO itemTypeFields VALUES (1262, 116, NULL, 3);   -- shortTitle
 INSERT INTO itemTypeFields VALUES (1262, 43, NULL, 4);    -- reporter         [ADDED]
 INSERT INTO itemTypeFields VALUES (1262, 4, NULL, 5);     -- volume           [ADDED]
 INSERT INTO itemTypeFields VALUES (1262, 10, NULL, 6);    -- pages            [ADDED]
-INSERT INTO itemTypeFields VALUES (1262, 1278, NULL, 7);  -- openingDate      [ADDED]
-INSERT INTO itemTypeFields VALUES (1262, 1279, NULL, 8);  -- adoptionDate     [ADDED]
-INSERT INTO itemTypeFields VALUES (1262, 1277, NULL, 9);  -- signingDate      [ADDED]
-INSERT INTO itemTypeFields VALUES (1262, 14, NULL, 10);   -- date (effective date)
-INSERT INTO itemTypeFields VALUES (1262, 15, NULL, 11);   -- section          [ADDED]
-INSERT INTO itemTypeFields VALUES (1262, 87, NULL, 12);   -- language
-INSERT INTO itemTypeFields VALUES (1262, 1, NULL, 13);    -- url
-INSERT INTO itemTypeFields VALUES (1262, 27, NULL, 14);   -- accessed
-INSERT INTO itemTypeFields VALUES (1262, 123, NULL, 15);  -- archive
-INSERT INTO itemTypeFields VALUES (1262, 19, NULL, 16);   -- archiveLocation
-INSERT INTO itemTypeFields VALUES (1262, 62, NULL, 17);   -- libraryCatalog   Deprecated
-INSERT INTO itemTypeFields VALUES (1262, 18, NULL, 18);   -- callNumber       Deprecated
-INSERT INTO itemTypeFields VALUES (1262, 8, NULL, 19);    -- publisher        Deprecated
-INSERT INTO itemTypeFields VALUES (1262, 2, NULL, 20);    -- rights
-INSERT INTO itemTypeFields VALUES (1262, 22, NULL, 21);   -- extra
+INSERT INTO itemTypeFields VALUES (1262, 1290, NULL, 7);    -- parentTreaty            [ADDED]
+INSERT INTO itemTypeFields VALUES (1262, 1271, NULL, 8);    -- supplementName            [ADDED]
+INSERT INTO itemTypeFields VALUES (1262, 1278, NULL, 9);  -- openingDate      [ADDED]
+INSERT INTO itemTypeFields VALUES (1262, 1279, NULL, 10);  -- adoptionDate     [ADDED]
+INSERT INTO itemTypeFields VALUES (1262, 1277, NULL, 11);  -- signingDate      [ADDED]
+INSERT INTO itemTypeFields VALUES (1262, 14, NULL, 12);   -- date (effective date)
+INSERT INTO itemTypeFields VALUES (1262, 15, NULL, 13);   -- section          [ADDED]
+INSERT INTO itemTypeFields VALUES (1262, 87, NULL, 14);   -- language
+INSERT INTO itemTypeFields VALUES (1262, 1, NULL, 15);    -- url
+INSERT INTO itemTypeFields VALUES (1262, 27, NULL, 16);   -- accessed
+INSERT INTO itemTypeFields VALUES (1262, 123, NULL, 17);  -- archive
+INSERT INTO itemTypeFields VALUES (1262, 19, NULL, 18);   -- archiveLocation
+INSERT INTO itemTypeFields VALUES (1262, 62, NULL, 19);   -- libraryCatalog   Deprecated
+INSERT INTO itemTypeFields VALUES (1262, 18, NULL, 20);   -- callNumber       Deprecated
+INSERT INTO itemTypeFields VALUES (1262, 8, NULL, 21);    -- publisher        Deprecated
+INSERT INTO itemTypeFields VALUES (1262, 2, NULL, 22);    -- rights
+INSERT INTO itemTypeFields VALUES (1262, 22, NULL, 23);   -- extra
 
 -- [NEW] regulation (clone of gazette)
 INSERT INTO itemTypeFields VALUES (1263, 112, NULL, 1);   -- nameOfAct
@@ -1212,6 +1215,7 @@ INSERT INTO baseFieldMappings VALUES (13, 12, 91); -- webpage/publicationTitle/w
 INSERT INTO baseFieldMappings VALUES (15, 12, 115); -- report/publicationTitle/bookTitle
 INSERT INTO baseFieldMappings VALUES (23, 12, 107); -- blogPost/publicationTitle/blogTitle
 INSERT INTO baseFieldMappings VALUES (25, 12, 104); -- forumPost/publicationTitle/forumTitle
+-- INSERT INTO baseFieldMappings VALUES (1262, 12, 1290); -- treaty/publicationTitle/parentTreaty [would conflict with reporter in CSL]
 INSERT INTO baseFieldMappings VALUES (26, 6, 1280); -- audioRecording/edition/release
 INSERT INTO baseFieldMappings VALUES (29, 12, 119); -- tvBroadcast/publicationTitle/programTitle
 INSERT INTO baseFieldMappings VALUES (30, 12, 119); -- radioBroadcast/publicationTitle/programTitle

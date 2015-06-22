@@ -153,7 +153,9 @@ Zotero.EXTENDED_FIELDS = {
 		"openingDate":"available-date",
 		"adoptionDate":"original-date",
 		"signingDate":"event-date",
-		"versionNumber":"version"
+		"versionNumber":"version",
+		"parentTreaty":"collection-title",
+        "supplementName":"genre"
 	},
 	"classic":{
 		"volume":"volume"
