@@ -6,13 +6,13 @@
             <rdf:Seq>
                 <rdf:li>
                     <rdf:Description>
-                        <em:version>4.0.27m20</em:version>
+                        <em:version>4.0.27m21</em:version>
                         <em:targetApplication>
                             <rdf:Description>
                                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
                                 <em:minVersion>3.6</em:minVersion>
                                 <em:maxVersion>38.*</em:maxVersion>
-                                <em:updateLink>https:/v4.0.27m20/jurism-v4.0.27m20.xpi</em:updateLink>
+                                <em:updateLink>https:/v4.0.27m21/jurism-v4.0.27m21.xpi</em:updateLink>
                             </rdf:Description>
                         </em:targetApplication>
                     </rdf:Description>
