@@ -70,8 +70,8 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
-		"websiteTitle": "Publication title"
+		"websiteTitle": "Publication title",
+		"version": 0
 	},
 	"audioRecording": {
 		"ISBN": "978-1-234-56789-7",
@@ -191,7 +191,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"bill": {
@@ -291,7 +291,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"blogPost": {
 		"abstractNote": "Abstract note",
@@ -369,7 +369,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"websiteType": "Type"
 	},
 	"book": {
@@ -511,7 +511,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6",
 		"volumeTitle": "Volume title"
 	},
@@ -670,7 +670,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6",
 		"volumeTitle": "Volume title"
 	},
@@ -798,7 +798,7 @@
 		"supplementName": "Supplement name",
 		"tags": [],
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"yearAsVolume": "Year as volume"
 	},
 	"classic": {
@@ -889,7 +889,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"computerProgram": {
@@ -972,7 +972,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"versionNumber": "Version"
 	},
 	"conferencePaper": {
@@ -1106,7 +1106,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"dictionaryEntry": {
@@ -1238,7 +1238,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"document": {
@@ -1350,7 +1350,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"versionNumber": "Version"
 	},
 	"email": {
@@ -1422,7 +1422,7 @@
 		"subject": "Title",
 		"tags": [],
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"encyclopediaArticle": {
 		"ISBN": "978-1-234-56789-7",
@@ -1553,7 +1553,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"film": {
@@ -1657,7 +1657,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"videoRecordingFormat": "Medium"
 	},
 	"forumPost": {
@@ -1724,7 +1724,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"gazette": {
 		"abstractNote": "Abstract note",
@@ -1901,7 +1901,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"instantMessage": {
@@ -1973,7 +1973,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"interview": {
 		"abstractNote": "Abstract note",
@@ -2068,7 +2068,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"journalArticle": {
 		"DOI": "10.1234/example.doi",
@@ -2201,7 +2201,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"letter": {
@@ -2287,7 +2287,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"magazineArticle": {
 		"ISSN": "1234-5679",
@@ -2388,7 +2388,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"manuscript": {
@@ -2479,7 +2479,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"map": {
 		"ISBN": "978-1-234-56789-7",
@@ -2582,7 +2582,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"newspaperArticle": {
 		"ISSN": "1234-5679",
@@ -2700,7 +2700,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"patent": {
 		"abstractNote": "Abstract note",
@@ -2805,7 +2805,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"podcast": {
 		"abstractNote": "Abstract note",
@@ -2887,7 +2887,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"presentation": {
 		"abstractNote": "Abstract note",
@@ -2954,7 +2954,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"radioBroadcast": {
 		"abstractNote": "Abstract note",
@@ -3089,7 +3089,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"regulation": {
 		"abstractNote": "Abstract note",
@@ -3303,7 +3303,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"standard": {
 		"abstractNote": "Abstract note",
@@ -3495,7 +3495,7 @@
 		"shortTitle": "Short title",
 		"tags": [],
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"thesis": {
 		"abstractNote": "Abstract note",
@@ -3576,7 +3576,7 @@
 		"title": "Title",
 		"university": "Publisher",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"treaty": {
 		"abstractNote": "Abstract note",
@@ -3831,7 +3831,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"videoRecordingFormat": "Medium"
 	},
 	"videoRecording": {
@@ -3957,7 +3957,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"videoRecordingFormat": "Medium",
 		"volume": "6",
 		"websiteTitle": "Website title"
@@ -4037,7 +4037,7 @@
 		"tags": [],
 		"title": "Title",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"websiteTitle": "Publication title",
 		"websiteType": "Type"
 	}

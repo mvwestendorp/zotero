@@ -203,53 +203,17 @@ function resetDB() {
  * in a sorted order.
  */
 function stableStringify(obj) {
-	return JSON.stringify(obj, function(k, v){
-		if (v && "object" === typeof v && !Array.isArray(v)) {
-			var o = {},
-				keys = Object.keys(v).sort();
-			for (var i=0,ilen=keys.length;i<ilen;i++) {
+	return JSON.stringify(obj, function(k, v) {
+		if (v && typeof v == "object" && !Array.isArray(v)) {
+			let o = {},
+			    keys = Object.keys(v).sort();
+			for (let i = 0; i < keys.length; i++) {
 				o[keys[i]] = v[keys[i]];
 			}
 			return o;
 		}
 		return v;
 	}, "\t");
-}
-
-
-function stableStringify(obj, level, label) {
-	if (!level) level = 0;
-	let indent = '\t'.repeat(level);
-	
-	if (label) label = JSON.stringify('' + label) + ': ';
-	else label = '';
-	
-	if (typeof obj == 'function' || obj === undefined) return null;
-	
-	if (typeof obj != 'object' || obj === null) return indent + label + JSON.stringify(obj);
-	
-	if (Array.isArray(obj)) {
-		let str = indent + label + '[';
-		for (let i=0; i<obj.length; i++) {
-			let json = stableStringify(obj[i], level + 1);
-			if (json === null) json = indent + '\tnull'; // function
-			str += '\n' + json + (i < obj.length-1 ? ',' : '');
-		}
-		return str + (obj.length ? '\n' + indent : '') + ']';
-	}
-	
-	let keys = Object.keys(obj).sort(),
-		empty = true,
-		str = indent + label + '{';
-	for (let i=0; i<keys.length; i++) {
-		let json = stableStringify(obj[keys[i]], level + 1, keys[i]);
-		if (json === null) continue; // function
-		
-		empty = false;
-		str += '\n' + json + (i < keys.length-1 ? ',' : '');
-	}
-	
-	return str + (!empty ? '\n' + indent : '') + '}';
 }
 
 /**
@@ -422,15 +386,7 @@ function generateItemJSONData(options, currentData) {
 	for (let itemName in items) {
 		let zItem = Zotero.Items.get(items[itemName].id);
 		jsonData[itemName] = zItem.toJSON(options);
-		
-		// Adjut accessDate so that it doesn't depend on computer time zone
-		// Effectively, assume that current time zone is UTC
-		if (jsonData[itemName].accessDate) {
-			let date = Zotero.Date.isoToDate(jsonData[itemName].accessDate);
-			date.setUTCMinutes(date.getUTCMinutes() - date.getTimezoneOffset());
-			jsonData[itemName].accessDate = Zotero.Date.dateToISO(date);
-		}
-		
+
 		// Don't replace some fields that _always_ change (e.g. item keys)
 		// as long as it follows expected format
 		// This makes it easier to generate more meaningful diffs
@@ -492,14 +448,6 @@ function generateTranslatorExportData(legacy, currentData) {
 		let zItem = Zotero.Items.get(items[itemName].id);
 		itemGetter._itemsLeft = [zItem];
 		translatorExportData[itemName] = itemGetter.nextItem();
-		
-		// Adjut ISO accessDate so that it doesn't depend on computer time zone
-		// Effectively, assume that current time zone is UTC
-		if (!legacy && translatorExportData[itemName].accessDate) {
-			let date = Zotero.Date.isoToDate(translatorExportData[itemName].accessDate);
-			date.setUTCMinutes(date.getUTCMinutes() - date.getTimezoneOffset());
-			translatorExportData[itemName].accessDate = Zotero.Date.dateToISO(date);
-		}
 		
 		// Don't replace some fields that _always_ change (e.g. item keys)
 		if (!currentData || !currentData[itemName]) continue;

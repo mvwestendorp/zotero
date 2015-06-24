@@ -55,6 +55,10 @@ Zotero.Attachments = new function(){
 			throw ("'" + file.leafName + "' must be a file in Zotero.Attachments.importFromFile()");
 		}
 		
+		if (file.leafName.endsWith(".lnk")) {
+			throw new Error("Cannot add Windows shortcut");
+		}
+		
 		Zotero.DB.beginTransaction();
 		
 		try {
@@ -165,7 +169,7 @@ Zotero.Attachments = new function(){
 			var storageDir = Zotero.getStorageDirectory();
 			var destDir = this.getStorageDirectory(itemID);
 			_moveOrphanedDirectory(destDir);
-			file.parent.copyTo(storageDir, destDir.leafName);
+			file.parent.copyToFollowingLinks(storageDir, destDir.leafName);
 			
 			// Point to copied file
 			var newFile = destDir.clone();
@@ -201,7 +205,7 @@ Zotero.Attachments = new function(){
 	
 	function importFromURL(url, sourceItemID, forceTitle, forceFileBaseName, parentCollectionIDs,
 			mimeType, libraryID, callback, cookieSandbox) {
-		Zotero.debug('Importing attachment from URL');
+		Zotero.debug('Importing attachment from URL ' + url);
 		
 		if (sourceItemID && parentCollectionIDs) {
 			var msg = "parentCollectionIDs is ignored when sourceItemID is set in Zotero.Attachments.importFromURL()";
@@ -568,7 +572,7 @@ Zotero.Attachments = new function(){
 			mimeType = "application/pdf";
 		}
 		
-		var charsetID = Zotero.CharacterSets.getID(document.characterSet);
+		var charsetID = Zotero.CharacterSets.getID('utf-8'); // WPD will output UTF-8
 		
 		if (!forceTitle) {
 			// Remove e.g. " - Scaled (-17%)" from end of images saved from links,

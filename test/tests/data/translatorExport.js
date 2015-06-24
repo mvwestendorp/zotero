@@ -72,7 +72,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/VXDHRHNP",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"websiteTitle": "Publication title"
 	},
 	"audioRecording": {
@@ -195,7 +195,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/H9KMDMKK",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"bill": {
@@ -297,7 +297,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/7UF9TWRI",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"blogPost": {
 		"abstractNote": "Abstract note",
@@ -377,7 +377,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/ABZPI5RA",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"websiteType": "Type"
 	},
 	"book": {
@@ -521,7 +521,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/GW3SAWW6",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6",
 		"volumeTitle": "Volume title"
 	},
@@ -682,7 +682,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/RIPPV55H",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6",
 		"volumeTitle": "Volume title"
 	},
@@ -812,7 +812,7 @@
 		"tags": [],
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/QHZWSBCZ",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"yearAsVolume": "Year as volume"
 	},
 	"classic": {
@@ -905,7 +905,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/jygmAWOE/items/EE8J55J8",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"computerProgram": {
@@ -990,7 +990,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/KKPZKHNF",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"versionNumber": "Version"
 	},
 	"conferencePaper": {
@@ -1126,7 +1126,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/6N2HGGGC",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"dictionaryEntry": {
@@ -1260,7 +1260,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/JPNX3J45",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"document": {
@@ -1374,7 +1374,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/JC3ZJTHP",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"versionNumber": "Version"
 	},
 	"email": {
@@ -1448,7 +1448,7 @@
 		"tags": [],
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/W2WFJDDP",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"encyclopediaArticle": {
 		"ISBN": "978-1-234-56789-7",
@@ -1581,7 +1581,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/IQ4VQRZK",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"film": {
@@ -1687,7 +1687,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/ASGNK9V4",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"videoRecordingFormat": "Medium"
 	},
 	"forumPost": {
@@ -1756,7 +1756,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/VUMWB9BZ",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"gazette": {
 		"abstractNote": "Abstract note",
@@ -1937,7 +1937,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/3XQMN9Q5",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"instantMessage": {
@@ -2011,7 +2011,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/XEATTJU2",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"interview": {
 		"abstractNote": "Abstract note",
@@ -2108,7 +2108,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/7WKVQVAR",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"journalArticle": {
 		"DOI": "10.1234/example.doi",
@@ -2243,7 +2243,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/SWW5XKNW",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"letter": {
@@ -2331,7 +2331,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/X3A224PG",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"magazineArticle": {
 		"ISSN": "1234-5679",
@@ -2434,7 +2434,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/CP6IHEZW",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"volume": "6"
 	},
 	"manuscript": {
@@ -2527,7 +2527,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/V7VMFMWK",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"map": {
 		"ISBN": "978-1-234-56789-7",
@@ -2632,7 +2632,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/EE37TTFA",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"newspaperArticle": {
 		"ISSN": "1234-5679",
@@ -2752,7 +2752,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/AF7D3DBU",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"patent": {
 		"abstractNote": "Abstract note",
@@ -2859,7 +2859,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/PJTMWECG",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"podcast": {
 		"abstractNote": "Abstract note",
@@ -2943,7 +2943,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/QE7NSW5T",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"presentation": {
 		"abstractNote": "Abstract note",
@@ -3012,7 +3012,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/VCJG5RX7",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"radioBroadcast": {
 		"abstractNote": "Abstract note",
@@ -3149,7 +3149,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/H9KMVJH9",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"regulation": {
 		"abstractNote": "Abstract note",
@@ -3367,7 +3367,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/Z2IZ9JEP",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"standard": {
 		"abstractNote": "Abstract note",
@@ -3563,7 +3563,7 @@
 		"tags": [],
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/SJE3PIJT",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"thesis": {
 		"abstractNote": "Abstract note",
@@ -3646,7 +3646,7 @@
 		"university": "Publisher",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/68UVS8EK",
 		"url": "http://www.example.com",
-		"version": 1
+		"version": 0
 	},
 	"treaty": {
 		"abstractNote": "Abstract note",
@@ -3905,7 +3905,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/7WGRBEFW",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"videoRecordingFormat": "Medium"
 	},
 	"videoRecording": {
@@ -4033,7 +4033,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/55G9KHBH",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"videoRecordingFormat": "Medium",
 		"volume": "6",
 		"websiteTitle": "Website title"
@@ -4115,7 +4115,7 @@
 		"title": "Title",
 		"uri": "http://zotero.org/users/local/riiZoBgm/items/M7X5Q2MA",
 		"url": "http://www.example.com",
-		"version": 1,
+		"version": 0,
 		"websiteTitle": "Publication title",
 		"websiteType": "Type"
 	}
