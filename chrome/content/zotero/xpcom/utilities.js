@@ -55,7 +55,7 @@ const CSL_NAMES_MAPPINGS = {
 const CSL_TEXT_MAPPINGS = {
 	"title":["title"],
 	"container-title":["publicationTitle",  "reporter", "code", "album", "websiteTitle"], /* reporter and code should move to SQL mapping tables */
-	"collection-title":["seriesTitle", "series"],
+	"collection-title":["seriesTitle", "series", "parentTreaty"],
 	"collection-number":["seriesNumber","assemblyNumber","regnalYear","yearAsVolume"],
 	"publisher":["publisher", "distributor"], /* distributor should move to SQL mapping tables */
 	"publisher-place":["place"],
