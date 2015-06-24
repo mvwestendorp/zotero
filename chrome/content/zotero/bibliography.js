@@ -34,27 +34,14 @@
 
 var Zotero_File_Interface_Bibliography = new function() {
 	var _io, _saveStyle;
-	
-	this.init = init;
-	this.styleChanged = styleChanged;
-	this.acceptSelection = acceptSelection;
-	this.setLangPref = setLangPref;
-	this.citationPrimary = citationPrimary;
-	this.citationSecondary = citationSecondary;
-	this.citationSetAffixes = citationSetAffixes;
-	this.setLanguageRoleHighlight = setLanguageRoleHighlight;
-	this.openProjectName = openProjectName;
-	this.closeProjectName = closeProjectName;
-	this.toggleGroupNameSafetyCatch = toggleGroupNameSafetyCatch;
-	this.setGroupName = setGroupName;
-	this.toggleTitleLinks = toggleTitleLinks;
 
+	var lastSelectedLocale; // Only changes when explicitly selected
+	
 	/*
 	 * Initialize some variables and prepare event listeners for when chrome is done
 	 * loading
 	 */
-	function init() {
-		//Zotero.debug("XXX == init() ==");
+	this.init = function () {
 		// Set font size from pref
 		// Affects bibliography.xul and integrationDocPrefs.xul
 		var bibContainerMain = document.getElementById("zotero-bibliography-container-main");
@@ -74,9 +61,8 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 		
 		var listbox = document.getElementById("style-listbox");
-		var styles = Zotero.Styles.getVisible();
 		
-		// if no style is set, get the last style used
+		// if no style is requested, get the last style used
 		if(!_io.style) {
 			_io.style = Zotero.Prefs.get("export.lastStyle");
 			_saveStyle = true;
@@ -87,9 +73,10 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 		
 		// add styles to list
+		var styles = Zotero.Styles.getVisible();
 		var index = 0;
 		var nStyles = styles.length;
-		var selectIndex = -1;
+		var selectIndex = null;
 		for(var i=0; i<nStyles; i++) {
 			var itemNode = document.createElement("listitem");
 			itemNode.setAttribute("value", styles[i].styleID);
@@ -111,14 +98,29 @@ var Zotero_File_Interface_Bibliography = new function() {
 			}
 		}
 		
-		if (selectIndex < 1) {
+		let requestedLocale;
+		if (selectIndex === null) {
+			// Requested style not found in list, pre-select first style
 			selectIndex = 0;
+		} else {
+			requestedLocale = _io.locale;
 		}
+		
+		let style = styles[selectIndex];
+		lastSelectedLocale = Zotero.Prefs.get("export.lastLocale");
+		if (requestedLocale && style && !style.locale) {
+			// pre-select supplied locale
+			lastSelectedLocale = requestedLocale;
+		}
+		
+		// add locales to list
+		Zotero.Styles.populateLocaleList(document.getElementById("locale-menu"));
 		
 		// Has to be async to work properly
 		window.setTimeout(function () {
 			listbox.ensureIndexIsVisible(selectIndex);
 			listbox.selectedIndex = selectIndex;
+			Zotero_File_Interface_Bibliography.styleChanged();
 		}, 0);
 		
 		// ONLY FOR bibliography.xul: export options
@@ -185,8 +187,8 @@ var Zotero_File_Interface_Bibliography = new function() {
 
 		// Set project and group name (integrationDocPrefs.xul only)
 
-		displayProjectName();
-		displayGroupName();
+		this.displayProjectName();
+		this.displayGroupName();
 
 
 		// Also ONLY for integrationDocPrefs.xul: update language selections
@@ -197,7 +199,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		for (var i = 0, ilen = citationPrefNames.length; i < ilen; i += 1) {
 			var prefname = citationPrefNames[i].toLowerCase();
 			var citationRoleNames = ["orig","translit","translat"];
-			citationLangSet(citationPrefNames[i], true);
+			this.citationLangSet(citationPrefNames[i], true);
 			for (var j = 0, jlen = citationRoleNames.length; j < jlen; j += 1) {
 				var rolename = citationRoleNames[j];
 				var citationPrefNode = document.getElementById(prefname + '-radio-orig');
@@ -242,23 +244,24 @@ var Zotero_File_Interface_Bibliography = new function() {
 		
 		// set style to false, in case this is cancelled
 		_io.style = false;
-	}
+	};
+
+	/*
+	 * Called when locale is changed
+	 */
+	this.localeChanged = function (selectedValue) {
+		lastSelectedLocale = selectedValue;
+	};
 
 	/*
 	 * Called when style is changed
 	 */
-	function styleChanged(index) {
-		//Zotero.debug("XXX == styleChanged() ==");
-		// When called from init(), selectedItem isn't yet set
-		if (index != undefined) {
-			var selectedItem = document.getElementById("style-listbox").getItemAtIndex(index);
-		}
-		else {
-			var selectedItem = document.getElementById("style-listbox").selectedItem;
-		}
+	this.styleChanged = function () {
+		var selectedItem = document.getElementById("style-listbox").selectedItem;
+		var selectedStyle = selectedItem.getAttribute('value');
+		var selectedStyleObj = Zotero.Styles.get(selectedStyle);
 		
-		var selectedStyle = selectedItem.getAttribute('value'),
-			selectedStyleObj = Zotero.Styles.get(selectedStyle);
+		updateLocaleMenu(selectedStyleObj);
 		
 		//
 		// For integrationDocPrefs.xul
@@ -289,21 +292,33 @@ var Zotero_File_Interface_Bibliography = new function() {
 		
 		// Change label to "Citation" or "Note" depending on style class
 		if(document.getElementById("citations")) {
+			let label = "";
 			if(Zotero.Styles.get(selectedStyle).class == "note") {
-				var label = Zotero.getString('citation.notes');
+				label = Zotero.getString('citation.notes');
 			} else {
-				var label = Zotero.getString('citation.citations');
+				label = Zotero.getString('citation.citations');
 			}
 			document.getElementById("citations").label = label;
 		}
 
 		window.sizeToContent();
+	};
+
+	/*
+	 * Update locale menulist when style is changed
+	 */
+	function updateLocaleMenu(selectedStyle) {
+		Zotero.Styles.updateLocaleList(
+			document.getElementById("locale-menu"),
+			selectedStyle,
+			lastSelectedLocale
+		);
 	}
 
-	function acceptSelection() {
-		//Zotero.debug("XXX == acceptSelection() ==");
+	this.acceptSelection = function () {
 		// collect code
-		_io.style = document.getElementById("style-listbox").selectedItem.value;
+		_io.style = document.getElementById("style-listbox").value;
+		_io.locale = document.getElementById("locale-menu").value;
 		if(document.getElementById("output-method-radio")) {
 			// collect settings
 			_io.mode = document.getElementById("output-mode-radio").selectedItem.id;
@@ -335,10 +350,25 @@ var Zotero_File_Interface_Bibliography = new function() {
 		if(_saveStyle) {
 			Zotero.Prefs.set("export.lastStyle", _io.style);
 		}
-	}
+		// save locale
+		Zotero.Prefs.set("export.lastLocale", lastSelectedLocale);
+	};
+
 	/*
 	 * ONLY FOR integrationDocPrefs.xul: language selection utility functions
 	 */
+	function setGroupName(event) {
+		var groupName = document.getElementById('group-name');
+		var groupNamePopup = document.getElementById('group-name-popup');
+		if (groupName.value == 0) {
+			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(false);
+		} else {
+			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+		}
+		Zotero_File_Interface_Bibliography.displayGroupName();
+	}
+
+
 	function addSelectorRow(target,selectors) {
 		//Zotero.debug("XXX == addSelectorRow() ==");
 		var row = document.createElement('row');
@@ -349,57 +379,8 @@ var Zotero_File_Interface_Bibliography = new function() {
 		target.appendChild(row);
 	}
 		
-	function setLanguageRoleHighlight(classes, mode) {
-		for (var i = 0, ilen = classes.length; i < ilen; i += 1) {
-			var nodes = document.getElementsByClassName(classes[i]);
-			for (var j = 0, jlen = nodes.length; j < jlen; j += 1) {
-				var lst;
-				var str = nodes[j].getAttribute("class");
-				if (str) {
-					lst = str.split(/\s+/);
-				} else {
-					lst = [];
-				}
-				if (mode) {
-					lst.push("language-role-highlight");
-					nodes[j].setAttribute("class", lst.join(" "));
-				} else {
-					for (var k = lst.length - 1; k > -1; k += -1) {
-						if (lst[k] === "language-role-highlight") {
-							lst = lst.slice(0, k).concat(lst.slice(k + 1));
-						}
-					}
-					nodes[j].setAttribute("class", lst.join(" "));
-				}
-			}
-		}
-	};
-
-	function buildSelector (profile,tagdata,param) {
-		//Zotero.debug("XXX == buildSelector() ==");
-		var checkbox = document.createElement('checkbox');
-		if (_io[param] && _io[param].indexOf(tagdata.tag) > -1) {
-			checkbox.setAttribute('checked',true);
-		}
-		checkbox.setAttribute('profile', profile);
-		checkbox.setAttribute('param', param);
-		checkbox.setAttribute('oncommand', 'Zotero_File_Interface_Bibliography.setLangPref(this);');
-		checkbox.setAttribute('value',tagdata.tag);
-
-		checkbox.setAttribute('label',tagdata.nickname);
-		checkbox.setAttribute('type','checkbox');
-		var hbox = document.createElement('hbox');
-		hbox.setAttribute("style", "overflow:hidden;margin-top:0px;margin-bottom:0px;");
-		hbox.setAttribute('flex','1');
-		hbox.appendChild(checkbox);
-		var hboxfil = document.createElement('hbox');
-		hboxfil.setAttribute('flex','1');
-		hbox.appendChild(hboxfil);
-		return hbox;
-	}
-		
-	function setLangPref(target) {
-		//Zotero.debug("XXX == setLangPref() ==");
+	function setLangPref(event) {
+        var target = event.currentTarget;
 		var profile = target.getAttribute('profile');
 		var param = target.getAttribute('param');
 		var tag = target.getAttribute('value');
@@ -420,64 +401,34 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
+	function buildSelector(profile,tagdata,param) {
+		//Zotero.debug("XXX == buildSelector() ==");
+		var checkbox = document.createElement('checkbox');
+		if (_io[param] && _io[param].indexOf(tagdata.tag) > -1) {
+			checkbox.setAttribute('checked',true);
+		}
+		checkbox.setAttribute('profile', profile);
+		checkbox.setAttribute('param', param);
+		checkbox.addEventListener("command", setLangPref);
+		checkbox.setAttribute('value',tagdata.tag);
+
+		checkbox.setAttribute('label',tagdata.nickname);
+		checkbox.setAttribute('type','checkbox');
+		var hbox = document.createElement('hbox');
+		hbox.setAttribute("style", "overflow:hidden;margin-top:0px;margin-bottom:0px;");
+		hbox.setAttribute('flex','1');
+		hbox.appendChild(checkbox);
+		var hboxfil = document.createElement('hbox');
+		hboxfil.setAttribute('flex','1');
+		hbox.appendChild(hboxfil);
+		return hbox;
+	}
+		
 	function capFirst(str) {
 		return str[0].toUpperCase() + str.slice(1);
 	}
 
-	function citationPrimary(node) {
-		var lst = node.getAttribute("id").split('-');
-		var base = lst[0];
-		var primarySetting = lst[2];
-		var settings = _io['citationLangPrefs'+capFirst(base)];
-		if (!settings) {
-			settings = ['orig'];
-		}
-		_io['citationLangPrefs'+capFirst(base)] = [primarySetting].concat(settings.slice(1));
-		// Second true is for a radio click
-		citationLangSet(capFirst(base), true, true);
-	}
-
-	function citationSecondary(node) {
-		//Zotero.debug("XXX == citationSecondary() ==");
-		var lst = node.getAttribute("id").split('-');
-		var lowerBase = lst[0];
-		var upperBase = lst[0][0].toUpperCase() + lst[0].slice(1);
-		var addme = false;
-		var cullme = false;
-		var secondarySetting = lst[2];
-		var forms = ['orig', 'translit', 'translat'];
-		// Check-box has not yet changed when this executes.
-		if (!node.checked) {
-			addme = secondarySetting;
-		} else {
-			cullme = secondarySetting;
-			// Also unset configured affixes.
-			citationSetAffixes(node);
-		}
-		var settings = _io['citationLangPrefs'+upperBase];
-		var primarySetting = settings[0];
-		var secondaries = settings.slice(1);
-		for (var i = 0, ilen = secondaries.length; i < ilen; i += 1) {
-			if (forms.indexOf(secondaries[i]) === -1) {
-				secondaries = secondaries.slice(0, i).concat(secondaries.slice(i + 1));
-			}
-		}
-		if (addme && secondaries.indexOf(secondarySetting) === -1) {
-			secondaries.push(secondarySetting);
-		}
-		if (cullme) {
-			var cullidx = secondaries.indexOf(secondarySetting);
-			if (cullidx > -1) {
-				secondaries = secondaries.slice(0, cullidx).concat(secondaries.slice(cullidx + 1));
-			}
-		}
-		_io['citationLangPrefs'+upperBase] = [primarySetting].concat(secondaries);
-		if (addme || cullme) {
-			citationLangSet(upperBase);
-		}
-	};
-
-	function citationLangSet (name, init, radioClick) {
+	this.citationLangSet = function(name, init, radioClick) {
 		var settings = _io['citationLangPrefs'+name];
 		if (!settings || !settings[0]) {
 			settings = ['orig'];
@@ -488,7 +439,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		// get node
 		// set node from pref
 		if (init) {
-			citationGetAffixes();
+			this.citationGetAffixes();
 			var currentPrimaryID = base + "-radio-" + settings[0];
 			var node = document.getElementById(currentPrimaryID);
 			var control = node.control;
@@ -516,14 +467,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 						settings = settings.slice(0,idx + 1).concat(settings.slice(idx + 2));
 						_io['citationLangPrefs'+name] = settings;
 					}
-					citationSetAffixes(nodes[i]);
+					this.citationSetAffixes(nodes[i]);
 					nodes[i].disabled = true;
 				} else if (radioClick && nodes[i].id === translitID) {
 					// true invokes a quash of the affixes
 					if (currentPrimaryID === translitID) {
-						citationSetAffixes(nodes[i]);
+						this.citationSetAffixes(nodes[i]);
 					} else {
-						citationSetAffixes(nodes[i], null, true);
+						this.citationSetAffixes(nodes[i], null, true);
 					}
 				} else {
 					nodes[i].disabled = false;
@@ -532,7 +483,86 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
-	function citationSetAffixes (node, affixNode, quashPrimaryAffixes) {
+	this.setLanguageRoleHighlight = function(classes, mode) {
+		for (var i = 0, ilen = classes.length; i < ilen; i += 1) {
+			var nodes = document.getElementsByClassName(classes[i]);
+			for (var j = 0, jlen = nodes.length; j < jlen; j += 1) {
+				var lst;
+				var str = nodes[j].getAttribute("class");
+				if (str) {
+					lst = str.split(/\s+/);
+				} else {
+					lst = [];
+				}
+				if (mode) {
+					lst.push("language-role-highlight");
+					nodes[j].setAttribute("class", lst.join(" "));
+				} else {
+					for (var k = lst.length - 1; k > -1; k += -1) {
+						if (lst[k] === "language-role-highlight") {
+							lst = lst.slice(0, k).concat(lst.slice(k + 1));
+						}
+					}
+					nodes[j].setAttribute("class", lst.join(" "));
+				}
+			}
+		}
+	};
+
+	this.citationPrimary = function(node) {
+		var lst = node.getAttribute("id").split('-');
+		var base = lst[0];
+		var primarySetting = lst[2];
+		var settings = _io['citationLangPrefs'+capFirst(base)];
+		if (!settings) {
+			settings = ['orig'];
+		}
+		_io['citationLangPrefs'+capFirst(base)] = [primarySetting].concat(settings.slice(1));
+		// Second true is for a radio click
+		this.citationLangSet(capFirst(base), true, true);
+	}
+
+	this.citationSecondary = function(node) {
+		//Zotero.debug("XXX == citationSecondary() ==");
+		var lst = node.getAttribute("id").split('-');
+		var lowerBase = lst[0];
+		var upperBase = lst[0][0].toUpperCase() + lst[0].slice(1);
+		var addme = false;
+		var cullme = false;
+		var secondarySetting = lst[2];
+		var forms = ['orig', 'translit', 'translat'];
+		// Check-box has not yet changed when this executes.
+		if (!node.checked) {
+			addme = secondarySetting;
+		} else {
+			cullme = secondarySetting;
+			// Also unset configured affixes.
+			this.citationSetAffixes(node);
+		}
+		var settings = _io['citationLangPrefs'+upperBase];
+		var primarySetting = settings[0];
+		var secondaries = settings.slice(1);
+		for (var i = 0, ilen = secondaries.length; i < ilen; i += 1) {
+			if (forms.indexOf(secondaries[i]) === -1) {
+				secondaries = secondaries.slice(0, i).concat(secondaries.slice(i + 1));
+			}
+		}
+		if (addme && secondaries.indexOf(secondarySetting) === -1) {
+			secondaries.push(secondarySetting);
+		}
+		if (cullme) {
+			var cullidx = secondaries.indexOf(secondarySetting);
+			if (cullidx > -1) {
+				secondaries = secondaries.slice(0, cullidx).concat(secondaries.slice(cullidx + 1));
+			}
+		}
+		_io['citationLangPrefs'+upperBase] = [primarySetting].concat(secondaries);
+		if (addme || cullme) {
+			this.citationLangSet(upperBase);
+		}
+	};
+
+	this.citationSetAffixes = function(node, affixNode, quashPrimaryAffixes) {
 		if (!node) {
 			node = document.popupNode;
 		}
@@ -559,17 +589,17 @@ var Zotero_File_Interface_Bibliography = new function() {
 		var forms = ['orig', 'translit', 'translat'];
 		var affixList = [];
 		for (var i = 0, ilen = types.length; i < ilen; i += 1) {
-			affixListPush(types[i], "radio", "translit", affixList, "prefix");
-			affixListPush(types[i], "radio", "translit", affixList, "suffix");
+			this.affixListPush(types[i], "radio", "translit", affixList, "prefix");
+			this.affixListPush(types[i], "radio", "translit", affixList, "suffix");
 			for (var j = 0, jlen = forms.length; j < jlen; j += 1) {
-				affixListPush(types[i], "checkbox", forms[j], affixList, "prefix");
-				affixListPush(types[i], "checkbox", forms[j], affixList, "suffix");
+				this.affixListPush(types[i], "checkbox", forms[j], affixList, "prefix");
+				this.affixListPush(types[i], "checkbox", forms[j], affixList, "suffix");
 			}
 		}
 		_io['citationAffixes'] = affixList;
 	}
 
-	function affixListPush(type, boxtype, form, lst, affix) {
+	this.affixListPush = function(type, boxtype, form, lst, affix) {
 		var elem = document.getElementById(type + "-" + boxtype + "-" + form + "-" +affix);
 		if (!elem.value) {
 			elem.value = "";
@@ -577,7 +607,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		lst.push(elem.value);
 	};
 
-	function citationGetAffixes () {
+	this.citationGetAffixes = function() {
 		var affixList = null;
 		if (_io['citationAffixes']) {
 			if (_io['citationAffixes'].length === 48) {
@@ -591,15 +621,15 @@ var Zotero_File_Interface_Bibliography = new function() {
 		var forms = ['orig', 'translit', 'translat'];
 		var count = 0;
 		for (var i = 0, ilen = types.length; i < ilen; i += 1) {
-			count =  citationGetAffixesAction(types[i], "radio", "translit", affixList, count);
+			count =  this.citationGetAffixesAction(types[i], "radio", "translit", affixList, count);
 			
 			for (var j = 0, jlen = forms.length; j < jlen; j += 1) {
-				count = citationGetAffixesAction(types[i], "checkbox", forms[j], affixList, count);
+				count = this.citationGetAffixesAction(types[i], "checkbox", forms[j], affixList, count);
 			}
 		}
 	}
 
-	function citationGetAffixesAction(type, boxtype, form, affixList, count) {
+	this.citationGetAffixesAction = function(type, boxtype, form, affixList, count) {
 		var affixPos = ['prefix', 'suffix']
 		for (var k = 0, klen = affixPos.length; k < klen; k += 1) {
 			var id = type + '-' + boxtype + '-' + form + '-' + affixPos[k];
@@ -612,22 +642,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 		return count;
 	}
 
-	var keyCodeMap = {
-		13:'Enter',
-		9:'Tab',
-		27:'Esc',
-		38:'Up',
-		40:'Down'
-	}
-
-	function displayProjectName () {
+	this.displayProjectName = function() {
 		var projectName = document.getElementById('project-name');
 		if (projectName) {
 			projectName.value = _io.projectName ? _io.projectName : '';
 		}
 	}
 
-	function openProjectName (event) {
+	this.openProjectName = function(event) {
 		var node = event.target;
 		var projectName = node.value;
 		var parent = node.parentNode;
@@ -642,7 +664,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 		newNode.focus();
 	}
 
-	function closeProjectName (event) {
+	this.closeProjectName = function(event) {
+	    var keyCodeMap = {
+		    13:'Enter',
+		    9:'Tab',
+		    27:'Esc',
+		    38:'Up',
+		    40:'Down'
+	    }
 		if ((event.type == 'keydown' && keyCodeMap[event.keyCode] === 'Enter') || event.type == 'blur') {
 			event.preventDefault();
 			var node = event.target;
@@ -661,9 +690,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
-	var allGroups = Zotero.Groups.getAll();
-
-	function displayGroupName () {
+	this.displayGroupName = function() {
 		// Zotero.debug("MLZ: == displayGroupName() ==");
 		// Check if we have access to the target group at all (change message if not)
 		// Check if we have write access to it as well (disable if not)
@@ -681,7 +708,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		var selectedNode = null;
 
 		// Get a list of groups to which user has write access
-		var groups = allGroups;
+		var groups = Zotero.groups.getAll();
 		for (var i=0,ilen=groups.length;i<ilen;i+=1) {
 			var group = groups[i];
 			var groupID = group.id;
@@ -709,26 +736,26 @@ var Zotero_File_Interface_Bibliography = new function() {
 			if (_io['groupName']) {
 				groupName.setAttribute('label',_io['groupName']);
 				toggleGroupNameSafetyCatch(true);
-				setErrorNode(groupName,3);
+				this.setErrorNode(groupName,3);
 			} else {
 				groupName.selectedItem = groupNamePopup.childNodes[0];
 				toggleGroupNameSafetyCatch(false,true);
-				setErrorNode(groupName,1);
+				this.setErrorNode(groupName,1);
 			}
 		} else if (selectedNode === false) {
 			// Setting is a group to which we do not have write access
 			toggleGroupNameSafetyCatch(true);
-			setErrorNode(groupName,2)
+			this.setErrorNode(groupName,2)
 		} else {
 			// Setting is a known group to which we have write access. Yay.
 			groupName.selectedItem = selectedNode;
 			toggleGroupNameSafetyCatch(true);
-			setErrorNode(groupName,0)
+			this.setErrorNode(groupName,0)
 		}
 		groupName.addEventListener("select",setGroupName);
 	}
 
-	function setErrorNode(groupName,pos) {
+	this.setErrorNode = function(groupName,pos) {
 		var errorNodes = [];
 		errorNodes[0] = document.getElementById('group-no-error');
 		errorNodes[1] = document.getElementById('group-unselected-error');
@@ -773,7 +800,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
-	function toggleGroupNameSafetyCatch (forceCheck, disableToggle) {
+	this.toggleGroupNameSafetyCatch = function(forceCheck, disableToggle) {
 		var groupName = document.getElementById('group-name');
 		var groupNameSafetyCatch = document.getElementById('group-name-safety-catch');
 			groupNameSafetyCatch.disabled = false;
@@ -792,23 +819,11 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
-	function setGroupName (event) {
-		var groupName = document.getElementById('group-name');
-		var groupNamePopup = document.getElementById('group-name-popup');
-		if (groupName.value == 0) {
-			toggleGroupNameSafetyCatch(false);
-		} else {
-			toggleGroupNameSafetyCatch(true);
-		}
-		displayGroupName();
-	}
-
-	function toggleTitleLinks (event) {
+	this.toggleTitleLinks (event) {
 		if (event.target.checked) {
 			Zotero.Prefs.set('linkTitles', true);
 		} else {
 			Zotero.Prefs.set('linkTitles', false);
 		}
-	}
+	};
 }
-

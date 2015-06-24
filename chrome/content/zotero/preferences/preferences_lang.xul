@@ -76,11 +76,6 @@
                   <!-- generated list items go in here -->
                 </menulist>
               </row>
-              <row>
-                <caption label="&zotero.preferences.lang.csl;"/>
-                <menulist id="csl-menulist" onselect="if (!this.disableSelect){var lang=this.selectedItem.value;Zotero.Prefs.set('export.bibliographyLocale',lang)}">
-                </menulist>
-              </row>
             </rows>
           </grid>
           <hbox flex="1">
