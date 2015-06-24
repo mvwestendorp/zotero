@@ -39,12 +39,12 @@
 	onclose="document.documentElement.cancelDialog(); event.preventDefault(); event.stopPropagation();"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	persist="screenX screenY"
-	style="width: 600px">
+	style="width: 700px">
 	
 	<script src="../include.js"/>
 	<script src="../bibliography.js"/>
 	
-	<tabbox width="600">
+	<tabbox width="700">
 	  <tabs id="doc-prefs-tabs">
 		<tab>&zotero.integration.prefs.lang.styleAndFormat;</tab>
 		<tab>&zotero.integration.prefs.lang.documentInternals;</tab>
