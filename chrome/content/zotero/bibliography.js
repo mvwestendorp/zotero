@@ -819,7 +819,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 	}
 
-	this.toggleTitleLinks (event) {
+	this.toggleTitleLinks = function(event) {
 		if (event.target.checked) {
 			Zotero.Prefs.set('linkTitles', true);
 		} else {
