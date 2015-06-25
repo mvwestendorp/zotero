@@ -10,6 +10,6 @@
 [submodule "test/resource/mocha"]
 	path = test/resource/mocha
 	url = https://github.com/mochajs/mocha.git
-[submodule "chrome/content/zotero/locale/csl"]
+[submodule "csl-locale-submodule"]
 	path = chrome/content/zotero/locale/csl
 	url = git@github.com:citation-style-language/locales.git
