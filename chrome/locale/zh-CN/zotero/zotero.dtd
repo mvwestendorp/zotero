@@ -12,6 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "复制到剪贴板">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
+<!ENTITY zotero.bibliography.locale.label "Language:">
 <!ENTITY zotero.bibliography.output.label "输出格式">
 <!ENTITY zotero.bibliography.outputMethod "输出方法:">
 <!ENTITY zotero.bibliography.outputMode "输出模式:">
@@ -101,13 +102,13 @@
 <!ENTITY zotero.integration.showEditor.label "显示编辑器">
 <!ENTITY zotero.item.add "添加">
 <!ENTITY zotero.item.attachment.file.show "打开文件目录">
-<!ENTITY zotero.item.copyAsURL "Copy as URL">
+<!ENTITY zotero.item.copyAsURL "复制为 URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "交换 首/尾 名称">
 <!ENTITY zotero.item.textTransform "格式变换">
 <!ENTITY zotero.item.textTransform.sentencecase "句首大写">
 <!ENTITY zotero.item.textTransform.titlecase "标题大写">
-<!ENTITY zotero.item.viewOnline "View Online">
+<!ENTITY zotero.item.viewOnline "在线查看">
 <!ENTITY zotero.items.accessDate_column "访问时间">
 <!ENTITY zotero.items.archiveLocation_column "归档位置">
 <!ENTITY zotero.items.archive_column "归档">

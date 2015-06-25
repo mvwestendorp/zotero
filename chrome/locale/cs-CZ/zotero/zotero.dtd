@@ -12,6 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopírovat do schránky">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
+<!ENTITY zotero.bibliography.locale.label "Language:">
 <!ENTITY zotero.bibliography.output.label "Formát výstupu">
 <!ENTITY zotero.bibliography.outputMethod "Výstupní metoda:">
 <!ENTITY zotero.bibliography.outputMode "Výstupní režim:">
@@ -101,13 +102,13 @@
 <!ENTITY zotero.integration.showEditor.label "Zobrazit editor">
 <!ENTITY zotero.item.add "Přidat">
 <!ENTITY zotero.item.attachment.file.show "Ukázat soubor">
-<!ENTITY zotero.item.copyAsURL "Copy as URL">
+<!ENTITY zotero.item.copyAsURL "Kopírovat jako URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Zaměnit křestní jména / přijmení">
 <!ENTITY zotero.item.textTransform "Převést text">
 <!ENTITY zotero.item.textTransform.sentencecase "Velké první písmeno">
 <!ENTITY zotero.item.textTransform.titlecase "Velká Písmena">
-<!ENTITY zotero.item.viewOnline "View Online">
+<!ENTITY zotero.item.viewOnline "Zobrazit online">
 <!ENTITY zotero.items.accessDate_column "Přistoupeno">
 <!ENTITY zotero.items.archiveLocation_column "Umístění v archivu">
 <!ENTITY zotero.items.archive_column "Archiv">

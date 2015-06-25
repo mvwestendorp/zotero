@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Внимание: Богатото форматиране на текста ще бъде загубен при Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Домен/Пътека">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(напр. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Изходящ формат">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Настройки специфични за страницата:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Осведомява за неработещи преводачи на страници">

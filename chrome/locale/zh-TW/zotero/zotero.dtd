@@ -12,6 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "複製到剪貼簿">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
+<!ENTITY zotero.bibliography.locale.label "Language:">
 <!ENTITY zotero.bibliography.output.label "輸出格式">
 <!ENTITY zotero.bibliography.outputMethod "＊輸出方法:">
 <!ENTITY zotero.bibliography.outputMode "＊輸出模式:">

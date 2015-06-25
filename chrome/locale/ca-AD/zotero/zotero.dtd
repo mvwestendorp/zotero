@@ -12,6 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Desa al porta-retalls">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
+<!ENTITY zotero.bibliography.locale.label "Language:">
 <!ENTITY zotero.bibliography.output.label "Format de sortida">
 <!ENTITY zotero.bibliography.outputMethod "Mètode de sortida:">
 <!ENTITY zotero.bibliography.outputMode "Mode de sortida:">
