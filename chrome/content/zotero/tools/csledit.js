@@ -36,40 +36,15 @@ var Zotero_CSL_Editor = new function() {
 		var lastStyle = Zotero.Prefs.get('export.lastStyle');
 		
 		var styles = Zotero.Styles.getAll();
-		var stylesInfo = [];
+		var currentStyle = null;
 		for each(var style in styles) {
 			if (style.source) {
 				continue;
 			}
-			stylesInfo.push({
-				styleID: style.styleID,
-				title: style.title
-			});
-		}
-		stylesInfo.sort(function(a,b){
-			if (a.title > b.title) {
-				return 1;
-			} else if (a.title < b.title) {
-				return -1;
-			} else {
-				return 0;
-			}
-		});
-		var currentStyle = null;
-		var listPos = 0;
-		for (var i=0,ilen=stylesInfo.length;i<ilen;i++) {
-			var styleInfo = stylesInfo[i];
-			var item = cslList.appendItem(styleInfo.title, styleInfo.styleID);
-			if (!currentStyle || defaultStyle == ('bibliography=' + styleInfo.styleID)) {
-				currentStyle = styleInfo.styleID;
-				cslList.selectedIndex = listPos;
-/*
- * Locales patch by rmzelle has this:
 			var item = cslList.appendItem(style.title, style.styleID);
 			if (!currentStyle && lastStyle == style.styleID) {
 				currentStyle = style;
 				cslList.selectedItem = item;
- */
 			}
 		}
 		
