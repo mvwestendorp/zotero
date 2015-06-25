@@ -157,6 +157,7 @@ var Zotero_CSL_Editor = new function() {
 	
 	this.generateBibliography = function(style) {
 		var iframe = document.getElementById('zotero-csl-preview-box');
+		var editor = document.getElementById('zotero-csl-editor');
 		
 		var items = Zotero.getActiveZoteroPane().getSelectedItems();
 		if (items.length == 0) {
