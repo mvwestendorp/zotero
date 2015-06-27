@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.32",
+    PROCESSOR_VERSION: "1.1.33",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -2830,7 +2830,7 @@ CSL.Output.Queue.prototype.startTag = function (name, token) {
     this.openLevel(name);
 };
 CSL.Output.Queue.prototype.endTag = function (name) {
-    this.closeLevel();
+    this.closeLevel(name);
     this.popFormats();
 };
 CSL.Output.Queue.prototype.openLevel = function (token, ephemeral) {
@@ -5128,23 +5128,6 @@ CSL.getBibliographyEntries = function (bibsection) {
             } else {
                 topblobs = this.output.queue[0].blobs[0].blobs;
             }
-            for (j  = topblobs.length - 1; j > -1; j += -1) {
-                if (topblobs[j].blobs && topblobs[j].blobs.length !== 0) {
-                    var last_locale = this.tmp.cite_locales[this.tmp.cite_locales.length - 1];
-                    var suffix;
-                    if (this.tmp.cite_affixes[this.tmp.area][last_locale]) {
-                        suffix = this.tmp.cite_affixes[this.tmp.area][last_locale].suffix;
-                    } else {
-                        suffix = this.bibliography.opt.layout_suffix;
-                    }
-                    chr = suffix.slice(0, 1);
-                    if (chr && topblobs[j].strings.suffix.slice(-1) === chr) {
-                        topblobs[j].strings.suffix = topblobs[j].strings.suffix.slice(0, -1);
-                    }
-                    topblobs[j].strings.suffix += suffix;
-                    break;
-                }
-            }
             topblobs[0].strings.prefix = this.bibliography.opt.layout_prefix + topblobs[0].strings.prefix;
         }
         for (var j=0,jlen=this.output.queue.length;j<jlen;j+=1) {
@@ -6671,6 +6654,31 @@ CSL.Node.label = {
 CSL.Node.layout = {
     build: function (state, target) {
         var func, prefix_token, suffix_token, tok;
+        function setSuffix() {
+            if (state.build.area === "bibliography") {
+                suffix_token = new CSL.Token("text", CSL.SINGLETON);
+                func = function(state, Item, item) {
+                    var last_locale = state.tmp.cite_locales[state.tmp.cite_locales.length - 1];
+                    var suffix;
+                    if (state.tmp.cite_affixes[state.tmp.area][state.tmp.last_cite_locale]) {
+                        suffix = state.tmp.cite_affixes[state.tmp.area][state.tmp.last_cite_locale].suffix;
+                    } else {
+                        suffix = state.bibliography.opt.layout_suffix;
+                    }
+                    var chr = suffix.slice(0, 1);
+                    var topblobs = state.output.current.value().blobs;
+                    if (chr && topblobs[topblobs.length-1].strings.suffix.slice(-1) === chr) {
+                        topblobs[topblobs.length-1].strings.suffix = topblobs[topblobs.length-1].strings.suffix.slice(0, -1);
+                    }
+                    topblobs[topblobs.length-1].strings.suffix += suffix;
+                    if (state.bibliography.opt["second-field-align"]) {
+                        state.output.endTag("bib_other");
+                    }
+                };
+                suffix_token.execs.push(func);
+                target.push(suffix_token);
+            }
+        }
         if (this.tokentype === CSL.START) {
             if (this.locale_raw) {
                 state.build.current_default_locale = this.locale_raw;
@@ -6801,6 +6809,7 @@ CSL.Node.layout = {
         }
         if (this.tokentype === CSL.END) {
             if (this.locale_raw) {
+                setSuffix();
                 if (!state.build.layout_locale_flag) {
                     my_tok.name = "if";
                     my_tok.tokentype = CSL.END;
@@ -6815,6 +6824,7 @@ CSL.Node.layout = {
                 }
             }
             if (!this.locale_raw) {
+                setSuffix();
                 if (state.tmp.cite_affixes[state.build.area]) {
                     if (state.build.layout_locale_flag) {
                         tok = new CSL.Token("else", CSL.END);
@@ -6841,12 +6851,7 @@ CSL.Node.layout = {
                     target.push(suffix_token);
                 }
                 func = function (state, Item) {
-                    if (state.tmp.area === "bibliography") {
-                        if (state.bibliography.opt["second-field-align"]) {
-                            state.output.endTag();
-                        }
-                    }
-                    state.output.closeLevel();
+                    state.output.closeLevel("empty");
                 };
                 this.execs.push(func);
                 func = function (state, Item) {
@@ -12450,7 +12455,7 @@ CSL.Util.substituteEnd = function (state, target) {
             bib_first_end = new CSL.Token("group", CSL.END);
             func = function (state, Item) {
                 if (!state.tmp.render_seen) {
-                    state.output.endTag(); // closes bib_first
+                    state.output.endTag("bib_first"); // closes bib_first
                 }
             };
             bib_first_end.execs.push(func);
