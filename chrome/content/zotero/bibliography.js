@@ -186,31 +186,36 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 
 		// Set project and group name (integrationDocPrefs.xul only)
-
-		this.displayProjectName();
-		this.displayGroupName();
-
+		var checkNode = document.getElementById("group-name");
+		if (checkNode) {
+			this.displayProjectName();
+			this.displayGroupName();
+		}
 
 		// Also ONLY for integrationDocPrefs.xul: update language selections
 		
 		// initialize options display from provided params
 
-		var citationPrefNames = ['Persons', 'Institutions', 'Titles', 'Journals', 'Publishers', 'Places'];
-		for (var i = 0, ilen = citationPrefNames.length; i < ilen; i += 1) {
-			var prefname = citationPrefNames[i].toLowerCase();
-			var citationRoleNames = ["orig","translit","translat"];
-			this.citationLangSet(citationPrefNames[i], true);
-			for (var j = 0, jlen = citationRoleNames.length; j < jlen; j += 1) {
-				var rolename = citationRoleNames[j];
-				var citationPrefNode = document.getElementById(prefname + '-radio-orig');
-				if (citationPrefNode) {
-					if (_io['citationLangPrefs'+citationPrefNames[i]] && _io['citationLangPrefs'+citationPrefNames[i]].length) {
-						var selectedCitationPrefNode = document.getElementById(prefname + "-radio-" + _io['citationLangPrefs'+citationPrefNames[i]][0]);
-						selectedCitationPrefNode.checked = true;
+		var checkNode = document.getElementById("persons-radio-orig");
+		if (checkNode) {
+			var citationPrefNames = ['Persons', 'Institutions', 'Titles', 'Journals', 'Publishers', 'Places'];
+			for (var i = 0, ilen = citationPrefNames.length; i < ilen; i += 1) {
+				var prefname = citationPrefNames[i].toLowerCase();
+				var citationRoleNames = ["orig","translit","translat"];
+				this.citationLangSet(citationPrefNames[i], true);
+				for (var j = 0, jlen = citationRoleNames.length; j < jlen; j += 1) {
+					var rolename = citationRoleNames[j];
+					var citationPrefNode = document.getElementById(prefname + '-radio-orig');
+					if (citationPrefNode) {
+						if (_io['citationLangPrefs'+citationPrefNames[i]] && _io['citationLangPrefs'+citationPrefNames[i]].length) {
+							var selectedCitationPrefNode = document.getElementById(prefname + "-radio-" + _io['citationLangPrefs'+citationPrefNames[i]][0]);
+							selectedCitationPrefNode.checked = true;
+						}
 					}
 				}
 			}
 		}
+
 
 		var langPrefs = document.getElementById('lang-prefs');
 		if (langPrefs){
@@ -380,7 +385,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 	}
 		
 	function setLangPref(event) {
-        var target = event.currentTarget;
+		var target = event.currentTarget;
 		var profile = target.getAttribute('profile');
 		var param = target.getAttribute('param');
 		var tag = target.getAttribute('value');
@@ -665,13 +670,13 @@ var Zotero_File_Interface_Bibliography = new function() {
 	}
 
 	this.closeProjectName = function(event) {
-	    var keyCodeMap = {
-		    13:'Enter',
-		    9:'Tab',
-		    27:'Esc',
-		    38:'Up',
-		    40:'Down'
-	    }
+		var keyCodeMap = {
+			13:'Enter',
+			9:'Tab',
+			27:'Esc',
+			38:'Up',
+			40:'Down'
+		}
 		if ((event.type == 'keydown' && keyCodeMap[event.keyCode] === 'Enter') || event.type == 'blur') {
 			event.preventDefault();
 			var node = event.target;
@@ -695,7 +700,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 		// Check if we have access to the target group at all (change message if not)
 		// Check if we have write access to it as well (disable if not)
 		// If both of the above check out, set the target group as the list selection.
-
 		var groupIdSetting = _io.groupID ? _io.groupID : 0;
 		var groupNameSetting = _io.groupName ? _io.groupName : '';
 
