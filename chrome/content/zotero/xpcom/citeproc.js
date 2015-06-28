@@ -6667,10 +6667,12 @@ CSL.Node.layout = {
                     }
                     var chr = suffix.slice(0, 1);
                     var topblobs = state.output.current.value().blobs;
-                    if (chr && topblobs[topblobs.length-1].strings.suffix.slice(-1) === chr) {
-                        topblobs[topblobs.length-1].strings.suffix = topblobs[topblobs.length-1].strings.suffix.slice(0, -1);
+                    if (topblobs.length) {
+                        if (chr && topblobs[topblobs.length-1].strings.suffix.slice(-1) === chr) {
+                            topblobs[topblobs.length-1].strings.suffix = topblobs[topblobs.length-1].strings.suffix.slice(0, -1);
+                        }
+                        topblobs[topblobs.length-1].strings.suffix += suffix;
                     }
-                    topblobs[topblobs.length-1].strings.suffix += suffix;
                     if (state.bibliography.opt["second-field-align"]) {
                         state.output.endTag("bib_other");
                     }
