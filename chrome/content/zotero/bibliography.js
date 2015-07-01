@@ -714,7 +714,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		var selectedNode = null;
 
 		// Get a list of groups to which user has write access
-		var groups = Zotero.groups.getAll();
+		var groups = Zotero.Groups.getAll();
 		for (var i=0,ilen=groups.length;i<ilen;i+=1) {
 			var group = groups[i];
 			var groupID = group.id;
@@ -741,22 +741,22 @@ var Zotero_File_Interface_Bibliography = new function() {
 			// No setting, or setting is not a known group
 			if (_io['groupName']) {
 				groupName.setAttribute('label',_io['groupName']);
-				toggleGroupNameSafetyCatch(true);
-				this.setErrorNode(groupName,3);
+				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+				Zotero_File_Interface_Bibliography.setErrorNode(groupName,3);
 			} else {
 				groupName.selectedItem = groupNamePopup.childNodes[0];
-				toggleGroupNameSafetyCatch(false,true);
-				this.setErrorNode(groupName,1);
+				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(false,true);
+				Zotero_File_Interface_Bibliography.setErrorNode(groupName,1);
 			}
 		} else if (selectedNode === false) {
 			// Setting is a group to which we do not have write access
-			toggleGroupNameSafetyCatch(true);
-			this.setErrorNode(groupName,2)
+			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+			Zotero_File_Interface_Bibliography.setErrorNode(groupName,2)
 		} else {
 			// Setting is a known group to which we have write access. Yay.
 			groupName.selectedItem = selectedNode;
-			toggleGroupNameSafetyCatch(true);
-			this.setErrorNode(groupName,0)
+			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+			Zotero_File_Interface_Bibliography.setErrorNode(groupName,0)
 		}
 		groupName.addEventListener("select",setGroupName);
 	}
