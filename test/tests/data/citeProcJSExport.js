@@ -25,6 +25,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -111,6 +114,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -259,6 +265,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"chapter-number": "Session",
@@ -364,6 +373,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"container-title": "Publication title",
@@ -444,6 +456,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -609,6 +624,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -790,6 +808,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"authority": [
@@ -1059,6 +1080,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -1177,6 +1201,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -1335,6 +1362,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -1486,6 +1516,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -1609,6 +1642,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"contributor": [
@@ -1696,6 +1732,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -1847,6 +1886,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -1933,6 +1975,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"container-title": "Publication title",
@@ -2009,6 +2054,10 @@
 						}
 					}
 				}
+				"given": "contributorFirst"
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"chapter-number": "Session",
@@ -2105,6 +2154,10 @@
 						}
 					}
 				}
+				"given": "authorFirst"
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"authority": [
@@ -2318,6 +2371,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -2427,6 +2483,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -2564,6 +2623,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -2661,6 +2723,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -2775,6 +2840,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -2885,6 +2953,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -3023,6 +3094,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -3172,6 +3246,9 @@
 				"multi": {
 					"_key": {}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Application number",
@@ -3304,6 +3381,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"collection-title": "Series title",
@@ -3399,6 +3479,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"event": "Meeting name",
@@ -3472,6 +3555,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -3703,6 +3789,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -3972,6 +4061,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"chapter-number": "Session",
@@ -4088,6 +4180,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -4345,6 +4440,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -4448,6 +4546,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"call-number": "Call number",
@@ -4551,6 +4652,9 @@
 						}
 					}
 				}
+			},
+			{
+				"literal": "Institutional Author"
 			}
 		],
 		"container-title": "Publication title",

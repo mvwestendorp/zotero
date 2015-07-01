@@ -310,6 +310,16 @@ function generateAllTypesAndFieldsData() {
 				}
 			});
 		}
+		
+		// Also add a single-field mode author, which is valid for all types
+		let primaryCreatorType = Zotero.CreatorTypes.getName(
+			Zotero.CreatorTypes.getPrimaryIDForType(itemTypes[i].id)
+		);
+		creators.push({
+			creatorType: primaryCreatorType,
+			lastName: 'Institutional Author',
+			fieldMode: 1
+		});
 	}
 	
 	return data;
@@ -333,8 +343,13 @@ function populateDBWithSampleData(data) {
 				let creators = item[itemField];
 				for (let i=0; i<creators.length; i++) {
 					let creator = new Zotero.Creator();
-					creator.firstName = creators[i].firstName;
 					creator.lastName = creators[i].lastName;
+					if (creators[i].fieldMode) {
+						creator.fieldMode = creators[i].fieldMode;
+					} else {
+						creator.firstName = creators[i].firstName;
+					}
+					
 					creator = Zotero.Creators.get(creator.save());
 					
 					let mainLang = creators[i].multi.main;

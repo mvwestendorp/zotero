@@ -61,12 +61,25 @@ CustomizableUI.addListener({
 			var shortcut = Zotero.getString(
 					Zotero.isMac ? "general.keys.cmdShift" : "general.keys.ctrlShift"
 				) + Zotero.Prefs.get("keys.openZotero");
-			document.getElementById("zotero-toolbar-button-guidance").show(
-				null, Zotero.getString(property, shortcut)
-			);
+			document.getElementById("zotero-main-button-guidance").show({
+				text: Zotero.getString(property, shortcut)
+			});
+			document.getElementById("zotero-save-button-guidance").show();
 		}
 		else if (id == getSingleID('save')) {
 			Zotero_Browser.updateStatus();
+		}
+	},
+	
+	onWidgetOverflow: function (node, container) {
+		if (node.id == comboButtonsID) {
+			node.classList.add("toolbarbutton-1");
+		}
+	},
+	
+	onWidgetUnderflow: function (node, container) {
+		if (node.id == comboButtonsID) {
+			node.classList.remove("toolbarbutton-1");
 		}
 	},
 	
@@ -134,7 +147,11 @@ CustomizableUI.createWidget({
 				item.appendChild(document.createElementNS(kNSXUL, "separator"));
 			}
 			let button = document.createElementNS(kNSXUL, "toolbarbutton");
-			if (attribs.name == 'save') {
+			if (attribs.name == 'main') {
+				button.setAttribute('label', Zotero.clientName);
+			}
+			else if (attribs.name == 'save') {
+				button.setAttribute('label', Zotero.getString('ingester.saveToZotero'));
 				button.setAttribute('disabled', 'true');
 				button.setAttribute('type', 'menu-button');
 				let menupopup = document.createElementNS(kNSXUL, "menupopup");

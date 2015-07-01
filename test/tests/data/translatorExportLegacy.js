@@ -35,6 +35,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "artist",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -161,6 +166,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "performer",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -305,6 +315,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "sponsor",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -433,6 +448,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -574,6 +594,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -762,6 +787,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -914,6 +944,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -1172,6 +1207,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "programmer",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -1323,6 +1363,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -1487,6 +1532,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -1649,6 +1699,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -1754,6 +1809,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -1872,6 +1932,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2021,6 +2086,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "director",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2123,6 +2193,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2319,6 +2394,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "contributor",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2467,6 +2547,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2570,6 +2655,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "interviewee",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2702,6 +2792,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2840,6 +2935,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -2961,6 +3061,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3074,6 +3179,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3189,6 +3299,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "cartographer",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3334,6 +3449,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3479,6 +3599,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "inventor",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3602,6 +3727,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "podcaster",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3693,6 +3823,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "presenter",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -3836,6 +3971,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "director",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -4094,6 +4234,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -4367,6 +4512,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -4481,6 +4631,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -4789,6 +4944,11 @@
 						}
 					}
 				}
+			},
+			{
+				"creatorType": "director",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
 			}
 		],
 		"date": "1999-12-31",
@@ -4933,6 +5093,7 @@
 			{
 				"creatorType": "scriptwriter",
 				"firstName": "scriptwriterFirst",
+<<<<<<< HEAD
 				"lastName": "scriptwriterLast",
 				"multi": {
 					"_key": {
@@ -4942,6 +5103,14 @@
 						}
 					}
 				}
+=======
+				"lastName": "scriptwriterLast"
+			},
+			{
+				"creatorType": "director",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
+>>>>>>> 9574de752d750f8de5e036215e1f08b617ad1cc4
 			}
 		],
 		"date": "1999-12-31",
@@ -5062,6 +5231,7 @@
 			{
 				"creatorType": "translator",
 				"firstName": "translatorFirst",
+<<<<<<< HEAD
 				"lastName": "translatorLast",
 				"multi": {
 					"_key": {
@@ -5071,6 +5241,14 @@
 						}
 					}
 				}
+=======
+				"lastName": "translatorLast"
+			},
+			{
+				"creatorType": "author",
+				"fieldMode": 1,
+				"lastName": "Institutional Author"
+>>>>>>> 9574de752d750f8de5e036215e1f08b617ad1cc4
 			}
 		],
 		"date": "1999-12-31",
