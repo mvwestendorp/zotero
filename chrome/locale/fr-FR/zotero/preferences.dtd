@@ -142,8 +142,8 @@
 <!ENTITY zotero.preferences.proxies.configured "Serveurs mandataires configurés">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - Le chemin du répertoire (ex. about/)">
 <!ENTITY zotero.preferences.proxies.desc_after_link "pour plus d'information.">
-<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero redirigera les requêtes de manière transparente à travers les serveurs mandataires enregistrés. Consultez la">
-<!ENTITY zotero.preferences.proxies.desc_link "documentation concernant les serveurs mandataires">
+<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero redirigera automatiquement les requêtes via les serveurs mandataires (proxy) enregistrés. Consultez la">
+<!ENTITY zotero.preferences.proxies.desc_link "documentation relative aux serveurs mandataires">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Désactiver la redirection par un serveur mandataire lorsque mon nom de domaine contient ">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - Le nom du fichier (ex. index.html)">
 <!ENTITY zotero.preferences.proxies.h_variable "&#37;h - L'adresse du site atteint via un serveur mandataire (ex. www.zotero.org)">
@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Le chemin vers la page transmise via un serveur mandataire en excluant la barre oblique initiale (ex. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Options des serveurs mandataires">
 <!ENTITY zotero.preferences.proxies.scheme "Schéma">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Afficher une notification lors d'une redirection par un serveur mandataire">
 <!ENTITY zotero.preferences.proxies.transparent "Activer la redirection par un serveur mandataire (proxy)">
 <!ENTITY zotero.preferences.proxies.variables "Vous pouvez utiliser les variables suivantes dans votre schéma de mandataire :">
 <!ENTITY zotero.preferences.quickCopy.caption "Copie rapide">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Noter que le format texte enrichi (RTF) sera perdu sur Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domaine/Chemin">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ex. wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Langue">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Format de sortie">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Paramètres spécifiques au site :">
 <!ENTITY zotero.preferences.reportTranslationFailure "Signaler les convertisseurs défectueux">
