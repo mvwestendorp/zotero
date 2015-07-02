@@ -16,6 +16,8 @@ dbdate = now.strftime("%s")
 filedate = now.strftime("%Y-%m-%d %H:%M:%S")
 timestamp = now.isoformat()
 
+# SQLite would do just as well.
+
 db = MySQLdb.connect(host="localhost", user="fbennett_admin", passwd="cu4Quelph", port=3306, charset="utf8")
 cur = db.cursor()
 cur.execute("USE fbennett_translators")
@@ -43,17 +45,11 @@ fields = ["translatorID", "label", "target", "minVersion", "maxVersion", "priori
 
 def processContent(content, forcedate=None):
     m = re.match("^({.*?})[\n\r]+([^}].*)", content, re.M|re.S)
-    open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("1: %s" % content)
     if m:
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("2")
-
         metadata = simplejson.loads(m.group(1), encoding="utf-8")
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("3")
         metadata["translator"] = m.group(2).strip("\n").decode("utf-8")
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("4: %s" % metadata["translator"].encode("utf-8"))
         params = []
         for field in fields:
-
             if metadata.has_key(field):
                 val = metadata[field]
                 if forcedate and field == "lastUpdated":
@@ -72,10 +68,6 @@ def processContent(content, forcedate=None):
         # We now have the data. Let's build the XML
         #currtime = ET.SubElement(xml, "currentTime")
         #currtime.text = str(dbdate)
-
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("5")
-         
-        # print metadata["label"].encode("utf8")
 
         translator = ET.Element("translator")
         translator.attrib["id"] = metadata["translatorID"]
@@ -112,8 +104,6 @@ def processContent(content, forcedate=None):
         code = ET.SubElement(translator, "code")
         code.text = metadata["translator"]
 
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("6")
-
         # Add the xml string to the array, and set the date as a number
         params.append(ET.tostring(translator, encoding="utf-8"))
         metadata["xmlstring"] = ET.tostring(translator, encoding="utf-8")
@@ -123,18 +113,12 @@ def processContent(content, forcedate=None):
             metadata["lastUpdated"] = dt.strftime("%s")
             params[9] = int(dt.strftime("%s"))
 
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("7: %s\n" % len(params))
-
         cur.execute("SELECT COUNT(*) FROM translators WHERE translatorID=%s", metadata["translatorID"])
         haveit = cur.fetchone()[0]
         if haveit:
             cur.execute("DELETE FROM translators WHERE translatorID=%s", metadata["translatorID"])
 
-        # For global forced updates
-        #params[9] = int(dbdate)
-
         cur.execute("INSERT INTO translators VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", params)
-
         mytranslator = metadata.pop("translator")
         metadata.pop("xmlstring")
 
@@ -144,27 +128,40 @@ def processContent(content, forcedate=None):
             metadata["lastUpdated"] = filedate
 
         json = simplejson.dumps(metadata, encoding="utf-8", ensure_ascii=False, indent=4)
-
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("8: %s\n" % json.encode("utf-8"))
-
         return u"%s\n\n%s" % (json, mytranslator)
 
 def processFiles():
     # If running as CGI, grab added and modified files and update in filesystem
     if len(sys.argv) == 1:
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("HELLO\n")
         payload = simplejson.loads(fs.getvalue('payload'), encoding="utf-8")
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("PAYLOAD: %s\n" % payload)
+
+        # XXX
+        if payload['ref'] != 'refs/heads/multi':
+            return False
+
         paths = {}
+        deletes = {}
 	try:
             for commit in payload['commits']:
                 for path in commit['added']:
                     paths[path] = True
+                    if deletes[path]:
+                        deletes.pop(path)
                 for path in commit['modified']:
                     paths[path] = True
+                for path in commit['removed']:
+                    paths.pop(path)
+                    deletes[path] = True
         except:
-            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("paths=%s" % (paths,))
-        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("paths=%s" % (paths,))
+            open(os.path.expanduser("~/public_html/cgi-bin/TRANSLATOR_API_FAIL.txt"), "w+").write("paths=%s" % (paths,))
+
+        # delete removed files
+        for delete in deletes:
+            deleteFilename = os.path.expanduser("~/public_html/translators/src/%s" % (delete,)) 
+            if os.path.exists(deleteFilename):
+                os.unlink(deleteFilename)
+
+        # fetch anything added or modified
         for path in paths:
             path = path.strip()
             if not path.endswith('.js') or not path.find('/') == -1:
@@ -174,23 +171,20 @@ def processFiles():
             ifh = fetcher.open("https://raw.githubusercontent.com/fbennett/translators/multi/%s" % (path,))
             content = ifh.read()
             ifh.close()
-            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write(content)
 
             # write file
-            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("-2")
             content = processContent(content, forcedate=filedate)
             content = content.encode("utf-8")
-            open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("-1")
             if content:
                 ofh = open(os.path.expanduser("~/public_html/translators/src/%s" % (path,)), "w+")
                 ofh.write(content)
                 ofh.close()
             else:
                 open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("0 -- no error, no content")
-                pass
-
 
     # Update the zip file in both modes
+    # Remove file and start over
+    os.unlink(os.path.expanduser("~/public_html/translators/translators.zip"))
     myzip = ZipFile(os.path.expanduser("~/public_html/translators/translators.zip"), 'w')
     os.chdir("../translators/src")
     for filename in os.listdir("."):
@@ -210,12 +204,13 @@ def processFiles():
                 print "    WARNING: translator had no content: %s" % filename
         myzip.write(filename)
     myzip.close()
+    return True
 
 if __name__ == "__main__":
-    processFiles()
+    result = processFiles()
     db.close()
 
-    if len(sys.argv) == 1 or True:
+    if len(sys.argv) == 1 and result:
 
         ## Formalities to complete the transaction ##
         page = '''Content-type: text/html
@@ -227,3 +222,6 @@ if __name__ == "__main__":
 </html>
 '''
         print page
+
+    else:
+        print "Ouch."
