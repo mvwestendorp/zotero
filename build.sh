@@ -10,7 +10,7 @@ IS_BETA=0
 FORK="zotero"
 BRANCH="jurism"
 CLIENT="jurism"
-VERSION_ROOT="4.0.27m"
+VERSION_ROOT="4.0.27.1m"
 
 # Error handlers
 . sh-lib/errors.sh
