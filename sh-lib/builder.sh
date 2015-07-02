@@ -100,7 +100,7 @@ function xx-unpatch-sources-after-build () {
 }
 
 function build-the-plugin () {
-    xx-patch-sources-before-build
+    #xx-patch-sources-before-build
     set-install-version
     xx-remove-and-replace-old-build-dir
     xx-save-aside-deleted-translators-list
@@ -109,5 +109,5 @@ function build-the-plugin () {
     xx-zip-up-translators
     xx-add-styles-and-translators-to-zip
     xx-cleanup
-    xx-unpatch-sources-after-build
+    #xx-unpatch-sources-after-build
 }
