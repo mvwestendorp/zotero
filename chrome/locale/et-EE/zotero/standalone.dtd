@@ -72,19 +72,19 @@
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimeerida">
 <!ENTITY pageSetupCmd.accesskey "U">
-<!ENTITY pageSetupCmd.label "Page Setup…">
+<!ENTITY pageSetupCmd.label "Lehekülje seaded...">
 <!ENTITY pasteCmd.accesskey "P">
 <!ENTITY pasteCmd.key "V">
 <!ENTITY pasteCmd.label "Asetada">
 <!ENTITY preferencesCmd.accesskey "O">
-<!ENTITY preferencesCmd.label "Preferences">
+<!ENTITY preferencesCmd.label "Eelistused">
 <!ENTITY preferencesCmdMac.commandkey ",">
 <!ENTITY preferencesCmdMac.label "Seaded…">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "Eelistused">
 <!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
-<!ENTITY printCmd.label "Print…">
+<!ENTITY printCmd.label "Trükkida...">
 <!ENTITY productHelp.accesskey "H">
 <!ENTITY productHelp.label "Kasutajatugi ja dokumentatsioon">
 <!ENTITY quitApplicationCmd.accesskey "Q">
@@ -98,7 +98,7 @@
 <!ENTITY redoCmd.label "Teha uuesti">
 <!ENTITY saveCmd.accesskey "A">
 <!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.label "Save…">
+<!ENTITY saveCmd.label "Salvestamine...">
 <!ENTITY selectAllCmd.accesskey "A">
 <!ENTITY selectAllCmd.key "A">
 <!ENTITY selectAllCmd.label "Valida kõik">

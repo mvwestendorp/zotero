@@ -263,7 +263,7 @@
 <!ENTITY zotero.toolbar.newCollection.label "Nouvelle collection…">
 <!ENTITY zotero.toolbar.newGroup "Nouveau groupe…">
 <!ENTITY zotero.toolbar.newItem.label "Nouveau document">
-<!ENTITY zotero.toolbar.newItemFromPage.label "Créer un nouveau document à partir de la page courante">
+<!ENTITY zotero.toolbar.newItemFromPage.label "Créer un document Page Web à partir de la page courante">
 <!ENTITY zotero.toolbar.newNote "Nouvelle note">
 <!ENTITY zotero.toolbar.newSavedSearch.label "Nouvelle recherche enregistrée…">
 <!ENTITY zotero.toolbar.newSubcollection.label "Nouvelle sous-collection…">
