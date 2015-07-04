@@ -43,6 +43,8 @@ CREATE TABLE translators (
 
 fields = ["translatorID", "label", "target", "minVersion", "maxVersion", "priority", "inRepository", "translatorType", "browserSupport", "lastUpdated", "translator", "displayOptions", "configOptions"]
 
+open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("About to define processContent()")
+
 def processContent(content, forcedate=None):
     m = re.match("^({.*?})[\n\r]+([^}].*)", content, re.M|re.S)
     if m:
@@ -130,14 +132,28 @@ def processContent(content, forcedate=None):
         json = simplejson.dumps(metadata, encoding="utf-8", ensure_ascii=False, indent=4)
         return u"%s\n\n%s" % (json, mytranslator)
 
+open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("About to define processFiles()")
+
 def processFiles():
+
+    open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("Will try to process files ...")
+
     # If running as CGI, grab added and modified files and update in filesystem
     if len(sys.argv) == 1:
+        
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("Running with one argument, in CGI mode")
+
         payload = simplejson.loads(fs.getvalue('payload'), encoding="utf-8")
 
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("Got the JSON and parsed it")
+
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("AH-FUCKING-HA. %s" % payload['ref'])
+
         # XXX
-        if payload['ref'] != 'refs/heads/multi':
+        if payload['ref'] != 'refs/heads/master':
             return False
+
+        open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("Parsed the payload, found the right ref, going for it maybe")
 
         paths = {}
         deletes = {}
@@ -168,7 +184,7 @@ def processFiles():
                 continue
             # fetch the files from GitHub
             fetcher = urllib.URLopener()
-            ifh = fetcher.open("https://raw.githubusercontent.com/fbennett/translators/multi/%s" % (path,))
+            ifh = fetcher.open("https://raw.githubusercontent.com/fbennett/translators/master/%s" % (path,))
             content = ifh.read()
             ifh.close()
 
@@ -181,6 +197,8 @@ def processFiles():
                 ofh.close()
             else:
                 open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("0 -- no error, no content")
+
+    open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("So far, so good. Next step: zip up the translators")
 
     # Update the zip file in both modes
     # Remove file and start over
@@ -205,6 +223,8 @@ def processFiles():
         myzip.write(filename)
     myzip.close()
     return True
+
+open(os.path.expanduser("~/public_html/cgi-bin/WOW.txt"), "w+").write("Definitions done, will try to run the script now")
 
 if __name__ == "__main__":
     result = processFiles()
