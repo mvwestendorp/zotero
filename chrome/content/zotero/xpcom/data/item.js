@@ -479,35 +479,34 @@ Zotero.Item.prototype.loadFromRow = function(row, reload) {
 /*
  * Check if any data fields have changed since last save
  */
-Zotero.Item.prototype.hasChanged = function() {
-	return !!(Object.keys(this._changed).length
-		         || this._changedPrimaryData
-		         || this._changedItemData
-		         || this._changedItemDataAlt
-		         || this._changedCreators
-		         || this._changedAltCreators
-		         || this._changedDeleted
-		         || this._changedNote
-		         || this._changedSource
-		         || this._changedAttachmentData);
-    /*
-	var obj = {
-		len: Object.keys(this._changed).length,
-		primaryData: this._changedPrimaryData,
-		itemData: this._changedItemData,
-		itemDataAlt: this._changedItemDataAlt,
-		creators: this._changedCreators,
-		altCreators: this._changedAltCreators,
-		deleted: this._changedDeleted,
-		note: this._changedNote,
-		source: this._changedSource,
-		attachmentData: this._changedAttachmentData
+Zotero.Item.prototype.hasChanged = function(verbose) {
+	var res = !!(Object.keys(this._changed).length
+				 || this._changedPrimaryData
+				 || this._changedItemData
+				 || this._changedItemDataAlt
+				 || this._changedCreators
+				 || this._changedAltCreators
+				 || this._changedDeleted
+				 || this._changedNote
+				 || this._changedSource
+				 || this._changedAttachmentData);
+	if (res && verbose) {
+		var obj = {
+			len: this._changed,
+			primaryData: this._changedPrimaryData,
+			itemData: this._changedItemData,
+			itemDataAlt: this._changedItemDataAlt,
+			creators: this._changedCreators,
+			altCreators: this._changedAltCreators,
+			deleted: this._changedDeleted,
+			note: this._changedNote,
+			source: this._changedSource,
+			attachmentData: this._changedAttachmentData
+		}
+		return JSON.stringify(obj);
+	} else {
+		return res;
 	}
-	if (res) {
-		Zotero.debug("XXX GOT[01]: CH-CH-CH-CH-CHANGES: "+JSON.stringify(obj));
-	}
-	return res
-    */
 }
 
 
@@ -5750,7 +5749,7 @@ Zotero.Item.prototype.toJSON = function(options) {
 	}
 	
 	if (this.hasChanged()) {
-		throw new Error("Cannot generate JSON from changed item");
+		throw new Error("Cannot generate JSON from changed item: " + this.hasChanged(true));
 	}
 	
 	options = options || {};
