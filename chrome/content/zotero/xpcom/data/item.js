@@ -492,7 +492,8 @@ Zotero.Item.prototype.hasChanged = function(verbose) {
 				 || this._changedAttachmentData);
 	if (res && verbose) {
 		var obj = {
-			len: this._changed,
+            key: this._key,
+			changed: this._changed,
 			primaryData: this._changedPrimaryData,
 			itemData: this._changedItemData,
 			itemDataAlt: this._changedItemDataAlt,
