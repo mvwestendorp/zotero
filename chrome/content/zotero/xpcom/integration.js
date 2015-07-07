@@ -2473,6 +2473,7 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
                 Zotero.debug("HHH NO ZOTERO ITEM");
 				if(citationItem.itemData) {
                     Zotero.debug("HHH HAS citationItem.itemData: "+this.data.prefs.groupID);
+                    this.data.prefs.groupID = this.data.prefs.groupID ? parseInt(this.data.prefs.groupID) : '';
 					if (this.data.prefs.groupID) {
                         Zotero.debug("HHH HAS this.data.prefs.groupID="+this.data.prefs.groupID);
 						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
