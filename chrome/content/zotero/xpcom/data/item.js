@@ -6100,7 +6100,8 @@ Zotero.Item.prototype._loadItemData = function() {
 	// because the libraryID cannot be adjusted after loading the creator. Hmmm.
 	if (this._itemData[22] && ("" + this._itemData[22]).slice(0, 9) === 'mlzsync1:') {
 		var data = {itemTypeID:this._itemTypeID};
-		var obj = Zotero.Sync.Server.Data.decodeMlzFields(this,data,this._itemData[22],{});
+		// true is for loadIn
+		var obj = Zotero.Sync.Server.Data.decodeMlzFields(this,data,this._itemData[22],{},true);
 		if (obj) {
 			Zotero.Sync.Server.Data.decodeMlzCreators(this,obj,this._creators.length);
 		}

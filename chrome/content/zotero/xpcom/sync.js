@@ -4622,7 +4622,7 @@ Zotero.Sync.Server.Data = new function() {
 		return item;
 	}
 
-	this.decodeMlzFields = function(item,primaryFields,extra,changedFields) {
+	this.decodeMlzFields = function(item,primaryFields,extra,changedFields,loadIn) {
 		// Unserialize data stored as JSON on the extra field, and
 		// attach to the object before delivery to Zotero.
 		var obj = {};
@@ -4654,23 +4654,23 @@ Zotero.Sync.Server.Data = new function() {
 			}
 			if (obj.extrafields) {
 				for (var fieldName in obj.extrafields) {
-					item.setField(fieldName, obj.extrafields[fieldName]);
+					item.setField(fieldName, obj.extrafields[fieldName],loadIn);
 					changedFields[fieldName] = true;
 				}
 			}
 			if (obj.multifields) {
 				for (var fieldName in obj.multifields._keys) {
 					for (var lang in obj.multifields._keys[fieldName]) {
-						item.setField(fieldName, obj.multifields._keys[fieldName][lang], false, lang);
+						item.setField(fieldName, obj.multifields._keys[fieldName][lang], loadIn, lang);
 					}
 				}
 				// Reset lang of headline fields
 				item.multi.main = {};
 				for (var fieldName in obj.multifields.main) {
-					item.setField(fieldName, item.getField(fieldName), false, obj.multifields.main[fieldName], true);
+					item.setField(fieldName, item.getField(fieldName), loadIn, obj.multifields.main[fieldName], true);
 				}
 			}
-			item.setField("extra", extra.slice(offset+13));
+			item.setField("extra", extra.slice(offset+13), loadIn);
 			changedFields.extra = true;
 		}
 		// Not used it sync, but used in item.js when converting
