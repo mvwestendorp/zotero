@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.36",
+    PROCESSOR_VERSION: "1.1.40",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1371,7 +1371,7 @@ CSL.DateParser = function () {
     jiymatcher = "(?:" + jiymatchstring + ")(?:[0-9]+)";
     jiymatcher = new RegExp(jiymatcher, "g");
     jmd = /(\u6708|\u5E74)/g;
-    jy = /\u65E5/;
+    jy = /\u65E5/g;
     jr = /\u301c/g;
     yearlast = "(?:[?0-9]{1,2}%%NUMD%%){0,2}[?0-9]{4}(?![0-9])";
     yearfirst = "[?0-9]{4}(?:%%NUMD%%[?0-9]{1,2}){0,2}(?![0-9])";
@@ -1493,11 +1493,11 @@ CSL.DateParser = function () {
         m = txt.match(jmd);
         if (m) {
             txt = txt.replace(/\s+/, "", "g");
-            txt = txt.replace(jy, "", "g");
-            txt = txt.replace(jmd, "-", "g");
-            txt = txt.replace(jr, "/", "g");
-            txt = txt.replace("-/", "/", "g");
-            txt = txt.replace(/-$/,"", "g");
+            txt = txt.replace(jy, "");
+            txt = txt.replace(jmd, "-");
+            txt = txt.replace(jr, "/");
+            txt = txt.replace(/\-\//g, "/");
+            txt = txt.replace(/-$/g,"");
             slst = txt.split(jiysplitter);
             lst = [];
             mm = txt.match(jiymatcher);
@@ -1806,6 +1806,7 @@ CSL.Engine = function (sys, style, lang, forceLang) {
         this.opt.development_extensions.rtl_support = true;
         this.opt.development_extensions.expect_and_symbol_form = true;
         this.opt.development_extensions.require_explicit_legal_case_title_short = true;
+        this.opt.development_extensions.force_jurisdiction = true;
     }
     if (lang) {
         lang = lang.replace("_", "-");
@@ -1838,7 +1839,7 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.localeConfigure(langspec);
     function makeRegExp(lst) {
         var lst = lst.slice();
-        var ret = new RegExp( "((?:[?!:]*\\s+|-|^)(?:" + lst.join("|") + ")(?=[!?:]*\\s+|-|$))" );
+        var ret = new RegExp( "(?:(?:[?!:]*\\s+|-|^)(?:" + lst.join("|") + ")(?=[!?:]*\\s+|-|$))", "g");
         return ret;
     }
     this.locale[this.opt.lang].opts["skip-words-regexp"] = makeRegExp(this.locale[this.opt.lang].opts["skip-words"]);
@@ -2253,6 +2254,11 @@ CSL.Engine.prototype.retrieveItem = function (id) {
         }
     }
     var isLegalType = ["bill","legal_case","legislation","gazette","regulation"].indexOf(Item.type) > -1;
+    if (this.opt.development_extensions.force_jurisdiction && isLegalType) {
+        if (!Item.jurisdiction) {
+            Item.jurisdiction = "us";
+        }
+    }
     if (!isLegalType && Item.title && this.sys.getAbbreviation) {
         var noHints = false;
         if (!Item.jurisdiction) {
@@ -2550,7 +2556,7 @@ CSL.Engine.prototype.getCitationLabel = function (Item) {
                 if (m) {
                     myname = myname.slice(m[1].length);
                 }
-                myname = myname.replace(CSL.ROMANESQUE_NOT_REGEXP, "", "g");
+                myname = myname.replace(CSL.ROMANESQUE_NOT_REGEXP, "");
                 if (!myname) {
                     break;
                 }
@@ -3819,6 +3825,7 @@ CSL.Engine.Opt = function () {
     this.development_extensions.expect_and_symbol_form = false;
     this.development_extensions.require_explicit_legal_case_title_short = false;
     this.development_extensions.spoof_institutional_affiliations = false;
+    this.development_extensions.force_jurisdiction = false;
 };
 CSL.Engine.Tmp = function () {
     this.names_max = new CSL.Stack();
@@ -8123,7 +8130,7 @@ CSL.NameOutput.prototype._renderPersonalName = function (v, name, slot, pos, i, 
 };
 CSL.NameOutput.prototype._isRomanesque = function (name) {
     var ret = 2;
-    if (!name.family.replace('"', '', 'g').match(CSL.ROMANESQUE_REGEXP)) {
+    if (!name.family.replace(/\"/g, '').match(CSL.ROMANESQUE_REGEXP)) {
         ret = 0;
     }
     if (!ret && name.given && name.given.match(CSL.STARTSWITH_ROMANESQUE_REGEXP)) {
@@ -8200,11 +8207,6 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
             merged = this._join([family, second], sort_sep);
             blob = this._join([merged, suffix], sort_sep);
         } else {
-            if (this.state.tmp.area === "bibliography" && !this.state.tmp.term_predecessor && non_dropping_particle) {
-                if (!has_hyphenated_non_dropping_particle) {
-                    non_dropping_particle.blobs = CSL.Output.Formatters["capitalize-first"](this.state, non_dropping_particle.blobs)
-                }
-            }
             if (has_hyphenated_non_dropping_particle) {
                 first = this._join([non_dropping_particle, family], "");
             } else {
@@ -8230,15 +8232,6 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
             }
         }
         if (!this.state.tmp.term_predecessor) {
-            if (!given && this.state.tmp.area === "bibliography") {
-                if (!dropping_particle && non_dropping_particle) {
-                    if (!has_hyphenated_non_dropping_particle) {
-                        non_dropping_particle.blobs = CSL.Output.Formatters["capitalize-first"](this.state, non_dropping_particle.blobs)
-                    }
-                } else if (dropping_particle) {
-                    dropping_particle.blobs = CSL.Output.Formatters["capitalize-first"](this.state, dropping_particle.blobs)
-                }
-            }
         }
         if (has_hyphenated_non_dropping_particle) {
             second = this._join([non_dropping_particle, family], "");
@@ -12887,7 +12880,7 @@ CSL.Util.PageRangeMangler.getFunction = function (state, rangeType) {
         } else {
             ret = [lst[0]];
             for (pos = 1, len = lst.length; pos < len; pos += 1) {
-                ret.push(m[pos - 1].replace(/\s*\-\s*/, "-", "g"));
+                ret.push(m[pos - 1].replace(/\s*\-\s*/g, "-"));
                 ret.push(lst[pos]);
             }
         }
@@ -12911,7 +12904,7 @@ CSL.Util.PageRangeMangler.getFunction = function (state, rangeType) {
                 }
             }
             if ("string" === typeof lst[pos]) {
-                lst[pos] = lst[pos].replace("-", range_delimiter, "g");
+                lst[pos] = lst[pos].replace(/\-/g, range_delimiter);
             }
         }
         return lst;
@@ -13420,14 +13413,28 @@ CSL.Output.Formatters.title = function (state, string) {
         }
         return word;
     }
+    function splitme (str, rex) {
+        var res, seps = str.match(rex);
+        if (seps) {
+            var splits = str.split(rex);
+            res = [splits[0]];
+            for (var i=0; i<seps.length; i++) {
+                res.push(seps[i]);
+                res.push(splits[i+1]);
+            }
+        } else {
+            res = [str];
+        }
+        return res;
+    }
     var str = doppel.string;
-    var lst = str.split(state.locale[state.opt.lang].opts["skip-words-regexp"])
+    var lst = splitme(str, state.locale[state.opt.lang].opts["skip-words-regexp"]);
     for (i=1,ilen=lst.length;i<ilen;i+=2) {
         if (lst[i].match(/^[:?!]/)) {
             lst[i] = capitalise(lst[i]);
         }
     }
-    if (!lst[0]) {
+    if (!lst[0] && lst[1]) {
         lst[1] = capitalise(lst[1]);
     }
     if (lst.length > 2 && !lst[lst.length-1]) {
@@ -13524,7 +13531,7 @@ CSL.Output.Formats.prototype.html = {
         return text.replace(/&/g, "&#38;")
             .replace(/</g, "&#60;")
             .replace(/>/g, "&#62;")
-            .replace("  ", "&#160; ", "g")
+            .replace(/\s\s/g, "\u00A0 ")
             .replace(CSL.SUPERSCRIPTS_REGEXP,
                      function(aChar) {
                          return "<sup>" + CSL.SUPERSCRIPTS[aChar] + "</sup>";
@@ -13696,16 +13703,16 @@ CSL.Output.Formats.prototype.rtf = {
         .replace("\t", "\\tab{}", "g");
     },
     "@passthrough/true": CSL.Output.Formatters.passthrough,
-    "@font-style/italic":"\\i %%STRING%%\\i0{}",
-    "@font-style/normal":"\\i0{}%%STRING%%\\i{}",
-    "@font-style/oblique":"\\i %%STRING%%\\i0{}",
-    "@font-variant/small-caps":"\\scaps %%STRING%%\\scaps0{}",
-    "@font-variant/normal":"\\scaps0{}%%STRING%%\\scaps{}",
-    "@font-weight/bold":"\\b %%STRING%%\\b0{}",
-    "@font-weight/normal":"\\b0{}%%STRING%%\\b{}",
+    "@font-style/italic":"{\\i{}%%STRING%%}",
+    "@font-style/normal":"{\\i0{}%%STRING%%}",
+    "@font-style/oblique":"{\\i{}%%STRING%%}",
+    "@font-variant/small-caps":"{\\scaps %%STRING%%}",
+    "@font-variant/normal":"{\\scaps0{}%%STRING%%}",
+    "@font-weight/bold":"{\\b{}%%STRING%%}",
+    "@font-weight/normal":"{\\b0{}%%STRING%%}",
     "@font-weight/light":false,
     "@text-decoration/none":false,
-    "@text-decoration/underline":"\\ul %%STRING%%\\ul0{}",
+    "@text-decoration/underline":"{\\ul{}%%STRING%%}",
     "@vertical-align/baseline":false,
     "@vertical-align/sup":"\\super %%STRING%%\\nosupersub{}",
     "@vertical-align/sub":"\\sub %%STRING%%\\nosupersub{}",
@@ -14149,7 +14156,7 @@ CSL.Registry.NameReg = function (state) {
         if (!str) {
             str = "";
         }
-        return str.replace(".", " ", "g").replace(/\s+/g, " ").replace(/\s+$/,"");
+        return str.replace(/\./g, " ").replace(/\s+/g, " ").replace(/\s+$/,"");
     };
     set_keys = function (state, itemid, nameobj) {
         pkey = strip_periods(nameobj.family);
