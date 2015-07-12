@@ -623,7 +623,7 @@ Zotero.Style = function(arg) {
  */
 Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviations, useVariableWrapper) {
 	if(!locale) {
-		var locale = Zotero.locale;
+		var locale = Zotero.Prefs.get('export.lastLocale') || Zotero.locale;
 		if(!locale) {
 			var locale = 'en-US';
 		}
