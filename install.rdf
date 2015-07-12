@@ -5,14 +5,14 @@
   <Description about="urn:mozilla:install-manifest">  
     <em:id>juris-m@juris-m.github.io</em:id>
     <em:name>Juris-M</em:name>
-    <em:version>4.0.27.1m33beta5</em:version>
+    <em:version>4.0.27.1m33beta6</em:version>
 =======
 
   <Description about="urn:mozilla:install-manifest">
   
     <em:id>zotero@chnm.gmu.edu</em:id>
     <em:name>Zotero</em:name>
-    <em:version>4.0.27.5.SOURCE</em:version>
+    <em:version>4.0.27.1m33beta6</em:version>
 >>>>>>> e355cab8862548e4e0ebe5182dcd4a9618955221
     <em:creator>Center for History and New Media<br/>George Mason University</em:creator>
     <em:creator>Frank Bennett</em:creator>
