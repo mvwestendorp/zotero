@@ -1000,13 +1000,14 @@ Zotero.Sync.Storage = new function () {
 							Zotero.debug("Remote mod time for item " + lk + " is " + itemModTimes[item.id]);
 							
 							// Ignore attachments whose stored mod times haven't changed
-							if (row.storageModTime == itemModTimes[id]) {
+							if (row.storageModTime == itemModTimes[item.id]) {
 								Zotero.debug("Storage mod time (" + row.storageModTime + ") "
 									+ "hasn't changed for item " + lk);
 								return;
 							}
 							
-							Zotero.debug("Marking attachment " + lk + " for download");
+							Zotero.debug("Marking attachment " + lk + " for download "
+								+ "(stored mtime: " + itemModTimes[item.id] + ")");
 							updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_FORCE_DOWNLOAD;
 						}
 						
@@ -1078,7 +1079,9 @@ Zotero.Sync.Storage = new function () {
 							// This can happen if a path is too long on Windows,
 							// e.g. a file is being accessed on a VM through a share
 							// (and probably in other cases).
-							|| (e.winLastError && e.winLastError == 3))) {
+							|| (e.winLastError && e.winLastError == 3)
+							// Handle long filenames on OS X/Linux
+							|| (e.unixErrno && e.unixErrno == 63))) {
 						Zotero.debug("Marking attachment " + lk + " as missing");
 						updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_TO_DOWNLOAD;
 						return;
