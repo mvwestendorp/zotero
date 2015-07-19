@@ -37,6 +37,8 @@ Zotero.Schema = new function(){
 	var _remoteUpdateInProgress = false, _localUpdateInProgress = false;
 	var _renamedStylesByNew = null;
 	
+	var _currentZoteroBaseDBVersion = 77;
+	
 	var self = this;
 	
 	/*
@@ -99,10 +101,12 @@ Zotero.Schema = new function(){
 	this.userDataUpgradeRequired = function () {
 		var dbVersion = this.getDBVersion('userdata');
 		var schemaVersion = _getSchemaSQLVersion('userdata');
-		// MLZ: upgrade if proposed userdata.sql version is greater than
-		// database record, or if existing DB is not MLZ
-		var multilingualVersion = this.getDBVersion('multilingual');
-		return dbVersion && (!multilingualVersion || (dbVersion < schemaVersion));
+		// JurisM upgrade does not affect Zotero database directly,
+        // and is performed without prompting.
+        var firstJurism = this.getDBVersion('multilingual');
+
+		return (!firstJurism && dbVersion && (dbVersion < _currentZoteroBaseDBVersion) 
+                || (firstJurism && dbVersion && dbVersion < schemaVersion));
 	}
 	
 	this.showUpgradeWizard = function () {
