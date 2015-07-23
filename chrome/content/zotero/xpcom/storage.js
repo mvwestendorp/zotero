@@ -819,7 +819,7 @@ Zotero.Sync.Storage = new function () {
 			var t = new Date();
 			var items = Zotero.Items.get(itemIDs);
 			var numItems = items.length;
-			var updatedStates = {};
+            var updatedStates = {};
 			
 			// OS.File didn't work reliably before Firefox 23, and on Windows it returns
 			// the access time instead of the modification time until Firefox 24
@@ -1081,7 +1081,7 @@ Zotero.Sync.Storage = new function () {
 							// (and probably in other cases).
 							|| (e.winLastError && e.winLastError == 3)
 							// Handle long filenames on OS X/Linux
-							|| (e.unixErrno && e.unixErrno == 36))) {
+							|| (e.unixErrno && (e.unixErrno == 63 || e.unixErrno == 36)))) {
 						Zotero.debug("Marking attachment " + lk + " as missing");
 						updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_TO_DOWNLOAD;
 						return;
