@@ -819,7 +819,7 @@ Zotero.Sync.Storage = new function () {
 			var t = new Date();
 			var items = Zotero.Items.get(itemIDs);
 			var numItems = items.length;
-			var updatedStates = {};
+            var updatedStates = {};
 			
 			Components.utils.import("resource://gre/modules/osfile.jsm");
 			
@@ -950,7 +950,7 @@ Zotero.Sync.Storage = new function () {
 							// e.g. a file is being accessed on a VM through a share
 							// (and probably in other cases).
 							|| (e.winLastError && e.winLastError == 3)
-							// Handle long filenames on OS X (63) and Linux (36)
+							// Handle long filenames on OS X/Linux
 							|| (e.unixErrno && (e.unixErrno == 63 || e.unixErrno == 36)))) {
 						Zotero.debug("Marking attachment " + lk + " as missing");
 						updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_TO_DOWNLOAD;
