@@ -1081,7 +1081,7 @@ Zotero.Sync.Storage = new function () {
 							// (and probably in other cases).
 							|| (e.winLastError && e.winLastError == 3)
 							// Handle long filenames on OS X/Linux
-							|| (e.unixErrno && e.unixErrno == 36))) {
+							|| (e.unixErrno && (e.unixErrno == 63 || e.unixErrno == 36)))) {
 						Zotero.debug("Marking attachment " + lk + " as missing");
 						updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_TO_DOWNLOAD;
 						return;
