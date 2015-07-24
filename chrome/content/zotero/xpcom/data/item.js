@@ -5749,7 +5749,8 @@ Zotero.Item.prototype.toJSON = function(options) {
 		}
 	}
 	
-	if (this.hasChanged()) {
+    var allowUnsaved = (options && options.allowUnsaved) ? true : false;
+	if (this.hasChanged() && !allowUnsaved) {
 		throw new Error("Cannot generate JSON from changed item: " + this.hasChanged(true));
 	}
 	
@@ -5920,9 +5921,11 @@ Zotero.Item.prototype.toJSON = function(options) {
 		obj.deleted = deleted;
 	}
 	
-	obj.dateAdded = Zotero.Date.sqlToISO8601(this.dateAdded);
-	obj.dateModified = Zotero.Date.sqlToISO8601(this.dateModified);
-	if (obj.accessDate) obj.accessDate = Zotero.Date.sqlToISO8601(obj.accessDate);
+    if (!allowUnsaved) {
+	    obj.dateAdded = Zotero.Date.sqlToISO8601(this.dateAdded);
+	    obj.dateModified = Zotero.Date.sqlToISO8601(this.dateModified);
+	    if (obj.accessDate) obj.accessDate = Zotero.Date.sqlToISO8601(obj.accessDate);
+    }
 	
 	if (mode == 'patch') {
 		// For "patch" mode, remove fields that have the same values

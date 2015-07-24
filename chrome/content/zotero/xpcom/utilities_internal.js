@@ -379,8 +379,8 @@ Zotero.Utilities.Internal = {
 	 * @return {Object}
 	 */
 	"itemToExportFormat": new function() {
-		return function(zoteroItem, legacy) {
-			var item = zoteroItem.toJSON();
+		return function(zoteroItem, legacy, allowUnsaved) {
+			var item = zoteroItem.toJSON({allowUnsaved: allowUnsaved});
 			item.uri = Zotero.URI.getItemURI(zoteroItem);
 			delete item.key;
 			

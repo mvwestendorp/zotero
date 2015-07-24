@@ -1834,9 +1834,9 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} zoteroItem
 	 * @return {Object} The CSL item
 	 */
-	"itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority) {
+	"itemToCSLJSON":function(zoteroItem, ignoreURL, portableJSON, stopAuthority, allowUnsaved) {
 		if (zoteroItem instanceof Zotero.Item) {
-			zoteroItem = Zotero.Utilities.Internal.itemToExportFormat(zoteroItem);
+			zoteroItem = Zotero.Utilities.Internal.itemToExportFormat(zoteroItem, false, allowUnsaved);
 		}
 		
 		if (portableJSON) {
