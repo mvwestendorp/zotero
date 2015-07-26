@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.40",
+    PROCESSOR_VERSION: "1.1.45",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -3826,6 +3826,7 @@ CSL.Engine.Opt = function () {
     this.development_extensions.require_explicit_legal_case_title_short = false;
     this.development_extensions.spoof_institutional_affiliations = false;
     this.development_extensions.force_jurisdiction = false;
+    this.development_extensions.parse_names = true;
 };
 CSL.Engine.Tmp = function () {
     this.names_max = new CSL.Stack();
@@ -8193,7 +8194,7 @@ CSL.NameOutput.prototype._renderOnePersonalName = function (value, pos, i, j) {
         if (["Lord", "Lady"].indexOf(name.given) > -1) {
             sort_sep = ", ";
         }
-        if (["always", "display-and-sort"].indexOf(this.state.opt["demote-non-dropping-particle"]) > -1 && !has_hyphenated_non_dropping_particle) {
+        if (["always", "display-and-sort"].indexOf(this.state.opt["demote-non-dropping-particle"]) > -1) {
             second = this._join([given, dropping_particle], (name["comma-dropping-particle"] + " "));
             second = this._join([second, non_dropping_particle], " ");
             if (second && this.given) {
@@ -8434,34 +8435,11 @@ CSL.NameOutput.prototype._parseName = function (name) {
     } else {
         noparse = false;
     }
-    if (!name["non-dropping-particle"] && name.family && !noparse && name.given) {
-        if (!name["static-particles"]) {
-            CSL.parseParticles(name, true);
-        }
-    }
-    if (!name.suffix && name.given) {
-        m = name.given.match(/(\s*,!*\s*)/);
-        if (m) {
-            idx = name.given.indexOf(m[1]);
-            var possible_suffix = name.given.slice(idx + m[1].length);
-            var possible_comma = name.given.slice(idx, idx + m[1].length).replace(/\s*/g, "");
-            if (possible_suffix.length <= 3) {
-                if (possible_comma.length === 2) {
-                    name["comma-suffix"] = true;
-                }
-                name.suffix = possible_suffix;
-            } else if (!name["dropping-particle"] && name.given) {
-                name["dropping-particle"] = possible_suffix;
-                name["comma-dropping-particle"] = ",";
+    if (this.state.opt.development_extensions.parse_names) {
+        if (!name["non-dropping-particle"] && name.family && !noparse && name.given) {
+            if (!name["static-particles"]) {
+                CSL.parseParticles(name, true);
             }
-            name.given = name.given.slice(0, idx);
-        }
-    }
-    if (!name["dropping-particle"] && name.given) {
-        m = name.given.match(/(\s+)([a-z][ \'\u2019a-z]*)$/);
-        if (m) {
-            name.given = name.given.slice(0, (m[1].length + m[2].length) * -1);
-            name["dropping-particle"] = m[2];
         }
     }
 };
@@ -11281,12 +11259,8 @@ CSL.Transform = function (state) {
         if (["archive"].indexOf(myabbrev_family) > -1) {
             myabbrev_family = "collection-title";
         }
-        if (variable === "jurisdiction" && basevalue && state.sys.getHumanForm) {
-            var jcode = basevalue;
+        if (variable === "jurisdiction" && basevalue && state.sys.suppressJurisdictions) {
             basevalue = state.sys.getHumanForm(basevalue);
-            if (state.sys.suppressJurisdictions) {
-                basevalue = state.sys.suppressJurisdictions(jcode,basevalue);
-            }
         }
         value = "";
         if (state.sys.getAbbreviation) {
@@ -11373,6 +11347,9 @@ CSL.Transform = function (state) {
         if (!ret.name && use_default) {
             ret = {name:Item[field], usedOrig:true, locale:getFieldLocale(Item,field)};
         }
+        if (field === 'jurisdiction') {
+            ret.name = state.sys.suppressJurisdictions(Item[field], ret.name);
+        }
         return ret;
     }
     function loadAbbreviation(jurisdiction, category, orig, itemType, noHints) {
@@ -11433,6 +11410,14 @@ CSL.Transform = function (state) {
             }
         }
         return false;
+    }
+    var suppressJurisdictions;
+    if (state.sys.suppressJurisdictions) {
+        suppressJurisdictions = state.sys.suppressJurisdictions;
+    } else {
+        suppressJurisdictions = function(codeStr, humanStr) {
+            return humanStr;
+        }
     }
     function getOutputFunction(variables, myabbrev_family, abbreviation_fallback, alternative_varname, transform_fallback) {
         var localesets;
@@ -13747,7 +13732,7 @@ CSL.Output.Formats.prototype.rtf = {
         return str+"\\tab ";
     },
     "@display/right-inline": function (state, str) {
-        return str+"\\line\r\n";
+        return str+"\r\n";
     },
     "@display/indent": function (state, str) {
         return "\n\\tab "+str+"\\line\r\n";
@@ -14771,26 +14756,58 @@ CSL.Engine.prototype.retrieveAllStyleModules = function (jurisdictionList) {
 }
 CSL.parseParticles = function(){
     var PARTICLES = [
+        ["al-", [[[0,1], null],[null,[0,1]]]],
+        ["at-", [[[0,1], null],[null,[0,1]]]],
+        ["ath-", [[[0,1], null],[null,[0,1]]]],
+        ["aṯ-", [[[0,1], null],[null,[0,1]]]],
+        ["ad-", [[[0,1], null],[null,[0,1]]]],
+        ["adh-", [[[0,1], null],[null,[0,1]]]],
+        ["aḏ-", [[[0,1], null],[null,[0,1]]]],
+        ["ar-", [[[0,1], null],[null,[0,1]]]],
+        ["az-", [[[0,1], null],[null,[0,1]]]],
+        ["as-", [[[0,1], null],[null,[0,1]]]],
+        ["ash-", [[[0,1], null],[null,[0,1]]]],
+        ["aš-", [[[0,1], null],[null,[0,1]]]],
+        ["aṣ-", [[[0,1], null],[null,[0,1]]]],
+        ["aḍ-", [[[0,1], null],[null,[0,1]]]],
+        ["aṭ-", [[[0,1], null],[null,[0,1]]]],
+        ["aẓ-", [[[0,1], null],[null,[0,1]]]],
+        ["an-", [[[0,1], null],[null,[0,1]]]],
+        ["et-", [[[0,1], null],[null,[0,1]]]],
+        ["eth-", [[[0,1], null],[null,[0,1]]]],
+        ["eṯ-", [[[0,1], null],[null,[0,1]]]],
+        ["ed-", [[[0,1], null],[null,[0,1]]]],
+        ["edh-", [[[0,1], null],[null,[0,1]]]],
+        ["eḏ-", [[[0,1], null],[null,[0,1]]]],
+        ["er-", [[[0,1], null],[null,[0,1]]]],
+        ["ez-", [[[0,1], null],[null,[0,1]]]],
+        ["es-", [[[0,1], null],[null,[0,1]]]],
+        ["esh-", [[[0,1], null],[null,[0,1]]]],
+        ["eš-", [[[0,1], null],[null,[0,1]]]],
+        ["eṣ-", [[[0,1], null],[null,[0,1]]]],
+        ["eḍ-", [[[0,1], null],[null,[0,1]]]],
+        ["eṭ-", [[[0,1], null],[null,[0,1]]]],
+        ["eẓ-", [[[0,1], null],[null,[0,1]]]],
+        ["el-", [[[0,1], null],[null,[0,1]]]],
+        ["en-", [[[0,1], null],[null,[0,1]]]],
         ["'s-", [[[0,1], null]]],
         ["'t", [[[0,1], null]]],
-        ["abbé d'", [[[0,2], null]]],
         ["af", [[[0,1], null]]],
         ["al", [[[0,1], null]]],
-        ["al-", [[[0,1], null]],[[null,[0,1]]]],
         ["auf den", [[[0,2], null]]],
-        ["auf der", [[[0,1], null]]],
-        ["aus der", [[[0,1], null]]],
+        ["auf der", [[[0,2], null]]],
+        ["aus der", [[[0,2], null]]],
         ["aus'm", [[null, [0,1]]]],
         ["ben", [[null, [0,1]]]],
         ["bin", [[null, [0,1]]]],
-        ["d'", [[[0,1], null]],[[null,[0,1]]]],
+        ["d'", [[[0,1], null],[null,[0,1]]]],
         ["da", [[null, [0,1]]]],
         ["dall'", [[null, [0,1]]]],
         ["das", [[[0,1], null]]],
         ["de", [[null, [0,1]],[[0,1],null]]],
-        ["de la", [[[0,1], [1,2]]]],
-        ["de las", [[[0,1], [1,2]]]],
-        ["de li", [[[0,1], null]]],
+        ["de la", [[null, [0,2]], [[0,1], [1,2]]]],
+        ["de las", [[null, [0,2]], [[0,1], [1,2]]]],
+        ["de li", [[[0,2], null]]],
         ["de'", [[[0,1], null]]],
         ["degli", [[[0,1], null]]],
         ["dei", [[[0,1], null]]],
@@ -14809,7 +14826,7 @@ CSL.parseParticles = function(){
         ["il", [[[0,1], null]]],
         ["in 't", [[[0,2], null]]],
         ["in de", [[[0,2], null]]],
-        ["in der", [[[0,1], null]]],
+        ["in der", [[[0,2], null]]],
         ["in het", [[[0,2], null]]],
         ["lo", [[[0,1], null]]],
         ["les", [[[0,1], null]]],
@@ -14839,15 +14856,15 @@ CSL.parseParticles = function(){
         ["vander", [[null, [0,1]]]],
         ["vd", [[null, [0,1]]]],
         ["ver", [[null, [0,1]]]],
-        ["von", [[[0,1], null]],[[null,[0,1]]]],
+        ["von", [[[0,1], null],[null,[0,1]]]],
         ["von der", [[[0,2], null]]],
         ["von dem",[[[0,2], null]]],
-        ["von und zu", [[[0,1], null]]],
+        ["von und zu", [[[0,3], null]]],
         ["von zu", [[[0,2], null]]],
         ["v.", [[[0,1], null]]],
         ["v", [[[0,1], null]]],
         ["vom", [[[0,1], null]]],
-        ["vom und zum", [[[0,1], null]]],
+        ["vom und zum", [[[0,3], null]]],
         ["z", [[[0,1], null]]],
         ["ze", [[[0,1], null]]],
         ["zum", [[[0,1], null]]],
@@ -15012,7 +15029,7 @@ CSL.parseParticles = function(){
                     var pSet = pInfo[i];
                     if (!result.family.str) result.family.str = "";
                     if (!result.given.str) result.given.str = "";
-                    if (result.given.str === pSet.strings[0] && result.family.str === pSet.strings[1]) {
+                    if (result.given.str.toLowerCase() === pSet.strings[0] && result.family.str.toLowerCase() === pSet.strings[1]) {
                         break;
                     }
                 }
@@ -15022,6 +15039,24 @@ CSL.parseParticles = function(){
                 if (pSet.positions[1] !== null) {
                     name["non-dropping-particle"] = particles.slice(pSet.positions[1][0], pSet.positions[1][1]).join(" ");
                 }
+            }
+        }
+        if (!name.suffix && name.given) {
+            m = name.given.match(/(\s*,!*\s*)/);
+            if (m) {
+                idx = name.given.indexOf(m[1]);
+                var possible_suffix = name.given.slice(idx + m[1].length);
+                var possible_comma = name.given.slice(idx, idx + m[1].length).replace(/\s*/g, "");
+                if (possible_suffix.length <= 3) {
+                    if (possible_comma.length === 2) {
+                        name["comma-suffix"] = true;
+                    }
+                    name.suffix = possible_suffix;
+                } else if (!name["dropping-particle"] && name.given) {
+                    name["dropping-particle"] = possible_suffix;
+                    name["comma-dropping-particle"] = ",";
+                }
+                name.given = name.given.slice(0, idx);
             }
         }
         if (normalizeApostrophe) {
