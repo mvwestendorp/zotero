@@ -658,7 +658,7 @@ Zotero.Translate.ItemSaver.prototype = {
 		// If "extra" contains {:variable: XX} hacks, recast as CslJSON,
 		// then merge result back into newItem.
 		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
-            // Last true is to override unsaved-item block in toJSON()
+			// Last true is to override unsaved-item block in toJSON()
 			cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
 			var extra = cslItem.note;
 			extra = extra.split(/{:([-a-z]+):([^\}]+)}/);
@@ -1093,7 +1093,7 @@ Zotero.Translate.ItemGetter.prototype = {
 				var returnItemArray = this._attachmentToArray(returnItem);
 				if(returnItemArray) return returnItemArray;
 			} else {
-			var returnItemArray = Zotero.Utilities.Internal.itemToExportFormat(returnItem, this.legacy);
+				var returnItemArray = Zotero.Utilities.Internal.itemToExportFormat(returnItem, this.legacy);
 				
 				// get attachments, although only urls will be passed if exportFileData is off
 				returnItemArray.attachments = [];
