@@ -424,7 +424,7 @@
 							
 							this.item.multi.changeLangTag(mainLang, tag, fieldName);
 							this.item.save();
-                            this.refresh();
+							this.refresh();
 						}
 					} else {
 						// XXX If no matching value exists, just adjust the UI as below.
@@ -985,9 +985,9 @@
 						}, false);
 					}
 					
-                    if (!isMulti && value.getAttribute('fieldname') == 'gazetteFlag') {
-                        var value = document.createElement("hbox");
-                        var gazetteFlag = document.createElement("checkbox");
+					if (!isMulti && value.getAttribute('fieldname') == 'gazetteFlag') {
+						var value = document.createElement("hbox");
+						var gazetteFlag = document.createElement("checkbox");
 						// gazetteFlag.setAttribute("label","gazette");
 						gazetteFlag.setAttribute("id","gazette-flag");
 						gazetteFlag.setAttribute("oncommand","document.getBindingParent(this).gazetteFlagCommand(this);");
@@ -999,7 +999,7 @@
 						row.appendChild(label);
 						row.appendChild(value);
 
-                    } else if (!isMulti && value.getAttribute('fieldname') == 'jurisdiction') {
+					} else if (!isMulti && value.getAttribute('fieldname') == 'jurisdiction') {
 						var innerValue = value;
 						innerValue.setAttribute("tooltiptext", value.getAttribute("label"));
 						value = document.createElement("hbox");
@@ -1079,11 +1079,11 @@
 				<![CDATA[
 					var checked = node.getAttribute("checked");
 					if (checked) {
-                        this.item.setField("gazetteFlag", "1");
+						this.item.setField("gazetteFlag", "1");
 					} else {
 						this.item.setField("gazetteFlag", "");
 					}
-                    this.item.save();
+					this.item.save();
 				]]>
 			  </body>
 			</method>
@@ -3049,9 +3049,6 @@
 					var fieldName = row.firstChild.getAttribute("fieldname");
 					var langTag = row.firstChild.getAttribute('zlang');
 					var isMulti = row.parentNode.classList.contains('multi');
-                    Zotero.debug("XXXX langTag="+langTag);
-                    Zotero.debug("XXXX isMulti="+isMulti);
-                    Zotero.debug("XXXX this.saveOnEdit="+this.saveOnEdit);
 					switch (mode) {
 						case 'title':
 							var newVal = Zotero.Utilities.capitalizeTitle(val.toLowerCase(), true);
@@ -3722,7 +3719,9 @@
 									setLanguageMenu('Add Variant', variantList,null,'add',mainFieldValue);
 								}
 								languageList = Zotero.CachedLanguages.getLanguageList(item, fieldName, false);
-								setLanguageMenu('Set Field Language', languageList,'radio','main',mainFieldValue);
+								if (fieldName !== 'jurisdiction') {
+									setLanguageMenu('Set Field Language', languageList,'radio','main',mainFieldValue);
+								}
 							} else {
 								languageList = Zotero.CachedLanguages.getVariantList(item, fieldName, true);
 								var multiFieldValue = item.getField(fieldName, null, null, rowLang);
