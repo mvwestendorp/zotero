@@ -80,7 +80,7 @@ if (!Array.indexOf) {
     };
 }
 var CSL = {
-    PROCESSOR_VERSION: "1.1.45",
+    PROCESSOR_VERSION: "1.1.49",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1741,9 +1741,6 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     if (CSL.getAbbreviation) {
         this.sys.getAbbreviation = CSL.getAbbreviation;
     }
-    if (CSL.suppressJurisdictions) {
-        this.sys.suppressJurisdictions = CSL.suppressJurisdictions;
-    }
     if (this.sys.stringCompare) {
         CSL.stringCompare = this.sys.stringCompare;
     }
@@ -1794,8 +1791,8 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.opt.xclass = sys.xml.getAttributeValue(this.cslXml, "class");
     this.opt.class = this.opt.xclass;
     this.opt.styleID = this.sys.xml.getStyleId(this.cslXml);
-    if (CSL.setSuppressJurisdictions) {
-        CSL.setSuppressJurisdictions(this.opt.styleID);
+    if (CSL.setSuppressedJurisdictions) {
+        CSL.setSuppressedJurisdictions(this.opt.styleID, this.opt.suppressedJurisdictions);
     }
     this.opt.styleName = this.sys.xml.getStyleId(this.cslXml, true);
     if (this.opt.version.slice(0,4) === "1.1m") {
@@ -2953,7 +2950,7 @@ CSL.Output.Queue.prototype.append = function (str, tokname, notSerious, ignorePr
             blob.blobs = blob.blobs.replace(/\.([^a-z]|$)/g, "$1");
         }
         for (var i = blob.decorations.length - 1; i > -1; i += -1) {
-            if (blob.decorations[i][0] === "@quotes" && blob.decorations[i][1] === "true") {
+            if (blob.decorations[i][0] === "@quotes" && blob.decorations[i][1] !== "false") {
                 blob.punctuation_in_quote = this.state.getOpt("punctuation-in-quote");
             }
             if (!blob.blobs.match(CSL.ROMANESQUE_REGEXP)) {
@@ -3354,7 +3351,7 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
     function blobHasDescendantQuotes(blob) {
         if (blob.decorations) {
             for (var i=0,ilen=blob.decorations.length;i<ilen;i++) {
-                if (blob.decorations[i][0] === '@quotes') {
+                if (blob.decorations[i][0] === '@quotes' && blob.decorations[i][1] !== "false") {
                     return true;
                 }
             }
@@ -3567,9 +3564,12 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             if (i === (parent.blobs.length - 1)) {
                 if (true || !someChildrenAreNumbers) {
                     var parentChar = parentStrings.suffix.slice(0, 1);
-                    var allowMigration = blobHasDescendantQuotes(child);
-                    if (!allowMigration && PUNCT[parentChar]) {
+                    var allowMigration = false;
+                    if (PUNCT[parentChar]) {
                         allowMigration = blobHasDescendantMergingPunctuation(parentChar,child);
+                        if (!allowMigration && punctInQuote) {
+                            allowMigration = blobHasDescendantQuotes(child);
+                        }
                     }
                     if (allowMigration) {
                         if (PUNCT[parentChar]) {
@@ -3661,7 +3661,7 @@ CSL.Output.Queue.adjust = function (punctInQuote) {
             var quoteSwap = false;
             for (var j=0,jlen=child.decorations.length;j<jlen;j++) {
                 var decoration = child.decorations[j];
-                if (decoration[0] === "@quotes") {
+                if (decoration[0] === "@quotes" && decoration[1] !== "false") {
                     quoteSwap = true;
                 }
             }
@@ -3685,6 +3685,7 @@ CSL.Engine.Opt = function () {
     this.mode = "html";
     this.dates = {};
     this.jurisdictions_seen = {};
+    this.suppressedJurisdictions = {};
     this["locale-sort"] = [];
     this["locale-translit"] = [];
     this["locale-translat"] = [];
@@ -4333,13 +4334,13 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
                         for (n = 0, nlen = CSL.POSITION_TEST_VARS.length; n < nlen; n += 1) {
                             var param = CSL.POSITION_TEST_VARS[n];
                             if (item[1][param] !== oldvalue[param]) {
-                                if (param === 'first-reference-note-number') {
-                                    rerunAkeys[this.registry.registry[myid].ambig] = true;
+                                if (this.registry.registry[myid]) {
+                                    if (param === 'first-reference-note-number') {
+                                        rerunAkeys[this.registry.registry[myid].ambig] = true;
+                                        this.tmp.taintedItemIDs[myid] = true;
+                                    }
                                 }
                                 this.tmp.taintedCitationIDs[onecitation.citationID] = true;
-                                if (param === 'first-reference-note-number') {
-                                    this.tmp.taintedItemIDs[myid] = true;
-                                }
                             }
                         }
                     }
@@ -11259,9 +11260,6 @@ CSL.Transform = function (state) {
         if (["archive"].indexOf(myabbrev_family) > -1) {
             myabbrev_family = "collection-title";
         }
-        if (variable === "jurisdiction" && basevalue && state.sys.suppressJurisdictions) {
-            basevalue = state.sys.getHumanForm(basevalue);
-        }
         value = "";
         if (state.sys.getAbbreviation) {
             var jurisdiction = state.transform.loadAbbreviation(Item.jurisdiction, myabbrev_family, basevalue, Item.type, noHints);
@@ -11348,7 +11346,10 @@ CSL.Transform = function (state) {
             ret = {name:Item[field], usedOrig:true, locale:getFieldLocale(Item,field)};
         }
         if (field === 'jurisdiction') {
-            ret.name = state.sys.suppressJurisdictions(Item[field], ret.name);
+            ret.name = state.sys.getHumanForm(Item[field]);
+            if (CSL.getSuppressedJurisdictionName) {
+                ret.name = CSL.getSuppressedJurisdictionName.call(state, Item[field], ret.name);
+            }
         }
         return ret;
     }
@@ -11410,14 +11411,6 @@ CSL.Transform = function (state) {
             }
         }
         return false;
-    }
-    var suppressJurisdictions;
-    if (state.sys.suppressJurisdictions) {
-        suppressJurisdictions = state.sys.suppressJurisdictions;
-    } else {
-        suppressJurisdictions = function(codeStr, humanStr) {
-            return humanStr;
-        }
     }
     function getOutputFunction(variables, myabbrev_family, abbreviation_fallback, alternative_varname, transform_fallback) {
         var localesets;
@@ -13090,19 +13083,27 @@ CSL.Util.FlipFlopper.prototype._normalizeString = function (str) {
     var i, ilen;
     str = str.replace(/\s+'\s+/g," ’ ");
     if (str.indexOf(this.quotechars[0]) > -1) {
-        for (i = 0, ilen = 2; i < ilen; i += 1) {
-            if (this.quotechars[i + 2]) {
-                str = str.replace(this.quotechars[i + 2], this.quotechars[0]);
+        var oldStr = null;
+        while (str !== oldStr) {
+            oldStr = str;
+            for (i = 0, ilen = 2; i < ilen; i += 1) {
+                if (this.quotechars[i + 2]) {
+                    str = str.replace(this.quotechars[i + 2], this.quotechars[0]);
+                }
             }
         }
     }
     if (str.indexOf(this.quotechars[1]) > -1) {
-        for (i = 0, ilen = 2; i < ilen; i += 1) {
-            if (this.quotechars[i + 4]) {
-                if (i === 0) {
-                    str = str.replace(this.quotechars[i + 4], " " + this.quotechars[1]);
-                } else {
-                    str = str.replace(this.quotechars[i + 4], this.quotechars[1]);
+        var oldStr = null;
+        while (str !== oldStr) {
+            oldStr = str;
+            for (i = 0, ilen = 2; i < ilen; i += 1) {
+                if (this.quotechars[i + 4]) {
+                    if (i === 0) {
+                        str = str.replace(this.quotechars[i + 4], " " + this.quotechars[1]);
+                    } else {
+                        str = str.replace(this.quotechars[i + 4], this.quotechars[1]);
+                    }
                 }
             }
         }
