@@ -704,13 +704,13 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
         // From now, the relevant code will be woken up by the style version attribute.
         // That way, MLZ will more or less behave as expected with an official style.
         // See citeproc sources at src/attributes.js
-        citeproc.opt.development_extensions.static_statute_locator = true;
-        citeproc.opt.development_extensions.handle_parallel_articles = true;
-        citeproc.opt.development_extensions.main_title_from_short_title = true;
-        citeproc.opt.development_extensions.strict_page_numbers = true;
-        citeproc.opt.development_extensions.rtl_support = true;
-        citeproc.opt.development_extensions.expect_and_symbol_form = true;
-        citeproc.opt.development_extensions.require_explicit_legal_case_short_title = true;
+        //citeproc.opt.development_extensions.static_statute_locator = true;
+        //citeproc.opt.development_extensions.handle_parallel_articles = true;
+        //citeproc.opt.development_extensions.main_title_from_short_title = true;
+        //citeproc.opt.development_extensions.strict_page_numbers = true;
+        //citeproc.opt.development_extensions.rtl_support = true;
+        //citeproc.opt.development_extensions.expect_and_symbol_form = true;
+        //citeproc.opt.development_extensions.require_explicit_legal_case_short_title = true;
         if (Zotero.Prefs.get("export.quickCopy.linkOption")) {
             // This gets the processor ready for applying wrappers.
             //
