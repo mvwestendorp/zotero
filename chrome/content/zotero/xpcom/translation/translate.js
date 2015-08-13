@@ -1532,7 +1532,6 @@ Zotero.Translate.Base.prototype = {
 		} else {
 			Zotero.debug("\tNo suitable translators found");
 		}
-        Zotero.debug("XXXX COLLECTED");
 		this._runHandler("translators", this._foundTranslators);
 	},
 	
@@ -2028,7 +2027,6 @@ Zotero.Translate.Import.prototype._loadTranslator = function(translator, callbac
 	// call super
 	var me = this;
 	Zotero.Translate.Base.prototype._loadTranslator.call(this, translator, function() {
-        Zotero.debug("XXXX translator: " + translator.label);
 		me._loadTranslatorPrepareIO(translator, callback);
 	});
 }
