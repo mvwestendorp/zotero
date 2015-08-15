@@ -32,7 +32,7 @@ Zotero.EXTENDED_FIELDS = {
         "volumeTitle":"volume-title"
 	},
 	"standard": {
-        "versionNumber":"version",
+        "version":"version",
         "number":"number"
 	},
 	"conferencePaper": {
@@ -153,7 +153,7 @@ Zotero.EXTENDED_FIELDS = {
 		"openingDate":"available-date",
 		"adoptionDate":"original-date",
 		"signingDate":"event-date",
-		"versionNumber":"version",
+		"version":"version",
 		"parentTreaty":"collection-title",
         "supplementName":"genre"
 	},
@@ -161,7 +161,7 @@ Zotero.EXTENDED_FIELDS = {
 		"volume":"volume"
 	},
 	"document":{
-		"versionNumber":"version"
+		"version":"version"
 	}
 }
 
