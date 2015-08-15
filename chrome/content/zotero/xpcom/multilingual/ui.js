@@ -25,20 +25,20 @@ Zotero.EXTENDED_TYPES = {
 
 Zotero.EXTENDED_FIELDS = {
 	"book": {
-        "medium":"medium",
-        "volumeTitle":"volume-title"
+		"medium":"medium",
+		"volumeTitle":"volume-title"
 	},
 	"bookSection": {
-        "volumeTitle":"volume-title"
+		"volumeTitle":"volume-title"
 	},
 	"standard": {
-        "version":"version",
-        "number":"number"
+		"version":"version",
+		"number":"number"
 	},
 	"conferencePaper": {
-        "conferenceDate":"event-date",
-        "issue":"issue",
-        "institution":"authority"
+		"conferenceDate":"event-date",
+		"issue":"issue",
+		"institution":"authority"
 	},
 	"interview": {
 		"place": "event-place"
@@ -50,7 +50,7 @@ Zotero.EXTENDED_FIELDS = {
 	"newspaperArticle": {
 		"jurisdiction":"jurisdiction",
 		"newsCaseDate":"original-date",
-        "court":"authority"
+		"court":"authority"
 	},
 	"journalArticle": {
 		"status":"status",
@@ -97,7 +97,7 @@ Zotero.EXTENDED_FIELDS = {
 		"issue":"issue",
 		"archive":"archive",
 		"archiveLocation":"archive_location",
-        "documentName":"document-name"
+		"documentName":"document-name"
 	}, 
 	"statute": {
 		"jurisdiction":"jurisdiction",
@@ -107,7 +107,7 @@ Zotero.EXTENDED_FIELDS = {
 		"reign":"genre",
 		"regnalYear":"collection-number",
 		"dateAmended": "event-date",
-        "gazetteFlag": "gazette-flag"
+		"gazetteFlag": "gazette-flag"
 	}, 
 	"audioRecording": {
 		"album":"container-title",
@@ -129,7 +129,7 @@ Zotero.EXTENDED_FIELDS = {
 		"status":"status",
 		"medium":"medium",
 		"committee":"committee",
-        "assemblyNumber": "collection-number",
+		"assemblyNumber": "collection-number",
 	"publisher": "publisher"
 	},
 	"gazette": {
@@ -143,7 +143,7 @@ Zotero.EXTENDED_FIELDS = {
 		"publicationDate":"publication-date",
 		"regulatoryBody":"authority",
 		"regulationType":"genre",
-        "gazetteFlag": "gazette-flag"
+		"gazetteFlag": "gazette-flag"
 	},
 	"treaty": {
 		"reporter":"container-title",
@@ -155,7 +155,7 @@ Zotero.EXTENDED_FIELDS = {
 		"signingDate":"event-date",
 		"version":"version",
 		"parentTreaty":"collection-title",
-        "supplementName":"genre"
+		"supplementName":"genre"
 	},
 	"classic":{
 		"volume":"volume"
