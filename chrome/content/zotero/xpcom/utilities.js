@@ -1836,7 +1836,7 @@ Zotero.Utilities = {
     "creatorConvItemToCSLJSON":function(nameObj, creator) {
 		if (creator.lastName || creator.firstName) {
 			nameObj.family = creator.lastName || '';
-            nameObj.given = creator.firstName || '';
+			nameObj.given = creator.firstName || '';
 				
 			// Parse name particles
 			// Replicate citeproc-js logic for what should be parsed so we don't
@@ -1859,10 +1859,10 @@ Zotero.Utilities = {
 			}
 		} else if (creator.name) {
 			nameObj.family = creator.name;
-            nameObj.given = '';
-            nameObj.isInstitution = 1;
-        }
-    },
+			nameObj.given = '';
+			nameObj.isInstitution = 1;
+		}
+	},
 
 	/**
 	 * Converts an item from toArray() format to citeproc-js JSON
@@ -1974,9 +1974,9 @@ Zotero.Utilities = {
 		var author = Zotero.CreatorTypes.getName(Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID));
 		var creators = zoteroItem.creators;
 
-        /*
-         * This is already covered in citeproc-js. 
-         *
+		/*
+		 * This is already covered in citeproc-js. 
+		 *
 		if (!portableJSON && !stopAuthority) {
 			if (!creators) creators = [];
 			var honoraryCreators = ["authority", "committee"];
@@ -2007,7 +2007,7 @@ Zotero.Utilities = {
 				}
 			}
 		}
-        */
+		*/
 		
 		for(var i=0; creators && i<creators.length; i++) {
 			var creator = creators[i];
@@ -2020,7 +2020,7 @@ Zotero.Utilities = {
 			if(!creatorType) continue;
 			
 			var nameObj = {};
-            Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator);
+			Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator);
 
 			if (!portableJSON) {
 				nameObj.multi = {};
@@ -2029,8 +2029,8 @@ Zotero.Utilities = {
 					nameObj.multi.main = creator.multi.main;
 				}
 				for (var langTag in creator.multi._key) {
-                    nameObj.multi._key[langTag] = {};
-                    Zotero.Utilities.creatorConvItemToCSLJSON(nameObj.multi._key[langTag], creator.multi._key[langTag]);
+					nameObj.multi._key[langTag] = {};
+					Zotero.Utilities.creatorConvItemToCSLJSON(nameObj.multi._key[langTag], creator.multi._key[langTag]);
 				}
 			}
 
