@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Stäng">
 <!ENTITY copyBibliographyCmd.label "Kopiera källförteckning">
-<!ENTITY copyCitationCmd.label "Kopiera citering">
+<!ENTITY copyCitationCmd.label "Kopiera referens">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
 <!ENTITY copyCmd.label "Kopiera">

@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Fișiere și dosare">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Scurtături">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Dosar de bază:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Dosarul de bază pentru anexe atașate">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero va folosi căi relative pentru fișierele anexate în directorul de bază, permițând accesarea fișierelor pe diferite calculatoare atâta timp cât structura fișierelor în dosarul de bază rămâne aceeași.">
@@ -115,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Diverse">
 <!ENTITY zotero.preferences.openAboutConfig "Deschide about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Deschide about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
+<!ENTITY zotero.preferences.openCSLEdit "Deschide Editorul de stil">
+<!ENTITY zotero.preferences.openCSLPreview "Deschide Previzualizare stil">
 <!ENTITY zotero.preferences.openurl.caption "Deschide URL">
 <!ENTITY zotero.preferences.openurl.custom "Personalizează...">
 <!ENTITY zotero.preferences.openurl.search "Caută rezolvatori">
@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Calea paginii proxy, excluzând primele bare oblice (de ex., despre/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opțiuni pentru serverele proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Schemă">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Afișează notificările la redirecționarea printr-un proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Reamintește automat resursele proxy">
 <!ENTITY zotero.preferences.proxies.variables "Ai putea folosi următoarele variabile în schema serverului tău proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Copiere rapidă">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Notă: Formatarea RTF se va pierde pe Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domeniu/Cale">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ex. wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Limbă">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Stil de formatare">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Setări specifice site:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Raportează site-uri cu legături rupte (la translatare)">

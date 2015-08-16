@@ -23,7 +23,7 @@
 <!ENTITY zotero.bibliography.title "Créer une citation/bibliographie">
 <!ENTITY zotero.charset.label "Encodage des caractères">
 <!ENTITY zotero.citation.editorWarning.label "Avertissement : Si vous modifiez une référence dans l'éditeur, elle ne sera plus mise à jour pour refléter les changements dans votre base de données ou dans le style de citation.">
-<!ENTITY zotero.citation.keepSorted.label "Conserver les sources en ordre alphabétique">
+<!ENTITY zotero.citation.keepSorted.label "Trier les sources automatiquement">
 <!ENTITY zotero.citation.line "Ligne">
 <!ENTITY zotero.citation.page "Page">
 <!ENTITY zotero.citation.paragraph "Paragraphe">

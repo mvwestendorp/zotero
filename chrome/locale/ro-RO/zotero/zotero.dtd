@@ -6,13 +6,13 @@
 <!ENTITY zotero.annotate.toolbar.highlight.label "Evidențiază text">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Renunță la evidențiere text">
 <!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.title "Titlu:">
+<!ENTITY zotero.attachLink.title "Anexează link la URI">
 <!ENTITY zotero.bibliography.bibliography "Bibliografie">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Copiază în memoria clipboard">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
-<!ENTITY zotero.bibliography.locale.label "Language:">
+<!ENTITY zotero.bibliography.locale.label "Limbă:">
 <!ENTITY zotero.bibliography.output.label "Stil de formatare">
 <!ENTITY zotero.bibliography.outputMethod "Metodă de ieșire:">
 <!ENTITY zotero.bibliography.outputMode "Mod de ieșire:">
@@ -60,8 +60,8 @@
 <!ENTITY zotero.general.note "Notă:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opțional)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Reîmprospătare">
+<!ENTITY zotero.general.saveAs "Salvare ca...">
 <!ENTITY zotero.general.selectAll "Selectează tot">
 <!ENTITY zotero.integration.addEditCitation.title "Adaugă/Editează citarea">
 <!ENTITY zotero.integration.classicView.label "Vizualizare clasică">
@@ -102,13 +102,13 @@
 <!ENTITY zotero.integration.showEditor.label "Arată editor">
 <!ENTITY zotero.item.add "Adaugă">
 <!ENTITY zotero.item.attachment.file.show "Arată fișier">
-<!ENTITY zotero.item.copyAsURL "Copy as URL">
+<!ENTITY zotero.item.copyAsURL "Copiază ca URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Schimbă Prenume/Nume">
 <!ENTITY zotero.item.textTransform "Transformă text">
 <!ENTITY zotero.item.textTransform.sentencecase "Majusculă ca la propoziție">
 <!ENTITY zotero.item.textTransform.titlecase "Litere de Titlu">
-<!ENTITY zotero.item.viewOnline "View Online">
+<!ENTITY zotero.item.viewOnline "Vezi online">
 <!ENTITY zotero.items.accessDate_column "Data accesării">
 <!ENTITY zotero.items.archiveLocation_column "Loc. în arhivă">
 <!ENTITY zotero.items.archive_column "Arhivă">

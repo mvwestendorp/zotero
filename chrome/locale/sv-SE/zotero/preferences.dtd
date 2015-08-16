@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "Sök efter länkservrar">
 <!ENTITY zotero.preferences.openurl.server "Länkserver:">
 <!ENTITY zotero.preferences.openurl.version "Version:">
-<!ENTITY zotero.preferences.parseRISRefer "Använd Zotero för att ladda ner BibTeX/RIS/Refer-filer">
+<!ENTITY zotero.preferences.parseRISRefer "Använd Zotero för nedladdade BibTeX/RIS/Refer-filer">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Avancerat">
 <!ENTITY zotero.preferences.prefpane.cite "Källhänvisa">
