@@ -126,6 +126,7 @@ const CSL_DATE_VARIABLES = function() {
 
 /*
  * Mappings for types
+ * Also see itemFromCSLJSON
  */
 const CSL_TYPE_MAPPINGS = {
 	'book':"book",
@@ -1829,6 +1830,40 @@ Zotero.Utilities = {
 		return newItems;
 	},
 
+    /**
+     * Helper function for pre-factoring creator names
+     */
+    "creatorConvItemToCSLJSON":function(nameObj, creator) {
+		if (creator.lastName || creator.firstName) {
+			nameObj.family = creator.lastName || '';
+            nameObj.given = creator.firstName || '';
+				
+			// Parse name particles
+			// Replicate citeproc-js logic for what should be parsed so we don't
+			// break current behavior.
+			if (nameObj.family && nameObj.given) {
+				// Don't parse if last name is quoted
+				if (nameObj.family.length > 1
+					&& nameObj.family.charAt(0) == '"'
+					&& nameObj.family.charAt(nameObj.family.length - 1) == '"'
+				   ) {
+					nameObj.family = nameObj.family.substr(1, nameObj.family.length - 2);
+				} else {
+					Zotero.CiteProc.CSL.parseParticles(nameObj, true);
+				}
+			}
+			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
+				if (creator.fieldMode) {
+					nameObj.isInstitution = fieldMode;
+				}
+			}
+		} else if (creator.name) {
+			nameObj.family = creator.name;
+            nameObj.given = '';
+            nameObj.isInstitution = 1;
+        }
+    },
+
 	/**
 	 * Converts an item from toArray() format to citeproc-js JSON
 	 * @param {Zotero.Item} zoteroItem
@@ -1984,50 +2019,17 @@ Zotero.Utilities = {
 			creatorType = CSL_NAMES_MAPPINGS[creatorType];
 			if(!creatorType) continue;
 			
-			var lastName = creator.lastName;
-			var fieldMode = creator.fieldMode;
-			if (creator.name) {
-				lastName = creator.name;
-				fieldMode = 1;
-			}
-			if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
-				var nameObj = {
-					'family':lastName,
-					'given':creator.firstName
-				}
-				if (fieldMode) {
-					nameObj.isInstitution = fieldMode;
-				}
-			} else {
-				var nameObj = {
-					'family':lastName, 
-					'given':creator.firstName
-				}
-			}
-		
+			var nameObj = {};
+            Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator);
+
 			if (!portableJSON) {
-				if (!nameObj.multi) {
-					nameObj.multi = {};
-					nameObj.multi._key = {};
-					if (creator.multi.main) {
-						nameObj.multi.main = creator.multi.main;
-					}
+				nameObj.multi = {};
+				nameObj.multi._key = {};
+				if (creator.multi.main) {
+					nameObj.multi.main = creator.multi.main;
 				}
 				for (var langTag in creator.multi._key) {
-					if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
-						nameObj.multi._key[langTag] = {
-							'family':creator.multi._key[langTag].lastName,
-							'given':creator.multi._key[langTag].firstName
-						};
-						if (creator.fieldMode) {
-							nameObj.multi._key[langTag].isInstitution = creator.fieldMode;
-						}
-					} else {
-						nameObj.multi._key[langTag] = {
-							'family':creator.multi._key[langTag].lastName,
-							'given':creator.multi._key[langTag].firstName
-						};
-					}
+                    Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator.multi._key[langTag]);
 				}
 			}
 
@@ -2122,15 +2124,45 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} item
 	 * @param {Object} cslItem
 	 */
-	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
-		var isZoteroItem = item instanceof Zotero.Item, zoteroType;
-
-		for(var type in CSL_TYPE_MAPPINGS) {
-			if(CSL_TYPE_MAPPINGS[type] == cslItem.type) {
-				zoteroType = type;
-				break;
+	"itemFromCSLJSON":function(item, cslItem) {
+		var isZoteroItem = item instanceof Zotero.Item,
+			zoteroType;
+		
+		// Some special cases to help us map item types correctly
+		// This ensures that we don't lose data on import. The fields
+		// we check are incompatible with the alternative item types
+		if (cslItem.type == 'book') {
+			zoteroType = 'book';
+			if (cslItem.version) {
+				zoteroType = 'computerProgram';
+			}
+		} else if (cslItem.type == 'bill') {
+			zoteroType = 'bill';
+			if (cslItem.publisher || cslItem['number-of-volumes']) {
+				zoteroType = 'hearing';
+			}
+		} else if (cslItem.type == 'song') {
+			zoteroType = 'audioRecording';
+			if (cslItem.number) {
+				zoteroType = 'podcast';
+			}
+		} else if (cslItem.type == 'motion_picture') {
+			zoteroType = 'film';
+			if (cslItem['collection-title'] || cslItem['publisher-place']
+				|| cslItem['event-place'] || cslItem.volume
+				|| cslItem['number-of-volumes'] || cslItem.ISBN
+			) {
+				zoteroType = 'videoRecording';
+			}
+		} else {
+			for(var type in CSL_TYPE_MAPPINGS) {
+				if(CSL_TYPE_MAPPINGS[type] == cslItem.type) {
+					zoteroType = type;
+					break;
+				}
 			}
 		}
+		
 		if(!zoteroType) zoteroType = "document";
 		
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
@@ -2149,9 +2181,14 @@ Zotero.Utilities = {
 					continue;
 				}
 				var textMappings = CSL_TEXT_MAPPINGS[variable];
-				for(var i in textMappings) {
-					var field = textMappings[i],
-						fieldID = Zotero.ItemFields.getID(field);
+				for(var i=0; i<textMappings.length; i++) {
+					var field = textMappings[i];
+					
+					// Until 5.0, use version instead of versionNumber
+					if (field == 'versionNumber') field = 'version';
+					
+					var fieldID = Zotero.ItemFields.getID(field);
+
 					if(Zotero.ItemFields.isBaseField(fieldID)) {
 						var newFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID);
 						if(newFieldID) fieldID = newFieldID;
@@ -2180,6 +2217,8 @@ Zotero.Utilities = {
 								}
 							}
 						}
+						
+						break;
 					}
 				}
 			}

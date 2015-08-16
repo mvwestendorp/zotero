@@ -3350,8 +3350,7 @@
 					1,
 					2
 				]
-			],
-			"season": "2000-01-02"
+			]
 		},
 		"system_id": "0_undefined",
 		"title": "Title",

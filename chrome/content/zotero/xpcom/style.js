@@ -698,6 +698,10 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
 			sys.setVariableWrapper(false);
 		}
 		var citeproc = new Zotero.CiteProc.CSL.Engine(sys, xml, locale, overrideLocale);
+		
+		// Don't try to parse author names. We parse them in itemToCSLJSON
+		citeproc.opt.development_extensions.parse_names = false;
+		
 		Zotero.setCitationLanguages({}, citeproc);
 		citeproc.opt.trigraph = trigraph;
         // Was for: invoking special features of MLZ.
