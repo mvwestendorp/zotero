@@ -2029,7 +2029,8 @@ Zotero.Utilities = {
 					nameObj.multi.main = creator.multi.main;
 				}
 				for (var langTag in creator.multi._key) {
-                    Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator.multi._key[langTag]);
+                    nameObj.multi._key[langTag] = {};
+                    Zotero.Utilities.creatorConvItemToCSLJSON(nameObj.multi._key[langTag], creator.multi._key[langTag]);
 				}
 			}
 
