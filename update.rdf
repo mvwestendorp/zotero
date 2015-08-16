@@ -2,20 +2,20 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$XNo7v1"
+  <RDF:Seq RDF:about="rdf:#$zPH+t2">
+    <RDF:li RDF:resource="rdf:#$APH+t2"/>
+  </RDF:Seq>
+  <RDF:Description RDF:about="rdf:#$APH+t2"
+                   em:version="4.0.28.2m41">
+    <em:targetApplication RDF:resource="rdf:#$DPH+t2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$DPH+t2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.6"
                    em:maxVersion="39.*"
-                   em:updateLink="https://github.com/Juris-M/zotero/releases/download/v4.0.27.5m39/jurism-v4.0.27.5m39.xpi" />
-  <RDF:Description RDF:about="rdf:#$UNo7v1"
-                   em:version="4.0.27.5m39">
-    <em:targetApplication RDF:resource="rdf:#$XNo7v1"/>
-  </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$TNo7v1">
-    <RDF:li RDF:resource="rdf:#$UNo7v1"/>
-  </RDF:Seq>
+                   em:updateLink="https://github.com/Juris-M/zotero/releases/download/v4.0.28.2m41/jurism-v4.0.28.2m41.xpi" />
   <RDF:Description RDF:about="urn:mozilla:extension:juris-m@juris-m.github.io"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJWvtAEI3BPDUmfmuttOjZq/tv1nZ3JpYusA0hDy5VboEFN1Mu+wGwsZ6wazvtMITqJ8aivZGx+4214NcdpOQYLhmDa2qcQjYdKsrDbiqyDysIUj2AKt7wmrflxVshgwoIgzHjQvQj8AnuOL5ODIEQHu1apkhFPCnsvaV4SaQ1BQ">
-    <em:updates RDF:resource="rdf:#$TNo7v1"/>
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAEQNg8bYDPOkY1oTRbhN4VF5kljahGyG80YWN5Xl6MLQYEsGymLnXqkFqHT75h+GAeYf1izxiKqTF4rGdE3W7QiEN7SK1JJpEpt95GfUfYbzGasP+v/rdyV0pLDVJfxtT6JQbYmvLwixlEpKx+oDmlSmxE8W8BpdtSTiw0G/E/W/">
+    <em:updates RDF:resource="rdf:#$zPH+t2"/>
   </RDF:Description>
 </RDF:RDF>
