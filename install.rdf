@@ -4,7 +4,7 @@
   <Description about="urn:mozilla:install-manifest">  
     <em:id>juris-m@juris-m.github.io</em:id>
     <em:name>Juris-M</em:name>
-    <em:version>4.0.28.2m41</em:version>
+    <em:version>4.0.28.2m42</em:version>
     <em:creator>Center for History and New Media<br/>George Mason University</em:creator>
     <em:creator>Frank Bennett</em:creator>
     <em:contributor>Dan Cohen</em:contributor>
@@ -15,7 +15,7 @@
     <em:homepageURL>https://juris-m.github.io</em:homepageURL>
     <em:optionsURL>chrome://zotero/content/preferences/preferences.xul</em:optionsURL>
     <em:aboutURL>chrome://zotero/content/about.xul</em:aboutURL>
-    <em:updateURL>https://juris-m.github.io/zotero/update.rdf</em:updateURL>
+    <em:updateURL>https://juris-m.github.io/jurism/update.rdf</em:updateURL>
     <em:iconURL>chrome://zotero/skin/mlz_z_32px.png</em:iconURL>
     <em:type>2</em:type>
     <em:unpack>true</em:unpack>
