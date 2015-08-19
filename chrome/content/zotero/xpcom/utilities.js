@@ -2125,7 +2125,7 @@ Zotero.Utilities = {
 	 * @param {Zotero.Item} item
 	 * @param {Object} cslItem
 	 */
-	"itemFromCSLJSON":function(item, cslItem) {
+	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
 		var isZoteroItem = item instanceof Zotero.Item,
 			zoteroType;
 		
@@ -2169,7 +2169,9 @@ Zotero.Utilities = {
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);
-			item.setField('libraryID',libraryID);
+			if (libraryID) {
+				item.setField('libraryID',libraryID);
+			}
 		} else {
 			item.itemID = cslItem.id;
 			item.itemType = zoteroType;
@@ -2264,7 +2266,7 @@ Zotero.Utilities = {
 				for(var i in nameMappings) {
 					var cslAuthor = nameMappings[i];
 					var creator = isZoteroItem ? new Zotero.Creator() : {multi:{_key:{}}};
-					if (isZoteroItem) {
+					if (isZoteroItem && libraryID) {
 						creator.libraryID = libraryID;
 					}
 					if (doneNames[creatorTypeID][cslAuthor.family + '/' + cslAuthor.given]) continue;
@@ -2290,7 +2292,9 @@ Zotero.Utilities = {
 						if (cslAuthor.multi) {
 							for (var lang in cslAuthor.multi._key) {
 								var creatorVariant = new Zotero.Creator();
-								creatorVariant.libraryID = libraryID;
+								if (libraryID) {
+									creatorVariant.libraryID = libraryID;
+								}
 								var cslVariant = cslAuthor.multi._key[lang];
 								if (creator.fieldMode === 1) {
 									creatorVariant.lastName = cslVariant.literal ? cslVariant.literal : cslVariant.family;
@@ -2391,7 +2395,9 @@ Zotero.Utilities = {
 			// For decoding
 			// item in this case is always a Zotero item
 			var data = {};
-			data.libraryID = libraryID;
+			if (libraryID) {
+				data.libraryID = libraryID;
+			}
 			data.itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 			var extra = cslItem.note ? cslItem.note : "";
 			var changedFields = {};
