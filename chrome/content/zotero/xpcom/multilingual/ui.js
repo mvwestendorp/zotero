@@ -242,9 +242,9 @@ Zotero.setupLocale = function(document) {
 		var xulChromeReg = chromeRegService.QueryInterface(Components.interfaces.nsIXULChromeRegistry);
 		var toolkitChromeReg = chromeRegService.QueryInterface(Components.interfaces.nsIToolkitChromeRegistry);
 		
-		var selectedLocale = xulChromeReg.getSelectedLocale("jurism");
+		var selectedLocale = xulChromeReg.getSelectedLocale("zotero");
 
-		var availableLocales = toolkitChromeReg.getLocalesForPackage("jurism");
+		var availableLocales = toolkitChromeReg.getLocalesForPackage("zotero");
 		
 		// Render locale menulist
 		const XUL_NS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
@@ -297,7 +297,8 @@ Zotero.setupLocale = function(document) {
 		/*
 		 * CSL selection 
 		 */
-		
+
+/*		
 		var locales = [];
 		for (var key in Zotero.CiteProc.CSL.LANGS) {
 			locales.push({value: key, label: Zotero.CiteProc.CSL.LANGS[key]});
@@ -335,7 +336,7 @@ Zotero.setupLocale = function(document) {
 		}
 		localeMenulist.selectedItem = selectedItem;
 		localeMenulist.disableSelect = false;
-
+*/
 	} catch (err) {
 		Zotero.debug ("PPP Failed to render locale menulist: " + err);	
 	}	
