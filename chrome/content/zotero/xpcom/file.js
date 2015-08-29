@@ -160,7 +160,10 @@ Zotero.File = new function(){
 			throw new Error("File is not an nsIInputStream or nsIFile");
 		}
 		
-		charset = charset ? Zotero.CharacterSets.getName(charset) : "UTF-8";
+		if (charset) {
+			charset = Zotero.CharacterSets.toLabel(charset, true)
+		}
+		charset = charset || "UTF-8";
 		
 		var blockSize = maxLength ? Math.min(maxLength, 524288) : 524288;
 		
@@ -210,9 +213,9 @@ Zotero.File = new function(){
 		
 		var options = {
 			charset: charset ? charset : "UTF-8",
-			// This doesn't seem to work -- reading an image file still throws NS_ERROR_ILLEGAL_INPUT
-			replacement: "\uFFFD"
+			replacement: 65533
 		};
+		
 		var deferred = Zotero.Promise.defer();
 		NetUtil.asyncFetch(source, function(inputStream, status) {
 			if (!Components.isSuccessCode(status)) {
@@ -221,7 +224,17 @@ Zotero.File = new function(){
 			}
 			
 			try {
-				var bytesToFetch = inputStream.available();
+				try {
+					var bytesToFetch = inputStream.available();
+				}
+				catch (e) {
+					// The stream is closed automatically when end-of-file is reached,
+					// so this throws for empty files
+					if (e.name == "NS_BASE_STREAM_CLOSED") {
+						deferred.resolve("");
+					}
+				}
+				
 				if (maxLength && maxLength < bytesToFetch) {
 					bytesToFetch = maxLength;
 				}
@@ -563,12 +576,15 @@ Zotero.File = new function(){
 	
 	
 	this.copyToUnique = function (file, newFile) {
+		file = this.pathToFile(file);
+		newFile = this.pathToFile(newFile);
+		
 		newFile.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0644);
 		var newName = newFile.leafName;
 		newFile.remove(null);
 		
 		// Copy file to unique name
-		file.copyTo(newFile.parent, newName);
+		file.copyToFollowingLinks(newFile.parent, newName);
 		return newFile;
 	}
 	
@@ -668,6 +684,8 @@ Zotero.File = new function(){
 			// Strip characters not valid in XML, since they won't sync and they're probably unwanted
 			fileName = fileName.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\ud800-\udfff\ufffe\uffff]/g, '');
 		}
+		// Don't allow hidden files
+		fileName = fileName.replace(/^\./, '');
 		// Don't allow blank or illegal filenames
 		if (!fileName || fileName == '.' || fileName == '..') {
 			fileName = '_';

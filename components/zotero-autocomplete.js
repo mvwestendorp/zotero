@@ -127,8 +127,9 @@ ZoteroAutoComplete.prototype.startSearch = Zotero.Promise.coroutine(function* (s
 		case 'tag':
 			var sql = "SELECT DISTINCT name AS val, NULL AS comment FROM tags WHERE name LIKE ?";
 			var sqlParams = [searchString + '%'];
-			if (typeof searchParams.libraryID != 'undefined') {
-				sql += " AND libraryID=?";
+			if (searchParams.libraryID !== undefined) {
+				sql += " AND tagID IN (SELECT tagID FROM itemTags JOIN items USING (itemID) "
+					+ "WHERE libraryID=?)";
 				sqlParams.push(searchParams.libraryID);
 			}
 			if (searchParams.itemID) {
@@ -152,10 +153,9 @@ ZoteroAutoComplete.prototype.startSearch = Zotero.Promise.coroutine(function* (s
 					sql += "JOIN itemCreators USING (creatorID) JOIN items USING (itemID) ";
 				}
 				sql += "WHERE CASE fieldMode "
-					+ "WHEN 1 THEN lastName "
-					+ "WHEN 0 THEN firstName || ' ' || lastName END "
-					+ "LIKE ? ";
-				var sqlParams = [searchString + '%'];
+					+ "WHEN 1 THEN lastName LIKE ? "
+					+ "WHEN 0 THEN (firstName || ' ' || lastName LIKE ?) OR (lastName LIKE ?) END "
+				var sqlParams = [searchString + '%', searchString + '%', searchString + '%'];
 				if (searchParams.libraryID !== undefined) {
 					sql += " AND libraryID=?";
 					sqlParams.push(searchParams.libraryID);

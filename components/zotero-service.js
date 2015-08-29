@@ -130,6 +130,12 @@ const xpcomFilesLocal = [
 	'server',
 	'style',
 	'sync',
+	'sync/syncAPIClient',
+	'sync/syncEngine',
+	'sync/syncEventListeners',
+	'sync/syncLocal',
+	'sync/syncRunner',
+	'sync/syncUtilities',
 	'storage',
 	'storage/streamListener',
 	'storage/queueManager',
@@ -221,13 +227,16 @@ ZoteroContext.prototype = {
 	 * then reinitializes Zotero. Returns a promise that is resolved
 	 * when this process completes.
 	 */
-	"reinit":function(cb, isConnector) {
+	"reinit":function(cb, isConnector, options = {}) {
 		Services.obs.notifyObservers(zContext.Zotero, "zotero-before-reload", isConnector ? "connector" : "full");
 		return zContext.Zotero.shutdown().then(function() {
 			return cb ? cb() : false;
 		}).finally(function() {
 			makeZoteroContext(isConnector);
-			zContext.Zotero.init(zInitOptions);
+			var o = {};
+			Object.assign(o, zInitOptions);
+			Object.assign(o, options);
+			zContext.Zotero.init(o);
 		});
 	}
 };
@@ -261,6 +270,7 @@ function makeZoteroContext(isConnector) {
 	
 	// Load CiteProc into Zotero.CiteProc namespace
 	zContext.Zotero.CiteProc = {"Zotero":zContext.Zotero};
+	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/citeproc-prereqs.js", zContext.Zotero.CiteProc);
 	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/citeproc.js", zContext.Zotero.CiteProc);
 	
 	// Load XRegExp object into Zotero.XRegExp

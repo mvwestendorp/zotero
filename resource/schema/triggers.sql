@@ -210,43 +210,6 @@ CREATE TRIGGER fku_itemNotes
   END;
 
 
--- itemSeeAlso libraryID
-DROP TRIGGER IF EXISTS fki_itemSeeAlso_libraryID;
-CREATE TRIGGER fki_itemSeeAlso_libraryID
-  BEFORE INSERT ON itemSeeAlso
-  FOR EACH ROW BEGIN
-    SELECT RAISE(ABORT, 'insert on table "itemSeeAlso" violates foreign key constraint "fki_itemSeeAlso_libraryID"')
-    WHERE (SELECT libraryID FROM items WHERE itemID = NEW.itemID) != (SELECT libraryID FROM items WHERE itemID = NEW.linkedItemID);---
-  END;
-
-DROP TRIGGER IF EXISTS fku_itemSeeAlso_libraryID;
-CREATE TRIGGER fku_itemSeeAlso_libraryID
-  BEFORE UPDATE ON itemSeeAlso
-  FOR EACH ROW BEGIN
-    SELECT RAISE(ABORT, 'update on table "itemSeeAlso" violates foreign key constraint "fku_itemSeeAlso_libraryID"')
-    WHERE (SELECT libraryID FROM items WHERE itemID = NEW.itemID) != (SELECT libraryID FROM items WHERE itemID = NEW.linkedItemID);---
-  END;
-
-
-
--- itemTags libraryID
-DROP TRIGGER IF EXISTS fki_itemTags_libraryID;
-CREATE TRIGGER fki_itemTags_libraryID
-  BEFORE INSERT ON itemTags
-  FOR EACH ROW BEGIN
-    SELECT RAISE(ABORT, 'insert on table "itemTags" violates foreign key constraint "fki_itemTags_libraryID"')
-    WHERE (SELECT libraryID FROM tags WHERE tagID = NEW.tagID) != (SELECT libraryID FROM items WHERE itemID = NEW.itemID);---
-  END;
-
-DROP TRIGGER IF EXISTS fku_itemTags_libraryID;
-CREATE TRIGGER fku_itemTags_libraryID
-  BEFORE UPDATE ON itemTags
-  FOR EACH ROW BEGIN
-    SELECT RAISE(ABORT, 'update on table "itemTags" violates foreign key constraint "fku_itemTags_libraryID"')
-    WHERE (SELECT libraryID FROM tags WHERE tagID = NEW.tagID) != (SELECT libraryID FROM items WHERE itemID = NEW.itemID);---
-  END;
-
-
 -- Make sure tags aren't empty
 DROP TRIGGER IF EXISTS fki_tags;
 CREATE TRIGGER fki_tags

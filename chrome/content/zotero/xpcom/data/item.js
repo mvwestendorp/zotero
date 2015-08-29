@@ -68,7 +68,6 @@ Zotero.Item = function(itemTypeOrID) {
 	
 	this._tags = [];
 	this._collections = [];
-	this._relations = [];
 	
 	this._bestAttachmentState = null;
 	this._fileExists = null;
@@ -77,8 +76,6 @@ Zotero.Item = function(itemTypeOrID) {
 	this._hasNote = null;
 	
 	this._noteAccessTime = null;
-	
-	this._relatedItems = false;
 	
 	this.multi = new Zotero.MultiField(this);
 	
@@ -161,8 +158,7 @@ Zotero.defineProperty(Zotero.Item.prototype, 'sortCreator', {
 	get: function() this._sortCreator
 });
 Zotero.defineProperty(Zotero.Item.prototype, 'relatedItems', {
-	get: function() this._getRelatedItems(true),
-	set: function(arr) this._setRelatedItems(arr)
+	get: function() this._getRelatedItems()
 });
 
 Zotero.Item.prototype.getID = function() {
@@ -277,11 +273,12 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 	// Zotero.Items.cacheFields()) or item data has to be loaded
 	if (this._identified && value === null && !this._loaded.itemData) {
 		throw new Zotero.Exception.UnloadedDataException(
-			"Item data not loaded and field '" + field + "' not set", "itemData"
+			"Item data not loaded and field '" + field + "' not set for item " +  this.libraryKey,
+			"itemData"
 		);
 	}
 	
-	value = value ? value : '';
+	value = (value !== null && value !== false) ? value : '';
 	
 	if (!unformatted) {
 		// Multipart date fields
@@ -364,22 +361,25 @@ Zotero.Item.prototype._parseRowData = function(row) {
 	for (let i=0; i<primaryFields.length; i++) {
 		let col = primaryFields[i];
 		
-		if (row[col] === undefined) {
+		try {
+			var val = row[col];
+		}
+		catch (e) {
 			Zotero.debug('Skipping missing field ' + col);
 			continue;
 		}
 		
-		let val = row[col];
-		
 		//Zotero.debug("Setting field '" + col + "' to '" + val + "' for item " + this.id);
 		
 		switch (col) {
+			// Skip
+			case 'libraryID':
+			case 'itemTypeID':
+				break;
+			
 			// Unchanged
 			case 'itemID':
 				col = 'id';
-				break;
-				
-			case 'libraryID':
 				break;
 			
 			// Integer or 0
@@ -405,6 +405,13 @@ Zotero.Item.prototype._parseRowData = function(row) {
 			
 			case 'attachmentLinkMode':
 				val = val !== null ? parseInt(val) : false;
+				break;
+			
+			case 'attachmentPath':
+				// Ignore .zotero* files that were relinked before we started blocking them
+				if (!val || val.startsWith('.zotero')) {
+					val = '';
+				}
 				break;
 			
 			// Boolean
@@ -738,6 +745,10 @@ Zotero.Item.prototype.getFieldsNotInType = function (itemTypeID, allowBaseConver
 Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTop) {
 	this._disabledCheck();
 	
+	if (value === undefined) {
+		throw new Error(`'${field}' value cannot be undefined`);
+	}
+	
 	if (typeof value == 'string') {
 		value = value.trim().normalize();
 	}
@@ -772,15 +783,15 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 				
 				value = Zotero.Date.dateToSQL(date, true);
 				break;
-
+			
 			case 'version':
 				value = parseInt(value);
 				break;
-
+			
 			case 'synced':
 				value = !!value;
 				break;
-				
+			
 			default:
 				throw new Error('Primary field ' + field + ' cannot be changed in Zotero.Item.setField()');
 			
@@ -793,27 +804,27 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 		*/
 		
 		// If field value has changed
-		if (this['_' + field] != value) {
-			Zotero.debug("Field '" + field + "' has changed from '" + this['_' + field] + "' to '" + value + "'", 4);
-			
-			// Save a copy of the field before modifying
-			this._markFieldChange(field, this['_' + field]);
-			
-			if (field == 'itemTypeID') {
-				this.setType(value, loadIn);
-			}
-			else {
-				
-				this['_' + field] = value;
-				
-				if (!this._changed.primaryData) {
-					this._changed.primaryData = {};
-				}
-				this._changed.primaryData[field] = true;
-			}
+		if (this['_' + field] === value && field != 'synced') {
+			Zotero.debug("Field '" + field + "' has not changed", 4);
+			return false;
+		}
+		
+		Zotero.debug("Field '" + field + "' has changed from '" + this['_' + field] + "' to '" + value + "'", 4);
+		
+		// Save a copy of the field before modifying
+		this._markFieldChange(field, this['_' + field]);
+		
+		if (field == 'itemTypeID') {
+			this.setType(value, loadIn);
 		}
 		else {
-			Zotero.debug("Field '" + field + "' has not changed", 4);
+			
+			this['_' + field] = value;
+			
+			if (!this._changed.primaryData) {
+				this._changed.primaryData = {};
+			}
+			this._changed.primaryData[field] = true;
 		}
 		return true;
 	}
@@ -1310,66 +1321,41 @@ for (let name of ['deleted']) {
 }
 
 
-Zotero.Item.prototype.addRelatedItem = Zotero.Promise.coroutine(function* (itemID) {
-	var parsedInt = parseInt(itemID);
-	if (parsedInt != itemID) {
-		throw ("itemID '" + itemID + "' not an integer in Zotero.Item.addRelatedItem()");
+/**
+ * @param {Zotero.Item}
+ * @return {Boolean}
+ */
+Zotero.Item.prototype.addRelatedItem = function (item) {
+	if (!(item instanceof Zotero.Item)) {
+		throw new Error("'item' must be a Zotero.Item");
 	}
-	itemID = parsedInt;
 	
-	if (itemID == this.id) {
+	if (item == this) {
 		Zotero.debug("Can't relate item to itself in Zotero.Item.addRelatedItem()", 2);
 		return false;
 	}
 	
-	var current = this._getRelatedItems(true);
-	if (current.indexOf(itemID) != -1) {
-		Zotero.debug("Item " + this.id + " already related to item "
-			+ itemID + " in Zotero.Item.addItem()");
-		return false;
+	if (!this.libraryID) {
+		this.libraryID = Zotero.Libraries.userLibraryID;
 	}
 	
-	var item = yield this.ObjectsClass.getAsync(itemID);
-	if (!item) {
-		throw ("Can't relate item to invalid item " + itemID
-			+ " in Zotero.Item.addRelatedItem()");
+	if (item.libraryID != this.libraryID) {
+		throw new Error("Cannot relate item to an item in a different library");
 	}
-	/*
-	var otherCurrent = item.relatedItems;
-	if (otherCurrent.length && otherCurrent.indexOf(this.id) != -1) {
-		Zotero.debug("Other item " + itemID + " already related to item "
-			+ this.id + " in Zotero.Item.addItem()");
-		return false;
-	}
-	*/
 	
-	this._markFieldChange('related', current);
-	this._changed.relatedItems = true;
-	this._relatedItems.push(item);
-	return true;
-});
+	return this.addRelation(Zotero.Relations.relatedItemPredicate, Zotero.URI.getItemURI(item));
+}
 
 
-Zotero.Item.prototype.removeRelatedItem = Zotero.Promise.coroutine(function* (itemID) {
-	var parsedInt = parseInt(itemID);
-	if (parsedInt != itemID) {
-		throw ("itemID '" + itemID + "' not an integer in Zotero.Item.removeRelatedItem()");
-	}
-	itemID = parsedInt;
-	
-	var current = this._getRelatedItems(true);
-	var index = current.indexOf(itemID);
-	
-	if (index == -1) {
-		Zotero.debug("Item " + this.id + " isn't related to item "
-			+ itemID + " in Zotero.Item.removeRelatedItem()");
-		return false;
+/**
+ * @param {Zotero.Item}
+ */
+Zotero.Item.prototype.removeRelatedItem = Zotero.Promise.coroutine(function* (item) {
+	if (!(item instanceof Zotero.Item)) {
+		throw new Error("'item' must be a Zotero.Item");
 	}
 	
-	this._markFieldChange('related', current);
-	this._changed.relatedItems = true;
-	this._relatedItems.splice(index, 1);
-	return true;
+	return this.removeRelation(Zotero.Relations.relatedItemPredicate, Zotero.URI.getItemURI(item));
 });
 
 
@@ -1389,6 +1375,13 @@ Zotero.Item.prototype.isEditable = function() {
 	return true;
 }
 
+Zotero.Item.prototype._initSave = Zotero.Promise.coroutine(function* (env) {
+	if (!this.itemTypeID) {
+		throw new Error("Item type must be set before saving");
+	}
+	return Zotero.Item._super.prototype._initSave.apply(this, arguments);
+})
+
 Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	Zotero.DB.requireTransaction();
 
@@ -1397,9 +1390,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	var libraryType = env.libraryType = Zotero.Libraries.getType(env.libraryID);
 	
 	var itemTypeID = this.itemTypeID;
-	if (!itemTypeID) {
-		throw new Error("Item type must be set before saving");
-	}
 	
 	var reloadParentChildItems = {};
 	
@@ -1803,13 +1793,16 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		}
 		else {
 			// If undeleting, remove any merge-tracking relations
-			var relations = yield Zotero.Relations.getByURIs(
-				Zotero.URI.getItemURI(this),
-				Zotero.Relations.deletedItemPredicate,
-				false
+			let predicate = Zotero.Relations.replacedItemPredicate;
+			let thisURI = Zotero.URI.getItemURI(this);
+			let mergeItems = yield Zotero.Relations.getByPredicateAndObject(
+				'item', predicate, thisURI
 			);
-			for each(let relation in relations) {
-				relation.erase();
+			for (let mergeItem of mergeItems) {
+				mergeItem.removeRelation(predicate, thisURI);
+				yield mergeItem.save({
+					skipDateModifiedUpdate: true
+				});
 			}
 			
 			sql = "DELETE FROM deletedItems WHERE itemID=?";
@@ -1881,7 +1874,9 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 			+ "contentType, charsetID, path, syncState) VALUES (?,?,?,?,?,?,?)";
 		let linkMode = this.attachmentLinkMode;
 		let contentType = this.attachmentContentType;
-		let charsetID = yield Zotero.CharacterSets.add(this.attachmentCharset);
+		let charsetID = this.attachmentCharset
+			? Zotero.CharacterSets.getID(this.attachmentCharset)
+			: null;
 		let path = this.attachmentPath;
 		let syncState = this.attachmentSyncState;
 		
@@ -1926,30 +1921,40 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		let newTags = this._tags;
 		
 		// Convert to individual JSON objects, diff, and convert back
-		let oldTagsJSON = oldTags.map(function (x) JSON.stringify(x));
-		let newTagsJSON = newTags.map(function (x) JSON.stringify(x));
-		let toAdd = Zotero.Utilities.arrayDiff(newTagsJSON, oldTagsJSON)
-			.map(function (x) JSON.parse(x));
-		let toRemove = Zotero.Utilities.arrayDiff(oldTagsJSON, newTagsJSON)
-			.map(function (x) JSON.parse(x));;
+		let oldTagsJSON = oldTags.map(x => JSON.stringify(x));
+		let newTagsJSON = newTags.map(x => JSON.stringify(x));
+		let toAdd = Zotero.Utilities.arrayDiff(newTagsJSON, oldTagsJSON).map(x => JSON.parse(x));
+		let toRemove = Zotero.Utilities.arrayDiff(oldTagsJSON, newTagsJSON).map(x => JSON.parse(x));
 		
 		for (let i=0; i<toAdd.length; i++) {
 			let tag = toAdd[i];
-			let tagID = yield Zotero.Tags.getIDFromName(this.libraryID, tag.tag, true);
+			let tagID = yield Zotero.Tags.getID(tag.tag, true);
+			let tagType = tag.type ? tag.type : 0;
 			// "OR REPLACE" allows changing type
 			let sql = "INSERT OR REPLACE INTO itemTags (itemID, tagID, type) VALUES (?, ?, ?)";
-			yield Zotero.DB.queryAsync(sql, [this.id, tagID, tag.type ? tag.type : 0]);
-			Zotero.Notifier.queue('add', 'item-tag', this.id + '-' + tag.tag);
+			yield Zotero.DB.queryAsync(sql, [this.id, tagID, tagType]);
+			
+			let notifierData = {};
+			notifierData[this.id + '-' + tagID] = {
+				libraryID: this.libraryID,
+				tag: tag.tag,
+				type: tagType
+			};
+			Zotero.Notifier.queue('add', 'item-tag', this.id + '-' + tagID, notifierData);
 		}
 		
 		if (toRemove.length) {
-			yield Zotero.Tags.load(this.libraryID);
 			for (let i=0; i<toRemove.length; i++) {
 				let tag = toRemove[i];
-				let tagID = Zotero.Tags.getID(this.libraryID, tag.tag);
+				let tagID = yield Zotero.Tags.getID(tag.tag);
 				let sql = "DELETE FROM itemTags WHERE itemID=? AND tagID=? AND type=?";
 				yield Zotero.DB.queryAsync(sql, [this.id, tagID, tag.type ? tag.type : 0]);
-				Zotero.Notifier.queue('remove', 'item-tag', this.id + '-' + tag.tag);
+				let notifierData = {};
+				notifierData[this.id + '-' + tagID] = {
+					libraryID: this.libraryID,
+					tag: tag.tag
+				};
+				Zotero.Notifier.queue('remove', 'item-tag', this.id + '-' + tagID, notifierData);
 			}
 			Zotero.Prefs.set('purge.tags', true);
 		}
@@ -2009,72 +2014,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 				}
 			}.bind(this));
 		}
-	}
-	
-	// Related items
-	if (this._changed.relatedItems) {
-		var removed = [];
-		var newids = [];
-		var currentIDs = this._getRelatedItems(true);
-		
-		for each(var id in currentIDs) {
-			newids.push(id);
-		}
-		
-		if (newids.length) {
-			var sql = "REPLACE INTO itemSeeAlso (itemID, linkedItemID) VALUES (?,?)";
-			var replaceStatement = Zotero.DB.getAsyncStatement(sql);
-			
-			for each(var linkedItemID in newids) {
-				replaceStatement.bindInt32Parameter(0, itemID);
-				replaceStatement.bindInt32Parameter(1, linkedItemID);
-				
-				yield Zotero.DB.executeAsyncStatement(replaceStatement);
-			}
-		}
-		
-		Zotero.Notifier.trigger('modify', 'item', removed.concat(newids));
-	}
-	
-	// Related items
-	if (this._changed.relatedItems) {
-		var removed = [];
-		var newids = [];
-		var currentIDs = this._getRelatedItems(true);
-		
-		for each(var id in this._previousData.related) {
-			if (currentIDs.indexOf(id) == -1) {
-				removed.push(id);
-			}
-		}
-		for each(var id in currentIDs) {
-			if (this._previousData.related.indexOf(id) != -1) {
-				continue;
-			}
-			newids.push(id);
-		}
-		
-		if (removed.length) {
-			var sql = "DELETE FROM itemSeeAlso WHERE itemID=? "
-				+ "AND linkedItemID IN ("
-				+ removed.map(function () '?').join()
-				+ ")";
-			yield Zotero.DB.queryAsync(sql, [this.id].concat(removed));
-		}
-		
-		if (newids.length) {
-			var sql = "INSERT INTO itemSeeAlso (itemID, linkedItemID) VALUES (?,?)";
-			var insertStatement = Zotero.DB.getAsyncStatement(sql);
-			
-			for each(var linkedItemID in newids) {
-				insertStatement.bindInt32Parameter(0, this.id);
-				insertStatement.bindInt32Parameter(1, linkedItemID);
-				
-				yield Zotero.DB.executeAsyncStatement(insertStatement);
-			}
-		}
-		
-		Zotero.Notifier.queue('modify', 'item', removed.concat(newids));
 	}
 	
 	// Update child item counts and contents
@@ -2724,6 +2663,11 @@ Zotero.Item.prototype.getFilePathAsync = Zotero.Promise.coroutine(function* (ski
 			if (Zotero.isWin || path.indexOf('/') != -1) {
 				path = Zotero.File.getValidFileName(path, true);
 			}
+			// Ignore .zotero* files that were relinked before we started blocking them
+			if (path.startsWith(".zotero")) {
+				Zotero.debug("Ignoring attachment file " + path, 2);
+				return false;
+			}
 			var file = Zotero.Attachments.getStorageDirectory(this);
 			file.QueryInterface(Components.interfaces.nsILocalFile);
 			file.setRelativeDescriptor(file, path);
@@ -2827,8 +2771,8 @@ Zotero.Item.prototype._updateAttachmentStates = function (exists) {
 	// standalone attachment was modified locally and remotely was changed
 	// into a child attachment
 	catch (e) {
-		Zotero.debug("Attachment parent doesn't exist for source key "
-			+ "in Zotero.Item.updateAttachmentStates()", 1);
+		Zotero.logError("Attachment parent doesn't exist for source key "
+			+ "in Zotero.Item.updateAttachmentStates()");
 		return;
 	}
 	
@@ -2837,10 +2781,14 @@ Zotero.Item.prototype._updateAttachmentStates = function (exists) {
 	}
 	catch (e) {
 		if (e instanceof Zotero.Exception.UnloadedDataException) {
-			Zotero.debug("Attachment parent not yet loaded in Zotero.Item.updateAttachmentStates()", 2);
+			Zotero.logError("Attachment parent not yet loaded in Zotero.Item.updateAttachmentStates()");
 			return;
 		}
 		throw e;
+	}
+	if (!item) {
+		Zotero.logError("Attachment parent doesn't exist");
+		return;
 	}
 	item.clearBestAttachmentState();
 };
@@ -2904,7 +2852,7 @@ Zotero.Item.prototype.fileExistsCached = function () {
  * false		Attachment file not found
  */
 Zotero.Item.prototype.renameAttachmentFile = Zotero.Promise.coroutine(function* (newName, overwrite) {
-	var origPath = yield this.getFilePath();
+	var origPath = yield this.getFilePathAsync();
 	if (!origPath) {
 		Zotero.debug("Attachment file not found in renameAttachmentFile()", 2);
 		return false;
@@ -2912,19 +2860,18 @@ Zotero.Item.prototype.renameAttachmentFile = Zotero.Promise.coroutine(function* 
 	
 	try {
 		var origName = OS.Path.basename(origPath);
-		var origModDate = yield OS.File.stat(origPath).lastModificationDate;
+		var origModDate = (yield OS.File.stat(origPath)).lastModificationDate;
 		
 		newName = Zotero.File.getValidFileName(newName);
 		
-		var destPath = OS.Path.join(OS.Path.dirname(origPath), newName);
-		var destName = OS.Path.basename(destPath);
-		
 		// Ignore if no change
-		//
-		// Note: Just comparing origName to newName isn't reliable
-		if (origFileName === destName) {
+		if (origName === newName) {
+			Zotero.debug("Filename has not changed");
 			return true;
 		}
+		
+		var destPath = OS.Path.join(OS.Path.dirname(origPath), newName);
+		var destName = OS.Path.basename(destPath);
 		
 		// Update mod time and clear hash so the file syncs
 		// TODO: use an integer counter instead of mod time for change detection
@@ -2945,8 +2892,8 @@ Zotero.Item.prototype.renameAttachmentFile = Zotero.Promise.coroutine(function* 
 		yield this.relinkAttachmentFile(destPath);
 		
 		yield Zotero.DB.executeTransaction(function* () {
-			Zotero.Sync.Storage.setSyncedHash(this.id, null, false);
-			Zotero.Sync.Storage.setSyncState(this.id, Zotero.Sync.Storage.SYNC_STATE_TO_UPLOAD);
+			yield Zotero.Sync.Storage.setSyncedHash(this.id, null, false);
+			yield Zotero.Sync.Storage.setSyncState(this.id, Zotero.Sync.Storage.SYNC_STATE_TO_UPLOAD);
 		}.bind(this));
 		
 		return true;
@@ -2986,26 +2933,56 @@ Zotero.Item.prototype.relinkAttachmentFile = Zotero.Promise.coroutine(function* 
 	}
 	
 	var fileName = OS.Path.basename(path);
-	
+	if (fileName.endsWith(".lnk")) {
+		throw new Error("Cannot relink to Windows shortcut");
+	}
 	var newName = Zotero.File.getValidFileName(fileName);
 	if (!newName) {
 		throw new Error("No valid characters in filename after filtering");
 	}
 	
-	// Rename file to filtered name if necessary
-	if (fileName != newName) {
-		Zotero.debug("Renaming file '" + fileName + "' to '" + newName + "'");
-		OS.File.move(path, OS.Path.join(OS.Path.dirname(path), newName), { noOverwrite: true });
+	var newPath = OS.Path.join(OS.Path.dirname(path), newName);
+	
+	try {
+		// If selected file isn't in the attachment's storage directory,
+		// copy it in and use that one instead
+		var storageDir = Zotero.Attachments.getStorageDirectory(this).path;
+		if (this.isImportedAttachment() && OS.Path.dirname(path) != storageDir) {
+			// If file with same name already exists in the storage directory,
+			// move it out of the way
+			let deleteBackup = false;;
+			if (yield OS.File.exists(newPath)) {
+				deleteBackup = true;
+				yield OS.File.move(newPath, newPath + ".bak");
+			}
+			
+			let newFile = Zotero.File.copyToUnique(path, newPath);
+			newPath = newFile.path;
+			
+			// Delete backup file
+			if (deleteBackup) {
+				yield OS.File.remove(newPath + ".bak");
+			}
+		}
+		// Rename file to filtered name if necessary
+		else if (fileName != newName) {
+			Zotero.debug("Renaming file '" + fileName + "' to '" + newName + "'");
+			OS.File.move(path, newPath, { noOverwrite: true });
+		}
+	}
+	catch (e) {
+		Zotero.logError(e);
+		return false;
 	}
 	
-	this.attachmentPath = Zotero.Attachments.getPath(file, linkMode);
+	this.attachmentPath = Zotero.Attachments.getPath(Zotero.File.pathToFile(newPath), linkMode);
 	
-	yield this.save({
+	yield this.saveTx({
 		skipDateModifiedUpdate: true,
 		skipClientDateModifiedUpdate: skipItemUpdate
 	});
 	
-	return false;
+	return true;
 });
 
 
@@ -3150,12 +3127,13 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentCharset', {
 		}
 		
 		if (typeof val == 'number') {
-			oldVal = Zotero.CharacterSets.getID(this.attachmentCharset);
+			throw new Error("Character set must be a string");
 		}
-		else {
-			oldVal = this.attachmentCharset;
-		}
+		oldVal = this.attachmentCharset;
 		
+		if (val) {
+			val = Zotero.CharacterSets.toCanonical(val);
+		}
 		if (!val) {
 			val = "";
 		}
@@ -3318,7 +3296,7 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentSyncState', {
  */
 Zotero.defineProperty(Zotero.Item.prototype, 'attachmentModificationTime', {
 	get: Zotero.Promise.coroutine(function* () {
-		if (!this.isAttachment()) {
+		if (!this.isFileAttachment()) {
 			return undefined;
 		}
 		
@@ -3331,7 +3309,7 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentModificationTime', {
 			return undefined;
 		}
 		
-		var fmtime = OS.File.stat(path).lastModificationDate;
+		var fmtime = ((yield OS.File.stat(path)).lastModificationDate).getTime();
 		
 		if (fmtime < 1) {
 			Zotero.debug("File mod time " + fmtime + " is less than 1 -- interpreting as 1", 2);
@@ -3793,9 +3771,16 @@ Zotero.Item.prototype.setCollections = function (collectionIDsOrKeys) {
 	
 	// Convert any keys to ids
 	var collectionIDs = collectionIDsOrKeys.map(function (val) {
-		return parseInt(val) == val
-			? parseInt(val)
-			: this.ContainerObjectsClass.getIDFromLibraryAndKey(this.libraryID, val);
+		if (parseInt(val) == val) {
+			return parseInt(val);
+		}
+		var id = this.ContainerObjectsClass.getIDFromLibraryAndKey(this.libraryID, val);
+		if (!id) {
+			let e = new Error("Collection " + val + " not found for item " + this.libraryKey);
+			e.name = "ZoteroObjectNotFoundError";
+			throw e;
+		}
+		return id;
 	}.bind(this));
 	collectionIDs = Zotero.Utilities.arrayUnique(collectionIDs);
 	
@@ -3881,46 +3866,6 @@ Zotero.Item.prototype.inCollection = function (collectionID) {
 };
 
 
-//
-// Methods dealing with relations
-//
-
-
-
-/**
- * Return an item in the specified library equivalent to this item
- *
- * @return {Promise}
- */
-Zotero.Item.prototype.getLinkedItem = function (libraryID) {
-	return this._getLinkedObject(libraryID);
-}
-
-
-Zotero.Item.prototype.addLinkedItem = Zotero.Promise.coroutine(function* (item) {
-	var url1 = Zotero.URI.getItemURI(this);
-	var url2 = Zotero.URI.getItemURI(item);
-	var predicate = Zotero.Relations.linkedObjectPredicate;
-	if ((yield Zotero.Relations.getByURIs(url1, predicate, url2)).length
-			|| (yield Zotero.Relations.getByURIs(url2, predicate, url1)).length) {
-		Zotero.debug("Items " + this.key + " and " + item.key + " are already linked");
-		return false;
-	}
-	
-	// If one of the items is a personal library, store relation with that.
-	// Otherwise, use current item's library (which in calling code is the
-	// new, copied item).
-	var userLibraryID = Zotero.Libraries.userLibraryID;
-	var libraryID = (this.libraryID == userLibraryID || item.libraryID == userLibraryID)
-		? userLibraryID
-		: this.libraryID;
-	
-	yield Zotero.Relations.add(libraryID, url1, predicate, url2);
-});
-
-
-
-
 Zotero.Item.prototype.getImageSrc = function() {
 	var itemType = Zotero.ItemTypes.getName(this.itemTypeID);
 	if (itemType == 'attachment') {
@@ -3967,8 +3912,9 @@ Zotero.Item.prototype.getImageSrcWithTags = Zotero.Promise.coroutine(function* (
 	var colorData = [];
 	for (let i=0; i<tags.length; i++) {
 		let tag = tags[i];
-		if (tagColors[tag.tag]) {
-			colorData.push(tagColors[tag.tag]);
+		let data = tagColors.get(tag.tag);
+		if (data) {
+			colorData.push(data);
 		}
 	}
 	if (!colorData.length) {
@@ -4262,19 +4208,6 @@ Zotero.Item.prototype.copy = Zotero.Promise.coroutine(function* () {
 });;
 
 
-Zotero.Item.prototype._eraseInit = Zotero.Promise.coroutine(function* (env) {
-	var proceed = yield Zotero.Item._super.prototype._eraseInit.apply(this, arguments);
-	if (!proceed) return false;
-	
-	env.deletedItemNotifierData = {};
-	env.deletedItemNotifierData[this.id] = {
-		libraryID: this.libraryID,
-		key: this.key
-	};
-	
-	return true;
-});
-
 Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 	Zotero.DB.requireTransaction();
 	
@@ -4288,7 +4221,9 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 	}
 	
 	var parentItem = this.parentKey;
-	parentItem = parentItem ? this.ObjectsClass.getByLibraryAndKey(this.libraryID, parentItem) : null;
+	parentItem = parentItem
+		? (yield this.ObjectsClass.getByLibraryAndKeyAsync(this.libraryID, parentItem))
+		: null;
 	
 	// // Delete associated attachment files
 	if (this.isAttachment()) {
@@ -4315,16 +4250,16 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 		let toDelete = yield Zotero.DB.columnQueryAsync(sql, [this.id]);
 		for (let i=0; i<toDelete.length; i++) {
 			let obj = yield this.ObjectsClass.getAsync(toDelete[i]);
-			yield obj.erase();
+			// Copy all options other than 'tx', which would cause a deadlock
+			let options = {};
+			Object.assign(options, env.options);
+			delete options.tx;
+			yield obj.erase(options);
 		}
 	}
 	
 	// Flag related items for notification
 	// TEMP: Do something with relations
-	/*var relateds = this._getRelatedItems(true);
-	for each(var id in relateds) {
-		let relatedItem = Zotero.Items.get(id);
-	}*/
 	
 	// Clear fulltext cache
 	if (this.isAttachment()) {
@@ -4332,25 +4267,11 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 		//Zotero.Fulltext.clearItemContent(this.id);
 	}
 	
-	// Remove relations (except for merge tracker)
-	var uri = Zotero.URI.getItemURI(this);
-	yield Zotero.Relations.eraseByURI(uri, [Zotero.Relations.deletedItemPredicate]);
-	
-	env.parentItem = parentItem;
-});
-
-Zotero.Item.prototype._erasePreCommit = Zotero.Promise.coroutine(function* (env) {
 	yield Zotero.DB.queryAsync('DELETE FROM items WHERE itemID=?', this.id);
 	
-	if (env.parentItem) {
-		yield env.parentItem.reload(['primaryData', 'childItems'], true);
-		env.parentItem.clearBestAttachmentState();
-	}
-	
-	this.ObjectsClass.unload(this.id);
-	
-	if (!env.skipNotifier) {
-		Zotero.Notifier.queue('delete', 'item', this.id, env.deletedItemNotifierData);
+	if (parentItem) {
+		yield parentItem.reload(['primaryData', 'childItems'], true);
+		parentItem.clearBestAttachmentState();
 	}
 	
 	Zotero.Prefs.set('purge.items', true);
@@ -4369,7 +4290,12 @@ Zotero.Item.prototype.fromJSON = Zotero.Promise.coroutine(function* (json) {
 		yield this.loadAllData();
 	}
 	
-	this.setType(Zotero.ItemTypes.getID(json.itemType));
+	if (!json.itemType && !this._itemTypeID) {
+		throw new Error("itemType property not provided");
+	}
+	
+	let itemTypeID = Zotero.ItemTypes.getID(json.itemType);
+	this.setType(itemTypeID);
 	
 	var isValidForType = {};
 	var setFields = {};
@@ -4381,6 +4307,7 @@ Zotero.Item.prototype.fromJSON = Zotero.Promise.coroutine(function* (json) {
 		switch (field) {
 		case 'key':
 		case 'version':
+		case 'synced':
 		case 'itemType':
 		case 'note':
 		// Use?
@@ -4388,9 +4315,24 @@ Zotero.Item.prototype.fromJSON = Zotero.Promise.coroutine(function* (json) {
 		case 'mtime':
 			break;
 		
+		case 'accessDate':
 		case 'dateAdded':
 		case 'dateModified':
-			this[field] = Zotero.Date.dateToSQL(Zotero.Date.isoToDate(val), true);
+			if (val) {
+				let d = Zotero.Date.isoToDate(val);
+				if (!d) {
+					Zotero.logError("Discarding invalid " + field + " '" + val
+						+ "' for item " + this.libraryKey);
+					continue;
+				}
+				val = Zotero.Date.dateToSQL(d, true);
+			}
+			if (field == 'accessDate') {
+				this.setField(field, val);
+			}
+			else {
+				this[field] = val;
+			}
 			break;
 		
 		case 'parentItem':
@@ -4434,7 +4376,7 @@ Zotero.Item.prototype.fromJSON = Zotero.Promise.coroutine(function* (json) {
 		
 		case 'filename':
 			if (val === "") {
-				Zotero.logError("Ignoring empty attachment filename in item JSON");
+				Zotero.logError("Ignoring empty attachment filename in JSON for item " + this.libraryKey);
 			}
 			else {
 				this.attachmentFilename = val;
@@ -4447,11 +4389,13 @@ Zotero.Item.prototype.fromJSON = Zotero.Promise.coroutine(function* (json) {
 		
 		// Item fields
 		default:
+			let fieldID = Zotero.ItemFields.getID(field);
 			isValidForType[field] = Zotero.ItemFields.isValidForType(
-				Zotero.ItemFields.getID(field), this.itemTypeID
+				Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID) || fieldID,
+				this.itemTypeID
 			);
 			if (!isValidForType[field]) {
-				Zotero.logError("Discarding unknown JSON field " + field);
+				Zotero.logError("Discarding unknown JSON field " + field + " for item " + this.libraryKey);
 				continue;
 			}
 			this.setField(field, json[field]);
@@ -4482,32 +4426,11 @@ Zotero.Item.prototype.fromJSON = Zotero.Promise.coroutine(function* (json) {
 /**
  * @param {Object} options
  */
-Zotero.Item.prototype.toJSON = Zotero.Promise.coroutine(function* (options) {
-	options = options || {};
+Zotero.Item.prototype.toJSON = Zotero.Promise.coroutine(function* (options = {}) {
+	var env = this._preToJSON(options);
+	var mode = env.mode;
 	
-	if (options) {
-		var mode = options.mode;
-	}
-	else {
-		var mode = 'new';
-	}
-	
-	if (mode == 'patch') {
-		if (!options.patchBase) {
-			throw new Error("Cannot use patch mode if patchBase not provided");
-		}
-	}
-	else if (options.patchBase) {
-		if (options.mode) {
-			Zotero.debug("Zotero.Item.toJSON: ignoring provided patchBase in " + mode + " mode", 2);
-		}
-		// If patchBase provided and no explicit mode, use 'patch'
-		else {
-			mode = 'patch';
-		}
-	}
-	
-	var obj = {};
+	var obj = env.obj = {};
 	obj.key = this.key;
 	obj.version = this.version;
 	obj.itemType = Zotero.ItemTypes.getName(this.itemTypeID);
@@ -4534,20 +4457,30 @@ Zotero.Item.prototype.toJSON = Zotero.Promise.coroutine(function* (options) {
 		
 		// Attachment fields
 		if (this.isAttachment()) {
-			obj.linkMode = this.attachmentLinkMode;
+			let linkMode = this.attachmentLinkMode;
+			obj.linkMode = Zotero.Attachments.linkModeToName(linkMode);
 			obj.contentType = this.attachmentContentType;
 			obj.charset = this.attachmentCharset;
-			obj.path = this.attachmentPath;
+			
+			if (linkMode == Zotero.Attachments.LINK_MODE_LINKED_FILE) {
+				obj.path = this.attachmentPath;
+			}
+			else {
+				obj.filename = this.attachmentFilename;
+			}
+			
+			if (this.isFileAttachment()) {
+				obj.md5 = this.attachmentHash;
+				obj.mtime = yield this.attachmentModificationTime;
+			}
 		}
 		
 		// Notes and embedded attachment notes
 		yield this.loadNote();
 		let note = this.getNote();
-		if (note !== "" || mode == 'full') {
+		if (note !== "" || mode == 'full' || (mode == 'new' && this.isNote())) {
 			obj.note = note;
 		}
-		
-		// TODO: md5, hash?
 	}
 	
 	// Tags
@@ -4568,29 +4501,7 @@ Zotero.Item.prototype.toJSON = Zotero.Promise.coroutine(function* (options) {
 	
 	// Relations
 	yield this.loadRelations();
-	obj.relations = {};
-	var rels = yield Zotero.Relations.getByURIs(Zotero.URI.getItemURI(this));
-	for each (let rel in rels) {
-		obj.relations[rel.predicate] = rel.object;
-	}
-	var relatedItems = this._getRelatedItems().map(function (key) {
-		return this.ObjectsClass.getIDFromLibraryAndKey(this.libraryID, key);
-	}.bind(this)).filter(function (val) val !== false);
-	relatedItems = this.ObjectsClass.get(relatedItems);
-	var pred = Zotero.Relations.relatedItemPredicate;
-	for (let i=0; i<relatedItems.length; i++) {
-		let item = relatedItems[i];
-		let uri = Zotero.URI.getItemURI(item);
-		if (obj.relations[pred]) {
-			if (typeof obj.relations[pred] == 'string') {
-				obj.relations[pred] = [uri];
-			}
-			obj.relations[pred].push(uri)
-		}
-		else {
-			obj.relations[pred] = uri;
-		}
-	}
+	obj.relations = this.getRelations()
 	
 	// Deleted
 	let deleted = this.deleted;
@@ -4602,39 +4513,12 @@ Zotero.Item.prototype.toJSON = Zotero.Promise.coroutine(function* (options) {
 	obj.dateModified = Zotero.Date.sqlToISO8601(this.dateModified);
 	if (obj.accessDate) obj.accessDate = Zotero.Date.sqlToISO8601(obj.accessDate);
 	
-	if (mode == 'patch') {
-		for (let i in options.patchBase) {
-			switch (i) {
-			case 'key':
-			case 'version':
-			case 'dateModified':
-				continue;
-			}
-			
-			if (i in obj) {
-				if (obj[i] === options.patchBase[i]) {
-					delete obj[i];
-				}
-			}
-			else {
-				obj[i] = '';
-			}
-		}
-	}
-	
-	return obj;
+	return this._postToJSON(env);
 });
 
 
-Zotero.Item.prototype.toResponseJSON = Zotero.Promise.coroutine(function* (options) {
-	var json = {
-		key: this.key,
-		version: this.version,
-		meta: {},
-		data: yield this.toJSON(options)
-	};
-	
-	// TODO: library block?
+Zotero.Item.prototype.toResponseJSON = Zotero.Promise.coroutine(function* (options = {}) {
+	var json = yield this.constructor._super.prototype.toResponseJSON.apply(this, options);
 	
 	// creatorSummary
 	var firstCreator = this.getField('firstCreator');
@@ -5157,41 +5041,25 @@ Zotero.Item.prototype.loadCollections = Zotero.Promise.coroutine(function* (relo
 });
 
 
-Zotero.Item.prototype.loadRelations = Zotero.Promise.coroutine(function* (reload) {
-	if (this._loaded.relations && !reload) {
-		return;
-	}
-	
-	Zotero.debug("Loading relations for item " + this.libraryKey);
-	
-	this._requireData('primaryData');
-	
-	var itemURI = Zotero.URI.getItemURI(this);
-	
-	var relations = yield Zotero.Relations.getByURIs(itemURI);
-	relations = relations.map(function (rel) [rel.predicate, rel.object]);
-	
-	// Related items are bidirectional, so include any with this item as the object
-	var reverseRelations = yield Zotero.Relations.getByURIs(
-		false, Zotero.Relations.relatedItemPredicate, itemURI
-	);
-	for (let i=0; i<reverseRelations.length; i++) {
-		let rel = reverseRelations[i];
-		relations.push([rel.predicate, rel.subject]);
-	}
-	
-	// Also include any owl:sameAs relations with this item as the object
-	reverseRelations = yield Zotero.Relations.getByURIs(
-		false, Zotero.Relations.linkedObjectPredicate, itemURI
-	);
-	for (let i=0; i<reverseRelations.length; i++) {
-		let rel = reverseRelations[i];
-		relations.push([rel.predicate, rel.subject]);
-	}
-	
-	this._relations = relations;
-	this._loaded.relations = true;
-	this._clearChanged('relations');
+/**
+ * Return an item in the specified library equivalent to this item
+ *
+ * @return {Promise<Zotero.Item>}
+ */
+Zotero.Item.prototype.getLinkedItem = function (libraryID, bidirectional) {
+	return this._getLinkedObject(libraryID, bidirectional);
+};
+
+
+/**
+ * Add a linked-object relation pointing to the given item
+ *
+ * Does not require a separate save()
+ *
+ * @return {Promise}
+ */
+Zotero.Item.prototype.addLinkedItem = Zotero.Promise.coroutine(function* (item) {
+	return this._addLinkedObject(item);
 });
 
 
@@ -5201,21 +5069,16 @@ Zotero.Item.prototype.loadRelations = Zotero.Promise.coroutine(function* (reload
 //
 //////////////////////////////////////////////////////////////////////////////
 /**
- * Returns related items this item point to
+ * Returns related items this item points to
  *
- * @return {String[]} - An array of item keys
+ * @return {String[]} - Keys of related items
  */
 Zotero.Item.prototype._getRelatedItems = function () {
 	this._requireData('relations');
 	
 	var predicate = Zotero.Relations.relatedItemPredicate;
 	
-	var relatedItemURIs = this.getRelations()[predicate];
-	if (!relatedItemURIs) {
-		return [];
-	}
-	
-	if (typeof relatedItemURIs == 'string') relatedItemURIs = [relatedItemURIs];
+	var relatedItemURIs = this.getRelationsByPredicate(predicate);
 	
 	// Pull out object values from related-item relations, turn into items, and pull out keys
 	var keys = [];
@@ -5227,83 +5090,6 @@ Zotero.Item.prototype._getRelatedItems = function () {
 	}
 	return keys;
 }
-
-
-
-Zotero.Item.prototype._setRelatedItems = Zotero.Promise.coroutine(function* (itemIDs) {
-	if (!this._loaded.relatedItems) {
-		yield this._loadRelatedItems();
-	}
-	
-	if (itemIDs.constructor.name != 'Array') {
-		throw ('ids must be an array in Zotero.Items._setRelatedItems()');
-	}
-	
-	var currentIDs = this._getRelatedItems(true);
-	var oldIDs = []; // children being kept
-	var newIDs = []; // new children
-	
-	if (itemIDs.length == 0) {
-		if (currentIDs.length == 0) {
-			Zotero.debug('No related items added', 4);
-			return false;
-		}
-	}
-	else {
-		for (var i in itemIDs) {
-			var id = itemIDs[i];
-			var parsedInt = parseInt(id);
-			if (parsedInt != id) {
-				throw ("itemID '" + id + "' not an integer in Zotero.Item.addRelatedItem()");
-			}
-			id = parsedInt;
-			
-			if (id == this.id) {
-				Zotero.debug("Can't relate item to itself in Zotero.Item._setRelatedItems()", 2);
-				continue;
-			}
-			
-			if (currentIDs.indexOf(id) != -1) {
-				Zotero.debug("Item " + this.id + " is already related to item " + id);
-				oldIDs.push(id);
-				continue;
-			}
-			
-			var item = yield this.ObjectsClass.getAsync(id);
-			if (!item) {
-				throw ("Can't relate item to invalid item " + id
-					+ " in Zotero.Item._setRelatedItems()");
-			}
-			/*
-			var otherCurrent = item.relatedItems;
-			if (otherCurrent.length && otherCurrent.indexOf(this.id) != -1) {
-				Zotero.debug("Other item " + id + " already related to item "
-					+ this.id + " in Zotero.Item._setRelatedItems()");
-				return false;
-			}
-			*/
-			
-			newIDs.push(id);
-		}
-	}
-	
-	// Mark as changed if new or removed ids
-	if (newIDs.length > 0 || oldIDs.length != currentIDs.length) {
-		this._markFieldChange('related', currentIDs);
-		this._changed.relatedItems = true
-	}
-	else {
-		Zotero.debug('Related items not changed in Zotero.Item._setRelatedItems()', 4);
-		return false;
-	}
-	
-	newIDs = oldIDs.concat(newIDs);
-	this._relatedItems = [];
-	for each(var itemID in newIDs) {
-		this._relatedItems.push(yield this.ObjectsClass.getAsync(itemID));
-	}
-	return true;
-});
 
 
 /**

@@ -499,7 +499,7 @@ Zotero.Sync.Storage = new function () {
 	 */
 	this.getSyncState = function (itemID) {
 		var sql = "SELECT syncState FROM itemAttachments WHERE itemID=?";
-		return Zotero.DB.valueQuery(sql, itemID);
+		return Zotero.DB.valueQueryAsync(sql, itemID);
 	}
 	
 	
@@ -507,7 +507,7 @@ Zotero.Sync.Storage = new function () {
 	 * @param	{Integer}		itemID
 	 * @param	{Integer}		syncState		Constant from Zotero.Sync.Storage
 	 */
-	this.setSyncState = function (itemID, syncState) {
+	this.setSyncState = Zotero.Promise.method(function (itemID, syncState) {
 		switch (syncState) {
 			case this.SYNC_STATE_TO_UPLOAD:
 			case this.SYNC_STATE_TO_DOWNLOAD:
@@ -517,13 +517,12 @@ Zotero.Sync.Storage = new function () {
 				break;
 			
 			default:
-				throw "Invalid sync state '" + syncState
-					+ "' in Zotero.Sync.Storage.setSyncState()"
+				throw new Error("Invalid sync state '" + syncState);
 		}
 		
 		var sql = "UPDATE itemAttachments SET syncState=? WHERE itemID=?";
-		return Zotero.DB.valueQuery(sql, [syncState, itemID]);
-	}
+		return Zotero.DB.valueQueryAsync(sql, [syncState, itemID]);
+	});
 	
 	
 	/**
@@ -572,18 +571,18 @@ Zotero.Sync.Storage = new function () {
 	
 	
 	/**
-	 * @param	{Integer}			itemID
-	 * @return	{String|NULL}					File hash, or NULL if never synced
+	 * @param {Integer} itemID
+	 * @return {Promise<String|null|false>} - File hash, null if never synced, if false if
+	 *     file doesn't exist
 	 */
-	this.getSyncedHash = function (itemID) {
+	this.getSyncedHash = Zotero.Promise.coroutine(function* (itemID) {
 		var sql = "SELECT storageHash FROM itemAttachments WHERE itemID=?";
-		var hash = Zotero.DB.valueQuery(sql, itemID);
+		var hash = yield Zotero.DB.valueQueryAsync(sql, itemID);
 		if (hash === false) {
-			throw "Item " + itemID + " not found in "
-				+ "Zotero.Sync.Storage.getSyncedHash()";
+			throw new Error("Item " + itemID + " not found");
 		}
 		return hash;
-	}
+	})
 	
 	
 	/**
@@ -592,24 +591,22 @@ Zotero.Sync.Storage = new function () {
 	 * @param	{Boolean}	[updateItem=FALSE]	Update dateModified field of
 	 *												attachment item
 	 */
-	this.setSyncedHash = function (itemID, hash, updateItem) {
+	this.setSyncedHash = Zotero.Promise.coroutine(function* (itemID, hash, updateItem) {
 		if (hash !== null && hash.length != 32) {
 			throw ("Invalid file hash '" + hash + "' in Zotero.Storage.setSyncedHash()");
 		}
 		
-		Zotero.DB.beginTransaction();
+		Zotero.DB.requireTransaction();
 		
 		var sql = "UPDATE itemAttachments SET storageHash=? WHERE itemID=?";
-		Zotero.DB.valueQuery(sql, [hash, itemID]);
+		yield Zotero.DB.queryAsync(sql, [hash, itemID]);
 		
 		if (updateItem) {
 			// Update item date modified so the new mod time will be synced
 			var sql = "UPDATE items SET clientDateModified=? WHERE itemID=?";
-			Zotero.DB.query(sql, [Zotero.DB.transactionDateTime, itemID]);
+			yield Zotero.DB.queryAsync(sql, [Zotero.DB.transactionDateTime, itemID]);
 		}
-		
-		Zotero.DB.commitTransaction();
-	}
+	});
 	
 	
 	/**
@@ -867,7 +864,8 @@ Zotero.Sync.Storage = new function () {
 								return;
 							}
 							
-							Zotero.debug("Marking attachment " + lk + " for download");
+							Zotero.debug("Marking attachment " + lk + " for download "
+								+ "(stored mtime: " + itemModTimes[item.id] + ")");
 							updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_FORCE_DOWNLOAD;
 						}
 						
@@ -939,7 +937,9 @@ Zotero.Sync.Storage = new function () {
 							// This can happen if a path is too long on Windows,
 							// e.g. a file is being accessed on a VM through a share
 							// (and probably in other cases).
-							|| (e.winLastError && e.winLastError == 3))) {
+							|| (e.winLastError && e.winLastError == 3)
+							// Handle long filenames on OS X/Linux
+							|| (e.unixErrno && e.unixErrno == 63))) {
 						Zotero.debug("Marking attachment " + lk + " as missing");
 						updatedStates[item.id] = Zotero.Sync.Storage.SYNC_STATE_TO_DOWNLOAD;
 						return;
@@ -1347,6 +1347,10 @@ Zotero.Sync.Storage = new function () {
 		var file = item.getFile(null, true);
 		if (!file) {
 			throw ("Empty path for item " + item.key + " in " + funcName);
+		}
+		// Don't save Windows aliases
+		if (file.leafName.endsWith('.lnk')) {
+			return false;
 		}
 		
 		var fileName = file.leafName;
@@ -1758,8 +1762,9 @@ Zotero.Sync.Storage = new function () {
 			params.push(Zotero.Sync.Storage.SYNC_STATE_TO_DOWNLOAD);
 		}
 		sql += ") "
-			// Skip attachments with empty path, which can't be saved
-			+ "AND path!=''";
+			// Skip attachments with empty path, which can't be saved, and files with .zotero*
+			// paths, which have somehow ended up in some users' libraries
+			+ "AND path!='' AND path NOT LIKE 'storage:.zotero%'";
 		var itemIDs = Zotero.DB.columnQuery(sql, params);
 		if (!itemIDs) {
 			return [];
@@ -1874,6 +1879,7 @@ Zotero.Sync.Storage = new function () {
 				);
 				
 				if (index == 0) {
+					// TODO: transaction
 					group.erase();
 					Zotero.Sync.Server.resetClient();
 					Zotero.Sync.Storage.resetAllSyncStates();

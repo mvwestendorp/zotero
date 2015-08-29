@@ -51,12 +51,6 @@ CREATE TABLE syncedSettings (
     FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE
 );
 
-CREATE TABLE charsets (
-    charsetID INTEGER PRIMARY KEY,
-    charset TEXT UNIQUE
-);
-CREATE INDEX charsets_charset ON charsets(charset);
-
 -- Primary data applicable to all items
 CREATE TABLE items (
     itemID INTEGER PRIMARY KEY,
@@ -123,10 +117,19 @@ CREATE INDEX itemAttachments_syncState ON itemAttachments(syncState);
 
 CREATE TABLE tags (
     tagID INTEGER PRIMARY KEY,
-    libraryID INT NOT NULL,
-    name TEXT NOT NULL,
-    UNIQUE (libraryID, name)
+    name TEXT NOT NULL UNIQUE
 );
+
+CREATE TABLE itemRelations (
+    itemID INT NOT NULL,
+    predicateID INT NOT NULL,
+    object TEXT NOT NULL,
+    PRIMARY KEY (itemID, predicateID, object),
+    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,
+    FOREIGN KEY (predicateID) REFERENCES relationPredicates(predicateID) ON DELETE CASCADE
+);
+CREATE INDEX itemRelations_predicateID ON itemRelations(predicateID);
+CREATE INDEX itemRelations_object ON itemRelations(object);
 
 CREATE TABLE itemTags (
     itemID INT NOT NULL,
@@ -193,6 +196,17 @@ CREATE TABLE collectionItems (
 );
 CREATE INDEX collectionItems_itemID ON collectionItems(itemID);
 
+CREATE TABLE collectionRelations (
+    collectionID INT NOT NULL,
+    predicateID INT NOT NULL,
+    object TEXT NOT NULL,
+    PRIMARY KEY (collectionID, predicateID, object),
+    FOREIGN KEY (collectionID) REFERENCES collections(collectionID) ON DELETE CASCADE,
+    FOREIGN KEY (predicateID) REFERENCES relationPredicates(predicateID) ON DELETE CASCADE
+);
+CREATE INDEX collectionRelations_predicateID ON collectionRelations(predicateID);
+CREATE INDEX collectionRelations_object ON collectionRelations(object);
+
 CREATE TABLE savedSearches (
     savedSearchID INTEGER PRIMARY KEY,
     savedSearchName TEXT NOT NULL,
@@ -224,20 +238,11 @@ CREATE TABLE deletedItems (
 );
 CREATE INDEX deletedItems_dateDeleted ON deletedItems(dateDeleted);
 
-CREATE TABLE relations (
-    libraryID INT NOT NULL,
-    subject TEXT NOT NULL,
-    predicate TEXT NOT NULL,
-    object TEXT NOT NULL,
-    clientDateModified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (subject, predicate, object),
-    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE
-);
-CREATE INDEX relations_object ON relations(object);
-
 CREATE TABLE libraries (
     libraryID INTEGER PRIMARY KEY,
     libraryType TEXT NOT NULL,
+    editable INT NOT NULL,
+    filesEditable INT NOT NULL,
     version INT NOT NULL DEFAULT 0,
     lastsync INT NOT NULL DEFAULT 0
 );
@@ -252,8 +257,6 @@ CREATE TABLE groups (
     libraryID INT NOT NULL UNIQUE,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    editable INT NOT NULL,
-    filesEditable INT NOT NULL,
     version INT NOT NULL,
     FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE
 );
@@ -308,6 +311,7 @@ CREATE TABLE syncDeleteLog (
     syncObjectTypeID INT NOT NULL,
     libraryID INT NOT NULL,
     key TEXT NOT NULL,
+    dateDeleted TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     synced INT NOT NULL DEFAULT 0,
     UNIQUE (syncObjectTypeID, libraryID, key),
     FOREIGN KEY (syncObjectTypeID) REFERENCES syncObjectTypes(syncObjectTypeID),
@@ -318,6 +322,7 @@ CREATE INDEX syncDeleteLog_synced ON syncDeleteLog(synced);
 CREATE TABLE storageDeleteLog (
     libraryID INT NOT NULL,
     key TEXT NOT NULL,
+    dateDeleted TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     synced INT NOT NULL DEFAULT 0,
     PRIMARY KEY (libraryID, key),
     FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE
@@ -370,6 +375,10 @@ CREATE TABLE proxyHosts (
 );
 CREATE INDEX proxyHosts_proxyID ON proxyHosts(proxyID);
 
+CREATE TABLE relationPredicates (
+    predicateID INTEGER PRIMARY KEY,
+    predicate TEXT UNIQUE
+);
 
 -- These shouldn't be used yet
 CREATE TABLE customItemTypes (

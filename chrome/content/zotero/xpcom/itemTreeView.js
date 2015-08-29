@@ -68,8 +68,7 @@ Zotero.ItemTreeView.prototype.type = 'item';
 /**
  * Called by the tree itself
  */
-Zotero.ItemTreeView.prototype.setTree = Zotero.serial(Zotero.Promise.coroutine(function* (treebox)
-{
+Zotero.ItemTreeView.prototype.setTree = Zotero.Promise.coroutine(function* (treebox) {
 	try {
 		Zotero.debug("Setting tree for " + this.collectionTreeRow.id + " items view " + this.id);
 		var start = Date.now();
@@ -167,42 +166,30 @@ Zotero.ItemTreeView.prototype.setTree = Zotero.serial(Zotero.Promise.coroutine(f
 			
 			event.preventDefault();
 			
-			Zotero.Promise.try(function () {
+			Zotero.spawn(function* () {
 				if (coloredTagsRE.test(key)) {
 					let libraryID = self.collectionTreeRow.ref.libraryID;
 					let position = parseInt(key) - 1;
-					return Zotero.Tags.getColorByPosition(libraryID, position)
-					.then(function (colorData) {
-						// If a color isn't assigned to this number or any
-						// other numbers, allow key navigation
-						if (!colorData) {
-							return Zotero.Tags.getColors(libraryID)
-							.then(function (colors) {
-								return !Object.keys(colors).length;
-							});
-						}
-						
-						var items = self.getSelectedItems();
-						return Zotero.Tags.toggleItemsListTags(libraryID, items, colorData.name)
-						.then(function () {
-							return false;
-						});
-					});
-				}
-				return true;
-			})
-			// We have to disable key navigation on the tree in order to
-			// keep it from acting on the 1-6 keys used for colored tags.
-			// To allow navigation with other keys, we temporarily enable
-			// key navigation and recreate the keyboard event. Since
-			// that will trigger this listener again, we set a flag to
-			// ignore the event, and then clear the flag above when the
-			// event comes in. I see no way this could go wrong...
-			.then(function (resend) {
-				if (!resend) {
+					let colorData = yield Zotero.Tags.getColorByPosition(libraryID, position);
+					// If a color isn't assigned to this number or any
+					// other numbers, allow key navigation
+					if (!colorData) {
+						let colors = yield Zotero.Tags.getColors(libraryID);
+						return !colors.size;
+					}
+					
+					var items = self.getSelectedItems();
+					yield Zotero.Tags.toggleItemsListTags(libraryID, items, colorData.name);
 					return;
 				}
 				
+				// We have to disable key navigation on the tree in order to
+				// keep it from acting on the 1-6 keys used for colored tags.
+				// To allow navigation with other keys, we temporarily enable
+				// key navigation and recreate the keyboard event. Since
+				// that will trigger this listener again, we set a flag to
+				// ignore the event, and then clear the flag above when the
+				// event comes in. I see no way this could go wrong...
 				tree.disableKeyNavigation = false;
 				self._skipKeyPress = true;
 				var nsIDWU = Components.interfaces.nsIDOMWindowUtils;
@@ -231,10 +218,8 @@ Zotero.ItemTreeView.prototype.setTree = Zotero.serial(Zotero.Promise.coroutine(f
 				tree.disableKeyNavigation = true;
 			})
 			.catch(function (e) {
-				Zotero.debug(e, 1);
-				Components.utils.reportError(e);
+				Zotero.logError(e);
 			})
-			.done();
 		};
 		// Store listener so we can call removeEventListener() in ItemTreeView.unregister()
 		this.listener = listener;
@@ -272,7 +257,7 @@ Zotero.ItemTreeView.prototype.setTree = Zotero.serial(Zotero.Promise.coroutine(f
 		}
 		throw e;
 	}
-}));
+});
 
 
 /**
@@ -459,7 +444,7 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 	var sort = false;
 	
 	var savedSelection = this.getSelectedItems(true);
-	var previousRow = false;
+	var previousFirstRow = this._rowMap[ids[0]];
 	
 	// Redraw the tree (for tag color and progress changes)
 	if (action == 'redraw') {
@@ -569,7 +554,6 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 		// On a delete in duplicates mode, just refresh rather than figuring
 		// out what to remove
 		if (collectionTreeRow.isDuplicates()) {
-			previousRow = this._rowMap[ids[0]];
 			yield this.refresh();
 			refreshed = true;
 			madeChanges = true;
@@ -839,14 +823,14 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 			}
 		}
 		
+		if (sort) {
+			yield this.sort(typeof sort == 'number' ? sort : false);
+		}
+		else {
+			this._refreshItemRowMap();
+		}
+		
 		if (singleSelect) {
-			if (sort) {
-				yield this.sort(typeof sort == 'number' ? sort : false);
-			}
-			else {
-				this._refreshItemRowMap();
-			}
-			
 			if (!extraData[singleSelect] || !extraData[singleSelect].skipSelect) {
 				// Reset to Info tab
 				this._ownerDocument.getElementById('zotero-view-tabbox').selectedIndex = 0;
@@ -857,17 +841,12 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 		else if (action == 'modify' && ids.length == 1 &&
 				savedSelection.length == 1 && savedSelection[0] == ids[0]) {
 			// If the item no longer matches the search term, clear the search
+			// DEBUG: Still needed/wanted? (and search is async, so doesn't work anyway,
+			// here or above)
 			if (quicksearch && this._rowMap[ids[0]] == undefined) {
 				Zotero.debug('Selected item no longer matches quicksearch -- clearing');
 				quicksearch.value = '';
 				quicksearch.doCommand();
-			}
-			
-			if (sort) {
-				yield this.sort(typeof sort == 'number' ? sort : false);
-			}
-			else {
-				this._refreshItemRowMap();
 			}
 			
 			if (activeWindow) {
@@ -877,26 +856,14 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 				yield this.rememberSelection(savedSelection);
 			}
 		}
-		else
-		{
-			if (previousRow === false) {
-				previousRow = this._rowMap[ids[0]];
-			}
-			
-			if (sort) {
-				yield this.sort(typeof sort == 'number' ? sort : false);
-			}
-			else {
-				this._refreshItemRowMap();
-			}
-			
-			// On removal of a row, select item at previous position
+		// On removal of a row, select item at previous position
+		else if (savedSelection.length) {
 			if (action == 'remove' || action == 'trash' || action == 'delete') {
 				// In duplicates view, select the next set on delete
 				if (collectionTreeRow.isDuplicates()) {
-					if (this._rows[previousRow]) {
+					if (this._rows[previousFirstRow]) {
 						// Mirror ZoteroPane.onTreeMouseDown behavior
-						var itemID = this._rows[previousRow].ref.id;
+						var itemID = this._rows[previousFirstRow].ref.id;
 						var setItemIDs = collectionTreeRow.ref.getSetItemsByItemID(itemID);
 						this.selectItems(setItemIDs);
 					}
@@ -905,17 +872,17 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 					// If this was a child item and the next item at this
 					// position is a top-level item, move selection one row
 					// up to select a sibling or parent
-					if (ids.length == 1 && previousRow > 0) {
-						var previousItem = yield Zotero.Items.getAsync(ids[0]);
+					if (ids.length == 1 && previousFirstRow > 0) {
+						let previousItem = yield Zotero.Items.getAsync(ids[0]);
 						if (previousItem && !previousItem.isTopLevelItem()) {
-							if (this._rows[previousRow] && this.getLevel(previousRow) == 0) {
-								previousRow--;
+							if (this._rows[previousFirstRow] && this.getLevel(previousFirstRow) == 0) {
+								previousFirstRow--;
 							}
 						}
 					}
 					
-					if (this._rows[previousRow]) {
-						this.selection.select(previousRow);
+					if (previousFirstRow !== undefined && this._rows[previousFirstRow]) {
+						this.selection.select(previousFirstRow);
 					}
 					// If no item at previous position, select last item in list
 					else if (this._rows[this._rows.length - 1]) {
@@ -936,10 +903,6 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 	/*else if (selectItem) {
 		yield this.selectItem(selectItem);
 	}*/
-	
-	if (Zotero.suppressUIUpdates) {
-		yield this.rememberSelection(savedSelection);
-	}
 	
 	//this._treebox.endUpdateBatch();
 	if (madeChanges) {
@@ -1621,12 +1584,6 @@ Zotero.ItemTreeView.prototype.sort = Zotero.Promise.coroutine(function* (itemID)
  *  Select an item
  */
 Zotero.ItemTreeView.prototype.selectItem = Zotero.Promise.coroutine(function* (id, expand, noRecurse) {
-	// Don't change selection if UI updates are disabled (e.g., during sync)
-	if (Zotero.suppressUIUpdates) {
-		Zotero.debug("Sync is running; not selecting item");
-		return false;
-	}
-	
 	// If no row map, we're probably in the process of switching collections,
 	// so store the item to select on the item group for later
 	if (!this._rowMap) {
@@ -2533,12 +2490,12 @@ Zotero.ItemTreeView.prototype.onDragStart = function (event) {
 		event.dataTransfer.setData("text/plain", text);
 	}
 	
+	format = Zotero.QuickCopy.unserializeSetting(format);
 	try {
-		var [mode, ] = format.split('=');
-		if (mode == 'export') {
+		if (format.mode == 'export') {
 			Zotero.QuickCopy.getContentFromItems(items, format, exportCallback);
 		}
-		else if (mode.indexOf('bibliography') == 0) {
+		else if (format.mode == 'bibliography') {
 			var content = Zotero.QuickCopy.getContentFromItems(items, format, null, event.shiftKey);
 			if (content) {
 				if (content.html) {
@@ -2548,12 +2505,12 @@ Zotero.ItemTreeView.prototype.onDragStart = function (event) {
 			}
 		}
 		else {
-			Components.utils.reportError("Invalid Quick Copy mode '" + mode + "'");
+			Components.utils.reportError("Invalid Quick Copy mode");
 		}
 	}
 	catch (e) {
 		Zotero.debug(e);
-		Components.utils.reportError(e + " with format '" + format + "'");
+		Components.utils.reportError(e + " with '" + format.id + "'");
 	}
 };
 
@@ -2674,7 +2631,7 @@ Zotero.ItemTreeView.fileDragDataProvider.prototype = {
 							}
 						}
 						
-						parentDir.copyTo(destDir, newName ? newName : dirName);
+						parentDir.copyToFollowingLinks(destDir, newName ? newName : dirName);
 						
 						// Store nsIFile
 						if (useTemp) {
@@ -2715,7 +2672,7 @@ Zotero.ItemTreeView.fileDragDataProvider.prototype = {
 							}
 						}
 						
-						file.copyTo(destDir, newName ? newName : null);
+						file.copyToFollowingLinks(destDir, newName ? newName : null);
 						
 						// Store nsIFile
 						if (useTemp) {
@@ -3087,6 +3044,13 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 					});
 				}
 				else {
+					if (file.leafName.endsWith(".lnk")) {
+						let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+						   .getService(Components.interfaces.nsIWindowMediator);
+						let win = wm.getMostRecentWindow("navigator:browser");
+						win.ZoteroPane.displayCannotAddShortcutMessage(file.path);
+						continue;
+					}
 					yield Zotero.Attachments.importFromFile({
 						file: file,
 						libraryID: targetLibraryID,

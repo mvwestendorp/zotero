@@ -442,12 +442,16 @@ Zotero.Items = function() {
 			
 			yield item.loadTags();
 			yield item.loadRelations();
+			var replPred = Zotero.Relations.replacedItemPredicate;
+			var toSave = {};
+			toSave[this.id];
 			
 			for each(var otherItem in otherItems) {
 				yield otherItem.loadChildItems();
 				yield otherItem.loadCollections();
 				yield otherItem.loadTags();
 				yield otherItem.loadRelations();
+				let otherItemURI = Zotero.URI.getItemURI(otherItem);
 				
 				// Move child items to master
 				var ids = otherItem.getAttachments(true).concat(otherItem.getNotes(true));
@@ -458,6 +462,34 @@ Zotero.Items = function() {
 					
 					attachment.parentID = item.id;
 					yield attachment.save();
+				}
+				
+				// Add relations to master
+				item.setRelations(otherItem.getRelations());
+				
+				// Remove merge-tracking relations from other item, so that there aren't two
+				// subjects for a given deleted object
+				let replItems = otherItem.getRelationsByPredicate(replPred);
+				for (let replItem of replItems) {
+					otherItem.removeRelation(replPred, replItem);
+				}
+				
+				// Update relations on items in the library that point to the other item
+				// to point to the master instead
+				let rels = yield Zotero.Relations.getByObject('item', otherItemURI);
+				for (let rel of rels) {
+					// Skip merge-tracking relations, which are dealt with above
+					if (rel.predicate == replPred) continue;
+					// Skip items in other libraries. They might not be editable, and even
+					// if they are, merging items in one library shouldn't affect another library,
+					// so those will follow the merge-tracking relations and can optimize their
+					// path if they're resaved.
+					if (rel.subject.libraryID != item.libraryID) continue;
+					rel.subject.removeRelation(rel.predicate, otherItemURI);
+					rel.subject.addRelation(rel.predicate, itemURI);
+					if (!toSave[rel.subject.id]) {
+						toSave[rel.subject.id] = rel.subject;
+					}
 				}
 				
 				// All other operations are additive only and do not affect the,
@@ -490,34 +522,17 @@ Zotero.Items = function() {
 					item.addTag(tags[j].tag);
 				}
 				
-				// Related items
-				var relatedItems = otherItem.relatedItems;
-				for each(var relatedItemID in relatedItems) {
-					yield item.addRelatedItem(relatedItemID);
-				}
-				
-				// Relations
-				yield Zotero.Relations.copyURIs(
-					item.libraryID,
-					Zotero.URI.getItemURI(otherItem),
-					Zotero.URI.getItemURI(item)
-				);
-				
 				// Add relation to track merge
-				var otherItemURI = Zotero.URI.getItemURI(otherItem);
-				yield Zotero.Relations.add(
-					item.libraryID,
-					otherItemURI,
-					Zotero.Relations.deletedItemPredicate,
-					itemURI
-				);
+				item.addRelation(replPred, otherItemURI);
 				
 				// Trash other item
 				otherItem.deleted = true;
 				yield otherItem.save();
 			}
 			
-			yield item.save();
+			for (let i in toSave) {
+				yield toSave[i].save();
+			}
 		}.bind(this));
 	};
 	
@@ -559,10 +574,10 @@ Zotero.Items = function() {
 		
 		deletedIDs = yield this.getDeleted(libraryID, true, days);
 		if (deletedIDs.length) {
-			yield Zotero.Utilities.Internal.forEachChunkAsync(deletedIDs, 50, function* (chunk) {
+			yield Zotero.Utilities.Internal.forEachChunkAsync(deletedIDs, 50, Zotero.Promise.coroutine(function* (chunk) {
 				yield this.erase(chunk);
 				yield Zotero.Notifier.trigger('refresh', 'trash', libraryID);
-			}.bind(this));
+			}.bind(this)));
 		}
 		
 		if (deletedIDs.length) {
@@ -629,29 +644,6 @@ Zotero.Items = function() {
 	
 	
 	/**
-	 * Delete item(s) from database and clear from internal array
-	 *
-	 * @param {Integer|Integer[]} ids - Item ids
-	 * @return {Promise}
-	 */
-	this.erase = function (ids) {
-		return Zotero.DB.executeTransaction(function* () {
-			ids = Zotero.flattenArguments(ids);
-			
-			for (let i=0; i<ids.length; i++) {
-				let id = ids[i];
-				let item = yield this.getAsync(id);
-				if (!item) {
-					Zotero.debug('Item ' + id + ' does not exist in Items.erase()!', 1);
-					continue;
-				}
-				yield item.erase(); // calls unload()
-			}
-		}.bind(this));
-	};
-	
-	
-	/**
 	 * Purge unused data values
 	 */
 	this.purge = Zotero.Promise.coroutine(function* () {
@@ -664,9 +656,6 @@ Zotero.Items = function() {
 		var sql = "DELETE FROM itemDataValues WHERE valueID NOT IN "
 					+ "(SELECT valueID FROM itemData UNION SELECT valueID FROM itemDataAlt)";
 		yield Zotero.DB.queryAsync(sql);
-		
-		// Purge unused charsetIDs (if attachments were deleted)
-		yield Zotero.CharacterSets.purge();
 		
 		Zotero.Prefs.set('purge.items', false)
 	});

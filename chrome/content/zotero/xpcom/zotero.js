@@ -99,11 +99,6 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 	});
 	
 	/**
-	 * @property	{Boolean}	suppressUIUpdates	Don't update UI on Notifier triggers
-	 */
-	this.suppressUIUpdates = false;
-	
-	/**
 	 * @property	{Boolean}	closing		True if the application is closing.
 	 */
 	this.closing = false;
@@ -617,8 +612,9 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				yield Zotero.ItemTypes.init();
 				yield Zotero.ItemFields.init();
 				yield Zotero.CreatorTypes.init();
-				yield Zotero.CharacterSets.init();
 				yield Zotero.FileTypes.init();
+				yield Zotero.CharacterSets.init();
+				yield Zotero.RelationPredicates.init();
 				
 				// Initialize multilingual field info
 				yield Zotero.Multi.init();
@@ -636,8 +632,9 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				
 				Zotero.Notifier.registerObserver(Zotero.Tags, 'setting');
 				
-				Zotero.Sync.init();
-				Zotero.Sync.Runner.init();
+				yield Zotero.Sync.Data.Local.init();
+				yield Zotero.Sync.Data.Utilities.init();
+				Zotero.Sync.EventListeners.init();
 				
 				Zotero.MIMETypeHandler.init();
 				yield Zotero.Proxies.init();
@@ -2125,7 +2122,6 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 	
 	this.reloadDataObjects = function () {
 		return Zotero.Promise.all([
-			Zotero.Tags.reloadAll(),
 			Zotero.Collections.reloadAll(),
 			Zotero.Creators.reloadAll(),
 			Zotero.Items.reloadAll()
@@ -2266,7 +2262,7 @@ Zotero.Prefs = new function(){
 		if (!fromVersion) {
 			fromVersion = 0;
 		}
-		var toVersion = 1;
+		var toVersion = 2;
 		if (fromVersion < toVersion) {
 			for (var i = fromVersion + 1; i <= toVersion; i++) {
 				switch (i) {
@@ -2282,6 +2278,14 @@ Zotero.Prefs = new function(){
 								this.set('sync.storage.downloadMode.groups', 'on-sync');
 							}
 						}
+						break;
+					
+					case 2:
+						// Re-show saveButton guidance panel (and clear old saveIcon pref).
+						// The saveButton guidance panel initially could auto-hide too easily.
+						this.clear('firstRunGuidanceShown.saveIcon');
+						this.clear('firstRunGuidanceShown.saveButton');
+						break;
 				}
 			}
 			this.set('prefVersion', toVersion);

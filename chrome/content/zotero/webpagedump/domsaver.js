@@ -203,7 +203,7 @@ var wpdDOMSaver = {
 			// Changed by Dan for Zotero
 			"script": true, // no scripts
 
-			"encodeUTF8": false, // write the DOM Tree as UTF-8 and change the charset entry of the document
+			"encodeUTF8": true, // write the DOM Tree as UTF-8 and change the charset entry of the document
 			"metainfo": true, // include meta tags with URL and date/time information
 			"metacharset": false // if the meta charset is defined inside html override document charset
 			//"xtagging"    : true      // include a x tag around each word
@@ -643,7 +643,8 @@ var wpdDOMSaver = {
 		if (medium != "" && medium.indexOf("screen") < 0 && medium.indexOf("all") < 0) {
 			return "";
 		}
-		if (aCSS.href != null && aCSS.href.indexOf("chrome") == 0) return "";
+		// Disabled by Dan S. to fix CSS on snapshots of Reader View
+		//if (aCSS.href != null && aCSS.href.indexOf("chrome") == 0) return "";
 		var flag = "";
 
 		// Added by Dan S. for Zotero

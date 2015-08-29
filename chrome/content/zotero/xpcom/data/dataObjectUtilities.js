@@ -25,6 +25,31 @@
 
 
 Zotero.DataObjectUtilities = {
+	/**
+	 * Get all DataObject types
+	 *
+	 * @return {String[]} - An array of DataObject types
+	 */
+	getTypes: function () {
+		return ['collection', 'search', 'item'];
+	},
+	
+	/**
+	 * Get DataObject types that are valid for a given library
+	 *
+	 * @param {Integer} libraryID
+	 * @return {String[]} - An array of DataObject types
+	 */
+	getTypesForLibrary: function (libraryID) {
+		switch (Zotero.Libraries.getType(libraryID)) {
+		case 'publications':
+			return ['item'];
+		
+		default:
+			return this.getTypes();
+		}
+	},
+	
 	"checkLibraryID": function (libraryID) {
 		if (!libraryID) {
 			throw new Error("libraryID not provided");
@@ -69,10 +94,48 @@ Zotero.DataObjectUtilities = {
 	
 	
 	"getObjectsClassForObjectType": function(objectType) {
+		if (objectType == 'setting') objectType = 'syncedSetting';
+		
 		var objectTypePlural = this.getObjectTypePlural(objectType);
 		var className = objectTypePlural[0].toUpperCase() + objectTypePlural.substr(1);
 		return Zotero[className]
 	},
+	
+	
+	patch: function (base, obj) {
+		var target = {};
+		Object.assign(target, obj);
+		
+		for (let i in base) {
+			switch (i) {
+			case 'key':
+			case 'version':
+			case 'dateModified':
+				continue;
+			}
+			
+			// If field from base exists in the new version, delete it if it's the same
+			if (i in target) {
+				if (!this._fieldChanged(i, base[i], target[i])) {
+					delete target[i];
+				}
+			}
+			// If field from base doesn't exist in new version, clear it
+			else {
+				switch (i) {
+				case 'deleted':
+					target[i] = false;
+					break;
+				
+				default:
+					target[i] = '';
+				}
+			}
+		}
+		
+		return target;
+	},
+	
 	
 	/**
 	 * Determine whether two API JSON objects are equivalent
@@ -102,24 +165,9 @@ Zotero.DataObjectUtilities = {
 				continue;
 			}
 			
-			let changed;
-			
-			switch (field) {
-			case 'creators':
-			case 'collections':
-			case 'tags':
-			case 'relations':
-				changed = this["_" + field + "Equals"](val1, val2);
-				if (changed) {
-					return true;
-				}
-				break;
-			
-			default:
-				changed = val1 !== val2;
-				if (changed) {
-					return true;
-				}
+			let changed = this._fieldChanged(field, val1, val2);
+			if (changed) {
+				return true;
 			}
 			
 			skipFields[field] = true;
@@ -143,36 +191,31 @@ Zotero.DataObjectUtilities = {
 		return false;
 	},
 	
-	_creatorsEquals: function (data1, data2) {
+	_fieldChanged: function (fieldName, field1, field2) {
+		switch (fieldName) {
+		case 'collections':
+		case 'conditions':
+		case 'creators':
+		case 'tags':
+		case 'relations':
+			return this["_" + fieldName + "Changed"](field1, field2);
+		
+		default:
+			return field1 !== field2;
+		}
+	},
+	
+	_creatorsChanged: function (data1, data2) {
 		if (!data2 || data1.length != data2.length) return true;
 		for (let i = 0; i < data1.length; i++) {
 			if (!Zotero.Creators.equals(data1[i], data2[i])) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	},
 	
-	_collectionsEquals: function (data1, data2) {
-		if (!data2 || data1.length != data2.length) return true;
-		let c1 = data1.concat();
-		let c2 = data2.concat();
-		c1.sort();
-		c2.sort();
-		return Zotero.Utilities.arrayEquals(c1, c2);
-	},
-	
-	_tagsEquals: function (data1, data2) {
-		if (!data2 || data1.length != data2.length) return true;
-		for (let i = 0; i < data1.length; i++) {
-			if (!Zotero.Tags.equals(data1[i], data2[i])) {
-				return false;
-			}
-		}
-		return true;
-	},
-	
-	_relationsEquals: function (data1, data2) {
+	_conditionsChanged: function (data1, data2) {
 		if (!data2) return true;
 		var pred1 = Object.keys(data1);
 		pred1.sort();
@@ -181,10 +224,44 @@ Zotero.DataObjectUtilities = {
 		if (!Zotero.Utilities.arrayEquals(pred1, pred2)) return false;
 		for (let i in pred1) {
 			if (!Zotero.Utilities.arrayEquals(pred1[i], pred2[i])) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
+	},
+	
+	_collectionsChanged: function (data1, data2) {
+		if (!data2 || data1.length != data2.length) return true;
+		let c1 = data1.concat();
+		let c2 = data2.concat();
+		c1.sort();
+		c2.sort();
+		return !Zotero.Utilities.arrayEquals(c1, c2);
+	},
+	
+	_tagsChanged: function (data1, data2) {
+		if (!data2 || data1.length != data2.length) return true;
+		for (let i = 0; i < data1.length; i++) {
+			if (!Zotero.Tags.equals(data1[i], data2[i])) {
+				return true;
+			}
+		}
+		return false;
+	},
+	
+	_relationsChanged: function (data1, data2) {
+		if (!data2) return true;
+		var pred1 = Object.keys(data1);
+		pred1.sort();
+		var pred2 = Object.keys(data2);
+		pred2.sort();
+		if (!Zotero.Utilities.arrayEquals(pred1, pred2)) return true;
+		for (let i in pred1) {
+			if (!Zotero.Utilities.arrayEquals(pred1[i], pred2[i])) {
+				return true;
+			}
+		}
+		return false;
 	},
 	
 	
@@ -220,6 +297,7 @@ Zotero.DataObjectUtilities = {
 			switch (field) {
 			case 'creators':
 			case 'collections':
+			case 'conditions':
 			case 'relations':
 			case 'tags':
 				let changes = this["_" + field + "Diff"](val1, val2);
@@ -266,7 +344,7 @@ Zotero.DataObjectUtilities = {
 			// All remaining fields don't exist in data1
 			
 			let val = data2[field];
-			if (val === false || val === ""
+			if (val === false || val === "" || val === null
 					|| (typeof val == 'object' && Object.keys(val).length == 0)) {
 				continue;
 			}
@@ -294,7 +372,7 @@ Zotero.DataObjectUtilities = {
 				op: "delete"
 			}];
 		}
-		if (!this._creatorsEquals(data1, data2)) {
+		if (this._creatorsChanged(data1, data2)) {
 			return [{
 				field: "creators",
 				op: "modify",
@@ -304,8 +382,7 @@ Zotero.DataObjectUtilities = {
 		return [];
 	},
 	
-	_collectionsDiff: function (data1, data2) {
-		data2 = data2 || [];
+	_collectionsDiff: function (data1, data2 = []) {
 		var changeset = [];
 		var removed = Zotero.Utilities.arrayDiff(data1, data2);
 		for (let i = 0; i < removed.length; i++) {
@@ -326,8 +403,38 @@ Zotero.DataObjectUtilities = {
 		return changeset;
 	},
 	
-	_tagsDiff: function (data1, data2) {
-		data2 = data2 || [];
+	_conditionsDiff: function (data1, data2 = {}) {
+		var changeset = [];
+		outer:
+		for (let i = 0; i < data1.length; i++) {
+			for (let j = 0; j < data2.length; j++) {
+				if (Zotero.SearchConditions.equals(data1[i], data2[j])) {
+					continue outer;
+				}
+			}
+			changeset.push({
+				field: "conditions",
+				op: "member-remove",
+				value: data1[i]
+			});
+		}
+		outer:
+		for (let i = 0; i < data2.length; i++) {
+			for (let j = 0; j < data1.length; j++) {
+				if (Zotero.SearchConditions.equals(data2[i], data1[j])) {
+					continue outer;
+				}
+			}
+			changeset.push({
+				field: "conditions",
+				op: "member-add",
+				value: data2[i]
+			});
+		}
+		return changeset;
+	},
+	
+	_tagsDiff: function (data1, data2 = []) {
 		var changeset = [];
 		outer:
 		for (let i = 0; i < data1.length; i++) {
@@ -358,8 +465,7 @@ Zotero.DataObjectUtilities = {
 		return changeset;
 	},
 	
-	_relationsDiff: function (data1, data2) {
-		data2 = data2 || {};
+	_relationsDiff: function (data1, data2 = {}) {
 		var changeset = [];
 		for (let pred in data1) {
 			let vals1 = typeof data1[pred] == 'string' ? [data1[pred]] : data1[pred];
@@ -386,6 +492,22 @@ Zotero.DataObjectUtilities = {
 					value: {
 						key: pred,
 						value: added[i]
+					}
+				});
+			}
+		}
+		for (let pred in data2) {
+			// Property in first object have already been handled
+			if (data1[pred]) continue;
+			
+			let vals = typeof data2[pred] == 'string' ? [data2[pred]] : data2[pred];
+			for (let i = 0; i < vals.length; i++) {
+				changeset.push({
+					field: "relations",
+					op: "property-member-add",
+					value: {
+						key: pred,
+						value: vals[i]
 					}
 				});
 			}
@@ -421,10 +543,12 @@ Zotero.DataObjectUtilities = {
 					throw new Error("Unimplemented");
 					break;
 				
+				case 'conditions':
 				case 'tags':
 					let found = false;
+					let f = c.field == 'conditions' ? Zotero.SearchConditions : Zotero.Tags;
 					for (let i = 0; i < json[c.field].length; i++) {
-						if (Zotero.Tags.equals(json[c.field][i], c.value)) {
+						if (f.equals(json[c.field][i], c.value)) {
 							found = true;
 							break;
 						}
@@ -452,9 +576,11 @@ Zotero.DataObjectUtilities = {
 					throw new Error("Unimplemented");
 					break;
 				
+				case 'conditions':
 				case 'tags':
+					let f = c.field == 'conditions' ? Zotero.SearchConditions : Zotero.Tags;
 					for (let i = 0; i < json[c.field].length; i++) {
-						if (Zotero.Tags.equals(json[c.field][i], c.value)) {
+						if (f.equals(json[c.field][i], c.value)) {
 							json[c.field].splice(i, 1);
 							break;
 						}

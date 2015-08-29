@@ -54,7 +54,9 @@ Zotero.Attachments = new function(){
 		if (!file.isFile()) {
 			throw new Error("'" + file.leafName + "' must be a file");
 		}
-		
+		if (file.leafName.endsWith(".lnk")) {
+			throw new Error("Cannot add Windows shortcut");
+		}
 		if (parentItemID && collections) {
 			throw new Error("parentItemID and collections cannot both be provided");
 		}
@@ -187,6 +189,7 @@ Zotero.Attachments = new function(){
 			// translate.js, which sets the metadata fields itself
 			itemID = yield attachmentItem.save();
 			
+			var storageDir = Zotero.getStorageDirectory();
 			destDir = this.getStorageDirectory(attachmentItem);
 			yield _moveOrphanedDirectory(destDir);
 			file.parent.copyTo(storageDir, destDir.leafName);
@@ -226,14 +229,14 @@ Zotero.Attachments = new function(){
 	 * @return {Promise<Zotero.Item>} - A promise for the created attachment item
 	 */
 	this.importFromURL = Zotero.Promise.coroutine(function* (options) {
-		Zotero.debug('Importing attachment from URL');
+		Zotero.debug('Importing attachment from URL ' + url);
 		
 		var libraryID = options.libraryID;
 		var url = options.url;
 		var parentItemID = options.parentItemID;
 		var collections = options.collections;
 		var title = options.title;
-		var fileBaseName = options.forceFileBaseName;
+		var fileBaseName = options.fileBaseName;
 		var contentType = options.contentType;
 		var cookieSandbox = options.cookieSandbox;
 		
@@ -257,6 +260,13 @@ Zotero.Attachments = new function(){
 			var browser = Zotero.HTTP.processDocuments(
 				url,
 				function() {
+					let channel = browser.docShell.currentDocumentChannel;
+					if (channel && (channel instanceof Components.interfaces.nsIHttpChannel)) {
+						if (channel.responseStatus < 200 || channel.responseStatus >= 400) {
+							deferred.reject(new Error("Invalid response "+channel.responseStatus+" "+channel.responseStatusText+" for '"+url+"'"));
+							return;
+						}
+					}
 					return Zotero.Attachments.importFromDocument({
 						libraryID: libraryID,
 						document: browser.contentDocument,
@@ -279,9 +289,9 @@ Zotero.Attachments = new function(){
 		
 		// Save using remote web browser persist
 		var externalHandlerImport = Zotero.Promise.coroutine(function* (contentType) {
-			if (forceFileBaseName) {
+			if (fileBaseName) {
 				let ext = _getExtensionFromURL(url, contentType);
-				var fileName = forceFileBaseName + (ext != '' ? '.' + ext : '');
+				var fileName = fileBaseName + (ext != '' ? '.' + ext : '');
 			}
 			else {
 				var fileName = _getFileNameFromURL(url, contentType);
@@ -304,18 +314,6 @@ Zotero.Attachments = new function(){
 			// Save to temp dir
 			var deferred = Zotero.Promise.defer();
 			wbp.progressListener = new Zotero.WebProgressFinishListener(function() {
-				if (contentType == 'application/pdf' &&
-						Zotero.MIME.sniffForMIMEType(str) != 'application/pdf') {
-					let errString = "Downloaded PDF did not have MIME type "
-						+ "'application/pdf' in Attachments.importFromURL()";
-					Zotero.debug(errString, 2);
-					Zotero.File.getSample(tmpFile)
-					.then(function (sample) {
-						Zotero.debug(sample, 3);
-						deferred.reject(new Error(errString));
-					});
-					return;
-				}
 				deferred.resolve();
 			});
 				
@@ -323,7 +321,17 @@ Zotero.Attachments = new function(){
 				.createInstance(Components.interfaces.nsIURL);
 			nsIURL.spec = url;
 			Zotero.Utilities.Internal.saveURI(wbp, nsIURL, tmpFile);
+
 			yield deferred.promise;
+			let sample = yield Zotero.File.getSample(tmpFile);
+			if (contentType == 'application/pdf' &&
+					Zotero.MIME.sniffForMIMEType(sample) != 'application/pdf') {
+				let errString = "Downloaded PDF did not have MIME type "
+					+ "'application/pdf' in Attachments.importFromURL()";
+				Zotero.debug(errString, 2);
+				Zotero.debug(sample, 3);
+				throw(new Error(errString));
+			}
 			
 			// Create DB item
 			var attachmentItem;
@@ -389,7 +397,7 @@ Zotero.Attachments = new function(){
 			}, 1000);
 			
 			return attachmentItem;
-		});
+		}.bind(this));
 		
 		var process = function (contentType, hasNativeHandler) {
 			// If we can load this natively, use a hidden browser
@@ -661,7 +669,7 @@ Zotero.Attachments = new function(){
 			attachmentItem.setField('accessDate', "CURRENT_TIMESTAMP");
 			attachmentItem.parentID = parentItemID;
 			attachmentItem.attachmentLinkMode = Zotero.Attachments.LINK_MODE_IMPORTED_URL;
-			attachmentItem.attachmentCharset = document.characterSet;
+			attachmentItem.attachmentCharset = 'utf-8'; // WPD will output UTF-8
 			attachmentItem.attachmentContentType = contentType;
 			if (collections) {
 				attachmentItem.setCollections(collections);
@@ -701,14 +709,16 @@ Zotero.Attachments = new function(){
 		// We don't have any way of knowing that the file is flushed to disk,
 		// so we just wait a second before indexing and hope for the best.
 		// We'll index it later if it fails. (This may not be necessary.)
-		setTimeout(function () {
-			if (contentType == 'application/pdf') {
+		if (contentType == 'application/pdf') {
+			setTimeout(function () {
 				Zotero.Fulltext.indexPDF(file.path, attachmentItem.id);
-			}
-			else if (Zotero.MIME.isTextType(contentType)) {
-				Zotero.Fulltext.indexDocument(document, attachmentItem.id);
-			}
-		}, 1000);
+			}, 1000);
+		}
+		else if (Zotero.MIME.isTextType(contentType)) {
+			// Index document immediately, so that browser object can't
+			// be removed before indexing completes
+			yield Zotero.Fulltext.indexDocument(document, attachmentItem.id);
+		}
 		
 		return attachmentItem;
 	});
@@ -1365,15 +1375,13 @@ Zotero.Attachments = new function(){
 			.then(function () {
 				return Zotero.spawn(function* () {
 					if (charset) {
-						var disabled = Zotero.Notifier.disable();
-						
-						var item = yield Zotero.Items.getAsync(itemID);
-						charset = yield Zotero.CharacterSets.add(charset);
-						item.attachmentCharset = charset;
-						yield item.saveTx();
-						
-						if (disabled) {
-							Zotero.Notifier.enable();
+						charset = Zotero.CharacterSets.toCanonical(charset);
+						if (charset) {
+							let item = yield Zotero.Items.getAsync(itemID);
+							item.attachmentCharset = charset;
+							yield item.saveTx({
+								skipNotifier: true
+							});
 						}
 					}
 					
@@ -1414,5 +1422,30 @@ Zotero.Attachments = new function(){
 			}
 		}
 		return false;
+	}
+	
+	
+	this.linkModeToName = function (linkMode) {
+		switch (linkMode) {
+		case this.LINK_MODE_IMPORTED_FILE:
+			return 'imported_file';
+		case this.LINK_MODE_IMPORTED_URL:
+			return 'imported_url';
+		case this.LINK_MODE_LINKED_FILE:
+			return 'linked_file';
+		case this.LINK_MODE_LINKED_URL:
+			return 'linked_url';
+		default:
+			throw new Error(`Invalid link mode ${linkMode}`);
+		}
+	}
+	
+	
+	this.linkModeFromName = function (linkModeName) {
+		var prop = "LINK_MODE_" + linkModeName.toUpperCase();
+		if (this[prop] !== undefined) {
+			return this[prop];
+		}
+		throw new Error(`Invalid link mode name '${linkModeName}'`);
 	}
 }

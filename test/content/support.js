@@ -74,10 +74,26 @@ function waitForWindow(uri, callback) {
 			var win = ev.target.docShell
 				.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
 				.getInterface(Components.interfaces.nsIDOMWindow);
-			if (callback) {
-				callback(win);
-			}
-			deferred.resolve(win);
+			// Give window code time to run on load
+			setTimeout(function () {
+				if (callback) {
+					try {
+						// If callback is a promise, wait for it
+						let maybePromise = callback(win);
+						if (maybePromise && maybePromise.then) {
+							maybePromise.then(() => deferred.resolve(win)).catch(e => deferred.reject(e));
+							return;
+						}
+					}
+					catch (e) {
+						Zotero.logError(e);
+						win.close();
+						deferred.reject(e);
+						return;
+					}
+				}
+				deferred.resolve(win);
+			});
 		}
 	};
 	var winobserver = {"observe":function(subject, topic, data) {
@@ -89,38 +105,99 @@ function waitForWindow(uri, callback) {
 	return deferred.promise;
 }
 
-var selectLibrary = Zotero.Promise.coroutine(function* (win) {
-	yield win.ZoteroPane.collectionsView.selectLibrary(Zotero.Libraries.userLibraryID);
+/**
+ * Wait for an alert or confirmation dialog to pop up and then close it
+ *
+ * @param {Function} [onOpen] - Function that is passed the dialog once it is opened.
+ *                              Can be used to make assertions on the dialog contents
+ *                              (e.g., with dialog.document.documentElement.textContent)
+ * @param {String} [button='accept'] - Button in dialog to press (e.g., 'cancel', 'extra1')
+ * @return {Promise}
+ */
+function waitForDialog(onOpen, button='accept', url) {
+	return waitForWindow(url || "chrome://global/content/commonDialog.xul", Zotero.Promise.method(function (dialog) {
+		var failure = false;
+		if (onOpen) {
+			try {
+				onOpen(dialog);
+			}
+			catch (e) {
+				failure = e;
+			}
+		}
+		if (button != 'cancel') {
+			let deferred = Zotero.Promise.defer();
+			function acceptWhenEnabled() {
+				// Handle delayed buttons
+				if (dialog.document.documentElement.getButton(button).disabled) {
+					setTimeout(function () {
+						acceptWhenEnabled();
+					}, 250);
+				}
+				else {
+					dialog.document.documentElement.getButton(button).click();
+					if (failure) {
+						deferred.reject(failure);
+					}
+					else {
+						deferred.resolve();
+					}
+				}
+			}
+			acceptWhenEnabled();
+			return deferred.promise;
+		}
+		else {
+			dialog.document.documentElement.getButton(button).click();
+			if (failure) {
+				throw failure;
+			}
+		}
+	}))
+}
+
+var selectLibrary = Zotero.Promise.coroutine(function* (win, libraryID) {
+	libraryID = libraryID || Zotero.Libraries.userLibraryID;
+	yield win.ZoteroPane.collectionsView.selectLibrary(libraryID);
 	yield waitForItemsLoad(win);
 });
 
-var waitForItemsLoad = function (win, collectionRowToSelect) {
-	var resolve;
-	var promise = new Zotero.Promise(() => resolve = arguments[0]);
+var waitForItemsLoad = Zotero.Promise.coroutine(function* (win, collectionRowToSelect) {
 	var zp = win.ZoteroPane;
 	var cv = zp.collectionsView;
-	cv.addEventListener('load', function () {
-		if (collectionRowToSelect !== undefined) {
-			cv.selection.select(collectionRowToSelect);
-		}
-		zp.addEventListener('itemsLoaded', function () {
-			resolve();
-		});
-	});
-	return promise;
-}
+	
+	var deferred = Zotero.Promise.defer();
+	cv.addEventListener('load', () => deferred.resolve());
+	yield deferred.promise;
+	if (collectionRowToSelect !== undefined) {
+		yield cv.selectWait(collectionRowToSelect);
+	}
+	deferred = Zotero.Promise.defer();
+	zp.itemsView.addEventListener('load', () => deferred.resolve());
+	return deferred.promise;
+});
 
 /**
  * Waits for a single item event. Returns a promise for the item ID(s).
  */
 function waitForItemEvent(event) {
+	return waitForNotifierEvent(event, 'item').then(x => x.ids);
+}
+
+/**
+ * Wait for a single notifier event and return a promise for the data
+ */
+function waitForNotifierEvent(event, type) {
 	var deferred = Zotero.Promise.defer();
 	var notifierID = Zotero.Notifier.registerObserver({notify:function(ev, type, ids, extraData) {
 		if(ev == event) {
 			Zotero.Notifier.unregisterObserver(notifierID);
-			deferred.resolve(ids);
+			deferred.resolve({
+				ids: ids,
+				extraData: extraData
+			});
 		}
-	}}, ["item"]);
+	}}, [type]);
 	return deferred.promise;
 }
 
@@ -163,22 +240,81 @@ function waitForCallback(cb, interval, timeout) {
 	return deferred.promise;
 }
 
+
+/**
+ * Get a default group used by all tests that want one, creating one if necessary
+ */
+var _defaultGroup;
+var getGroup = Zotero.Promise.method(function () {
+	// Cleared in resetDB()
+	if (_defaultGroup) {
+		return _defaultGroup;
+	}
+	return _defaultGroup = createGroup({
+		name: "My Group"
+	});
+});
+
+
+var createGroup = Zotero.Promise.coroutine(function* (props) {
+	props = props || {};
+	var group = new Zotero.Group;
+	group.id = props.id || Zotero.Utilities.rand(10000, 1000000);
+	group.name = props.name || "Test " + Zotero.Utilities.randomString();
+	group.description = props.description || "";
+	group.editable = props.editable || true;
+	group.filesEditable = props.filesEditable || true;
+	group.version = props.version || Zotero.Utilities.rand(1000, 10000);
+	yield group.save();
+	return group;
+});
+
 //
 // Data objects
 //
-function createUnsavedDataObject(objectType, params) {
-	params = params || {};
+/**
+ * @param {String} objectType - 'collection', 'item', 'search'
+ * @param {Object} [params]
+ * @param {Integer} [params.libraryID]
+ * @param {String} [params.itemType] - Item type
+ * @param {String} [params.title] - Item title
+ * @param {Boolean} [params.setTitle] - Assign a random item title
+ * @param {String} [params.name] - Collection/search name
+ * @param {Integer} [params.parentID]
+ * @param {String} [params.parentKey]
+ * @param {Boolean} [params.synced]
+ * @param {Integer} [params.version]
+ * @param {Integer} [params.dateAdded] - Allowed for items
+ * @param {Integer} [params.dateModified] - Allowed for items
+ */
+function createUnsavedDataObject(objectType, params = {}) {
+	if (!objectType) {
+		throw new Error("Object type not provided");
+	}
+	
 	if (objectType == 'item') {
 		var param = params.itemType || 'book';
 	}
 	var obj = new Zotero[Zotero.Utilities.capitalize(objectType)](param);
+	if (params.libraryID) {
+		obj.libraryID = params.libraryID;
+	}
 	switch (objectType) {
+	case 'item':
+		if (params.title !== undefined || params.setTitle) {
+			obj.setField('title', params.title !== undefined ? params.title : Zotero.Utilities.randomString());
+		}
+		break;
+	
 	case 'collection':
 	case 'search':
-		obj.name = params.name !== undefined ? params.name : "Test";
+		obj.name = params.name !== undefined ? params.name : Zotero.Utilities.randomString();
 		break;
 	}
 	var allowedParams = ['parentID', 'parentKey', 'synced', 'version'];
+	if (objectType == 'item') {
+		allowedParams.push('dateAdded', 'dateModified');
+	}
 	allowedParams.forEach(function (param) {
 		if (params[param] !== undefined) {
 			obj[param] = params[param];
@@ -187,10 +323,30 @@ function createUnsavedDataObject(objectType, params) {
 	return obj;
 }
 
-var createDataObject = Zotero.Promise.coroutine(function* (objectType, params, saveOptions) {
+var createDataObject = Zotero.Promise.coroutine(function* (objectType, params = {}, saveOptions) {
 	var obj = createUnsavedDataObject(objectType, params);
 	yield obj.saveTx(saveOptions);
 	return obj;
+});
+
+function getNameProperty(objectType) {
+	return objectType == 'item' ? 'title' : 'name';
+}
+
+var modifyDataObject = Zotero.Promise.coroutine(function* (obj, params = {}, saveOptions) {
+	switch (obj.objectType) {
+	case 'item':
+		yield obj.loadItemData();
+		obj.setField(
+			'title',
+			params.title !== undefined ? params.title : Zotero.Utilities.randomString()
+		);
+		break;
+	
+	default:
+		obj.name = params.name !== undefined ? params.name : Zotero.Utilities.randomString();
+	}
+	return obj.saveTx(saveOptions);
 });
 
 /**
@@ -259,12 +415,16 @@ var getTempDirectory = Zotero.Promise.coroutine(function* getTempDirectory() {
 /**
  * Resets the Zotero DB and restarts Zotero. Returns a promise resolved
  * when this finishes.
+ *
+ * @param {Object} [options] - Initialization options, as passed to Zotero.init(), overriding
+ *                             any that were set at startup
  */
-function resetDB() {
+function resetDB(options = {}) {
 	var db = Zotero.getZoteroDatabase();
 	return Zotero.reinit(function() {
 		db.remove(false);
-	}).then(function() {
+		_defaultGroup = null;
+	}, false, options).then(function() {
 		return Zotero.Schema.schemaUpdatePromise;
 	});
 }
@@ -306,7 +466,7 @@ function generateAllTypesAndFieldsData() {
 	let specialValues = {
 		date: '1999-12-31',
 		filingDate: '2000-01-02',
-		accessDate: '1997-06-13 23:59:58',
+		accessDate: '1997-06-13T23:59:58Z',
 		number: 3,
 		numPages: 4,
 		issue: 5,
@@ -364,6 +524,16 @@ function generateAllTypesAndFieldsData() {
 				lastName: typeName + 'Last'
 			});
 		}
+		
+		// Also add a single-field mode author, which is valid for all types
+		let primaryCreatorType = Zotero.CreatorTypes.getName(
+			Zotero.CreatorTypes.getPrimaryIDForType(itemTypes[i].id)
+		);
+		creators.push({
+			creatorType: primaryCreatorType,
+			lastName: 'Institutional Author',
+			fieldMode: 1
+		});
 	}
 	
 	return data;
@@ -377,29 +547,8 @@ function populateDBWithSampleData(data) {
 	return Zotero.DB.executeTransaction(function* () {
 		for (let itemName in data) {
 			let item = data[itemName];
-			let zItem = new Zotero.Item(item.itemType);
-			for (let itemField in item) {
-				if (itemField == 'itemType') continue;
-				
-				if (itemField == 'creators') {
-					zItem.setCreators(item[itemField]);
-					continue;
-				}
-				
-				if (itemField == 'tags') {
-					// Must save item first
-					continue;
-				}
-				
-				zItem.setField(itemField, item[itemField]);
-			}
-			
-			if (item.tags && item.tags.length) {
-				for (let i=0; i<item.tags.length; i++) {
-					zItem.addTag(item.tags[i].tag, item.tags[i].type);
-				}
-			}
-
+			let zItem = new Zotero.Item;
+			zItem.fromJSON(item);
 			item.id = yield zItem.save();
 		}
 
@@ -526,4 +675,41 @@ function importFileAttachment(filename) {
 	let testfile = getTestDataDirectory();
 	filename.split('/').forEach((part) => testfile.append(part));
 	return Zotero.Attachments.importFromFile({file: testfile});
+}
+
+
+/**
+ * Sets the fake XHR server to response to a given response
+ *
+ * @param {Object} server - Sinon FakeXMLHttpRequest server
+ * @param {Object|String} response - Dot-separated path to predefined response in responses
+ *                                   object (e.g., keyInfo.fullAccess) or a JSON object
+ *                                   that defines the response
+ * @param {Object} responses - Predefined responses
+ */
+function setHTTPResponse(server, baseURL, response, responses) {
+	if (typeof response == 'string') {
+		let [topic, key] = response.split('.');
+		if (!responses[topic]) {
+			throw new Error("Invalid topic");
+		}
+		if (!responses[topic][key]) {
+			throw new Error("Invalid response key");
+		}
+		response = responses[topic][key];
+	}
+	
+	var responseArray = [response.status || 200, {}, ""];
+	if (response.json) {
+		responseArray[1]["Content-Type"] = "application/json";
+		responseArray[2] = JSON.stringify(response.json);
+	}
+	else {
+		responseArray[1]["Content-Type"] = "text/plain";
+		responseArray[2] = response.text || "";
+	}
+	for (let i in response.headers) {
+		responseArray[1][i] = response.headers[i];
+	}
+	server.respondWith(response.method, baseURL + response.url, responseArray);
 }

@@ -35,12 +35,18 @@
  *
  * And the following properties:
  *
- *	this._typeDesc = 'c';
+ *	this._typeDesc = '';
+ *	this._typeDescPlural = '';
  *	this._idCol = '';
  *	this._nameCol = '';
  *	this._table = '';
- *	this._ignoreCase = false;
- * 
+ *
+ * Optional properties:
+ *
+ *  this._allowAdd: Allow new types to be added via .add(name)
+ *	this._ignoreCase: Ignore case when looking for types, and add new types as lowercase
+ *
+ * And add .init() to zotero.js
  */
 Zotero.CachedTypes = function() {
 	this._types = null;
@@ -52,11 +58,9 @@ Zotero.CachedTypes = function() {
 	this._idCol = '';
 	this._nameCol = '';
 	this._table = '';
+	this._allowAdd = false;
 	this._ignoreCase = false;
 	this._hasCustom = false;
-	
-	this.getName = getName;
-	this.getID = getID;
 	
 	
 	this.init = Zotero.Promise.coroutine(function* () {
@@ -70,10 +74,10 @@ Zotero.CachedTypes = function() {
 	});
 	
 	
-	function getName(idOrName) {
+	this.getName = function (idOrName) {
 		if (!this._types) {
 			throw new Zotero.Exception.UnloadedDataException(
-				this._typeDesc[0].toUpperCase() + this._typeDesc.substr(1) + " data not yet loaded"
+				Zotero.Utilities.capitalize(this._typeDesc) + " data not yet loaded"
 			);
 		}
 		
@@ -83,8 +87,7 @@ Zotero.CachedTypes = function() {
 		}
 		
 		if (!this._types['_' + idOrName]) {
-			Zotero.debug('Invalid ' + this._typeDesc + ' ' + idOrName, 1);
-			Zotero.debug((new Error()).stack, 1);
+			Zotero.debug('Unknown ' + this._typeDesc + ' ' + idOrName, 1);
 			return '';
 		}
 		
@@ -92,10 +95,10 @@ Zotero.CachedTypes = function() {
 	}
 	
 	
-	function getID(idOrName) {
+	this.getID = function (idOrName) {
 		if (!this._types) {
 			throw new Zotero.Exception.UnloadedDataException(
-				this._typeDesc[0].toUpperCase() + this._typeDesc.substr(1) + " data not yet loaded"
+				Zotero.Utilities.capitalize(this._typeDesc) + " data not yet loaded"
 			);
 		}
 		
@@ -105,7 +108,7 @@ Zotero.CachedTypes = function() {
 		}
 		
 		if (!this._types['_' + idOrName]) {
-			Zotero.debug('Invalid ' + this._typeDesc + ' ' + idOrName, 1);
+			Zotero.debug('Unknown ' + this._typeDesc + ' ' + idOrName, 1);
 			return false;
 		}
 		
@@ -113,10 +116,10 @@ Zotero.CachedTypes = function() {
 	}
 	
 	
-	this.getTypes = function () {
+	this.getAll = this.getTypes = function () {
 		if (!this._typesArray) {
 			throw new Zotero.Exception.UnloadedDataException(
-				this._typeDesc[0].toUpperCase() + this._typeDesc.substr(1) + " data not yet loaded"
+				Zotero.Utilities.capitalize(this._typeDesc) + " data not yet loaded"
 			);
 		}
 		return this._typesArray;
@@ -126,6 +129,55 @@ Zotero.CachedTypes = function() {
 	// Currently used only for item types
 	this.isCustom = function (idOrName) {
 		return this._types['_' + idOrName] && this._types['_' + idOrName].custom ? this._types['_' + idOrName].custom : false;
+	}
+	
+	
+	/**
+	 * Add a new type to the data and return its id. If the type already exists, return its id.
+	 *
+	 * @param {String} name - Type name to add
+	 * @return {Integer|False} - The type id (new or existing), or false if invalid type name
+	 */
+	this.add = Zotero.Promise.coroutine(function* (name) {
+		if (!this._allowAdd) {
+			throw new Error("New " + this._typeDescPlural + " cannot be added");
+		}
+		
+		if (typeof name != 'string' || name === "") {
+			throw new Error("'name' must be a string");
+		}
+		
+		var id = this.getID(name);
+		if (id) {
+			return id;
+		}
+		
+		if (this._ignoreCase) {
+			name = name.toLowerCase();
+		}
+		
+		var allow = this._valueCheck(name);
+		if (!allow) {
+			return false;
+		}
+		
+		var sql = "INSERT INTO " + this._table + " (" + this._nameCol + ") VALUES (?)";
+		yield Zotero.DB.queryAsync(sql, name);
+		
+		sql = "SELECT " + this._idCol + " FROM " + this._table + " WHERE " + this._nameCol + "=?";
+		var id = yield Zotero.DB.valueQueryAsync(sql, name);
+		
+		this._cacheTypeData({
+			id: id,
+			name: name
+		});
+		
+		return id;
+	});
+	
+	
+	this._valueCheck = function (name) {
+		return true;
 	}
 	
 	
@@ -171,6 +223,7 @@ Zotero.CreatorTypes = new function() {
 	this.isValidForItemType = isValidForItemType;
 	
 	this._typeDesc = 'creator type';
+	this._typeDescPlural = 'creator types';
 	this._idCol = 'creatorTypeID';
 	this._nameCol = 'creatorType';
 	this._table = 'creatorTypes';
@@ -279,11 +332,10 @@ Zotero.ItemTypes = new function() {
 	Zotero.CachedTypes.apply(this, arguments);
 	this.constructor.prototype = new Zotero.CachedTypes();
 	
-	this.getImageSrc = getImageSrc;
-	
 	this.customIDOffset = 10000;
 	
 	this._typeDesc = 'item type';
+	this._typeDescPlural = 'item types';
 	this._idCol = 'itemTypeID';
 	this._nameCol = 'typeName';
 	this._table = 'itemTypesCombined';
@@ -388,7 +440,7 @@ Zotero.ItemTypes = new function() {
 		return Zotero.getString("itemTypes." + typeName);
 	}
 	
-	function getImageSrc(itemType) {
+	this.getImageSrc = function (itemType) {
 		var suffix = Zotero.hiDPI ? "@2x" : "";
 		
 		if (this.isCustom(itemType)) {
@@ -461,6 +513,7 @@ Zotero.FileTypes = new function() {
 	this.constructor.prototype = new Zotero.CachedTypes();
 	
 	this._typeDesc = 'file type';
+	this._typeDescPlural = 'file types';
 	this._idCol = 'fileTypeID';
 	this._nameCol = 'fileType';
 	this._table = 'fileTypes';
@@ -481,61 +534,151 @@ Zotero.CharacterSets = new function() {
 	this.constructor.prototype = new Zotero.CachedTypes();
 	
 	this._typeDesc = 'character set';
+	this._typeDescPlural = 'character sets';
 	this._idCol = 'charsetID';
 	this._nameCol = 'charset';
 	this._table = 'charsets';
 	this._ignoreCase = true;
 	
-	this.getAll = getAll;
 	
-	function getAll() {
-		return this.getTypes();
+	// Converts charset label to charset name
+	// https://encoding.spec.whatwg.org/#names-and-labels
+	// @param {String} charset
+	// @return {String|Boolean} Normalized charset name or FALSE if not recognized
+	this.toCanonical = function (charset) {
+		let canonical = charsetMap[charset.trim().toLowerCase()];
+		if (!canonical) {
+			Zotero.debug("Unrecognized charset: " + charset);
+			return false;
+		}
+		return canonical;
+	};
+	
+	// Normalizes charset label to conform to DOM standards
+	// https://dom.spec.whatwg.org/#dom-document-characterset
+	// @param {String} charset
+	// @param {Boolean} mozCompat Whether to return a Mozilla-compatible label
+	//   for use in Gecko internal APIs.
+	//   https://developer.mozilla.org/en-US/docs/Gecko/Character_sets_supported_by_Gecko
+	// @return {String|Boolean} Normalized label or FALSE is not recognized
+	this.toLabel = function (charset, mozCompat) {
+		charset = this.toCanonical(charset);
+		if (!charset) return false;
+		
+		if (mozCompat && charset == 'gbk') return charset; // See https://developer.mozilla.org/en-US/docs/Gecko/Character_sets_supported_by_Gecko
+		
+		return compatibilityNames[charset];
 	}
 	
+	// From https://encoding.spec.whatwg.org/#names-and-labels
+	// Don't use this, use charsetMap. See below
+	let charsetList = {
+		"utf-8": ["unicode-1-1-utf-8", "utf-8", "utf8"],
+		"ibm866": ["866", "cp866", "csibm866", "ibm866"],
+		"iso-8859-2": ["csisolatin2", "iso-8859-2", "iso-ir-101", "iso8859-2", "iso88592", "iso_8859-2", 
+			"iso_8859-2:1987","l2", "latin2"],
+		"iso-8859-3": ["csisolatin3", "iso-8859-3", "iso-ir-109", "iso8859-3", "iso88593", "iso_8859-3", 
+			"iso_8859-3:1988","l3", "latin3"],
+		"iso-8859-4": ["csisolatin4", "iso-8859-4", "iso-ir-110", "iso8859-4", "iso88594", "iso_8859-4", 
+			"iso_8859-4:1988","l4", "latin4"],
+		"iso-8859-5": ["csisolatincyrillic", "cyrillic", "iso-8859-5", "iso-ir-144", "iso8859-5", "iso88595", "iso_8859-5", 
+			"iso_8859-5:1988"],
+		"iso-8859-6": ["arabic", "asmo-708", "csiso88596e", "csiso88596i", "csisolatinarabic", "ecma-114", "iso-8859-6", "iso-8859-6-e", "iso-8859-6-i", "iso-ir-127", "iso8859-6", "iso88596", "iso_8859-6", 
+			"iso_8859-6:1987"],
+		"iso-8859-7": ["csisolatingreek", "ecma-118", "elot_928", "greek", "greek8", "iso-8859-7", "iso-ir-126", "iso8859-7", "iso88597", "iso_8859-7", 
+			"iso_8859-7:1987","sun_eu_greek"],
+		"iso-8859-8": ["csiso88598e", "csisolatinhebrew", "hebrew", "iso-8859-8", "iso-8859-8-e", "iso-ir-138", "iso8859-8", "iso88598", "iso_8859-8", 
+			"iso_8859-8:1988","visual"],
+		"iso-8859-8-i": ["csiso88598i", "iso-8859-8-i", "logical"],
+		"iso-8859-10": ["csisolatin6", "iso-8859-10", "iso-ir-157", "iso8859-10", "iso885910", "l6", "latin6"],
+		"iso-8859-13": ["iso-8859-13", "iso8859-13", "iso885913"],
+		"iso-8859-14": ["iso-8859-14", "iso8859-14", "iso885914"],
+		"iso-8859-15": ["csisolatin9", "iso-8859-15", "iso8859-15", "iso885915", "iso_8859-15", "l9"],
+		"iso-8859-16": ["iso-8859-16"],
+		"koi8-r": ["cskoi8r", "koi", "koi8", "koi8-r", "koi8_r"],
+		"koi8-u": ["koi8-u"],
+		"macintosh": ["csmacintosh", "mac", "macintosh", "x-mac-roman"],
+		"windows-874": ["dos-874", "iso-8859-11", "iso8859-11", "iso885911", "tis-620", "windows-874"],
+		"windows-1250": ["cp1250", "windows-1250", "x-cp1250"],
+		"windows-1251": ["cp1251", "windows-1251", "x-cp1251"],
+		"windows-1252": [
+			"ansi_x3.4-1968","ascii", "cp1252", "cp819", "csisolatin1", "ibm819", "iso-8859-1", "iso-ir-100", "iso8859-1", "iso88591", "iso_8859-1", 
+			"iso_8859-1:1987","l1", "latin1", "us-ascii", "windows-1252", "x-cp1252"],
+		"windows-1253": ["cp1253", "windows-1253", "x-cp1253"],
+		"windows-1254": ["cp1254", "csisolatin5", "iso-8859-9", "iso-ir-148", "iso8859-9", "iso88599", "iso_8859-9", 
+			"iso_8859-9:1989","l5", "latin5", "windows-1254", "x-cp1254"],
+		"windows-1255": ["cp1255", "windows-1255", "x-cp1255"],
+		"windows-1256": ["cp1256", "windows-1256", "x-cp1256"],
+		"windows-1257": ["cp1257", "windows-1257", "x-cp1257"],
+		"windows-1258": ["cp1258", "windows-1258", "x-cp1258"],
+		"x-mac-cyrillic": ["x-mac-cyrillic", "x-mac-ukrainian"],
+		"gbk": ["chinese", "csgb2312", "csiso58gb231280", "gb2312", "gb_2312", "gb_2312-80", "gbk", "iso-ir-58", "x-gbk"],
+		"gb18030": ["gb18030"],
+		"big5": ["big5", "cn-big5", "csbig5", "x-x-big5"],
+		"big5-hkscs": ["big5-hkscs"], // see https://bugzilla.mozilla.org/show_bug.cgi?id=912470
+		"euc-jp": ["cseucpkdfmtjapanese", "euc-jp", "x-euc-jp"],
+		"iso-2022-jp": ["csiso2022jp", "iso-2022-jp"],
+		"shift_jis": ["csshiftjis", "ms_kanji", "shift-jis", "shift_jis", "sjis", "windows-31j", "x-sjis"],
+		"euc-kr": ["cseuckr", "csksc56011987", "euc-kr", "iso-ir-149", "korean", "ks_c_5601-1987", "ks_c_5601-1989", "ksc5601", "ksc_5601", "windows-949"],
+		"replacement": ["csiso2022kr", "hz-gb-2312", "iso-2022-cn", "iso-2022-cn-ext", "iso-2022-kr"],
+		"utf-16be": ["utf-16be"],
+		"utf-16le": ["utf-16", "utf-16le"],
+		"x-user-defined": ["x-user-defined"]
+	}
 	
-	/**
-	 * @param {String} name - Type name to add
-	 * @return {Integer|False} - The type id (new or existing), or false if invalid type name
-	 */
-	this.add = Zotero.Promise.coroutine(function* (name) {
-		if (typeof name != 'string' || name === "") {
-			return false;
-		}
-		
-		var id = this.getID(name);
-		if (id) {
-			return id;
-		}
-		
-		name = name.toLowerCase();
-		
-		// Don't allow too-long or non-ASCII names
-		if (name.length > 50 || !name.match(/^[a-z0-9\-_]+$/)) {
-			return false;
-		}
-		
-		var sql = "INSERT INTO " + this._table + " (" + this._nameCol + ") VALUES (?)";
-		yield Zotero.DB.queryAsync(sql, name);
-		
-		sql = "SELECT " + this._idCol + " FROM " + this._table + " WHERE " + this._nameCol + "=?";
-		var id = yield Zotero.DB.valueQueryAsync(sql, name);
-		
-		this._cacheTypeData({
-			id: id,
-			name: name
-		});
-		
-		return id;
-	});
-	
-	
-	/**
-	 * @return {Promise}
-	 */
-	this.purge = function () {
-		var sql = "DELETE FROM " + this._table + " WHERE " + this._idCol + " NOT IN "
-			+ "(SELECT " + this._idCol + " FROM itemAttachments)";
-		return Zotero.DB.queryAsync(sql);
+	// As per https://dom.spec.whatwg.org/#dom-document-characterset
+	let compatibilityNames = {
+		"utf-8": "UTF-8",
+		"ibm866": "IBM866",
+		"iso-8859-2": "ISO-8859-2",
+		"iso-8859-3": "ISO-8859-3",
+		"iso-8859-4": "ISO-8859-4",
+		"iso-8859-5": "ISO-8859-5",
+		"iso-8859-6": "ISO-8859-6",
+		"iso-8859-7": "ISO-8859-7",
+		"iso-8859-8": "ISO-8859-8",
+		"iso-8859-8-i": "ISO-8859-8-I",
+		"iso-8859-10": "ISO-8859-10",
+		"iso-8859-13": "ISO-8859-13",
+		"iso-8859-14": "ISO-8859-14",
+		"iso-8859-15": "ISO-8859-15",
+		"iso-8859-16": "ISO-8859-16",
+		"koi8-r": "KOI8-R",
+		"koi8-u": "KOI8-U",
+		"gbk": "GBK",
+		"big5": "Big5",
+		"euc-jp": "EUC-JP",
+		"iso-2022-jp": "ISO-2022-JP",
+		"shift_jis": "Shift_JIS",
+		"euc-kr": "EUC-KR",
+		"utf-16be": "UTF-16BE",
+		"utf-16le": "UTF-16LE"
 	};
+	
+	let charsetMap = {};
+	for (let canonical in charsetList) {
+		charsetMap[canonical.toLowerCase()] = canonical;
+		charsetList[canonical].forEach((c) => charsetMap[c.toLowerCase()] = canonical);
+		
+		if (!compatibilityNames[canonical]) {
+			compatibilityNames[canonical] = canonical;
+		}
+	}
+	
+	// Clear charsetList
+	charsetList = null;
 }
 
+
+Zotero.RelationPredicates = new function () {
+	Zotero.CachedTypes.apply(this, arguments);
+	this.constructor.prototype = new Zotero.CachedTypes();
+	
+	this._typeDesc = 'relation predicate';
+	this._typeDescPlural = 'relation predicates';
+	this._idCol = 'predicateID';
+	this._nameCol = 'predicate';
+	this._table = 'relationPredicates';
+	this._ignoreCase = false;
+	this._allowAdd = true;
+}

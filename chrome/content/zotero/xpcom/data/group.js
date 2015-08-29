@@ -101,9 +101,6 @@ Zotero.Group.prototype._set = function (field, val) {
 }
 
 
-
-
-
 /*
  * Build group from database
  */
@@ -140,8 +137,8 @@ Zotero.Group.prototype.loadFromRow = function(row) {
 	this._libraryID = row.libraryID;
 	this._name = row.name;
 	this._description = row.description;
-	this._editable = !!row.editable;
-	this._filesEditable = !!row.filesEditable;
+	this._editable = Zotero.Libraries.isEditable(row.libraryID);
+	this._filesEditable = Zotero.Libraries.isFilesEditable(row.libraryID);
 	this._version = row.version;
 }
 
@@ -191,9 +188,9 @@ Zotero.Group.prototype.hasItem = function (item) {
 
 
 Zotero.Group.prototype.save = Zotero.Promise.coroutine(function* () {
-	if (!this.id) {
-		throw new Error("Group id not set");
-	}
+	if (!this.id) throw new Error("Group id not set");
+	if (!this.name) throw new Error("Group name not set");
+	if (!this.version) throw new Error("Group version not set");
 	
 	if (!this._changed) {
 		Zotero.debug("Group " + this.id + " has not changed");
@@ -209,21 +206,19 @@ Zotero.Group.prototype.save = Zotero.Promise.coroutine(function* () {
 			'groupID',
 			'name',
 			'description',
-			'editable',
-			'filesEditable',
 			'version'
 		];
 		var sqlValues = [
 			this.id,
 			this.name,
 			this.description,
-			this.editable ? 1 : 0,
-			this.filesEditable ? 1 : 0,
 			this.version
 		];
 		
 		if (isNew) {
-			var { id: libraryID } = yield Zotero.Libraries.add('group');
+			let { id: libraryID } = yield Zotero.Libraries.add(
+				'group', this.editable, this.filesEditable
+			);
 			sqlColumns.push('libraryID');
 			sqlValues.push(libraryID);
 			
@@ -238,6 +233,9 @@ Zotero.Group.prototype.save = Zotero.Promise.coroutine(function* () {
 			let sql = "UPDATE groups SET " + sqlColumns.map(function (val) val + '=?').join(', ')
 				+ " WHERE groupID=?";
 			yield Zotero.DB.queryAsync(sql, sqlValues);
+			
+			yield Zotero.Libraries.setEditable(this.libraryID, this.editable);
+			yield Zotero.Libraries.setFilesEditable(this.libraryID, this.filesEditable);
 		}
 		
 		if (isNew) {
@@ -258,67 +256,88 @@ Zotero.Group.prototype.save = Zotero.Promise.coroutine(function* () {
 * Deletes group and all descendant objects
 **/
 Zotero.Group.prototype.erase = Zotero.Promise.coroutine(function* () {
-	yield Zotero.DB.executeTransaction(function* () {
-		var notifierData = {};
-		notifierData[this.id] = this.serialize(); // TODO: Replace with JSON
-		
-		var sql, ids, obj;
-		
-		// Delete items
-		var types = ['item', 'collection', 'search'];
-		for (let type of types) {
-			let objectsClass = Zotero.DataObjectUtilities.getObjectsClassForObjectType(type);
-			let sql = "SELECT " + objectsClass.idColumn + " FROM " + objectsClass.table
-				+ " WHERE libraryID=?";
-			ids = yield Zotero.DB.columnQueryAsync(sql, this.libraryID);
-			for (let i = 0; i < ids.length; i++) {
-				let id = ids[i];
-				let obj = yield objectsClass.getAsync(id, { noCache: true });
-				// Descendent object may have already been deleted
-				if (!obj) {
-					continue;
-				}
-				yield obj.erase({
-					skipNotifier: true
-				});
-			}
-		}
-		
-		var prefix = "groups/" + this.id;
-		yield Zotero.Relations.eraseByURIPrefix(Zotero.URI.defaultPrefix + prefix);
-		
-		// Delete library row, which deletes from tags, syncDeleteLog, syncedSettings, and groups
-		// tables via cascade. If any of those gain caching, they should be deleted separately.
-		sql = "DELETE FROM libraries WHERE libraryID=?";
-		yield Zotero.DB.queryAsync(sql, this.libraryID)
-		
-		Zotero.Groups.unregister(this.id);
-		Zotero.Notifier.queue('delete', 'group', this.id, notifierData);
-	}.bind(this));
+	Zotero.debug("Removing group " + this.id);
 	
-	yield Zotero.purgeDataObjects();
+	Zotero.DB.requireTransaction();
+	
+	// Delete items
+	var types = ['item', 'collection', 'search'];
+	for (let type of types) {
+		let objectsClass = Zotero.DataObjectUtilities.getObjectsClassForObjectType(type);
+		let sql = "SELECT " + objectsClass.idColumn + " FROM " + objectsClass.table
+			+ " WHERE libraryID=?";
+		ids = yield Zotero.DB.columnQueryAsync(sql, this.libraryID);
+		for (let i = 0; i < ids.length; i++) {
+			let id = ids[i];
+			let obj = yield objectsClass.getAsync(id, { noCache: true });
+			// Descendent object may have already been deleted
+			if (!obj) {
+				continue;
+			}
+			yield obj.erase({
+				skipNotifier: true
+			});
+		}
+	}
+	
+	// Delete library row, which deletes from tags, syncDeleteLog, syncedSettings, and groups
+	// tables via cascade. If any of those gain caching, they should be deleted separately.
+	var sql = "DELETE FROM libraries WHERE libraryID=?";
+	yield Zotero.DB.queryAsync(sql, this.libraryID)
+	
+	Zotero.DB.addCurrentCallback('commit', function () {
+		Zotero.Groups.unregister(this.id);
+		//yield Zotero.purgeDataObjects();
+	}.bind(this))
+	var notifierData = {};
+	notifierData[this.id] = {
+		libraryID: this.libraryID
+	};
+	Zotero.Notifier.queue('delete', 'group', this.id, notifierData);
 });
 
 
-Zotero.Group.prototype.serialize = function() {
-	var obj = {
-		primary: {
-			groupID: this.id,
-			libraryID: this.libraryID
-		},
-		fields: {
-			name: this.name,
-			description: this.description,
-			editable: this.editable,
-			filesEditable: this.filesEditable
+Zotero.Group.prototype.eraseTx = function () {
+	return Zotero.DB.executeTransaction(function* () {
+		return this.erase();
+	}.bind(this));
+}
+
+
+Zotero.Group.prototype.fromJSON = function (json, userID) {
+	this._requireLoad();
+	
+	this.name = json.name;
+	this.description = json.description;
+	
+	var editable = false;
+	var filesEditable = false;
+	if (userID) {
+		// If user is owner or admin, make library editable, and make files editable unless they're
+		// disabled altogether
+		if (json.owner == userID || (json.admins && json.admins.indexOf(userID) != -1)) {
+			editable = true;
+			if (json.fileEditing != 'none') {
+				filesEditable = true;
+			}
 		}
-	};
-	return obj;
+		// If user is member, make library and files editable if they're editable by all members
+		else if (json.members && json.members.indexOf(userID) != -1) {
+			if (json.libraryEditing == 'members') {
+				editable = true;
+				if (json.fileEditing == 'members') {
+					filesEditable = true;
+				}
+			}
+		}
+	}
+	this.editable = editable;
+	this.filesEditable = filesEditable;
 }
 
 
 Zotero.Group.prototype._requireLoad = function () {
-	if (!this._loaded && Zotero.Groups.exists(this.id)) {
+	if (!this._loaded && Zotero.Groups.exists(this._id)) {
 		throw new Error("Group has not been loaded");
 	}
 }

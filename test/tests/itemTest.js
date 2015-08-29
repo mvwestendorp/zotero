@@ -1,64 +1,116 @@
+"use strict";
+
 describe("Zotero.Item", function () {
 	describe("#getField()", function () {
-		it("should return false for valid unset fields on unsaved items", function* () {
+		it("should return an empty string for valid unset fields on unsaved items", function () {
 			var item = new Zotero.Item('book');
-			assert.equal(item.getField('rights'), false);
+			assert.strictEqual(item.getField('rights'), "");
 		});
 		
-		it("should return false for valid unset fields on unsaved items after setting on another field", function* () {
+		it("should return an empty string for valid unset fields on unsaved items after setting on another field", function () {
 			var item = new Zotero.Item('book');
 			item.setField('title', 'foo');
-			assert.equal(item.getField('rights'), false);
+			assert.strictEqual(item.getField('rights'), "");
 		});
 		
-		it("should return false for invalid unset fields on unsaved items after setting on another field", function* () {
+		it("should return an empty string for invalid unset fields on unsaved items after setting on another field", function () {
 			var item = new Zotero.Item('book');
 			item.setField('title', 'foo');
-			assert.equal(item.getField('invalid'), false);
+			assert.strictEqual(item.getField('invalid'), "");
 		});
 	});
 	
 	describe("#setField", function () {
-		it("should throw an error if item type isn't set", function* () {
+		it("should throw an error if item type isn't set", function () {
 			var item = new Zotero.Item;
-			assert.throws(item.setField.bind(item, 'title', 'test'), "Item type must be set before setting field data");
+			assert.throws(() => item.setField('title', 'test'), "Item type must be set before setting field data");
 		})
 		
 		it("should mark a field as changed", function () {
 			var item = new Zotero.Item('book');
 			item.setField('title', 'Foo');
-			assert.ok(item._changed.itemData[Zotero.ItemFields.getID('title')]);
-			assert.ok(item.hasChanged());
+			assert.isTrue(item._changed.itemData[Zotero.ItemFields.getID('title')]);
+			assert.isTrue(item.hasChanged());
 		})
 		
-		it("should clear an existing field set to a falsy value", function () {
+		it('should clear an existing field when ""/null/false is passed', function* () {
 			var field = 'title';
+			var val = 'foo';
 			var fieldID = Zotero.ItemFields.getID(field);
 			var item = new Zotero.Item('book');
-			item.setField(field, 'Foo');
-			id = yield item.saveTx();
-			item = yield Zotero.Items.getAsync(id);
+			item.setField(field, val);
+			yield item.saveTx();
 			
 			item.setField(field, "");
 			assert.ok(item._changed.itemData[fieldID]);
-			assert.ok(item.hasChanged());
+			assert.isTrue(item.hasChanged());
+			
+			// Reset to original value
 			yield item.reload();
-			
 			assert.isFalse(item.hasChanged());
+			assert.equal(item.getField(field), val);
 			
+			// false
 			item.setField(field, false);
 			assert.ok(item._changed.itemData[fieldID]);
-			assert.ok(item.hasChanged());
+			assert.isTrue(item.hasChanged());
+			
+			// Reset to original value
 			yield item.reload();
-			
 			assert.isFalse(item.hasChanged());
+			assert.equal(item.getField(field), val);
 			
+			// null
 			item.setField(field, null);
 			assert.ok(item._changed.itemData[fieldID]);
-			assert.ok(item.hasChanged());
+			assert.isTrue(item.hasChanged());
 			
 			yield item.saveTx();
-			assert.isFalse(item.getField(fieldID));
+			assert.equal(item.getField(field), "");
+		})
+		
+		it('should clear a field set to 0 when a ""/null/false is passed', function* () {
+			var field = 'title';
+			var val = 0;
+			var fieldID = Zotero.ItemFields.getID(field);
+			var item = new Zotero.Item('book');
+			item.setField(field, val);
+			yield item.saveTx();
+			
+			assert.strictEqual(item.getField(field), val);
+			
+			// ""
+			item.setField(field, "");
+			assert.ok(item._changed.itemData[fieldID]);
+			assert.isTrue(item.hasChanged());
+			
+			// Reset to original value
+			yield item.reload();
+			assert.isFalse(item.hasChanged());
+			assert.strictEqual(item.getField(field), val);
+			
+			// False
+			item.setField(field, false);
+			assert.ok(item._changed.itemData[fieldID]);
+			assert.isTrue(item.hasChanged());
+			
+			// Reset to original value
+			yield item.reload();
+			assert.isFalse(item.hasChanged());
+			assert.strictEqual(item.getField(field), val);
+			
+			// null
+			item.setField(field, null);
+			assert.ok(item._changed.itemData[fieldID]);
+			assert.isTrue(item.hasChanged());
+			
+			yield item.saveTx();
+			assert.strictEqual(item.getField(field), "");
+		})
+		
+		it("should throw if value is undefined", function () {
+			var item = new Zotero.Item('book');
+			assert.throws(() => item.setField('title'), "'title' value cannot be undefined");
 		})
 		
 		it("should not mark an empty field set to an empty string as changed", function () {
@@ -76,7 +128,7 @@ describe("Zotero.Item", function () {
 			assert.equal(item.version, 1);
 		});
 		
-		it("should save versionNumber for computerProgram", function () {
+		it("should save versionNumber for computerProgram", function* () {
 			var item = new Zotero.Item('computerProgram');
 			item.setField("versionNumber", "1.0");
 			var id = yield item.saveTx();
@@ -423,8 +475,22 @@ describe("Zotero.Item", function () {
 			item.attachmentLinkMode = Zotero.Attachments.LINK_MODE_IMPORTED_FILE;
 			item.attachmentCharset = charset;
 			var itemID = yield item.saveTx();
+			assert.equal(item.attachmentCharset, charset);
 			item = yield Zotero.Items.getAsync(itemID);
 			assert.equal(item.attachmentCharset, charset);
+		})
+		
+		it("should not allow a numerical value", function* () {
+			var charset = 1;
+			var item = new Zotero.Item("attachment");
+			try {
+				item.attachmentCharset = charset;
+			}
+			catch (e) {
+				assert.equal(e.message, "Character set must be a string")
+				return;
+			}
+			assert.fail("Numerical charset was allowed");
 		})
 		
 		it("should not be marked as changed if not changed", function* () {
@@ -471,6 +537,28 @@ describe("Zotero.Item", function () {
 			file.append(filename);
 			assert.equal(item.getFile().path, file.path);
 		});
+	})
+	
+	describe("#renameAttachmentFile()", function () {
+		it("should rename an attached file", function* () {
+			var file = getTestDataDirectory();
+			file.append('test.png');
+			var item = yield Zotero.Attachments.importFromFile({
+				file: file
+			});
+			var newName = 'test2.png';
+			yield item.renameAttachmentFile(newName);
+			assert.equal(item.attachmentFilename, newName);
+			var path = yield item.getFilePathAsync();
+			assert.equal(OS.Path.basename(path), newName)
+			yield OS.File.exists(path);
+			
+			assert.equal(
+				(yield Zotero.Sync.Storage.getSyncState(item.id)),
+				Zotero.Sync.Storage.SYNC_STATE_TO_UPLOAD
+			);
+			assert.isNull(yield Zotero.Sync.Storage.getSyncedHash(item.id));
+		})
 	})
 	
 	describe("#setTags", function () {
@@ -529,6 +617,102 @@ describe("Zotero.Item", function () {
 		})
 	})
 	
+	describe("#addTag", function () {
+		it("should add a tag", function* () {
+			var item = createUnsavedDataObject('item');
+			item.addTag('a');
+			yield item.saveTx();
+			var tags = item.getTags();
+			assert.deepEqual(tags, [{ tag: 'a' }]);
+		})
+		
+		it("should add two tags", function* () {
+			var item = createUnsavedDataObject('item');
+			item.addTag('a');
+			item.addTag('b');
+			yield item.saveTx();
+			var tags = item.getTags();
+			assert.sameDeepMembers(tags, [{ tag: 'a' }, { tag: 'b' }]);
+		})
+		
+		it("should add two tags of different types", function* () {
+			var item = createUnsavedDataObject('item');
+			item.addTag('a');
+			item.addTag('b', 1);
+			yield item.saveTx();
+			var tags = item.getTags();
+			assert.sameDeepMembers(tags, [{ tag: 'a' }, { tag: 'b', type: 1 }]);
+		})
+		
+		it("should add a tag to an existing item", function* () {
+			var item = yield createDataObject('item');
+			item.addTag('a');
+			yield item.saveTx();
+			var tags = item.getTags();
+			assert.deepEqual(tags, [{ tag: 'a' }]);
+		})
+		
+		it("should add two tags to an existing item", function* () {
+			var item = yield createDataObject('item');
+			item.addTag('a');
+			item.addTag('b');
+			yield item.saveTx();
+			var tags = item.getTags();
+			assert.sameDeepMembers(tags, [{ tag: 'a' }, { tag: 'b' }]);
+		})
+	})
+	
+	//
+	// Relations and related items
+	//
+	describe("#addRelatedItem", function () {
+		it("should add a dc:relation relation to an item", function* () {
+			var item1 = yield createDataObject('item');
+			var item2 = yield createDataObject('item');
+			item1.addRelatedItem(item2);
+			yield item1.saveTx();
+			
+			var rels = item1.getRelationsByPredicate(Zotero.Relations.relatedItemPredicate);
+			assert.lengthOf(rels, 1);
+			assert.equal(rels[0], Zotero.URI.getItemURI(item2));
+		})
+		
+		it("should allow an unsaved item to be related to an item in the user library", function* () {
+			var item1 = yield createDataObject('item');
+			var item2 = createUnsavedDataObject('item');
+			item2.addRelatedItem(item1);
+			yield item2.saveTx();
+			
+			var rels = item2.getRelationsByPredicate(Zotero.Relations.relatedItemPredicate);
+			assert.lengthOf(rels, 1);
+			assert.equal(rels[0], Zotero.URI.getItemURI(item1));
+		})
+		
+		it("should throw an error for a relation in a different library", function* () {
+			var group = yield getGroup();
+			var item1 = yield createDataObject('item');
+			var item2 = yield createDataObject('item', { libraryID: group.libraryID });
+			try {
+				item1.addRelatedItem(item2)
+			}
+			catch (e) {
+				assert.ok(e);
+				assert.equal(e.message, "Cannot relate item to an item in a different library");
+				return;
+			}
+			assert.fail("addRelatedItem() allowed for an item in a different library");
+		})
+	})
+	
+	describe("#save()", function () {
+		it("should throw an error for an empty item without an item type", function* () {
+			var item = new Zotero.Item;
+			var e = yield getPromiseError(item.saveTx());
+			assert.ok(e);
+			assert.equal(e.message, "Item type must be set before saving");
+		})
+	})
+	
 	describe("#clone()", function () {
 		// TODO: Expand to other data
 		it("should copy creators", function* () {
@@ -540,63 +724,180 @@ describe("Zotero.Item", function () {
 					creatorType: 'author'
 				}
 			]);
-			yield item.save();
+			yield item.saveTx();
 			var newItem = yield item.clone();
 			assert.sameDeepMembers(item.getCreators(), newItem.getCreators());
 		})
 	})
 	
 	describe("#toJSON()", function () {
-		it("should output only fields with values in default mode", function* () {
-			var itemType = "book";
-			var title = "Test";
-			
-			var item = new Zotero.Item(itemType);
-			item.setField("title", title);
-			var id = yield item.save();
-			item = yield Zotero.Items.getAsync(id);
-			var json = yield item.toJSON();
-			
-			assert.equal(json.itemType, itemType);
-			assert.equal(json.title, title);
-			assert.isUndefined(json.date);
-			assert.isUndefined(json.numPages);
-		})
-		
-		it("should output all fields in 'full' mode", function* () {
-			var itemType = "book";
-			var title = "Test";
-			
-			var item = new Zotero.Item(itemType);
-			item.setField("title", title);
-			var id = yield item.save();
-			item = yield Zotero.Items.getAsync(id);
-			var json = yield item.toJSON({ mode: 'full' });
-			assert.equal(json.title, title);
-			assert.equal(json.date, "");
-			assert.equal(json.numPages, "");
-		})
-		
-		it("should output only fields that differ in 'patch' mode", function* () {
-			var itemType = "book";
-			var title = "Test";
-			var date = "2015-05-12";
-			
-			var item = new Zotero.Item(itemType);
-			item.setField("title", title);
-			var id = yield item.save();
-			item = yield Zotero.Items.getAsync(id);
-			var patchBase = yield item.toJSON();
-			
-			item.setField("date", date);
-			yield item.save();
-			var json = yield item.toJSON({
-				patchBase: patchBase
+		describe("default mode", function () {
+			it("should output only fields with values", function* () {
+				var itemType = "book";
+				var title = "Test";
+				
+				var item = new Zotero.Item(itemType);
+				item.setField("title", title);
+				var id = yield item.saveTx();
+				item = yield Zotero.Items.getAsync(id);
+				var json = yield item.toJSON();
+				
+				assert.equal(json.itemType, itemType);
+				assert.equal(json.title, title);
+				assert.isUndefined(json.date);
+				assert.isUndefined(json.numPages);
 			})
-			assert.isUndefined(json.itemType);
-			assert.isUndefined(json.title);
-			assert.equal(json.date, date);
-			assert.isUndefined(json.numPages);
+		})
+		
+		describe("'full' mode", function () {
+			it("should output all fields", function* () {
+				var itemType = "book";
+				var title = "Test";
+				
+				var item = new Zotero.Item(itemType);
+				item.setField("title", title);
+				var id = yield item.saveTx();
+				item = yield Zotero.Items.getAsync(id);
+				var json = yield item.toJSON({ mode: 'full' });
+				assert.equal(json.title, title);
+				assert.equal(json.date, "");
+				assert.equal(json.numPages, "");
+			})
+		})
+		
+		describe("'patch' mode", function () {
+			it("should output only fields that differ", function* () {
+				var itemType = "book";
+				var title = "Test";
+				var date = "2015-05-12";
+				
+				var item = new Zotero.Item(itemType);
+				item.setField("title", title);
+				var id = yield item.saveTx();
+				item = yield Zotero.Items.getAsync(id);
+				var patchBase = yield item.toJSON();
+				
+				item.setField("date", date);
+				yield item.saveTx();
+				var json = yield item.toJSON({
+					patchBase: patchBase
+				})
+				assert.isUndefined(json.itemType);
+				assert.isUndefined(json.title);
+				assert.equal(json.date, date);
+				assert.isUndefined(json.numPages);
+				assert.isUndefined(json.deleted);
+				assert.isUndefined(json.creators);
+				assert.isUndefined(json.relations);
+				assert.isUndefined(json.tags);
+			})
+			
+			it("should include changed 'deleted' field", function* () {
+				// True to false
+				var item = new Zotero.Item('book');
+				item.deleted = true;
+				var id = yield item.saveTx();
+				item = yield Zotero.Items.getAsync(id);
+				var patchBase = yield item.toJSON();
+				
+				item.deleted = false;
+				var json = yield item.toJSON({
+					patchBase: patchBase
+				})
+				assert.isUndefined(json.title);
+				assert.isFalse(json.deleted);
+				
+				// False to true
+				var item = new Zotero.Item('book');
+				item.deleted = false;
+				var id = yield item.saveTx();
+				item = yield Zotero.Items.getAsync(id);
+				var patchBase = yield item.toJSON();
+				
+				item.deleted = true;
+				var json = yield item.toJSON({
+					patchBase: patchBase
+				})
+				assert.isUndefined(json.title);
+				assert.isTrue(json.deleted);
+			})
+		})
+		
+		// TODO: Expand to all fields
+		it("should handle attachment fields", function* () {
+			var file = getTestDataDirectory();
+			file.append('test.png');
+			var item = yield Zotero.Attachments.importFromFile({
+				file: file
+			});
+			var json = yield item.toJSON();
+			assert.equal(json.linkMode, 'imported_file');
+			assert.equal(json.filename, 'test.png');
+			assert.isUndefined(json.path);
+			assert.equal(json.md5, '93da8f1e5774c599f0942dcecf64b11c');
+			assert.typeOf(json.mtime, 'number');
 		})
 	})
+
+	describe("#fromJSON()", function () {
+		it("should accept ISO 8601 dates", function* () {
+			var json = {
+				itemType: "journalArticle",
+				accessDate: "2015-06-07T20:56:00Z",
+				dateAdded: "2015-06-07T20:57:00Z",
+				dateModified: "2015-06-07T20:58:00Z",
+			};
+			var item = new Zotero.Item;
+			yield item.fromJSON(json);
+			assert.equal(item.getField('accessDate'), '2015-06-07 20:56:00');
+			assert.equal(item.dateAdded, '2015-06-07 20:57:00');
+			assert.equal(item.dateModified, '2015-06-07 20:58:00');
+		})
+		
+		it("should ignore non–ISO 8601 dates", function* () {
+			var json = {
+				itemType: "journalArticle",
+				accessDate: "2015-06-07 20:56:00",
+				dateAdded: "2015-06-07 20:57:00",
+				dateModified: "2015-06-07 20:58:00",
+			};
+			var item = new Zotero.Item;
+			yield item.fromJSON(json);
+			assert.strictEqual(item.getField('accessDate'), '');
+			// DEBUG: Should these be null, or empty string like other fields from getField()?
+			assert.isNull(item.dateAdded);
+			assert.isNull(item.dateModified);
+		})
+		
+		it("should set creators", function* () {
+			var json = {
+				itemType: "journalArticle",
+				creators: [
+					{
+						firstName: "First",
+						lastName: "Last",
+						creatorType: "author"
+					},
+					{
+						name: "Test Name",
+						creatorType: "editor"
+					}
+				]
+			};
+			
+			var item = new Zotero.Item;
+			yield item.fromJSON(json);
+			var id = yield item.saveTx();
+			assert.sameDeepMembers(item.getCreatorsJSON(), json.creators);
+		})
+		
+		it("should map a base field to an item-specific field", function* () {
+			var item = new Zotero.Item("bookSection");
+			yield item.fromJSON({
+				"itemType":"bookSection",
+				"publicationTitle":"Publication Title"
+			});
+			assert.equal(item.getField("bookTitle"), "Publication Title");
+		});
+	});
 });

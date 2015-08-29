@@ -41,7 +41,7 @@ Zotero.LibraryTreeView.prototype = {
 		if (event == 'load') {
 			// If already initialized run now
 			if (this._initialized) {
-				listener();
+				listener.call(this);
 			}
 			else {
 				this._listeners[event].push(listener);
@@ -60,7 +60,7 @@ Zotero.LibraryTreeView.prototype = {
 		if (!this._listeners[event]) return;
 		var listener;
 		while (listener = this._listeners[event].shift()) {
-			yield Zotero.Promise.resolve(listener());
+			yield Zotero.Promise.resolve(listener.call(this));
 		}
 	}),
 	
@@ -81,7 +81,7 @@ Zotero.LibraryTreeView.prototype = {
 	 * @param {String} - Row id
 	 * @return {Integer}
 	 */
-	getRowByID: function (id) {
+	getRowIndexByID: function (id) {
 		// FIXME: Should work for itemIDs too
 		var type = id[0];
 		id = ('' + id).substr(1);
@@ -131,24 +131,51 @@ Zotero.LibraryTreeView.prototype = {
 	
 	/**
 	* Remove a row from the main array, decrement the row count, tell the treebox that the row
-	* count changed, delete the row from the map, and optionally update all rows above it in the map
+	* count changed, update the parent isOpen if necessary, delete the row from the map, and
+	* optionally update all rows above it in the map
 	*/
 	_removeRow: function (row, skipMapUpdate) {
 		var id = this._rows[row].id;
+		var level = this.getLevel(row);
 		
 		var lastRow = row == this.rowCount - 1;
 		if (lastRow && this.selection.isSelected(row)) {
-			// Deslect removed row
+			// Deselect removed row
 			this.selection.toggleSelect(row);
-			// If no other rows selected, select row before
+			// If no other rows selected, select first selectable row before
 			if (this.selection.count == 0 && row !== 0) {
-				this.selection.toggleSelect(row - 1);
+				let previous = row;
+				while (true) {
+					previous--;
+					// Should ever happen
+					if (previous < 0) {
+						break;
+					}
+					if (!this.isSelectable(previous)) {
+						continue;
+					}
+					
+					this.selection.toggleSelect(previous);
+					break;
+				}
 			}
 		}
 		
 		this._rows.splice(row, 1);
 		this.rowCount--;
-		this._treebox.rowCountChanged(row + 1, -1);
+		// According to the example on https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsITreeBoxObject#rowCountChanged
+		// this should start at row + 1 ("rowCountChanged(rowIndex+1, -1);"), but that appears to
+		// just be wrong. A negative count indicates removed rows, but the index should still
+		// start at the place where the removals begin, not after it going backward.
+		this._treebox.rowCountChanged(row, -1);
+		// Update isOpen if parent and no siblings
+		if (row != 0
+				&& this.getLevel(row - 1) < level
+				&& this._rows[row]
+				&& this.getLevel(row) != level) {
+			this._rows[row - 1].isOpen = false;
+			this._treebox.invalidateRow(row - 1);
+		}
 		delete this._rowMap[id];
 		if (!skipMapUpdate) {
 			for (let i in this._rowMap) {

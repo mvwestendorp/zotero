@@ -145,6 +145,8 @@ Zotero.Schema = new function(){
 		}
 		
 		var updated = yield Zotero.DB.executeTransaction(function* (conn) {
+			yield Zotero.DB.queryAsync("PRAGMA defer_foreign_keys = true");
+			
 			var updated = yield _updateSchema('system');
 			
 			// Update custom tables if they exist so that changes are in
@@ -986,7 +988,9 @@ Zotero.Schema = new function(){
 			}
 		});
 		
-		yield Zotero[Mode].reinit(cache);
+		yield Zotero[Mode].reinit({
+			metadataCache: cache
+		});
 		
 		return true;
 	});
@@ -1063,7 +1067,7 @@ Zotero.Schema = new function(){
 			}
 			
 			// Send list of installed styles
-			var styles = yield Zotero.Styles.getAll();
+			var styles = Zotero.Styles.getAll();
 			var styleTimestamps = [];
 			for (var id in styles) {
 				var updated = Zotero.Date.sqlToDate(styles[id].updated);
@@ -1515,10 +1519,13 @@ Zotero.Schema = new function(){
 			});
 			yield _updateDBVersion('compatibility', _maxCompatibility);
 			
-			yield Zotero.DB.queryAsync("INSERT INTO libraries (libraryID, libraryType) VALUES (?, 'user')", userLibraryID);
-			yield Zotero.DB.queryAsync("INSERT INTO libraries (libraryID, libraryType) VALUES (2, 'publications')");
+			var sql = "INSERT INTO libraries (libraryID, libraryType, editable, filesEditable) "
+				+ "VALUES "
+				+ "(?, 'user', 1, 1), "
+				+ "(4, 'publications', 1, 1)"
+			yield Zotero.DB.queryAsync(sql, userLibraryID);
 			
-			if (!Zotero.Schema.skipDefaultData) {
+			/*if (!Zotero.Schema.skipDefaultData) {
 				// Quick Start Guide web page item
 				var sql = "INSERT INTO items VALUES(1, 13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, 'ABCD2345', 0, 0)";
 				yield Zotero.DB.queryAsync(sql, userLibraryID);
@@ -1546,7 +1553,7 @@ Zotero.Schema = new function(){
 					+ '<p>' + Zotero.getString('install.quickStartGuide.message.thanks') + '</p></div>';
 				var sql = "INSERT INTO itemNotes VALUES (2, 1, ?, ?)";
 				yield Zotero.DB.queryAsync(sql, [welcomeMsg, welcomeTitle]);
-			}
+			}*/
 			
 			self.dbInitialized = true;
 		})
@@ -2079,16 +2086,15 @@ Zotero.Schema = new function(){
 			if (i == 80) {
 				yield _updateDBVersion('compatibility', 1);
 				
-				yield Zotero.DB.queryAsync("INSERT INTO libraries VALUES (1, 'user')");
-				yield Zotero.DB.queryAsync("INSERT INTO libraries VALUES (2, 'publications')");
-				
-				let oldUserLibraryID = yield Zotero.DB.valueQueryAsync("SELECT value FROM settings WHERE setting='account' AND key='libraryID'");
+				yield Zotero.DB.queryAsync("ALTER TABLE libraries RENAME TO librariesOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE libraries (\n    libraryID INTEGER PRIMARY KEY,\n    libraryType TEXT NOT NULL,\n    editable INT NOT NULL,\n    filesEditable INT NOT NULL,\n    version INT NOT NULL DEFAULT 0,\n    lastsync INT NOT NULL DEFAULT 0\n)");
+				yield Zotero.DB.queryAsync("INSERT INTO libraries (libraryID, libraryType, editable, filesEditable) VALUES (1, 'user', 1, 1)");
+				yield Zotero.DB.queryAsync("INSERT INTO libraries (libraryID, libraryType, editable, filesEditable) VALUES (4, 'publications', 1, 1)");
+				yield Zotero.DB.queryAsync("INSERT INTO libraries SELECT libraryID, libraryType, editable, filesEditable, 0, 0 FROM librariesOld JOIN groups USING (libraryID)");
 				
 				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO syncObjectTypes VALUES (7, 'setting')");
 				yield Zotero.DB.queryAsync("DELETE FROM version WHERE schema IN ('userdata2', 'userdata3')");
 				
-				yield Zotero.DB.queryAsync("ALTER TABLE libraries ADD COLUMN version INT NOT NULL DEFAULT 0");
-				yield Zotero.DB.queryAsync("ALTER TABLE libraries ADD COLUMN lastsync INT NOT NULL DEFAULT 0");
 				yield Zotero.DB.queryAsync("CREATE TABLE syncCache (\n    libraryID INT NOT NULL,\n    key TEXT NOT NULL,\n    syncObjectTypeID INT NOT NULL,\n    version INT NOT NULL,\n    data TEXT,\n    PRIMARY KEY (libraryID, key, syncObjectTypeID, version),\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE,\n    FOREIGN KEY (syncObjectTypeID) REFERENCES syncObjectTypes(syncObjectTypeID)\n)");
 				
 				yield Zotero.DB.queryAsync("DROP TABLE translatorCache");
@@ -2262,11 +2268,11 @@ Zotero.Schema = new function(){
 				yield Zotero.DB.queryAsync("CREATE INDEX savedSearches_synced ON savedSearches(synced)");
 				
 				yield Zotero.DB.queryAsync("ALTER TABLE tags RENAME TO tagsOld");
-				yield Zotero.DB.queryAsync("CREATE TABLE tags (\n    tagID INTEGER PRIMARY KEY,\n    libraryID INT NOT NULL,\n    name TEXT NOT NULL,\n    UNIQUE (libraryID, name)\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO tags SELECT tagID, IFNULL(libraryID, 1), name FROM tagsOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE tags (\n    tagID INTEGER PRIMARY KEY,\n    name TEXT NOT NULL UNIQUE\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO tags SELECT tagID, name FROM tagsOld");
 				yield Zotero.DB.queryAsync("ALTER TABLE itemTags RENAME TO itemTagsOld");
 				yield Zotero.DB.queryAsync("CREATE TABLE itemTags (\n    itemID INT NOT NULL,\n    tagID INT NOT NULL,\n    type INT NOT NULL,\n    PRIMARY KEY (itemID, tagID),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (tagID) REFERENCES tags(tagID) ON DELETE CASCADE\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemTags SELECT itemID, T.tagID, TOld.type FROM itemTagsOld ITO JOIN tagsOld TOld USING (tagID) JOIN tags T ON (IFNULL(TOld.libraryID, 1)=T.libraryID AND TOld.name=T.name COLLATE BINARY)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemTags SELECT itemID, T.tagID, TOld.type FROM itemTagsOld ITO JOIN tagsOld TOld USING (tagID) JOIN tags T ON (TOld.name=T.name COLLATE BINARY)");
 				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemTags_tagID");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemTags_tagID ON itemTags(tagID)");
 				
@@ -2287,20 +2293,18 @@ Zotero.Schema = new function(){
 				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemNotes SELECT * FROM itemNotesOld");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemNotes_parentItemID ON itemNotes(parentItemID)");
 				
+				yield Zotero.DB.queryAsync("CREATE TEMPORARY TABLE charsetsOld (charsetID INT, charset UNIQUE, canonical, PRIMARY KEY (charsetID))");
+				yield Zotero.DB.queryAsync("INSERT INTO charsetsOld VALUES (1,'utf-8','utf-8'), (2,'ascii','windows-1252'), (3,'windows-1250','windows-1250'), (4,'windows-1251','windows-1251'), (5,'windows-1252','windows-1252'), (6,'windows-1253','windows-1253'), (7,'windows-1254','windows-1254'), (8,'windows-1257','windows-1257'), (9,'us',NULL), (10,'us-ascii','windows-1252'), (11,'utf-7',NULL), (12,'iso8859-1','windows-1252'), (13,'iso8859-15','iso-8859-15'), (14,'iso_646.irv:1991',NULL), (15,'iso_8859-1','windows-1252'), (16,'iso_8859-1:1987','windows-1252'), (17,'iso_8859-2','iso-8859-2'), (18,'iso_8859-2:1987','iso-8859-2'), (19,'iso_8859-4','iso-8859-4'), (20,'iso_8859-4:1988','iso-8859-4'), (21,'iso_8859-5','iso-8859-5'), (22,'iso_8859-5:1988','iso-8859-5'), (23,'iso_8859-7','iso-8859-7'), (24,'iso_8859-7:1987','iso-8859-7'), (25,'iso-8859-1','windows-1252'), (26,'iso-8859-1-windows-3.0-latin-1',NULL), (27,'iso-8859-1-windows-3.1-latin-1',NULL), (28,'iso-8859-15','iso-8859-15'), (29,'iso-8859-2','iso-8859-2'), (30,'iso-8859-2-windows-latin-2',NULL), (31,'iso-8859-3','iso-8859-3'), (32,'iso-8859-4','iso-8859-4'), (33,'iso-8859-5','iso-8859-5'), (34,'iso-8859-5-windows-latin-5',NULL), (35,'iso-8859-6','iso-8859-6'), (36,'iso-8859-7','iso-8859-7'), (37,'iso-8859-8','iso-8859-8'), (38,'iso-8859-9','windows-1254'), (39,'l1','windows-1252'), (40,'l2','iso-8859-2'), (41,'l4','iso-8859-4'), (42,'latin1','windows-1252'), (43,'latin2','iso-8859-2'), (44,'latin4','iso-8859-4'), (45,'x-mac-ce',NULL), (46,'x-mac-cyrillic','x-mac-cyrillic'), (47,'x-mac-greek',NULL), (48,'x-mac-roman','macintosh'), (49,'x-mac-turkish',NULL), (50,'adobe-symbol-encoding',NULL), (51,'ansi_x3.4-1968','windows-1252'), (52,'ansi_x3.4-1986',NULL), (53,'big5','big5'), (54,'chinese','gbk'), (55,'cn-big5','big5'), (56,'cn-gb',NULL), (57,'cn-gb-isoir165',NULL), (58,'cp367',NULL), (59,'cp819','windows-1252'), (60,'cp850',NULL), (61,'cp852',NULL), (62,'cp855',NULL), (63,'cp857',NULL), (64,'cp862',NULL), (65,'cp864',NULL), (66,'cp866','ibm866'), (67,'csascii',NULL), (68,'csbig5','big5'), (69,'cseuckr','euc-kr'), (70,'cseucpkdfmtjapanese','euc-jp'), (71,'csgb2312','gbk'), (72,'cshalfwidthkatakana',NULL), (73,'cshppsmath',NULL), (74,'csiso103t618bit',NULL), (75,'csiso159jisx02121990',NULL), (76,'csiso2022jp','iso-2022-jp'), (77,'csiso2022jp2',NULL), (78,'csiso2022kr','replacement'), (79,'csiso58gb231280','gbk'), (80,'csisolatin4','iso-8859-4'), (81,'csisolatincyrillic','iso-8859-5'), (82,'csisolatingreek','iso-8859-7'), (83,'cskoi8r','koi8-r'), (84,'csksc56011987','euc-kr'), (85,'csshiftjis','shift_jis'), (86,'csunicode11',NULL), (87,'csunicode11utf7',NULL), (88,'csunicodeascii',NULL), (89,'csunicodelatin1',NULL), (90,'cswindows31latin5',NULL), (91,'cyrillic','iso-8859-5'), (92,'ecma-118','iso-8859-7'), (93,'elot_928','iso-8859-7'), (94,'euc-jp','euc-jp'), (95,'euc-kr','euc-kr'), (96,'extended_unix_code_packed_format_for_japanese',NULL), (97,'gb2312','gbk'), (98,'gb_2312-80','gbk'), (99,'greek','iso-8859-7'), (100,'greek8','iso-8859-7'), (101,'hz-gb-2312','replacement'), (102,'ibm367',NULL), (103,'ibm819','windows-1252'), (104,'ibm850',NULL), (105,'ibm852',NULL), (106,'ibm855',NULL), (107,'ibm857',NULL), (108,'ibm862',NULL), (109,'ibm864',NULL), (110,'ibm866','ibm866'), (111,'iso-10646',NULL), (112,'iso-10646-j-1',NULL), (113,'iso-10646-ucs-2',NULL), (114,'iso-10646-ucs-4',NULL), (115,'iso-10646-ucs-basic',NULL), (116,'iso-10646-unicode-latin1',NULL), (117,'iso-2022-jp','iso-2022-jp'), (118,'iso-2022-jp-2',NULL), (119,'iso-2022-kr','replacement'), (120,'iso-ir-100','windows-1252'), (121,'iso-ir-101','iso-8859-2'), (122,'iso-ir-103',NULL), (123,'iso-ir-110','iso-8859-4'), (124,'iso-ir-126','iso-8859-7'), (125,'iso-ir-144','iso-8859-5'), (126,'iso-ir-149','euc-kr'), (127,'iso-ir-159',NULL), (128,'iso-ir-58','gbk'), (129,'iso-ir-6',NULL), (130,'iso646-us',NULL), (131,'jis_x0201',NULL), (132,'jis_x0208-1983',NULL), (133,'jis_x0212-1990',NULL), (134,'koi8-r','koi8-r'), (135,'korean','euc-kr'), (136,'ks_c_5601',NULL), (137,'ks_c_5601-1987','euc-kr'), (138,'ks_c_5601-1989','euc-kr'), (139,'ksc5601','euc-kr'), (140,'ksc_5601','euc-kr'), (141,'ms_kanji','shift_jis'), (142,'shift_jis','shift_jis'), (143,'t.61',NULL), (144,'t.61-8bit',NULL), (145,'unicode-1-1-utf-7',NULL), (146,'unicode-1-1-utf-8','utf-8'), (147,'unicode-2-0-utf-7',NULL), (148,'windows-31j','shift_jis'), (149,'x-cns11643-1',NULL), (150,'x-cns11643-1110',NULL), (151,'x-cns11643-2',NULL), (152,'x-cp1250','windows-1250'), (153,'x-cp1251','windows-1251'), (154,'x-cp1253','windows-1253'), (155,'x-dectech',NULL), (156,'x-dingbats',NULL), (157,'x-euc-jp','euc-jp'), (158,'x-euc-tw',NULL), (159,'x-gb2312-11',NULL), (160,'x-imap4-modified-utf7',NULL), (161,'x-jisx0208-11',NULL), (162,'x-ksc5601-11',NULL), (163,'x-sjis','shift_jis'), (164,'x-tis620',NULL), (165,'x-unicode-2-0-utf-7',NULL), (166,'x-x-big5','big5'), (167,'x0201',NULL), (168,'x0212',NULL)");
+				yield Zotero.DB.queryAsync("CREATE INDEX charsetsOld_canonical ON charsetsOld(canonical)");
+				
 				yield Zotero.DB.queryAsync("ALTER TABLE itemAttachments RENAME TO itemAttachmentsOld");
 				yield Zotero.DB.queryAsync("CREATE TABLE itemAttachments (\n    itemID INTEGER PRIMARY KEY,\n    parentItemID INT,\n    linkMode INT,\n    contentType TEXT,\n    charsetID INT,\n    path TEXT,\n    syncState INT DEFAULT 0,\n    storageModTime INT,\n    storageHash TEXT,\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (parentItemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (charsetID) REFERENCES charsets(charsetID) ON DELETE SET NULL\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemAttachments SELECT itemID, sourceItemID, linkMode, mimeType, charsetID, path, syncState, storageModTime, storageHash FROM itemAttachmentsOld");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemAttachments SELECT itemID, sourceItemID, linkMode, mimeType, C.charsetID, path, syncState, storageModTime, storageHash FROM itemAttachmentsOld IA LEFT JOIN charsetsOld CO ON (IA.charsetID=CO.charsetID) LEFT JOIN charsets C ON (CO.canonical=C.charset)");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemAttachments_parentItemID ON itemAttachments(parentItemID)");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemAttachments_charsetID ON itemAttachments(charsetID)");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemAttachments_contentType ON itemAttachments(contentType)");
 				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemAttachments_syncState");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemAttachments_syncState ON itemAttachments(syncState)");
-				
-				yield Zotero.DB.queryAsync("ALTER TABLE itemSeeAlso RENAME TO itemSeeAlsoOld");
-				yield Zotero.DB.queryAsync("CREATE TABLE itemSeeAlso (\n    itemID INT NOT NULL,\n    linkedItemID INT NOT NULL,\n    PRIMARY KEY (itemID, linkedItemID),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (linkedItemID) REFERENCES items(itemID) ON DELETE CASCADE\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemSeeAlso SELECT * FROM itemSeeAlsoOld");
-				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS itemSeeAlso_linkedItemID");
-				yield Zotero.DB.queryAsync("CREATE INDEX itemSeeAlso_linkedItemID ON itemSeeAlso(linkedItemID)");
 				
 				yield Zotero.DB.queryAsync("ALTER TABLE collectionItems RENAME TO collectionItemsOld");
 				yield Zotero.DB.queryAsync("CREATE TABLE collectionItems (\n    collectionID INT NOT NULL,\n    itemID INT NOT NULL,\n    orderIndex INT NOT NULL DEFAULT 0,\n    PRIMARY KEY (collectionID, itemID),\n    FOREIGN KEY (collectionID) REFERENCES collections(collectionID) ON DELETE CASCADE,\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE\n)");
@@ -2319,16 +2323,11 @@ Zotero.Schema = new function(){
 				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS deletedItems_dateDeleted");
 				yield Zotero.DB.queryAsync("CREATE INDEX deletedItems_dateDeleted ON deletedItems(dateDeleted)");
 				
-				yield Zotero.DB.queryAsync("UPDATE relations SET libraryID=1 WHERE libraryID=?", oldUserLibraryID);
-				yield Zotero.DB.queryAsync("ALTER TABLE relations RENAME TO relationsOld");
-				yield Zotero.DB.queryAsync("CREATE TABLE relations (\n    libraryID INT NOT NULL,\n    subject TEXT NOT NULL,\n    predicate TEXT NOT NULL,\n    object TEXT NOT NULL,\n    clientDateModified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    PRIMARY KEY (subject, predicate, object),\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO relations SELECT * FROM relationsOld");
-				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS relations_object");
-				yield Zotero.DB.queryAsync("CREATE INDEX relations_object ON relations(object)");
+				yield _migrateUserData_80_relations();
 				
 				yield Zotero.DB.queryAsync("ALTER TABLE groups RENAME TO groupsOld");
-				yield Zotero.DB.queryAsync("CREATE TABLE groups (\n    groupID INTEGER PRIMARY KEY,\n    libraryID INT NOT NULL UNIQUE,\n    name TEXT NOT NULL,\n    description TEXT NOT NULL,\n    editable INT NOT NULL,\n    filesEditable INT NOT NULL,\n    version INT NOT NULL,\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO groups SELECT groupID, libraryID, name, description, editable, filesEditable, 0 FROM groupsOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE groups (\n    groupID INTEGER PRIMARY KEY,\n    libraryID INT NOT NULL UNIQUE,\n    name TEXT NOT NULL,\n    description TEXT NOT NULL,\n    version INT NOT NULL,\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO groups SELECT groupID, libraryID, name, description, 0 FROM groupsOld");
 				
 				yield Zotero.DB.queryAsync("ALTER TABLE groupItems RENAME TO groupItemsOld");
 				yield Zotero.DB.queryAsync("CREATE TABLE groupItems (\n    itemID INTEGER PRIMARY KEY,\n    createdByUserID INT,\n    lastModifiedByUserID INT,\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (createdByUserID) REFERENCES users(userID) ON DELETE SET NULL,\n    FOREIGN KEY (lastModifiedByUserID) REFERENCES users(userID) ON DELETE SET NULL\n)");
@@ -2354,14 +2353,18 @@ Zotero.Schema = new function(){
 				
 				yield Zotero.DB.queryAsync("UPDATE syncDeleteLog SET libraryID=1 WHERE libraryID=0");
 				yield Zotero.DB.queryAsync("ALTER TABLE syncDeleteLog RENAME TO syncDeleteLogOld");
-				yield Zotero.DB.queryAsync("CREATE TABLE syncDeleteLog (\n    syncObjectTypeID INT NOT NULL,\n    libraryID INT NOT NULL,\n    key TEXT NOT NULL,\n    synced INT NOT NULL DEFAULT 0,\n    UNIQUE (syncObjectTypeID, libraryID, key),\n    FOREIGN KEY (syncObjectTypeID) REFERENCES syncObjectTypes(syncObjectTypeID),\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO syncDeleteLog SELECT * FROM syncDeleteLogOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE syncDeleteLog (\n    syncObjectTypeID INT NOT NULL,\n    libraryID INT NOT NULL,\n    key TEXT NOT NULL,\n    dateDeleted TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    synced INT NOT NULL DEFAULT 0,\n    UNIQUE (syncObjectTypeID, libraryID, key),\n    FOREIGN KEY (syncObjectTypeID) REFERENCES syncObjectTypes(syncObjectTypeID),\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO syncDeleteLog SELECT syncObjectTypeID, libraryID, key, timestamp, 0 FROM syncDeleteLogOld");
 				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS syncDeleteLog_timestamp");
 				yield Zotero.DB.queryAsync("CREATE INDEX syncDeleteLog_synced ON syncDeleteLog(synced)");
+				// TODO: Something special for tag deletions?
+				//yield Zotero.DB.queryAsync("DELETE FROM syncDeleteLog WHERE syncObjectTypeID IN (2, 5, 6)");
+				//yield Zotero.DB.queryAsync("DELETE FROM syncObjectTypes WHERE syncObjectTypeID IN (2, 5, 6)");
 				
+				yield Zotero.DB.queryAsync("UPDATE storageDeleteLog SET libraryID=1 WHERE libraryID=0");
 				yield Zotero.DB.queryAsync("ALTER TABLE storageDeleteLog RENAME TO storageDeleteLogOld");
-				yield Zotero.DB.queryAsync("CREATE TABLE storageDeleteLog (\n    libraryID INT NOT NULL,\n    key TEXT NOT NULL,\n    synced INT NOT NULL DEFAULT 0,\n    PRIMARY KEY (libraryID, key),\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
-				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO storageDeleteLog SELECT * FROM storageDeleteLogOld");
+				yield Zotero.DB.queryAsync("CREATE TABLE storageDeleteLog (\n    libraryID INT NOT NULL,\n    key TEXT NOT NULL,\n    dateDeleted TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    synced INT NOT NULL DEFAULT 0,\n    PRIMARY KEY (libraryID, key),\n    FOREIGN KEY (libraryID) REFERENCES libraries(libraryID) ON DELETE CASCADE\n)");
+				yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO storageDeleteLog SELECT libraryID, key, timestamp, 0 FROM storageDeleteLogOld");
 				yield Zotero.DB.queryAsync("DROP INDEX IF EXISTS storageDeleteLog_timestamp");
 				yield Zotero.DB.queryAsync("CREATE INDEX storageDeleteLog_synced ON storageDeleteLog(synced)");
 				
@@ -2389,6 +2392,7 @@ Zotero.Schema = new function(){
 				
 				yield Zotero.DB.queryAsync("DROP TABLE annotationsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE collectionItemsOld");
+				yield Zotero.DB.queryAsync("DROP TABLE charsetsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE customBaseFieldMappingsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE deletedItemsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE fulltextItemWordsOld");
@@ -2400,9 +2404,7 @@ Zotero.Schema = new function(){
 				yield Zotero.DB.queryAsync("DROP TABLE itemCreatorsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE itemDataOld");
 				yield Zotero.DB.queryAsync("DROP TABLE itemNotesOld");
-				yield Zotero.DB.queryAsync("DROP TABLE itemSeeAlsoOld");
 				yield Zotero.DB.queryAsync("DROP TABLE itemTagsOld");
-				yield Zotero.DB.queryAsync("DROP TABLE relationsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE savedSearchesOld");
 				yield Zotero.DB.queryAsync("DROP TABLE storageDeleteLogOld");
 				yield Zotero.DB.queryAsync("DROP TABLE syncDeleteLogOld");
@@ -2412,6 +2414,7 @@ Zotero.Schema = new function(){
 				yield Zotero.DB.queryAsync("DROP TABLE creatorData");
 				yield Zotero.DB.queryAsync("DROP TABLE itemsOld");
 				yield Zotero.DB.queryAsync("DROP TABLE tagsOld");
+				yield Zotero.DB.queryAsync("DROP TABLE librariesOld");
 			}
 		}
 		
@@ -2483,5 +2486,203 @@ Zotero.Schema = new function(){
 		}
 		yield _updateDBVersion('multilingual', toVersion);
 		return true;
+    });
+	
+	//
+	// Longer functions for specific upgrade steps
+	//
+	var _migrateUserData_80_relations = Zotero.Promise.coroutine(function* () {
+		yield Zotero.DB.queryAsync("CREATE TABLE relationPredicates (\n    predicateID INTEGER PRIMARY KEY,\n    predicate TEXT UNIQUE\n)");
+		
+		yield Zotero.DB.queryAsync("CREATE TABLE collectionRelations (\n    collectionID INT NOT NULL,\n    predicateID INT NOT NULL,\n    object TEXT NOT NULL,\n    PRIMARY KEY (collectionID, predicateID, object),\n    FOREIGN KEY (collectionID) REFERENCES collections(collectionID) ON DELETE CASCADE,\n    FOREIGN KEY (predicateID) REFERENCES relationPredicates(predicateID) ON DELETE CASCADE\n)");
+		yield Zotero.DB.queryAsync("CREATE INDEX collectionRelations_predicateID ON collectionRelations(predicateID)");
+		yield Zotero.DB.queryAsync("CREATE INDEX collectionRelations_object ON collectionRelations(object);");
+		yield Zotero.DB.queryAsync("CREATE TABLE itemRelations (\n    itemID INT NOT NULL,\n    predicateID INT NOT NULL,\n    object TEXT NOT NULL,\n    PRIMARY KEY (itemID, predicateID, object),\n    FOREIGN KEY (itemID) REFERENCES items(itemID) ON DELETE CASCADE,\n    FOREIGN KEY (predicateID) REFERENCES relationPredicates(predicateID) ON DELETE CASCADE\n)");
+		yield Zotero.DB.queryAsync("CREATE INDEX itemRelations_predicateID ON itemRelations(predicateID)");
+		yield Zotero.DB.queryAsync("CREATE INDEX itemRelations_object ON itemRelations(object);");
+		
+		yield Zotero.DB.queryAsync("UPDATE relations SET subject=object, predicate='dc:replaces', object=subject WHERE predicate='dc:isReplacedBy'");
+		
+		var start = 0;
+		var limit = 100;
+		var collectionSQL = "INSERT OR IGNORE INTO collectionRelations (collectionID, predicateID, object) VALUES ";
+		var itemSQL = "INSERT OR IGNORE INTO itemRelations (itemID, predicateID, object) VALUES ";
+		//                  1        2                1         2       3                    4
+		var objectRE = /(?:(users)\/(\d+|local\/\w+)|(groups)\/(\d+))\/(collections|items)\/([A-Z0-9]{8})/;
+		//                1        2                1         2               3
+		var itemRE = /(?:(users)\/(\d+|local\/\w+)|(groups)\/(\d+))\/items\/([A-Z0-9]{8})/;
+		var report = "";
+		var groupLibraryIDMap = {};
+		var resolveLibrary = Zotero.Promise.coroutine(function* (usersOrGroups, id) {
+			if (usersOrGroups == 'users') return 1;
+			if (groupLibraryIDMap[id] !== undefined) return groupLibraryIDMap[id];
+			return groupLibraryIDMap[id] = (yield Zotero.DB.valueQueryAsync("SELECT libraryID FROM groups WHERE libraryID=?", id));
+		});
+		var predicateMap = {};
+		var resolvePredicate = Zotero.Promise.coroutine(function* (predicate) {
+			if (predicateMap[predicate]) return predicateMap[predicate];
+			yield Zotero.DB.queryAsync("INSERT INTO relationPredicates (predicateID, predicate) VALUES (NULL, ?)", predicate);
+			return predicateMap[predicate] = Zotero.DB.valueQueryAsync("SELECT predicateID FROM relationPredicates WHERE predicate=?", predicate);
+		});
+		while (true) {
+			let rows = yield Zotero.DB.queryAsync("SELECT subject, predicate, object FROM relations LIMIT ?, ?", [start, limit]);
+			if (!rows.length) {
+				break;
+			}
+			
+			let collectionRels = [];
+			let itemRels = [];
+			
+			for (let i = 0; i < rows.length; i++) {
+				let row = rows[i];
+				let concat = row.subject + " - " + row.predicate + " - " + row.object;
+				
+				try {
+					switch (row.predicate) {
+					case 'owl:sameAs':
+						let subjectMatch = row.subject.match(objectRE);
+						let objectMatch = row.object.match(objectRE);
+						if (!subjectMatch && !objectMatch) {
+							Zotero.logError("No match for relation subject or object: " + concat);
+							report += concat + "\n";
+							continue;
+						}
+						// Remove empty captured groups
+						subjectMatch = subjectMatch ? subjectMatch.filter(x => x) : false;
+						objectMatch = objectMatch ? objectMatch.filter(x => x) : false;
+						let subjectLibraryID = false;
+						let subjectType = false;
+						let subject = false;
+						let objectLibraryID = false;
+						let objectType = false;
+						let object = false;
+						if (subjectMatch) {
+							subjectLibraryID = (yield resolveLibrary(subjectMatch[1], subjectMatch[2])) || false;
+							subjectType = subjectMatch[3];
+						}
+						if (objectMatch) {
+							objectLibraryID = (yield resolveLibrary(objectMatch[1], objectMatch[2])) || false;
+							objectType = objectMatch[3];
+						}
+						// Use subject if it's a user library or it isn't but neither is object, and if object can be found
+						if (subjectLibraryID && (subjectLibraryID == 1 || objectLibraryID != 1)) {
+							let key = subjectMatch[4];
+							if (subjectType == 'collection') {
+								let collectionID = yield Zotero.DB.valueQueryAsync("SELECT collectionID FROM collections WHERE libraryID=? AND key=?", [subjectLibraryID, key]);
+								if (collectionID) {
+									collectionRels.push([collectionID, row.predicate, row.object]);
+									continue;
+								}
+							}
+							else {
+								let itemID = yield Zotero.DB.valueQueryAsync("SELECT itemID FROM items WHERE libraryID=? AND key=?", [subjectLibraryID, key]);
+								if (itemID) {
+									itemRels.push([itemID, row.predicate, row.object]);
+									continue;
+								}
+							}
+						}
+						
+						// Otherwise use object if it can be found
+						if (objectLibraryID) {
+							let key = objectMatch[4];
+							if (objectType == 'collection') {
+								let collectionID = yield Zotero.DB.valueQueryAsync("SELECT collectionID FROM collections WHERE libraryID=? AND key=?", [objectLibraryID, key]);
+								if (collectionID) {
+									collectionRels.push([collectionID, row.predicate, row.subject]);
+									continue;
+								}
+							}
+							else {
+								let itemID = yield Zotero.DB.valueQueryAsync("SELECT itemID FROM items WHERE libraryID=? AND key=?", [objectLibraryID, key]);
+								if (itemID) {
+									itemRels.push([itemID, row.predicate, row.subject]);
+									continue;
+								}
+							}
+							Zotero.logError("Neither subject nor object found: " + concat);
+							report += concat + "\n";
+						}
+						break;
+					
+					case 'dc:replaces':
+						let match = row.subject.match(itemRE);
+						if (!match) {
+							Zotero.logError("Unrecognized subject: " + concat);
+							report += concat + "\n";
+							continue;
+						}
+						// Remove empty captured groups
+						match = match.filter(x => x);
+						let libraryID;
+						// Users
+						if (match[1] == 'users') {
+							let itemID = yield Zotero.DB.valueQueryAsync("SELECT itemID FROM items WHERE libraryID=? AND key=?", [1, match[3]]);
+							if (!itemID) {
+								Zotero.logError("Subject not found: " + concat);
+								report += concat + "\n";
+								continue;
+							}
+							itemRels.push([itemID, row.predicate, row.object]);
+						}
+						// Groups
+						else {
+							let itemID = yield Zotero.DB.valueQueryAsync("SELECT itemID FROM items JOIN groups USING (libraryID) WHERE groupID=? AND key=?", [match[2], match[3]]);
+							if (!itemID) {
+								Zotero.logError("Subject not found: " + concat);
+								report += concat + "\n";
+								continue;
+							}
+							itemRels.push([itemID, row.predicate, row.object]);
+						}
+						break;
+					
+					default:
+						Zotero.logError("Unknown predicate '" + row.predicate + "': " + concat);
+						report += concat + "\n";
+						continue;
+					}
+				}
+				catch (e) {
+					Zotero.logError(e);
+				}
+			}
+			
+			if (collectionRels.length) {
+				for (let i = 0; i < collectionRels.length; i++) {
+					collectionRels[i][1] = yield resolvePredicate(collectionRels[i][1]);
+				}
+				yield Zotero.DB.queryAsync(collectionSQL + collectionRels.map(() => "(?, ?, ?)").join(", "), collectionRels.reduce((x, y) => x.concat(y)));
+			}
+			if (itemRels.length) {
+				for (let i = 0; i < itemRels.length; i++) {
+					itemRels[i][1] = yield resolvePredicate(itemRels[i][1]);
+				}
+				yield Zotero.DB.queryAsync(itemSQL + itemRels.map(() => "(?, ?, ?)").join(", "), itemRels.reduce((x, y) => x.concat(y)));
+			}
+			
+			start += limit;
+		}
+		if (report.length) {
+			report = "Removed relations:\n\n" + report;
+			Zotero.debug(report);
+		}
+		yield Zotero.DB.queryAsync("DROP TABLE relations");
+		
+		//
+		// Migrate related items
+		//
+		// If no user id and no local key, create a local key
+		if (!(yield Zotero.DB.valueQueryAsync("SELECT value FROM settings WHERE setting='account' AND key='userID'"))
+				&& !(yield Zotero.DB.valueQueryAsync("SELECT value FROM settings WHERE setting='account' AND key='localUserKey'"))) {
+			yield Zotero.DB.queryAsync("INSERT INTO settings (setting, key, value) VALUES ('account', 'localUserKey', ?)", Zotero.randomString(8));
+		}
+		var predicateID = predicateMap["dc:relation"];
+		if (!predicateID) {
+			yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO relationPredicates VALUES (NULL, 'dc:relation')");
+			predicateID = yield Zotero.DB.valueQueryAsync("SELECT predicateID FROM relationPredicates WHERE predicate=?", 'dc:relation');
+		}
+		yield Zotero.DB.queryAsync("INSERT OR IGNORE INTO itemRelations SELECT ISA.itemID, " + predicateID + ", 'http://zotero.org/' || (CASE WHEN G.libraryID IS NULL THEN 'users/' || IFNULL((SELECT value FROM settings WHERE setting='account' AND key='userID'), (SELECT value FROM settings WHERE setting='account' AND key='localUserKey')) ELSE 'groups/' || G.groupID END) || '/' || I.key FROM itemSeeAlso ISA JOIN items I ON (ISA.linkedItemID=I.itemID) LEFT JOIN groups G USING (libraryID)");
+		yield Zotero.DB.queryAsync("DROP TABLE itemSeeAlso");
 	});
 }

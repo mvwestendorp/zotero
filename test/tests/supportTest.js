@@ -2,13 +2,8 @@ describe("Support Functions for Unit Testing", function() {
 	describe("resetDB", function() {
 		it("should restore the DB to factory settings", function* () {
 			this.timeout(60000);
-			yield Zotero.Items.erase(1);
-			assert.isFalse(yield Zotero.Items.getAsync(1));
 			yield resetDB();
-			var item = yield Zotero.Items.getAsync(1);
-			assert.isObject(item);
-			yield item.loadItemData();
-			assert.equal(item.getField("url"), "https://www.zotero.org/support/quick_start_guide");
+			assert.equal((yield Zotero.DB.valueQueryAsync("SELECT COUNT(*) FROM items")), 0);
 		});
 	});
 	describe("loadSampleData", function() {
@@ -41,7 +36,9 @@ describe("Support Functions for Unit Testing", function() {
 					if (skipFields.indexOf(prop) != -1) continue;
 					
 					// Using base-mapped fields
-					assert.equal(item[prop], zItem.getField(prop, false, true), 'inserted item property has the same value as sample data');
+					let field = zItem.getField(prop, false, true);
+					if (prop === "accessDate") field = Zotero.Date.sqlToISO8601(field);
+					assert.equal(field, item[prop], 'inserted item property has the same value as sample data');
 				}
 				
 				if (item.creators) {
@@ -74,7 +71,7 @@ describe("Support Functions for Unit Testing", function() {
 
 			let tags = data.itemWithTags.tags;
 			for (let i=0; i<tags.length; i++) {
-				let tagID = Zotero.Tags.getID(zItem.libraryID, tags[i].tag);
+				let tagID = yield Zotero.Tags.getID(tags[i].tag);
 				assert.ok(tagID, '"' + tags[i].tag + '" tag was inserted into the database');
 				assert.ok(zItem.hasTag(tags[i].tag), '"' + tags[i].tag + '" tag was assigned to item');
 			}

@@ -90,14 +90,13 @@ Zotero.Translate.Sandbox = {
 				
 			const allowedObjects = ["complete", "attachments", "seeAlso", "creators", "tags", "notes", "multi"];
 			
-			delete item.complete;
+			// Create a new object here, so that we strip the "complete" property
+			// (But don't create a new object if we're in a child translator, since that
+			// would be a problem for the sandbox)
+			var newItem = translate._parentTranslator ? item : {};
 			for(var i in item) {
 				var val = item[i];
-				if(!val && val !== 0) {
-					// remove null, undefined, and false properties, and convert objects to strings
-					delete item[i];
-					continue;
-				}
+				if(i === "complete" || (!val && val !== 0)) continue;
 				
 				var type = typeof val;
 				var isObject = type === "object" || type === "xml" || type === "function",
@@ -105,15 +104,18 @@ Zotero.Translate.Sandbox = {
 				if(isObject && !shouldBeObject) {
 					// Convert things that shouldn't be objects to objects
 					translate._debug("Translate: WARNING: typeof "+i+" is "+type+"; converting to string");
-					item[i] = val.toString();
+					newItem[i] = val.toString();
 				} else if(shouldBeObject && !isObject) {
 					translate._debug("Translate: WARNING: typeof "+i+" is "+type+"; converting to array");
-					item[i] = [val];
+					newItem[i] = [val];
 				} else if(type === "string") {
 					// trim strings
-					item[i] = val.trim();
+					newItem[i] = val.trim();
+				} else {
+					newItem[i] = val;
 				}
 			}
+			item = newItem;
 
 			// Clean empty creators
 			if (item.creators) {
@@ -125,6 +127,9 @@ Zotero.Translate.Sandbox = {
 					}
 				}
 			}
+
+			// Canonicalize tags
+			if(item.tags) item.tags = translate._cleanTags(item.tags);
 			
 			// if we're not supposed to save the item or we're in a child translator,
 			// just return the item array
@@ -137,16 +142,48 @@ Zotero.Translate.Sandbox = {
 			// We use this within the connector to keep track of items as they are saved
 			if(!item.id) item.id = Zotero.Utilities.randomString();
 			
-			// don't save documents as documents in connector, since we can't pass them around
-			if(Zotero.isConnector) {
+			if(item.attachments) {
 				var attachments = item.attachments;
-				var nAttachments = attachments.length;
-				for(var j=0; j<nAttachments; j++) {
-					if(attachments[j].document) {
-						attachments[j].url = attachments[j].document.documentURI || attachments[j].document.URL;
-						attachments[j].mimeType = "text/html";
-						delete attachments[j].document;
+				for(var j=0; j<attachments.length; j++) {
+					var attachment = attachments[j];
+
+					// Don't save documents as documents in connector, since we can't pass them around
+					if(Zotero.isConnector && attachment.document) {
+						attachment.url = attachment.document.documentURI || attachment.document.URL;
+						attachment.mimeType = "text/html";
+						delete attachment.document;
 					}
+
+					// Canonicalize tags
+					if(attachment.tags !== undefined) attachment.tags = translate._cleanTags(attachment.tags);
+				}
+			}
+
+			if(item.notes) {
+				var notes = item.notes;
+				for(var j=0; j<notes.length; j++) {
+					var note = notes[j];
+					if(!note) {
+						notes.splice(j--, 1);
+					} else if(typeof(note) == "object") {
+						// Canonicalize tags
+						if(note.tags !== undefined) note.tags = translate._cleanTags(note.tags);
+					} else {
+						// Convert to object
+						notes[j] = {"note":note.toString()}
+					}
+				}
+			}
+
+			if (item.version) {
+				translate._debug("Translate: item.version is deprecated; set item.versionNumber instead");
+				item.versionNumber = item.version;
+			}
+
+			if (item.accessDate) {
+				if (Zotero.Date.isSQLDateTime(item.accessDate)) {
+					translate._debug("Translate: Passing accessDate as SQL is deprecated; pass an ISO 8601 date instead");
+					item.accessDate = Zotero.Date.sqlToISO8601(item.accessDate);
 				}
 			}
 		
@@ -320,7 +357,7 @@ Zotero.Translate.Sandbox = {
 					errorHandlerSet = true;
 					translation.setHandler("error", function(obj, error) { translate.complete(false, error) });
 				}
-				return translation.translate(false);
+				translation.translate(false);
 			};
 			
 			safeTranslator.getTranslatorObject = function(callback) {
@@ -556,13 +593,13 @@ Zotero.Translate.Sandbox = {
 				}
 				
 				// automatically set library catalog
-				if(item.libraryCatalog === undefined) {
+				if(item.libraryCatalog === undefined && item.itemType != "webpage") {
 					item.libraryCatalog = translate.translator[0].label;
 				}
 							
 				// automatically set access date if URL is set
 				if(item.url && typeof item.accessDate == 'undefined') {
-					item.accessDate = "CURRENT_TIMESTAMP";
+					item.accessDate = Zotero.Date.dateToISO(new Date());
 				}
 				
 				//consider type-specific "title" alternatives
@@ -649,6 +686,9 @@ Zotero.Translate.Sandbox = {
 					
 					if(attachment.url) {
 						// Remap attachment (but not link) URLs
+						// TODO: provide both proxied and un-proxied URLs (also for documents)
+						//   because whether the attachment is attached as link or file
+						//   depends on Zotero preferences as well.
 						attachment.url = translate.resolveURL(attachment.url, attachment.snapshot === false);
 					}
 				}
@@ -717,13 +757,9 @@ Zotero.Translate.Sandbox = {
 		 * @param {SandboxCollection} collection
 		 */
 		"_collectionDone":function(translate, collection) {
+			translate.newCollections.push(collection);
 			if(translate._libraryID == false) {
-				translate.newCollections.push(collection);
 				translate._runHandler("collectionDone", collection);
-			} else {
-				var newCollection = translate._itemSaver.saveCollection(collection);
-				translate.newCollections.push(newCollection);
-				translate._runHandler("collectionDone", newCollection);
 			}
 		},
 		
@@ -1139,6 +1175,8 @@ Zotero.Translate.Base.prototype = {
 	 *																or NULL for default library;
 	 *																if FALSE, don't save items
 	 * @param 	{Boolean}				[saveAttachments=true]	Exclude attachments (e.g., snapshots) on import
+	 * @returns {Promise}                                       Promise resolved with saved items
+	 *                                                          when translation complete
 	 */
 	"translate":function(libraryID, saveAttachments) {		// initialize properties specific to each translation
 		if(!this.translator || !this.translator.length) {
@@ -1163,6 +1201,22 @@ Zotero.Translate.Base.prototype = {
 		this._savingAttachments = [];
 		this._savingItems = 0;
 		this._waitingForSave = false;
+
+		// Attach handlers for promise
+		var me = this,
+		    deferred = Zotero.Promise.defer();
+		var doneHandler = function (obj, returnValue) {
+			if (returnValue) deferred.resolve(me.newItems);
+			me.removeHandler("done", doneHandler);
+			me.removeHandler("error", errorHandler);
+		};
+		var errorHandler = function (obj, error) {
+			deferred.reject(error);
+			me.removeHandler("done", doneHandler);
+			me.removeHandler("error", errorHandler);
+		};
+		this.setHandler("done", doneHandler);
+		this.setHandler("error", errorHandler);
 		
 		var me = this;
 		if(typeof this.translator[0] === "object") {
@@ -1174,6 +1228,7 @@ Zotero.Translate.Base.prototype = {
 			this.translator[0] = translator;
 			this._loadTranslator(translator).then(function() { me._translateTranslatorLoaded() });
 		}
+		return deferred.promise;
 	},
 	
 	/**
@@ -1217,34 +1272,49 @@ Zotero.Translate.Base.prototype = {
 	 * @private
 	 */
 	"resolveURL":function(url, dontUseProxy) {
-		const hostPortRe = /^((?:http|https|ftp):)\/\/([^\/]+)/i;
-		// resolve local URL
-		var resolved = "";
+		Zotero.debug("Translate: resolving URL " + url);
+		
+		const hostPortRe = /^([A-Z][-A-Z0-9+.]*):\/\/[^\/]+/i;
+		const allowedSchemes = ['http', 'https', 'ftp'];
+		
+		var m = url.match(hostPortRe),
+			resolved;
+		if (!m) {
+			// Convert relative URLs to absolute
+			if(Zotero.isFx && this.location) {
+				resolved = Components.classes["@mozilla.org/network/io-service;1"].
+					getService(Components.interfaces.nsIIOService).
+					newURI(this.location, "", null).resolve(url);
+			} else if(Zotero.isNode && this.location) {
+				resolved = require('url').resolve(this.location, url);
+			} else if (this.document) {
+				var a = this.document.createElement('a');
+				a.href = url;
+				resolved = a.href;
+			} else if (url.indexOf('//') == 0) {
+				// Protocol-relative URL with no associated web page
+				// Use HTTP by default
+				resolved = 'http:' + url;
+			} else {
+				throw new Error('Cannot resolve relative URL without an associated web page: ' + url);
+			}
+		} else if (allowedSchemes.indexOf(m[1].toLowerCase()) == -1) {
+			Zotero.debug("Translate: unsupported scheme " + m[1]);
+			return url;
+		} else {
+			resolved = url;
+		}
+		
+		Zotero.debug("Translate: resolved to " + resolved);
 		
 		// convert proxy to proper if applicable
-		if(hostPortRe.test(url)) {
-			if(this.translator && this.translator[0]
-					&& this.translator[0].properToProxy && !dontUseProxy) {
-				resolved = this.translator[0].properToProxy(url);
-			} else {
-				resolved = url;
+		if(!dontUseProxy && this.translator && this.translator[0]
+				&& this.translator[0].properToProxy) {
+			var proxiedURL = this.translator[0].properToProxy(resolved);
+			if (proxiedURL != resolved) {
+				Zotero.debug("Translate: proxified to " + proxiedURL);
 			}
-		} else if(Zotero.isFx && this.location) {
-			resolved = Components.classes["@mozilla.org/network/io-service;1"].
-				getService(Components.interfaces.nsIIOService).
-				newURI(this.location, "", null).resolve(url);
-		} else if(Zotero.isNode && this.location) {
-			resolved = require('url').resolve(this.location, url);
-		} else if (this.document) {
-			var a = this.document.createElement('a');
-			a.href = url;
-			resolved = a.href;
-		} else if (url.indexOf('//') == 0) {
-			// Protocol-relative URL with no associated web page
-			// Use HTTP by default
-			resolved = 'http:' + url;
-		} else {
-			throw new Error('Cannot resolve relative URL without an associated web page: ' + url);
+			resolved = proxiedURL;
 		}
 		
 		/*var m = hostPortRe.exec(resolved);
@@ -1368,6 +1438,31 @@ Zotero.Translate.Base.prototype = {
 		
 		return errorString;
 	},
+
+	/**
+	 * Canonicalize an array of tags such that they are all objects with the tag stored in the
+	 * "tag" property and a type (if specified) is stored in the "type" property
+	 * @returns {Object[]} Array of new tag objects
+	 */
+	"_cleanTags":function(tags) {
+		var newTags = [];
+		if(!tags) return newTags;
+		for(var i=0; i<tags.length; i++) {
+			var tag = tags[i];
+			if(!tag) continue;
+			if(typeof(tag) == "object") {
+				var tagString = tag.tag || tag.name;
+				if(tagString) {
+					var newTag = {"tag":tagString};
+					if(tag.type) newTag.type = tag.type;
+					newTags.push(newTag);
+				}
+			} else {
+				newTags.push({"tag":tag.toString()});
+			}
+		}
+		return newTags;
+	},
 	
 	/**
 	 * Saves items to the database, taking care to defer attachmentProgress notifications
@@ -1443,7 +1538,18 @@ Zotero.Translate.Base.prototype = {
 	 */
 	"_checkIfDone":function() {
 		if(!this._savingItems && !this._savingAttachments.length && (!this._currentState || this._waitingForSave)) {
-			this._runHandler("done", true);
+			if(this.newCollections) {
+				var me = this;
+				this._itemSaver.saveCollections(this.newCollections).then(function (newCollections) {
+					me.newCollections = newCollections;
+					me._runHandler("done", true);
+				}, function (err) {
+					me._runHandler("error", err);
+					me._runHandler("done", false);
+				});
+			} else {
+				this._runHandler("done", true);
+			}
 		}
 	},
 	
@@ -1739,9 +1845,13 @@ Zotero.Translate.Web.prototype._getParameters = function() {
  * Prepare translation
  */
 Zotero.Translate.Web.prototype._prepareTranslation = function() {
-	this._itemSaver = new Zotero.Translate.ItemSaver(this._libraryID,
-		Zotero.Translate.ItemSaver[(this._saveAttachments ? "ATTACHMENT_MODE_DOWNLOAD" : "ATTACHMENT_MODE_IGNORE")], 1,
-		this.document, this._cookieSandbox, this.location);
+	this._itemSaver = new Zotero.Translate.ItemSaver({
+		"libraryID":this._libraryID,
+		"attachmentMode":Zotero.Translate.ItemSaver[(this._saveAttachments ? "ATTACHMENT_MODE_DOWNLOAD" : "ATTACHMENT_MODE_IGNORE")],
+		"forceTagType":1,
+		"cookieSandbox":this._cookieSandbox,
+		"baseURI":this.location
+	});
 	this.newItems = [];
 }
 
@@ -1750,7 +1860,7 @@ Zotero.Translate.Web.prototype._prepareTranslation = function() {
  */
 Zotero.Translate.Web.prototype.translate = function(libraryID, saveAttachments, selectedItems) {
 	this._selectedItems = selectedItems;
-	Zotero.Translate.Base.prototype.translate.apply(this, [libraryID, saveAttachments]);
+	return Zotero.Translate.Base.prototype.translate.apply(this, [libraryID, saveAttachments]);
 }
 
 /**
@@ -2046,10 +2156,12 @@ Zotero.Translate.Import.prototype._prepareTranslation = function() {
 				getService(Components.interfaces.nsIIOService).newFileURI(this.location);
 		} catch(e) {}
 	}
-	
-	this._itemSaver = new Zotero.Translate.ItemSaver(this._libraryID,
-		Zotero.Translate.ItemSaver[(this._saveAttachments ? "ATTACHMENT_MODE_FILE" : "ATTACHMENT_MODE_IGNORE")],
-		undefined, undefined, undefined, baseURI);
+
+	this._itemSaver = new Zotero.Translate.ItemSaver({
+		"libraryID":this._libraryID,
+		"attachmentMode":Zotero.Translate.ItemSaver[(this._saveAttachments ? "ATTACHMENT_MODE_FILE" : "ATTACHMENT_MODE_IGNORE")],
+		"baseURI":baseURI
+	});
 	this.newItems = [];
 	this.newCollections = [];
 }
@@ -2217,7 +2329,7 @@ Zotero.Translate.Export.prototype.translate = function() {
 	if(!this.translator || !this.translator.length) {
 		this.complete(false, new Error("Export translation initiated without setting a translator"));
 	} else {
-		Zotero.Translate.Base.prototype.translate.apply(this, arguments);
+		return Zotero.Translate.Base.prototype.translate.apply(this, arguments);
 	}
 };
 

@@ -83,7 +83,7 @@
 						</tabpanel>
 						
 						<tabpanel>
-							<seealsobox id="zotero-editpane-related" flex="1"/>
+							<relatedbox id="zotero-editpane-related" flex="1"/>
 						</tabpanel>
 					</tabpanels>
 			</tabbox>

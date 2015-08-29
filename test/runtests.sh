@@ -42,6 +42,7 @@ DONE
 	exit 1
 }
 
+DEBUG_LEVEL=0
 while getopts "bcd:fg:tx:" opt; do
 	case $opt in
         b)
@@ -104,6 +105,8 @@ user_pref("extensions.zotero.debug.time", $DEBUG);
 user_pref("extensions.zotero.firstRunGuidance", false);
 user_pref("extensions.zotero.firstRun2", false);
 user_pref("extensions.zotero.reportTranslationFailure", false);
+user_pref("extensions.zotero.httpServer.enabled", true);
+user_pref("extensions.zotero.backup.numBackups", 0);
 EOF
 
 # -v flag on Windows makes Firefox process hang

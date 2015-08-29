@@ -117,6 +117,21 @@ function Reporter(runner) {
 	});
 
 	runner.on('fail', function(test, err){
+		// Strip Chai lines from stack trace
+		err.stack = err.stack.replace(/.+zotero-unit\/chai.+\n/g, "");
+		// Strip "From previous event:" block if it's all internals
+		var re = /\s*From previous event:(.|\n)+/;
+		var matches = re.exec(err.stack);
+		if (matches) {
+			err.stack = err.stack.substr(0, matches.index);
+			var previous = matches[0].split(/\n/)
+				.filter(line => line.indexOf('zotero-unit/') == -1).join('\n');
+			if (previous.trim() != "From previous event:") {
+				err.stack += previous;
+			}
+		}
+		err.stack += "\n";
+		
 		failed++;
 		dump("\r" + indent()
 			// Dark red X for errors
@@ -138,7 +153,7 @@ function Reporter(runner) {
 	});
 }
 
-// Monkey-patch Mocha to check instanceof Error using compartent-local
+// Monkey-patch Mocha to check instanceof Error using compartment-local
 // Error object
 Mocha.Runner.prototype.fail = function(test, err){
 	++this.failures;
@@ -168,6 +183,8 @@ mocha.setup({
 	Runnable.prototype.run = function (fn) {
 		if (this.fn.constructor.name === 'GeneratorFunction') {
 			this.fn = Zotero.Promise.coroutine(this.fn);
+		} else if (typeof this.fn == 'function' && this.fn.isGenerator()) {
+			throw new Error("Attempting to use a legacy generator in Mocha test");
 		}
 		return run.call(this, fn);
 	};
@@ -189,6 +206,7 @@ if(run && ZoteroUnit.tests) {
 				testFiles.push(file.leafName);
 			}
 		}
+		testFiles.sort();
 	} else {
 		var specifiedTests = ZoteroUnit.tests.split(",");
 		for (let test of specifiedTests) {
@@ -212,6 +230,7 @@ if(run && ZoteroUnit.tests) {
 		var el = document.createElement("script");
 		el.type = "application/javascript;version=1.8";
 		el.src = "resource://zotero-unit-tests/"+fname;
+		el.async = false;
 		document.body.appendChild(el);
 	}
 }

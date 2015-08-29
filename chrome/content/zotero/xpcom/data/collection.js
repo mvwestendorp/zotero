@@ -40,7 +40,8 @@ Zotero.extendClass(Zotero.DataObject, Zotero.Collection);
 Zotero.Collection.prototype._objectType = 'collection';
 Zotero.Collection.prototype._dataTypes = Zotero.Collection._super.prototype._dataTypes.concat([
 	'childCollections',
-	'childItems'
+	'childItems',
+	'relations'
 ]);
 
 Zotero.defineProperty(Zotero.Collection.prototype, 'ChildObjects', {
@@ -98,24 +99,57 @@ Zotero.Collection.prototype.getName = function() {
  * Populate collection data from a database row
  */
 Zotero.Collection.prototype.loadFromRow = function(row) {
-	for each(let col in this.ObjectsClass.primaryFields) {
-		if (row[col] === undefined) {
-			Zotero.debug('Skipping missing collection field ' + col);
+	var primaryFields = this._ObjectsClass.primaryFields;
+	for (let i=0; i<primaryFields.length; i++) {
+		let col = primaryFields[i];
+		try {
+			var val = row[col];
 		}
+		catch (e) {
+			Zotero.debug('Skipping missing ' + this._objectType + ' field ' + col);
+			continue;
+		}
+		
+		switch (col) {
+		case this._ObjectsClass.idColumn:
+			col = 'id';
+			break;
+		
+		// Integer
+		case 'libraryID':
+			val = parseInt(val);
+			break;
+		
+		// Integer or 0
+		case 'version':
+			val = val ? parseInt(val) : 0;
+			break;
+		
+		// Value or false
+		case 'parentKey':
+			val = val || false;
+			break;
+		
+		// Integer or false if falsy
+		case 'parentID':
+			val = val ? parseInt(val) : false;
+			break;
+		
+		// Boolean
+		case 'synced':
+		case 'hasChildCollections':
+		case 'hasChildItems':
+			val = !!val;
+			break;
+		
+		default:
+			val = val || '';
+		}
+		
+		this['_' + col] = val;
 	}
 	
-	this._id = row.collectionID;
-	this._libraryID = parseInt(row.libraryID);
-	this._key = row.key;
-	this._name = row.name;
-	this._parentID = row.parentID || false;
-	this._parentKey = row.parentKey || false;
-	this._version = parseInt(row.version);
-	this._synced = !!row.synced;
-	
-	this._hasChildCollections = !!row.hasChildCollections;
 	this._childCollectionsLoaded = false;
-	this._hasChildItems = !!row.hasChildItems;
 	this._childItemsLoaded = false;
 	
 	this._loaded.primaryData = true;
@@ -287,22 +321,18 @@ Zotero.Collection.prototype._saveData = Zotero.Promise.coroutine(function* (env)
 				this.libraryID, this.parentKey
 			);
 			Zotero.DB.addCurrentCallback("commit", function () {
-				this.ObjectsClass.registerChildCollection(parentCollectionID, this.id);
+				this.ObjectsClass.registerChildCollection(parentCollectionID, collectionID);
 			}.bind(this));
 		}
 		// Remove this from the previous parent's cached collection lists after commit,
 		// if the parent was loaded
-		else if (!isNew && this._previousData.parentKey) {
+		if (!isNew && this._previousData.parentKey) {
 			let parentCollectionID = this.ObjectsClass.getIDFromLibraryAndKey(
 				this.libraryID, this._previousData.parentKey
 			);
 			Zotero.DB.addCurrentCallback("commit", function () {
-				this.ObjectsClass.unregisterChildCollection(parentCollectionID, this.id);
+				this.ObjectsClass.unregisterChildCollection(parentCollectionID, collectionID);
 			}.bind(this));
-		}
-		
-		if (!isNew) {
-			Zotero.Notifier.queue('move', 'collection', this.id);
 		}
 	}
 });
@@ -388,7 +418,7 @@ Zotero.Collection.prototype.addItems = Zotero.Promise.coroutine(function* (itemI
  *
  * @return {Promise}
  */
-Zotero.Collection.prototype.removeItem = function (itemIDs) {
+Zotero.Collection.prototype.removeItem = function (itemID) {
 	return this.removeItems([itemID]);
 }
 
@@ -560,12 +590,6 @@ Zotero.Collection.prototype._eraseData = Zotero.Promise.coroutine(function* (env
 	var descendents = yield this.getDescendents(false, null, true);
 	var items = [];
 	
-	var notifierData = {};
-	notifierData[this.id] = {
-		libraryID: this.libraryID,
-		key: this.key
-	};
-	
 	var del = [];
 	for(var i=0, len=descendents.length; i<len; i++) {
 		// Descendent collections
@@ -573,7 +597,7 @@ Zotero.Collection.prototype._eraseData = Zotero.Promise.coroutine(function* (env
 			collections.push(descendents[i].id);
 			var c = yield this.ObjectsClass.getAsync(descendents[i].id);
 			if (c) {
-				notifierData[c.id] = {
+				env.notifierData[c.id] = {
 					libraryID: c.libraryID,
 					key: c.key
 				};
@@ -591,10 +615,6 @@ Zotero.Collection.prototype._eraseData = Zotero.Promise.coroutine(function* (env
 		yield this.ChildObjects.trash(del);
 	}
 	
-	// Remove relations
-	var uri = Zotero.URI.getCollectionURI(this);
-	yield Zotero.Relations.eraseByURI(uri);
-	
 	var placeholders = collections.map(function () '?').join();
 	
 	// Remove item associations for all descendent collections
@@ -610,13 +630,7 @@ Zotero.Collection.prototype._eraseData = Zotero.Promise.coroutine(function* (env
 		+ '(' + placeholders + ')', collections);
 	
 	// TODO: Update member items
-	// Clear deleted collection from internal memory
-	this.ObjectsClass.unload(collections);
-	//return Zotero.Collections.reloadAll();
-	
-	if (!env.skipNotifier) {
-		Zotero.Notifier.queue('delete', 'collection', collections, notifierData);
-	}
+	env.deletedObjectIDs = collections;
 });
 
 
@@ -660,18 +674,44 @@ Zotero.Collection.prototype.fromJSON = Zotero.Promise.coroutine(function* (json)
 });
 
 
-Zotero.Collection.prototype.toJSON = function (options, patch) {
-	var obj = {};
-	if (options && options.includeKey) {
-		obj.collectionKey = this.key;
+Zotero.Collection.prototype.toResponseJSON = Zotero.Promise.coroutine(function* (options = {}) {
+	var json = yield this.constructor._super.prototype.toResponseJSON.apply(this, options);
+	
+	// TODO: library block?
+	
+	// creatorSummary
+	var firstCreator = this.getField('firstCreator');
+	if (firstCreator) {
+		json.meta.creatorSummary = firstCreator;
 	}
-	if (options && options.includeVersion) {
-		obj.collectionVersion = this.version;
+	// parsedDate
+	var parsedDate = Zotero.Date.multipartToSQL(this.getField('date', true, true));
+	if (parsedDate) {
+		// 0000?
+		json.meta.parsedDate = parsedDate;
 	}
+	// numChildren
+	if (this.isRegularItem()) {
+		json.meta.numChildren = this.numChildren();
+	}
+	return json;
+})
+
+
+Zotero.Collection.prototype.toJSON = Zotero.Promise.coroutine(function* (options = {}) {
+	var env = this._preToJSON(options);
+	var mode = env.mode;
+	
+	var obj = env.obj = {};
+	obj.key = this.key;
+	obj.version = this.version;
+	
 	obj.name = this.name;
 	obj.parentCollection = this.parentKey ? this.parentKey : false;
-	return obj;
-}
+	obj.relations = {}; // TEMP
+	
+	return this._postToJSON(env);
+});
 
 
 /**
@@ -708,17 +748,21 @@ Zotero.Collection.prototype.getChildren = Zotero.Promise.coroutine(function* (re
 	
 	// 0 == collection
 	// 1 == item
-	var sql = 'SELECT collectionID AS id, '
+	var sql = 'SELECT collectionID AS id, collectionName AS name, '
 		+ "0 AS type, collectionName AS collectionName, key "
 		+ 'FROM collections WHERE parentCollectionID=?1';
 	if (!type || type == 'item') {
-		sql += ' UNION SELECT itemID AS id, 1 AS type, NULL AS collectionName, key '
+		sql += ' UNION SELECT itemID AS id, NULL AS name, 1 AS type, NULL AS collectionName, key '
 				+ 'FROM collectionItems JOIN items USING (itemID) WHERE collectionID=?1';
 		if (!includeDeletedItems) {
 			sql += " AND itemID NOT IN (SELECT itemID FROM deletedItems)";
 		}
 	}
 	var children = yield Zotero.DB.queryAsync(sql, this.id);
+	children.sort(function (a, b) {
+		if (a.name === null || b.name === null) return 0;
+		return Zotero.localeCompare(a.name, b.name)
+	});
 	
 	for(var i=0, len=children.length; i<len; i++) {
 		// This seems to not work without parseInt() even though
@@ -785,29 +829,20 @@ Zotero.Collection.prototype.getDescendents = function (nested, type, includeDele
 /**
  * Return a collection in the specified library equivalent to this collection
  */
-Zotero.Collection.prototype.getLinkedCollection = function (libraryID) {
-	return this._getLinkedObject(libraryID);
-};
+Zotero.Collection.prototype.getLinkedCollection = function (libraryID, bidrectional) {
+	return this._getLinkedObject(libraryID, bidrectional);
+}
 
+
+/**
+ * Add a linked-object relation pointing to the given collection
+ *
+ * Does not require a separate save()
+ */
 Zotero.Collection.prototype.addLinkedCollection = Zotero.Promise.coroutine(function* (collection) {
-	var url1 = Zotero.URI.getCollectionURI(this);
-	var url2 = Zotero.URI.getCollectionURI(collection);
-	var predicate = Zotero.Relations.linkedObjectPredicate;
-	if ((yield Zotero.Relations.getByURIs(url1, predicate, url2)).length
-			|| (yield Zotero.Relations.getByURIs(url2, predicate, url1)).length) {
-		Zotero.debug(this._ObjectTypePlural + " " + this.key + " and " + collection.key + " are already linked");
-		return false;
-	}
-	
-	// If both group libraries, store relation with source group.
-	// Otherwise, store with personal library.
-	var userLibraryID = Zotero.Libraries.userLibraryID;
-	var libraryID = (this.libraryID != userLibraryID && collection.libraryID != userLibraryID)
-		? this.libraryID
-		: Zotero.Libraries.userLibraryID;
-	
-	yield Zotero.Relations.add(libraryID, url1, predicate, url2);
+	return this._addLinkedObject(collection);
 });
+
 
 //
 // Private methods
