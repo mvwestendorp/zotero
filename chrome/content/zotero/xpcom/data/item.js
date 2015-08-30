@@ -1283,8 +1283,11 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, allowMissing, langTag
 			}
 		}
 	} else {
-		delete this._creators[i].multi._key[langTag];
-		this._changed.creators[i].multiLangs[langTag] = true;
+		delete this._creators[orderIndex].multi._key[langTag];
+		if (!this._changed.creators[orderIndex]) {
+			this._changed.creators[orderIndex] = {multiLangs:{}}
+		}
+		this._changed.creators[orderIndex].multiLangs[langTag] = true;
 	}
 	
 	return true;
@@ -4153,7 +4156,7 @@ Zotero.Item.prototype.clone = Zotero.Promise.coroutine(function* (libraryID, ski
 	
 	// Regular item
 	if (this.isRegularItem()) {
-        newItem.multi = this.multi.clone(newItem);
+		newItem.multi = this.multi.clone(newItem);
 		yield this.loadCreators();
 		newItem.setCreators(this.getCreators());
 	}
@@ -4582,18 +4585,18 @@ Zotero.Item.prototype.loadItemData = Zotero.Promise.coroutine(function* (reload)
 			+ "FROM itemData ID "
 			+   "NATURAL JOIN itemDataValues IDV "
 			+   "LEFT JOIN jurisdictions JU ON JU.jurisdictionID=value AND ID.fieldID IN (1261) "
-            +   "LEFT JOIN ("
-            +     "SELECT itemID,value AS jurisdictionID "
-            +     "FROM itemData NATURAL JOIN itemDataValues WHERE itemData.fieldID=1261"
-            +   ") CID ON CID.itemID=ID.itemID "
-            +   "LEFT JOIN (SELECT C.courtID,CN.courtName,J.jurisdictionID "
-            +     "FROM jurisdictions J "
-            +     "JOIN courtJurisdictionLinks USING(jurisdictionIdx) "
-			+     "JOIN courts C USING(courtIdx) "
-			+     "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
-			+     "JOIN courtNames CN USING(courtNameIdx) "
- 			+     "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx"
-            +   ") CT ON CT.jurisdictionID=CID.jurisdictionID AND CT.courtID=IDV.value "
+			+   "LEFT JOIN ("
+			+		"SELECT itemID,value AS jurisdictionID "
+			+		"FROM itemData NATURAL JOIN itemDataValues WHERE itemData.fieldID=1261"
+			+   ") CID ON CID.itemID=ID.itemID "
+			+   "LEFT JOIN (SELECT C.courtID,CN.courtName,J.jurisdictionID "
+			+		"FROM jurisdictions J "
+			+		"JOIN courtJurisdictionLinks USING(jurisdictionIdx) "
+			+		"JOIN courts C USING(courtIdx) "
+			+		"JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
+			+		"JOIN courtNames CN USING(courtNameIdx) "
+ 			+		"JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx"
+			+   ") CT ON CT.jurisdictionID=CID.jurisdictionID AND CT.courtID=IDV.value "
 			+   "LEFT JOIN itemDataMain IDM ON IDM.itemID=ID.itemID AND IDM.fieldID=ID.fieldID "
 			+ "WHERE ID.itemID=?";
 		yield Zotero.DB.queryAsync(

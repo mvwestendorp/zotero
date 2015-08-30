@@ -2287,7 +2287,7 @@
 					// Block delete if there are multilingual variants
 					if (isMulti) {
 						var langTag = labelToDelete.firstChild.getAttribute("zlang");
-						this.item.removeCreator(index, langTag);
+						this.item.removeCreator(index, false, langTag);
 					} else {
 						if (!(labelToDelete.nextSibling && labelToDelete.nextSibling.tagName === 'rows')) {
 							this.item.removeCreator(index);
@@ -2769,7 +2769,7 @@
 					if (field !== 'creator' && (!value || !value.trim())) {
 						if (isMulti) {
 							// XXX Could probably be a little smoother here.
-							this.item.setField(fieldName,null,null,fieldLang)
+							this.item.setField(field,null,null,fieldLang)
 							rows.removeChild(row);
 							if (!rows.childNodes.length) {
 								rows.parentNode.removeChild(rows);
@@ -2805,6 +2805,8 @@
 								//this.refresh(true);
 								return;
 							}
+						} else {
+							otherFields.multi = {_key:{}};
 						}
 
 						//Handle \n\r and \n delimited entries
@@ -2866,7 +2868,6 @@
 							yield this.modifyCreator(creatorIndex, otherFields, null, fieldLang, isMulti);
 						}
 						
-						
 						if (this.saveOnEdit) {
 							yield this.item.saveTx();
 						}
@@ -2876,7 +2877,7 @@
 							var c = c.multi.getCreator(fieldLang);
 							var val = c ? c[creatorField] : '';
 						} else {
-							var val = c ? c.ref[creatorField] : null;
+							var val = c ? c[creatorField] : null;
 						}
 
 						if (!val) {
@@ -2889,10 +2890,8 @@
 								val = this._defaultFirstName;
 							}
 						}
-						
 						var newVal = val;
 					}
-					
 					// Fields
 					else {
 						// Access date needs to be parsed and converted to UTC
@@ -2955,18 +2954,17 @@
 							}
 						}
 						
-						yield this._modifyField(fieldName, value, this.saveOnEdit, fieldLang, !isMulti);
+						yield this._modifyField(field, value, this.saveOnEdit, fieldLang, !isMulti);
 
-						// XXX zzz Why do this?
-						//var newVal = this.item.getField(fieldName);
+						var newVal = this.item.getField(fieldName);
 					}
 					
 					// If box is still open (due to field not being modified and there not being
 					// a refresh), close it manually
 					if (textbox && textbox.parentNode) {
+// XXX zzz WAS: 							this.item.getField(field, null, null, fieldLang),
 						elem = this.createValueElement(
-							this.item.getField(fieldName, null, null, fieldLang),
-							this.item.getField(fieldName),
+							newVal,
 							fieldName,
 							tabindex,
 							isMulti
@@ -3155,7 +3153,7 @@
 							return;
 						}
 						if (langTag && isMulti) {
-							this.item.removeCreator(index, langTag);
+							this.item.removeCreator(index, false, langTag);
 						} else {
 							// XXX Use xpath to check if multi creators exist, block if they do.
 							var xpath = '*[local-name()="rows" and contains(@class,"creator")][' + (index+1) + ']/*[local-name()="rows" and contains(@class,"multi")]';
@@ -3281,10 +3279,6 @@
 			</method>
 			
 			
-// XXX zzz (Zotero 5.0 simplifies focusNextField(), the former switch statement is no longer used)
-// XXX zzz (In theory, no changes will be needed for this function in Juris-M)
-
-
 			<!-- 
 				Advance the field focus forward or backward
 				
@@ -3354,8 +3348,6 @@
 				</body>
 			</method>
 			
-// XXX zzz So far, so good.
-
 			<method name="setJurisdictionKey">
 			  <parameter name="key"/>
 			  <parameter name="node"/>
