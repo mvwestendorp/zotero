@@ -103,7 +103,7 @@
 
 						if (!itemIssue) {
 							var extra = item.getField('extra');
-							var m = extra.match(/\{:issue:\s*([^\}]*)\}/);
+							var m = extra ? extra.match(/\{:issue:\s*([^\}]*)\}/) : false;
 							if (m) {
 								itemIssue = m[1];
 							}
