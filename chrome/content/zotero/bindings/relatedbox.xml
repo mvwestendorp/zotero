@@ -137,7 +137,7 @@
 						}
 						if (!journalName) {
 							var extra = item.getField('extra');
-							var m = extra.match(/\{:collection-title:\s*([^\}]*)\}/);
+							var m = ("" + extra).match(/\{:collection-title:\s*([^\}]*)\}/);
 							if (m) {
 								journalName = m[1];
 							}
