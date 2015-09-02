@@ -42,8 +42,10 @@ function add-xpi-to-github-release () {
 function publish-update () {
     # Prepare the update manifest
     cp update-TEMPLATE.rdf update-TRANSFER.rdf
-    sed -si "s/\(<em:version>\).*\(<\/em:version>\)/\\1${VERSION_STUB}\\2/" update-TRANSFER.rdf
-    sed -si "s/\(<em:updateLink>.*download\/\).*\(<\/em:updateLink>\)/\\1v${VERSION_STUB}\/${CLIENT}-v${VERSION_STUB}.xpi\\2/" update-TRANSFER.rdf
+    cat update-TRANSFER.rdf | sed -si "s/\(<em:version>\).*\(<\/em:version>\)/\\1${VERSION_STUB}\\2/" > /tmp/frag.txt
+    mv /tmp/frag.txt update-TRANSFER.rdf
+    cat update-TRANSFER.rdf | sed -si "s/\(<em:updateLink>.*download\/\).*\(<\/em:updateLink>\)/\\1v${VERSION_STUB}\/${CLIENT}-v${VERSION_STUB}.xpi\\2/" > /tmp/frag.txt
+    mv /tmp/frag.txt update-TRANSFER.rdf
     #~/src/mccoy/mccoy
     echo -n "Proceed? (y/n): "
     read CHOICE

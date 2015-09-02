@@ -1,6 +1,10 @@
 function set-install-version () {
-    sed -si "s/<em:version>.*<\/em:version>/<em:version>${VERSION}<\/em:version>/" install.rdf
-    sed -si "s/<em:updateURL>.*<\/em:updateURL>/<em:updateURL>https:\/\/juris-m.github.io\/${CLIENT}\/update.rdf<\/em:updateURL>/" install.rdf
+    cat install.rdf | sed -e "s/<em:version>.*<\/em:version>/<em:version>${VERSION}<\/em:version>/" > /tmp/frag.txt
+    mv /tmp/frag.txt install.rdf
+    cat install.rdf | sed -e "s/<em:updateURL>.*<\/em:updateURL>/<em:updateURL>https:\/\/juris-m.github.io\/${CLIENT}\/update.rdf<\/em:updateURL>/" > /tmp/frag.txt
+    mv /tmp/frag.txt install.rdf
+    cat install.rdf | sed -e "s/<em:updateURL>.*<\/em:updateURL>/<em:updateURL>https:\/\/juris-m.github.io\/${CLIENT}\/update.rdf<\/em:updateURL>/" > /tmp/frag.txt
+    mv /tmp/frag.txt install.rdf
 }
 
 function xx-remove-and-replace-old-build-dir () {
