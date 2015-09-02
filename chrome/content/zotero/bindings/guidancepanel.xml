@@ -225,7 +225,7 @@
 			<xul:panel type="arrow" align="top" xbl:inherits="noautohide">
 				<xul:stack>
 					<xul:hbox align="center">
-						<xul:image src="chrome://zotero/skin/zotero-new-z-48px.png" style="margin-right: 10px; width: 48px; height: 48px;"/>
+						<xul:image src="chrome://zotero/skin/mlz-new-mlz-48px.png" style="margin-right: 10px; width: 48px; height: 48px;"/>
 						<xul:description anonid="panel-description" flex="1"></xul:description>
 					</xul:hbox>
 					<xul:hbox anonid="close-button-box">
