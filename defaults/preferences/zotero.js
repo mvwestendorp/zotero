@@ -105,7 +105,7 @@ pref("extensions.zotero.report.combineChildItems", true);
 // Export and citation settings
 pref("extensions.zotero.export.lastTranslator", '14763d24-8ba0-45df-8f52-b8d1108e7ac9');
 pref("extensions.zotero.export.translatorSettings", 'true,false');
-pref("extensions.zotero.export.lastStyle", 'http://www.zotero.org/styles/chicago-note-bibliography');
+pref("extensions.zotero.export.lastStyle", 'http://juris-m.github.io/jm-styles/jm-chicago-fullnote-bibliography');
 pref("extensions.zotero.export.bibliographySettings", 'save-as-rtf');
 pref("extensions.zotero.export.displayCharsetOption", false);
 pref("extensions.zotero.export.citePaperJournalArticleURL", false);
@@ -117,7 +117,7 @@ pref("extensions.zotero.rtfScan.lastInputFile", "");
 pref("extensions.zotero.rtfScan.lastOutputFile", "");
 pref("extensions.zotero.linkTitles", false);
 
-pref("extensions.zotero.export.quickCopy.setting", 'bibliography=http://www.zotero.org/styles/chicago-note-bibliography');
+pref("extensions.zotero.export.quickCopy.setting", 'bibliography=http://juris-m.github.io/jm-styles/jm-chicago-fullnote-bibliography');
 pref("extensions.zotero.export.quickCopy.dragLimit", 50);
 pref("extensions.zotero.export.quickCopy.linkOption", false);
 pref("extensions.zotero.export.quickCopy.linkOptionHTML", false);
