@@ -263,7 +263,7 @@ Zotero.Schema = new function(){
 					Zotero.DB.query(sql);
 					var sql = "INSERT INTO zlsTags VALUES('ja-alalc97','Japanese (rm)',NULL)";
 					Zotero.DB.query(sql);
-					var sql = "INSERT INTO zlsTags VALUES('ja-Kana','Japanese (カナ)',NULL)";
+					var sql = "INSERT INTO zlsTags VALUES('ja-Kana','Japanese (\u30ab\u30ca)',NULL)";
 					Zotero.DB.query(sql);
 					var sql = "INSERT INTO zlsTags VALUES('km','Khmer',NULL)";
 					Zotero.DB.query(sql);
@@ -1573,7 +1573,7 @@ Zotero.Schema = new function(){
 			_updateDBVersion('multilingual', _getSchemaSQLVersion('multilingual'));
 			_updateDBVersion('zls', _getSchemaSQLVersion('zls'));
 			_updateDBVersion('jurisdictions', _getSchemaSQLVersion('jurisdictions'));
-			
+
 			var sql = "INSERT INTO zlsTags VALUES('zh','Chinese',NULL)";
 			Zotero.DB.query(sql);
 			var sql = "INSERT INTO zlsTags VALUES('zh-alalc97','Chinese (rm)','')";
@@ -1584,7 +1584,7 @@ Zotero.Schema = new function(){
 			Zotero.DB.query(sql);
 			var sql = "INSERT INTO zlsTags VALUES('ja-alalc97','Japanese (rm)',NULL)";
 			Zotero.DB.query(sql);
-			var sql = "INSERT INTO zlsTags VALUES('ja-Kana','Japanese (カナ)',NULL)";
+			var sql = "INSERT INTO zlsTags VALUES('ja-Kana','Japanese (\u30ab\u30ca)',NULL)";
 			Zotero.DB.query(sql);
 			var sql = "INSERT INTO zlsTags VALUES('km','Khmer',NULL)";
 			Zotero.DB.query(sql);
