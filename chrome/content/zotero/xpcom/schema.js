@@ -255,7 +255,7 @@ Zotero.Schema = new function(){
 				if (Zotero.DB.valueQuery(sql) == 0) { 
 					var sql = "INSERT INTO zlsTags VALUES('zh','Chinese',NULL)";
 					Zotero.DB.query(sql);
-					var sql = "INSERT INTO zlsTags VALUES('pny','Chinese (rm)','')";
+					var sql = "INSERT INTO zlsTags VALUES('zh-alalc97','Chinese (rm)','')";
 					Zotero.DB.query(sql);
 					var sql = "INSERT INTO zlsTags VALUES('en','English',NULL)";
 					Zotero.DB.query(sql);
@@ -1576,7 +1576,7 @@ Zotero.Schema = new function(){
 			
 			var sql = "INSERT INTO zlsTags VALUES('zh','Chinese',NULL)";
 			Zotero.DB.query(sql);
-			var sql = "INSERT INTO zlsTags VALUES('pny','Chinese (rm)','')";
+			var sql = "INSERT INTO zlsTags VALUES('zh-alalc97','Chinese (rm)','')";
 			Zotero.DB.query(sql);
 			var sql = "INSERT INTO zlsTags VALUES('en','English',NULL)";
 			Zotero.DB.query(sql);
