@@ -251,6 +251,44 @@ Zotero.Schema = new function(){
 					Zotero.wait();
 				}
 
+				var sql = "SELECT COUNT (*) FROM zlsTags";
+				if (Zotero.DB.valueQuery(sql) == 0) { 
+					var sql = "INSERT INTO zlsTags VALUES('zh','Chinese',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('pny','Chinese (rm)','')";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('en','English',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('ja','Japanese',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('ja-alalc97','Japanese (rm)',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('ja-Kana','Japanese (カナ)',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('km','Khmer',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('km-alalc97','Khmer (rm)',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('lo','Laotian','')";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('lo-alalc97','Laotian (rm)','')";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('mn','Mongolian',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('mn-alalc97','Mongolian (rm)',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('my','Myanmar',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('my-alalc97','Myanmar (rm)',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('ru','Russian',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('ru-alalc97','Russian (rm)',NULL)";
+					Zotero.DB.query(sql);
+					var sql = "INSERT INTO zlsTags VALUES('vi','Vietnamese','')";
+					Zotero.DB.query(sql);
+				}
+
 				Zotero.DB.commitTransaction();
 			}
 			catch(e){
@@ -1535,6 +1573,41 @@ Zotero.Schema = new function(){
 			_updateDBVersion('multilingual', _getSchemaSQLVersion('multilingual'));
 			_updateDBVersion('zls', _getSchemaSQLVersion('zls'));
 			_updateDBVersion('jurisdictions', _getSchemaSQLVersion('jurisdictions'));
+			
+			var sql = "INSERT INTO zlsTags VALUES('zh','Chinese',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('pny','Chinese (rm)','')";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('en','English',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('ja','Japanese',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('ja-alalc97','Japanese (rm)',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('ja-Kana','Japanese (カナ)',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('km','Khmer',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('km-alalc97','Khmer (rm)',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('lo','Laotian','')";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('lo-alalc97','Laotian (rm)','')";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('mn','Mongolian',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('mn-alalc97','Mongolian (rm)',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('my','Myanmar',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('my-alalc97','Myanmar (rm)',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('ru','Russian',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('ru-alalc97','Russian (rm)',NULL)";
+			Zotero.DB.query(sql);
+			var sql = "INSERT INTO zlsTags VALUES('vi','Vietnamese','')";
+			Zotero.DB.query(sql);
 			
 			if (!Zotero.Schema.skipDefaultData) {
 				// Quick Start Guide web page item
