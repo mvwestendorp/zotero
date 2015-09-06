@@ -5736,7 +5736,7 @@ Zotero.Item.prototype.serialize = function(mode) {
  *   patchBase {Object}: Item in API JSON format to be compared to in
  *     "patch" mode. Required if "patch" mode is specified
  */
-Zotero.Item.prototype.toJSON = function(options, allowUnsaved) {
+Zotero.Item.prototype.toJSON = function(options) {
 	if (this.id || this.key) {
 		if (!this._primaryDataLoaded) {
 			this.loadPrimaryData(true);
