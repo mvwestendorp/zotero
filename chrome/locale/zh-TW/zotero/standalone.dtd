@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "結束 (Q)">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "結束 Zotero">
+<!ENTITY quitApplicationCmdMac.label "結束 Juris-M">
 <!ENTITY quitApplicationCmdWin.accesskey "X">
 <!ENTITY quitApplicationCmdWin.label "退出 (X)">
 <!ENTITY redoCmd.accesskey "R">

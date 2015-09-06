@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "الفهرس الرئيسي:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revert to Absolute Paths…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "اختار...">
 <!ENTITY zotero.preferences.autoUpdate "Automatically check for updated translators and styles">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "المكتبة">
 <!ENTITY zotero.preferences.keys.newItem "انشئ عنصر جديد">
 <!ENTITY zotero.preferences.keys.newNote "انشئ ملاحظة جديدة">
-<!ENTITY zotero.preferences.keys.openZotero "فتح/إغلاق نافذة زوتيرو">
+<!ENTITY zotero.preferences.keys.openJuris-M "فتح/إغلاق نافذة زوتيرو">
 <!ENTITY zotero.preferences.keys.overrideGlobal "حاول تجنب الإختصارات المتعارضة">
 <!ENTITY zotero.preferences.keys.quicksearch "البحث السريع">
-<!ENTITY zotero.preferences.keys.saveToZotero "Save to Zotero (address bar icon)">
+<!ENTITY zotero.preferences.keys.saveToZotero "Save to Juris-M (address bar icon)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "التنشيط لوضع ملء الشاشة">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "تنشيط محدد الأوسمة">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -81,7 +81,7 @@
 <!ENTITY zotero.preferences.lang.csl "CSL:">
 <!ENTITY zotero.preferences.lang.display "Display">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "In citations and bibliographies">
-<!ENTITY zotero.preferences.lang.insideZotero "Zotero UI">
+<!ENTITY zotero.preferences.lang.insideZotero "Juris-M UI">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
 <!ENTITY zotero.preferences.lang.journals "Journals:">
 <!ENTITY zotero.preferences.lang.languageList "Languages for Use in Metadata">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "البحث عن مقرر">
 <!ENTITY zotero.preferences.openurl.server "رابط المقرر:">
 <!ENTITY zotero.preferences.openurl.version "الإصدار:">
-<!ENTITY zotero.preferences.parseRISRefer "Use Zotero for downloaded BibTeX/RIS/Refer files">
+<!ENTITY zotero.preferences.parseRISRefer "Use Juris-M for downloaded BibTeX/RIS/Refer files">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "متقدم">
 <!ENTITY zotero.preferences.prefpane.cite "استشهاد">
@@ -160,7 +160,7 @@
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "الصياغة الافتراضية للمخرجات:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "تعطيل النسخ السريع عند السحب بالماوس لأكثر من">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
-<!ENTITY zotero.preferences.quickCopy.linkOption "Include Zotero link wrappers in QuickCopy citations">
+<!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "ملاحظة: التنسيق الغني للنصوص سيفقد عند استخدام نظام ماكنتوش.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "نطاق الانترنت/المسار">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(مثال: wikipedia.org)">
@@ -211,7 +211,7 @@
 <!ENTITY zotero.preferences.sync.reset.warning3 "لمزيد من المعلومات.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "التزامن التلقائي">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Sync full-text content">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero can sync the full-text content of files in your Zotero libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Juris-M can sync the full-text content of files in your Juris-M libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
 <!ENTITY zotero.preferences.sync.syncServer "خادم زوتيرو للتزامن">
 <!ENTITY zotero.preferences.sync.username "اسم المستخدم:">
 <!ENTITY zotero.preferences.title "تفضيلات زوتيرو">

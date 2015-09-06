@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "پوشه پایه">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "پیوند پوشه پایۀ پیوست">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "بازگشت به مسیر‌های مطلق">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "انتخاب...">
 <!ENTITY zotero.preferences.autoUpdate "بررسی خودکار برای به‌روزرسانی مترجم‌ها و شیوه‌ها">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "کتابخانه">
 <!ENTITY zotero.preferences.keys.newItem "ایجاد آیتم جدید">
 <!ENTITY zotero.preferences.keys.newNote "ایجاد یادداشت جدید">
-<!ENTITY zotero.preferences.keys.openZotero "باز کردن/بستن قاب زوترو">
+<!ENTITY zotero.preferences.keys.openJuris-M "باز کردن/بستن قاب زوترو">
 <!ENTITY zotero.preferences.keys.overrideGlobal "تلاش برای لغو کلیدهای میان‌بر ناسازگار">
 <!ENTITY zotero.preferences.keys.quicksearch "جستجوی سریع">
-<!ENTITY zotero.preferences.keys.saveToZotero "ذخیره در زوترو ( نماد نوار آدرس)">
+<!ENTITY zotero.preferences.keys.saveToJuris-M "ذخیره در زوترو ( نماد نوار آدرس)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "فعال/غیرفعال کردن حالت تمام‌صفحه">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "روشن/خاموش کردن انتخاب برچسب">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -81,7 +81,7 @@
 <!ENTITY zotero.preferences.lang.csl "CSL:">
 <!ENTITY zotero.preferences.lang.display "Display">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "Citations and bibliographies">
-<!ENTITY zotero.preferences.lang.insideZotero "User interface">
+<!ENTITY zotero.preferences.lang.insideJuris-M "User interface">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
 <!ENTITY zotero.preferences.lang.journals "Journals:">
 <!ENTITY zotero.preferences.lang.languageList "Language tags">
@@ -160,7 +160,7 @@
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "قالب خروجی پیش‌فرض:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "غیر فعال کردن رونوشت سریع در زمان کشیدن بیش از ">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
-<!ENTITY zotero.preferences.quickCopy.linkOption "Include Zotero link wrappers in QuickCopy citations">
+<!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "تذکر: قالب‌بندی Rich-text در Mac OS X از بین خواهد رفت.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "دامنه/مسیر">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(مثال: wikipedia.org)">

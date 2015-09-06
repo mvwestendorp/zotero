@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Avsluta">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Avsluta Zotero">
+<!ENTITY quitApplicationCmdMac.label "Avsluta Juris-M">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Avsluta">
 <!ENTITY redoCmd.accesskey "R">

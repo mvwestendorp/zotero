@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Beenden">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Zotero beenden">
+<!ENTITY quitApplicationCmdMac.label "Juris-M beenden">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Beenden">
 <!ENTITY redoCmd.accesskey "R">

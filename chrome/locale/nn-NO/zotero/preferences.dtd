@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Base directory:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revert to Absolute Paths…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Choose…">
 <!ENTITY zotero.preferences.autoUpdate "Automatically check for updated translators and styles">
@@ -37,13 +37,13 @@
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Clear Output">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Enable after restart">
 <!ENTITY zotero.preferences.debugOutputLogging.linesLogged "lines logged">
-<!ENTITY zotero.preferences.debugOutputLogging.message "Debug output can help Zotero developers diagnose problems in Zotero. Debug logging will slow down Zotero, so you should generally leave it disabled unless a Zotero developer requests debug output.">
+<!ENTITY zotero.preferences.debugOutputLogging.message "Debug output can help Juris-M developers diagnose problems in Juris-M. Debug logging will slow down Juris-M, so you should generally leave it disabled unless a Juris-M developer requests debug output.">
 <!ENTITY zotero.preferences.debugOutputLogging.submitToServer "Submit to Zotero Server">
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "View Output">
 <!ENTITY zotero.preferences.default "Standard:">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Lagra tilknytte PDF-filer og andre filer ved lagring av element">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Inkluderer URL til trykte artiklar i referansane">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Når dette alternativet ikkje er valt, vil Zotero berre oppgje URL til tidsskriftet, magasinet eller avisa, dersom artikkelen er registrert utan sidetal.">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Når dette alternativet ikkje er valt, vil Juris-M berre oppgje URL til tidsskriftet, magasinet eller avisa, dersom artikkelen er registrert utan sidetal.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Hent fleire stilar …">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "Bibliotek">
 <!ENTITY zotero.preferences.keys.newItem "Lag eit nytt element">
 <!ENTITY zotero.preferences.keys.newNote "Lag eit nytt notat">
-<!ENTITY zotero.preferences.keys.openZotero "Opne/lukk Zotero-panelet">
+<!ENTITY zotero.preferences.keys.openZotero "Opne/lukk Juris-M-panelet">
 <!ENTITY zotero.preferences.keys.overrideGlobal "Forsøk å overstyra snøggtastar i konflikt">
 <!ENTITY zotero.preferences.keys.quicksearch "Hurtigsøk">
-<!ENTITY zotero.preferences.keys.saveToZotero "Save to Zotero (address bar icon)">
+<!ENTITY zotero.preferences.keys.saveToZotero "Save to Juris-M (address bar icon)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Fullskjerm av/på">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "Slå merkeveljaren av/på">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -81,7 +81,7 @@
 <!ENTITY zotero.preferences.lang.csl "CSL:">
 <!ENTITY zotero.preferences.lang.display "Display">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "Citations and bibliographies">
-<!ENTITY zotero.preferences.lang.insideZotero "User interface">
+<!ENTITY zotero.preferences.lang.insideJuris-M "User interface">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
 <!ENTITY zotero.preferences.lang.journals "Journals:">
 <!ENTITY zotero.preferences.lang.languageList "Language tags">
@@ -106,7 +106,7 @@
 <!ENTITY zotero.preferences.lang.transliteration "Transliteration">
 <!ENTITY zotero.preferences.lang.ui "UI:">
 <!ENTITY zotero.preferences.lang.variant "Variant">
-<!ENTITY zotero.preferences.locate.addDescription "Dersom du vil leggje til ein oppslagsmotor som ikkje er i lista, besøker du søkemotoren du ynskjer å leggje til og vel «Legg til» i Zotero sin lokaliseringsmeny.">
+<!ENTITY zotero.preferences.locate.addDescription "Dersom du vil leggje til ein oppslagsmotor som ikkje er i lista, besøker du søkemotoren du ynskjer å leggje til og vel «Legg til» i Juris-M sin lokaliseringsmeny.">
 <!ENTITY zotero.preferences.locate.description "Skildring">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Article Lookup Engine Manager">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "A Lookup Engine extends the capability of the Locate drop down in the Info pane. By enabling Lookup Engines in the list below they will be added to the drop down and can be used to locate resources from your library on the web.">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "Leit etter &quot;resolvers&quot;">
 <!ENTITY zotero.preferences.openurl.server "Resolver:">
 <!ENTITY zotero.preferences.openurl.version "Versjon:">
-<!ENTITY zotero.preferences.parseRISRefer "Use Zotero for downloaded BibTeX/RIS/Refer files">
+<!ENTITY zotero.preferences.parseRISRefer "Use Juris-M for downloaded BibTeX/RIS/Refer files">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Avansert">
 <!ENTITY zotero.preferences.prefpane.cite "Sitering">
@@ -142,7 +142,7 @@
 <!ENTITY zotero.preferences.proxies.configured "Configured Proxies">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - The directory path (e.g., about/)">
 <!ENTITY zotero.preferences.proxies.desc_after_link "for more information.">
-<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero will transparently redirect requests through saved proxies. See the">
+<!ENTITY zotero.preferences.proxies.desc_before_link "Juris-M will transparently redirect requests through saved proxies. See the">
 <!ENTITY zotero.preferences.proxies.desc_link "proxy documentation">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Disable proxy redirection when my domain name contains ">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - The filename (e.g., index.html)">
@@ -160,7 +160,7 @@
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Standard utdata-format:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Slå av rask kopiering når du drar fleire enn">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
-<!ENTITY zotero.preferences.quickCopy.linkOption "Include Zotero link wrappers in QuickCopy citations">
+<!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "Obs: Riktekst-formatering vert borte i Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domene/stig">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(t.d. wikipedia.org)">
@@ -176,7 +176,7 @@
 <!ENTITY zotero.preferences.search.indexStats.words "Ord:">
 <!ENTITY zotero.preferences.search.pdfIndexing "PDF-registrering">
 <!ENTITY zotero.preferences.settings "Settings">
-<!ENTITY zotero.preferences.showIn "Opna Zotero i:">
+<!ENTITY zotero.preferences.showIn "Opna Juris-M i:">
 <!ENTITY zotero.preferences.showIn.appTab "App-fane">
 <!ENTITY zotero.preferences.showIn.browserPane "Ramme i nettlesaren">
 <!ENTITY zotero.preferences.showIn.separateTab "Eiga fane">
@@ -199,25 +199,25 @@
 <!ENTITY zotero.preferences.sync.reset "Reset">
 <!ENTITY zotero.preferences.sync.reset.button "Nullstill …">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Full synkronisering med Zotero-tenaren">
-<!ENTITY zotero.preferences.sync.reset.fullSync.desc "Slå ihop Zotero-data med data frå synkroniseringstenaren, og ignorer synkroniseringshistorikken.">
+<!ENTITY zotero.preferences.sync.reset.fullSync.desc "Slå ihop Juris-M-data med data frå synkroniseringstenaren, og ignorer synkroniseringshistorikken.">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Nullstill filsynkroniseringshistorikken">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Force checking of the storage server for all local attachment files.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Gjenopprett frå Zotero-tenaren">
-<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Slett alle lokale Zotero-data og gjenopprett frå synkroniseringstenaren.">
+<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Slett alle lokale Juris-M-data og gjenopprett frå synkroniseringstenaren.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Gjenopprett til Zotero-tenaren">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Erase all servar data and overwrite with local Zotero data.">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Erase all servar data and overwrite with local Juris-M data.">
 <!ENTITY zotero.preferences.sync.reset.warning1 "The following operations are for use only in rare, specific situations and should not be used for general troubleshooting. In many cases, resetting will cause additional problems. See ">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Sync Reset Options">
 <!ENTITY zotero.preferences.sync.reset.warning3 " for more information.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Synkroniser automatisk">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Sync full-text content">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero can sync the full-text content of files in your Zotero libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Juris-M can sync the full-text content of files in your Juris-M libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
 <!ENTITY zotero.preferences.sync.syncServer "Zotero synkroniseringstenar">
 <!ENTITY zotero.preferences.sync.username "Brukarnamn:">
-<!ENTITY zotero.preferences.title "Innstillingar for Zotero">
+<!ENTITY zotero.preferences.title "Innstillingar for Juris-M">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "dagar sidan">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Fjernar automatisk element i søppelkorga sletta meir enn">
 <!ENTITY zotero.preferences.updateNow "Oppdater no">
 <!ENTITY zotero.preferences.userInterface "Brukargrensesnitt">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "La zotero.org justera innhald ut frå installert versjon av Zotero">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "If enabled, the current Zotero version will be added to HTTP requests to zotero.org.">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "La zotero.org justera innhald ut frå installert versjon av Juris-M">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "If enabled, the current Juris-M version will be added to HTTP requests to zotero.org.">

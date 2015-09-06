@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Juurikansio:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linkattujen liitteiden juurikansio">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero käyttää suhteellisia polkuja viitatakseen tiedostoliitteisiin juurikansiossa, joten voit käyttää tiedostoja eri tietokoneilla, kunhan tiedostorakenne juurikansion sisällä pysyy samana.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M käyttää suhteellisia polkuja viitatakseen tiedostoliitteisiin juurikansiossa, joten voit käyttää tiedostoja eri tietokoneilla, kunhan tiedostorakenne juurikansion sisällä pysyy samana.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Palauta absoluuttiset polut...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Valitse...">
 <!ENTITY zotero.preferences.autoUpdate "Tarkista sivutulkkien ja tyylien päivitykset automaattisesti">
@@ -37,13 +37,13 @@
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Tyhjennä päiväkirja">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Laita päälle uudelleenkäynnistyksen jälkeen">
 <!ENTITY zotero.preferences.debugOutputLogging.linesLogged "riviä päiväkirjassa">
-<!ENTITY zotero.preferences.debugOutputLogging.message "Virheenjäljityksen päiväkirja voi auttaa Zoteron kehittäjiä diagnosoimaan Zoteron ongelmia. Virheenjäljitys hidastaa Zoteron toimintaa, joten sen tulisi yleisesti ottaen olla poissa päältä ellei Zoteron kehittäjä erikseen pyydää virheenjäljityksen päiväkirjaa.">
+<!ENTITY zotero.preferences.debugOutputLogging.message "Virheenjäljityksen päiväkirja voi auttaa Juris-Mn kehittäjiä diagnosoimaan Juris-Mn ongelmia. Virheenjäljitys hidastaa Juris-Mn toimintaa, joten sen tulisi yleisesti ottaen olla poissa päältä ellei Juris-Mn kehittäjä erikseen pyydää virheenjäljityksen päiväkirjaa.">
 <!ENTITY zotero.preferences.debugOutputLogging.submitToServer "Lähetä Zotero-palvelimelle">
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "Katso päiväkirjaa">
 <!ENTITY zotero.preferences.default "Oletus:">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Liitä automaattisesti asiaankuuluvat PDF:t ja muut tiedostot">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Liitä painettujen artikkeleiden internet-osoitteet viitteisiin">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Kun tämä valinta on pois päältä, Zotero lisää internet-osoitteet tieteellisten lehtien, aikakauslehtien ja sanomalehtien artikkeleihin vain silloin kun niiden sivunumeroja ei ole määritelty.">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Kun tämä valinta on pois päältä, Juris-M lisää internet-osoitteet tieteellisten lehtien, aikakauslehtien ja sanomalehtien artikkeleihin vain silloin kun niiden sivunumeroja ei ole määritelty.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Hanki lisää tyylejä...">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "Library">
 <!ENTITY zotero.preferences.keys.newItem "Luo uusi nimike">
 <!ENTITY zotero.preferences.keys.newNote "Luo uusi muistiinpanot">
-<!ENTITY zotero.preferences.keys.openZotero "Avaa/sulje Zotero-ikkuna">
+<!ENTITY zotero.preferences.keys.openZotero "Avaa/sulje Juris-M-ikkuna">
 <!ENTITY zotero.preferences.keys.overrideGlobal "Yritä ohittaa keskenään ristiriitaiset pikanäppäimet">
 <!ENTITY zotero.preferences.keys.quicksearch "Pikahaku">
-<!ENTITY zotero.preferences.keys.saveToZotero "Tallenna Zoteroon (osoitepalkin kuvake)">
+<!ENTITY zotero.preferences.keys.saveToZotero "Tallenna Juris-Mon (osoitepalkin kuvake)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Koko ruudun tila">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "Aiheenvalitsin päälle/pois">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -81,7 +81,7 @@
 <!ENTITY zotero.preferences.lang.csl "CSL:">
 <!ENTITY zotero.preferences.lang.display "Display">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "In citations and bibliographies">
-<!ENTITY zotero.preferences.lang.insideZotero "Zotero UI">
+<!ENTITY zotero.preferences.lang.insideZotero "Juris-M UI">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
 <!ENTITY zotero.preferences.lang.journals "Journals:">
 <!ENTITY zotero.preferences.lang.languageList "Languages for Use in Metadata">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "Etsi linkkipalvelimia">
 <!ENTITY zotero.preferences.openurl.server "Palvelin:">
 <!ENTITY zotero.preferences.openurl.version "Versio:">
-<!ENTITY zotero.preferences.parseRISRefer "Käytä Zoteroa ladattujen BibTeX/Refer-tiedostojen avaamiseen">
+<!ENTITY zotero.preferences.parseRISRefer "Käytä Juris-Ma ladattujen BibTeX/Refer-tiedostojen avaamiseen">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Lisäasetukset">
 <!ENTITY zotero.preferences.prefpane.cite "Siteeraus">
@@ -142,7 +142,7 @@
 <!ENTITY zotero.preferences.proxies.configured "Konfiguroidut välityspalvelimet">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - Hakemistopolku (esim. about/)">
 <!ENTITY zotero.preferences.proxies.desc_after_link "lisätietoja.">
-<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero välittää huomaamattomasti pyyntöjä tallennettujen välityspalvelinten kautta. Katso">
+<!ENTITY zotero.preferences.proxies.desc_before_link "Juris-M välittää huomaamattomasti pyyntöjä tallennettujen välityspalvelinten kautta. Katso">
 <!ENTITY zotero.preferences.proxies.desc_link "välityspalvelinten ohjeesta">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Poista käytöstä välitetty uudelleenohjaus, kun palvelinnimessä on">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - Tiedostonimi (esim. index.html)">
@@ -160,7 +160,7 @@
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Oletusarvoinen kohdemuoto:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Estä pikakopiointi raahattaessa yli ">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
-<!ENTITY zotero.preferences.quickCopy.linkOption "Include Zotero link wrappers in QuickCopy citations">
+<!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "Huom.: Rikastetun tekstin muotoilut menetetään Mac OS X:llä.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Osoite/polku">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(esim. wikipedia.org)">
@@ -176,7 +176,7 @@
 <!ENTITY zotero.preferences.search.indexStats.words "Sanoja:">
 <!ENTITY zotero.preferences.search.pdfIndexing "PDF-tiedostojen indeksointi">
 <!ENTITY zotero.preferences.settings "Asetukset">
-<!ENTITY zotero.preferences.showIn "Zoteron paikka">
+<!ENTITY zotero.preferences.showIn "Juris-Mn paikka">
 <!ENTITY zotero.preferences.showIn.appTab "Sovellusvälilehti">
 <!ENTITY zotero.preferences.showIn.browserPane "Selainikkuna">
 <!ENTITY zotero.preferences.showIn.separateTab "Erillinen välilehti">
@@ -199,25 +199,25 @@
 <!ENTITY zotero.preferences.sync.reset "Nollaa">
 <!ENTITY zotero.preferences.sync.reset.button "Palauta">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Täydellinen synkronointi Zotero-palvelimen kanssa">
-<!ENTITY zotero.preferences.sync.reset.fullSync.desc "Yhdistä paikallinen Zotero-aineisto synkronointipalvelimen aineiston kanssa jättäen synkronointihistoria huomioimatta">
+<!ENTITY zotero.preferences.sync.reset.fullSync.desc "Yhdistä paikallinen Juris-M-aineisto synkronointipalvelimen aineiston kanssa jättäen synkronointihistoria huomioimatta">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Poista tiedostojen synkronointihistoria">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Tarkistaa jokaisen paikallisen liitetiedoston löytymisen tallennuspalvelimelta">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Palauta aineisto Zotero-palvelimelta">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Poista kaikki paikallinen aineisto ja palauta aineisto synkronointipalvelimelta">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Palauta aineisto Zotero-palvelimelle">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Poista kaikki palvelimella oleva aineisto ja korvaa se paikallisella Zotero-aineistolla">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Poista kaikki palvelimella oleva aineisto ja korvaa se paikallisella Juris-M-aineistolla">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Seuraavat toiminnot ovat tarpeen vain äärimmäisen harvinaisissa tilanteissa, eikä niitä tulisi käyttää tavalliseen virheenetsintään. Monissa tapauksissa asetusten nollaus voi aiheuttaa lisää ongelmia. Katso ">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Synkroinnin nollauksen asetukset">
 <!ENTITY zotero.preferences.sync.reset.warning3 "saadaksesi lisätietoja.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Synkronoi automaattisesti">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Synkronisoi kokotekstit">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero voi synkronisoida kirjastossasi olevien tiedostojen kokotekstisisällön zotero.orgiin ja linkattuihin laitteisiin, joten voi helposti hakea tietoja missä vain. Tiedostojen kokotekstisisältöä ei jaeta julkisesti.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Juris-M voi synkronisoida kirjastossasi olevien tiedostojen kokotekstisisällön zotero.orgiin ja linkattuihin laitteisiin, joten voi helposti hakea tietoja missä vain. Tiedostojen kokotekstisisältöä ei jaeta julkisesti.">
 <!ENTITY zotero.preferences.sync.syncServer "Zoteron synkronointipalvelin">
 <!ENTITY zotero.preferences.sync.username "Käyttäjätunnus:">
-<!ENTITY zotero.preferences.title "Zoteron asetukset">
+<!ENTITY zotero.preferences.title "Juris-Mn asetukset">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "päivää sitten">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Poista roskakorista automaattisesti nimikkeet, jotka poistettiin yli">
 <!ENTITY zotero.preferences.updateNow "Päivitä nyt">
 <!ENTITY zotero.preferences.userInterface "Käyttöliittymä">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Anna zotero.orgin muunnella sisältöään nykyisen Zotero-version perusteella">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "If enabled, the current Zotero version will be added to HTTP requests to zotero.org.">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Anna zotero.orgin muunnella sisältöään nykyisen Juris-M-version perusteella">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "If enabled, the current Juris-M version will be added to HTTP requests to zotero.org.">

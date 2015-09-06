@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Supprimer l'auteur">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Afficher les documents sans collection">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Ajouter la sélection à la note Zotero">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Créer un document Zotero et une note à partir de la sélection">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Enregistrer l'image en tant que document Zotero">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Enregistrer le lien en tant que document Zotero">
-<!ENTITY zotero.downloadManager.label "Enregistrer dans Zotero">
-<!ENTITY zotero.downloadManager.noPDFTools.description "Pour utiliser cette fonctionnalité, vous devez d'abord installer les outils PDF depuis le panneau Recherche des préférences de Zotero.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Ajouter la sélection à la note Juris-M">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Créer un document Juris-M et une note à partir de la sélection">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Enregistrer l'image en tant que document Juris-M">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Enregistrer le lien en tant que document Juris-M">
+<!ENTITY zotero.downloadManager.label "Enregistrer dans Juris-M">
+<!ENTITY zotero.downloadManager.noPDFTools.description "Pour utiliser cette fonctionnalité, vous devez d'abord installer les outils PDF depuis le panneau Recherche des préférences de Juris-M.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Les pièces jointes ne peuvent pas être enregistrées dans la bibliothèque sélectionnée. Ce document sera enregistré dans votre bibliothèque à la place.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Sélectionnez les champs à conserver depuis les autres versions du document :">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Choisissez la version du document à utiliser comme document maître :">
@@ -93,7 +93,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titres :">
 <!ENTITY zotero.integration.prefs.lang.translation "Traduction">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Translittération">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Stocker les références dans votre document augmentera la taille du fichier mais vous permettra de partager votre document avec d'autres sans utiliser un groupe Zotero. Zotero 3.0 ou suivant est nécessaire pour mettre à jour des documents créés avec cette option.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Stocker les références dans votre document augmentera la taille du fichier mais vous permettra de partager votre document avec d'autres sans utiliser un groupe Juris-M/Zotero. Zotero 3.0 ou suivant est nécessaire pour mettre à jour des documents créés avec cette option.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Stocker les références dans le document">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -184,20 +184,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Citations ambiguës">
 <!ENTITY zotero.rtfScan.cancel.label "Annuler">
 <!ENTITY zotero.rtfScan.citation.label "Citation">
-<!ENTITY zotero.rtfScan.citationsPage.description "Veuillez vérifier la liste des citations reconnues ci-dessous pour vous assurer que Zotero a sélectionné correctement les documents correspondants. Toute citation non transcrite ou ambiguë doit être résolue avant de passer à l'étape suivante.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Veuillez vérifier la liste des citations reconnues ci-dessous pour vous assurer que Juris-M a sélectionné correctement les documents correspondants. Toute citation non transcrite ou ambiguë doit être résolue avant de passer à l'étape suivante.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Vérification des documents cités">
 <!ENTITY zotero.rtfScan.completePage.description "Votre document a désormais été analysé et traité. Veuillez vous assurer qu'il a été mis en forme correctement.">
 <!ENTITY zotero.rtfScan.completePage.label "Analyse du RTF terminé">
-<!ENTITY zotero.rtfScan.formatPage.description "Zotero traite et met en forme votre fichier RTF. Veuillez patienter.">
+<!ENTITY zotero.rtfScan.formatPage.description "Juris-M traite et met en forme votre fichier RTF. Veuillez patienter.">
 <!ENTITY zotero.rtfScan.formatPage.label "Mise en forme des citations">
 <!ENTITY zotero.rtfScan.inputFile.label "Fichier en lecture">
-<!ENTITY zotero.rtfScan.introPage.description "Zotero peut extraire et reformater automatiquement des citations et insérer une bibliographie dans des fichiers RTF. La fonctionnalité d'analyse de RTF prend actuellement en charge des variations selon les formats suivants :">
+<!ENTITY zotero.rtfScan.introPage.description "Juris-M peut extraire et reformater automatiquement des citations et insérer une bibliographie dans des fichiers RTF. La fonctionnalité d'analyse de RTF prend actuellement en charge des variations selon les formats suivants :">
 <!ENTITY zotero.rtfScan.introPage.description2 "Pour démarrer, sélectionnez un fichier RTF en lecture et un fichier de sortie ci-dessous :">
 <!ENTITY zotero.rtfScan.introPage.label "Introduction">
 <!ENTITY zotero.rtfScan.itemName.label "Nom du document">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Citations transcrites">
 <!ENTITY zotero.rtfScan.outputFile.label "Fichier de sortie">
-<!ENTITY zotero.rtfScan.scanPage.description "Zotero analyse votre document à la recherche de citations. Veuillez patienter.">
+<!ENTITY zotero.rtfScan.scanPage.description "Juris-M analyse votre document à la recherche de citations. Veuillez patienter.">
 <!ENTITY zotero.rtfScan.scanPage.label "Recherche de citations">
 <!ENTITY zotero.rtfScan.stylePage.label "Mise en forme du document">
 <!ENTITY zotero.rtfScan.title "Analyse d'un fichier RTF">
@@ -210,7 +210,7 @@
 <!ENTITY zotero.sync.error "Erreur de synchronisation">
 <!ENTITY zotero.sync.longTagFixer.character "caractère">
 <!ENTITY zotero.sync.longTagFixer.characters "caractères">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Dans votre bibliothèque Zotero, le marqueur suivant est trop long pour être synchronisé avec le serveur :">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Dans votre bibliothèque Juris-M, le marqueur suivant est trop long pour être synchronisé avec le serveur :">
 <!ENTITY zotero.sync.longTagFixer.split "Scinder">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Scinder au">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Vous pouvez soit scinder le marqueur en plusieurs marqueurs, soit le modifier manuellement pour le raccourcir, soit le supprimer.">
@@ -240,7 +240,7 @@
 <!ENTITY zotero.tagSelector.renameTag "Renommer le marqueur…">
 <!ENTITY zotero.tagSelector.selectVisible "Sélectionner ce qui est visible">
 <!ENTITY zotero.tagSelector.showAutomatic "Afficher les marqueurs ajoutés automatiquement">
-<!ENTITY zotero.toolbar.about.label "À propos de Zotero">
+<!ENTITY zotero.toolbar.about.label "À propos de Juris-M">
 <!ENTITY zotero.toolbar.actions.label "Actions">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -284,14 +284,14 @@
 <!ENTITY zotero.upgrade.changeLogAfterLink "pour découvrir les nouveautés.">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "Veuillez consulter le">
 <!ENTITY zotero.upgrade.changeLogLink "journal des changements">
-<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
+<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Juris-M/Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
 <!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "Il s'agit d'une mise à jour majeure.">
 <!ENTITY zotero.upgrade.majorUpgradeAfterLink "avant de continuer.">
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Assurez-vous d'avoir examiné les">
 <!ENTITY zotero.upgrade.majorUpgradeLink "instructions de mise à jour">
 <!ENTITY zotero.upgrade.newVersionInstalled "Vous avez installé une nouvelle version de Zotero.">
-<!ENTITY zotero.upgrade.title "Assistant de mise à jour Zotero">
+<!ENTITY zotero.upgrade.title "Assistant de mise à jour Juris-M">
 <!ENTITY zotero.upgrade.upgradeInProgress "Veuillez patienter jusqu'à la fin du processus de mise à jour. Cela peut prendre quelques minutes.">
-<!ENTITY zotero.upgrade.upgradeRequired "Votre base de données Zotero doit être mise à jour pour fonctionner avec cette nouvelle version.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Votre base de données Zotero a été mise à jour avec succès.">
+<!ENTITY zotero.upgrade.upgradeRequired "Votre base de données Juris-M/Zotero doit être mise à jour pour fonctionner avec cette nouvelle version.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Votre base de données Juris-M a été mise à jour avec succès.">

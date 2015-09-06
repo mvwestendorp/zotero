@@ -284,14 +284,14 @@
 <!ENTITY zotero.upgrade.changeLogAfterLink "ដើម្បីរកមើលអ្វីដែលថ្មី។">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "សូមមើល">
 <!ENTITY zotero.upgrade.changeLogLink "កំណត់ហេតុផ្លាស់ប្តូរ">
-<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
+<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Juris-M/Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
 <!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "នេះគឺជាការធ្វើទំនើបកម្មចម្បង។">
 <!ENTITY zotero.upgrade.majorUpgradeAfterLink "មុនពេលបន្ត">
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "ធ្វើឲប្រាកដថា អ្នកបានអាននូវ">
 <!ENTITY zotero.upgrade.majorUpgradeLink "ការណែនាំអំពីទំនើបកម្ម">
 <!ENTITY zotero.upgrade.newVersionInstalled "អ្នកបានដំឡើងហ្ស៊ូតេរ៉ូកំណែថ្មី។">
-<!ENTITY zotero.upgrade.title "Zotero Upgrade Wizard">
+<!ENTITY zotero.upgrade.title "Juris-M Upgrade Wizard">
 <!ENTITY zotero.upgrade.upgradeInProgress "សូមរង់ចាំ ដើម្បីឲដំណើរការទំនើបកម្មបញ្ចប់។​ ដំណើរការនេះអាចចំណាយ​ពេលមួយរយៈខ្លី។">
 <!ENTITY zotero.upgrade.upgradeRequired "អ្នកត្រូវធ្វើទំនើបកម្មទិន្នន័យហ្ស៊ូតេរ៉ូរបស់អ្នកដើម្បីដំណើរការជាមួយកំណែថ្មីនេះ។">
 <!ENTITY zotero.upgrade.upgradeSucceeded "ទិន្នន័យហ្ស៊ូតេរ៉ូរបស់អ្នកបានធ្វើទំនើបកម្មដោយជោគជ័យ។">

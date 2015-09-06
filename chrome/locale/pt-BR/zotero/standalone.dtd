@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Sair">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Sair do Zotero">
+<!ENTITY quitApplicationCmdMac.label "Sair do Juris-M">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Sair">
 <!ENTITY redoCmd.accesskey "R">

@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Прибрати автора">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Показати незаповненні записи">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Додати вибране до Примітки Zotero">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Створити Zotero запис та примітку з вибраного">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Зберегти зображення як документ Zotero">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Зберегти посилання як документ Zotero">
-<!ENTITY zotero.downloadManager.label "Зберегти в Zotero">
-<!ENTITY zotero.downloadManager.noPDFTools.description "Щоб використати цю функцію, необхідно встановити PDF утиліту, вказану в налаштуваннях Zotero.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Додати вибране до Примітки Juris-M">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Створити Juris-M запис та примітку з вибраного">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Зберегти зображення як документ Juris-M">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Зберегти посилання як документ Juris-M">
+<!ENTITY zotero.downloadManager.label "Зберегти в Juris-M">
+<!ENTITY zotero.downloadManager.noPDFTools.description "Щоб використати цю функцію, необхідно встановити PDF утиліту, вказану в налаштуваннях Juris-M.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Вкладення не можуть бути збережені в обрану бібліотеку. Натомість, цей документ буде збережений в вашу бібліотеку.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Виберіть поля для збереження з іншої версії документа:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Виберіть версію документа для використання в якості головної:">
@@ -93,7 +93,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Зберігання посилань в вашому документі дещо збільшує розмір файлу, але дозволяє обмінюватись ними з іншими без використання групи Zotero. Для оновлення таких документів необхідно Zotero не нижче версії 3.0.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Зберігання посилань в вашому документі дещо збільшує розмір файлу, але дозволяє обмінюватись ними з іншими без використання групи Juris-M/Zotero. Для оновлення таких документів необхідно Zotero не нижче версії 3.0.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Збепегти посилання в документі">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -184,20 +184,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Неоднозначні цитати">
 <!ENTITY zotero.rtfScan.cancel.label "Відміна">
 <!ENTITY zotero.rtfScan.citation.label "Цитата">
-<!ENTITY zotero.rtfScan.citationsPage.description "Будь ласка, перегляньте список визнаних нижче цитат для того, щоб Zotero правильно вибрав відповідні документи. Треба прийняти рішення за всіма невизначеними або неоднозначними цитатами, перш ніж приступити до наступного кроку.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Будь ласка, перегляньте список визнаних нижче цитат для того, щоб Juris-M правильно вибрав відповідні документи. Треба прийняти рішення за всіма невизначеними або неоднозначними цитатами, перш ніж приступити до наступного кроку.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Перевірка цитований документів.">
 <!ENTITY zotero.rtfScan.completePage.description "Ваш документ був сканований та оброблений. Будь ласка, перевірте, що він відформатований правильно.">
 <!ENTITY zotero.rtfScan.completePage.label "Сканування RTF завершено">
-<!ENTITY zotero.rtfScan.formatPage.description "Zotero обробляє та форматує ваш файл RTF. Будь ласка, почекайте.">
+<!ENTITY zotero.rtfScan.formatPage.description "Juris-M обробляє та форматує ваш файл RTF. Будь ласка, почекайте.">
 <!ENTITY zotero.rtfScan.formatPage.label "Форматування цитат">
 <!ENTITY zotero.rtfScan.inputFile.label "Вхідний файл">
-<!ENTITY zotero.rtfScan.introPage.description "Zotero може автоматично витягти і переформатувати цитати та вставити список літератури в файл RTF. Наразі функція сканування RTF розпізнає цитати в наступних форматах:">
+<!ENTITY zotero.rtfScan.introPage.description "Juris-M може автоматично витягти і переформатувати цитати та вставити список літератури в файл RTF. Наразі функція сканування RTF розпізнає цитати в наступних форматах:">
 <!ENTITY zotero.rtfScan.introPage.description2 "Щоб почати, виберіть нижче вхідний файл RTF та вихідний файл:">
 <!ENTITY zotero.rtfScan.introPage.label "Вступ">
 <!ENTITY zotero.rtfScan.itemName.label "Ім'я документа">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Визначені цитати">
 <!ENTITY zotero.rtfScan.outputFile.label "Вихідний файл">
-<!ENTITY zotero.rtfScan.scanPage.description "Zotero сканує ваш документ на наявність цитат. Зачекайте, будь ласка.">
+<!ENTITY zotero.rtfScan.scanPage.description "Juris-M сканує ваш документ на наявність цитат. Зачекайте, будь ласка.">
 <!ENTITY zotero.rtfScan.scanPage.label "Сканування на наявність цитат">
 <!ENTITY zotero.rtfScan.stylePage.label "Форматування документа">
 <!ENTITY zotero.rtfScan.title "Сканування RTF">
@@ -210,7 +210,7 @@
 <!ENTITY zotero.sync.error "Помилка сінхронізації">
 <!ENTITY zotero.sync.longTagFixer.character "літерою">
 <!ENTITY zotero.sync.longTagFixer.characters "літерами">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Цей тег в вашій бібліотеці Zotero занадто довгий ля синхронізації з сервером:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Цей тег в вашій бібліотеці Juris-M занадто довгий ля синхронізації з сервером:">
 <!ENTITY zotero.sync.longTagFixer.split "Розділити">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Розділити за">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Ви можете розділити цей тег на декілька, вкоротити його вручну або видалити його.">
@@ -240,7 +240,7 @@
 <!ENTITY zotero.tagSelector.renameTag "Перейменувати тег...">
 <!ENTITY zotero.tagSelector.selectVisible "Вибрати видимі">
 <!ENTITY zotero.tagSelector.showAutomatic "Показувати автоматичні">
-<!ENTITY zotero.toolbar.about.label "Про Zotero">
+<!ENTITY zotero.toolbar.about.label "Про Juris-M">
 <!ENTITY zotero.toolbar.actions.label "Дії">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -284,14 +284,14 @@
 <!ENTITY zotero.upgrade.changeLogAfterLink "щоб дізнатись про нові функції.">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "Будь ласка подивіться">
 <!ENTITY zotero.upgrade.changeLogLink "журнал змін">
-<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
+<!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Juris-M/Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
 <!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "Це основне оновлення.">
 <!ENTITY zotero.upgrade.majorUpgradeAfterLink "перед продовженням.">
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Будьте впевненні що ви переглянули">
 <!ENTITY zotero.upgrade.majorUpgradeLink "інструкції з оновлення">
 <!ENTITY zotero.upgrade.newVersionInstalled "Ви встановили нову версію Zotero.">
-<!ENTITY zotero.upgrade.title "Майстер оновлення Zotero">
+<!ENTITY zotero.upgrade.title "Майстер оновлення Juris-M">
 <!ENTITY zotero.upgrade.upgradeInProgress "Будь ласка, зачекайте на завершення процесу оновлення. Це може зайняти кілька хвилин.">
-<!ENTITY zotero.upgrade.upgradeRequired "Ваша база даних Zotero має бути оновлена для роботи з новою версією.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Ваша база даних Zotero була успішно оновлена. ">
+<!ENTITY zotero.upgrade.upgradeRequired "Ваша база даних Juris-M/Zotero має бути оновлена для роботи з новою версією.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Ваша база даних Juris-M була успішно оновлена. ">

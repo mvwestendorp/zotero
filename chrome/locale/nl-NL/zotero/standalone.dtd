@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "A">
 <!ENTITY quitApplicationCmd.label "Afsluiten">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Zotero afsluiten">
+<!ENTITY quitApplicationCmdMac.label "Juris-M afsluiten">
 <!ENTITY quitApplicationCmdWin.accesskey "A">
 <!ENTITY quitApplicationCmdWin.label "Afsluiten">
 <!ENTITY redoCmd.accesskey "u">

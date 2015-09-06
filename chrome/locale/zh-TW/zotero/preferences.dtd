@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "快捷鍵">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "庫目錄：">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "連到的附件檔的庫目錄">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero 會使用連到的附件檔的庫目錄內的相對路徑，讓你可在不同電腦存取檔案，只要庫目錄內的檔案結構保持不變即可。">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M 會使用連到的附件檔的庫目錄內的相對路徑，讓你可在不同電腦存取檔案，只要庫目錄內的檔案結構保持不變即可。">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "復原成絕對路徑…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "選擇…">
 <!ENTITY zotero.preferences.autoUpdate "自動檢查更新轉譯器與樣式">
@@ -37,13 +37,13 @@
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "清除輸出">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "重新啟動後啟用">
 <!ENTITY zotero.preferences.debugOutputLogging.linesLogged "行記錄">
-<!ENTITY zotero.preferences.debugOutputLogging.message "偵錯輸出可幫助 Zotero 開發人員診斷 Zotero 的問題。偵錯記錄會拖慢 Zotero，所以除非 Zotero 開發人員要求偵錯輸出，否則一般來說請關閉它。">
+<!ENTITY zotero.preferences.debugOutputLogging.message "偵錯輸出可幫助 Juris-M 開發人員診斷 Juris-M 的問題。偵錯記錄會拖慢 Juris-M，所以除非 Juris-M 開發人員要求偵錯輸出，否則一般來說請關閉它。">
 <!ENTITY zotero.preferences.debugOutputLogging.submitToServer "提交到 Zotero 伺服器">
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "檢視輸出">
 <!ENTITY zotero.preferences.default "預設：">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "儲存項目時自動附加相關的 PDF 檔與其他檔">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "包括參考文獻中論文文章的 URL">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "停用此選項，則引用期刊、雜誌、報紙文章時，只在沒有指定文章的頁數範圍時，Zotero 才包含 URL。">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "停用此選項，則引用期刊、雜誌、報紙文章時，只在沒有指定文章的頁數範圍時，Juris-M 才包含 URL。">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "獲取更多樣式…">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "圖書館">
 <!ENTITY zotero.preferences.keys.newItem "新增項目">
 <!ENTITY zotero.preferences.keys.newNote "新增筆記">
-<!ENTITY zotero.preferences.keys.openZotero "開/關 Zotero 窗格">
+<!ENTITY zotero.preferences.keys.openZotero "開/關 Juris-M 窗格">
 <!ENTITY zotero.preferences.keys.overrideGlobal "嘗試蓋過相衝突的快速鍵">
 <!ENTITY zotero.preferences.keys.quicksearch "快速搜尋">
-<!ENTITY zotero.preferences.keys.saveToZotero "儲存到 Zotero (網址列圖示)">
+<!ENTITY zotero.preferences.keys.saveToZotero "儲存到 Juris-M (網址列圖示)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "切換全螢幕模式">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "切換標籤選擇器">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -81,7 +81,7 @@
 <!ENTITY zotero.preferences.lang.csl "CSL:">
 <!ENTITY zotero.preferences.lang.display "Display">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "In citations and bibliographies">
-<!ENTITY zotero.preferences.lang.insideZotero "Zotero UI">
+<!ENTITY zotero.preferences.lang.insideZotero "Juris-M UI">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
 <!ENTITY zotero.preferences.lang.journals "Journals:">
 <!ENTITY zotero.preferences.lang.languageList "Languages for Use in Metadata">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "搜尋解析器">
 <!ENTITY zotero.preferences.openurl.server "解析器：">
 <!ENTITY zotero.preferences.openurl.version "版本：">
-<!ENTITY zotero.preferences.parseRISRefer "用 Zotero 處理下載的 BibTeX/RIS/Refer 檔">
+<!ENTITY zotero.preferences.parseRISRefer "用 Juris-M 處理下載的 BibTeX/RIS/Refer 檔">
 <!ENTITY zotero.preferences.period "。">
 <!ENTITY zotero.preferences.prefpane.advanced "進階">
 <!ENTITY zotero.preferences.prefpane.cite "引用">
@@ -142,7 +142,7 @@
 <!ENTITY zotero.preferences.proxies.configured "已設定的代理伺服器">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - 資料夾路徑 (例如：about/)">
 <!ENTITY zotero.preferences.proxies.desc_after_link "以得更多資訊。">
-<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero 會透明地透過已儲存的代理伺服器轉導請求。請參見">
+<!ENTITY zotero.preferences.proxies.desc_before_link "Juris-M 會透明地透過已儲存的代理伺服器轉導請求。請參見">
 <!ENTITY zotero.preferences.proxies.desc_link "代理伺服器文件">
 <!ENTITY zotero.preferences.proxies.disableByDomain "停用代理伺服器轉導向，若我的網域名稱含 ">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - 檔名 (例如：index.html)">
@@ -160,7 +160,7 @@
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "預設輸出格式：">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "拖放超過多少項目時，停用快速複製：">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
-<!ENTITY zotero.preferences.quickCopy.linkOption "Include Zotero link wrappers in QuickCopy citations">
+<!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "注意！在 Mac OS X 會損失 Rich-text 格式。">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "網域/路徑">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(例如 wikipedia.org)">
@@ -176,7 +176,7 @@
 <!ENTITY zotero.preferences.search.indexStats.words "字詞數：">
 <!ENTITY zotero.preferences.search.pdfIndexing "PDF 索引">
 <!ENTITY zotero.preferences.settings "設定">
-<!ENTITY zotero.preferences.showIn "於…載入 Zotero：">
+<!ENTITY zotero.preferences.showIn "於…載入 Juris-M：">
 <!ENTITY zotero.preferences.showIn.appTab "App 頁籤">
 <!ENTITY zotero.preferences.showIn.browserPane "瀏覽器窗格">
 <!ENTITY zotero.preferences.showIn.separateTab "不同的頁籤">
@@ -199,25 +199,25 @@
 <!ENTITY zotero.preferences.sync.reset "回復預設值">
 <!ENTITY zotero.preferences.sync.reset.button "回復預設值…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "與 Zotero 伺服器完全同步">
-<!ENTITY zotero.preferences.sync.reset.fullSync.desc "將本機的 Zotero 資料與來自同步伺服器的資料合併，忽略同步歷史。">
+<!ENTITY zotero.preferences.sync.reset.fullSync.desc "將本機的 Juris-M 資料與來自同步伺服器的資料合併，忽略同步歷史。">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "重設檔案同步歷史">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "強制檢查空間伺服器上所有本機的附加檔案">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "從 Zotero 伺服器回復">
-<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "刪除本機的所有 Zotero 資料，並從同步伺服器回復。">
+<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "刪除本機的所有 Juris-M 資料，並從同步伺服器回復。">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "回復到 Zotero 伺服器">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "刪除並以本機的 Zotero 資料覆蓋伺服器上的所有資料。">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "刪除並以本機的 Juris-M 資料覆蓋伺服器上的所有資料。">
 <!ENTITY zotero.preferences.sync.reset.warning1 "後面操作只在極少與特定情況可用，不該作為解決問題的一般方法。於許多情況，回復預設值會導致更多問題。請參見 ">
 <!ENTITY zotero.preferences.sync.reset.warning2 "同步回復預設值選項">
 <!ENTITY zotero.preferences.sync.reset.warning3 " 以得更多資訊。">
 <!ENTITY zotero.preferences.sync.syncAutomatically "自動同步">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "同步全文內容">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero 能以 zotero.org 和其他連結的裝置同步文獻庫中的檔案之全文內容，讓您無論身處何處，都能容易搜尋檔案。檔案之全文內容不會公開分享給他人。">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Juris-M 能以 zotero.org 和其他連結的裝置同步文獻庫中的檔案之全文內容，讓您無論身處何處，都能容易搜尋檔案。檔案之全文內容不會公開分享給他人。">
 <!ENTITY zotero.preferences.sync.syncServer "Zotero 同步伺服器">
 <!ENTITY zotero.preferences.sync.username "使用者名稱：">
-<!ENTITY zotero.preferences.title "Zotero 偏好設定">
+<!ENTITY zotero.preferences.title "Juris-M 偏好設定">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "天的項目">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "自動移除刪入垃圾筒且超過">
 <!ENTITY zotero.preferences.updateNow "立刻更新">
 <!ENTITY zotero.preferences.userInterface "使用者介面">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "允許 zotero.org 依目前的 Zotero 版本來調整內容。">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "啟用後會將 Zotero 的目前版本資訊加到針對 zotero.org 的 HTTP 請求中。">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "允許 zotero.org 依目前的 Juris-M 版本來調整內容。">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "啟用後會將 Juris-M 的目前版本資訊加到針對 zotero.org 的 HTTP 請求中。">

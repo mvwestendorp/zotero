@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Klávesové skratky">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Základný adresár:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Základný adresár prepojených príloh">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero použije relatívne cesty pre prepojené súbory príloh vo vnútri základného adresára, čím vám sprístupní súbory na rôznych počítačoch pokiaľ štruktúra súborov vo vnútri základného adresára zostáva rovnaká.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M použije relatívne cesty pre prepojené súbory príloh vo vnútri základného adresára, čím vám sprístupní súbory na rôznych počítačoch pokiaľ štruktúra súborov vo vnútri základného adresára zostáva rovnaká.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Prepnúť na absolútne cesty...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Zvoliť...">
 <!ENTITY zotero.preferences.autoUpdate "Automaticky skontrolovať aktualizácie konvertorov a štýlov ">
@@ -37,13 +37,13 @@
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Vymazať protokol">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Povoliť pri novom spustení">
 <!ENTITY zotero.preferences.debugOutputLogging.linesLogged "zaznamenaných riadkov">
-<!ENTITY zotero.preferences.debugOutputLogging.message "Protokol ladenia môže pomôcť vývojárom rozpoznať problémy v Zotere. Zaznamenávanie protokolu spomalí Zotero, takže túto možnosť by ste mali povoliť iba vtedy, keď si od vás protokol ladenia vyžiada niekto z vývojárskeho tímu Zotera.">
+<!ENTITY zotero.preferences.debugOutputLogging.message "Protokol ladenia môže pomôcť vývojárom rozpoznať problémy v Zotere. Zaznamenávanie protokolu spomalí Juris-M, takže túto možnosť by ste mali povoliť iba vtedy, keď si od vás protokol ladenia vyžiada niekto z vývojárskeho tímu Zotera.">
 <!ENTITY zotero.preferences.debugOutputLogging.submitToServer "Odoslať na server Zotero">
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "Zobraziť protokol">
 <!ENTITY zotero.preferences.default "Predvolené:">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "pri ukladaní položiek automaticky priložiť prepojené PDF a ostatné súbory">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Zahrnúť do referencií URL adresy článkov">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Keď táto voľba nie je vybraná, Zotero vloží URL adresy pri citovaní článkov (z odborných a populárnych časopisov alebo novín) iba v prípade, ak článok nemá špecifikovaný rozsah strán.">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Keď táto voľba nie je vybraná, Juris-M vloží URL adresy pri citovaní článkov (z odborných a populárnych časopisov alebo novín) iba v prípade, ak článok nemá špecifikovaný rozsah strán.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Získať ďalšie štýly...">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "Knižnica">
 <!ENTITY zotero.preferences.keys.newItem "Vytvoriť novú položku">
 <!ENTITY zotero.preferences.keys.newNote "Vytvoriť novú poznámku">
-<!ENTITY zotero.preferences.keys.openZotero "Otvoriť/zatvoriť Zotero">
+<!ENTITY zotero.preferences.keys.openZotero "Otvoriť/zatvoriť Juris-M">
 <!ENTITY zotero.preferences.keys.overrideGlobal "Pokúsiť sa získať kontrolu v prípade konfliktu skratiek s inými rozšíreniami.">
 <!ENTITY zotero.preferences.keys.quicksearch "Rýchle vyhľadávanie">
-<!ENTITY zotero.preferences.keys.saveToZotero "Uložiť do Zotera (ikona v lište pre adresu)">
+<!ENTITY zotero.preferences.keys.saveToJuris-M "Uložiť do Zotera (ikona v lište pre adresu)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Prepnúť Zotero do celého okna">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "Zobraziť/skryť značky">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -81,7 +81,7 @@
 <!ENTITY zotero.preferences.lang.csl "CSL:">
 <!ENTITY zotero.preferences.lang.display "Display">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "In citations and bibliographies">
-<!ENTITY zotero.preferences.lang.insideZotero "Zotero UI">
+<!ENTITY zotero.preferences.lang.insideZotero "Juris-M UI">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
 <!ENTITY zotero.preferences.lang.journals "Journals:">
 <!ENTITY zotero.preferences.lang.languageList "Languages for Use in Metadata">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "Hľadať resolvery">
 <!ENTITY zotero.preferences.openurl.server "Resolver:">
 <!ENTITY zotero.preferences.openurl.version "Verzia:">
-<!ENTITY zotero.preferences.parseRISRefer "Použiť Zotero ako predvolený program pre prevzaté BibTeX/RIS/Refer súbory">
+<!ENTITY zotero.preferences.parseRISRefer "Použiť Juris-M ako predvolený program pre prevzaté BibTeX/RIS/Refer súbory">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Pokročilé">
 <!ENTITY zotero.preferences.prefpane.cite "Citovanie">
@@ -142,7 +142,7 @@
 <!ENTITY zotero.preferences.proxies.configured "Nastavené proxy">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - cesta k priečinku (napr. about/)">
 <!ENTITY zotero.preferences.proxies.desc_after_link ".">
-<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero dokáže transparentne presmerovať požiadavky na vybrané sídla cez uložené proxy servery. Viac informácií nájdete v">
+<!ENTITY zotero.preferences.proxies.desc_before_link "Juris-M dokáže transparentne presmerovať požiadavky na vybrané sídla cez uložené proxy servery. Viac informácií nájdete v">
 <!ENTITY zotero.preferences.proxies.desc_link "dokumentácii k proxy">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Vypnúť presmerovanie proxy, ak názov mojej domény obsahuje ">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - meno súboru (napr. index.html)">
@@ -160,7 +160,7 @@
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Predvolený formát výstupu:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Zakázať rýchle kopírovanie pri presúvaní viac než">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
-<!ENTITY zotero.preferences.quickCopy.linkOption "Include Zotero link wrappers in QuickCopy citations">
+<!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "Poznámka: Formát textu sa v Mac OS X nezachová.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "doména/cesta">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(napr. wikipedia.org)">
@@ -176,7 +176,7 @@
 <!ENTITY zotero.preferences.search.indexStats.words "Slov:">
 <!ENTITY zotero.preferences.search.pdfIndexing "Indexovanie PDF súborov">
 <!ENTITY zotero.preferences.settings "Nastavenia">
-<!ENTITY zotero.preferences.showIn "Nahrať Zotero do:">
+<!ENTITY zotero.preferences.showIn "Nahrať Juris-M do:">
 <!ENTITY zotero.preferences.showIn.appTab "Záložka aplikácií">
 <!ENTITY zotero.preferences.showIn.browserPane "Panel prehliadača">
 <!ENTITY zotero.preferences.showIn.separateTab "Osobitná záložka">
@@ -211,10 +211,10 @@
 <!ENTITY zotero.preferences.sync.reset.warning3 "pre viac informácií.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Synchronizovať automaticky">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Synchronizovať plno-textový obsah">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero teraz môže synchronizovať plno-textový obsah súborov vo vašich knižniciach Zotera so serverom zotero.org a inými pripojenými zariadeniami, čím sa vám umožňuje ľahké vyhľadávanie vo vašich súboroch, nech ste kdekoľvek. Plno-textový obsah vašich súborov sa verejne nezdieľa.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Juris-M teraz môže synchronizovať plno-textový obsah súborov vo vašich knižniciach Zotera so serverom zotero.org a inými pripojenými zariadeniami, čím sa vám umožňuje ľahké vyhľadávanie vo vašich súboroch, nech ste kdekoľvek. Plno-textový obsah vašich súborov sa verejne nezdieľa.">
 <!ENTITY zotero.preferences.sync.syncServer "Synchronizačný server Zotero">
 <!ENTITY zotero.preferences.sync.username "Meno používateľa:">
-<!ENTITY zotero.preferences.title "Predvoľby Zotero">
+<!ENTITY zotero.preferences.title "Predvoľby Juris-M">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "dňami">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Automaticky odstrániť položky zmazané pred viac ako">
 <!ENTITY zotero.preferences.updateNow "Aktualizovať teraz">
