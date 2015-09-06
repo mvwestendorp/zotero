@@ -145,7 +145,7 @@ pref("extensions.zotero.csl.trigraphFormat", "Aaaa00:AaAa00:AaAA00:AAAA00");
 // Integration settings
 pref("extensions.zotero.integration.port", 50001);
 pref("extensions.zotero.integration.autoRegenerate", -1);	// -1 = ask; 0 = no; 1 = yes
-pref("extensions.zotero.integration.useClassicAddCitationDialog", true);
+pref("extensions.zotero.integration.useClassicAddCitationDialog", false);
 pref("extensions.zotero.integration.keepAddCitationDialogRaised", false);
 
 // Connector settings
