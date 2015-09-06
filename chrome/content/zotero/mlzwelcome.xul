@@ -5,87 +5,58 @@
 <!DOCTYPE window SYSTEM "chrome://zotero/locale/about.dtd">
 
 <dialog
-	id="mlz-welcome"
-	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-	orient="vertical"
-	buttons="accept"
-	buttonlabelaccept="&zotero.about.close;"
-	onload="moveToAlertPosition();"
-	ondialogaccept="return true;">
-	
-	<vbox id="mlz-welcome-content" width="600">
-		<label id="name" value="Juris-M: for legal and multilingual research"/>
-        <description class="subcontent">
-          Juris-M is a variant of the Zotero reference manager, with
-          extensions to support legal citation styles and multilingual
-          content. The system is written and maintained by <label
-          class="zotero-text-link"
-          href="http://gsl-nagoya-u.net/faculty/cache/gsliF_Bennett.html"
-          value="Frank Bennett"/>, author of the citation formatter
-          (<label class="zotero-text-link"
-          href="https://bitbucket.org/fbennett/citeproc-js/wiki/Home"
-          value="citeproc-js"/>) that runs in Zotero itself.
-        </description>
-        <description class="subcontent">
-          Juris-M is not directly supported by the Zotero
-          development team: if you do not require its special
-          features, you may prefer to use <label
-          class="zotero-text-link" href="http://zotero.org"
-          value="official Zotero"/> instead.
-        </description>
-		<label class="subhead" value="Components"/>
-        <description class="subcontent">
-          A complete MLZ system consists of the <label
-          class="zotero-text-link" href="http://citationstylist.org/tools/#mlz-client"
-          value="MLZ Client"/> (this program), the <label
-          class="zotero-text-link" href="http://citationstylist.org/tools/#abbreviation-filter"
-          value="Abbreviation"/> <label
-          class="zotero-text-link" href="http://citationstylist.org/tools/#abbreviation-filter"
-          value="Filter"/> plugin for Firefox,
-          and an appropriate <label
-          class="zotero-text-link" href="http://www.zotero.org/support/word_processor_plugin_installation"
-          value="word processor plugin"/> from official Zotero.
-        </description>
-        <description class="subcontent">
-          For legal support, you will also want to check out the MLZ legal styles and
-          their associated abbreviation lists at 
-          <label
-          class="zotero-text-link" href="http://citationstylist.org/tools/#styles"
-          value="http://citationstylist.org/tools/#styles"/>.
-        </description>
-		<label class="subhead" value="Compatibility"/>
-        <description class="subcontent">
-          MLZ can sync to <label class="zotero-text-link"
-          href="http://zotero.org" value="http://zotero.org"/>, and it
-          can share sync data with official Zotero. However, a local
-          MLZ <span style="font-style:italic;">database</span> (on
-          your PC) cannot be accessed directly with the official
-          versions of Zotero for Firefox or Zotero Standalone.
-        </description>
-        <description class="subcontent">
-          Citation styles in the <label class="zotero-text-link"
-          href="http://zotero.org/styles" value="Zotero Style Repository"/>
-          are generally compatible with MLZ. Styles designed
-          for use with MLZ may not work properly with
-          official Zotero.
-        </description>
-		<label class="subhead" value="Getting Help"/>
-        <description class="subcontent">
-          Questions and comments can be posted to the Zotero forums. 
-          Prefix the subject of your posts with "[MLZ]" to flag that they
-          are related to this project. To contact the maintainer
-          directly, see the <label class="zotero-text-link"
-          href="http://citationstylist.org/contact/" value="Contact"/>
-          page of the project website.
-        </description>
-		<label class="subhead" value="Relation to Official Zotero"/>
-        <description class="subcontent">
-          Incorporation of MLZ features into official Zotero (with
-          seamless migration of user data) is intended, but this is a
-          delicate process and will require significant effort. It
-          cannot be rushed. In the interim, the MLZ client offers
-          legal and multilingual functionality to users who require
-          it.
-        </description>
-	</vbox>
+    id="mlz-welcome"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    orient="vertical"
+    buttons="accept"
+    buttonlabelaccept="&zotero.about.close;"
+    onload="moveToAlertPosition();"
+    ondialogaccept="return true;">
+  <h:style>
+    li {
+        padding: 0.5em;
+    }
+    a {
+        font-weight: bold;
+        color: #444444;
+        border-bottom: 1px dotted #444444;
+    }
+    a:hover {
+        cursor: pointer
+    }
+  </h:style>
+  
+  <vbox id="mlz-welcome-content" width="600">
+    <label id="name" value="Juris-M: for legal and multilingual research"/>
+    <h:ul>
+      <h:li>
+        <h:a target="_blank" href="https://juris-m.github.io">Juris-M</h:a>
+        is a variant of the Zotero reference manager, with
+        extensions to support legal citation styles and multilingual
+        content.
+      </h:li>
+      <h:li>
+        To add items to your Juris-M library directly from the Web,
+        install an appropriate <h:a target="_blank" href="https://juris-m.github.io/downloads">browser plugin</h:a>.
+        Thanks to the open policy of the Zotero
+        project, Juris-M is fully compatible with the standard
+        Zotero connector plugins.
+      </h:li>
+      <h:li>
+        To receive important project announcements, please subscribe
+        to one of the Juris-M <h:a target="_blank"
+        href="https://juris-m.github.io/support">mailing
+        lists</h:a>. For support, you can either post to one of the
+        lists, or you can post to the <h:a target="_blank" href="https://forums.zotero.org/discussions">Zotero
+        forums</h:a> with &#x201c;[Juris-M]&#x201d; in the subject line
+        of your post.
+      </h:li>
+      <h:li>
+        (The Juris-M project and official Zotero are on good terms,
+        but the two are not affiliated, and Zotero developers do not
+        themselves offer support for Juris-M.)
+      </h:li>
+    </h:ul>
+  </vbox>
 </dialog>
