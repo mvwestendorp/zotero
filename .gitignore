@@ -1,4 +1,7 @@
 locale-xls-out
 locale-csv-out
+locale-xls-in
+locale-csv-in
+locale-rev
 *~
 *.pyc
