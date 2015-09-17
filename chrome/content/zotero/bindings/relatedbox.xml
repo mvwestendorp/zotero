@@ -218,7 +218,7 @@
 								relatedInfo = [];
 								for (var i = 0, ilen = data.length - 1; i < ilen; i += 1) {
 									info = [];
-									if (related[i].numAttachments()) {
+									if (related[i].isRegularItem() && related[i].numAttachments()) {
 										info.push(true);
 									} else {
 										info.push(false);
