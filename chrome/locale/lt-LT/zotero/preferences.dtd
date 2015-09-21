@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Pastaba: raiškiojo teksto formatavimas nebus išlaikomas Mac OS X sistemoje.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Sritis/kelias">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(pvz., vikipedija.lt)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Išvedimo formatas">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Parinktys atskiroms svetainėms:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Pranešti apie netinkamus svetainės transliatorius">

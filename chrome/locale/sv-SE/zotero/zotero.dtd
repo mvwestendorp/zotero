@@ -1,8 +1,8 @@
-<!ENTITY zotero.annotate.toolbar.add.label "Lägg till anteckning">
-<!ENTITY zotero.annotate.toolbar.collapse.label "Göm alla anteckningar">
+<!ENTITY zotero.annotate.toolbar.add.label "Lägg till kommentar">
+<!ENTITY zotero.annotate.toolbar.collapse.label "Göm alla kommentarer">
 <!ENTITY zotero.annotate.toolbar.duplicatesView.label "Duplicates view">
 <!ENTITY zotero.annotate.toolbar.duplicatesViewCancel.label "Cancel duplicates view">
-<!ENTITY zotero.annotate.toolbar.expand.label "Visa alla anteckningar">
+<!ENTITY zotero.annotate.toolbar.expand.label "Visa alla kommentarer">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Framhäv text">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Sluta framhäv text">
 <!ENTITY zotero.attachLink.label.link "Länk:">
@@ -12,6 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopiera till urklipp">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
+<!ENTITY zotero.bibliography.locale.label "Språk:">
 <!ENTITY zotero.bibliography.output.label "Utdataformat">
 <!ENTITY zotero.bibliography.outputMethod "Utmatningsmetod">
 <!ENTITY zotero.bibliography.outputMode "Utmatningsläge">

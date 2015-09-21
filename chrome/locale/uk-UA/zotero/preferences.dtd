@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - шлях сторінки що перенаправляється, виключаючи першу косу риску (наприклад, about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Налаштування проксі">
 <!ENTITY zotero.preferences.proxies.scheme "Схема">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Показувати сповіщення при перенаправленні через проксі-сервер">
 <!ENTITY zotero.preferences.proxies.transparent "Використати перенаправлення">
 <!ENTITY zotero.preferences.proxies.variables "Ви можете використовувати наступні змінні в схемі проксі:">
 <!ENTITY zotero.preferences.quickCopy.caption "Швидке копіювання">
@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Примітка: форматування RTF буде втрачене в Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Домен/шлях">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(наприклад, wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Мова">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Формат виводу">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Установки для сайту:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Повідомити про транслтори сатів, що не працюють">

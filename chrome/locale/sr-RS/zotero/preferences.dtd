@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Белешка: Rich-text формат ће бити изгубљен на Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Домен/путања">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(нпр. sr.wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Излазни формат">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Поставке нарочите за веб место:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Извести о грешкама у „преводиоцу странице“">

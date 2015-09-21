@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Failid ja kataloogid">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Kiirvaliku klahvid">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Baaskataloog:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Lingitud manuse baaskataloog">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero kasutab lingitud manuste puhul suhtelisi radasid baaskataloogis. Selliseilt on võimalik failidele ligipääs erinevates arvutites, tingimusel, et failistruktuur baaskataloogis on sama.">
@@ -115,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Mitmesugust">
 <!ENTITY zotero.preferences.openAboutConfig "Avada about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Avada about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
+<!ENTITY zotero.preferences.openCSLEdit "Avada stiilide redaktor">
+<!ENTITY zotero.preferences.openCSLPreview "Avada stiilide eelvaade">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Kohandatud...">
 <!ENTITY zotero.preferences.openurl.search "Otsida lahendajaid">
@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Lehekülje rada ilma kaldkriipsuta (nt about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proksi seaded">
 <!ENTITY zotero.preferences.proxies.scheme "Skeem">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Teate näitamine, kui toimub ligipääs proxy kaudu">
 <!ENTITY zotero.preferences.proxies.transparent "Pidada meeles prokside kaudu kasutatavad allikad">
 <!ENTITY zotero.preferences.proxies.variables "Proksi skeemides võib kasutada järgnevaid muutujaid:">
 <!ENTITY zotero.preferences.quickCopy.caption "Kiirkopeerimine">
@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Märkus: Mac OS X-l läheb RTF formateering kaotsi.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domeen/aadress">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(nt wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Keel">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Väljundformaat">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Leheküljespetsiifilised seaded:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Anda teada vigastest tõlkijatest">

@@ -12,6 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopiuj do schowka">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
+<!ENTITY zotero.bibliography.locale.label "Język:">
 <!ENTITY zotero.bibliography.output.label "Format wyjściowy">
 <!ENTITY zotero.bibliography.outputMethod "Metoda wyjścia:">
 <!ENTITY zotero.bibliography.outputMode "Tryb wyjścia:">

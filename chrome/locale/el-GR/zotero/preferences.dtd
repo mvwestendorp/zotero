@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Σημείωση: η μορφοποίηση εμπλουτισμένου κειμένου θα χαθεί στο Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Περιοχή/Διαδρομή">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(π.χ. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Μορφή παραγόμενου αρχείου">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Ρυθμίσεις βάσει ιστοτόπου:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Αναφέρετε προβληματικούς μεταφραστές ιστοτόπου">

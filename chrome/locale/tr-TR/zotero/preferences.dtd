@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Yetkili sayfanın başındaki kesme işaretinin çıkartılmış yolu (ör., about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Vekil Sunucu Seçenekleri">
 <!ENTITY zotero.preferences.proxies.scheme "Düzen">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Bir vekil sunucu aracılığıyla yönlendirirken mesaj göster.">
 <!ENTITY zotero.preferences.proxies.transparent "Vekil sunucu kaynaklarını kendiliğinden hatırla">
 <!ENTITY zotero.preferences.proxies.variables "Vekil düzeninde aşağıdaki değişkenleri kullanabilirsiniz:">
 <!ENTITY zotero.preferences.quickCopy.caption "Çabuk Kopyala">
@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Uyarı: Zengin-metin biçimi Mac OS X'de kaybolacaktır.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Etki alanı/Yol">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ör. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Dil">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Çıktı Biçimi">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Siteye Özgü Ayarlar:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Bozuk site çevirmenlerini bildir">

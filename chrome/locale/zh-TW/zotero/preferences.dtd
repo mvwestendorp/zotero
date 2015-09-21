@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - 透過 proxy 連接之網頁的路徑名稱，需去除開頭的斜線 (例如：about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "代理伺服器選項">
 <!ENTITY zotero.preferences.proxies.scheme "架構式">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "當由伺服器重新導向時顯示通知訊息">
 <!ENTITY zotero.preferences.proxies.transparent "啟用代理伺服器轉導向">
 <!ENTITY zotero.preferences.proxies.variables "可使用後面變數於代理伺服器架構式：">
 <!ENTITY zotero.preferences.quickCopy.caption "快速複製">
@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "注意！在 Mac OS X 會損失 Rich-text 格式。">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "網域/路徑">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(例如 wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "語言">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "輸出格式">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "針對特定網站的設定：">
 <!ENTITY zotero.preferences.reportTranslationFailure "回報有問題的網站轉譯器">

@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "หมายเหตุ: การจัดรูปแบบจะสูญหายไปบน Mac OS X">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "โดเมน/พาธ">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(เช่น wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "รูปแบบส่งออก">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "ตั้งค่าที่ตั้งเฉพาะ:">
 <!ENTITY zotero.preferences.reportTranslationFailure "รายงานตัวช่วยแปลเว็บไซต์ใช้งานไม่ได้">

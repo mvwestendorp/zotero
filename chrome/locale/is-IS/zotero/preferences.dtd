@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Athugið: Upplýsingar um letursnið glatast í Mac OS X stýrikerfinu.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Lén/Slóð">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(t.d. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Útkeyrslusnið">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Sértækar stillingar á vinnslustað:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Tilkynna rangar vísanir í þýðingar">

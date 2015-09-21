@@ -42,7 +42,7 @@
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "Visa utdata">
 <!ENTITY zotero.preferences.default "Standardvärde:">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "Bifoga automatiskt associerade PDF:er och andra filer när källor sparas">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Länka till papperstidningars webbsida i källförteckningen">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL "Ta med URL:er för forskningsartiklar i källförteckningen">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "När detta är bortvalt lägger Zotero bara till webblänken om artikeln inte har ett sidintervall specificerat.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
@@ -146,13 +146,13 @@
 <!ENTITY zotero.preferences.proxies.desc_link "manualen om proxyservrar">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Inaktivera proxy-omdirigering när mitt domännamn innehåller">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - Filnamnet (t.ex., index.html)">
-<!ENTITY zotero.preferences.proxies.h_variable "&#37;h - Proxysajtens hostnamn (t.ex., www.zotero.org)">
-<!ENTITY zotero.preferences.proxies.hostname "Hostnamn">
+<!ENTITY zotero.preferences.proxies.h_variable "&#37;h - Proxysajtens värdnamn (t.ex., www.zotero.org)">
+<!ENTITY zotero.preferences.proxies.hostname "Värdnamn">
 <!ENTITY zotero.preferences.proxies.multiSite "Multisajt">
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Sökvägen till proxysidan utan föregående / (t.ex., about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Proxyinställningar">
 <!ENTITY zotero.preferences.proxies.scheme "Inställningar">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Visa meddelande vid omdirigering via en proxy.">
 <!ENTITY zotero.preferences.proxies.transparent "Kom ihåg tidigare proxyservrar automatiskt">
 <!ENTITY zotero.preferences.proxies.variables "Du kan använda följande inställningar för din proxyserver:">
 <!ENTITY zotero.preferences.quickCopy.caption "Snabbkopiera">
@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "OBS: Rich-text-format försvinner i Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domän/sökväg">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(t.ex. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Språk">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Utdataformat">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Webbplats-specifika inställningar:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Rapportera felaktiga källfångare">
@@ -190,7 +191,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.download.onDemand "efter behov">
 <!ENTITY zotero.preferences.sync.fileSyncing.groups "Synkronisera bifogade filer i gruppens bibliotek med Zotero Storage">
 <!ENTITY zotero.preferences.sync.fileSyncing.myLibrary "Synkronisera bifogade filer i mitt bibliotek med:">
-<!ENTITY zotero.preferences.sync.fileSyncing.tos1 "Genom att använda Zotero Storage går du med på tjänstens">
+<!ENTITY zotero.preferences.sync.fileSyncing.tos1 "Genom att använda Zotero Storage godtar du tjänstens">
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "avtalsvillkor">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
 <!ENTITY zotero.preferences.sync.lostPassword "Glömt lösenord?">

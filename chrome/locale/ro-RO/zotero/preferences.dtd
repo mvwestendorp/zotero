@@ -164,6 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Notă: Formatarea RTF se va pierde pe Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domeniu/Cale">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ex. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Stil de formatare">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Setări specifice site:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Raportează site-uri cu legături rupte (la translatare)">
