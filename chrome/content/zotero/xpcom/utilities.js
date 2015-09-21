@@ -1079,6 +1079,21 @@ Zotero.Utilities = {
 		return retValues;
 	},
 	
+	/**
+	 * Assign properties to an object
+	 *
+	 * @param {Object} target
+	 * @param {Object} source
+	 * @param {String[]} [props] Properties to assign. Assign all otherwise
+	 */
+	"assignProps": function(target, source, props) {
+		if (!props) props = Object.keys(source);
+		
+		for (var i=0; i<props.length; i++) {
+			if (source[props[i]] === undefined) continue;
+			target[props[i]] = source[props[i]];
+		}
+	},
 	
 	/**
 	 * Generate a random integer between min and max inclusive
@@ -1241,6 +1256,8 @@ Zotero.Utilities = {
 	},
 	
 	"capitalize": function (str) {
+		if (typeof str != 'string') throw new Error("Argument must be a string");
+		if (!str) return str; // Empty string
 		return str[0].toUpperCase() + str.substr(1);
 	},
 	
@@ -1688,7 +1705,7 @@ Zotero.Utilities = {
 		//Special handling for Error or Exception
 		var isException = Zotero.isFx && !Zotero.isBookmarklet && obj instanceof Components.interfaces.nsIException;
 		var isError = obj instanceof Error;
-		if (!isException && !isError && obj.constructor && obj.stack) {
+		if (!isException && !isError && constructor in obj && stack in obj) {
 			switch (obj.constructor.name) {
 				case 'Error':
 				case 'EvalError':
