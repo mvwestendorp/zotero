@@ -384,10 +384,38 @@ Zotero.CollectionTreeView.prototype.setHighlightedRows = function (ids) {
 	this._highlightedRows = {};
 	this._treebox.invalidate();
 	
-	for each(var id in ids) {
+	if (!ids || !ids.length) {
+		return;
+	}
+	
+	// Make sure all highlighted collections are shown
+	for (let id of ids) {
 		this.expandToCollection(id);
-		this._highlightedRows[this._collectionRowMap[id]] = true;
-		this._treebox.invalidateRow(this._collectionRowMap[id]);
+	}
+	
+	// Highlight rows
+	var rows = [];
+	for (let id of ids) {
+		let row = this._collectionRowMap[id];
+		this._highlightedRows[row] = true;
+		this._treebox.invalidateRow(row);
+		rows.push(row);
+	}
+	rows.sort();
+	var firstRow = this._treebox.getFirstVisibleRow();
+	var lastRow = this._treebox.getLastVisibleRow();
+	var scrolled = false;
+	for (let row of rows) {
+		// If row is visible, stop
+		if (row >= firstRow && row <= lastRow) {
+			scrolled = true;
+			break;
+		}
+	}
+	// Select first collection
+	// TODO: Select closest? Select a few rows above or below?
+	if (!scrolled) {
+		this._treebox.ensureRowIsVisible(rows[0]);
 	}
 }
 
