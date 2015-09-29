@@ -6,7 +6,7 @@ set -e
 
 # Constants
 PRODUCT="Juris-M: reference manager with legal and multilingual support"
-IS_BETA=0
+IS_BETA="false"
 FORK="zotero"
 BRANCH="jurism"
 CLIENT="jurism"
