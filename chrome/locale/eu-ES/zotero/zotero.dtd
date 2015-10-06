@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Ezkutatu autorea">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Show Unfiled Items">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Gehitu hautapena Juris-M Oharrari">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Sortu Juris-M Itema eta Oharra hautapenetik">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Gorde irudia Juris-M Item gisa">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Gorde URLa Juris-M Item gisa">
-<!ENTITY zotero.downloadManager.label "Save to Juris-M">
-<!ENTITY zotero.downloadManager.noPDFTools.description "To use this feature, you must first install the PDF tools in the Search pane of the Juris-M preferences.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Gehitu hautapena Zotero Oharrari">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Sortu Zotero Itema eta Oharra hautapenetik">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Gorde irudia Zotero Item gisa">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Gorde URLa Zotero Item gisa">
+<!ENTITY zotero.downloadManager.label "Save to Zotero">
+<!ENTITY zotero.downloadManager.noPDFTools.description "To use this feature, you must first install the PDF tools in the Search pane of the Zotero preferences.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Attachments cannot be saved to the currently selected library. This item will be saved to your library instead.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Select fields to keep from other versions of the item:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Choose the version of the item to use as the master item:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Ezabatu">
 <!ENTITY zotero.general.deselectAll "Desautatu guztiak">
 <!ENTITY zotero.general.edit "Editatu">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Oharra:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(aukerakoa)">
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Hautatu guztiak">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Erreferentzia gehitu/editatu">
 <!ENTITY zotero.integration.classicView.label "Classic View">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentu honetako ezaugarriak">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Juris-M/Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Store references in document">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Fitxategia erakutsi">
 <!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Testua bihurtu">
 <!ENTITY zotero.item.textTransform.sentencecase "Sentence case">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Ambiguous Citations">
 <!ENTITY zotero.rtfScan.cancel.label "Cancel">
 <!ENTITY zotero.rtfScan.citation.label "Citation">
-<!ENTITY zotero.rtfScan.citationsPage.description "Please review the list of recognized citations below to ensure that Juris-M has selected the corresponding items correctly. Any unmapped or ambiguous citations must be resolved before proceeding to the next step.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Please review the list of recognized citations below to ensure that Zotero has selected the corresponding items correctly. Any unmapped or ambiguous citations must be resolved before proceeding to the next step.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Verify Cited Items">
 <!ENTITY zotero.rtfScan.completePage.description "Your document has now been scanned and processed. Please ensure that it is formatted correctly.">
 <!ENTITY zotero.rtfScan.completePage.label "RTF Scan Complete">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M is processing and formatting your RTF file. Please be patient.">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero is processing and formatting your RTF file. Please be patient.">
 <!ENTITY zotero.rtfScan.formatPage.label "Formatting Citations">
 <!ENTITY zotero.rtfScan.inputFile.label "Input File">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M can automatically extract and reformat citations and insert a bibliography into RTF files. The RTF Scan feature currently supports citations in variations upon the following formats:">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero can automatically extract and reformat citations and insert a bibliography into RTF files. The RTF Scan feature currently supports citations in variations upon the following formats:">
 <!ENTITY zotero.rtfScan.introPage.description2 "To get started, select an RTF input file and an output file below:">
 <!ENTITY zotero.rtfScan.introPage.label "Introduction">
 <!ENTITY zotero.rtfScan.itemName.label "Item Name">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Mapped Citations">
 <!ENTITY zotero.rtfScan.outputFile.label "Output File">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M is scanning your document for citations. Please be patient.">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero is scanning your document for citations. Please be patient.">
 <!ENTITY zotero.rtfScan.scanPage.label "Scanning for Citations">
 <!ENTITY zotero.rtfScan.stylePage.label "Document Formatting">
 <!ENTITY zotero.rtfScan.title "RTF Scan">
@@ -236,11 +239,12 @@
 <!ENTITY zotero.tagSelector.deleteTag "Esteka ezabatu...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Filtroa:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Eztekarik ez">
 <!ENTITY zotero.tagSelector.renameTag "Esteka izenaz aldatu...">
 <!ENTITY zotero.tagSelector.selectVisible "Agerikoak hautatu">
 <!ENTITY zotero.tagSelector.showAutomatic "Erakutsi beti">
-<!ENTITY zotero.toolbar.about.label "Juris-M-ri buruz">
+<!ENTITY zotero.toolbar.about.label "Zotero-ri buruz">
 <!ENTITY zotero.toolbar.actions.label "Ekintzak">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Irakur itzazu">
 <!ENTITY zotero.upgrade.majorUpgradeLink "eguneraketa argibideak">
 <!ENTITY zotero.upgrade.newVersionInstalled "Zotero-ren bertsio berria instalatu egin duzu.">
-<!ENTITY zotero.upgrade.title "Juris-M Upgrade Wizard">
+<!ENTITY zotero.upgrade.title "Zotero Upgrade Wizard">
 <!ENTITY zotero.upgrade.upgradeInProgress "Mesedez, itxaron eguneraketa burutu arte. Horrek minutu batzuk iraun ditzake.">
-<!ENTITY zotero.upgrade.upgradeRequired "Zure Juris-M/Zotero datu-basea eguneratu behar da bertsio berriarekin erabili ahal izateko.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Zure Juris-M datu-basea eguneratu egin da.">
+<!ENTITY zotero.upgrade.upgradeRequired "Zure Zotero datu-basea eguneratu behar da bertsio berriarekin erabili ahal izateko.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Zure Zotero datu-basea eguneratu egin da.">

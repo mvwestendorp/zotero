@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Vymazať">
 <!ENTITY zotero.general.deselectAll "Odznačiť všetko">
 <!ENTITY zotero.general.edit "Upraviť">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Poznámka:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Voliteľné)">
 <!ENTITY zotero.general.refresh "Obnoviť">
 <!ENTITY zotero.general.saveAs "Uložiť ako...">
 <!ENTITY zotero.general.selectAll "Označiť všetko">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Pridať/Upraviť citáciu">
 <!ENTITY zotero.integration.classicView.label "Klasický náhľad">
 <!ENTITY zotero.integration.docPrefs.title "Vlastnosti dokumentu">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Ukladanie odkazov do vášho dokumentu nepatrne zväčší veľkosť súboru, ale vám umožní zdieľať váš dokument s ostatnými bez použitia skupín Zotera. Pre aktualizáciu dokumentov vytvorených s touto možnosťou sa vyžaduje Juris-M/Zotero 3.0 alebo novšie. ">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Ukladanie odkazov do vášho dokumentu nepatrne zväčší veľkosť súboru, ale vám umožní zdieľať váš dokument s ostatnými bez použitia skupín Zotera. Pre aktualizáciu dokumentov vytvorených s touto možnosťou sa vyžaduje Zotero 3.0 alebo novšie. ">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Ukladať odkazy do dokumentu">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Zobraziť súbor">
 <!ENTITY zotero.item.copyAsURL "Kopírovať ako URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Vymeniť meno/priezvisko">
 <!ENTITY zotero.item.textTransform "Preveď text">
 <!ENTITY zotero.item.textTransform.sentencecase "Prvé veľké písmeno vo vete">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Nezaraditeľné citácie">
 <!ENTITY zotero.rtfScan.cancel.label "Zrušiť">
 <!ENTITY zotero.rtfScan.citation.label "Citácia">
-<!ENTITY zotero.rtfScan.citationsPage.description "Prezrite si zoznam rozpoznaných citácií a uistite sa, že Juris-M správne označilo korešpondujúce exempláre. Pred ďalším krokom je potrebné priradiť všetky nepriradené alebo nejednoznačné citácie.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Prezrite si zoznam rozpoznaných citácií a uistite sa, že Zotero správne označilo korešpondujúce exempláre. Pred ďalším krokom je potrebné priradiť všetky nepriradené alebo nejednoznačné citácie.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Kontrola citovaných položiek">
 <!ENTITY zotero.rtfScan.completePage.description "RTF dokument bol spracovaný. Prosím uistite sa, že je formátovaný správne.">
 <!ENTITY zotero.rtfScan.completePage.label "Spracovanie RTF je dokončené.">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M spracovávaa a formátuje dokument. Čakajte prosím.">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero spracovávaa a formátuje dokument. Čakajte prosím.">
 <!ENTITY zotero.rtfScan.formatPage.label "Formátovanie citácií">
 <!ENTITY zotero.rtfScan.inputFile.label "Vstupný súbor">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M dokáže automaticky vyhľadať citácie, upraviť ich štýl a vložiť bibliografiu do RTF súborov. Funkcia spracovať RTF v súčasnosti podporuje citácie v rôznych z nasledujúcich štýlov:">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero dokáže automaticky vyhľadať citácie, upraviť ich štýl a vložiť bibliografiu do RTF súborov. Funkcia spracovať RTF v súčasnosti podporuje citácie v rôznych z nasledujúcich štýlov:">
 <!ENTITY zotero.rtfScan.introPage.description2 "Na začiatok si vyberte vstupný RTF súbor a výstupný súbor:">
 <!ENTITY zotero.rtfScan.introPage.label "Úvod">
 <!ENTITY zotero.rtfScan.itemName.label "Názov exemplára">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Priradené citácie">
 <!ENTITY zotero.rtfScan.outputFile.label "Výstupný súbor">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M vyhľadáva citácie vo vybranom dokumente. Čakajte prosím.">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero vyhľadáva citácie vo vybranom dokumente. Čakajte prosím.">
 <!ENTITY zotero.rtfScan.scanPage.label "Vyhľadávanie citácií">
 <!ENTITY zotero.rtfScan.stylePage.label "Formátovanie dokumentu">
 <!ENTITY zotero.rtfScan.title "Spracovať RTF">
@@ -210,7 +213,7 @@
 <!ENTITY zotero.sync.error "Chyba pri synchronizácii">
 <!ENTITY zotero.sync.longTagFixer.character "znaku">
 <!ENTITY zotero.sync.longTagFixer.characters "znakoch">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Táto značka vo vašej Juris-M knižnici je príliš dlhá na to, aby sa mohla synchronizovať na serveri:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Táto značka vo vašej Zotero knižnici je príliš dlhá na to, aby sa mohla synchronizovať na serveri:">
 <!ENTITY zotero.sync.longTagFixer.split "Rozdeliť">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Rozdeliť pri">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Môžete rozdeliť značku na viacero kratších, skrátiť ju manuálne alebo ju zmazať.">
@@ -236,6 +239,7 @@
 <!ENTITY zotero.tagSelector.deleteTag "Vymazať značku...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Zobraziť všetky značky v tejto knižnici">
 <!ENTITY zotero.tagSelector.filter "Filtrovať:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Žiadne značky na zobrazenie">
 <!ENTITY zotero.tagSelector.renameTag "Premenovať značku...">
 <!ENTITY zotero.tagSelector.selectVisible "Označiť viditeľné">
@@ -293,5 +297,5 @@
 <!ENTITY zotero.upgrade.newVersionInstalled "Nainštalovali ste novú verziu Zotera.">
 <!ENTITY zotero.upgrade.title "Sprievodca aktualizáciou Zotera">
 <!ENTITY zotero.upgrade.upgradeInProgress "Prosím počkajte kým sa dokončí aktualizácia. Môže to trvať niekoľko minút.">
-<!ENTITY zotero.upgrade.upgradeRequired "Na to, aby ste mohli pracovať s novou verziou je potrebné aktualizovať vašu Juris-M/Zotero databázu.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Vaša Juris-M databáza bola úspešne aktualizovaná.">
+<!ENTITY zotero.upgrade.upgradeRequired "Na to, aby ste mohli pracovať s novou verziou je potrebné aktualizovať vašu Zotero databázu.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Vaša Zotero databáza bola úspešne aktualizovaná.">

@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Väljuda">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Väljuda Juris-Mst">
+<!ENTITY quitApplicationCmdMac.label "Väljuda Zoterost">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Väljuda">
 <!ENTITY redoCmd.accesskey "R">

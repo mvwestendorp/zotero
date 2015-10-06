@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "เลิกใช้">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "ออกจาก Juris-M">
+<!ENTITY quitApplicationCmdMac.label "ออกจาก Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "ออกจากโปรแกรม">
 <!ENTITY redoCmd.accesskey "R">

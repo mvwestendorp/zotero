@@ -36,8 +36,8 @@
 <!ENTITY zotero.contextMenu.addTextToNewNote "Направи Зотеро ставку и белешку из назначеног">
 <!ENTITY zotero.contextMenu.saveImageAsItem "Сачувај слику као Зотеро ставку">
 <!ENTITY zotero.contextMenu.saveLinkAsItem "Сачувај везу као Зотеро ставку">
-<!ENTITY zotero.downloadManager.label "Save to Juris-M">
-<!ENTITY zotero.downloadManager.noPDFTools.description "To use this feature, you must first install the PDF tools in the Search pane of the Juris-M preferences.">
+<!ENTITY zotero.downloadManager.label "Save to Zotero">
+<!ENTITY zotero.downloadManager.noPDFTools.description "To use this feature, you must first install the PDF tools in the Search pane of the Zotero preferences.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Attachments cannot be saved to the currently selected library. This item will be saved to your library instead.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Select fields to keep from other versions of the item:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Choose the version of the item to use as the master item:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Обриши">
 <!ENTITY zotero.general.deselectAll "Поништи изабрано">
 <!ENTITY zotero.general.edit "Уреди">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Белешка:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(произвољно)">
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Изабери све">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Додај/уреди цитације">
 <!ENTITY zotero.integration.classicView.label "Classic View">
 <!ENTITY zotero.integration.docPrefs.title "Поставке документа">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Juris-M/Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Store references in document">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Прикажи датотеку">
 <!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Преиначи текст">
 <!ENTITY zotero.item.textTransform.sentencecase "Sentence case">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Ambiguous Citations">
 <!ENTITY zotero.rtfScan.cancel.label "Cancel">
 <!ENTITY zotero.rtfScan.citation.label "Citation">
-<!ENTITY zotero.rtfScan.citationsPage.description "Please review the list of recognized citations below to ensure that Juris-M has selected the corresponding items correctly. Any unmapped or ambiguous citations must be resolved before proceeding to the next step.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Please review the list of recognized citations below to ensure that Zotero has selected the corresponding items correctly. Any unmapped or ambiguous citations must be resolved before proceeding to the next step.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Verify Cited Items">
 <!ENTITY zotero.rtfScan.completePage.description "Your document has now been scanned and processed. Please ensure that it is formatted correctly.">
 <!ENTITY zotero.rtfScan.completePage.label "RTF Scan Complete">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M is processing and formatting your RTF file. Please be patient.">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero is processing and formatting your RTF file. Please be patient.">
 <!ENTITY zotero.rtfScan.formatPage.label "Formatting Citations">
 <!ENTITY zotero.rtfScan.inputFile.label "Input File">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M can automatically extract and reformat citations and insert a bibliography into RTF files. To get started, choose an RTF file below.">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero can automatically extract and reformat citations and insert a bibliography into RTF files. To get started, choose an RTF file below.">
 <!ENTITY zotero.rtfScan.introPage.description2 "To get started, select an RTF input file and an output file below:">
 <!ENTITY zotero.rtfScan.introPage.label "Introduction">
 <!ENTITY zotero.rtfScan.itemName.label "Item Name">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Mapped Citations">
 <!ENTITY zotero.rtfScan.outputFile.label "Output File">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M is scanning your document for citations. Please be patient.">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero is scanning your document for citations. Please be patient.">
 <!ENTITY zotero.rtfScan.scanPage.label "Scanning for Citations">
 <!ENTITY zotero.rtfScan.stylePage.label "Document Formatting">
 <!ENTITY zotero.rtfScan.title "RTF Scan">
@@ -236,6 +239,7 @@
 <!ENTITY zotero.tagSelector.deleteTag "Избриши ознаку...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Прикажи све ознаке у овој библиотеци">
 <!ENTITY zotero.tagSelector.filter "Филтер:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Нема ознаке за приказ">
 <!ENTITY zotero.tagSelector.renameTag "Преименуј ознаку...">
 <!ENTITY zotero.tagSelector.selectVisible "Изабери видљиве">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Проверите">
 <!ENTITY zotero.upgrade.majorUpgradeLink "упутства за дограђивање">
 <!ENTITY zotero.upgrade.newVersionInstalled "Инсталирали сте нову верзију Зотера.">
-<!ENTITY zotero.upgrade.title "Juris-M Upgrade Wizard">
+<!ENTITY zotero.upgrade.title "Zotero Upgrade Wizard">
 <!ENTITY zotero.upgrade.upgradeInProgress "Сачекајте док се процес надоградње извршава. Ово може потрајати неколико минута.">
 <!ENTITY zotero.upgrade.upgradeRequired "Ваша Зотеро база података мора бити надограђена да би радила са новом верзијом.">
 <!ENTITY zotero.upgrade.upgradeSucceeded "Зотеро база података је успешно надограђена.">

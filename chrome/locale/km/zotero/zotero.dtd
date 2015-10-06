@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "លុបចោល">
 <!ENTITY zotero.general.deselectAll "ដោះជម្រើស">
 <!ENTITY zotero.general.edit "កែតម្រូវ">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "កំណត់ចំណាំ:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(ជម្រើស)">
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "ជ្រើសរើសទាំងអស់">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "បន្ថែម ឬ កែតម្រូវអាគតដ្ឋាន">
 <!ENTITY zotero.integration.classicView.label "មើលតាមទម្រង់បុរាណ">
 <!ENTITY zotero.integration.docPrefs.title "ជម្រើសរចនាបថសម្រាប់យោងឯកសារ">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "បង្ហាញឯកសារ">
 <!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "បំលែងអត្ថបទ">
 <!ENTITY zotero.item.textTransform.sentencecase "ចំណងជើងអក្សរតូច">
@@ -236,6 +239,7 @@
 <!ENTITY zotero.tagSelector.deleteTag "លុបស្លាកចោល...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "បង្ហាញគ្រប់ស្លាកនៅក្នុងបណ្ណាល័យនេះ">
 <!ENTITY zotero.tagSelector.filter "តម្រង:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "គ្មានស្លាកត្រូវបង្ហាញ">
 <!ENTITY zotero.tagSelector.renameTag "ផ្លាស់ឈ្មោះស្លាក...">
 <!ENTITY zotero.tagSelector.selectVisible "ជម្រើសមើលឃើញ">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "ធ្វើឲប្រាកដថា អ្នកបានអាននូវ">
 <!ENTITY zotero.upgrade.majorUpgradeLink "ការណែនាំអំពីទំនើបកម្ម">
 <!ENTITY zotero.upgrade.newVersionInstalled "អ្នកបានដំឡើងហ្ស៊ូតេរ៉ូកំណែថ្មី។">
-<!ENTITY zotero.upgrade.title "Juris-M Upgrade Wizard">
+<!ENTITY zotero.upgrade.title "Zotero Upgrade Wizard">
 <!ENTITY zotero.upgrade.upgradeInProgress "សូមរង់ចាំ ដើម្បីឲដំណើរការទំនើបកម្មបញ្ចប់។​ ដំណើរការនេះអាចចំណាយ​ពេលមួយរយៈខ្លី។">
 <!ENTITY zotero.upgrade.upgradeRequired "អ្នកត្រូវធ្វើទំនើបកម្មទិន្នន័យហ្ស៊ូតេរ៉ូរបស់អ្នកដើម្បីដំណើរការជាមួយកំណែថ្មីនេះ។">
 <!ENTITY zotero.upgrade.upgradeSucceeded "ទិន្នន័យហ្ស៊ូតេរ៉ូរបស់អ្នកបានធ្វើទំនើបកម្មដោយជោគជ័យ។">

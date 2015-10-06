@@ -12,7 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Másolás a vágólapra">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
-<!ENTITY zotero.bibliography.locale.label "Nyelv:">
+<!ENTITY zotero.bibliography.locale.label "Language:">
 <!ENTITY zotero.bibliography.output.label "Kimeneti formátum">
 <!ENTITY zotero.bibliography.outputMethod "Kimeneti metódus:">
 <!ENTITY zotero.bibliography.outputMode "Kimeneti mód:">
@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Szerző figyelmen kívül hagyása">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Besorolatlan elemek mutatása">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "A kijelölés hozzáadása a Juris-M jegyzethez">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Juris-M elem és jegyzet létrehozása a kijelölés alapján">
-<!ENTITY zotero.contextMenu.saveImageAsItem "A kép elmentése Juris-M elemként">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "A hivatkozás elmentése Juris-M elemként">
-<!ENTITY zotero.downloadManager.label "Mentés Juris-M-ba">
-<!ENTITY zotero.downloadManager.noPDFTools.description "Ahhoz, hogy ezt a tulajdonságot használja, először telepítenie kell a PDF tools-t a Juris-M beállítások keresőpaneljén.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "A kijelölés hozzáadása a Zotero jegyzethez">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Zotero elem és jegyzet létrehozása a kijelölés alapján">
+<!ENTITY zotero.contextMenu.saveImageAsItem "A kép elmentése Zotero elemként">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "A hivatkozás elmentése Zotero elemként">
+<!ENTITY zotero.downloadManager.label "Mentés Zotero-ba">
+<!ENTITY zotero.downloadManager.noPDFTools.description "Ahhoz, hogy ezt a tulajdonságot használja, először telepítenie kell a PDF tools-t a Zotero beállítások keresőpaneljén.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "A csatolmányok nem menthetőek a jelenleg kiválasztott könyvtárba. Ez az elem a saját könyvtárába lesz mentve.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Select fields to keep from other versions of the item:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Válassza ki azt az elemverziót, amit mester elemnek kíván használni: ">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Törlés">
 <!ENTITY zotero.general.deselectAll "Kijelölés megszüntetése">
 <!ENTITY zotero.general.edit "Szerkesztés">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Jegyzet:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Nem kötelező)">
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Mentés másként…">
 <!ENTITY zotero.general.selectAll "Minden kijelölése">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Hivatkozás hozzáadása/szerkesztése">
 <!ENTITY zotero.integration.classicView.label "Klasszikus nézet">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentum beállításai">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "A hivatkozások tárolása a dokumentumban növeli a fájl méretét, de lehetővé teszi, a dokumentum megosztását másokkal, anélkül, hogy Juris-M/Zotero csoportot használjon. Zotero 3.0 vagy későbbi verzió szükséges az előbbi opcióval létrehozott dokumentumok frissítéséhez.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "A hivatkozások tárolása a dokumentumban növeli a fájl méretét, de lehetővé teszi, a dokumentum megosztását másokkal, anélkül, hogy Zotero csoportot használjon. Zotero 3.0 vagy későbbi verzió szükséges az előbbi opcióval létrehozott dokumentumok frissítéséhez.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "A dokumentum tárolt hivatkozásai">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Fájl mutatása">
 <!ENTITY zotero.item.copyAsURL "Másolás URL-ként">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Szöveg átalakítása">
 <!ENTITY zotero.item.textTransform.sentencecase "Mondatkezdő">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Bizonytalan hivatkozások">
 <!ENTITY zotero.rtfScan.cancel.label "Mégse">
 <!ENTITY zotero.rtfScan.citation.label "Hivatkozás">
-<!ENTITY zotero.rtfScan.citationsPage.description "Kérem, tekintse át az alábbi felismert hivatkozásokat, hogy meggyőződjön arról, hogy a Juris-M a helyesen választotta ki a megfelelő elemeket. A nem egyértelmű vagy mappa nélküli hivatkozásokat javítani kell, mielőtt rátér a következő lépésre.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Kérem, tekintse át az alábbi felismert hivatkozásokat, hogy meggyőződjön arról, hogy a Zotero a helyesen választotta ki a megfelelő elemeket. A nem egyértelmű vagy mappa nélküli hivatkozásokat javítani kell, mielőtt rátér a következő lépésre.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Hivatkozott elemek ellenőrzése">
 <!ENTITY zotero.rtfScan.completePage.description "A dokumentum átvizsgálása és feldolgozása megtörtént. Győződjön meg róla, hogy megfelelően van formázva.">
 <!ENTITY zotero.rtfScan.completePage.label "Az RTF átvizsgálása befejeződött">
-<!ENTITY zotero.rtfScan.formatPage.description "A Juris-M feldolgozza és formázza az RTF fájlt. Kérem várjon.">
+<!ENTITY zotero.rtfScan.formatPage.description "A Zotero feldolgozza és formázza az RTF fájlt. Kérem várjon.">
 <!ENTITY zotero.rtfScan.formatPage.label "Hivatkozás formázása">
 <!ENTITY zotero.rtfScan.inputFile.label "Bemeneti fájl">
-<!ENTITY zotero.rtfScan.introPage.description "A Juris-M automatikusan képes kinyerni és újraformázni a hivatkozásokat és bibliográfiát beilleszteni RTF fájlokba. Az RTF Scan jelenleg az alábbi formátumokban támogatja a hivatkozásokat:">
+<!ENTITY zotero.rtfScan.introPage.description "A Zotero automatikusan képes kinyerni és újraformázni a hivatkozásokat és bibliográfiát beilleszteni RTF fájlokba. Az RTF Scan jelenleg az alábbi formátumokban támogatja a hivatkozásokat:">
 <!ENTITY zotero.rtfScan.introPage.description2 "A kezdéshez, válasszon egy RTF bemeneti fájlt és egy kimenti fájlt alább:">
 <!ENTITY zotero.rtfScan.introPage.label "Bevezetés">
 <!ENTITY zotero.rtfScan.itemName.label "Elem neve">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Felismert">
 <!ENTITY zotero.rtfScan.outputFile.label "Kimeneti fájl">
-<!ENTITY zotero.rtfScan.scanPage.description "A Juris-M hivatkozásokat keres a dokumentumban. Kérem várjon.">
+<!ENTITY zotero.rtfScan.scanPage.description "A Zotero hivatkozásokat keres a dokumentumban. Kérem várjon.">
 <!ENTITY zotero.rtfScan.scanPage.label "Hivatkozások keresése">
 <!ENTITY zotero.rtfScan.stylePage.label "Dokumentum formázása">
 <!ENTITY zotero.rtfScan.title "RTF átvizsgálása…">
@@ -236,6 +239,7 @@
 <!ENTITY zotero.tagSelector.deleteTag "Címke törlése...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Szűrő:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Nincsenek címkék">
 <!ENTITY zotero.tagSelector.renameTag "Címke átnevezése...">
 <!ENTITY zotero.tagSelector.selectVisible "Látható címkék kiválasztása">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Mindenképpen olvassa el a">
 <!ENTITY zotero.upgrade.majorUpgradeLink "frissítési útmutatót">
 <!ENTITY zotero.upgrade.newVersionInstalled "A Zotero új verziójának telepítése sikerült.">
-<!ENTITY zotero.upgrade.title "Juris-M frissítés varázsló">
+<!ENTITY zotero.upgrade.title "Zotero frissítés varázsló">
 <!ENTITY zotero.upgrade.upgradeInProgress "Várjon a frissítés befejezéséig. Ez akár percekig is eltarthat.">
-<!ENTITY zotero.upgrade.upgradeRequired "Frissíteni kell a Juris-M/Zotero adatbázist, hogy működjön az új verzióval.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "A Juris-M adatbázis frissítése sikerült.">
+<!ENTITY zotero.upgrade.upgradeRequired "Frissíteni kell a Zotero adatbázist, hogy működjön az új verzióval.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "A Zotero adatbázis frissítése sikerült.">

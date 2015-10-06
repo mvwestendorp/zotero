@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Suprimeix l'autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Mostra els elements no arxivats">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Afegeix la selecció a una nota del Juris-M">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Crea un element del Juris-M i una nota amb la selecció">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Desa la imatge com un element del Juris-M">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Desa l'enllaç com un element del Juris-M">
-<!ENTITY zotero.downloadManager.label "Desa al Juris-M">
-<!ENTITY zotero.downloadManager.noPDFTools.description "Per utilitzar aquesta funció, primer cal instal·lar les eines de PDF en les preferències del Juris-M.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Afegeix la selecció a una nota del Zotero">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Crea un element del Zotero i una nota amb la selecció">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Desa la imatge com un element del Zotero">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Desa l'enllaç com un element del Zotero">
+<!ENTITY zotero.downloadManager.label "Desa al Zotero">
+<!ENTITY zotero.downloadManager.noPDFTools.description "Per utilitzar aquesta funció, primer cal instal·lar les eines de PDF en les preferències del Zotero.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Els adjunts no es poden desar a la biblioteca seleccionada. Aquest element es desarà a la biblioteca.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Seleccioneu els camps que voleu mantenir de les altres versions de l'element:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Triaeu la versió de l'element com a element prinicpal:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Suprimeix">
 <!ENTITY zotero.general.deselectAll "Anul·la la selecció">
 <!ENTITY zotero.general.edit "Edita">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "D'acord">
 <!ENTITY zotero.general.optional "(Opcional)">
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Selecciona-ho tot">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Afegeix / Edita la cita">
 <!ENTITY zotero.integration.classicView.label "Vista clàssica">
 <!ENTITY zotero.integration.docPrefs.title "Preferències del document">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "L'emmagatzematge de les referències en el document augmenta lleugerament la mida del fitxer, però us permet compartir el document amb altres persones sense necessitat de fer servir un grup del Juris-M/Zotero. Per actualitzar els documents creats amb aquesta opció cal tenir la versió Zotero 3.0 o versions posteriors.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "L'emmagatzematge de les referències en el document augmenta lleugerament la mida del fitxer, però us permet compartir el document amb altres persones sense necessitat de fer servir un grup del Zotero. Per actualitzar els documents creats amb aquesta opció cal tenir la versió Zotero 3.0 o versions posteriors.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Emmagatzema les referències al document">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Mostra el fitxer">
 <!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Transforma el text">
 <!ENTITY zotero.item.textTransform.sentencecase "Majúscules o minúscules de la frase">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Cites  ambigües">
 <!ENTITY zotero.rtfScan.cancel.label "Cancel·la">
 <!ENTITY zotero.rtfScan.citation.label "Cita">
-<!ENTITY zotero.rtfScan.citationsPage.description "Reviseu la llista de cites reconegudes següent per assegurar-vos que el Juris-M ha seleccionat correctament els elements corresponents. Totes les cites desassociades o ambigües s'han de resoldre abans d'anar al següent pas.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Reviseu la llista de cites reconegudes següent per assegurar-vos que el Zotero ha seleccionat correctament els elements corresponents. Totes les cites desassociades o ambigües s'han de resoldre abans d'anar al següent pas.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Verifica els elements citats">
 <!ENTITY zotero.rtfScan.completePage.description "El document ja s'ha analitzat i processat. Comproveu que s'ha formatat correctament.">
 <!ENTITY zotero.rtfScan.completePage.label "Escaneig de l'RFT completat">
-<!ENTITY zotero.rtfScan.formatPage.description "El Juris-M està processant i formatant el fitxer RTF. Tingueu paciència.">
+<!ENTITY zotero.rtfScan.formatPage.description "El Zotero està processant i formatant el fitxer RTF. Tingueu paciència.">
 <!ENTITY zotero.rtfScan.formatPage.label "Formatant les cites">
 <!ENTITY zotero.rtfScan.inputFile.label "Fitxer d'entrada">
-<!ENTITY zotero.rtfScan.introPage.description "El Juris-M pot recuperar i reformatar les cites i inserir una bibliografia als fitxers RTF. La funció d'escaneig dels fitxers RTF actualment permet les cites amb les variacions de format següents: ">
+<!ENTITY zotero.rtfScan.introPage.description "El Zotero pot recuperar i reformatar les cites i inserir una bibliografia als fitxers RTF. La funció d'escaneig dels fitxers RTF actualment permet les cites amb les variacions de format següents: ">
 <!ENTITY zotero.rtfScan.introPage.description2 "Per començar, seleccioneu un fitxer d'entrada RTF i un fitxer de sortida:">
 <!ENTITY zotero.rtfScan.introPage.label "Introducció">
 <!ENTITY zotero.rtfScan.itemName.label "Nom de l'element">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Cites associades">
 <!ENTITY zotero.rtfScan.outputFile.label "Fitxer de sortida">
-<!ENTITY zotero.rtfScan.scanPage.description "El Juris-M està escanejant el document cercant-hi cites. Tingueu pacipència.">
+<!ENTITY zotero.rtfScan.scanPage.description "El Zotero està escanejant el document cercant-hi cites. Tingueu pacipència.">
 <!ENTITY zotero.rtfScan.scanPage.label "Escanejant en cerca de cites">
 <!ENTITY zotero.rtfScan.stylePage.label "Formatació del document">
 <!ENTITY zotero.rtfScan.title "Escaneig de l'RTF">
@@ -210,7 +213,7 @@
 <!ENTITY zotero.sync.error "Error de sincronització">
 <!ENTITY zotero.sync.longTagFixer.character "caràcter">
 <!ENTITY zotero.sync.longTagFixer.characters "caràcters">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "L'etiqueta següent de la biblioteca Juris-M és massa llarga perquè se sincronitzi amb el servidor:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "L'etiqueta següent de la biblioteca Zotero és massa llarga perquè se sincronitzi amb el servidor:">
 <!ENTITY zotero.sync.longTagFixer.split "Divideix">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Divideix en el">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Podeu dividir l'etiqueta en diverses etiquetes, editar-la manualment per reduir-ne la longitud, o suprimir-la.">
@@ -236,11 +239,12 @@
 <!ENTITY zotero.tagSelector.deleteTag "Esborra l'etiqueta...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Mostra totes les etiquetes a la biblioteca">
 <!ENTITY zotero.tagSelector.filter "Filtre:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "No hi ha etiquetes per mostrar">
 <!ENTITY zotero.tagSelector.renameTag "Reanomena l'etiqueta...">
 <!ENTITY zotero.tagSelector.selectVisible "Selecciona les visibles">
 <!ENTITY zotero.tagSelector.showAutomatic "Mostra automàtic">
-<!ENTITY zotero.toolbar.about.label "Quant al Juris-M">
+<!ENTITY zotero.toolbar.about.label "Quant al Zotero">
 <!ENTITY zotero.toolbar.actions.label "Accions">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Assegureu-vos de revisar">
 <!ENTITY zotero.upgrade.majorUpgradeLink "instruccions d'actualització">
 <!ENTITY zotero.upgrade.newVersionInstalled "Has instal·lat una nova versió del Zotero.">
-<!ENTITY zotero.upgrade.title "Auxiliar d'actualització de Juris-M">
+<!ENTITY zotero.upgrade.title "Auxiliar d'actualització de Zotero">
 <!ENTITY zotero.upgrade.upgradeInProgress "Espereu que s&apos;acabi el procés d&apos;actualització. Pot trigar uns minuts.">
 <!ENTITY zotero.upgrade.upgradeRequired "La vostra base de dades s&apos;ha d&apos;actualitzar per a funcionar amb la nova versió.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "La vostra base de dades del Juris-M s&apos;ha actualitzat correctament">
+<!ENTITY zotero.upgrade.upgradeSucceeded "La vostra base de dades del Zotero s&apos;ha actualitzat correctament">

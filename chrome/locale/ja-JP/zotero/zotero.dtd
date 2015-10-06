@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "著者名の非表示">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "未整理のアイテムを表示">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "選択範囲を Juris-M メモに追加">
-<!ENTITY zotero.contextMenu.addTextToNewNote "選択範囲から Juris-M アイテムとメモを作成">
-<!ENTITY zotero.contextMenu.saveImageAsItem "画像を Juris-M アイテムとして保存">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "リンクを Juris-M アイテムとして保存">
-<!ENTITY zotero.downloadManager.label "Juris-M に保存する">
-<!ENTITY zotero.downloadManager.noPDFTools.description "この機能を利用するには、まず Juris-M 環境設定の検索ペインで PDF ツールをインストールする必要があります。">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "選択範囲を Zotero メモに追加">
+<!ENTITY zotero.contextMenu.addTextToNewNote "選択範囲から Zotero アイテムとメモを作成">
+<!ENTITY zotero.contextMenu.saveImageAsItem "画像を Zotero アイテムとして保存">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "リンクを Zotero アイテムとして保存">
+<!ENTITY zotero.downloadManager.label "Zotero に保存する">
+<!ENTITY zotero.downloadManager.noPDFTools.description "この機能を利用するには、まず Zotero 環境設定の検索ペインで PDF ツールをインストールする必要があります。">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "添付ファイルは現在選択中のライブラリに保存することができません。その代わり、このアイテムはあなたのライブラリに保存されます。">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "このアイテムの重複するヴァージョンから維持したいフィールドを選択してください:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "土台として用いるアイテムのヴァージョンを選んでください:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "削除">
 <!ENTITY zotero.general.deselectAll "選択をすべて解除">
 <!ENTITY zotero.general.edit "編集">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "メモ:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "（任意）">
 <!ENTITY zotero.general.refresh "再読み込み">
 <!ENTITY zotero.general.saveAs "名前をつけて保存...">
 <!ENTITY zotero.general.selectAll "すべて選択">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "出典表記を追加・編集">
 <!ENTITY zotero.integration.classicView.label "クラシック表示">
 <!ENTITY zotero.integration.docPrefs.title "ドキュメントの設定">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "翻訳">
 <!ENTITY zotero.integration.prefs.lang.transliteration "音訳">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "文献情報をあなたの文書中に保存するとわずかにファイルサイズが大きくなりますが、あなたは Juris-M/Zotero グループを使わなくても他人とその文書を共有することが可能になります。このオプションで作成された文書を更新するには Zotero 3.0 以降が必要です。">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "文献情報をあなたの文書中に保存するとわずかにファイルサイズが大きくなりますが、あなたは Zotero グループを使わなくても他人とその文書を共有することが可能になります。このオプションで作成された文書を更新するには Zotero 3.0 以降が必要です。">
 <!ENTITY zotero.integration.prefs.storeReferences.label "文献情報を文書中に保存">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "ファイルを表示">
 <!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "姓と名を置き替える">
 <!ENTITY zotero.item.textTransform "テキストの大文字・小文字を指定する">
 <!ENTITY zotero.item.textTransform.sentencecase "各文の先頭を大文字に">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Ambiguous Citations">
 <!ENTITY zotero.rtfScan.cancel.label "取り消す">
 <!ENTITY zotero.rtfScan.citation.label "出典表記">
-<!ENTITY zotero.rtfScan.citationsPage.description "以下に表示される、 Juris-M が認識した出典表記の一覧をご覧頂き、対応する文献を正しく見つけたかどうかご確認ください。次の手順に進む前に、文献不明の出典表記やあいまいな出典表記はすべて解消される必要があります。">
+<!ENTITY zotero.rtfScan.citationsPage.description "以下に表示される、 Zotero が認識した出典表記の一覧をご覧頂き、対応する文献を正しく見つけたかどうかご確認ください。次の手順に進む前に、文献不明の出典表記やあいまいな出典表記はすべて解消される必要があります。">
 <!ENTITY zotero.rtfScan.citationsPage.label "引用されたアイテムを検証する">
 <!ENTITY zotero.rtfScan.completePage.description "あなたの文書はスキャンされ処理が完了しました。正しく整形されていることを確認してください。">
 <!ENTITY zotero.rtfScan.completePage.label "RTF スキャンが完了しました">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M はあなたの RTF ファイルを処理中、整形中です。しばらくお待ちください。">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero はあなたの RTF ファイルを処理中、整形中です。しばらくお待ちください。">
 <!ENTITY zotero.rtfScan.formatPage.label "出典表記の書式設定">
 <!ENTITY zotero.rtfScan.inputFile.label "入力元ファイル">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M は RTF ファイルから自動的に出典表記を抽出し、出典表記を再整形して、参考文献目録を挿入することができます。この RTF スキャン機能は現在、以下に挙げる形式の出典表記をサポートしています:">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero は RTF ファイルから自動的に出典表記を抽出し、出典表記を再整形して、参考文献目録を挿入することができます。この RTF スキャン機能は現在、以下に挙げる形式の出典表記をサポートしています:">
 <!ENTITY zotero.rtfScan.introPage.description2 "まず最初に、RTF 入力元ファイルと出力先ファイルを下記から選んでください。">
 <!ENTITY zotero.rtfScan.introPage.label "案内">
 <!ENTITY zotero.rtfScan.itemName.label "アイテム名">
 <!ENTITY zotero.rtfScan.mappedCitations.label "文献同定済みの出典表記">
 <!ENTITY zotero.rtfScan.outputFile.label "出力先ファイル">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M はあなたの文書の出典表記をスキャンしています。しばらくお待ちください。">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero はあなたの文書の出典表記をスキャンしています。しばらくお待ちください。">
 <!ENTITY zotero.rtfScan.scanPage.label "出典表記をスキャンしています">
 <!ENTITY zotero.rtfScan.stylePage.label "文書の書式設定">
 <!ENTITY zotero.rtfScan.title "RTF スキャン">
@@ -210,7 +213,7 @@
 <!ENTITY zotero.sync.error "同期エラー">
 <!ENTITY zotero.sync.longTagFixer.character "文字目">
 <!ENTITY zotero.sync.longTagFixer.characters "文字目">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "あなたの Juris-M ライブラリにある以下のタグは、サーバと同期させるには長過ぎます。">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "あなたの Zotero ライブラリにある以下のタグは、サーバと同期させるには長過ぎます。">
 <!ENTITY zotero.sync.longTagFixer.split "分割する">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "次の場所で分割:">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "問題のタグを複数のタグに分割するか、手動でタグを編集して短くするか、あるいは削除してください。">
@@ -236,11 +239,12 @@
 <!ENTITY zotero.tagSelector.deleteTag "タグを削除...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "このライブラリの全タグを表示">
 <!ENTITY zotero.tagSelector.filter "フィルター:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "表示するタグがありません">
 <!ENTITY zotero.tagSelector.renameTag "タグ名の変更...">
 <!ENTITY zotero.tagSelector.selectVisible "可視タグを選択">
 <!ENTITY zotero.tagSelector.showAutomatic "自動生成タグも表示">
-<!ENTITY zotero.toolbar.about.label "Juris-M について">
+<!ENTITY zotero.toolbar.about.label "Zotero について">
 <!ENTITY zotero.toolbar.actions.label "アクション">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "続ける前に">
 <!ENTITY zotero.upgrade.majorUpgradeLink "更新の手引きを">
 <!ENTITY zotero.upgrade.newVersionInstalled "Zotero の新しいバージョンがインストールされました。">
-<!ENTITY zotero.upgrade.title "Juris-M 更新ガイド">
+<!ENTITY zotero.upgrade.title "Zotero 更新ガイド">
 <!ENTITY zotero.upgrade.upgradeInProgress "この更新が終了するまでお待ちください。数分間かかる場合もあります。">
-<!ENTITY zotero.upgrade.upgradeRequired "新しいバージョンを使用する前にあなたの Juris-M/Zotero データベースを更新する必要があります。">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Juris-M データベースは問題なく更新されました。">
+<!ENTITY zotero.upgrade.upgradeRequired "新しいバージョンを使用する前にあなたの Zotero データベースを更新する必要があります。">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Zotero データベースは問題なく更新されました。">

@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Ayrıl">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Juris-M'dan Ayrıl">
+<!ENTITY quitApplicationCmdMac.label "Zotero'dan Ayrıl">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Çık">
 <!ENTITY redoCmd.accesskey "R">

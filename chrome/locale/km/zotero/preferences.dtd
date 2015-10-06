@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Base directory:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "Juris-M will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revert to Absolute Paths…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "ជ្រើសរើស...">
 <!ENTITY zotero.preferences.autoUpdate "Automatically check for updated translators and styles">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "បណ្ណាល័យ">
 <!ENTITY zotero.preferences.keys.newItem "បង្កើតឯកសារថ្មី">
 <!ENTITY zotero.preferences.keys.newNote "បង្កើតកំណត់ត្រាថ្មី">
-<!ENTITY zotero.preferences.keys.openJuris-M "បើក/បិទផ្ទាំងហ្ស៊ូតេរ៉ូ">
+<!ENTITY zotero.preferences.keys.openZotero "បើក/បិទផ្ទាំងហ្ស៊ូតេរ៉ូ">
 <!ENTITY zotero.preferences.keys.overrideGlobal "ព្យាយាមជំនះផ្លូវកាត់ដែលមានការទង្គិច">
 <!ENTITY zotero.preferences.keys.quicksearch "ស្វែងរកលឿន">
-<!ENTITY zotero.preferences.keys.saveToZotero "Save to Juris-M (address bar icon)">
+<!ENTITY zotero.preferences.keys.saveToZotero "Save to Zotero (address bar icon)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "បើកពេញអេក្រង់">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "បើកជម្រើសស្លាក">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "ស្វែងរកដំណោះស្រាយ">
 <!ENTITY zotero.preferences.openurl.server "ដំណោះស្រាយ:">
 <!ENTITY zotero.preferences.openurl.version "កំណែថ្មី:">
-<!ENTITY zotero.preferences.parseRISRefer "Use Juris-M for downloaded BibTeX/RIS/Refer files">
+<!ENTITY zotero.preferences.parseRISRefer "Use Zotero for downloaded BibTeX/RIS/Refer files">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "ជាន់ខ្ពស់">
 <!ENTITY zotero.preferences.prefpane.cite "អាគតដ្ឋាន">
@@ -211,7 +211,7 @@
 <!ENTITY zotero.preferences.sync.reset.warning3 "សម្រាប់ព័ត៌មានបន្ថែម។">
 <!ENTITY zotero.preferences.sync.syncAutomatically "ធ្វើសមកាលកម្មដោយស្វ័យប្រវត្តិ">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Sync full-text content">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Juris-M can sync the full-text content of files in your Juris-M libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero can sync the full-text content of files in your Zotero libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
 <!ENTITY zotero.preferences.sync.syncServer "ម៉ាស៊ីនបម្រើសមកាលកម្មហ្ស៊ូតេរ៉ូ">
 <!ENTITY zotero.preferences.sync.username "ឈ្មោះអ្នកប្រើ:">
 <!ENTITY zotero.preferences.title "ជម្រើសអាទិភាពហ្ស៊ូតេរ៉ូ">

@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Stäng">
 <!ENTITY copyBibliographyCmd.label "Kopiera källförteckning">
-<!ENTITY copyCitationCmd.label "Kopiera referens">
+<!ENTITY copyCitationCmd.label "Kopiera citering">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
 <!ENTITY copyCmd.label "Kopiera">
@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Avsluta">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Avsluta Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Avsluta Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Avsluta">
 <!ENTITY redoCmd.accesskey "R">

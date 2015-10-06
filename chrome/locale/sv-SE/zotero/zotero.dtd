@@ -20,9 +20,9 @@
 <!ENTITY zotero.bibliography.saveAsHTML.label "Spara som HTML">
 <!ENTITY zotero.bibliography.saveAsRTF.label "Spara som RTF">
 <!ENTITY zotero.bibliography.style.label "Referensstil">
-<!ENTITY zotero.bibliography.title "Skapa referens/källförteckning">
+<!ENTITY zotero.bibliography.title "Skapa citering/källförteckning">
 <!ENTITY zotero.charset.label "Teckenkodning">
-<!ENTITY zotero.citation.editorWarning.label "Varning: Om du redigerar en referens i redigeraren så kommer den inte längre uppdateras för att spegla förändringar i databasen eller referensstilen.">
+<!ENTITY zotero.citation.editorWarning.label "Varning: Om du redigerar ett citat i redigeraren så kommer det inte längre uppdateras för att spegla förändringar i databasen eller citeringsstilen.">
 <!ENTITY zotero.citation.keepSorted.label "Håll källor sorterade">
 <!ENTITY zotero.citation.line "Rad">
 <!ENTITY zotero.citation.page "Sida">
@@ -32,11 +32,11 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Dölj författare">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Visa oregistererade källor">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Lägg markeringen till Juris-M-anteckning">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Skapa en Juris-M-källa och anteckning av markeringen">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Spara bild som en Juris-M-källa">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Spara länk som en Juris-M-källa">
-<!ENTITY zotero.downloadManager.label "Spara till Juris-M">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Lägg markeringen till Zotero-anteckning">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Skapa en Zotero-källa och anteckning av markeringen">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Spara bild som en Zotero-källa">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Spara länk som en Zotero-källa">
+<!ENTITY zotero.downloadManager.label "Spara till Zotero">
 <!ENTITY zotero.downloadManager.noPDFTools.description "För att använda denna funktion måste du först installera PDF-verktygen. Du hittar detta tillval i Inställningar.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Bilagor kan inte läggas till det valda biblioteket. Istället kommer källan att sparas i &quot;Mitt bibliotek&quot;.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Välj fält att behålla från andra versioner av källan:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Radera">
 <!ENTITY zotero.general.deselectAll "Avmarkera allt">
 <!ENTITY zotero.general.edit "Ändra">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Anteckning:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Valfritt)">
 <!ENTITY zotero.general.refresh "Uppdatera">
 <!ENTITY zotero.general.saveAs "Spara som…">
 <!ENTITY zotero.general.selectAll "Markera allt">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Lägg till/redigera källhänvisning">
 <!ENTITY zotero.integration.classicView.label "Klassisk vy">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentinställningar">
@@ -93,17 +95,18 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "När du lagrar referenserna i ett dokument ökar filstorleken något, men det ger dig möjligheten att dela dokumentet med andra utan att använda en Juris-M/Zotero-grupp. Zotero 3.0 eller senare krävs för att redigera dokument som skapats med detta tillval.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "När du lagerar referenserna i dokument ökar filstorleken något, men det ger dig möjligheten att dela dokumentet till andra utan att använda en Zotero-grupp. Zotero 3.0 eller senare krävs för att redigera dokument som skapats med detta tillval.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Lagra referenserna i dokumentet">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
-<!ENTITY zotero.integration.quickFormatDialog.title "Referera med snabbformat">
+<!ENTITY zotero.integration.quickFormatDialog.title "Citering med snabbformat">
 <!ENTITY zotero.integration.references.label "Referenser i källförteckningen">
 <!ENTITY zotero.integration.showEditor.label "Visa redigerare">
 <!ENTITY zotero.item.add "Lägg till">
 <!ENTITY zotero.item.attachment.file.show "Visa fil">
 <!ENTITY zotero.item.copyAsURL "Kopiera som URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Skifta för-/efternamn">
 <!ENTITY zotero.item.textTransform "Omvandla text">
 <!ENTITY zotero.item.textTransform.sentencecase "Vanlig versalisering">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Mångtydiga källhänvisningar">
 <!ENTITY zotero.rtfScan.cancel.label "Ångra">
 <!ENTITY zotero.rtfScan.citation.label "Referens">
-<!ENTITY zotero.rtfScan.citationsPage.description "Gå igenom listan nedan över igenkända källhänvisningar för att försäkra dig om att Juris-M har valt motsvarande källor korrekt. Eventuella överblivna eller mångtydiga källhänvisningar måste åtgärdas innan nästa steg.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Gå igenom listan nedan över igenkända källhänvisningar för att försäkra dig om att Zotero har valt motsvarande källor korrekt. Eventuella överblivna eller mångtydiga källhänvisningar måste åtgärdas innan nästa steg.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Bekräfta hänvisade källor">
 <!ENTITY zotero.rtfScan.completePage.description "Ditt dokument har blivit bearbetat. Försäkra dig om att det är korrekt formaterat.">
 <!ENTITY zotero.rtfScan.completePage.label "RTF-scanning färdig">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M bearbetar och justerar din RTF-fil. ">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero bearbetar och justerar din RTF-fil. ">
 <!ENTITY zotero.rtfScan.formatPage.label "Justerar källhänvisningar">
 <!ENTITY zotero.rtfScan.inputFile.label "Infil">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M kan automatiskt läsa av och omformatera hänvisningar och sätta in en bibliografi i RTF-filer. Välj en RTF-fil nedan för att börja.">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero kan automatiskt läsa av och omformatera hänvisningar och sätta in en bibliografi i RTF-filer. Välj en RTF-fil nedan för att börja.">
 <!ENTITY zotero.rtfScan.introPage.description2 "Välj en RTF-fil nedan att ladda in och en att spara till:">
 <!ENTITY zotero.rtfScan.introPage.label "Introduktion">
 <!ENTITY zotero.rtfScan.itemName.label "Källnamn">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Källhänvisningar kopplade till källa">
 <!ENTITY zotero.rtfScan.outputFile.label "Utfil">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M letar i ditt dokument efter hänvisningar.">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero letar i ditt dokument efter hänvisningar.">
 <!ENTITY zotero.rtfScan.scanPage.label "Letar efter hänvisningar">
 <!ENTITY zotero.rtfScan.stylePage.label "Dokumentformat">
 <!ENTITY zotero.rtfScan.title "RTF-scanning">
@@ -210,7 +213,7 @@
 <!ENTITY zotero.sync.error "Synkroniseringsfel">
 <!ENTITY zotero.sync.longTagFixer.character "tecken">
 <!ENTITY zotero.sync.longTagFixer.characters "tecken">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Följande etikett i ditt Juris-Mbibliotek är för lång för att synkronisera med servern:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Följande etikett i ditt Zoterobibliotek är för lång för att synkronisera med servern:">
 <!ENTITY zotero.sync.longTagFixer.split "Dela">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Dela vid det">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Du kan antingen dela upp etiketten i flera etiketter, förkorta den, eller radera den.">
@@ -236,11 +239,12 @@
 <!ENTITY zotero.tagSelector.deleteTag "Radera etikett...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Visa alla etiketter i detta bibliotek">
 <!ENTITY zotero.tagSelector.filter "Filter:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Inga etiketter att visa">
 <!ENTITY zotero.tagSelector.renameTag "Ändra namn på etikett...">
 <!ENTITY zotero.tagSelector.selectVisible "Markera synliga">
 <!ENTITY zotero.tagSelector.showAutomatic "Visa automatiskt">
-<!ENTITY zotero.toolbar.about.label "Om Juris-M">
+<!ENTITY zotero.toolbar.about.label "Om Zotero">
 <!ENTITY zotero.toolbar.actions.label "Åtgärder">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Var säker på att du läst igenom">
 <!ENTITY zotero.upgrade.majorUpgradeLink "uppgraderingsinstruktionerna">
 <!ENTITY zotero.upgrade.newVersionInstalled "Du har installerat en ny version av Zotero.">
-<!ENTITY zotero.upgrade.title "Juris-M uppgraderingsguide">
+<!ENTITY zotero.upgrade.title "Zotero uppgraderingsguide">
 <!ENTITY zotero.upgrade.upgradeInProgress "Var vänlig vänta tills uppgraderingsprocessen avslutas. Det kan ta några minuter.">
-<!ENTITY zotero.upgrade.upgradeRequired "Din Juris-M/Zoterodatabas måste uppgraderas för att fungera med den nya versionen.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Juris-M lyckades uppdatera databasen">
+<!ENTITY zotero.upgrade.upgradeRequired "Din Zoterodatabas måste uppgraderas för att fungera med den nya versionen.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Zotero lyckades uppdatera databasen">

@@ -90,7 +90,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Κλείσιμο">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Κλείσιμο Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Κλείσιμο Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Έξοδος">
 <!ENTITY redoCmd.accesskey "R">

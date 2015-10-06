@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Omitir o nome do autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Mostrar itens sem coleções">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Adicionar a seleção como uma nota do Juris-M">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Criar item e nota do Juris-M a partir da seleção">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Salvar a imagem como um item do Juris-M">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Salvar o link como um item do Juris-M">
-<!ENTITY zotero.downloadManager.label "Salvar para o Juris-M">
-<!ENTITY zotero.downloadManager.noPDFTools.description "Para utilizar esse recurso você deve primeiro instalar as ferramentas de PDF nas preferências do Juris-M.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Adicionar a seleção como uma nota do Zotero">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Criar item e nota do Zotero a partir da seleção">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Salvar a imagem como um item do Zotero">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Salvar o link como um item do Zotero">
+<!ENTITY zotero.downloadManager.label "Salvar para o Zotero">
+<!ENTITY zotero.downloadManager.noPDFTools.description "Para utilizar esse recurso você deve primeiro instalar as ferramentas de PDF nas preferências do Zotero.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Anexos não podem ser salvos na biblioteca selecionada. Esse documento será salvo em sua biblioteca.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Selecione os campos a serem mantidos das outras versões do item:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Escolha a versão do item a ser utilizada como mestre:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Excluir">
 <!ENTITY zotero.general.deselectAll "Desmarcar tudo">
 <!ENTITY zotero.general.edit "Editar">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opcional)">
 <!ENTITY zotero.general.refresh "Atualizar">
 <!ENTITY zotero.general.saveAs "Salvar como...">
 <!ENTITY zotero.general.selectAll "Marcar tudo">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Adicionar/Modificar citação">
 <!ENTITY zotero.integration.classicView.label "Visão clássica">
 <!ENTITY zotero.integration.docPrefs.title "Preferências do documento">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Guardar suas referências em seu documento aumenta sensivelmente o tamanho do arquivo, mas permitirá que você compartilhe seu documento com outros sem utilizar um grupo do Juris-M/Zotero. É necessário ter o Zotero 3.0, ou uma versão superior, para atualizar documentos criados com essa opção.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Guardar suas referências em seu documento aumenta sensivelmente o tamanho do arquivo, mas permitirá que você compartilhe seu documento com outros sem utilizar um grupo do Zotero. É necessário ter o Zotero 3.0, ou uma versão superior, para atualizar documentos criados com essa opção.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Guardar referências no documento">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Exibir o arquivo">
 <!ENTITY zotero.item.copyAsURL "Copiar como URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Inverter Primeiro/Último Nomes">
 <!ENTITY zotero.item.textTransform "Transformar o texto">
 <!ENTITY zotero.item.textTransform.sentencecase "Maiúscula no início da frase">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Citações ambiguas">
 <!ENTITY zotero.rtfScan.cancel.label "Cancelar">
 <!ENTITY zotero.rtfScan.citation.label "Citação">
-<!ENTITY zotero.rtfScan.citationsPage.description "Por favor revise a lista de citações reconhecidas para certificar-se que o Juris-M selecionou os itens correspondentes de forma correta. Quaisquer citações não mapeadas ou ambíguas devem ser corrigidas antes de seguir ao próximo passo.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Por favor revise a lista de citações reconhecidas para certificar-se que o Zotero selecionou os itens correspondentes de forma correta. Quaisquer citações não mapeadas ou ambíguas devem ser corrigidas antes de seguir ao próximo passo.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Verificar itens citados">
 <!ENTITY zotero.rtfScan.completePage.description "Seu documento foi analisado e processado. Por favor, certifique-se de que ele está formatado corretamente.">
 <!ENTITY zotero.rtfScan.completePage.label "Análise do RTF completa">
-<!ENTITY zotero.rtfScan.formatPage.description "O Juris-M está processando e formatando seu arquivo RTF. Por favor, seja paciente.">
+<!ENTITY zotero.rtfScan.formatPage.description "O Zotero está processando e formatando seu arquivo RTF. Por favor, seja paciente.">
 <!ENTITY zotero.rtfScan.formatPage.label "Formatação das citações">
 <!ENTITY zotero.rtfScan.inputFile.label "Arquivo de entrada">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M can automatically extract and reformat citations and insert a bibliography into RTF files. To get started, choose an RTF file below.">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero can automatically extract and reformat citations and insert a bibliography into RTF files. To get started, choose an RTF file below.">
 <!ENTITY zotero.rtfScan.introPage.description2 "Para começar, selecione um arquivo RTF de entrada e um arquivo de saída abaixo:">
 <!ENTITY zotero.rtfScan.introPage.label "Introdução">
 <!ENTITY zotero.rtfScan.itemName.label "Nome do item">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Citações mapeadas">
 <!ENTITY zotero.rtfScan.outputFile.label "Arquivo de saída">
-<!ENTITY zotero.rtfScan.scanPage.description "O Juris-M está analisando seu documento a procura de citações. Por favor, seja paciente.">
+<!ENTITY zotero.rtfScan.scanPage.description "O Zotero está analisando seu documento a procura de citações. Por favor, seja paciente.">
 <!ENTITY zotero.rtfScan.scanPage.label "Procurando citações">
 <!ENTITY zotero.rtfScan.stylePage.label "Formatação do documento">
 <!ENTITY zotero.rtfScan.title "Análise de arquivo RTF">
@@ -210,7 +213,7 @@
 <!ENTITY zotero.sync.error "Erro de sincronização">
 <!ENTITY zotero.sync.longTagFixer.character "caractere">
 <!ENTITY zotero.sync.longTagFixer.characters "caracteres">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "O seguinte rótulo em sua biblioteca Juris-M é longo demais para ser sincronizado com o servidor:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "O seguinte rótulo em sua biblioteca Zotero é longo demais para ser sincronizado com o servidor:">
 <!ENTITY zotero.sync.longTagFixer.split "Dividir">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Dividir no">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Você pode dividir o marcador em marcadores múltiplos, editar o marcador manualmente para torná-lo mais curto, ou excluí-lo">
@@ -236,11 +239,12 @@
 <!ENTITY zotero.tagSelector.deleteTag "Apagar rótulo...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Mostrar todos os rótulos nessa biblioteca">
 <!ENTITY zotero.tagSelector.filter "Filtro:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Não mostrar tags">
 <!ENTITY zotero.tagSelector.renameTag "Renomear rótulo...">
 <!ENTITY zotero.tagSelector.selectVisible "Marcar visíveis">
 <!ENTITY zotero.tagSelector.showAutomatic "Mostrar automaticamente">
-<!ENTITY zotero.toolbar.about.label "Sobre o Juris-M">
+<!ENTITY zotero.toolbar.about.label "Sobre o Zotero">
 <!ENTITY zotero.toolbar.actions.label "Ações">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Certifique-se de ter revisado as">
 <!ENTITY zotero.upgrade.majorUpgradeLink "instruções de atualização">
 <!ENTITY zotero.upgrade.newVersionInstalled "Você instalou uma versão nova de Zotero.">
-<!ENTITY zotero.upgrade.title "Assistente de atualização do Juris-M">
+<!ENTITY zotero.upgrade.title "Assistente de atualização do Zotero">
 <!ENTITY zotero.upgrade.upgradeInProgress "Por favor, aguarde o término do processo de atualização. Isso pode levar alguns minutos.">
-<!ENTITY zotero.upgrade.upgradeRequired "O banco de dados do seu Juris-M/Zotero deve ser atualizado para funcionar com a nova versão.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "O banco de dados do seu Juris-M foi atualizado com sucesso.">
+<!ENTITY zotero.upgrade.upgradeRequired "O banco de dados do seu Zotero deve ser atualizado para funcionar com a nova versão.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "O banco de dados do seu Zotero foi atualizado com sucesso.">

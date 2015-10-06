@@ -32,12 +32,12 @@
 <!ENTITY zotero.citation.suppressAuthor.label "Piilota tekijä">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
 <!ENTITY zotero.collections.showUnfiledItems "Näytä arkistoimattomat nimikkeet">
-<!ENTITY zotero.contextMenu.addTextToCurrentNote "Lisää valinta Juris-M-muistiinpanoon">
-<!ENTITY zotero.contextMenu.addTextToNewNote "Luo Juris-M-nimike and muistiinpano valinnasta">
-<!ENTITY zotero.contextMenu.saveImageAsItem "Tallenna kuva Juris-Mon">
-<!ENTITY zotero.contextMenu.saveLinkAsItem "Tallenna linkki Juris-Mon">
-<!ENTITY zotero.downloadManager.label "Tallenna Juris-Mon">
-<!ENTITY zotero.downloadManager.noPDFTools.description "Käyttääksesi tätä ominaisuutta tulee sinun ensin asentaa PDF-työkalut Juris-Mn asetuksista.">
+<!ENTITY zotero.contextMenu.addTextToCurrentNote "Lisää valinta Zotero-muistiinpanoon">
+<!ENTITY zotero.contextMenu.addTextToNewNote "Luo Zotero-nimike and muistiinpano valinnasta">
+<!ENTITY zotero.contextMenu.saveImageAsItem "Tallenna kuva Zoteroon">
+<!ENTITY zotero.contextMenu.saveLinkAsItem "Tallenna linkki Zoteroon">
+<!ENTITY zotero.downloadManager.label "Tallenna Zoteroon">
+<!ENTITY zotero.downloadManager.noPDFTools.description "Käyttääksesi tätä ominaisuutta tulee sinun ensin asentaa PDF-työkalut Zoteron asetuksista.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Liitteitä ei voi tallentaa valittuun kirjastoon. Nimike sen sijaan tallennetaan kirjastoon.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Valise kentät, jotka säilytetään muista versioista:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Valitse se nimikkeen pääversio:">
@@ -57,12 +57,14 @@
 <!ENTITY zotero.general.delete "Poista">
 <!ENTITY zotero.general.deselectAll "Poista valinnat">
 <!ENTITY zotero.general.edit "Muokkaa">
+<!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Huomio:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Valinnainen)">
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "Valitse kaikki">
+<!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Lisää/muokkaa sitaatti">
 <!ENTITY zotero.integration.classicView.label "Perinteinen näkymä">
 <!ENTITY zotero.integration.docPrefs.title "Asiakirjan asetukset">
@@ -93,7 +95,7 @@
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
 <!ENTITY zotero.integration.prefs.lang.translation "Translation">
 <!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
-<!ENTITY zotero.integration.prefs.storeReferences.caption "Viitteiden tallentaminen asiakirjassa kasvattaa hiukan tiedoston kokoa, mutta tällöin tiedoston voi jakaa muiden kanssa käyttämättä Juris-M/Zotero-ryhmää. Tällä toiminnalle luotujen asiakirjojen muokkaamiseen tarvitaan Zotero 3.0 tai uudempi.">
+<!ENTITY zotero.integration.prefs.storeReferences.caption "Viitteiden tallentaminen asiakirjassa kasvattaa hiukan tiedoston kokoa, mutta tällöin tiedoston voi jakaa muiden kanssa käyttämättä Zotero-ryhmää. Tällä toiminnalle luotujen asiakirjojen muokkaamiseen tarvitaan Zotero 3.0 tai uudempi.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Tallenna viitteet asiakirjassa">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
@@ -104,6 +106,7 @@
 <!ENTITY zotero.item.attachment.file.show "Näytä tiedosto">
 <!ENTITY zotero.item.copyAsURL "Copy as URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
+<!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.textTransform "Muunna teksti">
 <!ENTITY zotero.item.textTransform.sentencecase "Lauseenkaltainen">
@@ -184,20 +187,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Monimerkityksiset sitaatit">
 <!ENTITY zotero.rtfScan.cancel.label "Peruuta">
 <!ENTITY zotero.rtfScan.citation.label "Sitaatti">
-<!ENTITY zotero.rtfScan.citationsPage.description "Käy läpi allaoleva tunnistettujen sitaattien lista varmistaaksesi, että Juris-M on valinnut sitaatteja vastaavat nimikkeet oikein. Kaikki paikantamattomat tai monimerkityksiset sitaatit täytyy selvittää ennen seuraavaa vaihetta.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Käy läpi allaoleva tunnistettujen sitaattien lista varmistaaksesi, että Zotero on valinnut sitaatteja vastaavat nimikkeet oikein. Kaikki paikantamattomat tai monimerkityksiset sitaatit täytyy selvittää ennen seuraavaa vaihetta.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Varmenna siteeratut nimikkeet">
 <!ENTITY zotero.rtfScan.completePage.description "Asiakirja on läpikäyty ja prosessoitu. Varmista vielä, että muotoilut ovat oikein.">
 <!ENTITY zotero.rtfScan.completePage.label "RTF-läpikäynti valmis">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M käsittelee ja muotoilee RTF-tiedostoa. Malta vielä hetki.">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero käsittelee ja muotoilee RTF-tiedostoa. Malta vielä hetki.">
 <!ENTITY zotero.rtfScan.formatPage.label "Sitaattien muotoilu">
 <!ENTITY zotero.rtfScan.inputFile.label "Luettava tiedosto">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M voi automaattisesti seuloa ja uudelleenmuotoilla viittaukset ja lisätä kirjallisuusluettelon RTF-tiedostoon. Valitse aluksi RTF-tiedosto.">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero voi automaattisesti seuloa ja uudelleenmuotoilla viittaukset ja lisätä kirjallisuusluettelon RTF-tiedostoon. Valitse aluksi RTF-tiedosto.">
 <!ENTITY zotero.rtfScan.introPage.description2 "Valitse aluksi luettava RTF-tiedosto sekä kirjoitettava tiedosto:">
 <!ENTITY zotero.rtfScan.introPage.label "Johdanto">
 <!ENTITY zotero.rtfScan.itemName.label "Nimikkeen nimi">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Paikannetut sitaatit">
 <!ENTITY zotero.rtfScan.outputFile.label "Kirjoitettava tiedosto">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M etsii asiakirjasta sitaatteja. Malta vielä hetki.">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero etsii asiakirjasta sitaatteja. Malta vielä hetki.">
 <!ENTITY zotero.rtfScan.scanPage.label "Etsitään sitaatteja">
 <!ENTITY zotero.rtfScan.stylePage.label "Asiakirjan muotoilu">
 <!ENTITY zotero.rtfScan.title "RTF:n läpikäynti">
@@ -210,7 +213,7 @@
 <!ENTITY zotero.sync.error "Synkronointivirhe">
 <!ENTITY zotero.sync.longTagFixer.character "merkin kohdalta">
 <!ENTITY zotero.sync.longTagFixer.characters "merkin kohdalta">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Seuraava merkki Juris-M-kirjastossasi on liian pitkä synkronoitavaksi palvelimelle:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Seuraava merkki Zotero-kirjastossasi on liian pitkä synkronoitavaksi palvelimelle:">
 <!ENTITY zotero.sync.longTagFixer.split "Jaa">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Jaa">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Voit joko jakaa merkin useisiin osiin, muokata sitä käsin lyhyemmäksi tai poistaa sen.">
@@ -236,11 +239,12 @@
 <!ENTITY zotero.tagSelector.deleteTag "Poista avainsana...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Näytä tämän kirjaston kaikki avainsanat">
 <!ENTITY zotero.tagSelector.filter "Suodatin:">
+<!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Ei näytettäviä avainsanoja">
 <!ENTITY zotero.tagSelector.renameTag "Nimeä avainsana uudelleen...">
 <!ENTITY zotero.tagSelector.selectVisible "Valitse näkyvät">
 <!ENTITY zotero.tagSelector.showAutomatic "Show automatic">
-<!ENTITY zotero.toolbar.about.label "Tietoja Juris-Msta">
+<!ENTITY zotero.toolbar.about.label "Tietoja Zoterosta">
 <!ENTITY zotero.toolbar.actions.label "Toiminnot">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
@@ -291,7 +295,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Olethan tutustunut">
 <!ENTITY zotero.upgrade.majorUpgradeLink "päivitysohjeisiin">
 <!ENTITY zotero.upgrade.newVersionInstalled "Olet asentanut Zoteron uuden version.">
-<!ENTITY zotero.upgrade.title "Juris-Mn päivitysvelho">
+<!ENTITY zotero.upgrade.title "Zoteron päivitysvelho">
 <!ENTITY zotero.upgrade.upgradeInProgress "Odota päivitysprosessin päättymistä. Tämä saattaa kestää muutamia minuutteja.">
-<!ENTITY zotero.upgrade.upgradeRequired "Juris-M/Zotero-tietokantasi täytyy päivittää, jotta se toimisi uuden version kanssa.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Juris-M-tietokantasi on onnistuneesti päivitetty.">
+<!ENTITY zotero.upgrade.upgradeRequired "Zotero-tietokantasi täytyy päivittää, jotta se toimisi uuden version kanssa.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Zotero-tietokantasi on onnistuneesti päivitetty.">

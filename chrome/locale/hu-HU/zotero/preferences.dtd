@@ -2,7 +2,7 @@
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Alap könyvtár:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
-<!ENTITY zotero.preferences.attachmentBaseDir.message "A Juris-M relatív útvonalakat használ a csatolt fájlokhoz az alap könyvtáron belül , ezzel elérhetővé teszi a fájlokat különböző számítógépeken, amennyiben a fájlszerkezet az alap könyvtárban változatlan.">
+<!ENTITY zotero.preferences.attachmentBaseDir.message "A Zotero relatív útvonalakat használ a csatolt fájlokhoz az alap könyvtáron belül , ezzel elérhetővé teszi a fájlokat különböző számítógépeken, amennyiben a fájlszerkezet az alap könyvtárban változatlan.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Visszavonás…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Tallózás…">
 <!ENTITY zotero.preferences.autoUpdate "Fordítók- és stílusfrissítések automatikus ellenőrzése">
@@ -37,13 +37,13 @@
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Output törlése">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Bekapcsolás az újraindítás után">
 <!ENTITY zotero.preferences.debugOutputLogging.linesLogged "naplózott sorok">
-<!ENTITY zotero.preferences.debugOutputLogging.message "A naplófájl segíthet a fejlesztőknek a problémákat beazonosítani. A naplózás lelassítja a Juris-Mt, ezért általában ki kell kapcsolni, kivéve, ha a fejlesztők kérik a naplófájlt.">
+<!ENTITY zotero.preferences.debugOutputLogging.message "A naplófájl segíthet a fejlesztőknek a problémákat beazonosítani. A naplózás lelassítja a Zoterot, ezért általában ki kell kapcsolni, kivéve, ha a fejlesztők kérik a naplófájlt.">
 <!ENTITY zotero.preferences.debugOutputLogging.submitToServer "Elküldés a Zotero szervernek">
 <!ENTITY zotero.preferences.debugOutputLogging.viewOutput "Kimenet megtekintése">
 <!ENTITY zotero.preferences.default "Alapértelmezett">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "A kapcsolódó PDF és más fájlok automatikus csatolása">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "URL megjelenítése a nyomtatásban megjelent cikkeknél">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Ha ez a lehetőség nincs bekapcsolva, a Juris-M csak akkor jeleníti meg az URL-t folyóirat-, újság- vagy magazincikkeknél, ha nincs megadva oldalszám.">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Ha ez a lehetőség nincs bekapcsolva, a Zotero csak akkor jeleníti meg az URL-t folyóirat-, újság- vagy magazincikkeknél, ha nincs megadva oldalszám.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "További stílusok telepítése...">
@@ -70,10 +70,10 @@
 <!ENTITY zotero.preferences.keys.library "Könyvtár">
 <!ENTITY zotero.preferences.keys.newItem "Új elem létrehozása">
 <!ENTITY zotero.preferences.keys.newNote "Új jegyzet létrehozása">
-<!ENTITY zotero.preferences.keys.openZotero "Juris-M megnyitása/bezárása">
+<!ENTITY zotero.preferences.keys.openZotero "Zotero megnyitása/bezárása">
 <!ENTITY zotero.preferences.keys.overrideGlobal "Ellentmondó billentyűparancsok felülírása">
 <!ENTITY zotero.preferences.keys.quicksearch "Gyorskeresés">
-<!ENTITY zotero.preferences.keys.saveToZotero "Mentés Juris-M-ba (adress bar icon)">
+<!ENTITY zotero.preferences.keys.saveToZotero "Mentés Zotero-ba (adress bar icon)">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Teljesképernyős üzemmód">
 <!ENTITY zotero.preferences.keys.toggleTagSelector "Címkeválasztó mutatása/elrejtése">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "Linkfeloldók keresése">
 <!ENTITY zotero.preferences.openurl.server "Linkfeloldó:">
 <!ENTITY zotero.preferences.openurl.version "Verzió:">
-<!ENTITY zotero.preferences.parseRISRefer "A Juris-M használata BibTeX/RIS/Refer fájlok letöltésére">
+<!ENTITY zotero.preferences.parseRISRefer "A Zotero használata BibTeX/RIS/Refer fájlok letöltésére">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Haladó">
 <!ENTITY zotero.preferences.prefpane.cite "Hivatkozás">
@@ -142,7 +142,7 @@
 <!ENTITY zotero.preferences.proxies.configured "Proxyk">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - Az útvonal (pl.: about/)">
 <!ENTITY zotero.preferences.proxies.desc_after_link "további információkért.">
-<!ENTITY zotero.preferences.proxies.desc_before_link "A Juris-M a kéréseket az elmentett proxykon keresztül szolgálja ki. Olvassa el a">
+<!ENTITY zotero.preferences.proxies.desc_before_link "A Zotero a kéréseket az elmentett proxykon keresztül szolgálja ki. Olvassa el a">
 <!ENTITY zotero.preferences.proxies.desc_link "proxy leírást">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Proxy átirányítás tiltása, ha a domén nevem tartalmaz">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - A fájl neve (pl.: index.html)">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Megjegyzés: A formázás Mac OS X alatt elveszik.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domén/Útvonal">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(pl: wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Nyelv">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Kimeneti formátum">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Weboldal-specifikus beállítások:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Hibás adatkonverterek jelentése">
@@ -176,7 +176,7 @@
 <!ENTITY zotero.preferences.search.indexStats.words "Szavak száma:">
 <!ENTITY zotero.preferences.search.pdfIndexing "PDF indexelés">
 <!ENTITY zotero.preferences.settings "Beállítások">
-<!ENTITY zotero.preferences.showIn "Juris-M futtatása:">
+<!ENTITY zotero.preferences.showIn "Zotero futtatása:">
 <!ENTITY zotero.preferences.showIn.appTab "Lap rögzítése">
 <!ENTITY zotero.preferences.showIn.browserPane "Böngésző ablak">
 <!ENTITY zotero.preferences.showIn.separateTab "Új lap">
@@ -211,13 +211,13 @@
 <!ENTITY zotero.preferences.sync.reset.warning3 " további információért.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Automatikus szinkronizálás">
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Teljes szöveg szinkronizálása">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "A Juris-M szinkronizálhatja a Juris-M könyvtáraiban található fájlok teljes szövegét a zotero.org-gal és egyéb csatolt eszközökkel, lehetővé téve, hogy bárhol könnyedén keressen a fájljaira. A fájlok teljes szövege nem válik nyilvánossá.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "A Zotero szinkronizálhatja a Zotero könyvtáraiban található fájlok teljes szövegét a zotero.org-gal és egyéb csatolt eszközökkel, lehetővé téve, hogy bárhol könnyedén keressen a fájljaira. A fájlok teljes szövege nem válik nyilvánossá.">
 <!ENTITY zotero.preferences.sync.syncServer "Szinkronizációs szerver">
 <!ENTITY zotero.preferences.sync.username "Felhasználónév:">
-<!ENTITY zotero.preferences.title "Juris-M beállítások">
+<!ENTITY zotero.preferences.title "Zotero beállítások">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "napnál régebbiek">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Automatikusan törölje a kukából azokat az elemeket, amelyek">
 <!ENTITY zotero.preferences.updateNow "Frissítés indítása">
 <!ENTITY zotero.preferences.userInterface "Felhasználói felület">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "A Juris-M verziójának megfelelő tartalmak mutatása a zotero.org oldalon">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "Ha ez be van kapcsolva, a zotero.orgra küldött HTTP kérésekhez hozzáfűzi a Juris-M verzióját.">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "A Zotero verziójának megfelelő tartalmak mutatása a zotero.org oldalon">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "Ha ez be van kapcsolva, a zotero.orgra küldött HTTP kérésekhez hozzáfűzi a Zotero verzióját.">
