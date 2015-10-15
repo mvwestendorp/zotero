@@ -105,7 +105,7 @@ Zotero.DateParser = function () {
 	var number = "[?0-9]{1,3}";
 	var rangesep = "[%%DATED%%]";
 	var fuzzychar = "[?~]";
-	var chars = "[a-zA-Z]+";
+	var chars = "[^\-\/\~\?0-9]+";
 
 	// Regular expression template
 	var rex = "(" + yearfirst + "|" + yearlast + "|" + number + "|" + rangesep + "|" + fuzzychar + "|" + chars + ")";
@@ -391,7 +391,7 @@ Zotero.DateParser = function () {
 		var ret = [];
 		for (i = 0, ilen = lst.length; i < ilen; i += 1) {
 			var item = lst[i];
-			m = item.match(/^\s*([\-\/]|[a-zA-Z]+|[\-~?0-9]+)\s*$/);
+			m = item.match(/^\s*([\-\/]|[^\-\/\~\?0-9]+|[\-~?0-9]+)\s*$/);
 			if (m) {
 				ret.push(m[1]);
 			}
