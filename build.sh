@@ -92,13 +92,21 @@ case $RELEASE in
         save-patch-level
         echo "Version is: $VERSION"
         # Build
+        echo "A"
         touch-log
+        echo "B"
         refresh-style-modules
+        echo "C"
         build-the-plugin
+        echo "D"
         git-checkin-all-and-push
+        echo "E"
         create-github-release
+        echo "F"
         add-xpi-to-github-release
+        echo "G"
         publish-update
+        echo "H"
         repo-finish 0 "Released as FINAL (uploaded to GitHub, full wax)"
         ;;
 esac
