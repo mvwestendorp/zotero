@@ -1011,7 +1011,7 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, lang, force_top)
 		var baseID = Zotero.ItemFields.getBaseIDFromTypeAndField(this.itemTypeID, fieldID);
 
 		if (value && baseID == Zotero.ItemFields.getID('title')) {
-			value = value.replace(/(\u202a|\u202b|\u202c)/g, "");
+			value = ('' + value).replace(/(\u202a|\u202b|\u202c)/g, "");
 			var languageFieldID = Zotero.ItemFields.getID("language");
 			var itemLanguage = this._itemData[languageFieldID] ? this._itemData[languageFieldID] : '';
 			if (Zotero.isRTL([itemLanguage])) {
