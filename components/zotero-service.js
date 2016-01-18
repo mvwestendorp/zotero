@@ -40,11 +40,15 @@ InstallChecker(
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 
+// Removed from xpcomFilesAll b/c not used in code, and caused
+// crash in Standalone on some platforms.
+//'dateparser',
+
+
 /** XPCOM files to be loaded for all modes **/
 const xpcomFilesAll = [
 	'zotero',
 	'date',
-	'dateparser',
 	'debug',
 	'error',
 	'file',
