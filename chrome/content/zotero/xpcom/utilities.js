@@ -2405,10 +2405,8 @@ Zotero.Utilities = {
 			// Decoding ops
 			var obj = Zotero.Sync.Server.Data.decodeMlzFields(item,data,extra,changedFields);
 			Zotero.Sync.Server.Data.removeMlzFieldDeletes(item,data,obj);
-			if (pos) {
-				Zotero.Sync.Server.Data.decodeMlzCreators(item,obj,pos);
-				Zotero.Sync.Server.Data.removeMlzCreatorDeletes(item,obj);
-			}
+			Zotero.Sync.Server.Data.decodeMlzCreators(item,obj,pos);
+			Zotero.Sync.Server.Data.removeMlzCreatorDeletes(item,obj);
 		}
 	},
 	

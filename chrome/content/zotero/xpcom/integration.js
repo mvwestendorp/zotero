@@ -2495,15 +2495,11 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			
             // Well, dammit, Phuc's thesis still won't extract. Why not?
 			if(!zoteroItem) {
-                Zotero.debug("HHH NO ZOTERO ITEM");
 				if(citationItem.itemData) {
-                    Zotero.debug("HHH HAS citationItem.itemData: "+this.data.prefs.groupID);
                     this.data.prefs.groupID = this.data.prefs.groupID ? parseInt(this.data.prefs.groupID) : '';
 					if (this.data.prefs.groupID) {
-                        Zotero.debug("HHH HAS this.data.prefs.groupID="+this.data.prefs.groupID);
 						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
 						if (libraryID) {
-                            Zotero.debug("HHH HAS libraryID");
 							var itemData = citationItem.itemData;
 							zoteroItem = new Zotero.Item();
 							// true is for portableJSON (MLZ decoding)
@@ -2513,12 +2509,10 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 							citationItem.itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem, undefined, false);
 							var newURIs = this.uriMap.getURIsForItemID(zoteroItem.id);
 							if (citationItem.uris && citationItem.uris.length) {
-                                Zotero.debug("HHH HAVE URIs");
 								// Set up to reselect the newly created item
 								this.reselectedItems[citationItem.uris[0]] = zoteroItem.id;
 								// Prefer the newly created item over the private copy
 								for (var j=newURIs.length-1;j>-1;j+=-1) {
-                                    Zotero.debug("HHH UNSHIFTING -- WHAT DOES THIS MEAN? ("+j+")");
 									citationItem.uris.unshift(newURIs[j]);
 								}
 							} else if (citationItem.key) {
@@ -2540,7 +2534,6 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 						// assign a random string as an item ID
 						var anonymousID = Zotero.randomString();
 						var globalID = itemData.id = citationItem.id = this.data.sessionID+"/"+anonymousID;
-						this.embeddedItems[anonymousID] = itemData;
 						
 						// assign a Zotero item
 						var surrogateItem = this.embeddedZoteroItems[anonymousID] = new Zotero.Item();
@@ -2549,6 +2542,8 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 						surrogateItem.cslItemID = globalID;
 						surrogateItem.cslURIs = citationItem.uris;
 						surrogateItem.cslItemData = itemData;
+
+						this.embeddedItems[anonymousID] = Zotero.Utilities.itemToCSLJSON(surrogateItem, undefined, false, false, true);
 						
 						for(var j=0, m=citationItem.uris.length; j<m; j++) {
 							this.embeddedZoteroItemsByURI[citationItem.uris[j]] = surrogateItem;

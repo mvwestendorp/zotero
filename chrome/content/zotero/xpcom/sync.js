@@ -4761,8 +4761,8 @@ Zotero.Sync.Server.Data = new function() {
 		}
 		// Cast and set multicreators
 		if (obj && obj.multicreators) {
-			for (var pos in obj.multicreators) {
-				multicreatorset = obj.multicreators[pos];
+			for (var orderIndex in obj.multicreators) {
+				multicreatorset = obj.multicreators[orderIndex];
 				for (var lang in multicreatorset._key) {
 					multicreator = multicreatorset._key[lang];
 					var creator = new Zotero.Creator;
@@ -4784,7 +4784,7 @@ Zotero.Sync.Server.Data = new function() {
 						creator.fieldMode = multicreatorset.fieldMode;
 					}
 					item.setCreator(
-						parseInt(pos,10),
+						parseInt(orderIndex,10),
 						creator,
 						false,
 						lang

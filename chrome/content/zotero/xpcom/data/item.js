@@ -6296,12 +6296,21 @@ Zotero.Item.prototype._setRelatedItems = function (itemIDs) {
  * previousData, and ideally try to detect when this private data structure
  * has changed, which it almost certainly will. I am so sorry.
  */
+
+// Ok
+// What form is _previousData going to have for creators?
+// Options are:
+// (1) Hold data for all variants in one object; or
+// (2) Hold data for only one object.
+// Of the two, (2) has less impact, but it does not cover
+// main, and that is a problem.
+
 Zotero.Item.prototype._getOldCreators = function () {
 	var oldCreators = [];
 	for (var i in this._creators) {
 		if (this._creators[i].ref._changed) {
 			if (!this._creators[i].ref._previousData
-					&& !this._creators[i].ref._previousData.fields) {
+					|| !this._creators[i].ref._previousData.fields) {
 				Components.utils.reportError("Previous creator data not available in expected form");
 				oldCreators.push(false);
 				continue;
