@@ -189,8 +189,15 @@ Zotero.Styles = new function() {
 		// TODO: With asynchronous style loading, move renamedStyles call back here
 		
 		if(!skipMappings) {
-			var prefix = "http://www.zotero.org/styles/";
+			var prefix = "http://juris-m.github.io/styles/";
 			var shortName = id.replace(prefix, "");
+			if(_renamedStyles.hasOwnProperty(shortName) && _styles[prefix + _renamedStyles[shortName]]) {
+				let newID = prefix + _renamedStyles[shortName];
+				Zotero.debug("Mapping " + id + " to " + newID);
+				return _styles[newID];
+			}
+			prefix = "http://www.zotero.org/styles/";
+			shortName = id.replace(prefix, "");
 			if(_renamedStyles.hasOwnProperty(shortName) && _styles[prefix + _renamedStyles[shortName]]) {
 				let newID = prefix + _renamedStyles[shortName];
 				Zotero.debug("Mapping " + id + " to " + newID);
