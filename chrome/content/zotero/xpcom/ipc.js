@@ -183,17 +183,20 @@ Zotero.IPC = new function() {
 			
 			// Aurora/Nightly are always named "Firefox" in
 			// application.ini
-            // Do not attempt to call Zotero -- only interested in Jurism here?
 			const appNames = ["Firefox", "Zotero", "Jurism"];
 			
 			// Different from Zotero.appName; this corresponds to the
 			// name in application.ini
 			const myAppName = Services.appinfo.name;
 
+            Zotero.debug("XXXXXXXXXXXXXXXXXX myAppName="+myAppName);
+
 			for each(var appName in appNames) {
 				// don't send messages to ourself
 				if(appName === myAppName) continue;
 				
+                Zotero.debug("XXXXXXXXXXXXXXXXXX MATCH appName="+appName);
+
 				var thWnd = FindWindow(appName+"MessageWindow", null);
 				if(thWnd) {
 					Zotero.debug('IPC: Broadcasting "'+msg+'" to window "'+appName+'MessageWindow"');
