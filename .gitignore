@@ -1,0 +1,6 @@
+attic
+locale-xls-out
+locale-csv-out
+locale-rev
+*~
+*.pyc
