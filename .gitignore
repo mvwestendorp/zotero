@@ -1,0 +1,4 @@
+*.pyc
+locale-csv-out
+locale-rev
+locale-xls-out
