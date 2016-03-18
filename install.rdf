@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-  <Description about="urn:mozilla:install-manifest">  
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+  <Description about="urn:mozilla:install-manifest">
     <em:id>juris-m@juris-m.github.io</em:id>
     <em:name>Juris-M</em:name>
     <em:version>4.0.28.7m52</em:version>
@@ -26,5 +24,13 @@
         <em:maxVersion>44.*</em:maxVersion>
       </Description>
     </em:targetApplication>
-</Description>
+    <em:targetApplication>
+      <Description>
+        <em:id>jurism@juris-m.github.io</em:id>
+        <em:minVersion>4.0</em:minVersion>
+        <em:maxVersion>4.0.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
 </RDF>
+

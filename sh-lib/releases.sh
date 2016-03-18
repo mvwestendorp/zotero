@@ -44,7 +44,7 @@ function publish-update () {
     cp update-TEMPLATE.rdf update-TRANSFER.rdf
     cat update-TRANSFER.rdf | sed -e "s/\(<em:version>\).*\(<\/em:version>\)/\\1${VERSION_STUB}\\2/" > frag.txt
     mv frag.txt update-TRANSFER.rdf
-    cat update-TRANSFER.rdf | sed -e "s/\(<em:updateLink>.*download\/\).*\(<\/em:updateLink>\)/\\1v${VERSION_STUB}\/${CLIENT}-v${VERSION_STUB}.xpi\\2/" > frag.txt
+    cat update-TRANSFER.rdf | sed -e "s/\(<em:updateURL>.*download\/\).*\(<\/em:updateURL>\)/\\1v${VERSION_STUB}\/${CLIENT}-v${VERSION_STUB}-fx.xpi\\2/" > frag.txt
     mv frag.txt update-TRANSFER.rdf
     #~/src/mccoy/mccoy
     echo -n "Proceed? (y/n): "
@@ -56,6 +56,7 @@ function publish-update () {
         exit 1
     fi
     # Slip the update manifest over to the gh-pages branch, commit, and push
+    cp update-TRANSFER.rdf update-TEMPLATE.rdf
     git checkout gh-pages >> "${LOG_FILE}" 2<&1
     if [ ! -f update.rdf ]; then
         echo "XXX" > update.rdf
