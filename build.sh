@@ -65,8 +65,10 @@ function xx-zip-up-translators () {
     cd translators_actual
 
     if [ ${RELEASE} -eq 1 ]; then
+        echo "Using local translator source"
         cp ../translators/*.js .
-    else if [ ${RELEASE} -gt 1 ]; then
+    elif [ ${RELEASE} -gt 1 ]; then
+        echo "Downloading translator source from remote"
         wget -O translators_actual.zip http://citationstylist.org/translators/translators.zip
         unzip translators_actual.zip >> "${LOG_FILE}"
     fi
