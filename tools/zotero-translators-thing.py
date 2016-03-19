@@ -159,9 +159,12 @@ def processFiles():
         deletes = {}
 	try:
             for commit in payload['commits']:
+                # Skip a dogfood commit
+                if re.match(".*DATESONLY.*", commit["message"]):
+                    continue
                 for path in commit['added']:
                     paths[path] = True
-                    if deletes[path]:
+                    if deletes.has_key(path):
                         deletes.pop(path)
                 for path in commit['modified']:
                     paths[path] = True
