@@ -11,6 +11,7 @@ FORK="zotero"
 BRANCH="jurism"
 CLIENT="jurism"
 VERSION_ROOT="4.0.28.7m"
+SIGNED_STUB="juris_m-"
 
 function xx-remove-and-replace-old-build-dir () {
     rm -fR build
