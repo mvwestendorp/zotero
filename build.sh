@@ -53,41 +53,44 @@ function xx-zip-up-styles () {
 }
 
 function xx-zip-up-translators () {
-    if [ ${RELEASE} -gt 1 ]; then
-        if [ -f translators.index ]; then
-            rm translators.index
-        fi
-        touch translators.index
+    if [ -f translators.index ]; then
+        rm translators.index
+    fi
+    touch translators.index
 
-        if [ -d translators_actual ]; then
-            rm -fR translators_actual
-        fi
-        mkdir translators_actual
-        cd translators_actual
+    if [ -d translators_actual ]; then
+        rm -fR translators_actual
+    fi
+    mkdir translators_actual
+    cd translators_actual
 
+    if [ ${RELEASE} -eq 1 ]; then
+        cp ../translators/*.js .
+    else if [ ${RELEASE} -gt 1 ]; then
         wget -O translators_actual.zip http://citationstylist.org/translators/translators.zip
         unzip translators_actual.zip >> "${LOG_FILE}"
-        cd ..
-
-        COUNT=0
-        for i in translators_actual/*.js; do
-            FILENAME=$(echo ${COUNT}.js)
-            KEY=$(grep -m 1 translatorID "$i"| sed -e "s/.*translatorID\" *: *\"\([^\"]\+\)\".*/\\1/")
-            NAME=$(grep -m 1 label "$i"| sed -e "s/.*label\" *: *\"\([^\"]\+\)\".*/\\1/")
-            DATE=$(grep -m 1 lastUpdated "$i"| sed -e "s/.*lastUpdated\" *: *\"\([^\"]\+\)\".*/\\1/")
-            if [ "${KEY}" != "" ]; then
-                echo ${FILENAME},${KEY},${NAME},${DATE} >> translators.index
-                cp "$i" build/translators/${FILENAME}
-                echo -n "${FILENAME} "
-                echo $((COUNT++)) > /dev/null
-            fi
-        done
-
-        cd build/translators
-        zip translators *.js >> "${LOG_FILE}"
-        cd ../..
-        cp build/translators/translators.zip .
     fi
+
+    cd ..
+
+    COUNT=0
+    for i in translators_actual/*.js; do
+        FILENAME=$(echo ${COUNT}.js)
+        KEY=$(grep -m 1 translatorID "$i"| sed -e "s/.*translatorID\" *: *\"\([^\"]\+\)\".*/\\1/")
+        NAME=$(grep -m 1 label "$i"| sed -e "s/.*label\" *: *\"\([^\"]\+\)\".*/\\1/")
+        DATE=$(grep -m 1 lastUpdated "$i"| sed -e "s/.*lastUpdated\" *: *\"\([^\"]\+\)\".*/\\1/")
+        if [ "${KEY}" != "" ]; then
+            echo ${FILENAME},${KEY},${NAME},${DATE} >> translators.index
+            cp "$i" build/translators/${FILENAME}
+            echo -n "${FILENAME} "
+            echo $((COUNT++)) > /dev/null
+        fi
+    done
+
+    cd build/translators
+    zip translators *.js >> "${LOG_FILE}"
+    cd ../..
+    cp build/translators/translators.zip .
 }
 
 function xx-add-styles-and-translators-to-zip () {
