@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Ficheiros e cartafoles">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Atallos">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Cartafol principal:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Cartafol principal de anexos ligados">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero usará rutas relativas para os ficheiros anexos que foran ligados ao cartafol principal. Con isto faise que sexa posible acceder a ficheiros en diferentes computadores sempre e cando a estrutura de ficheiros dentro do cartafol principal se manteña igual.">
@@ -115,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Miscelánea">
 <!ENTITY zotero.preferences.openAboutConfig "Abrir about:config">
 <!ENTITY zotero.preferences.openAboutMemory "Abrir about:memory">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
+<!ENTITY zotero.preferences.openCSLEdit "Abrir o editor de estilos">
+<!ENTITY zotero.preferences.openCSLPreview "Abrir o visor de estilos">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Personalizar...">
 <!ENTITY zotero.preferences.openurl.search "Procura de resolvedores">
@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - A ruta da páxina a través do proxy excluíndo a barra á esquerda (slash) (por exemplo, about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Opcións de Proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Esquema">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Mostrar unha notificación cando se redirixa cara a unha proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Activar o redireccionamento por proxy">
 <!ENTITY zotero.preferences.proxies.variables "Pode usar as seguintes variables no seu esquema de proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Copia rápida">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Nota: o formato de texto enriquecido perderase en Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Dominio/Ruta">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(p. ex. gl.wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Lingua">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Formato de saída">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Axustes específicos do sitio:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Informar de tradutores de sitio rotos">

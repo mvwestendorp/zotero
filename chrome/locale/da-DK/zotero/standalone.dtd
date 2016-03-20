@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Luk">
 <!ENTITY copyBibliographyCmd.label "Kopier referenceliste">
-<!ENTITY copyCitationCmd.label "Kopier henvisning">
+<!ENTITY copyCitationCmd.label "Kopier reference">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
 <!ENTITY copyCmd.label "Kopier">

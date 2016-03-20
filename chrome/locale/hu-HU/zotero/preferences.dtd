@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Fájlok és mappák">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Billentyűparancsok">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Alap könyvtár:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "A Zotero relatív útvonalakat használ a csatolt fájlokhoz az alap könyvtáron belül , ezzel elérhetővé teszi a fájlokat különböző számítógépeken, amennyiben a fájlszerkezet az alap könyvtárban változatlan.">
@@ -115,7 +115,7 @@
 <!ENTITY zotero.preferences.miscellaneous "Egyéb">
 <!ENTITY zotero.preferences.openAboutConfig "Az about:config megnyitása">
 <!ENTITY zotero.preferences.openAboutMemory "Az about:memory megnyitása">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
+<!ENTITY zotero.preferences.openCSLEdit "Style Editor megnyitása">
 <!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
 <!ENTITY zotero.preferences.openurl.custom "Egyedi...">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Megjegyzés: A formázás Mac OS X alatt elveszik.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domén/Útvonal">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(pl: wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Nyelv">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Kimeneti formátum">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Weboldal-specifikus beállítások:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Hibás adatkonverterek jelentése">

@@ -5,14 +5,14 @@
 <!ENTITY zotero.annotate.toolbar.expand.label "Sýna allar áletranir">
 <!ENTITY zotero.annotate.toolbar.highlight.label "Auðkenna texta">
 <!ENTITY zotero.annotate.toolbar.unhighlight.label "Fjarlægja auðkenningu texta">
-<!ENTITY zotero.attachLink.label.link "Link:">
-<!ENTITY zotero.attachLink.label.title "Title:">
-<!ENTITY zotero.attachLink.title "Attach Link to URI">
+<!ENTITY zotero.attachLink.label.link "Slóð:">
+<!ENTITY zotero.attachLink.label.title "Titill:">
+<!ENTITY zotero.attachLink.title "Hengja slóð á URI">
 <!ENTITY zotero.bibliography.bibliography "Heimildaskrá">
 <!ENTITY zotero.bibliography.copyToClipboard.label "Afrita á klemmuspjald">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
-<!ENTITY zotero.bibliography.locale.label "Language:">
+<!ENTITY zotero.bibliography.locale.label "Tungumál:">
 <!ENTITY zotero.bibliography.output.label "Output Format">
 <!ENTITY zotero.bibliography.outputMethod "Útskriftaraðferð:">
 <!ENTITY zotero.bibliography.outputMode "Útskriftarhamur:">
@@ -61,8 +61,8 @@
 <!ENTITY zotero.general.note "Athugasemd:">
 <!ENTITY zotero.general.ok "Í lagi">
 <!ENTITY zotero.general.optional "(Valfrjálst)">
-<!ENTITY zotero.general.refresh "Refresh">
-<!ENTITY zotero.general.saveAs "Save As…">
+<!ENTITY zotero.general.refresh "Endurnýja">
+<!ENTITY zotero.general.saveAs "Vista sem...">
 <!ENTITY zotero.general.selectAll "Velja allt">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Bæta við/breyta tilvitnun">
@@ -104,14 +104,14 @@
 <!ENTITY zotero.integration.showEditor.label "Sýna ritil">
 <!ENTITY zotero.item.add "Bæta við">
 <!ENTITY zotero.item.attachment.file.show "Sýna skrá">
-<!ENTITY zotero.item.copyAsURL "Copy as URL">
+<!ENTITY zotero.item.copyAsURL "Afrita sem URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
-<!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
+<!ENTITY zotero.item.creatorTransform.nameSwap "Skipta á for-/eftirnafni">
 <!ENTITY zotero.item.textTransform "Varpa texta">
 <!ENTITY zotero.item.textTransform.sentencecase "Stafagerð setninga">
 <!ENTITY zotero.item.textTransform.titlecase "Stafagerð titils">
-<!ENTITY zotero.item.viewOnline "View Online">
+<!ENTITY zotero.item.viewOnline "Skoða nettengt">
 <!ENTITY zotero.items.accessDate_column "Sótt">
 <!ENTITY zotero.items.archiveLocation_column "Staðsetning í safnvistu">
 <!ENTITY zotero.items.archive_column "Safnvista">
@@ -135,7 +135,7 @@
 <!ENTITY zotero.items.menu.attach.file "Attach Stored Copy of File...">
 <!ENTITY zotero.items.menu.attach.fileLink "Attach Link to File...">
 <!ENTITY zotero.items.menu.attach.link "Hengja slóð við síðuna sem nú er opin">
-<!ENTITY zotero.items.menu.attach.link.uri "Hengja við slóð á URL">
+<!ENTITY zotero.items.menu.attach.link.uri "Hengja slóð á URI...">
 <!ENTITY zotero.items.menu.attach.note "Bæta við athugasemd">
 <!ENTITY zotero.items.menu.attach.snapshot "Hengja við flýtimynd af síðunni sem nú er opin">
 <!ENTITY zotero.items.menu.changeTag "Change Tag">

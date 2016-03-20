@@ -72,19 +72,19 @@
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "تصغير">
 <!ENTITY pageSetupCmd.accesskey "U">
-<!ENTITY pageSetupCmd.label "Page Setup…">
+<!ENTITY pageSetupCmd.label "ضبط الصفحة...">
 <!ENTITY pasteCmd.accesskey "ل">
 <!ENTITY pasteCmd.key "V">
 <!ENTITY pasteCmd.label "لصق">
 <!ENTITY preferencesCmd.accesskey "ي">
-<!ENTITY preferencesCmd.label "Preferences">
+<!ENTITY preferencesCmd.label "تفضيلات">
 <!ENTITY preferencesCmdMac.commandkey ",">
 <!ENTITY preferencesCmdMac.label "تفضيلات ...">
 <!ENTITY preferencesCmdUnix.accesskey "ف">
 <!ENTITY preferencesCmdUnix.label "تفضيلات">
 <!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
-<!ENTITY printCmd.label "Print…">
+<!ENTITY printCmd.label "طباعة...">
 <!ENTITY productHelp.accesskey "D">
 <!ENTITY productHelp.label "مساعدة ووثائق">
 <!ENTITY quitApplicationCmd.accesskey "ن">
@@ -98,7 +98,7 @@
 <!ENTITY redoCmd.label "إعادة">
 <!ENTITY saveCmd.accesskey "A">
 <!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.label "Save…">
+<!ENTITY saveCmd.label "حفظ...">
 <!ENTITY selectAllCmd.accesskey "ح">
 <!ENTITY selectAllCmd.key "A">
 <!ENTITY selectAllCmd.label "تحديد الكل">

@@ -82,7 +82,7 @@
 <!ENTITY preferencesCmdMac.label "Preferências...">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "Preferências">
-<!ENTITY printCmd.accesskey "U">
+<!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Imprimir...">
 <!ENTITY productHelp.accesskey "H">

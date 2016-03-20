@@ -5,7 +5,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revert to Absolute Paths…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Choose…">
-<!ENTITY zotero.preferences.autoUpdate "Automatically check for updated translators and styles">
+<!ENTITY zotero.preferences.autoUpdate "Sjekk automatisk for oppdaterte omsetjarar og stilar">
 <!ENTITY zotero.preferences.automaticSnapshots "Ta snapshot automatisk når du genererer element frå nettsider">
 <!ENTITY zotero.preferences.automaticTags "Legg til tagg automatisk frå nøkkel- og emneord i hovudteksta">
 <!ENTITY zotero.preferences.charset "Character Encoding">
@@ -14,7 +14,7 @@
 <!ENTITY zotero.preferences.citationOptions.caption "Siteringsval">
 <!ENTITY zotero.preferences.cite.styles "Stilar">
 <!ENTITY zotero.preferences.cite.styles.automaticTitleAbbreviation "Automatically abbreviate journal titles">
-<!ENTITY zotero.preferences.cite.styles.styleManager "Style Manager">
+<!ENTITY zotero.preferences.cite.styles.styleManager "Stilhandsamar">
 <!ENTITY zotero.preferences.cite.styles.styleManager.csl "CSL">
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Tittel">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Oppdatert">
@@ -22,7 +22,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Hent teksthandsamartillegg …">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Det er ikkje installert nokon teksthandsamartillegg.">
-<!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Use classic Add Citation dialog">
+<!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Bruk klassisk Legg til sitering-dialog">
 <!ENTITY zotero.preferences.dataDir "Lagringsplass">
 <!ENTITY zotero.preferences.dataDir.choose "Vel …">
 <!ENTITY zotero.preferences.dataDir.custom "Egendefinert:">
@@ -122,7 +122,7 @@
 <!ENTITY zotero.preferences.openurl.search "Leit etter &quot;resolvers&quot;">
 <!ENTITY zotero.preferences.openurl.server "Resolver:">
 <!ENTITY zotero.preferences.openurl.version "Versjon:">
-<!ENTITY zotero.preferences.parseRISRefer "Use Zotero for downloaded BibTeX/RIS/Refer files">
+<!ENTITY zotero.preferences.parseRISRefer "Bruk Zotero for nedlasta BibTeX/RIS/Refer-filer">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Avansert">
 <!ENTITY zotero.preferences.prefpane.cite "Sitering">
@@ -141,16 +141,16 @@
 <!ENTITY zotero.preferences.proxies.autoRecognize "Automatically recognize proxied resources">
 <!ENTITY zotero.preferences.proxies.configured "Configured Proxies">
 <!ENTITY zotero.preferences.proxies.d_variable "&#37;d - The directory path (e.g., about/)">
-<!ENTITY zotero.preferences.proxies.desc_after_link "for more information.">
-<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero will transparently redirect requests through saved proxies. See the">
-<!ENTITY zotero.preferences.proxies.desc_link "proxy documentation">
+<!ENTITY zotero.preferences.proxies.desc_after_link "for meir informasjon.">
+<!ENTITY zotero.preferences.proxies.desc_before_link "Zotero vil senda førespurnader gjennom lagra mellomtenarar utan at du merkar noko. Sjå">
+<!ENTITY zotero.preferences.proxies.desc_link "Dokumentasjon av mellomtenarar">
 <!ENTITY zotero.preferences.proxies.disableByDomain "Disable proxy redirection when my domain name contains ">
 <!ENTITY zotero.preferences.proxies.f_variable "&#37;f - The filename (e.g., index.html)">
 <!ENTITY zotero.preferences.proxies.h_variable "&#37;h - The hostname of the proxied site (e.g., www.zotero.org)">
 <!ENTITY zotero.preferences.proxies.hostname "Hostname">
 <!ENTITY zotero.preferences.proxies.multiSite "Multi-Site">
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - The path of the proxied page excluding the leading slash (e.g., about/index.html)">
-<!ENTITY zotero.preferences.proxies.proxyOptions "Proxy Options">
+<!ENTITY zotero.preferences.proxies.proxyOptions "Val for mellomtenarar">
 <!ENTITY zotero.preferences.proxies.scheme "Scheme">
 <!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Transparently redirect requests through previously used proxies">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Obs: Riktekst-formatering vert borte i Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domene/stig">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(t.d. wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Språk">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Utdata-format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Innstillingar">
 <!ENTITY zotero.preferences.reportTranslationFailure "Rapporter øydelagte nettstadomsetjarar">
@@ -186,9 +186,9 @@
 <!ENTITY zotero.preferences.sync.createAccount "Lag konto">
 <!ENTITY zotero.preferences.sync.fileSyncing "Filsynkronisering">
 <!ENTITY zotero.preferences.sync.fileSyncing.about "Om filsynkronisering">
-<!ENTITY zotero.preferences.sync.fileSyncing.download "Download files">
-<!ENTITY zotero.preferences.sync.fileSyncing.download.atSyncTime "at sync time">
-<!ENTITY zotero.preferences.sync.fileSyncing.download.onDemand "as needed">
+<!ENTITY zotero.preferences.sync.fileSyncing.download "Last ned filer">
+<!ENTITY zotero.preferences.sync.fileSyncing.download.atSyncTime "ved synkronisering">
+<!ENTITY zotero.preferences.sync.fileSyncing.download.onDemand "når dei trengst">
 <!ENTITY zotero.preferences.sync.fileSyncing.groups "Synkroniser filer i gruppebibliotek med Zotero-lagring">
 <!ENTITY zotero.preferences.sync.fileSyncing.myLibrary "Synkroniser vedlegg i biblioteket med">
 <!ENTITY zotero.preferences.sync.fileSyncing.tos1 "Ved å bruka Zotero-lagring godtek du ">
@@ -196,7 +196,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
 <!ENTITY zotero.preferences.sync.lostPassword "Mista passordet?">
 <!ENTITY zotero.preferences.sync.password "Passord:">
-<!ENTITY zotero.preferences.sync.reset "Reset">
+<!ENTITY zotero.preferences.sync.reset "Nullstill">
 <!ENTITY zotero.preferences.sync.reset.button "Nullstill …">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Full synkronisering med Zotero-tenaren">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Slå ihop Zotero-data med data frå synkroniseringstenaren, og ignorer synkroniseringshistorikken.">
@@ -206,12 +206,12 @@
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Slett alle lokale Zotero-data og gjenopprett frå synkroniseringstenaren.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Gjenopprett til Zotero-tenaren">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Erase all servar data and overwrite with local Zotero data.">
-<!ENTITY zotero.preferences.sync.reset.warning1 "The following operations are for use only in rare, specific situations and should not be used for general troubleshooting. In many cases, resetting will cause additional problems. See ">
-<!ENTITY zotero.preferences.sync.reset.warning2 "Sync Reset Options">
-<!ENTITY zotero.preferences.sync.reset.warning3 " for more information.">
+<!ENTITY zotero.preferences.sync.reset.warning1 "Dei følgjande handlingane er berre meint å brukast i sjeldne, spesifikke situasjonar og bør ikkje brukast i alminneleg feilsøking. I mange tilfelle vil tilbakestilling skapa nye problem. Sjå">
+<!ENTITY zotero.preferences.sync.reset.warning2 "Nullstill synkronisering">
+<!ENTITY zotero.preferences.sync.reset.warning3 "for meir informasjon.">
 <!ENTITY zotero.preferences.sync.syncAutomatically "Synkroniser automatisk">
-<!ENTITY zotero.preferences.sync.syncFullTextContent "Sync full-text content">
-<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero can sync the full-text content of files in your Zotero libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
+<!ENTITY zotero.preferences.sync.syncFullTextContent "Synkroniser fulltekst-innhald">
+<!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero kan synkronisera all teksten i filene i Zotero-biblioteka dine med zotero.org og andre tilknytta einingar, slik at du lett kan søka etter filene kor du enn er. Tekst og anna innhald i filene dine vert ikkje delt offentleg.">
 <!ENTITY zotero.preferences.sync.syncServer "Zotero synkroniseringstenar">
 <!ENTITY zotero.preferences.sync.username "Brukarnamn:">
 <!ENTITY zotero.preferences.title "Innstillingar for Zotero">

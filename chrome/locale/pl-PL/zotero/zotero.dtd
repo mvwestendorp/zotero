@@ -23,7 +23,7 @@
 <!ENTITY zotero.bibliography.title "Utwórz bibliografię">
 <!ENTITY zotero.charset.label "Kodowanie znaków">
 <!ENTITY zotero.citation.editorWarning.label "Ostrzeżenie: Jeżeli edytujesz cytowanie w edytorze, nie będzie ono więcej aktualizowane z twojej bazy danych ani stylu cytowania.">
-<!ENTITY zotero.citation.keepSorted.label "Zachowuj źródło posortowane">
+<!ENTITY zotero.citation.keepSorted.label "Zachowuj źródła posortowane">
 <!ENTITY zotero.citation.line "Wiersz">
 <!ENTITY zotero.citation.page "Strona">
 <!ENTITY zotero.citation.paragraph "Rozdział">
@@ -49,7 +49,7 @@
 <!ENTITY zotero.errorReport.title "Raport błędów Zotero">
 <!ENTITY zotero.errorReport.unrelatedMessages "Może zawierać informacje niezwiązane z Zotero.">
 <!ENTITY zotero.exportOptions.format.label "Format:">
-<!ENTITY zotero.exportOptions.title "Eksportuj">
+<!ENTITY zotero.exportOptions.title "Eksportuj...">
 <!ENTITY zotero.exportOptions.translatorOptions.label "Opcje translacji">
 <!ENTITY zotero.file.choose.label "Wybierz plik...">
 <!ENTITY zotero.file.noneSelected.label "Nie wybrano pliku">
@@ -58,7 +58,7 @@
 <!ENTITY zotero.general.deselectAll "Odznacz wszystkie">
 <!ENTITY zotero.general.edit "Edytuj">
 <!ENTITY zotero.general.no "No">
-<!ENTITY zotero.general.note "Notatka:">
+<!ENTITY zotero.general.note "Uwaga:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opcjonalne)">
 <!ENTITY zotero.general.refresh "Odśwież">
@@ -76,8 +76,8 @@
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Wyświetl cytowania jako:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
-<!ENTITY zotero.integration.prefs.endnotes.label "Przypis końcowy">
-<!ENTITY zotero.integration.prefs.footnotes.label "Przypis dolny">
+<!ENTITY zotero.integration.prefs.endnotes.label "Przypisy końcowe">
+<!ENTITY zotero.integration.prefs.footnotes.label "Przypisy dolne">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Używany format:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
@@ -162,7 +162,7 @@
 <!ENTITY zotero.items.volume_column "Tom">
 <!ENTITY zotero.items.year_column "Rok">
 <!ENTITY zotero.lookup.button.search "Wyszukiwanie">
-<!ENTITY zotero.lookup.description "Wprowadź ISBN, DOI lub PMID aby wyszukać w oknie poniżej.">
+<!ENTITY zotero.lookup.description "Aby wyszukać, wprowadź w oknie poniżej ISBN, DOI lub PMID.">
 <!ENTITY zotero.merge.deleted "Usunięty">
 <!ENTITY zotero.merge.of "z">
 <!ENTITY zotero.merge.title "Conflict Resolution">
@@ -218,7 +218,7 @@
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Podziel na ">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Możesz podzielić etykietę na kilka, edytować ręcznie aby ją skrócić lub też po prostu ją usunąć.">
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synchronizowane etykiety muszą być krótsze niż 256 znaków.">
-<!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Etykieta zostanie usunięte ze wszystkich elementów.">
+<!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Etykieta zostanie usunięta ze wszystkich elementów.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Niezaznaczone etykiety nie będą zachowane.">
 <!ENTITY zotero.sync.storage.downloads "Pobrano:">
 <!ENTITY zotero.sync.storage.progress "Postęp:">
@@ -236,21 +236,21 @@
 <!ENTITY zotero.tagSelector.assignColor "Przypisz kolor...">
 <!ENTITY zotero.tagSelector.clearAll "Odznacz wszystkie">
 <!ENTITY zotero.tagSelector.clearVisible "Odznacz widoczne">
-<!ENTITY zotero.tagSelector.deleteTag "Usuń etykietę">
+<!ENTITY zotero.tagSelector.deleteTag "Usuń etykietę...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Wyświetl wszystkie etykiety w tej bibliotece">
 <!ENTITY zotero.tagSelector.filter "Filtr:">
 <!ENTITY zotero.tagSelector.loadingTags "Loading tags…">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Brak etykiet do wyświetlenia">
-<!ENTITY zotero.tagSelector.renameTag "Zmień nazwę etykiety">
+<!ENTITY zotero.tagSelector.renameTag "Zmień nazwę etykiety...">
 <!ENTITY zotero.tagSelector.selectVisible "Zaznacz widoczne">
-<!ENTITY zotero.tagSelector.showAutomatic "Wyświetl automatycznie">
+<!ENTITY zotero.tagSelector.showAutomatic "Wyświetl etykiety automatyczne">
 <!ENTITY zotero.toolbar.about.label "Zotero - informacje">
 <!ENTITY zotero.toolbar.actions.label "Funkcje">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">
 <!ENTITY zotero.toolbar.addStandaloneNote.label "Add Standalone Note">
 <!ENTITY zotero.toolbar.advancedSearch "Wyszukiwanie zaawansowane">
-<!ENTITY zotero.toolbar.attachment.add "Zapisz kopię pliku">
-<!ENTITY zotero.toolbar.attachment.linked "Odnośnik do pliku">
+<!ENTITY zotero.toolbar.attachment.add "Zapisz kopię pliku...">
+<!ENTITY zotero.toolbar.attachment.linked "Odnośnik do pliku...">
 <!ENTITY zotero.toolbar.attachment.snapshot "Zrób zrzut ekranu aktywnej strony">
 <!ENTITY zotero.toolbar.attachment.weblink "Zapisz odnośnik do aktywnej strony">
 <!ENTITY zotero.toolbar.cancelDuplicatesView.label "Cancel duplicates view">
@@ -261,7 +261,7 @@
 <!ENTITY zotero.toolbar.export.label "Eksportuj bibliotekę">
 <!ENTITY zotero.toolbar.import.label "Importuj">
 <!ENTITY zotero.toolbar.importFromClipboard "Importuj ze schowka">
-<!ENTITY zotero.toolbar.lookup "Lookup by Identifier...">
+<!ENTITY zotero.toolbar.lookup "Wyszukaj za pomocą identyfikatora...">
 <!ENTITY zotero.toolbar.lookup.label "Dodaj element za pomocą identyfikatora">
 <!ENTITY zotero.toolbar.moreItemTypes.label "Więcej">
 <!ENTITY zotero.toolbar.newCollection.label "Nowa kolekcja">
@@ -271,7 +271,7 @@
 <!ENTITY zotero.toolbar.newNote "Nowa notatka">
 <!ENTITY zotero.toolbar.newSavedSearch.label "Nowe zapisane wyszukiwanie">
 <!ENTITY zotero.toolbar.newSubcollection.label "Nowa subkolekcja">
-<!ENTITY zotero.toolbar.note.child "Nowa potomna notatka">
+<!ENTITY zotero.toolbar.note.child "Dodaj notatkę potomną">
 <!ENTITY zotero.toolbar.note.standalone "Nowa osobna notatka">
 <!ENTITY zotero.toolbar.openURL.label "Wyszukaj lokalnie">
 <!ENTITY zotero.toolbar.openURL.tooltip "Wyszukuje w katalogu lokalnej biblioteki">

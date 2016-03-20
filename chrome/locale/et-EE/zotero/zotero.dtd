@@ -164,7 +164,7 @@
 <!ENTITY zotero.lookup.button.search "Otsing">
 <!ENTITY zotero.lookup.description "Sisestada otsitava ISBN, DOI või PMID allolevasse lahtrisse.">
 <!ENTITY zotero.merge.deleted "Kustututatud">
-<!ENTITY zotero.merge.of "of">
+<!ENTITY zotero.merge.of " ">
 <!ENTITY zotero.merge.title "Konflikti lahendamine">
 <!ENTITY zotero.moreEncodings.label "Rohkem kodeeringud">
 <!ENTITY zotero.notes.separate "Salvestada eraldi aknas">

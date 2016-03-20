@@ -1,5 +1,5 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Skrár og möppur">
-<!ENTITY zotero.preferences.advanced.keys "Shortcuts">
+<!ENTITY zotero.preferences.advanced.keys "Flýtivísanir">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Grunnmappa:">
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Grunn mappa fyrir tengd viðhengi">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero mun nota afstæðar slóðir fyrir tengd viðhengi innan grunnmöppu, sem leyfir þér að nálgast skrár á mismunandi tölvum svo framarlega sem skráauppbygging í grunnmöppu er ávallt hin sama.">
@@ -115,8 +115,8 @@
 <!ENTITY zotero.preferences.miscellaneous "Ýmislegt">
 <!ENTITY zotero.preferences.openAboutConfig "Opna um: stillingar">
 <!ENTITY zotero.preferences.openAboutMemory "Opna um: minni">
-<!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
-<!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
+<!ENTITY zotero.preferences.openCSLEdit "Breyta stíl">
+<!ENTITY zotero.preferences.openCSLPreview "Forskoðun stíls">
 <!ENTITY zotero.preferences.openurl.caption "Opna slóð">
 <!ENTITY zotero.preferences.openurl.custom "Eigin stillingar...">
 <!ENTITY zotero.preferences.openurl.search "Leita að auðkennum netþjóna">
@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Slóðin á leppuðu síðuna en án upphafsskástriks (t.d. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Leppastillingar">
 <!ENTITY zotero.preferences.proxies.scheme "Skipulag">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Tilkynna þegar framsent er gegnum staðgengil (proxy)">
 <!ENTITY zotero.preferences.proxies.transparent "Virkja framvísun leppa">
 <!ENTITY zotero.preferences.proxies.variables "Þú mátt nota eftirtaldar breytur í leppaskipulagi:">
 <!ENTITY zotero.preferences.quickCopy.caption "Flýtiafrit">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Athugið: Upplýsingar um letursnið glatast í Mac OS X stýrikerfinu.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Lén/Slóð">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(t.d. wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Tungumál">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Útkeyrslusnið">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Sértækar stillingar á vinnslustað:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Tilkynna rangar vísanir í þýðingar">

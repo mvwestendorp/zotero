@@ -12,7 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "クリップボードにコピー">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
-<!ENTITY zotero.bibliography.locale.label "Language:">
+<!ENTITY zotero.bibliography.locale.label "言語:">
 <!ENTITY zotero.bibliography.output.label "アウトプット・フォーマット">
 <!ENTITY zotero.bibliography.outputMethod "出力方法:">
 <!ENTITY zotero.bibliography.outputMode "出力モード:">
@@ -104,14 +104,14 @@
 <!ENTITY zotero.integration.showEditor.label "エディタを表示">
 <!ENTITY zotero.item.add "追加">
 <!ENTITY zotero.item.attachment.file.show "ファイルを表示">
-<!ENTITY zotero.item.copyAsURL "Copy as URL">
+<!ENTITY zotero.item.copyAsURL "URLとしてコピーする">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "姓と名を置き替える">
 <!ENTITY zotero.item.textTransform "テキストの大文字・小文字を指定する">
 <!ENTITY zotero.item.textTransform.sentencecase "各文の先頭を大文字に">
 <!ENTITY zotero.item.textTransform.titlecase "各単語の先頭を大文字に">
-<!ENTITY zotero.item.viewOnline "View Online">
+<!ENTITY zotero.item.viewOnline "オンラインで閲覧する">
 <!ENTITY zotero.items.accessDate_column "アクセス日時">
 <!ENTITY zotero.items.archiveLocation_column "アーカイブ内の場所">
 <!ENTITY zotero.items.archive_column "アーカイブ">

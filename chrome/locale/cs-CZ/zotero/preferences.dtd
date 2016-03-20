@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p - Cesta ke konkrétní stránce bez prvního lomítka (např. about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "Možnosti Proxy">
 <!ENTITY zotero.preferences.proxies.scheme "Schéma">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "Zobrazovat upozornění při přesměrování přes proxy">
 <!ENTITY zotero.preferences.proxies.transparent "Automaticky přesměrovávat požadavky skrz dříve použité proxy servery.">
 <!ENTITY zotero.preferences.proxies.variables "Ve svém proxy schématu můžete použít následující proměnné:">
 <!ENTITY zotero.preferences.quickCopy.caption "Rychlé kopírování">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Poznámka: Rich-text formátování bude ztraceno na Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Doména/Cesta">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(např. wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Jazyk">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Výstupní formát">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Nastavení dle stránky:">
 <!ENTITY zotero.preferences.reportTranslationFailure "Oznamovat poškozené překladače">

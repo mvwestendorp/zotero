@@ -20,9 +20,9 @@
 <!ENTITY cutCmd.label "Cut">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
-<!ENTITY deleteCmd.label "Delete">
+<!ENTITY deleteCmd.label "Xóa">
 <!ENTITY editMenu.accesskey "E">
-<!ENTITY editMenu.label "Edit">
+<!ENTITY editMenu.label "Chỉnh sửa">
 <!ENTITY fileMenu.accesskey "F">
 <!ENTITY fileMenu.label "File">
 <!ENTITY findAgainCmd.accesskey "g">
@@ -86,7 +86,7 @@
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Print…">
 <!ENTITY productHelp.accesskey "D">
-<!ENTITY productHelp.label "Support and Documentation">
+<!ENTITY productHelp.label "Hộ trợ và Tài liệu">
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Quit">
 <!ENTITY quitApplicationCmdMac.key "Q">
@@ -101,7 +101,7 @@
 <!ENTITY saveCmd.label "Save…">
 <!ENTITY selectAllCmd.accesskey "A">
 <!ENTITY selectAllCmd.key "A">
-<!ENTITY selectAllCmd.label "Select All">
+<!ENTITY selectAllCmd.label "Chạn tất cả">
 <!ENTITY servicesMenuMac.label "Services">
 <!ENTITY showAllAppsCmdMac.label "Show All">
 <!ENTITY toolsMenu.accesskey "T">

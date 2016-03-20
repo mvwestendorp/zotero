@@ -152,7 +152,7 @@
 <!ENTITY zotero.preferences.proxies.p_variable "&#37;p -  代理页面的路径, 不包含开头的斜杆 (如 about/index.html)">
 <!ENTITY zotero.preferences.proxies.proxyOptions "代理选项">
 <!ENTITY zotero.preferences.proxies.scheme "规则">
-<!ENTITY zotero.preferences.proxies.showRedirectNotification "Show notification when redirecting through a proxy">
+<!ENTITY zotero.preferences.proxies.showRedirectNotification "当通过代理重定向时显示通知">
 <!ENTITY zotero.preferences.proxies.transparent "启用代理转接">
 <!ENTITY zotero.preferences.proxies.variables "代理规则中, 您可以使用以下变量:">
 <!ENTITY zotero.preferences.quickCopy.caption "便捷复制">
@@ -164,7 +164,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "提示: 在Mac OS X 下富文本格式将丢失.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "域/路径">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(例如 wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.locale "语言">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "输出格式">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "网站专属性设置:">
 <!ENTITY zotero.preferences.reportTranslationFailure "报告失效的网站转换器">

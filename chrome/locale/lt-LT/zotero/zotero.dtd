@@ -12,7 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Kopijuoti į iškaprinę">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
-<!ENTITY zotero.bibliography.locale.label "Language:">
+<!ENTITY zotero.bibliography.locale.label "Kalba:">
 <!ENTITY zotero.bibliography.output.label "Output Format">
 <!ENTITY zotero.bibliography.outputMethod "Išvedimo būdas:">
 <!ENTITY zotero.bibliography.outputMode "Išvedimo veiksena:">
@@ -104,14 +104,14 @@
 <!ENTITY zotero.integration.showEditor.label "Rodyti rengyklę">
 <!ENTITY zotero.item.add "Pridėti">
 <!ENTITY zotero.item.attachment.file.show "Atverti failo aplanką">
-<!ENTITY zotero.item.copyAsURL "Copy as URL">
+<!ENTITY zotero.item.copyAsURL "Kopijuoti URL">
 <!ENTITY zotero.item.creatorTransform "Transform Name Form">
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Sukeisti vardus ir pavardes">
 <!ENTITY zotero.item.textTransform "Teksto trasformavimas">
 <!ENTITY zotero.item.textTransform.sentencecase "Sakinio pavidalu">
 <!ENTITY zotero.item.textTransform.titlecase "Antraštės raidžių lygis">
-<!ENTITY zotero.item.viewOnline "View Online">
+<!ENTITY zotero.item.viewOnline "Rodyti Internete">
 <!ENTITY zotero.items.accessDate_column "Žiūrėta">
 <!ENTITY zotero.items.archiveLocation_column "Vieta archyve">
 <!ENTITY zotero.items.archive_column "Archyvas">
