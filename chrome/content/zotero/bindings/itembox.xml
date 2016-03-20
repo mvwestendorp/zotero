@@ -2279,6 +2279,12 @@
 						this._dynamicFields.focus();
 					}
 					
+					// In Firefox 45, when clicking a multiline field such as Extra, the event is
+					// triggered on the inner 'description' element instead of the 'vbox'.
+					if (elem.tagName == 'description') {
+						elem = elem.parentNode;
+					}
+					
 					Zotero.debug('Showing editor');
 					
 					var fieldName = elem.getAttribute('fieldname');
@@ -3308,7 +3314,7 @@
 							this._addCreatorRow = false;
 							
 							//Filter out bad names
-							var nameArray = [tempName for each(tempName in rawNameArray) if(tempName)];
+							var nameArray = rawNameArray.filter(name => name);
 							
 							//If not adding names at the end of the creator list, make new creator 
 							//entries and then shift down existing creators.

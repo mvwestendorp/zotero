@@ -1,6 +1,7 @@
 var ZOTERO_CONFIG = {
 	GUID: 'juris-m@juris-m.github.io',
 	CLIENT_NAME: 'Juris-M',
+	DOMAIN_NAME: 'zotero.org',
 	REPOSITORY_URL: 'https://gator3143.hostgator.com/~fbennett/cgi-bin/',
 	REPOSITORY_CHECK_INTERVAL: 86400, // 24 hours
 	REPOSITORY_RETRY_INTERVAL: 3600, // 1 hour
@@ -14,7 +15,7 @@ var ZOTERO_CONFIG = {
 	BOOKMARKLET_ORIGIN: 'https://www.zotero.org',
 	HTTP_BOOKMARKLET_ORIGIN: 'http://www.zotero.org',
 	BOOKMARKLET_URL: 'https://www.zotero.org/bookmarklet/',
-	VERSION: '4.0.28.7'
+	VERSION: '4.0.29.7'
 };
 
 EXPORTED_SYMBOLS = ["ZOTERO_CONFIG"];

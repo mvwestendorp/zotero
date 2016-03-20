@@ -425,14 +425,13 @@ Zotero.QuickCopy = new function() {
 			// Copy citations if shift key pressed
 			if (modified) {
 				var csl = Zotero.Styles.get(format.id).getCiteProc(locale);
-				csl.updateItems([item.id for each(item in items)]);
 
-				var citation;
-				if (extras) {
-					citation = {citationItems:extras, properties:{}};
-				} else {
-					citation = {citationItems:[{id:item.id} for each(item in items)], properties:{}};
-				}
+				csl.updateItems(items.map(item => item.id));
+				var citation = {
+					citationItems: items.map(item => ({ id: item.id })),
+					properties: {}
+				};
+				
 				if (Zotero.Prefs.get("export.quickCopy.linkOption") && !Zotero.Prefs.get("export.quickCopy.linkOptionDisable")) {
 					if (Zotero.Prefs.get("export.quickCopy.linkOptionHTML")) {
 						csl.sys.wrapCitationEntry = csl.sys.wrapCitationEntryHtml;
@@ -440,6 +439,7 @@ Zotero.QuickCopy = new function() {
 						csl.sys.wrapCitationEntry = csl.sys.wrapCitationEntryText;
 					}
 				}
+
 				var html = csl.previewCitationCluster(citation, [], [], "html"); 
 				
 				if (Zotero.Prefs.get("export.quickCopy.linkOption") && !Zotero.Prefs.get("export.quickCopy.linkOptionDisable")) {
@@ -453,6 +453,7 @@ Zotero.QuickCopy = new function() {
 				var style = Zotero.Styles.get(format.id);
 				var cslEngine = style.getCiteProc(locale, null, true);
  				var html = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine, items, "html");
+				cslEngine = style.getCiteProc(locale);
 				var text = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine, items, "text");
 			}
 			

@@ -2428,7 +2428,8 @@ Zotero.ItemTreeView.prototype.onColumnPickerShowing = function (event) {
 		moreMenuPopup.setAttribute('anonid', id + '-popup');
 		
 		let treecols = menupopup.parentNode.parentNode;
-		let subs = [x.getAttribute('label') for (x of treecols.getElementsByAttribute('submenu', 'true'))];
+		let subs = Array.from(treecols.getElementsByAttribute('submenu', 'true'))
+			.map(x => x.getAttribute('label'));
 		
 		var moreItems = [];
 		
@@ -2600,7 +2601,7 @@ Zotero.ItemTreeCommandController.prototype.onEvent = function(evt)
 Zotero.ItemTreeView.prototype.onDragStart = function (event) {
 	// See note in LibraryTreeView::_setDropEffect()
 	if (Zotero.isWin) {
-		event.dataTransfer.effectAllowed = 'copy';
+		event.dataTransfer.effectAllowed = 'copyMove';
 	}
 	
 	var itemIDs = this.saveSelection();
