@@ -373,7 +373,7 @@ function isStandalone() {
 	if(_isStandalone === null) {
 		var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].
 			getService(Components.interfaces.nsIXULAppInfo);
-		_isStandalone = appInfo.ID === 'zotero@chnm.gmu.edu';
+		_isStandalone = appInfo.ID === 'juris-m@juris-m.github.io';
 	}
 	return _isStandalone;
 }
