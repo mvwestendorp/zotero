@@ -79,7 +79,7 @@
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
 <!ENTITY zotero.preferences.lang.configureCitations "(3) Configure citations &#8680;">
 <!ENTITY zotero.preferences.lang.csl "CSL:">
-<!ENTITY zotero.preferences.lang.display "Display">
+<!ENTITY zotero.preferences.lang.display "screen">
 <!ENTITY zotero.preferences.lang.inCitationsAndBibliographies "Documents">
 <!ENTITY zotero.preferences.lang.insideZotero "Juris-M">
 <!ENTITY zotero.preferences.lang.institutions "Institutions:">
@@ -94,16 +94,16 @@
 <!ENTITY zotero.preferences.lang.primary "primary">
 <!ENTITY zotero.preferences.lang.publishers "Publishers:">
 <!ENTITY zotero.preferences.lang.region "Region">
-<!ENTITY zotero.preferences.lang.script "Script">
+<!ENTITY zotero.preferences.lang.script "script">
 <!ENTITY zotero.preferences.lang.secondary "[secondary]">
 <!ENTITY zotero.preferences.lang.setLocales "(1) Set locales &#8679;">
 <!ENTITY zotero.preferences.lang.showOriginal "Show original form of transliterated names in bibliography">
-<!ENTITY zotero.preferences.lang.sorting "Sort">
+<!ENTITY zotero.preferences.lang.sorting "sort">
 <!ENTITY zotero.preferences.lang.suppressTitleTransliteration "Suppress transliteration of titles">
 <!ENTITY zotero.preferences.lang.tag "Tag">
 <!ENTITY zotero.preferences.lang.titles "Titles:">
-<!ENTITY zotero.preferences.lang.translation "Translate">
-<!ENTITY zotero.preferences.lang.transliteration "Transliterate">
+<!ENTITY zotero.preferences.lang.translation "lang">
+<!ENTITY zotero.preferences.lang.transliteration "script">
 <!ENTITY zotero.preferences.lang.ui "UI:">
 <!ENTITY zotero.preferences.lang.variant "Variant">
 <!ENTITY zotero.preferences.locate.addDescription "To add a Lookup Engine that is not on the list, visit the desired search engine in your browser and select &#34;Add&#34; from Zotero's Locate menu.">

@@ -525,15 +525,28 @@ Zotero_Preferences.Lang = {
  		    'citationSort'
  	    ];
  	    for (var j = 0, jlen = languageSelectorTypes.length; j < jlen; j += 1) {
- 		    var newselector = Zotero_Preferences.Lang.buildSelector('default',tag,languageSelectorTypes[j]);
+            var param = languageSelectorTypes[j];
+ 		    var newselector = Zotero_Preferences.Lang.buildSelector('default',tag, param);
  		    if ((j % 5) == 2) {
  			    newselector.setAttribute("class", "translit");
  			    newselector.setAttribute("onmouseover", "Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit-secondary', 'translit'],true);");
  			    newselector.setAttribute("onmouseout", "Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit-secondary', 'translit'],false);");
+                if (tag.tag.match(/^[a-zA-Z]{2,3}(?:-[a-zA-Z]{2})*$/)) {
+                    var checkbox = newselector.childNodes[1].firstChild;
+                    Zotero_Preferences.Lang._setLangPref(false, 'default', param, tag.tag);
+                    checkbox.setAttribute('checked', false);
+                    checkbox.setAttribute('disabled', true);
+                }
  		    } else if ((j % 5) == 3) {
  			    newselector.setAttribute("class", "translat");
  			    newselector.setAttribute("onmouseover", "Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat-secondary', 'translat'],true);");
  			    newselector.setAttribute("onmouseout", "Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat-secondary', 'translat'],false);");
+                if (!tag.tag.match(/^[a-zA-Z]{2,3}(?:-[a-zA-Z]{2})*$/)) {
+                    var checkbox = newselector.childNodes[1].firstChild;
+                    Zotero_Preferences.Lang._setLangPref(false, 'default', param, tag.tag);
+                    checkbox.setAttribute('checked', false);
+                    checkbox.setAttribute('disabled', true);
+                }
  		    }
  		    row.appendChild(newselector);
  	    }
@@ -604,6 +617,13 @@ Zotero_Preferences.Lang = {
  	    var param = target.getAttribute('param');
  	    var tag = target.getAttribute('value');
  	    var enable = target.hasAttribute('checked');
+        Zotero_Preferences.Lang._setLangPref(enable, 'default', param, tag);
+ 	    var langRow = document.getElementById(tag+'::row');
+ 	    var removeButton = langRow.lastChild.lastChild.previousSibling;
+	    Zotero_Preferences.Lang.setRemoveDisable(removeButton,tag);
+    },
+    
+    _setLangPref: function (enable, profile, param, tag) {
  	    if (enable) {
  		    var sql = 'INSERT INTO zlsPreferences VALUES (?,?,?)';
  		    Zotero.DB.query(sql,['default',param,tag]);
@@ -612,11 +632,7 @@ Zotero_Preferences.Lang = {
  		    Zotero.DB.query(sql,['default',param,tag]);
  	    }
  	    Zotero.CachedLanguagePreferences.taint();
- 	    var langRow = document.getElementById(tag+'::row');
- 	    var removeButton = langRow.lastChild.lastChild.previousSibling;
- 	    Zotero_Preferences.Lang.setRemoveDisable(removeButton,tag);
     },
-    
 
     capFirst: function (str) {
  	    return str[0].toUpperCase() + str.slice(1);

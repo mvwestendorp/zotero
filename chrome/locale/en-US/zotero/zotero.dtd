@@ -90,11 +90,11 @@
 <!ENTITY zotero.integration.prefs.lang.projectName "Project Name">
 <!ENTITY zotero.integration.prefs.lang.publishers "Publishers:">
 <!ENTITY zotero.integration.prefs.lang.secondary "[secondary]">
-<!ENTITY zotero.integration.prefs.lang.sorting "Sorting">
+<!ENTITY zotero.integration.prefs.lang.sorting "sort">
 <!ENTITY zotero.integration.prefs.lang.styleAndFormat "Style &amp; Format">
 <!ENTITY zotero.integration.prefs.lang.titles "Titles:">
-<!ENTITY zotero.integration.prefs.lang.translation "Translation">
-<!ENTITY zotero.integration.prefs.lang.transliteration "Transliteration">
+<!ENTITY zotero.integration.prefs.lang.translation "lang">
+<!ENTITY zotero.integration.prefs.lang.transliteration "script">
 <!ENTITY zotero.integration.prefs.storeReferences.caption "Storing references in your document slightly increases file size, but will allow you to share your document with others without using a Zotero group. Zotero 3.0 or later is required to update documents created with this option.">
 <!ENTITY zotero.integration.prefs.storeReferences.label "Store references in document">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">

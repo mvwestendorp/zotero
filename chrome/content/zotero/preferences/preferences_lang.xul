@@ -87,7 +87,7 @@
           </hbox>
         </vbox>
         <vbox>
-          <grid minwidth="500">
+          <grid minwidth="450">
             <columns>
               <column/>
               <column flex="1"/>
@@ -154,21 +154,21 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;" >
+                        <hbox  style="min-width:3.5em;" >
                           <hbox flex="1"/>
                           <label value="orig"/>
                           <hbox flex="1"/>
                         </hbox>
                         <hbox flex="4"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
-                          <label value="translit"/>
+                          <label value="script"/>
                           <hbox flex="1"/>
                         </hbox>
                         <hbox flex="4"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
-                          <label value="translate"/>
+                          <label value="lang"/>
                           <hbox flex="1"/>
                         </hbox>
                         <hbox flex="2"/>
@@ -177,7 +177,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <radiogroup orient="horizontal" flex="1" class="plain">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <radio group="persons-radio" id="persons-radio-orig" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -185,7 +185,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],false);"
-                              style="min-width:4.5em;" class="compact translit-primary">
+                              style="min-width:3.5em;" class="compact translit-primary">
                           <hbox flex="1"/>
                           <label id="persons-radio-translit-prefix"/>
                           <radio group="persons-radio" id="persons-radio-translit" popup="citation-primary-affix-menu"/>
@@ -195,7 +195,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],false);"
-                              style="min-width:4.5em;" class="translat-primary">
+                              style="min-width:3.5em;" class="translat-primary">
                           <hbox flex="1"/>
                           <radio group="persons-radio" id="persons-radio-translat" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -206,7 +206,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <radiogroup orient="horizontal" flex="1" class="plain">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <radio group="institutions-radio" id="institutions-radio-orig" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -214,7 +214,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],false);"
-                              style="min-width:4.5em;" class="compact translit-primary">
+                              style="min-width:3.5em;" class="compact translit-primary">
                           <hbox flex="1"/>
                           <label id="institutions-radio-translit-prefix"/>
                           <radio group="institutions-radio" id="institutions-radio-translit" popup="citation-primary-affix-menu"/>
@@ -224,7 +224,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],false);"
-                              style="min-width:4.5em;" class="compact translat-primary">
+                              style="min-width:3.5em;" class="compact translat-primary">
                           <hbox flex="1"/>
                           <radio group="institutions-radio" id="institutions-radio-translat" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -235,7 +235,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <radiogroup orient="horizontal" flex="1" class="plain">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <radio group="titles-radio" id="titles-radio-orig" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -243,7 +243,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],false);"
-                              style="min-width:4.5em;" class="compact translit-primary">
+                              style="min-width:3.5em;" class="compact translit-primary">
                           <hbox flex="1"/>
                           <label id="titles-radio-translit-prefix"/>
                           <radio group="titles-radio" id="titles-radio-translit" popup="citation-primary-affix-menu"/>
@@ -253,7 +253,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],false);"
-                              style="min-width:4.5em;" class="compact translat-primary">
+                              style="min-width:3.5em;" class="compact translat-primary">
                           <hbox flex="1"/>
                           <radio group="titles-radio" id="titles-radio-translat" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -264,7 +264,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <radiogroup orient="horizontal" flex="1" class="plain">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <radio group="journals-radio" id="journals-radio-orig" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -272,7 +272,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],false);"
-                              style="min-width:4.5em;" class="compact translit-primary">
+                              style="min-width:3.5em;" class="compact translit-primary">
                           <hbox flex="1"/>
                           <label id="journals-radio-translit-prefix"/>
                           <radio group="journals-radio" id="journals-radio-translit" popup="citation-primary-affix-menu"/>
@@ -282,7 +282,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],false);"
-                              style="min-width:4.5em;" class="compact translat-primary">
+                              style="min-width:3.5em;" class="compact translat-primary">
                           <hbox flex="1"/>
                           <radio group="journals-radio" id="journals-radio-translat" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -293,7 +293,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <radiogroup orient="horizontal" flex="1" class="plain">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <radio group="publishers-radio" id="publishers-radio-orig" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -301,7 +301,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],false);"
-                              style="min-width:4.5em;" class="compact translit-primary">
+                              style="min-width:3.5em;" class="compact translit-primary">
                           <hbox flex="1"/>
                           <label id="publishers-radio-translit-prefix"/>
                           <radio group="publishers-radio" id="publishers-radio-translit" popup="citation-primary-affix-menu"/>
@@ -311,7 +311,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],false);"
-                              style="min-width:4.5em;" class="compact translat-primary">
+                              style="min-width:3.5em;" class="compact translat-primary">
                           <hbox flex="1"/>
                           <radio group="publishers-radio" id="publishers-radio-translat" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -322,7 +322,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <radiogroup orient="horizontal" flex="1" class="plain">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <radio group="places-radio" id="places-radio-orig" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -330,7 +330,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-primary', 'translit'],false);"
-                              style="min-width:4.5em;" class="compact translit-primary">
+                              style="min-width:3.5em;" class="compact translit-primary">
                           <hbox flex="1"/>
                           <label id="places-radio-translit-prefix"/>
                           <radio group="places-radio" id="places-radio-translit" popup="citation-primary-affix-menu"/>
@@ -340,7 +340,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat'],false);"
-                              style="min-width:4.5em;" class="compact translat-primary">
+                              style="min-width:3.5em;" class="compact translat-primary">
                           <hbox flex="1"/>
                           <radio group="places-radio" id="places-radio-translat" oncommand="Zotero_Preferences.Lang.citationPrimary(this);"/>
                           <hbox flex="1"/>
@@ -361,21 +361,21 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
                           <label value="orig"/>
                           <hbox flex="1"/>
                         </hbox>
                         <hbox flex="4"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
-                          <label value="translit"/>
+                          <label value="script"/>
                           <hbox flex="1"/>
                         </hbox>
                         <hbox flex="4"/>
-                        <hbox  style="min-width:4.5em;">
+                        <hbox  style="min-width:3.5em;">
                           <hbox flex="1"/>
-                          <label value="translate"/>
+                          <label value="lang"/>
                           <hbox flex="1"/>
                         </hbox>
                         <hbox flex="2"/>
@@ -384,7 +384,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;" class="plain compact">
+                        <hbox  style="min-width:3.5em;" class="plain compact">
                           <hbox flex="1"/>
                           <label id="persons-checkbox-orig-prefix"/>
                           <checkbox popup="citation-secondary-affix-menu" id="persons-checkbox-orig"/>
@@ -394,7 +394,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],false);" 
-                              style="min-width:4.5em;" class="plain compact translit-secondary">
+                              style="min-width:3.5em;" class="plain compact translit-secondary">
                           <hbox flex="1"/>
                           <label id="persons-checkbox-translit-prefix"/>
                           <checkbox id="persons-checkbox-translit" popup="citation-secondary-affix-menu"/>
@@ -404,7 +404,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],false);"
-                              style="min-width:4.5em;" class="plain compact translat-secondary">
+                              style="min-width:3.5em;" class="plain compact translat-secondary">
                           <hbox flex="1"/>
                           <label id="persons-checkbox-translat-prefix"/>
                           <checkbox id="persons-checkbox-translat" popup="citation-secondary-affix-menu"/>
@@ -417,7 +417,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;" class="plain compact">
+                        <hbox  style="min-width:3.5em;" class="plain compact">
                           <hbox flex="1"/>
                           <label id="institutions-checkbox-orig-prefix"/>
                           <checkbox id="institutions-checkbox-orig" popup="citation-secondary-affix-menu"/>
@@ -427,7 +427,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],false);"
-                              style="min-width:4.5em;" class="plain compact translit-secondary">
+                              style="min-width:3.5em;" class="plain compact translit-secondary">
                           <hbox flex="1"/>
                           <label id="institutions-checkbox-translit-prefix"/>
                           <checkbox id="institutions-checkbox-translit" popup="citation-secondary-affix-menu"/>
@@ -437,7 +437,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],false);"
-                              style="min-width:4.5em;" class="plain compact translat-secondary">
+                              style="min-width:3.5em;" class="plain compact translat-secondary">
                           <hbox flex="1"/>
                           <label id="institutions-checkbox-translat-prefix"/>
                           <checkbox id="institutions-checkbox-translat" popup="citation-secondary-affix-menu"/>
@@ -450,7 +450,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;" class="plain compact">
+                        <hbox  style="min-width:3.5em;" class="plain compact">
                           <hbox flex="1"/>
                           <label id="titles-checkbox-orig-prefix"/>
                           <checkbox id="titles-checkbox-orig" popup="citation-secondary-affix-menu"/>
@@ -460,7 +460,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],false);"
-                              style="min-width:4.5em;" class="plain compact translit-secondary">
+                              style="min-width:3.5em;" class="plain compact translit-secondary">
                           <hbox flex="1"/>
                           <label id="titles-checkbox-translit-prefix"/>
                           <checkbox id="titles-checkbox-translit" popup="citation-secondary-affix-menu"/>
@@ -470,7 +470,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],false);"
-                              style="min-width:4.5em;" class="plain compact translat-secondary">
+                              style="min-width:3.5em;" class="plain compact translat-secondary">
                           <hbox flex="1"/>
                           <label id="titles-checkbox-translat-prefix"/>
                           <checkbox id="titles-checkbox-translat" popup="citation-secondary-affix-menu"/>
@@ -483,7 +483,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;" class="plain compact">
+                        <hbox  style="min-width:3.5em;" class="plain compact">
                           <hbox flex="1"/>
                           <label id="journals-checkbox-orig-prefix"/>
                           <checkbox id="journals-checkbox-orig" popup="citation-secondary-affix-menu"/>
@@ -493,7 +493,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],false);"
-                              style="min-width:4.5em;" class="plain compact translit-secondary">
+                              style="min-width:3.5em;" class="plain compact translit-secondary">
                           <hbox flex="1"/>
                           <label id="journals-checkbox-translit-prefix"/>
                           <checkbox id="journals-checkbox-translit" popup="citation-secondary-affix-menu"/>
@@ -503,7 +503,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],false);"
-                              style="min-width:4.5em;" class="plain compact translat-secondary">
+                              style="min-width:3.5em;" class="plain compact translat-secondary">
                           <hbox flex="1"/>
                           <label id="journals-checkbox-translat-prefix"/>
                           <checkbox id="journals-checkbox-translat" popup="citation-secondary-affix-menu"/>
@@ -516,7 +516,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox  style="min-width:4.5em;" class="plain compact">
+                        <hbox  style="min-width:3.5em;" class="plain compact">
                           <hbox flex="1"/>
                           <label id="publishers-checkbox-orig-prefix"/>
                           <checkbox id="publishers-checkbox-orig" popup="citation-secondary-affix-menu"/>
@@ -526,7 +526,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],false);"
-                              style="min-width:4.5em;" class="plain compact translit-secondary">
+                              style="min-width:3.5em;" class="plain compact translit-secondary">
                           <hbox flex="1"/>
                           <label id="publishers-checkbox-translit-prefix"/>
                           <checkbox id="publishers-checkbox-translit" popup="citation-secondary-affix-menu"/>
@@ -536,7 +536,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],false);"
-                              style="min-width:4.5em;" class="plain compact translat-secondary">
+                              style="min-width:3.5em;" class="plain compact translat-secondary">
                           <hbox flex="1"/>
                           <label id="publishers-checkbox-translat-prefix"/>
                           <checkbox id="publishers-checkbox-translat" popup="citation-secondary-affix-menu"/>
@@ -549,7 +549,7 @@
                     <row style="max-height:1em;min-height:1em;">
                       <hbox flex="1">
                         <hbox flex="2"/>
-                        <hbox style="min-width:4.5em;" class="plain compact">
+                        <hbox style="min-width:3.5em;" class="plain compact">
                           <hbox flex="1"/>
                           <label id="places-checkbox-orig-prefix"/>
                           <checkbox id="places-checkbox-orig" popup="citation-secondary-affix-menu"/>
@@ -559,7 +559,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translit-secondary', 'translit'],false);"
-                              style="min-width:4.5em;" class="plain compact translit-secondary">
+                              style="min-width:3.5em;" class="plain compact translit-secondary">
                           <hbox flex="1"/>
                           <label id="places-checkbox-translit-prefix"/>
                           <checkbox id="places-checkbox-translit" popup="citation-secondary-affix-menu"/>
@@ -569,7 +569,7 @@
                         <hbox flex="4"/>
                         <hbox onmouseover="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],true);" 
                               onmouseout="Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-secondary', 'translat'],false);"
-                              style="min-width:4.5em;" class="plain compact translat-secondary">
+                              style="min-width:3.5em;" class="plain compact translat-secondary">
                           <hbox flex="1"/>
                           <label id="places-checkbox-translat-prefix"/>
                           <checkbox id="places-checkbox-translat" popup="citation-secondary-affix-menu"/>
@@ -599,8 +599,8 @@
       <grid>
         <columns>
           <column minwidth="310" maxwidth="310"/>
-          <column minwidth="150" maxwidth="150"/>
-          <column minwidth="225" maxwidth="225"/>
+          <column minwidth="125" maxwidth="125"/>
+          <column minwidth="200" maxwidth="200"/>
         </columns>
         <rows>
           <row>
@@ -628,11 +628,11 @@
           <column minwidth="120" maxwidth="120"/>
           <column minwidth="120" maxwidth="120"/>
           <column minwidth="70" maxwidth="70"/>
-          <column minwidth="70" maxwidth="70"/>
-          <column minwidth="80" maxwidth="80"/>
-          <column minwidth="100" maxwidth="100"/>
-          <column minwidth="75" maxwidth="75"/>
-          <column minwidth="50" maxwidth="50"/>
+          <column minwidth="58" maxwidth="58"/>
+          <column minwidth="67" maxwidth="67"/>
+          <column minwidth="66" maxwidth="66"/>
+          <column minwidth="66" maxwidth="66"/>
+          <column minwidth="66" maxwidth="66"/>
         </columns>
         <rows>
           <row class="compact" style="margin:0px !important;">
@@ -676,11 +676,11 @@
               <column minwidth="120" maxwidth="120"/>
               <column minwidth="120" maxwidth="120"/>
               <column minwidth="70" maxwidth="70"/>
-              <column minwidth="70" maxwidth="70"/>
-              <column minwidth="80" maxwidth="80"/>
-              <column minwidth="95" maxwidth="95"/>
-              <column minwidth="75" maxwidth="75"/>
-              <column minwidth="55" maxwidth="55"/>
+              <column minwidth="58" maxwidth="58"/>
+              <column minwidth="67" maxwidth="67"/>
+              <column minwidth="66" maxwidth="66"/>
+              <column minwidth="66" maxwidth="66"/>
+              <column minwidth="66" maxwidth="66"/>
             </columns>
             <rows id="language-rows"/>
           </grid>
