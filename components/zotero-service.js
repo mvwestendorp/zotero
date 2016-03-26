@@ -210,6 +210,7 @@ ZoteroContext.prototype = {
 		}).finally(function() {
 			makeZoteroContext(isConnector);
 			zContext.Zotero.init(zInitOptions);
+            
 		});
 	}
 };
@@ -432,7 +433,7 @@ ZoteroCommandLineHandler.prototype = {
 					var win = wm.getMostRecentWindow("navigator:browser");
 					if(win) {
 						win.focus();
-						Components.classes["@mozilla.org/network/protocol;1?name=zotero"]
+						Components.classes["@mozilla.org/network/protocol;1?name=jurism"]
 							.createInstance(Components.interfaces.nsIProtocolHandler).newChannel(uri);
 					}
 				} else {
@@ -475,11 +476,11 @@ ZoteroCommandLineHandler.prototype = {
 		}
 	},
 	
-	contractID: "@mozilla.org/commandlinehandler/general-startup;1?type=zotero",
+	contractID: "@mozilla.org/commandlinehandler/general-startup;1?type=jurism",
 	classDescription: "Zotero Command Line Handler",
 	classID: Components.ID("{6ea73a15-2a20-47b5-8fb4-059f9e4aa44b}"),
 	service: true,
-	_xpcom_categories: [{category:"command-line-handler", entry:"m-zotero"}],
+	_xpcom_categories: [{category:"command-line-handler", entry:"m-jurism"}],
 	QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsICommandLineHandler,
 	                                       Components.interfaces.nsISupports])
 };

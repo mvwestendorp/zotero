@@ -893,6 +893,10 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		if(Zotero.isConnector) {
 			// if DB lock is released, switch out of connector mode
 			switchConnectorMode(false);
+			try {
+				var AbbrevsFilter = Components.classes['@juris-m.github.io/abbrevs-filter;1'].getService(Components.interfaces.nsISupports).wrappedJSObject;
+				AbbrevsFilter.initComponent(Zotero);
+			} catch (e) {}
 		} else if(_waitingForDBLock) {
 			// if waiting for DB lock and we get it, continue init
 			_waitingForDBLock = false;
@@ -942,7 +946,15 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 				Components.utils.forceGC();
 				
 				// close DB
-				return Zotero.DB.closeDatabase(true).then(function() {				
+				return Zotero.DB.closeDatabase(true).then(
+					function() {
+						try {
+							var AbbrevsFilter = Components.classes['@juris-m.github.io/abbrevs-filter;1'].getService(Components.interfaces.nsISupports).wrappedJSObject;
+							return AbbrevsFilter.db.closeDatabase(true);
+						} catch (e) {
+							return true;
+						}
+					}).then(function() {
 					// broadcast that DB lock has been released
 					Zotero.IPC.broadcast("lockReleased");
 				});

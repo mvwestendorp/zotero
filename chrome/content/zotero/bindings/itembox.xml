@@ -1773,7 +1773,7 @@
 					textbox.setAttribute('emptytext','Enter a jurisdiction');
 
 					textbox.setAttribute('type','autocomplete');
-					textbox.setAttribute('autocompletesearch','zotero');
+					textbox.setAttribute('autocompletesearch','jurism');
 					let params = {
 						fieldName: "jurisdictions"
 					}
@@ -1817,7 +1817,7 @@
 					textbox.setAttribute('emptytext','Select a court or enter its name');
 
 					textbox.setAttribute('type','autocomplete');
-					textbox.setAttribute('autocompletesearch','zotero');
+					textbox.setAttribute('autocompletesearch','jurism');
 					let params = {
 						fieldName: 'courts',
 						jurisdictionName: jurisdictionName,
@@ -2370,7 +2370,7 @@
 						if (Zotero.ItemFields.isAutocompleteField(fieldName)
 								|| fieldName == 'creator') {
 							t.setAttribute('type', 'autocomplete');
-							t.setAttribute('autocompletesearch', 'zotero');
+							t.setAttribute('autocompletesearch', 'jurism');
 							
 							let params = {
 								fieldName: fieldName,

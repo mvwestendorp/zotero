@@ -23,7 +23,7 @@
     ***** END LICENSE BLOCK *****
 */
 
-const ZOTERO_AC_CONTRACTID = '@mozilla.org/autocomplete/search;1?name=zotero';
+const ZOTERO_AC_CONTRACTID = '@mozilla.org/autocomplete/search;1?name=jurism';
 const ZOTERO_AC_CLASSNAME = 'Zotero AutoComplete';
 const ZOTERO_AC_CID = Components.ID('{8f90026f-17f9-4164-b81e-3475a771ae88}');
 

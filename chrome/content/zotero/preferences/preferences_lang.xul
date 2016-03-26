@@ -606,7 +606,7 @@
           <row>
             <textbox emptytext="&zotero.preferences.lang.addLanguage;"
                      type="autocomplete"
-                     autocompletesearch="zotero"
+                     autocompletesearch="jurism"
                      autocompletesearchparam='{"fieldName":"zlsPrimary"}'
                      onkeypress="Zotero_Preferences.Lang.handleLangKeypress(event)"
                      ontextentered="Zotero_Preferences.Lang.handleLangAutoCompleteSelect(this)"/>

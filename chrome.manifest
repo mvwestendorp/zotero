@@ -68,11 +68,11 @@ style	chrome://global/content/customizeToolbar.xul	chrome://zotero/skin/zotero.c
 component	{8949be43-db0e-4c1b-b00b-13650b56a1f1}			components/zotero-service.js
 component	{6ea73a15-2a20-47b5-8fb4-059f9e4aa44b}			components/zotero-service.js
 contract	@zotero.org/Zotero;1 							{8949be43-db0e-4c1b-b00b-13650b56a1f1}
-contract	@mozilla.org/commandlinehandler/general-startup;1?type=zotero 	{6ea73a15-2a20-47b5-8fb4-059f9e4aa44b}
-category	command-line-handler 	m-zotero	@mozilla.org/commandlinehandler/general-startup;1?type=zotero
+contract	@mozilla.org/commandlinehandler/general-startup;1?type=jurism 	{6ea73a15-2a20-47b5-8fb4-059f9e4aa44b}
+category	command-line-handler 	m-jurism	@mozilla.org/commandlinehandler/general-startup;1?type=jurism
 
 component	{8f90026f-17f9-4164-b81e-3475a771ae88}			components/zotero-autocomplete.js
-contract	@mozilla.org/autocomplete/search;1?name=zotero 	{8f90026f-17f9-4164-b81e-3475a771ae88}
+contract	@mozilla.org/autocomplete/search;1?name=jurism 	{8f90026f-17f9-4164-b81e-3475a771ae88}
 
 component	{25154cf8-9bb0-4a36-aff9-8674233da3f6}			components/zotero-protocol-handler.js
-contract	@mozilla.org/network/protocol;1?name=zotero 	{25154cf8-9bb0-4a36-aff9-8674233da3f6}
+contract	@mozilla.org/network/protocol;1?name=jurism 	{25154cf8-9bb0-4a36-aff9-8674233da3f6}
