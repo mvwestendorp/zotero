@@ -10,7 +10,7 @@ IS_BETA="false"
 FORK="zotero"
 BRANCH="jurism"
 CLIENT="jurism"
-VERSION_ROOT="4.0.28.7m"
+VERSION_ROOT="4.0.29.6m"
 SIGNED_STUB="juris_m-"
 
 function xx-remove-and-replace-old-build-dir () {
