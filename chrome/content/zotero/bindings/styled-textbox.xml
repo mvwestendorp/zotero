@@ -288,6 +288,9 @@
 					}
 					
 					var html = val;
+					if (typeof html === "object") {
+						var html = val[0];
+					}
 					if(this._format == "RTF") {
 						var bodyStyle = "";
 						if(html.substr(0, 3) == "\\li") {
