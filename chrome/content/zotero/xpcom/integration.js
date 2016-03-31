@@ -1490,7 +1490,7 @@ Zotero.Integration.Fields.prototype._processFields = function(i) {
 		if(type === INTEGRATION_TYPE_ITEM) {
 			var noteIndex = field.getNoteIndex();
 			try {
-                // XXX Track this together with save()
+				// XXX Track this together with save()
 				this._session.addCitation(i, noteIndex, content);
 			} catch(e) {
 				var removeCode = false;
@@ -1707,8 +1707,8 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 
 	// Update projectName tags on Zotero-side
 	var projectName = this._session.data.prefs.projectName;
-	var groupID = this._session.data.prefs.groupID;
-	var groupName = this._session.data.prefs.groupName;
+	var extractingLibraryID = this._session.data.prefs.extractingLibraryID;
+	var extractingLibraryName = this._session.data.prefs.extractingLibraryName;
 
 	// Act only if the document defines a projectName
 	if (projectName) {
@@ -1728,7 +1728,7 @@ Zotero.Integration.Fields.prototype._updateDocument = function(forceCitations, f
 		var existingIDs = Zotero.Items.exist(ids);
 		//var nonexistingIDs = ids.filter(function(x){return existingIDs.indexOf(x) == -1});
 		for (var i=0,ilen=existingIDs.length;i<ilen;i+=1) {
-		    
+			
 			var itemID = existingIDs[i];
 			// We can't get the libraryID from the processor registry
 			var libraryID = Zotero.Items.get(itemID).libraryID;
@@ -2083,7 +2083,7 @@ Zotero.Integration.Session = function(doc) {
 	this.embeddedItems = {};
 	this.embeddedZoteroItems = {};
 	this.embeddedZoteroItemsByURI = {};
-	this.recastZoteroItems = {};
+	this.extractedItems = {};
 	this.customBibliographyText = {};
 	this.reselectedItems = {};
 	this.resetRequest(doc);
@@ -2182,8 +2182,8 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		io.citationLangPrefsPlaces = this.data.prefs.citationLangPrefsPlaces;
 		io.citationAffixes = this.data.prefs.citationAffixes;
 		io.projectName = this.data.prefs.projectName;
-		io.groupID = this.data.prefs.groupID;
-		io.groupName = this.data.prefs.groupName;
+		io.extractingLibraryID = this.data.prefs.extractingLibraryID;
+		io.extractingLibraryName = this.data.prefs.extractingLibraryName;
 		io.suppressTrailingPunctuation = this.data.prefs.suppressTrailingPunctuation;
 	}
 	
@@ -2203,6 +2203,8 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		data.style.locale = io.locale;
 		data.prefs.fieldType = io.fieldType;
 		data.prefs.storeReferences = io.storeReferences;
+		data.prefs.extractingLibraryID = io.extractingLibraryID;
+		data.prefs.extractingLibraryName = io.extractingLibraryName;
 		data.prefs.automaticJournalAbbreviations = io.automaticJournalAbbreviations;
 		
 		var forceStyleReset = oldData
@@ -2226,8 +2228,6 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.data.prefs.citationLangPrefsPlaces = io.citationLangPrefsPlaces;
 		me.data.prefs.citationAffixes = io.citationAffixes;
 		me.data.prefs.projectName = io.projectName;
-		me.data.prefs.groupID = io.groupID;
-		me.data.prefs.groupName = io.groupName;
 		me.data.prefs.suppressTrailingPunctuation = io.suppressTrailingPunctuation;
 		
 		if(!oldData || oldData.style.styleID != data.style.styleID
@@ -2462,9 +2462,10 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			}
 			if(zoteroItem && index) this.updateIndices[index] = true;
 		}
-		
+
 		// if no item, check if it was already reselected and otherwise handle as a missing item
-		if(!zoteroItem) {	
+		if(!zoteroItem) {
+			// Check for extracted item
 			if(citationItem.uris) {
 				var reselectKeys = citationItem.uris;
 				var reselectKeyType = RESELECT_KEY_URI;
@@ -2491,68 +2492,23 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 			
 			if(!zoteroItem) {
 				if(citationItem.itemData) {
-                    this.data.prefs.groupID = this.data.prefs.groupID ? parseInt(this.data.prefs.groupID) : '';
-					if (this.data.prefs.groupID) {
-						var libraryID = Zotero.Groups.getLibraryIDFromGroupID(this.data.prefs.groupID, true);
-						if (libraryID) {
-							var itemData = citationItem.itemData;
-							zoteroItem = new Zotero.Item();
-							// true is for portableJSON (MLZ decoding)
-							Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, libraryID, true);
-
-                            // XXX
-                            // I think this is okay as far as it goes.
-							var itemID = zoteroItem.save();
-
-                            // XXX Don't think we want to do this here.
-							//citationItem.itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem, undefined, false);
-
-                            // XXX Pick up the URI of the new item. It should come out
-                            // XXX linked with the document in this refresh or the next.
-							var newURIs = this.uriMap.getURIsForItemID(zoteroItem.id);
-							if (citationItem.uris && citationItem.uris.length) {
-								// Set up to reselect the newly created item
-								this.reselectedItems[citationItem.uris[0]] = zoteroItem.id;
-								// Prefer the newly created item over the private copy
-								//for (var j=newURIs.length-1;j>-1;j+=-1) {
-								//	citationItem.uris.unshift(newURIs[j]);
-								//}
-                                // Just flag for update
-                                this.updateItemIDs[itemID] = true;
-
-							} else if (citationItem.key) {
-								this.reselectedItems[citationItem.key] = zoteroItem.id;
-								citationItem.uris = newURIs;
-							} else if (citationItem.id) {
-								this.reselectedItems[citationItem.id] = zoteroItem.id;
-							} else {
-								this.reselectedItems[citationItem.itemID] = zoteroItem.id;
-							}
-							citationItem.id = zoteroItem.id;
-							citationItem.key = zoteroItem.key;
-							citationItem.libraryID = zoteroItem.libraryID;
-						}
-					} else {
-						// add new embedded item
-						var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
-						
-						// assign a random string as an item ID
-						var anonymousID = Zotero.randomString();
-						var globalID = itemData.id = citationItem.id = this.data.sessionID+"/"+anonymousID;
-						
-						// assign a Zotero item
-						var surrogateItem = this.embeddedZoteroItems[anonymousID] = new Zotero.Item();
-						// true is for portableJSON (MLZ decoding)
-						Zotero.Utilities.itemFromCSLJSON(surrogateItem, itemData, undefined, true);
-						surrogateItem.cslItemID = globalID;
-						surrogateItem.cslURIs = citationItem.uris;
-						surrogateItem.cslItemData = itemData;
-
-						this.embeddedItems[anonymousID] = Zotero.Utilities.itemToCSLJSON(surrogateItem, undefined, false, false, true);
-						
-						for(var j=0, m=citationItem.uris.length; j<m; j++) {
-							this.embeddedZoteroItemsByURI[citationItem.uris[j]] = surrogateItem;
-						}
+					// add new embedded item
+					var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
+					
+					// assign a random string as an item ID
+					var anonymousID = Zotero.randomString();
+					var globalID = itemData.id = citationItem.id = this.data.sessionID+"/"+anonymousID;
+					
+					// assign a Zotero item
+					var surrogateItem = this.embeddedZoteroItems[anonymousID] = new Zotero.Item();
+					// true is for portableJSON (MLZ decoding)
+					Zotero.Utilities.itemFromCSLJSON(surrogateItem, itemData, undefined, true);
+					surrogateItem.cslItemID = globalID;
+					surrogateItem.cslURIs = citationItem.uris;
+					surrogateItem.cslItemData = itemData;
+					this.embeddedItems[anonymousID] = Zotero.Utilities.itemToCSLJSON(surrogateItem, undefined, false, false, true);
+					for(var j=0, m=citationItem.uris.length; j<m; j++) {
+						this.embeddedZoteroItemsByURI[citationItem.uris[j]] = surrogateItem;
 					}
 				} else {
 					// if not already reselected, throw a MissingItemException
@@ -2560,8 +2516,29 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 						reselectKeys, reselectKeyType, i, citation.citationItems.length));
 				}
 			}
+		} else {
+			// Cite extraction
+			if (this.data.prefs.extractingLibraryID) {
+				// Suspenders and a belt - if cslItemID exists, it will presumably have this form anyway
+				if ("string" === typeof zoteroItem.cslItemID && zoteroItem.cslItemID.indexOf('/') > -1) {
+					var oldID = zoteroItem.cslItemID;
+					if (!this.extractedItems[oldID]) {
+						var itemData = Zotero.Utilities.deepCopy(zoteroItem.cslItemData);
+						zoteroItem = new Zotero.Item();
+						// true is for portableJSON (MLZ decoding)
+						Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, this.data.prefs.extractingLibraryID, true);
+						var itemID = zoteroItem.save();
+						zoteroItem = Zotero.Items.get(itemID);
+						this.extractedItems[oldID] = zoteroItem.id;
+					} else {
+						var itemID = this.extractedItems[oldID];
+						zoteroItem = Zotero.Items.get(itemID);
+					}
+					if(index) this.updateIndices[index] = true;
+				}
+			}
 		}
-		
+	
 		if(zoteroItem) {
 			citationItem.id = zoteroItem.cslItemID ? zoteroItem.cslItemID : zoteroItem.id;
 		}
@@ -3162,8 +3139,8 @@ Zotero.Integration.DocumentData = function(string) {
 	this.prefs.citationLangPrefsPlaces = [];
 	this.prefs.citationAffixes = [,,,,,,,,,,,,,,,,,,];
 	this.prefs.projectName = '';
-	this.prefs.groupID = '';
-	this.prefs.groupName = '';
+	this.prefs.extractingLibraryID = 0;
+	this.prefs.extractingLibraryName = '';
 	this.sessionID = null;
 	if(string) {
 		this.unserialize(string);
@@ -3246,8 +3223,8 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 	if(this.prefs["storeReferences"] === undefined) this.prefs["storeReferences"] = false;
 	if(this.prefs["automaticJournalAbbreviations"] === undefined) this.prefs["automaticJournalAbbreviations"] = false;
 	if(this.prefs["projectName"] === undefined) this.prefs["projectName"] = "";
-	if(this.prefs["groupID"] === undefined) this.prefs["groupID"] = "";
-	if(this.prefs["groupName"] === undefined) this.prefs["groupName"] = "";
+	if(this.prefs["extractingLibraryID"] === undefined) this.prefs["extractingLibraryID"] = 0;
+	if(this.prefs["extractingLibraryName"] === undefined) this.prefs["extractingLibraryName"] = "";
 	if(this.prefs["suppressTrailingPunctuation"] === undefined) this.prefs["suppressTrailingPunctuation"] = false;
 	this.zoteroVersion = doc.documentElement.getAttribute("zotero-version");
 	if(!this.zoteroVersion) this.zoteroVersion = "2.0";

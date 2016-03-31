@@ -348,9 +348,9 @@ var Zotero_File_Interface_Bibliography = new function() {
 			_io.useEndnotes = document.getElementById("displayAs").selectedIndex;
 			_io.fieldType = (document.getElementById("formatUsing").selectedIndex == 0 ? _io.primaryFieldType : _io.secondaryFieldType);
 			_io.storeReferences = document.getElementById("storeReferences").checked;
-			var groupName = document.getElementById('group-name');
-			_io.groupID = groupName.value ? groupName.value : '';
-			_io.groupName = groupName.label ? groupName.label : '';
+			var groupNameNode = document.getElementById('group-name');
+			_io.extractingLibraryID = groupNameNode.getAttribute('value') ? parseInt(groupNameNode.getAttribute('value'), 10) : 0;
+			_io.extractingLibraryName = groupNameNode.getAttribute('label') ? groupNameNode.getAttribute('label') : '';
 		}
 		
 		// remember style and locale if user selected these explicitly
@@ -366,18 +366,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 	/*
 	 * ONLY FOR integrationDocPrefs.xul: language selection utility functions
 	 */
-	function setGroupName(event) {
-		var groupName = document.getElementById('group-name');
-		var groupNamePopup = document.getElementById('group-name-popup');
-		if (groupName.value == 0) {
-			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(false);
-		} else {
-			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
-		}
-		Zotero_File_Interface_Bibliography.displayGroupName();
-	}
-
-
 	function addSelectorRow(target,selectors) {
 		//Zotero.debug("XXX == addSelectorRow() ==");
 		var row = document.createElement('row');
@@ -704,66 +692,97 @@ var Zotero_File_Interface_Bibliography = new function() {
 		// Check if we have access to the target group at all (change message if not)
 		// Check if we have write access to it as well (disable if not)
 		// If both of the above check out, set the target group as the list selection.
-		var groupIdSetting = _io.groupID ? _io.groupID : 0;
-		var groupNameSetting = _io.groupName ? _io.groupName : '';
+		var extractingLibraryID = _io.extractingLibraryID ? _io.extractingLibraryID : 0;
+		var extractingLibraryName = _io.extractingLibraryName ? _io.extractingLibraryName : '';
 
-		var groupName = document.getElementById('group-name');
+		var groupNameNode = document.getElementById('group-name');
 		var groupNamePopup = document.getElementById('group-name-popup');
 		for (var i=1,ilen=groupNamePopup.childNodes.length;i<ilen;i+=1) {
 			groupNamePopup.removeChild(groupNamePopup.childNodes[1]);
 		}
-		// Set top list item as default
-		var selectedNode = null;
+
+		var selectResult = null;
+		var groups = Zotero.Groups.getAll();
+		for (var i=0,ilen=groups.length;i<ilen;i+=1) {
+			var libraryName = groups[i].name;
+			var libraryID = Zotero.Groups.getLibraryIDFromGroupID(groups[i].id);
+			if (!groups[i].editable) {
+				if (extractingLibraryID == libraryID) {
+					selectResult = false;
+				}
+			} else {
+				if (extractingLibraryID == libraryID) {
+					selectResult = true;
+				}
+			}
+		}
+
+		if (!extractingLibraryName) {
+			// Cast a menu item for NOT SELECTED
+			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+			Zotero_File_Interface_Bibliography.setErrorNode(groupNameNode,3);
+			groupNameNode.selectedItem = groupNamePopup.childNodes[0];
+		} else {
+			// Cast a menu item for SELECTED
+			var itemNode = document.createElement('menuitem');
+			itemNode.setAttribute('value',extractingLibraryID);
+			itemNode.setAttribute('label',extractingLibraryName);
+			groupNamePopup.appendChild(itemNode);
+			groupNameNode.selectedItem = groupNamePopup.childNodes[1];
+			if (selectResult === null) {
+				// Setting is not a known group
+				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(false,true);
+				Zotero_File_Interface_Bibliography.setErrorNode(groupNameNode,1);
+			} else if (selectResult == false) {
+				// Setting is a group to which we do not have write access
+				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+				Zotero_File_Interface_Bibliography.setErrorNode(groupNameNode,2)
+			} else {
+				// Setting is a known group to which we have write access. Yay.
+				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
+				Zotero_File_Interface_Bibliography.setErrorNode(groupNameNode,0)
+			}
+		}
+	}
+
+ 	this.openGroupList = function(event) {
+		var groupNameNode = document.getElementById('group-name');
+		var groupNamePopup = document.getElementById('group-name-popup');
+		for (var i=1,ilen=groupNamePopup.childNodes.length;i<ilen;i+=1) {
+			groupNamePopup.removeChild(groupNamePopup.childNodes[1]);
+		}
 
 		// Get a list of groups to which user has write access
 		var groups = Zotero.Groups.getAll();
 		for (var i=0,ilen=groups.length;i<ilen;i+=1) {
-			var group = groups[i];
-			var groupID = group.id;
-			var name = group.name;
-			if (!group.editable) {
-				var menuItem = document.createElement('label');
-				menuItem.setAttribute('style','font-weight:bold;color:#999999;');
-				menuItem.setAttribute('value','[' + name + ']');
-				if (groupIdSetting == groupID) {
-					groupName.setAttribute('label',name);
-					selectedNode = false;
+			var libraryName = groups[i].name;
+			var libraryID = Zotero.Groups.getLibraryIDFromGroupID(groups[i].id, true);
+			if (!groups[i].editable) {
+				var itemNode = document.createElement('label');
+				itemNode.setAttribute('style','font-weight:bold;color:#999999;');
+				itemNode.setAttribute('value','[' + name + ']');
+				if (extractingLibraryID == libraryID) {
+					groupNameNode.setAttribute('label',libraryName);
 				}
 			} else {
-				var menuItem = document.createElement('menuitem');
-				menuItem.setAttribute('value',groupID);
-				menuItem.setAttribute('label',name);
-				if (groupIdSetting == groupID) {
-					selectedNode = menuItem;
-				}
+				var itemNode = document.createElement('menuitem');
+				itemNode.setAttribute('value',libraryID);
+				itemNode.setAttribute('label',libraryName);
+				itemNode.addEventListener("command", setGroupName);
 			}
-			groupNamePopup.appendChild(menuItem);
+			groupNamePopup.appendChild(itemNode);
 		}
-		if (selectedNode === null) {
-			// No setting, or setting is not a known group
-			if (_io['groupName']) {
-				groupName.setAttribute('label',_io['groupName']);
-				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
-				Zotero_File_Interface_Bibliography.setErrorNode(groupName,3);
-			} else {
-				groupName.selectedItem = groupNamePopup.childNodes[0];
-				Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(false,true);
-				Zotero_File_Interface_Bibliography.setErrorNode(groupName,1);
-			}
-		} else if (selectedNode === false) {
-			// Setting is a group to which we do not have write access
-			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
-			Zotero_File_Interface_Bibliography.setErrorNode(groupName,2)
-		} else {
-			// Setting is a known group to which we have write access. Yay.
-			groupName.selectedItem = selectedNode;
-			Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(true);
-			Zotero_File_Interface_Bibliography.setErrorNode(groupName,0)
-		}
-		groupName.addEventListener("select",setGroupName);
 	}
 
-	this.setErrorNode = function(groupName,pos) {
+	function setGroupName(event) {
+		var itemNode = event.target;
+		var groupNameNode = document.getElementById('group-name');
+		_io.extractingLibraryID = parseInt(itemNode.getAttribute('value'), 10);
+		_io.extractingLibraryName = itemNode.getAttribute('label');
+		Zotero_File_Interface_Bibliography.displayGroupName();
+	}
+
+	this.setErrorNode = function(groupNameNode,pos) {
 		var errorNodes = [];
 		errorNodes[0] = document.getElementById('group-no-error');
 		errorNodes[1] = document.getElementById('group-unselected-error');

@@ -653,7 +653,7 @@
 			  </hbox>
 			  <groupbox id="project-name-comment">
 				<description>
-				  Multilingual Zotero can tag items cited by this
+				  Juris-M can tag items cited by this
 				  document using the project name entered in the field
 				  above. Multiple documents can share the same project
 				  name.
@@ -676,7 +676,7 @@
 					<label value="release for editing"/>
 				  </hbox>
 				  <menulist id="group-name" flex="1" disabled="true">
-					<menupopup id="group-name-popup">
+					<menupopup id="group-name-popup" onpopupshowing="Zotero_File_Interface_Bibliography.openGroupList(event);">
 					  <menuitem value="0" label="No group selected"/>
 					  <!-- menuitem list goes here -->
 					</menupopup>
@@ -687,7 +687,7 @@
 				<description id="group-unselected-error" style="color:#444444;font-weight:bold;">
 				  Select a group to enable item creation.
 				</description>
-				<description id="group-no-error" style="color:green;font-weight:bold;">
+				<description id="group-no-error" hidden="true" style="color:green;font-weight:bold;">
 				  You have write access to this group. Item creation is enabled.
 				</description>
 				<description id="group-readonly-error" hidden="true" style="color:#ffa804;font-weight:bold;">
@@ -704,7 +704,7 @@
 				  group libraries to which others do not have access.
 				  If the "Store references in document" option is
 				  enabled in Document Preferences (by the original
-				  author), Multilingual Zotero can recreate the items
+				  author), Juris-M can recreate the items
 				  in a group library to which you have write access.
 				  To enable this feature for this document, select a
 				  group library from the list above.
