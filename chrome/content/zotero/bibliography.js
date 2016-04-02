@@ -801,34 +801,34 @@ var Zotero_File_Interface_Bibliography = new function() {
 		setOne(pos);
 		switch (pos) {
 		case 0:
-			groupName.style['font-weight'] = 'bold';
-			groupName.style.color = 'blue';
-			groupName.style.opacity = '1.0';
+			groupNameNode.style['font-weight'] = 'bold';
+			groupNameNode.style.color = 'blue';
+			groupNameNode.style.opacity = '1.0';
 			break;
 			;;
 		case 1:
-			groupName.style['font-weight'] = 'normal';
-			groupName.style.color = 'black';
-			groupName.style.opacity = '1.0';
+			groupNameNode.style['font-weight'] = 'normal';
+			groupNameNode.style.color = 'black';
+			groupNameNode.style.opacity = '1.0';
 			break;
 			;;
 		case 2:
-			groupName.style['font-weight'] = 'bold';
-			groupName.style.color = 'red';
-			groupName.style.opacity = '0.6';
+			groupNameNode.style['font-weight'] = 'bold';
+			groupNameNode.style.color = 'red';
+			groupNameNode.style.opacity = '0.6';
 			break;
 			;;
 		case 3:
-			groupName.style['font-weight'] = 'bold';
-			groupName.style.color = 'red';
-			groupName.style.opacity = '1.0';
+			groupNameNode.style['font-weight'] = 'bold';
+			groupNameNode.style.color = 'red';
+			groupNameNode.style.opacity = '1.0';
 			break;
 			;;
 		}
 	}
 
 	this.toggleGroupNameSafetyCatch = function(forceCheck, disableToggle) {
-		var groupName = document.getElementById('group-name');
+		var groupNameNode = document.getElementById('group-name');
 		var groupNameSafetyCatch = document.getElementById('group-name-safety-catch');
 			groupNameSafetyCatch.disabled = false;
 		if (forceCheck === true) {
@@ -838,10 +838,10 @@ var Zotero_File_Interface_Bibliography = new function() {
 			groupNameSafetyCatch.disabled = true;
 		}
 		if (groupNameSafetyCatch.checked) {
-			groupName.disabled = false;
+			groupNameNode.disabled = false;
 			groupNameSafetyCatch.checked = true;
 		} else {
-			groupName.disabled = true;
+			groupNameNode.disabled = true;
 			groupNameSafetyCatch.checked = false;
 		}
 	}
