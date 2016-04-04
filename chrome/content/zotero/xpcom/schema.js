@@ -102,11 +102,11 @@ Zotero.Schema = new function(){
 		var dbVersion = this.getDBVersion('userdata');
 		var schemaVersion = _getSchemaSQLVersion('userdata');
 		// JurisM upgrade does not affect Zotero database directly,
-        // and is performed without prompting.
-        var firstJurism = this.getDBVersion('multilingual');
+		// and is performed without prompting.
+		var firstJurism = this.getDBVersion('multilingual');
 
 		return (!firstJurism && dbVersion && (dbVersion < _currentZoteroBaseDBVersion) 
-                || (firstJurism && dbVersion && dbVersion < schemaVersion));
+				|| (firstJurism && dbVersion && dbVersion < schemaVersion));
 	}
 	
 	this.showUpgradeWizard = function () {
@@ -750,6 +750,7 @@ Zotero.Schema = new function(){
 					case 'update':
 					
 					// Delete renamed/obsolete files
+					case 'jm-babyblue.csl':
 					case 'chicago-note.csl':
 					case 'mhra_note_without_bibliography.csl':
 					case 'mhra.csl':
@@ -799,6 +800,12 @@ Zotero.Schema = new function(){
 		//
 		var sql = "SELECT version FROM version WHERE schema=?";
 		var lastModTime = Zotero.DB.valueQuery(sql, modes);
+
+		// XXX At some point I let untrimmed timestamps sneak into the database.
+		// XXX Hold this in place for a year to be sure everyone's client is reconciled.
+		if (("" + lastModTime).length === 13) {
+			lastModTime = (lastModTime / 1000);
+		}
 		
 		var zipFileName = modes + ".zip", zipFile;
 		if(isUnpacked) {
@@ -1001,7 +1008,7 @@ Zotero.Schema = new function(){
 					modTime = fileModTime;
 				}
 			}
-			
+
 			// Don't attempt installation for source build with missing styles
 			if (!sourceFilesExist) {
 				Zotero.debug("No source " + mode + " files exist -- skipping update");
