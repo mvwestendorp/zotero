@@ -2340,7 +2340,7 @@ Zotero.Utilities = {
 				var fieldID = null;
 				for (var i=0,ilen=fields.length;i<ilen;i++) {
 					var field=fields[i];
-					if (Zotero.EXTENDED_FIELDS[zoteroType][field]) {
+					if (Zotero.EXTENDED_FIELDS[zoteroType] && Zotero.EXTENDED_FIELDS[zoteroType][field]) {
 						fieldID = Zotero.ItemFields.getID(field);
 						if(Zotero.ItemFields.isBaseField(fieldID)) {
 							var newFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID);
