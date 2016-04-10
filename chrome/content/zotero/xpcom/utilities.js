@@ -2335,16 +2335,21 @@ Zotero.Utilities = {
 		// get date variables
 		for(var variable in CSL_DATE_MAPPINGS) {
 			if(variable in cslItem) {
-				var field = CSL_DATE_MAPPINGS[variable],
-					fieldID = Zotero.ItemFields.getID(field),
+				var fields = CSL_DATE_MAPPINGS[variable],
 					cslDate = cslItem[variable];
-				var fieldID = Zotero.ItemFields.getID(field);
-				if(Zotero.ItemFields.isBaseField(fieldID)) {
-					var newFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID);
-					if(newFieldID) fieldID = newFieldID;
+				var fieldID = null;
+				for (var i=0,ilen=fields.length;i<ilen;i++) {
+					var field=fields[i];
+					if (Zotero.EXTENDED_FIELDS[zoteroType][field]) {
+						fieldID = Zotero.ItemFields.getID(field);
+						if(Zotero.ItemFields.isBaseField(fieldID)) {
+							var newFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID);
+							if(newFieldID) fieldID = newFieldID;
+						}
+						break;
+					}
 				}
-				
-				if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
+				if(fieldID && Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
 					var date = "";
 					if(cslDate.literal || cslDate.raw) {
 						date = cslDate.literal || cslDate.raw;
