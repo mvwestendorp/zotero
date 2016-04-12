@@ -2498,7 +2498,9 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 					// assign a random string as an item ID
 					var anonymousID = Zotero.randomString();
 					var globalID = itemData.id = citationItem.id = this.data.sessionID+"/"+anonymousID;
-					
+				
+					this.embeddedItems[anonymousID] = itemData;
+	
 					// assign a Zotero item
 					var surrogateItem = this.embeddedZoteroItems[anonymousID] = new Zotero.Item();
 					// true is for portableJSON (MLZ decoding)
@@ -2506,6 +2508,7 @@ Zotero.Integration.Session.prototype.lookupItems = function(citation, index) {
 					surrogateItem.cslItemID = globalID;
 					surrogateItem.cslURIs = citationItem.uris;
 					surrogateItem.cslItemData = itemData;
+                    // Puts encoded multi fields into Zotero item
 					this.embeddedItems[anonymousID] = Zotero.Utilities.itemToCSLJSON(surrogateItem, undefined, false, false, true);
 					for(var j=0, m=citationItem.uris.length; j<m; j++) {
 						this.embeddedZoteroItemsByURI[citationItem.uris[j]] = surrogateItem;
@@ -3218,6 +3221,8 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 			this.prefs[name] = value.split("|");
 		} else {
 			this.prefs[name] = value;
+		} else if (value && value.match(/^[0-9]+$/)) {
+			value = parseInt(value, 10);
 		}
 	}
 	if(this.prefs["storeReferences"] === undefined) this.prefs["storeReferences"] = false;
