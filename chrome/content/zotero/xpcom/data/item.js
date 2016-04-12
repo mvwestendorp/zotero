@@ -5662,7 +5662,7 @@ Zotero.Item.prototype.serialize = function(mode) {
 			creator.fieldMode = creators[i].ref.fieldMode;
 			creator.libraryID = creators[i].ref.libraryID;
 			creator.key = creators[i].ref.key;
-			for each (var langTag in creators[i].multi._key) {
+			for (var langTag in creators[i].multi._key) {
 					if (!creators[i].multi._key[langTag]) {
 						creator.multi._key[langTag] = {};
 					}
@@ -6102,6 +6102,8 @@ Zotero.Item.prototype._loadItemData = function() {
 		if (obj) {
 			Zotero.Sync.Server.Data.decodeMlzCreators(this,obj,this._creators.length);
 		}
+		// Resave item to fix Juris-M fields.
+		this.save();
 	}
 }
 
