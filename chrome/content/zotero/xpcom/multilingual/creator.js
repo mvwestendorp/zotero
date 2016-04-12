@@ -7,7 +7,6 @@ Zotero.MultiCreator = function(parent, langTag){
 	this.parent = parent;
 	this.main = langTag;
 	this._key = {};
-	this._lst = [];
 };
 
 Zotero.MultiCreator.prototype.setFields = function (fields, lang) {
@@ -25,7 +24,6 @@ Zotero.MultiCreator.prototype.setFields = function (fields, lang) {
 		if (!this._key[lang]) {
 			this._key[lang] = new Zotero.Creator;
 			this._key[lang].libraryID = this.parent.libraryID;
-			this._lst.push(lang);
 		}
 		this._key[lang].firstName = Zotero.MultiCreator.tidy(fields.firstName);
 		this._key[lang].lastName = Zotero.MultiCreator.tidy(fields.lastName);
@@ -83,11 +81,6 @@ Zotero.MultiCreator.prototype.removeCreator = function (langTag) {
 	if (this._key[langTag]) {
 		var creator = this._key[langTag];
 		delete this._key[langTag];
-		for (var i=this._lst.length-1;i>-1;i--) {
-			if (this._lst[i] === langTag) {
-			   this._lst = this._lst.slice(0,i).concat(this._lst.slice(i+1));
-			}
-		}
 		// Save must be done separately.
 	}
 	return creator;
@@ -102,12 +95,23 @@ Zotero.MultiCreator.prototype.langs = function () {
 	if (!this.parent._loaded) {
 		this.parent.load();
 	}
-	return this._lst;
+    var lst = [];
+    for (var lang in this._key) {
+        lst.push(lang);
+    }
+	return lst;
 };
 
 
 Zotero.MultiCreator.prototype.data = function () {
-	return [{languageTag: this._lst[i],value: this._key[this._lst[i]]} for (i in this._lst)];
+    var lst = [];
+    for (var langTag in this._key) {
+        lst.push({
+            languageTag: langTag,
+            value: this._key[langtag]
+        });
+    }
+	return lst;
 };
 
 
@@ -127,12 +131,6 @@ Zotero.MultiCreator.prototype.changeLangTag = function (oldTag, newTag) {
 		this.main = newTag;
 		this.parent._changed = true;
 	} else if (this._key[oldTag]) {
-		for (var i = 0, ilen = this._lst.length; i < ilen; i += 1) {
-			if (this._lst[i] === oldTag) {
-				this._lst[i] = newTag;
-				break;
-			}
-		}
 		this._key[newTag] = this._key[oldTag];
 		delete this._key[oldTag];
 		this._key[newTag]._changed = true;
@@ -176,7 +174,6 @@ Zotero.MultiCreator.prototype.clone = function (parent, parentLang, item, orderI
 	if (!item._changedAltCreators[orderIndex]) {
 		item._changedAltCreators[orderIndex] = {};
 	}
-	clone._lst = this._lst.slice();
 	for (var langTag in this._key) {
 		clone._key[langTag] = new Zotero.Creator;
 		clone._key[langTag].libraryID = parent.libraryID;

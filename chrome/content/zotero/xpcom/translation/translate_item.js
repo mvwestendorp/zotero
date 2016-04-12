@@ -721,12 +721,12 @@ Zotero.Translate.ItemSaver.prototype = {
 				if (creator.multi.main !== itemLanguage) {
 					defaultLanguage = creator.multi.main;
 				}
-				var lst = creator.multi._lst.slice();
 				for (lang in creator.multi._key) {
 					multi[lang] = {
 						firstName: creator.multi._key[lang].firstName,
 						lastName: creator.multi._key[lang].lastName
 					}
+                    lst.push(lang);
 				}
 			}
 

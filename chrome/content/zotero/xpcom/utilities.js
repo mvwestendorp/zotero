@@ -349,9 +349,6 @@ Zotero.Utilities = {
 			if (!obj.multi) {
 				obj.multi = {};
 			}
-			if (!obj.multi._lst) {
-				obj.multi._lst = [];
-			}
 			if (!obj.multi._key) {
 				obj.multi._key = {};
 			}
@@ -366,9 +363,6 @@ Zotero.Utilities = {
 			}
 		} else  if (languageTag) {
 			obj.multi._key[languageTag] = child;
-			if (obj.multi._lst.indexOf(languageTag) === -1) {
-				obj.multi._lst.push(languageTag);
-			}
 		}
 	},
 

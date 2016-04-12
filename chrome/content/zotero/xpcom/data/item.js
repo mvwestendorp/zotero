@@ -1461,7 +1461,6 @@ Zotero.Item.prototype.setCreator = function(orderIndex,
 		// In this case mytarget must be multilingual. If it
 		// doesn't exist, create it.
 		this._creators[orderIndex].multi._key[langTag] = creator;
-		this._creators[orderIndex].multi._lst.push(langTag);
 		multiChange = langTag;
 	} else if (forceTop || !langTag) {
 		// If creator exists, and forceTop or not langTag, write
@@ -1475,7 +1474,6 @@ Zotero.Item.prototype.setCreator = function(orderIndex,
 		// forceTop, and no creator of that language exists
 		// yet, add it.
 		this._creators[orderIndex].multi._key[langTag] = creator;
-		this._creators[orderIndex].multi._lst.push(langTag);
 		multiChange = langTag;
 	} else {
 		// If creator exists, and we have langTag but not
@@ -5489,9 +5487,8 @@ Zotero.Item.prototype.toArray = function (mode) {
 			creator.shortName = '';
 			creator.birthYear = '';
 			creator.multi = {};
-			creator.multi._lst = creators[i].multi._lst.slice();
 			creator.multi._key = {};
-			for each (var langTag in creators[i].multi._lst) {
+			for each (var langTag in creators[i].multi._key) {
 				if (!creators[i].multi._key[langTag]) {
 					creator.multi._key[langTag] = {};
 				}
@@ -5657,7 +5654,6 @@ Zotero.Item.prototype.serialize = function(mode) {
 			creator.multi = {};
 			creator.multi = {};
 			creator.multi._key = {};
-			creator.multi._lst = [];
 			// Convert creatorTypeIDs to text
 			creator.creatorType = Zotero.CreatorTypes.getName(creators[i].creatorTypeID);
 			creator.creatorID = creators[i].ref.id;
@@ -5666,7 +5662,7 @@ Zotero.Item.prototype.serialize = function(mode) {
 			creator.fieldMode = creators[i].ref.fieldMode;
 			creator.libraryID = creators[i].ref.libraryID;
 			creator.key = creators[i].ref.key;
-			for each (var langTag in creators[i].multi._lst) {
+			for each (var langTag in creators[i].multi._key) {
 					if (!creators[i].multi._key[langTag]) {
 						creator.multi._key[langTag] = {};
 					}
@@ -6006,8 +6002,6 @@ Zotero.Item.prototype._loadCreators = function() {
 			}
 			creatorAltObj.id = multiRows[j].creatorID;
 			multi._key[multiRows[j].languageTag] = creatorAltObj;
-			
-			multi._lst.push(multiRows[j].languageTag);
 		}
 
 		// Note that the main language is carried on multi, as
