@@ -3217,10 +3217,10 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 			}
 		} else if ("citationAffixes" === name) {
 			this.prefs[name] = value.split("|");
-		} else {
-			this.prefs[name] = value;
 		} else if (value && value.match(/^[0-9]+$/)) {
 			value = parseInt(value, 10);
+		} else {
+			this.prefs[name] = value;
 		}
 	}
 	if(this.prefs["storeReferences"] === undefined) this.prefs["storeReferences"] = false;
