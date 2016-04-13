@@ -3217,8 +3217,8 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 			}
 		} else if ("citationAffixes" === name) {
 			this.prefs[name] = value.split("|");
-		} else if (value && value.match(/^[0-9]+$/)) {
-			value = parseInt(value, 10);
+		} else if ("extractingLibraryID" === name && value && value.match(/^[0-9]+$/)) {
+			this.prefs[name] = parseInt(value, 10);
 		} else {
 			this.prefs[name] = value;
 		}
