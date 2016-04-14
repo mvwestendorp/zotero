@@ -603,7 +603,7 @@ Zotero.Translate.ItemSaver.prototype = {
 				// if field is valid for this type, set field
 				if(fieldID && Zotero.ItemFields.isValidForType(fieldID, typeID)) {
 					defaultLanguage = undefined;
-					if (item.multi && item.multi.main) {
+					if (item.multi && item.multi.main && item.multi.main[field]) {
 						var itemMultiMain = item.multi.main[field];
 						if(Zotero.zlsValidator.validate(itemMultiMain)) {
 							itemMultiMain = [Zotero.zlsValidator.tagdata[k].subtag for (k in Zotero.zlsValidator.tagdata)].join("-");
@@ -660,16 +660,7 @@ Zotero.Translate.ItemSaver.prototype = {
 		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
 			// Last true is to override unsaved-item block in toJSON()
 			cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
-			var extra = cslItem.note;
-			extra = extra.split(/{:([-a-z]+):([^\}]+)}/);
-			//dump("XXX CSL(before)=" + JSON.stringify(cslItem)+"\n");
-			for (var i=extra.length-2; i>0; i += -3) {
-				var varName = extra[i-1];
-				var varVal = extra[i];
-				cslItem[varName] = varVal;
-				extra = extra.slice(0,i-1).concat(extra.slice(i+1))
-			}
-			cslItem.note = extra.join(" ");
+			Zotero.Utilities.parseNoteFieldHacks(cslItem);
 			//dump("XXX CSL(after)=" + JSON.stringify(cslItem)+"\n");
 			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
 		}

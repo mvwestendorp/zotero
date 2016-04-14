@@ -550,7 +550,9 @@ Zotero.Utilities = {
 			text = node.innerHTML;
 		}
 		return text;
-},
+	},
+
+	"parseNoteFieldHacks": Zotero.CiteProc.CSL.parseNoteFieldHacks,
 
 	/**
 	 * Removes leading and trailing whitespace from a string
@@ -2331,9 +2333,12 @@ Zotero.Utilities = {
 			if(variable in cslItem) {
 				var fields = CSL_DATE_MAPPINGS[variable],
 					cslDate = cslItem[variable];
+				// Recognize if extended field OR if fieldID is valid for type
+				// and does not yet contain data.
 				var fieldID = null;
 				for (var i=0,ilen=fields.length;i<ilen;i++) {
 					var field=fields[i];
+					fieldID = Zotero.ItemFields.getID(field);
 					if (Zotero.EXTENDED_FIELDS[zoteroType] && Zotero.EXTENDED_FIELDS[zoteroType][field]) {
 						fieldID = Zotero.ItemFields.getID(field);
 						if(Zotero.ItemFields.isBaseField(fieldID)) {
