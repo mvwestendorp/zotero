@@ -2115,19 +2115,16 @@ Zotero.Utilities = {
 		//this._cache[zoteroItem.id] = cslItem;
 		return cslItem;
 	},
-	
-	/**
-	 * Converts an item in CSL JSON format to a Zotero item
-	 * @param {Zotero.Item} item
-	 * @param {Object} cslItem
-	 */
-	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
-		var isZoteroItem = item instanceof Zotero.Item,
-			zoteroType;
-		
+
+    /**
+     * Converts CSL type to Zotero type, accounting for extended
+     * type mapping in Juris-M
+     */
+    "getZoteroTypeFromCslType": function(cslItem) {
 		// Some special cases to help us map item types correctly
 		// This ensures that we don't lose data on import. The fields
 		// we check are incompatible with the alternative item types
+        var zoteroType = null;
 		if (cslItem.type == 'book') {
 			zoteroType = 'book';
 			if (cslItem.version) {
@@ -2148,7 +2145,7 @@ Zotero.Utilities = {
 			if (cslItem['collection-title'] || cslItem['publisher-place']
 				|| cslItem['event-place'] || cslItem.volume
 				|| cslItem['number-of-volumes'] || cslItem.ISBN
-			) {
+			   ) {
 				zoteroType = 'videoRecording';
 			}
 		} else {
@@ -2159,9 +2156,47 @@ Zotero.Utilities = {
 				}
 			}
 		}
-		
 		if(!zoteroType) zoteroType = "document";
+
+        return zoteroType;
+    },		
+	
+    "getValidCslFields": function (cslItem) {
+        var zoteroType = this.getZoteroTypeFromCslType(cslItem);
+        var zoteroTypeID = Zotero.ItemTypes.getID(zoteroType);
+        var zoteroFields = Zotero.ItemFields.getItemTypeFields(zoteroTypeID);
+        var validFields = {};
+        outer: for (var i=0,ilen=zoteroFields.length;i<ilen;i++) {
+            var zField = Zotero.ItemFields.getName(zoteroFields[i]);
+            for (var cField in CSL_TEXT_MAPPINGS) {
+                var lst = CSL_TEXT_MAPPINGS[cField];
+                if (lst.indexOf(zField) > -1) {
+                    validFields[cField] = true;
+                    continue outer;
+                }
+            }
+            for (var cField in CSL_DATE_MAPPINGS) {
+                var lst = CSL_DATE_MAPPINGS[cField];
+                if (lst.indexOf(zField) > -1) {
+                    validFields[cField] = true;
+                    continue outer;
+                }
+            }
+        }
+        return validFields;
+    },
+
+	/**
+	 * Converts an item in CSL JSON format to a Zotero item
+	 * @param {Zotero.Item} item
+	 * @param {Object} cslItem
+	 */
+	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
+		var isZoteroItem = item instanceof Zotero.Item,
+			zoteroType;
 		
+        var zoteroType = Zotero.Utilities.getZoteroTypeFromCslType(cslItem);
+
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);

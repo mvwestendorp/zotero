@@ -659,8 +659,9 @@ Zotero.Translate.ItemSaver.prototype = {
 		// then merge result back into newItem.
 		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
 			// Last true is to override unsaved-item block in toJSON()
-			cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
-			Zotero.Utilities.parseNoteFieldHacks(cslItem);
+			var cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
+            var validCslFields = Zotero.Utilities.getValidCslFields(cslItem);
+			Zotero.Utilities.parseNoteFieldHacks(cslItem, validCslFields);
 			//dump("XXX CSL(after)=" + JSON.stringify(cslItem)+"\n");
 			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
 		}
