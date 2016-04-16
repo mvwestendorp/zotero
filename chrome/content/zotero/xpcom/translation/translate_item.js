@@ -637,9 +637,19 @@ Zotero.Translate.ItemSaver.prototype = {
 			}
 		}
 		
+ 		// If "extra" contains {:variable: XX} hacks, recast as CslJSON,
+		// then merge result back into newItem.
+		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
+			// Last true is to override unsaved-item block in toJSON()
+			var cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
+            var validCslFields = Zotero.Utilities.getValidCslFields(cslItem);
+			Zotero.Utilities.parseNoteFieldHacks(cslItem, validCslFields);
+			//dump("XXX CSL(after)=" + JSON.stringify(cslItem)+"\n");
+			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
+		}
+		
 		var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
-		var fields = Zotero.ItemFields.getItemTypeFields(typeID);
-		if (fields.indexOf(jurisdictionID) > -1) {
+		if (Zotero.ItemFields.isValidForType(jurisdictionID, typeID)) {
 			if (["report","journalArticle","newspaperArticle"].indexOf(item.itemType) === -1) {
 				if (!newItem.getField(jurisdictionID)) {
 					var jurisdictionDefault = Zotero.Prefs.get("import.jurisdictionDefault");
@@ -653,17 +663,6 @@ Zotero.Translate.ItemSaver.prototype = {
 					}
 				}
 			}
-		}
-		
-		// If "extra" contains {:variable: XX} hacks, recast as CslJSON,
-		// then merge result back into newItem.
-		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
-			// Last true is to override unsaved-item block in toJSON()
-			var cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
-            var validCslFields = Zotero.Utilities.getValidCslFields(cslItem);
-			Zotero.Utilities.parseNoteFieldHacks(cslItem, validCslFields);
-			//dump("XXX CSL(after)=" + JSON.stringify(cslItem)+"\n");
-			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
 		}
 	},
 	
