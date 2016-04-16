@@ -2391,7 +2391,11 @@
 									params.creatorTypeID = creatorTypeID;
 								}
 								
+								// Return
 								t.setAttribute('ontextentered',
+									'document.getBindingParent(this).handleCreatorAutoCompleteSelect(this, true)');
+								// Tab/Shift-Tab
+								t.setAttribute('onchange',
 									'document.getBindingParent(this).handleCreatorAutoCompleteSelect(this)');
 							};
 							t.setAttribute(
@@ -2447,6 +2451,7 @@
 			-->
 			<method name="handleCreatorAutoCompleteSelect">
 				<parameter name="textbox"/>
+				<parameter name="stayFocused"/>
 				<body>
 				<![CDATA[
 					var comment = false;
@@ -2474,9 +2479,10 @@
 						var [field, creatorIndex, creatorField] =
 							textbox.getAttribute('fieldname').split('-');
 						
-						// Stay focused
-						this._lastTabIndex = parseInt(textbox.getAttribute('ztabindex')) - 1;
-						this._tabDirection = 1;
+						if (stayFocused) {
+							this._lastTabIndex = parseInt(textbox.getAttribute('ztabindex')) - 1;
+							this._tabDirection = 1;
+						}
 						
 						var creator = Zotero.Creators.get(creatorID);
 						
