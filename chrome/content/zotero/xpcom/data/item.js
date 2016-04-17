@@ -6101,8 +6101,12 @@ Zotero.Item.prototype._loadItemData = function() {
 		var obj = Zotero.Sync.Server.Data.decodeMlzFields(this,data,this._itemData[22],{},true);
 		if (obj) {
 			Zotero.Sync.Server.Data.decodeMlzCreators(this,obj,this._creators.length);
+		} else {
+			// If the entry does not parse, we don't want to do this again.
+			this._itemData[22] = "[invalid]" + this._itemData[22];
 		}
 		// Resave item to fix Juris-M fields.
+		Zotero.debug("XXX resaving item: "+this.id);
 		this.save();
 	}
 }
