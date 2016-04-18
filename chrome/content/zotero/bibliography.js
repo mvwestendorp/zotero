@@ -746,6 +746,9 @@ var Zotero_File_Interface_Bibliography = new function() {
 	}
 
  	this.openGroupList = function(event) {
+		var extractingLibraryID = _io.extractingLibraryID ? _io.extractingLibraryID : 0;
+		var extractingLibraryName = _io.extractingLibraryName ? _io.extractingLibraryName : '';
+
 		var groupNameNode = document.getElementById('group-name');
 		var groupNamePopup = document.getElementById('group-name-popup');
 		for (var i=1,ilen=groupNamePopup.childNodes.length;i<ilen;i+=1) {
