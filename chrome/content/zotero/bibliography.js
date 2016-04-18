@@ -763,7 +763,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 			if (!groups[i].editable) {
 				var itemNode = document.createElement('label');
 				itemNode.setAttribute('style','font-weight:bold;color:#999999;');
-				itemNode.setAttribute('value','[' + name + ']');
+				itemNode.setAttribute('value','[' + libraryName + ']');
 				if (extractingLibraryID == libraryID) {
 					groupNameNode.setAttribute('label',libraryName);
 				}
