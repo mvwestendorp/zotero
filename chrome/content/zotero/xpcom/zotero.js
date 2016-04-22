@@ -745,7 +745,30 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		// XXXZ Load quick-service key sets for identifying multilingualized fields
 		// XXXZ ... _after_ creating the database.
 		// This should really all be done with a call to Zotero.Multi module.
-		var multiBaseFields = ['title', 'shortTitle','publicationTitle', 'series', 'seriesTitle', 'seriesText','publisher', 'reporter', 'court','place','edition','archive','archiveLocation','committee','type','legislativeBody','resolutionLabel','supplementName','institution','jurisdiction','code'];
+		var multiBaseFields = [
+            'archive',
+            'archiveLocation',
+            'code',
+            'committee',
+            'conferenceName',
+            'court',
+            'edition',
+            'institution',
+            'jurisdiction',
+            'legislativeBody',
+            'place',
+            'publicationTitle',
+            'publisher',
+            'reporter',
+            'resolutionLabel',
+            'series',
+            'seriesText',
+            'seriesTitle',
+            'shortTitle',
+            'supplementName',
+            'title',
+            'type'
+        ];
 		Zotero.multiFieldIds = {};
 		Zotero.multiFieldNames = {};
 		var sql = "SELECT fieldID FROM fields " +
