@@ -220,11 +220,12 @@ Zotero.MultiField.prototype.data = function (fieldID) {
 	}
 	var fieldID = Zotero.ItemFields.getID(fieldID);
 	if (this._keys[fieldID]) {
-		return Object.keys(this._keys[fieldID])
-			.map(function(langTag){
+        var me = this;
+		return Object.keys(me._keys[fieldID])
+			.map(function(langTag) {
 				return {
 					languageTag: langTag,
-					value: this._keys[fieldID][langTag]
+					value: me._keys[fieldID][langTag]
 				}
 			})
 	} else {
