@@ -778,15 +778,25 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			Zotero.multiFieldIds[parseInt(res[i].fieldID)] = true;
 		}
 
-		var sql = "SELECT fieldID from baseFieldMappings " +
-				  "WHERE baseFieldID in ('" + [key for (key in Zotero.multiFieldIds)].join("','") + "')";
+		var sql = "SELECT fieldID from baseFieldMappings "
+			+ "WHERE baseFieldID in (" 
+			+ Object.keys(Zotero.multiFieldIds)
+			.map(function(key) { 
+				return key;
+			}).join(",")
+			+ ")";
 		var res = Zotero.DB.query(sql);
 		for (let i = 0, ilen = res.length; i < ilen; i += 1) {
 			Zotero.multiFieldIds[parseInt(res[i].fieldID)] = true;
 		}
 
-		var sql = "SELECT fieldName from fields " +
-				  "WHERE fieldID in (" + [key for (key in Zotero.multiFieldIds)].join(",") + ")";
+		var sql = "SELECT fieldName from fields "
+			+ "WHERE fieldID in (" 
+			+ Object.keys(Zotero.multiFieldIds)
+			.map(function(key) { 
+				return key;
+			}).join(",")
+			+ ")";
 		var res = Zotero.DB.query(sql);
 
 		for (let i = 0, ilen = res.length; i < ilen; i += 1) {

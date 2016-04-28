@@ -219,7 +219,17 @@ Zotero.MultiField.prototype.data = function (fieldID) {
 		throw "MultiField.data() called without fieldID"
 	}
 	var fieldID = Zotero.ItemFields.getID(fieldID);
-	return [{languageTag: langTag,value: this._keys[fieldID][langTag]} for (langTag in this._keys[fieldID])];
+	if (this._keys[fieldID]) {
+		return Object.keys(this._keys[fieldID])
+			.map(function(langTag){
+				return {
+					languageTag: langTag,
+					value: this._keys[fieldID][langTag]
+				}
+			})
+	} else {
+		return [];
+	}
 };
 
 

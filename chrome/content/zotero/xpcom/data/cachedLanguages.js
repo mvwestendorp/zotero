@@ -104,7 +104,10 @@ Zotero.CachedLanguages = new function() {
 			var validator = Zotero.zlsValidator;
 			var res = validator.validate(tag);
 			if (res) {
-				tag = [validator.tagdata[i].subtag for (i in validator.tagdata)].join("-");
+				tag = Object.keys(validator.tagdata)
+					.map(function(i) { 
+						return validator.tagdata[i].subtag;
+					}).join("-")
 				var sql = 'INSERT INTO zlsTags VALUES(?,?,NULL)';
 				Zotero.DB.query(sql,[tag,tag]);
 				load();

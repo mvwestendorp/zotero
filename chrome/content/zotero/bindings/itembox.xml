@@ -2633,7 +2633,7 @@
 							return [];
 						} else {
 							if (forceLowerCase) {
-								return [particle.toLowerCase() for (particle of particles[0])];
+								return [for (particle of particles[0]) particle.toLowerCase()];
 							} else {
 								return particles[0];
 							}
@@ -2742,7 +2742,7 @@
 					
 					
 					// (9) Express particle states as a base-4 integer, one byte per particle
-					var base4max = ["0" for (i in particles)];
+					var base4max = [for (i of particles) "0"];
 					base4max = "1" + base4max.join("");
 					var combos = [];
 					for (i=0,ilen=parseInt(base4max, 4);i<ilen;i++) {

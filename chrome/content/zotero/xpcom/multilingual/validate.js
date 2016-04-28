@@ -26,7 +26,10 @@ Zotero.ZlsValidator = function () {
 	this._cache = {};
 
 	this.getTag = function () {
-		return [Zotero.zlsValidator.tagdata[i].subtag for (i in Zotero.zlsValidator.tagdata)].join("-");
+		return Object.keys(Zotero.zlsValidator.tagdata)
+		.map(function(i) {
+			return Zotero.zlsValidator.tagdata[i].subtag;
+		}).join("-");
 	}
 
 	this.validate = function (tag) {

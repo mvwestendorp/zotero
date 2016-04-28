@@ -606,7 +606,10 @@ Zotero.Translate.ItemSaver.prototype = {
 					if (item.multi && item.multi.main && item.multi.main[field]) {
 						var itemMultiMain = item.multi.main[field];
 						if(Zotero.zlsValidator.validate(itemMultiMain)) {
-							itemMultiMain = [Zotero.zlsValidator.tagdata[k].subtag for (k in Zotero.zlsValidator.tagdata)].join("-");
+							itemMultiMain = Object.keys(Zotero.zlsValidator.tagData)
+							.map(function(k) {
+								return Zotero.zlsValidator.tagdata[k].subtag
+							}).join("-")
 							if (!Zotero.CachedLanguages.hasTag(itemMultiMain)) {
 								Zotero.CachedLanguages.getNickname(itemMultiMain);
 							}
@@ -621,7 +624,10 @@ Zotero.Translate.ItemSaver.prototype = {
 							// Normalize lang
 							// Patch code by Florian Ziche.
 							if(Zotero.zlsValidator.validate(langTag)) {
-								langTag = [Zotero.zlsValidator.tagdata[k].subtag for (k in Zotero.zlsValidator.tagdata)].join("-");
+								langTag = Object.keys(Zotero.zlsValidator.tagdata)
+								.map(function(k){
+									return Zotero.zlsValidator.tagdata[k].subtag
+								}).join("-")
 								if (!Zotero.CachedLanguages.hasTag(langTag)) {
 									Zotero.CachedLanguages.getNickname(langTag);
 								}
@@ -642,7 +648,7 @@ Zotero.Translate.ItemSaver.prototype = {
 		if (item.extra && item.extra.match(/{:[-a-z]+:[^\}]+}/)) {
 			// Last true is to override unsaved-item block in toJSON()
 			var cslItem = Zotero.Utilities.itemToCSLJSON(newItem, false, false, true, true);
-            var validCslFields = Zotero.Utilities.getValidCslFields(cslItem);
+			var validCslFields = Zotero.Utilities.getValidCslFields(cslItem);
 			Zotero.Utilities.parseNoteFieldHacks(cslItem, validCslFields);
 			//dump("XXX CSL(after)=" + JSON.stringify(cslItem)+"\n");
 			Zotero.Utilities.itemFromCSLJSON(newItem, cslItem);
@@ -717,7 +723,7 @@ Zotero.Translate.ItemSaver.prototype = {
 						firstName: creator.multi._key[lang].firstName,
 						lastName: creator.multi._key[lang].lastName
 					}
-                    lst.push(lang);
+					lst.push(lang);
 				}
 			}
 
@@ -745,7 +751,10 @@ Zotero.Translate.ItemSaver.prototype = {
 				// Patch code by Florian Ziche.
 				var langTag = lst[j];
 				if(Zotero.zlsValidator.validate(langTag)) {
-					langTag = [Zotero.zlsValidator.tagdata[j].subtag for (j in Zotero.zlsValidator.tagdata)].join("-");
+					langTag = Object.keys(Zotero.zlsValidator.tagdata)
+					.map(function(j){
+						return Zotero.zlsValidator.tagdata[j].subtag
+					}).join("-")
 					if (!Zotero.CachedLanguages.hasTag(langTag)) {
 						Zotero.CachedLanguages.getNickname(langTag);
 					}
