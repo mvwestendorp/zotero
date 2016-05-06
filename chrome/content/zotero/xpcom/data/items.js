@@ -475,6 +475,9 @@ Zotero.Items = new function() {
 		
 		item.save();
 		
+		// Hack to remove master item from duplicates view without recalculating duplicates
+		Zotero.Notifier.trigger('removeDuplicatesMaster', 'item', item.id);
+		
 		Zotero.DB.commitTransaction();
 	}
 	
