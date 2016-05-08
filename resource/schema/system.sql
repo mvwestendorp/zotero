@@ -1,4 +1,4 @@
--- 10077
+-- 10078
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -737,27 +737,28 @@ INSERT INTO itemTypeFields VALUES (18, 22, NULL, 26);  -- extra
 INSERT INTO itemTypeFields VALUES (19, 110, NULL, 1);   -- title
 INSERT INTO itemTypeFields VALUES (19, 90, NULL, 2);    -- abstract
 INSERT INTO itemTypeFields VALUES (19, 1261, NULL, 3);  -- Jurisdiction        [ADDED]
-INSERT INTO itemTypeFields VALUES (19, 120, NULL, 4);   -- Issuing Authority
-INSERT INTO itemTypeFields VALUES (19, 7, NULL, 5);     -- Place
-INSERT INTO itemTypeFields VALUES (19, 50, NULL, 6);    -- Patent number
-INSERT INTO itemTypeFields VALUES (19, 52, NULL, 7);    -- issueDate
-INSERT INTO itemTypeFields VALUES (19, 1285, NULL, 8);    -- publicationNumber [ADDED]
-INSERT INTO itemTypeFields VALUES (19, 1268, NULL, 9);    -- publicationDate [ADDED]
-INSERT INTO itemTypeFields VALUES (19, 103, NULL, 10);   -- Application Number
-INSERT INTO itemTypeFields VALUES (19, 121, NULL, 11);   -- Filing Date                 (submitted)
-INSERT INTO itemTypeFields VALUES (19, 51, NULL, 12);   -- Priority Numbers
-INSERT INTO itemTypeFields VALUES (19, 1266, NULL, 13); -- Priority Date       [ADDED] (original-date)
-INSERT INTO itemTypeFields VALUES (19, 10, NULL, 14);   -- Pages
-INSERT INTO itemTypeFields VALUES (19, 54, NULL, 15);   -- Legal Status
-INSERT INTO itemTypeFields VALUES (19, 87, NULL, 16);   -- language
-INSERT INTO itemTypeFields VALUES (19, 116, NULL, 17);  -- shortTitle
-INSERT INTO itemTypeFields VALUES (19, 1, NULL, 18);    -- url
-INSERT INTO itemTypeFields VALUES (19, 27, NULL, 19);   -- accessed
-INSERT INTO itemTypeFields VALUES (19, 48, NULL, 20);   -- Assignee             Deprecated
-INSERT INTO itemTypeFields VALUES (19, 102, NULL, 21);  -- Country              Deprecated
-INSERT INTO itemTypeFields VALUES (19, 53, NULL, 22);   -- References           Deprecated
-INSERT INTO itemTypeFields VALUES (19, 2, NULL, 23);    -- rights
-INSERT INTO itemTypeFields VALUES (19, 22, NULL, 24);   -- extra
+INSERT INTO itemTypeFields VALUES (19, 122, NULL, 4);   -- Type [ADDED]
+INSERT INTO itemTypeFields VALUES (19, 120, NULL, 5);   -- Issuing Authority
+INSERT INTO itemTypeFields VALUES (19, 7, NULL, 6);     -- Place
+INSERT INTO itemTypeFields VALUES (19, 50, NULL, 7);    -- Patent number
+INSERT INTO itemTypeFields VALUES (19, 52, NULL, 8);    -- issueDate
+INSERT INTO itemTypeFields VALUES (19, 1285, NULL, 9);    -- publicationNumber [ADDED]
+INSERT INTO itemTypeFields VALUES (19, 1268, NULL, 10);    -- publicationDate [ADDED]
+INSERT INTO itemTypeFields VALUES (19, 103, NULL, 11);   -- Application Number
+INSERT INTO itemTypeFields VALUES (19, 121, NULL, 12);   -- Filing Date                 (submitted)
+INSERT INTO itemTypeFields VALUES (19, 51, NULL, 13);   -- Priority Numbers
+INSERT INTO itemTypeFields VALUES (19, 1266, NULL, 14); -- Priority Date       [ADDED] (original-date)
+INSERT INTO itemTypeFields VALUES (19, 10, NULL, 15);   -- Pages
+INSERT INTO itemTypeFields VALUES (19, 54, NULL, 16);   -- Legal Status
+INSERT INTO itemTypeFields VALUES (19, 87, NULL, 17);   -- language
+INSERT INTO itemTypeFields VALUES (19, 116, NULL, 18);  -- shortTitle
+INSERT INTO itemTypeFields VALUES (19, 1, NULL, 19);    -- url
+INSERT INTO itemTypeFields VALUES (19, 27, NULL, 20);   -- accessed
+INSERT INTO itemTypeFields VALUES (19, 48, NULL, 21);   -- Assignee             Deprecated
+INSERT INTO itemTypeFields VALUES (19, 102, NULL, 22);  -- Country              Deprecated
+INSERT INTO itemTypeFields VALUES (19, 53, NULL, 23);   -- References           Deprecated
+INSERT INTO itemTypeFields VALUES (19, 2, NULL, 24);    -- rights
+INSERT INTO itemTypeFields VALUES (19, 22, NULL, 25);   -- extra
 
 -- statute
 INSERT INTO itemTypeFields VALUES (20, 112, NULL, 1);   -- nameOfAct
