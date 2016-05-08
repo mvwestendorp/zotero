@@ -1,4 +1,4 @@
--- 10076
+-- 10077
 
 -- Copyright (c) 2009 Center for History and New Media
 --                    George Mason University, Fairfax, Virginia, USA
@@ -1357,19 +1357,22 @@ INSERT INTO itemTypeCreatorTypes VALUES(15,5,0);
 INSERT INTO itemTypeCreatorTypes VALUES(16,12,1);
 INSERT INTO itemTypeCreatorTypes VALUES(16,28,0);
 INSERT INTO itemTypeCreatorTypes VALUES(16,2,0);
+INSERT INTO itemTypeCreatorTypes VALUES(16,4,0);  -- translator [ADDED]
 INSERT INTO itemTypeCreatorTypes VALUES(17,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(17,13,0);
 INSERT INTO itemTypeCreatorTypes VALUES(17,23,0); -- commenter [ADDED]
 INSERT INTO itemTypeCreatorTypes VALUES(17,2,0);
-INSERT INTO itemTypeCreatorTypes VALUES(17,4,0);
+INSERT INTO itemTypeCreatorTypes VALUES(17,4,0);  -- translator [ADDED]
 INSERT INTO itemTypeCreatorTypes VALUES(18,1261,1);
 INSERT INTO itemTypeCreatorTypes VALUES(18,2,0);
+INSERT INTO itemTypeCreatorTypes VALUES(18,4,0);  -- translator [ADDED]
 INSERT INTO itemTypeCreatorTypes VALUES(19,14,1);
 INSERT INTO itemTypeCreatorTypes VALUES(19,2,0);
 INSERT INTO itemTypeCreatorTypes VALUES(19,15,0);
 INSERT INTO itemTypeCreatorTypes VALUES(19,16,0);
 INSERT INTO itemTypeCreatorTypes VALUES(20,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(20,2,0);
+INSERT INTO itemTypeCreatorTypes VALUES(20,4,0);  -- translator [ADDED]
 INSERT INTO itemTypeCreatorTypes VALUES(21,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(21,2,0);
 INSERT INTO itemTypeCreatorTypes VALUES(21,16,0);
@@ -1436,6 +1439,7 @@ INSERT INTO itemTypeCreatorTypes VALUES(36,5,0);
 -- gazette (statute)
 INSERT INTO itemTypeCreatorTypes VALUES(1261,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(1261,2,0);
+INSERT INTO itemTypeCreatorTypes VALUES(1261,4,0);  -- translator [ADDED]
 -- treaty (document)
 INSERT INTO itemTypeCreatorTypes VALUES(1262,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(1262,2,0);
@@ -1445,6 +1449,7 @@ INSERT INTO itemTypeCreatorTypes VALUES(1262,27,0);
 -- regulation (statute)
 INSERT INTO itemTypeCreatorTypes VALUES(1263,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(1263,2,0);
+INSERT INTO itemTypeCreatorTypes VALUES(1263,4,0);  -- translator [ADDED]
 -- classic (manuscript)
 INSERT INTO itemTypeCreatorTypes VALUES(1264,1,1);
 INSERT INTO itemTypeCreatorTypes VALUES(1264,2,0);

@@ -7,11 +7,27 @@ Zotero.EXTENDED_CREATORS = {
 	"book":{
 		"recipient":"recipient"
 	},
-	"chapter":{
+	"bookSection":{
 		"recipient":"recipient"
 	},
 	"hearing":{
-		"testimonyBy":"author"
+		"testimonyBy":"author",
+		"translator":"translator"
+	},
+	"case":{
+		"translator":"translator"
+	},
+	"statute":{
+		"translator":"translator"
+	},
+	"bill":{
+		"translator":"translator"
+	},
+	"gazette":{
+		"translator":"translator"
+	},
+	"regulation":{
+		"translator":"translator"
 	}
 }
 
