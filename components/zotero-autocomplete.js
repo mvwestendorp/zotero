@@ -120,10 +120,17 @@ ZoteroAutoComplete.prototype.startSearch = function(searchString, searchParams, 
 				+ 'JOIN countryCourtLinks CCL USING (countryCourtLinkIdx) '
 				+ 'JOIN courtNames CN USING (courtNameIdx) '
 				+ 'JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx '
-	 	 		+ 'WHERE JU.jurisdictionName LIKE ? AND CO.jurisdictionID=? AND courtName LIKE ? '
+	 	 		+ 'WHERE CO.jurisdictionID=? AND JU.jurisdictionName LIKE ? AND (JU.jurisdictionName LIKE ? OR courtName LIKE ?) '
 				+ 'ORDER BY JU.segmentCount,CJL.jurisdictionIdx ';
-				+ 'LIMIT 100;';
- 		var sqlParams = [paramSegs,paramChop,searchParams.jurisdictionName + '%', searchParams.countryID, '%' + searchString + '%'];
+			+ 'LIMIT 100;';
+ 			var sqlParams = [
+				paramSegs,
+				paramChop, 
+				searchParams.countryID,
+				searchParams.jurisdictionName + '%',
+				'%' + searchString + '%',
+				'%' + searchString + '%'
+			];
 			statement = this._zotero.DB.getStatement(sql, sqlParams);
 			break;
 		
