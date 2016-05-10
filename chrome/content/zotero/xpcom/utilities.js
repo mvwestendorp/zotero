@@ -2243,9 +2243,17 @@ Zotero.Utilities = {
 						} else {
 							item[field] = cslItem[variable];
 							if (cslItem.multi) {
-								item.multi.main = cslItem.multi.main[variable];
+								if (cslItem.multi.main && cslItem.multi.main[variable]) {
+								    if (!item.multi.main[field]) {
+									    item.multi.main[field] = {};
+								    }
+								    item.multi.main[field] = cslItem.multi.main[variable];
+								}
 								if (cslItem.multi._keys[variable]) {
 									for (var lang in cslItem.multi._keys[variable]) {
+										if (!item.multi._keys[field]) {
+											item.multi._keys[field] = {};
+										}
 										item.multi._keys[field][lang] = cslItem.multi._keys[variable][lang]
 									}
 								}
