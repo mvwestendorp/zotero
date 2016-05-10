@@ -98,7 +98,8 @@ Zotero.EXTENDED_FIELDS = {
 		"jurisdiction":"jurisdiction",
 		"priorityDate":"original-date",
 		"publicationDate":"publication-date",
-		"publicationNumber":"publication-number"
+		"publicationNumber":"publication-number",
+		"genre":"genre"
 	}, 
 	"case": {
 		"jurisdiction":"jurisdiction",
