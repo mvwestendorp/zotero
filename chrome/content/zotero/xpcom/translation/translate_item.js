@@ -606,7 +606,7 @@ Zotero.Translate.ItemSaver.prototype = {
 					if (item.multi && item.multi.main && item.multi.main[field]) {
 						var itemMultiMain = item.multi.main[field];
 						if(Zotero.zlsValidator.validate(itemMultiMain)) {
-							itemMultiMain = Object.keys(Zotero.zlsValidator.tagData)
+							itemMultiMain = Object.keys(Zotero.zlsValidator.tagdata)
 							.map(function(k) {
 								return Zotero.zlsValidator.tagdata[k].subtag
 							}).join("-")
