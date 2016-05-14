@@ -177,7 +177,7 @@ var Zotero_CSL_Editor = new function() {
 			throw e;
 		}
 		
-		var itemIds = [for (item of items) item.id];
+		var itemIds = items.map(item => item.id);
 
 		styleEngine.updateItems(itemIds);
 
