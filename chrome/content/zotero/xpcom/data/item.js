@@ -6106,8 +6106,8 @@ Zotero.Item.prototype._loadItemData = function() {
 			this._itemData[22] = "[invalid]" + this._itemData[22];
 		}
 		// Resave item to fix Juris-M fields.
-		Zotero.debug("XXX resaving item: "+this.id);
-		this.save();
+		Zotero.debug("XXX saving would reallocate properly, but that would trigger infinite recursion: "+this.id);
+		//this.save();
 	}
 }
 
