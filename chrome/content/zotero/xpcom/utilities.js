@@ -72,7 +72,7 @@ const CSL_TEXT_MAPPINGS = {
 	"edition":["edition"],
 	"version":["versionNumber"],
 	"section":["section","opus"],
-	"genre":["type","reign","supplementName","sessionType", "programmingLanguage"],
+	"genre":["genre", "type","reign","supplementName","sessionType", "programmingLanguage"],
 	"chapter-number":["session","meetingNumber"],
 	"source":["libraryCatalog"],
 	"dimensions": ["artworkSize", "runningTime"],
