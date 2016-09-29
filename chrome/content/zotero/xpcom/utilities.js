@@ -2169,7 +2169,7 @@ Zotero.Utilities = {
         var zoteroTypeID = Zotero.ItemTypes.getID(zoteroType);
         var zoteroFields = Zotero.ItemFields.getItemTypeFields(zoteroTypeID);
         var validFields = {};
-        outer: for (var i=0,ilen=zoteroFields.length;i<ilen;i++) {
+		outer: for (var i=0,ilen=zoteroFields.length;i<ilen;i++) {
             var zField = Zotero.ItemFields.getName(zoteroFields[i]);
             for (var cField in CSL_TEXT_MAPPINGS) {
                 var lst = CSL_TEXT_MAPPINGS[cField];
@@ -2186,6 +2186,15 @@ Zotero.Utilities = {
                 }
             }
         }
+		var zoteroCreators = Zotero.CreatorTypes.getTypesForItemType(zoteroTypeID);
+		for (var i=0,ilen=zoteroCreators.length;i<ilen;i++) {
+			var zCreator = zoteroCreators[i].name;
+			for (cCreator in CSL_NAMES_MAPPINGS) {
+				if (CSL_NAMES_MAPPINGS[cCreator] === zCreator) {
+					validFields[cCreator] = true;
+				}
+			}
+		}
         return validFields;
     },
 
