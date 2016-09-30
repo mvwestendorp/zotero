@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.137beta",
+    PROCESSOR_VERSION: "1.1.136",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -126,7 +126,8 @@ var CSL = {
         "hearing": true,
         "gazette": true,
         "report": true,
-        "regulation": true
+        "regulation": true,
+        "standard": true
     },
     NestedBraces: [
         ["(", "["],
@@ -6993,9 +6994,6 @@ CSL.Node.group = {
                                     state.juris[jurisdiction][myName] = [];
                                     state.buildTokenLists(myNodes[i], state.juris[jurisdiction][myName]);
                                     state.configureTokenList(state.juris[jurisdiction][myName]);
-                                }
-                                if (macroCount < Object.keys(state.juris[jurisdiction].types).length) {
-                                    throw "CSL ERROR: Incomplete jurisdiction style module for: " + jurisdiction;
                                 }
                             }
                         }
