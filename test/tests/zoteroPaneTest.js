@@ -221,10 +221,6 @@ describe("ZoteroPane", function() {
 				}
 			);
 			
-<<<<<<< HEAD
-			yield zp.viewAttachment(item.id);
-			
-=======
 			// Disable loadURI() so viewAttachment() doesn't trigger translator loading
 			var stub = sinon.stub(zp, "loadURI");
 			
@@ -234,7 +230,6 @@ describe("ZoteroPane", function() {
 			assert.ok(stub.calledWith(OS.Path.toFileURI(item.getFilePath())));
 			stub.restore();
 			
->>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 			assert.equal((yield item.attachmentHash), md5);
 			assert.equal((yield item.attachmentModificationTime), mtime);
 			var path = yield item.getFilePathAsync();
