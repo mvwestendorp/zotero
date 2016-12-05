@@ -119,7 +119,7 @@ var Zotero_CSL_Editor = new function() {
 	function loadCSL(cslID) {
 		var editor = document.getElementById('zotero-csl-editor');
 		var style = Zotero.Styles.get(cslID);
-		editor.value = Zotero.File.getContents(style.file);
+		editor.value = style.getXML();
 		editor.cslID = cslID;
 		editor.doCommand();
 		document.getElementById('zotero-csl-list').value = cslID;
@@ -138,7 +138,6 @@ var Zotero_CSL_Editor = new function() {
 					+ '</div><div>' + e + '</div>';
 			throw e;
 		}
-		
 		return styleObject;
 	}
 	
@@ -157,6 +156,7 @@ var Zotero_CSL_Editor = new function() {
 	
 	this.generateBibliography = function(style) {
 		var iframe = document.getElementById('zotero-csl-preview-box');
+		var editor = document.getElementById('zotero-csl-editor');
 		
 		var items = Zotero.getActiveZoteroPane().getSelectedItems();
 		if (items.length == 0) {
@@ -228,6 +228,7 @@ var Zotero_CSL_Editor = new function() {
 				iframe.contentDocument.documentElement.innerHTML = '<div>' + Zotero.getString('styles.editor.warning.renderError') + '</div><div>'+e+'</div>';
 				throw e;
 		}
+		editor.styleEngine = styleEngine;
 	}
 	
 	

@@ -62,14 +62,14 @@ Zotero.Creators = new function() {
 	
 	
 	this.getItemsWithCreator = function (creatorID) {
-		var sql = "SELECT DISTINCT itemID FROM itemCreators WHERE creatorID=?";
-		return Zotero.DB.columnQueryAsync(sql, creatorID);
+		var sql = "SELECT DISTINCT itemID FROM itemCreators AS IC,itemCreatorsAlt AS ICA WHERE IC.creatorID=? OR ICA.creatorID=?";
+		return Zotero.DB.columnQueryAsync(sql, creatorID, creatorID);
 	}
 	
 	
 	this.countItemAssociations = function (creatorID) {
-		var sql = "SELECT COUNT(*) FROM itemCreators WHERE creatorID=?";
-		return Zotero.DB.valueQueryAsync(sql, creatorID);
+		var sql = "SELECT COUNT(*) FROM itemCreators AS IC,itemCreatorsAlt AS ICA WHERE IC.creatorID=? OR ICA.creatorID=?";
+		return Zotero.DB.valueQueryAsync(sql, creatorID, creatorID);
 	}
 	
 	
@@ -127,7 +127,8 @@ Zotero.Creators = new function() {
 		Zotero.debug("Purging creator tables");
 		
 		var sql = 'SELECT creatorID FROM creators WHERE creatorID NOT IN '
-			+ '(SELECT creatorID FROM itemCreators)';
+			+ '(SELECT creatorID FROM itemCreators) AND creatorID NOT IN '
+			+ '(SELECT creatorID FROM itemCreatorsAlt)';
 		var toDelete = yield Zotero.DB.columnQueryAsync(sql);
 		if (toDelete.length) {
 			// Clear creator entries in internal array
@@ -136,7 +137,13 @@ Zotero.Creators = new function() {
 			}
 			
 			var sql = "DELETE FROM creators WHERE creatorID NOT IN "
-				+ "(SELECT creatorID FROM itemCreators)";
+				+ "(SELECT creatorID FROM itemCreators) AND creatorID NOT IN "
+				+ "(SELECT creatorID FROM itemCreatorsAlt)";
+			yield Zotero.DB.queryAsync(sql);
+			
+			// Purge unused itemCreatorMain rows
+			var sql = 'DELETE FROM itemCreatorsMain WHERE creatorID NOT IN '
+				+ '(SELECT creatorID FROM creators)';
 			yield Zotero.DB.queryAsync(sql);
 		}
 		
@@ -147,88 +154,119 @@ Zotero.Creators = new function() {
 	this.equals = function (data1, data2) {
 		data1 = this.cleanData(data1);
 		data2 = this.cleanData(data2);
-		return data1.lastName === data2.lastName
-			&& data1.firstName === data2.firstName
-			&& data1.fieldMode === data2.fieldMode
-			&& data1.creatorTypeID === data2.creatorTypeID;
+		//return data1.lastName === data2.lastName
+		//	&& data1.firstName === data2.firstName
+		//	&& data1.fieldMode === data2.fieldMode
+		//	&& data1.creatorTypeID === data2.creatorTypeID;
+		return Zotero.DataObjectUtilities.equals(data1, data2);
 	},
 	
-	
-	this.cleanData = function (data) {
-		// Validate data
-		if (data.name === undefined && data.lastName === undefined) {
-			throw new Error("Creator data must contain either 'name' or 'firstName'/'lastName' properties");
-		}
-		if (data.name !== undefined && (data.firstName !== undefined || data.lastName !== undefined)) {
-			throw new Error("Creator data cannot contain both 'name' and 'firstName'/'lastName' properties");
-		}
-		if (data.name !== undefined && data.fieldMode === 0) {
-			throw new Error("'fieldMode' cannot be 0 with 'name' property");
-		}
-		if (data.fieldMode === 1 && !(data.firstName === undefined || data.firstName === "")) {
-			throw new Error("'fieldMode' cannot be 1 with 'firstName' property");
-		}
-		if (data.name !== undefined && typeof data.name != 'string') {
-			throw new Error("'name' must be a string");
-		}
-		if (data.firstName !== undefined && typeof data.firstName != 'string') {
-			throw new Error("'firstName' must be a string");
-		}
-		if (data.lastName !== undefined && typeof data.lastName != 'string') {
-			throw new Error("'lastName' must be a string");
-		}
-		
-		var cleanedData = {
-			fieldMode: 0,
-			firstName: '',
-			lastName: ''
-		};
-		for (let i=0; i<this.fields.length; i++) {
-			let field = this.fields[i];
-			let val = data[field];
-			switch (field) {
-			case 'firstName':
-			case 'lastName':
-				if (val === undefined) continue;
-				cleanedData[field] = val.trim().normalize();
-				break;
+	this.cleanData = function (data, includeDependents) {
+		var me = this;
+		function _cleanData(data) {
+			// Validate data
+			if (data.name === undefined && data.lastName === undefined) {
+				throw new Error("Creator data must contain either 'name' or 'firstName'/'lastName' properties");
+			}
+			if (data.name !== undefined && (data.firstName !== undefined || data.lastName !== undefined)) {
+				throw new Error("Creator data cannot contain both 'name' and 'firstName'/'lastName' properties");
+			}
+			if (data.name !== undefined && data.fieldMode === 0) {
+				throw new Error("'fieldMode' cannot be 0 with 'name' property");
+			}
+			if (data.fieldMode === 1 && !(data.firstName === undefined || data.firstName === "")) {
+				throw new Error("'fieldMode' cannot be 1 with 'firstName' property");
+			}
+			if (data.name !== undefined && typeof data.name != 'string') {
+				throw new Error("'name' must be a string");
+			}
+			if (data.firstName !== undefined && typeof data.firstName != 'string') {
+				throw new Error("'firstName' must be a string");
+			}
+			if (data.lastName !== undefined && typeof data.lastName != 'string') {
+				throw new Error("'lastName' must be a string");
+			}
 			
-			case 'fieldMode':
-				cleanedData[field] = val ? parseInt(val) : 0;
-				break;
+			var cleanedData = {
+				fieldMode: 0,
+				firstName: '',
+				lastName: ''
+			};
+			for (let i=0; i<me.fields.length; i++) {
+				let field = me.fields[i];
+				let val = data[field];
+				switch (field) {
+				case 'firstName':
+				case 'lastName':
+					if (val === undefined) continue;
+					cleanedData[field] = val.trim().normalize();
+					break;
+					
+				case 'fieldMode':
+					cleanedData[field] = val ? parseInt(val) : 0;
+					break;
+				}
+			}
+			
+			// Handle API JSON .name
+			if (data.name !== undefined) {
+				cleanedData.lastName = data.name.trim().normalize();
+				cleanedData.fieldMode = 1;
+			}
+			
+			var creatorType = data.creatorType || data.creatorTypeID;
+			if (creatorType) {
+				cleanedData.creatorTypeID = Zotero.CreatorTypes.getID(creatorType);
+				if (!cleanedData.creatorTypeID) {
+					let msg = "'" + creatorType + "' isn't a valid creator type";
+					Zotero.debug(msg, 2);
+					Components.utils.reportError(msg);
+				}
+			}
+			
+			return cleanedData;
+		}
+		var cleanedData = _cleanData(data);
+		if (data.multi && includeDependents) {
+			cleanedData.multi = {
+				_key: {}
+			}
+			if (data.multi.main) {
+				cleanedData.multi.main = data.multi.main;
+			}
+			for (let lang in data.multi._key) {
+				cleanedData.multi._key[lang] = _cleanData(data.multi._key[lang]);
 			}
 		}
-		
-		// Handle API JSON .name
-		if (data.name !== undefined) {
-			cleanedData.lastName = data.name.trim().normalize();
-			cleanedData.fieldMode = 1;
-		}
-		
-		var creatorType = data.creatorType || data.creatorTypeID;
-		if (creatorType) {
-			cleanedData.creatorTypeID = Zotero.CreatorTypes.getID(creatorType);
-			if (!cleanedData.creatorTypeID) {
-				let msg = "'" + creatorType + "' isn't a valid creator type";
-				Zotero.debug(msg, 2);
-				Components.utils.reportError(msg);
-			}
-		}
-		
 		return cleanedData;
 	}
 	
 	
 	this.internalToJSON = function (fields) {
-		var obj = {};
-		if (fields.fieldMode == 1) {
-			obj.name = fields.lastName;
+		function _internalToJSON(fields, masterCreator) {
+			var obj = {};
+			if (fields.fieldMode == 1) {
+				obj.name = fields.lastName;
+			}
+			else {
+				obj.firstName = fields.firstName;
+				obj.lastName = fields.lastName;
+			}
+			if (masterCreator) {
+				obj.creatorType = Zotero.CreatorTypes.getName(fields.creatorTypeID);
+				obj.multi = {
+					_key: {}
+				}
+				if (fields.multi.main) {
+					obj.multi.main = fields.multi.main;
+				}
+			}
+			return obj;
 		}
-		else {
-			obj.firstName = fields.firstName;
-			obj.lastName = fields.lastName;
+		var obj = _internalToJSON(fields, true);
+		for (let lang in fields.multi._key) {
+			obj.multi._key[lang] = _internalToJSON(fields.multi._key[lang]);
 		}
-		obj.creatorType = Zotero.CreatorTypes.getName(fields.creatorTypeID);
 		return obj;
 	}
 }

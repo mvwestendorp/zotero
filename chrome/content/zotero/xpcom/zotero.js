@@ -60,6 +60,8 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 	this.isMac;
 	this.isWin;
 	this.initialURL; // used by Schema to show the changelog on upgrades
+	this.multiFieldIds;   // key object
+	this.multiFieldNames; // key object	
 	
 	Components.utils.import("resource://zotero/bluebird.js", this);
 	
@@ -286,8 +288,8 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				_startupErrorHandler = function() {
 					var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].
 							createInstance(Components.interfaces.nsIPromptService);
-					var buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_OK)
-						+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_IS_STRING)
+					var buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_YES)
+						+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_NO)
 						+ (ps.BUTTON_POS_2) * (ps.BUTTON_TITLE_IS_STRING);
 					// TEMP: lastDataDir can be removed once old persistent descriptors have been
 					// converted, which they are in getZoteroDirectory() in 5.0
@@ -380,12 +382,36 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 			// Store a startupError until we get information from Zotero Standalone
 			Zotero.startupError = Zotero.getString("connector.loadInProgress")
 			
-			if(!Zotero.isFirstLoadThisSession) {
-				// We want to get a checkInitComplete message before initializing if we switched to
-				// connector mode because Standalone was launched
-				Zotero.IPC.broadcast("checkInitComplete");
+			// Add shutdown listener to remove quit-application observer and console listener
+			this.addShutdownListener(function() {
+				Services.obs.removeObserver(_shutdownObserver, "quit-application", false);
+				Services.console.unregisterListener(ConsoleListener);
+			});
+			
+			// Load additional info for connector or not
+			if(Zotero.isConnector) {
+				Zotero.debug("Loading in connector mode");
+				Zotero.Connector_Types.init();
+				
+				// Store a startupError until we get information from Zotero Standalone
+				Zotero.startupError = Zotero.getString("connector.loadInProgress")
+				
+				if(!Zotero.isFirstLoadThisSession) {
+					// We want to get a checkInitComplete message before initializing if we switched to
+					// connector mode because Standalone was launched
+					Zotero.IPC.broadcast("checkInitComplete");
+				} else {
+					Zotero.initComplete();
+				}
 			} else {
-				Zotero.initComplete();
+				Zotero.debug("Loading in full mode");
+				return Zotero.Promise.try(_initFull)
+				.then(function (success) {
+					if(!success) return false;
+					
+					if(Zotero.isStandalone) Zotero.Standalone.init();
+					Zotero.initComplete();
+				});
 			}
 		} else {
 			Zotero.debug("Loading in full mode");
@@ -404,6 +430,21 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 		return true;
 	});
 	
+	 
+	this.copyZoteroDatabaseToJurism = function () {
+		var extensions = ["sqlite", "sqlite-journal"];
+		for (var i=0,ilen=extensions.length;i<ilen;i++) {
+			var ext = extensions[i];
+			var oldFile = Zotero.getZoteroDirectory();
+			oldFile.append("zotero." + ext);
+			var newFile = Zotero.getZoteroDirectory();
+			newFile.append("jurism." + ext);
+			if (oldFile.exists() && !newFile.exists()) {
+				oldFile.copyTo(null, "jurism." + ext);
+			}
+		}
+	}
+	 
 	/**
 	 * Triggers events when initialization finishes
 	 */
@@ -681,17 +722,23 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 				throw e;
 			}
 			
-			yield Zotero.Users.init();
-			yield Zotero.Libraries.init();
-			
 			yield Zotero.ItemTypes.init();
 			yield Zotero.ItemFields.init();
 			yield Zotero.CreatorTypes.init();
+			yield Zotero.CachedLanguages.init();
+			yield Zotero.CachedMultiFields.init();
+			Zotero.CachedJurisdictionData.init();
 			yield Zotero.FileTypes.init();
 			yield Zotero.CharacterSets.init();
 			yield Zotero.RelationPredicates.init();
 			
 			Zotero.locked = false;
+			
+			// Data for jurisdiction support (loaded as JSON)
+			Zotero.Jurisdiction.init();
+			
+			yield Zotero.Users.init();
+			yield Zotero.Libraries.init();
 			
 			// Initialize various services
 			Zotero.Integration.init();
@@ -855,6 +902,10 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 		if(Zotero.isConnector) {
 			// if DB lock is released, switch out of connector mode
 			switchConnectorMode(false);
+			try {
+				AbbrevsFilter = Components.classes['@juris-m.github.io/abbrevs-filter;1'].getService(Components.interfaces.nsISupports).wrappedJSObject;
+				AbbrevsFilter.initComponent(Zotero);
+			} catch (e) {}
 		} else if(_waitingForDBLock) {
 			// if waiting for DB lock and we get it, continue init
 			_waitingForDBLock = false;
@@ -883,6 +934,10 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
 			if (Zotero.DB) {
 				// close DB
 				yield Zotero.DB.closeDatabase(true)
+				
+				try {
+					yield AbbrevsFilter.db.closeDatabase(true);
+				} catch (e) {}
 				
 				if (!Zotero.restarting) {
 					// broadcast that DB lock has been released

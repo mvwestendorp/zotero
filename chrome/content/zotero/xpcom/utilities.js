@@ -32,6 +32,7 @@
  * and it makes the code cleaner
  */
 var CSL_NAMES_MAPPINGS = {
+	"artist":"author",
 	"author":"author",
 	"editor":"editor",
 	"bookAuthor":"container-author",
@@ -41,7 +42,11 @@ var CSL_NAMES_MAPPINGS = {
 	"recipient":"recipient",
 	"reviewedAuthor":"reviewed-author",
 	"seriesEditor":"collection-editor",
-	"translator":"translator"
+	"testimonyBy":"author",
+	"translator":"translator",
+	"contributor":"contributor",
+	//"authority":"authority",
+	"commenter":"commenter"
 }
 
 /*
@@ -49,29 +54,35 @@ var CSL_NAMES_MAPPINGS = {
  */
 var CSL_TEXT_MAPPINGS = {
 	"title":["title"],
-	"container-title":["publicationTitle",  "reporter", "code"], /* reporter and code should move to SQL mapping tables */
-	"collection-title":["seriesTitle", "series"],
-	"collection-number":["seriesNumber"],
+	"container-title":["publicationTitle",  "reporter", "code", "album", "websiteTitle"], /* reporter and code should move to SQL mapping tables */
+	"collection-title":["seriesTitle", "series", "parentTreaty"],
+	"collection-number":["seriesNumber","assemblyNumber","regnalYear","yearAsVolume"],
 	"publisher":["publisher", "distributor"], /* distributor should move to SQL mapping tables */
 	"publisher-place":["place"],
-	"authority":["court","legislativeBody", "issuingAuthority"],
+	"authority":["court", "legislativeBody", "issuingAuthority","institution"],
+	"committee":["committee"],
+	"gazette-flag":["gazetteFlag"],
+	"document-name":["documentName"],
 	"page":["pages"],
-	"volume":["volume", "codeNumber"],
+	"volume":["volume","codeNumber"],
+	"volume-title":["volumeTitle"],
 	"issue":["issue", "priorityNumbers"],
 	"number-of-volumes":["numberOfVolumes"],
 	"number-of-pages":["numPages"],	
 	"edition":["edition"],
 	"version":["versionNumber"],
-	"section":["section", "committee"],
-	"genre":["type", "programmingLanguage"],
+	"section":["section","opus"],
+	"genre":["genre", "type","reign","supplementName","sessionType", "programmingLanguage"],
+	"chapter-number":["session","meetingNumber"],
 	"source":["libraryCatalog"],
 	"dimensions": ["artworkSize", "runningTime"],
 	"medium":["medium", "system"],
 	"scale":["scale"],
 	"archive":["archive"],
 	"archive_location":["archiveLocation"],
-	"event":["meetingName", "conferenceName"], /* these should be mapped to the same base field in SQL mapping tables */
+	"event":["meetingName", "conferenceName", "resolutionLabel"], /* these should be mapped to the same base field in SQL mapping tables */
 	"event-place":["place"],
+	"archive-place":["place"],
 	"abstract":["abstractNote"],
 	"URL":["url"],
 	"DOI":["DOI"],
@@ -80,22 +91,38 @@ var CSL_TEXT_MAPPINGS = {
 	"call-number":["callNumber", "applicationNumber"],
 	"note":["extra"],
 	"number":["number"],
-	"chapter-number":["session"],
+	//"pending-number":["applicationNumber"],
 	"references":["history", "references"],
 	"shortTitle":["shortTitle"],
 	"journalAbbreviation":["journalAbbreviation"],
-	"status":["legalStatus"],
-	"language":["language"]
+	"language":["language"],
+	"jurisdiction":["jurisdiction"],
+	"status":["status", "legalStatus"],
+	"publication-number": ["publicationNumber"]
 }
 
 /*
  * Mappings for dates
  */
 var CSL_DATE_MAPPINGS = {
-	"issued":"date",
-	"accessed":"accessDate",
-	"submitted":"filingDate"
+	"issued":["date"],
+	"original-date":["newsCaseDate","priorityDate","originalDate","adoptionDate"],
+	"submitted":["filingDate"],
+	"accessed":["accessDate"],
+	"available-date":["openingDate"],
+	"event-date":["signingDate","conferenceDate","dateAmended"],
+	"publication-date":["publicationDate"]
 }
+
+var CSL_DATE_VARIABLES = function() {
+	var ret = {};
+	for (var key in CSL_DATE_MAPPINGS) {
+		for (var i=0,ilen=CSL_DATE_MAPPINGS[key].length;i<ilen;i++) {
+			ret[CSL_DATE_MAPPINGS[key][i]] = true;
+		}
+	}
+	return ret;
+}();
 
 /*
  * Mappings for types
@@ -120,7 +147,7 @@ var CSL_TYPE_MAPPINGS = {
 	'report':"report",
 	'bill':"bill",
 	'case':"legal_case",
-	'hearing':"bill",				// ??
+	'hearing':"hearing",				// ??
 	'patent':"patent",
 	'statute':"legislation",		// ??
 	'email':"personal_communication",
@@ -130,20 +157,61 @@ var CSL_TYPE_MAPPINGS = {
 	'forumPost':"post",
 	'audioRecording':"song",		// ??
 	'presentation':"speech",
-	'videoRecording':"motion_picture",
+	'videoRecording':"video",
 	'tvBroadcast':"broadcast",
 	'radioBroadcast':"broadcast",
 	'podcast':"song",			// ??
 	'computerProgram':"book",		// ??
+	'gazette':'gazette', // deprecated
+	'regulation':'regulation',
+	'classic':'classic',
+	'treaty':'treaty',
+	'standard':'standard',
 	'document':"article",
 	'note':"article",
 	'attachment':"article"
 };
 
 /**
+ * Force Fields
+*/
+var CSL_FORCE_FIELD_CONTENT = {
+	"tvBroadcast":{
+		"genre":"television broadcast"
+	},
+	"radioBroadcast":{
+		"genre":"radio broadcast"
+	},
+	"instantMessage":{
+		"genre":"instant message"
+	},
+	"email":{
+		"genre":"email"
+	},
+	"podcast":{
+		"genre":"podcast"
+	}
+}
+
+var CSL_FORCE_REMAP = {
+	"periodical":{
+		"title":"container-title"
+	}
+}
+
+
+/**
  * @class Functions for text manipulation and other miscellaneous purposes
  */
 Zotero.Utilities = {
+
+	"isDate": function(varName) {
+		return CSL_DATE_VARIABLES[varName] ? true : false;
+	},
+
+	"getCslTypeFromItemType":function(itemType) {
+		return CSL_TYPE_MAPPINGS[itemType];
+	},
 	/**
 	 * Cleans extraneous punctuation off a creator name and parse into first and last name
 	 *
@@ -214,6 +282,279 @@ Zotero.Utilities = {
 		return {firstName:firstName, lastName:lastName, creatorType:type};
 	},
 	
+
+	/**
+	 * Sets a multilingual field value
+	 * Used in translators.
+	 *
+	 * @param {Object} obj Item object
+	 * @param {String} field Field name
+	 * @param {String} val Field value
+	 * @param {String} languageTag RFC 5646 language tag
+	 */
+	"setMultiField":function (obj, field, val, languageTag, defaultLanguage) {
+		// Validate parameters
+		if ("string" !== typeof val) {
+			throw "Invalid value for multilingual field";
+		}
+		if (!field) {
+			throw "No field value given to setMultiField";
+		}
+		// Initialize if required
+		if (languageTag) {
+			if (!obj.multi) {
+				obj.multi = {};
+			}
+			if (!obj.multi.main) {
+				obj.multi.main = {};
+			}
+			if (!obj.multi._keys) {
+				obj.multi._keys = {};
+			}
+		}
+		// Set field value
+		if (!obj[field]) {
+			obj[field] = val;
+			if (languageTag && languageTag !== defaultLanguage) {
+				obj.multi.main[field] = languageTag;
+			}
+		} else if (languageTag) {
+			if (!obj.multi._keys[field]) {
+				obj.multi._keys[field] = {};
+			}
+			obj.multi._keys[field][languageTag] = val;
+		}
+	},
+
+	/**
+	 * Sets a multilingual creator
+	 * Used in translators.
+	 *
+	 * @param {Object} obj Parent creator object (may be empty)
+	 * @param {String} child Child creator object to be added
+	 * @param {String} languageTag RFC 5646 language tag
+	 */
+	"setMultiCreator":function (obj, child, languageTag, creatorType, defaultLanguage) {
+		// Validate parameters
+		if ("object" !== typeof obj) {
+			throw "Multilingual creator parent must be an object";
+		}
+		if ("object" !== typeof child) {
+			throw "Multilingual creator child must be an object";
+		}
+		if (obj.itemID) {
+			throw "Must give creator as multilingual creator parent, not item";
+		}
+		// Initialize if required
+		if (languageTag) {
+			if (!obj.multi) {
+				obj.multi = {};
+			}
+			if (!obj.multi._key) {
+				obj.multi._key = {};
+			}
+		}
+		// Set field value
+		if (!obj.lastName) {
+			obj.lastName = child.lastName;
+			obj.firstName = child.firstName;
+			obj.creatorType = creatorType;
+			if (languageTag && languageTag !== defaultLanguage) {
+				obj.multi.main = languageTag;
+			}
+		} else  if (languageTag) {
+			obj.multi._key[languageTag] = child;
+		}
+	},
+
+	"getMultiCreator":function(obj, fieldName, langTag) {
+		if (!langTag) {
+			return obj[fieldName];
+		} else {
+			return obj.multi._key[langTag][fieldName]
+		}
+	},
+
+	"extractCreatorFields":function(creator, langTag) {
+		if (creator.fieldMode && creator.fieldMode == 1) {
+			// Single-field mode
+			var fields = {
+				lastName: Zotero.Utilities.getMultiCreator(creator, 'lastName', langTag),
+				fieldMode: 1
+			};
+		} else {
+			// Two-field mode
+			var fields = {
+				firstName: Zotero.Utilities.getMultiCreator(creator, 'firstName', langTag),
+				lastName: Zotero.Utilities.getMultiCreator(creator, 'lastName', langTag)
+			};
+		}
+		return fields;
+	},
+	
+	"composeDoc":function(doc, titleOrHead, object, suppressURL) {
+		var o;
+		var content = false;
+		// (object) is either a single DOM element, a DOM
+		// collection, or an array of DOM elements or DOM 
+		// collections. Only the first element of a DOM collection 
+		// is used in the constructed document.
+
+		// Punch out early if there is nothing here.
+		if (!object || !(object.length || object.tagName)) {
+			return false;
+		} else if (!object.tagName) {
+			var fail = true;
+			for (var i = 0, ilen = object.length; i < ilen; i += 1) {
+				if (object[i] && (object[i].tagName || object[i].length)) {
+					fail = false;
+					break;
+				}
+			}
+			if (fail) {
+				return false;
+			}
+		}
+
+		// Cast a namespace object
+		// var myns = doc.documentElement.namespaceURI;
+		var myns = "http://www.w3.org/1999/xhtml"
+
+		// Cast a document type for a new custom-spun HTML document
+		//var newDocType = doc.implementation.createDocumentType("html:html", "-//W3C//DTD HTML 4.01 Transitional//EN", "http://www.w3.org/TR/html4/loose.dtd");
+
+		var newDocType = doc.implementation.createDocumentType('html', '', '');
+
+		// Create an empty HTML document
+		var newDoc = doc.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', newDocType);
+
+		var getHeaderFooter = function (title, footer) {
+			// Cast a headerfooter div for use in the document,
+			// with a horizontal rule at the top
+			var ret = newDoc.createElementNS(myns, "div");
+			var hr = newDoc.createElementNS(myns, "hr");
+			
+			// Cast a div for the title, populate it with the title
+			// text, and insert the unit into the headerfooter object
+			var text = newDoc.createElementNS(myns, "div");
+			text.appendChild(newDoc.createTextNode(title));
+			
+			// Cast a source div, populate it with a simple
+			// label and the URL of the document from which
+			// the text is extracted, bundle the unit up
+			// and insert it into the document HTML node.
+			var source = newDoc.createElementNS(myns, "div");
+			if (!suppressURL) {
+				source.setAttribute("class","mlz-link-button");
+				var source_anchor = newDoc.createElementNS(myns, "a");
+				source_anchor.setAttribute("href", doc.location.href);
+				var source_anchor_text = newDoc.createTextNode("View text online");
+				source_anchor.appendChild(source_anchor_text);
+				source.appendChild(source_anchor);
+			}
+			
+
+
+			if (footer) {
+				ret.appendChild(hr);
+				ret.appendChild(text);
+				ret.appendChild(source);
+			} else {
+				ret.appendChild(text);
+				ret.appendChild(source);
+				ret.appendChild(hr);
+			}
+			return ret;
+		}
+
+
+		// Get the HTML section of the document, into which we will insert things.
+		var html = newDoc.getElementsByTagName("html")[0];
+
+		// Cast a header and a title element,
+		// fill in some details in both; create a base
+		// element and give in a URL ending in html.
+		// merge the two, and insert into the html element
+		var head, title;
+		if ("string" === typeof titleOrHead) {
+			head = newDoc.createElementNS(myns, "head");
+			title = titleOrHead
+		} else if ("object" === typeof titleOrHead) {
+			head = titleOrHead.cloneNode(true);
+			title = titleOrHead.getElementsByTagName("title")[0].textContent;
+		}
+		var base = newDoc.createElementNS(myns, "base");
+		var header_title = newDoc.createElementNS(myns, "title");
+		header_title_text = newDoc.createTextNode(title);
+		header_title.appendChild(header_title_text);
+		head.appendChild(header_title);
+		base.setAttribute("target", "_blank");
+		base.setAttribute("href", doc.location.href);
+		// base.setAttribute("href", 'http://example.com/eg.html');
+		head.appendChild(base);
+		html.appendChild(head);
+
+		// Cast a body element, insert an overall wrapper
+		// div into it, insert the content node
+		// into that, and insert the body into the document.
+		var body = newDoc.createElementNS(myns, "body");
+
+		contentNode = newDoc.createElementNS(myns, "div");
+		contentNode.setAttribute("class","mlz-outer");
+		body.appendChild(contentNode);
+
+		contentNode.appendChild(getHeaderFooter(title));
+
+		if (object.tagName) {
+			// Object is a DOM node. Clone and wrap.
+			content = object.cloneNode(true);
+			contentNode.appendChild(content);
+		} else if (object.length) {
+			for (var i = 0, ilen = object.length; i < ilen; i += 1) {
+				o = object[i];
+				if (o.tagName || o.nodeName === '#text') {
+					// Object is a DOM node. Clone and wrap.
+					content = o.cloneNode(true);
+					contentNode.appendChild(content);
+				} else {
+					// Object is a DOM-list consisting of elements.
+					// If non-zero, clone the first and wrap.
+					if (o.length) {
+						content = o[0].cloneNode(true);
+						contentNode.appendChild(content);
+					}
+				}
+			}
+		}
+
+		contentNode.appendChild(getHeaderFooter(title, true));
+
+		// Insert the body into the document HTML node
+		html.appendChild(body);
+		return newDoc;
+	},
+
+	"getTextContent":function(node) {
+		// Multi-browser fun.
+		// See http://ecmanaut.blogspot.com/2007/02/domnodetextcontent-and-nodeinnertext.html
+		var text = false;	
+		if (node) {
+		// W3C conformant browsers
+			text = node.textContent;
+		}
+		if (!text) {
+			// Opera, IE 6 & 7
+			text = node.innerText;
+		}
+		if (!text) {
+			// Safari
+			text = node.innerHTML;
+		}
+		return text;
+	},
+
+	"parseNoteFieldHacks": Zotero.CiteProc ? Zotero.CiteProc.CSL.parseNoteFieldHacks : false,
+
 	/**
 	 * Removes leading and trailing whitespace from a string
 	 * @type String
@@ -889,12 +1230,13 @@ Zotero.Utilities = {
 	 * @type String
 	 */
 	"capitalizeTitle":function(string, force) {
-		const skipWords = ["but", "or", "yet", "so", "for", "and", "nor", "a", "an",
+		var skipWords = ["but", "or", "yet", "so", "for", "and", "nor", "a", "an",
 			"the", "at", "by", "from", "in", "into", "of", "on", "to", "with", "up",
 			"down", "as"];
+		var alwaysLowerCase = ["plc", "v"];
 		
 		// this may only match a single character
-		const delimiterRegexp = /([ \/\u002D\u00AD\u2010-\u2015\u2212\u2E3A\u2E3B])/;
+		var delimiterRegexp = /([ \/\u002D\u00AD\u2010-\u2015\u2212\u2E3A\u2E3B])/;
 		
 		string = this.trimInternal(string);
 		string = string.replace(/ : /g, ": ");
@@ -903,7 +1245,8 @@ Zotero.Utilities = {
 		
 		// split words
 		var words = string.split(delimiterRegexp);
-		var isUpperCase = string.toUpperCase() == string;
+		var stringWithoutV = string.replace(/([^A-Za-z])v([^A-Za-z])/, "$1$2");
+		var isUpperCase = stringWithoutV.toUpperCase() == stringWithoutV;
 		
 		var newString = "";
 		var delimiterOffset = words[0].length;
@@ -918,12 +1261,15 @@ Zotero.Utilities = {
 				// only use if word does not already possess some capitalization
 				if(isUpperCase || words[i] == lowerCaseVariant) {
 					if(
-						// a skip word
-						skipWords.indexOf(lowerCaseVariant.replace(/[^a-zA-Z]+/, "")) != -1
-						// not first or last word
-						&& i != 0 && i != lastWordIndex
-						// does not follow a colon
-						&& (previousWordIndex == -1 || words[previousWordIndex][words[previousWordIndex].length-1].search(/[:\?!]/)==-1)
+						alwaysLowerCase.indexOf(lowerCaseVariant.replace(/[^a-zA-Z]+/, "")) != -1
+						|| (
+							// a skip word
+							skipWords.indexOf(lowerCaseVariant.replace(/[^a-zA-Z]+/, "")) != -1
+							// not first word, or last word if not #2 forcing for case names
+								&& i != 0 && i != lastWordIndex
+							// does not follow a colon
+						        && (previousWordIndex == -1 || words[previousWordIndex][words[previousWordIndex].length-1].search(/[:\?!]/)==-1)
+						)
 					) {
 						words[i] = lowerCaseVariant;
 					} else {
@@ -1194,7 +1540,7 @@ Zotero.Utilities = {
 		if(typeof literal !== "string") {
 			throw "Argument "+literal+" must be a string in Zotero.Utilities.quotemeta()";
 		}
-		const metaRegexp = /[-[\]{}()*+?.\\^$|,#\s]/g;
+		var metaRegexp = /[-[\]{}()*+?.\\^$|,#\s]/g;
 		return literal.replace(metaRegexp, "\\$&");
 	},
 	
@@ -1606,13 +1952,51 @@ Zotero.Utilities = {
 		return newItems;
 	},
 	
+
+    /**
+     * Helper function for pre-factoring creator names
+     */
+    "creatorConvItemToCSLJSON":function(nameObj, creator) {
+		if (creator.lastName || creator.firstName) {
+			nameObj.family = creator.lastName || '';
+			nameObj.given = creator.firstName || '';
+				
+			// Parse name particles
+			// Replicate citeproc-js logic for what should be parsed so we don't
+			// break current behavior.
+			if (nameObj.family && nameObj.given) {
+				// Don't parse if last name is quoted
+				if (nameObj.family.length > 1
+					&& nameObj.family.charAt(0) == '"'
+					&& nameObj.family.charAt(nameObj.family.length - 1) == '"'
+				   ) {
+					nameObj.family = nameObj.family.substr(1, nameObj.family.length - 2);
+				} else {
+					Zotero.CiteProc.CSL.parseParticles(nameObj, true);
+				}
+			} else if (creator.lastName) {
+				nameObj.literal = creator.lastName;
+			}
+			//if (Zotero.Prefs.get('csl.enableInstitutionFormatting')) {
+			//	if (creator.fieldMode) {
+			//		nameObj.isInstitution = fieldMode;
+			//	}
+			//}
+		} else if (creator.name) {
+			nameObj.literal = creator.name;
+			//nameObj.family = creator.name;
+			//nameObj.given = '';
+			//nameObj.isInstitution = 1;
+		}
+	},
+
 	/**
 	 * Converts an item from toArray() format to citeproc-js JSON
 	 * @param {Zotero.Item} zoteroItem
 	 * @return {Object|Promise<Object>} A CSL item, or a promise for a CSL item if a Zotero.Item
 	 *     is passed
 	 */
-	"itemToCSLJSON":function(zoteroItem) {
+	"itemToCSLJSON":function(zoteroItem, portableJSON, stopAuthority) {
 		// If a Zotero.Item was passed, convert it to the proper format (skipping child items) and
 		// call this function again with that object
 		if (zoteroItem instanceof Zotero.Item) {
@@ -1621,6 +2005,16 @@ Zotero.Utilities = {
 			);
 		}
 		
+		if (portableJSON) {
+			// Normalize date format to something spartan and unambiguous
+			for (var field in zoteroItem) {
+				if (Zotero.Utilities.isDate(field) && Zotero.Date.isMultipart(zoteroItem[field])) {
+					zoteroItem[field] = Zotero.Date.multipartToSQL(zoteroItem[field]);
+				}
+			}
+			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(zoteroItem);
+		}
+
 		var cslType = CSL_TYPE_MAPPINGS[zoteroItem.itemType];
 		if (!cslType) {
 			throw new Error('Unexpected Zotero Item type "' + zoteroItem.itemType + '"');
@@ -1628,19 +2022,42 @@ Zotero.Utilities = {
 		
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroItem.itemType);
 		
+		// Juris-M: used in FORCE FIELDS below
+		var itemType = zoteroItem.itemType;
+
 		var cslItem = {
 			'id':zoteroItem.uri,
 			'type':cslType
 		};
 		
+		if (!portableJSON) {
+			cslItem.multi = {
+				'main':{},
+				'_keys':{}
+			}
+		};
+
+		// ??? Is this EVER useful?
+		//if (!portableJSON) {
+		//	if (!zoteroItem.libraryID) {
+		//		cslItem.system_id = "0_" + zoteroItem.key;
+		//	} else {
+		//		cslItem.system_id = zoteroItem.libraryID + "_" + zoteroItem.key;
+		//	}
+		//}
+		
+		cslItem.id = zoteroItem.id;
+
 		// get all text variables (there must be a better way)
 		for(var variable in CSL_TEXT_MAPPINGS) {
 			var fields = CSL_TEXT_MAPPINGS[variable];
 			for(var i=0, n=fields.length; i<n; i++) {
 				var field = fields[i],
+					baseFieldName,
 					value = null;
 				
 				if(field in zoteroItem) {
+					baseFieldName = field;
 					value = zoteroItem[field];
 				} else {
 					if (field == 'versionNumber') field = 'version'; // Until https://github.com/zotero/zotero/issues/670
@@ -1649,7 +2066,8 @@ Zotero.Utilities = {
 					if(fieldID
 						&& (typeFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID))
 					) {
-						value = zoteroItem[Zotero.ItemFields.getName(typeFieldID)];
+						baseFieldName = Zotero.ItemFields.getName(typeFieldID);
+						value = zoteroItem[baseFieldName];
 					}
 				}
 				
@@ -1667,6 +2085,19 @@ Zotero.Utilities = {
 						value = value.substring(1, value.length-1);
 					}
 					cslItem[variable] = value;
+
+					if (!portableJSON) {
+						if (zoteroItem.multi && zoteroItem.multi.main[baseFieldName]) {
+							cslItem.multi.main[variable] = zoteroItem.multi.main[baseFieldName]
+						}
+						if (zoteroItem.multi && zoteroItem.multi._keys[baseFieldName]) {
+							cslItem.multi._keys[variable] = {};
+							for (var langTag in zoteroItem.multi._keys[baseFieldName]) {
+								cslItem.multi._keys[variable][langTag] = zoteroItem.multi._keys[baseFieldName][langTag];
+							}
+						}
+					}
+
 					break;
 				}
 			}
@@ -1686,29 +2117,27 @@ Zotero.Utilities = {
 				creatorType = CSL_NAMES_MAPPINGS[creatorType];
 				if(!creatorType) continue;
 				
-				var nameObj;
-				if (creator.lastName || creator.firstName) {
-					nameObj = {
-						family: creator.lastName || '',
-						given: creator.firstName || ''
-					};
-					
-					// Parse name particles
-					// Replicate citeproc-js logic for what should be parsed so we don't
-					// break current behavior.
-					if (nameObj.family && nameObj.given) {
-						// Don't parse if last name is quoted
-						if (nameObj.family.length > 1
-							&& nameObj.family.charAt(0) == '"'
-							&& nameObj.family.charAt(nameObj.family.length - 1) == '"'
-						) {
-							nameObj.family = nameObj.family.substr(1, nameObj.family.length - 2);
-						} else {
-							Zotero.CiteProc.CSL.parseParticles(nameObj, true);
-						}
+				var nameObj = {};
+				Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator);
+				
+				if (!portableJSON) {
+					nameObj.multi = {};
+					nameObj.multi._key = {};
+					if (creator.multi.main) {
+						nameObj.multi.main = creator.multi.main;
+					}
+					for (var langTag in creator.multi._key) {
+						nameObj.multi._key[langTag] = {};
+						Zotero.Utilities.creatorConvItemToCSLJSON(nameObj.multi._key[langTag], creator.multi._key[langTag]);
 					}
 				} else if (creator.name) {
 					nameObj = {'literal': creator.name};
+				}
+				
+				if(cslItem[creatorType]) {
+					cslItem[creatorType].push(nameObj);
+				} else {
+					cslItem[creatorType] = [nameObj];
 				}
 				
 				if(cslItem[creatorType]) {
@@ -1721,37 +2150,69 @@ Zotero.Utilities = {
 		
 		// get date variables
 		for(var variable in CSL_DATE_MAPPINGS) {
-			var date = zoteroItem[CSL_DATE_MAPPINGS[variable]];
-			if (!date) {
-				var typeSpecificFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, CSL_DATE_MAPPINGS[variable]);
-				if (typeSpecificFieldID) {
-					date = zoteroItem[Zotero.ItemFields.getName(typeSpecificFieldID)];
+			for (var i=0,ilen=CSL_DATE_MAPPINGS[variable].length;i<ilen;i++) {
+				var zVar = CSL_DATE_MAPPINGS[variable][i];
+				var date = zoteroItem[zVar];
+				if (!date) {
+					var typeSpecificFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, zVar);
+					if (typeSpecificFieldID) {
+						date = zoteroItem[Zotero.ItemFields.getName(typeSpecificFieldID)];
+						if (date) break;
+					}
 				}
+				if (date) break;
 			}
 			
 			if(date) {
-				var dateObj = Zotero.Date.strToDate(date);
-				// otherwise, use date-parts
-				var dateParts = [];
-				if(dateObj.year) {
-					// add year, month, and day, if they exist
-					dateParts.push(dateObj.year);
-					if(dateObj.month !== undefined) {
-						dateParts.push(dateObj.month+1);
-						if(dateObj.day) {
-							dateParts.push(dateObj.day);
-						}
-					}
-					cslItem[variable] = {"date-parts":[dateParts]};
-					
-					// if no month, use season as month
-					if(dateObj.part && dateObj.month === undefined) {
-						cslItem[variable].season = dateObj.part;
-					}
+				if (Zotero.Prefs.get('hackUseCiteprocJsDateParser')) {
+					var raw = Zotero.Date.multipartToStr(date);
+					// cslItem[variable] = {raw: raw, "date-parts":[dateParts]};
+					cslItem[variable] = {raw: raw};
 				} else {
-					// if no year, pass date literally
-					cslItem[variable] = {"literal":date};
+					var dateObj = Zotero.Date.strToDate(date);
+					// otherwise, use date-parts
+					var dateParts = [];
+					if(dateObj.year) {
+						// add year, month, and day, if they exist
+						dateParts.push(dateObj.year);
+						if("number" === typeof dateObj.month) {
+							dateParts.push(dateObj.month+1);
+							if(dateObj.day) {
+								dateParts.push(dateObj.day);
+							}
+						}
+						cslItem[variable] = {"date-parts":[dateParts]};
+						
+						// if no month, use season as month
+						if(dateObj.part && !dateObj.month) {
+							cslItem[variable].season = dateObj.part;
+						}
+					} else {
+						// if no year, pass date literally
+						cslItem[variable] = {"literal":date};
+					}
 				}
+			}
+		}
+		
+		// Force Fields
+		if (CSL_FORCE_FIELD_CONTENT[itemType]) {
+			// The only variable force is CSL "genre", which should have the same name
+			// on both sides.
+			if (zoteroItem[variable]) {
+				cslItem[variable] = zoteroItem[variable];
+			} else {
+				for (var variable in CSL_FORCE_FIELD_CONTENT[itemType]) {
+					cslItem[variable] = CSL_FORCE_FIELD_CONTENT[itemType][variable];
+				}
+			}
+		}
+		
+		// Force remap
+		if (CSL_FORCE_REMAP[itemType]) {
+			for (var variable in CSL_FORCE_REMAP[itemType]) {
+				cslItem[CSL_FORCE_REMAP[itemType][variable]] = cslItem[variable];
+				delete cslItem[variable];
 			}
 		}
 		
@@ -1763,19 +2224,16 @@ Zotero.Utilities = {
 		//this._cache[zoteroItem.id] = cslItem;
 		return cslItem;
 	},
-	
-	/**
-	 * Converts an item in CSL JSON format to a Zotero item
-	 * @param {Zotero.Item} item
-	 * @param {Object} cslItem
-	 */
-	"itemFromCSLJSON":function(item, cslItem) {
-		var isZoteroItem = item instanceof Zotero.Item,
-			zoteroType;
-		
+
+    /**
+     * Converts CSL type to Zotero type, accounting for extended
+     * type mapping in Juris-M
+     */
+    "getZoteroTypeFromCslType": function(cslItem) {
 		// Some special cases to help us map item types correctly
 		// This ensures that we don't lose data on import. The fields
 		// we check are incompatible with the alternative item types
+        var zoteroType = null;
 		if (cslItem.type == 'book') {
 			zoteroType = 'book';
 			if (cslItem.version) {
@@ -1788,7 +2246,7 @@ Zotero.Utilities = {
 			}
 		} else if (cslItem.type == 'song') {
 			zoteroType = 'audioRecording';
-			if (cslItem.number) {
+			if (cslItem.number && cslItem.genre === 'podcast') {
 				zoteroType = 'podcast';
 			}
 		} else if (cslItem.type == 'motion_picture') {
@@ -1798,6 +2256,20 @@ Zotero.Utilities = {
 				|| cslItem['number-of-volumes'] || cslItem.ISBN
 			) {
 				zoteroType = 'videoRecording';
+			}
+		} else if (cslItem.type === 'personal_communication') {
+			if (cslItem.type === 'email') {
+				
+			} else if (cslItem.type === 'instant message') {
+				zoteroType = 'instantMessage';
+			} else {
+				zoteroType = 'letter';
+			}
+		} else if (cslItem.type === 'broadcast') {
+			if (cslItem.genre === 'radio broadcast') {
+				zoteroType = 'radioBroadcast';
+			} else {
+				zoteroType = 'tvBroadcast';
 			}
 		} else {
 			for(var type in CSL_TYPE_MAPPINGS) {
@@ -1809,10 +2281,66 @@ Zotero.Utilities = {
 		}
 		
 		if(!zoteroType) zoteroType = "document";
+
+        return zoteroType;
+    },		
+	
+    "getValidCslFields": function (cslItem) {
+        var zoteroType = this.getZoteroTypeFromCslType(cslItem);
+        var zoteroTypeID = Zotero.ItemTypes.getID(zoteroType);
+        var zoteroFields = Zotero.ItemFields.getItemTypeFields(zoteroTypeID);
+        var validFields = {};
+        outer: for (var i=0,ilen=zoteroFields.length;i<ilen;i++) {
+            var zField = Zotero.ItemFields.getName(zoteroFields[i]);
+            for (var cField in CSL_TEXT_MAPPINGS) {
+                var lst = CSL_TEXT_MAPPINGS[cField];
+                if (lst.indexOf(zField) > -1) {
+                    validFields[cField] = true;
+                    continue outer;
+                }
+            }
+            for (var cField in CSL_DATE_MAPPINGS) {
+                var lst = CSL_DATE_MAPPINGS[cField];
+                if (lst.indexOf(zField) > -1) {
+                    validFields[cField] = true;
+                    continue outer;
+                }
+            }
+        }
+        return validFields;
+    },
+
+	/**
+	 * Converts an item in CSL JSON format to a Zotero item
+	 * @param {Zotero.Item} item
+	 * @param {Object} cslItem
+	 */
+	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
+		var isZoteroItem = item instanceof Zotero.Item,
+			zoteroType;
 		
+		function _addCreator(creator, cslAuthor) {
+			if(cslAuthor.family || cslAuthor.given) {
+				if(cslAuthor.family) creator.lastName = cslAuthor.family;
+				if(cslAuthor.given) creator.firstName = cslAuthor.given;
+				return true;
+			} else if(cslAuthor.literal) {
+				creator.lastName = cslAuthor.literal;
+				creator.fieldMode = 1;
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+        var zoteroType = Zotero.Utilities.getZoteroTypeFromCslType(cslItem);
+
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);
+			if (libraryID) {
+				item.setField('libraryID',libraryID);
+			}
 		} else {
 			item.itemID = cslItem.id;
 			item.itemType = zoteroType;
@@ -1821,6 +2349,9 @@ Zotero.Utilities = {
 		// map text fields
 		for(var variable in CSL_TEXT_MAPPINGS) {
 			if(variable in cslItem) {
+				if ("string" !== typeof cslItem[variable]) {
+					continue;
+				}
 				var textMappings = CSL_TEXT_MAPPINGS[variable];
 				for(var i=0; i<textMappings.length; i++) {
 					var field = textMappings[i];
@@ -1833,19 +2364,67 @@ Zotero.Utilities = {
 					
 					if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
 						if(isZoteroItem) {
-							item.setField(fieldID, cslItem[variable]);
+							var mainLang = null;
+							if (cslItem.multi) {
+								mainLang = cslItem.multi.main[variable];
+							}
+							item.setField(fieldID, cslItem[variable], false, mainLang, true);
+							if (cslItem.multi && cslItem.multi._keys[variable]) {
+								for (var lang in cslItem.multi._keys[variable]) {
+									item.setField(fieldID, cslItem.multi._keys[variable][lang], false, lang);
+								}
+							}
 						} else {
 							item[field] = cslItem[variable];
+							if (cslItem.multi) {
+								if (cslItem.multi.main && cslItem.multi.main[variable]) {
+								    if (!item.multi.main[field]) {
+									    item.multi.main[field] = {};
+								    }
+								    item.multi.main[field] = cslItem.multi.main[variable];
+								}
+								if (cslItem.multi._keys[variable]) {
+									for (var lang in cslItem.multi._keys[variable]) {
+										if (!item.multi._keys[field]) {
+											item.multi._keys[field] = {};
+										}
+										item.multi._keys[field][lang] = cslItem.multi._keys[variable][lang]
+									}
+								}
+							}
 						}
-						
 						break;
 					}
 				}
 			}
 		}
 		
+		var jurisdictionFieldID = Zotero.ItemFields.getID("jurisdiction");
+		if (Zotero.ItemFields.isValidForType(jurisdictionFieldID, itemTypeID) && ["report","newspaperArticle","journalArticle"].indexOf(zoteroType) === -1) {
+			var val = cslItem["jurisdiction"];
+			if (!val) {
+				// XXX Replicated code pattern: move this to a function.
+				var jurisdictionDefault = Zotero.Prefs.get("import.jurisdictionDefault");
+				var jurisdictionFallback = Zotero.Prefs.get("import.jurisdictionFallback");
+				if (jurisdictionDefault) {
+					val = jurisdictionDefault;
+				} else if (jurisdictionFallback) {
+					val = jurisdictionFallback;
+				} else {
+					val = "us";
+				}
+			}
+			if (isZoteroItem) {
+				item.setField(jurisdictionFieldID, val);
+			} else {
+				item.jurisdiction = val;
+			}
+		}
+		
 		// separate name variables
+        var doneField = {};
 		for(var field in CSL_NAMES_MAPPINGS) {
+            if (doneField[CSL_NAMES_MAPPINGS[field]]) continue;
 			if(CSL_NAMES_MAPPINGS[field] in cslItem) {
 				var creatorTypeID = Zotero.CreatorTypes.getID(field);
 				if(!Zotero.CreatorTypes.isValidForItemType(creatorTypeID, itemTypeID)) {
@@ -1855,15 +2434,15 @@ Zotero.Utilities = {
 				var nameMappings = cslItem[CSL_NAMES_MAPPINGS[field]];
 				for(var i in nameMappings) {
 					var cslAuthor = nameMappings[i];
-					let creator = {};
-					if(cslAuthor.family || cslAuthor.given) {
-						if(cslAuthor.family) creator.lastName = cslAuthor.family;
-						if(cslAuthor.given) creator.firstName = cslAuthor.given;
-					} else if(cslAuthor.literal) {
-						creator.lastName = cslAuthor.literal;
-						creator.fieldMode = 1;
-					} else {
-						continue;
+					let creator = {multi:{_key:{}}};
+					if (_addCreator(creator, cslAuthor)) {
+						if (cslAuthor.multi.main) {
+							creator.multi.main = cslAuthor.multi.main;
+						}
+						for (let langTag in cslAuthor.multi._keys) {
+							var variant = creator.multi._key[langTag] = {};
+							_addCreator(variant, cslAuthor._key[langTag]);
+						}
 					}
 					creator.creatorTypeID = creatorTypeID;
 					
@@ -1876,6 +2455,7 @@ Zotero.Utilities = {
 						}
 						item.creators.push(creator);
 					}
+                    doneField[CSL_NAMES_MAPPINGS[field]] = true;
 				}
 			}
 		}
@@ -1883,16 +2463,25 @@ Zotero.Utilities = {
 		// get date variables
 		for(var variable in CSL_DATE_MAPPINGS) {
 			if(variable in cslItem) {
-				var field = CSL_DATE_MAPPINGS[variable],
-					fieldID = Zotero.ItemFields.getID(field),
+				var fields = CSL_DATE_MAPPINGS[variable],
 					cslDate = cslItem[variable];
-				var fieldID = Zotero.ItemFields.getID(field);
-				if(Zotero.ItemFields.isBaseField(fieldID)) {
-					var newFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID);
-					if(newFieldID) fieldID = newFieldID;
+				// Recognize if extended field OR if fieldID is valid for type
+				// and does not yet contain data.
+				var fieldID = null;
+				for (var i=0,ilen=fields.length;i<ilen;i++) {
+					var field=fields[i];
+					fieldID = Zotero.ItemFields.getID(field);
+					if (Zotero.EXTENDED_FIELDS[zoteroType] && Zotero.EXTENDED_FIELDS[zoteroType][field]) {
+						fieldID = Zotero.ItemFields.getID(field);
+					}
+					if(Zotero.ItemFields.isBaseField(fieldID)) {
+						var newFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, fieldID);
+						if(newFieldID) fieldID = newFieldID;
+						break;
+					}
 				}
 				
-				if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
+				if(fieldID && Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
 					var date = "";
 					if(cslDate.literal || cslDate.raw) {
 						date = cslDate.literal || cslDate.raw;
@@ -1937,6 +2526,24 @@ Zotero.Utilities = {
 					}
 				}
 			}
+		}
+		
+		if (portableJSON) {
+			// For decoding
+			// item in this case is always a Zotero item
+			var data = {};
+			if (libraryID) {
+				data.libraryID = libraryID;
+			}
+			data.itemTypeID = Zotero.ItemTypes.getID(zoteroType);
+			var extra = cslItem.note ? cslItem.note : "";
+			var changedFields = {};
+			var pos = item.getCreators().length;
+			// Decoding ops
+			var obj = Zotero.Sync.Server.Data.decodeMlzFields(item,data,extra,changedFields);
+			Zotero.Sync.Server.Data.removeMlzFieldDeletes(item,data,obj);
+			Zotero.Sync.Server.Data.decodeMlzCreators(item,obj,pos);
+			Zotero.Sync.Server.Data.removeMlzCreatorDeletes(item,obj);
 		}
 	},
 	
@@ -2050,5 +2657,321 @@ Zotero.Utilities = {
 	 * Provides unicode support and other additional features for regular expressions
 	 * See https://github.com/slevithan/xregexp for usage
 	 */
-	 "XRegExp": XRegExp
+	"XRegExp": XRegExp,
+
+	"getCourtName":function(jurisdictionID, courtID, fallback) {
+		// XXX LEGACY - REMOVE
+		var countryID = jurisdictionID.split(":")[0];
+		var sql = "SELECT courtName FROM jurisdictions JU "
+			+ "JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) "
+			+ "JOIN courts USING(courtIdx) "
+			+ "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
+			+ "JOIN courtNames CN USING(courtNameIdx) "
+			+ "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx "
+			+ "WHERE courtID=? AND JU.jurisdictionID=? AND CO.jurisdictionID=?";
+		var res = Zotero.DB.valueQuery(sql,[courtID,jurisdictionID,countryID]);
+		return res || !fallback ? res : courtID;
+	},
+
+	"getCourtID":function(jurisdictionID, courtName, fallback) {
+		// XXX LEGACY - REMOVE
+		var countryID = jurisdictionID.split(":")[0];
+		var sql = "SELECT courtID FROM jurisdictions JU "
+			+ "JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) "
+			+ "JOIN courts USING(courtIdx) "
+			+ "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
+			+ "JOIN courtNames CN USING(courtNameIdx) "
+			+ "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx "
+			+ "WHERE courtName=? AND JU.jurisdictionID=? AND CO.jurisdictionID=?";
+		var res = Zotero.DB.valueQuery(sql,[courtName,jurisdictionID,countryID]);
+		return res || !fallback ? res : courtName;
+	},
+
+	"getJurisdictionName":function(jurisdictionID, fallback) {
+		// XXX LEGACY - REMOVE
+		var sql = "SELECT jurisdictionName FROM jurisdictions "
+			+ "WHERE jurisdictionID=?;";
+		var res = Zotero.DB.valueQuery(sql, [jurisdictionID]);
+		return res || !fallback ? res : jurisdictionID;
+	},
+
+	"getJurisdictionID":function(jurisdictionName, fallback) {
+		// XXX LEGACY - REMOVE
+		var sql = "SELECT jurisdictionID FROM jurisdictions "
+			+ "WHERE jurisdictionName=? OR jurisdictionName LIKE ?;";
+		var res = Zotero.DB.valueQuery(sql, [jurisdictionName, '%|' + jurisdictionName]);
+		return res || !fallback ? res : jurisdictionName;
+	},
+
+	"remapCourtName":function(oldJurisdictionID,newJurisdictionID,courtIdOrName) {
+		throw "remapCourtName() has moved to Zotero.CachedJurisdictionData";
+		// XXX LEGACY - REMOVE
+		if (!courtIdOrName) {
+			return "";
+		}
+		// Do we have an ID or a name
+		var isId = false;
+		if (courtIdOrName.match(/^[.a-z0-9]$/)) {
+			isId = true;
+		}
+		var newValue = courtIdOrName;
+		if (isId) {
+			// Try for a name in the new jurisdiction
+			var courtName = Zotero.Utilities.getCourtName(newJurisdictionID, courtIdOrName);
+			if (!courtName) {
+				// No luck, so try in the old jurisdiction, falling back to the bare ID
+				newValue = Zotero.Utilities.getCourtName(oldJurisdictionID, courtIdOrName, true);
+			}
+			// If found in the new jurisdiction, reuse the ID
+		} else {
+			// Try to map to an ID in the new jurisdiction, falling back to the name
+			newValue = Zotero.Utilities.getCourtID(newJurisdictionID, courtIdOrName, true);
+		}
+		return newValue;
+	},
+
+    "nameParticleParse":function(str){
+        var always_dropping_1 = [[[0,1], null]];
+        var always_dropping_2 = [[[0,2], null]];
+        var always_dropping_3 = [[[0,3], null]]
+        var always_non_dropping_1 = [[null, [0,1]]];
+        var always_non_dropping_2 = [[null, [0,2]]];
+        var always_non_dropping_3 = [[null, [0,3]]];
+        var either_1 = [[null, [0,1]],[[0,1],null]];
+        var either_2 = [[null, [0,2]],[[0,2],null]];
+        var either_1_dropping_best = [[[0,1],null],[null, [0,1]]];
+        var either_2_dropping_best = [[[0,2],null],[null, [0,2]]];
+        var either_3_dropping_best = [[[0,3],null],[null, [0,3]]];
+        var non_dropping_2_alt_dropping_1_non_dropping_1 = [[null, [0,2]], [[0,1], [1,2]]];
+        var PARTICLES = [
+            ["'s", always_non_dropping_1],
+            ["'s-", always_non_dropping_1],
+            ["'t", always_non_dropping_1],
+            ["a", 	always_non_dropping_1],
+            ["aan 't", always_non_dropping_2],
+            ["aan de", always_non_dropping_2],
+            ["aan den", always_non_dropping_2],
+            ["aan der", always_non_dropping_2],
+            ["aan het", always_non_dropping_2],
+            ["aan t", always_non_dropping_2],
+            ["aan", always_non_dropping_1],
+            ["ad-", either_1],
+            ["adh-", either_1],
+            ["af", either_1],
+            ["al", either_1],
+            ["al-", either_1],
+            ["am de", always_non_dropping_2],
+            ["am", always_non_dropping_1],
+            ["an-", either_1],
+            ["ar-", either_1],
+            ["as-", either_1],
+            ["ash-", either_1],
+            ["at-", either_1],
+            ["ath-", either_1],
+            ["auf dem", either_2_dropping_best],
+            ["auf den", either_2_dropping_best],
+            ["auf der", either_2_dropping_best],
+            ["auf ter", always_non_dropping_2],
+            ["auf", either_1_dropping_best],
+            ["aus 'm", either_2_dropping_best],
+            ["aus dem", either_2_dropping_best],
+            ["aus den", either_2_dropping_best],
+            ["aus der", either_2_dropping_best],
+            ["aus m", either_2_dropping_best],
+            ["aus", either_1_dropping_best],
+            ["aus'm", either_2_dropping_best],
+            ["az-", either_1],
+            ["aš-", either_1],
+            ["aḍ-", either_1],
+            ["aḏ-", either_1],
+            ["aṣ-", either_1],
+            ["aṭ-", either_1],
+            ["aṯ-", either_1],
+            ["aẓ-", either_1],
+            ["ben", always_non_dropping_1],
+            ["bij 't", always_non_dropping_2],
+            ["bij de", always_non_dropping_2],
+            ["bij den", always_non_dropping_2],
+            ["bij het", always_non_dropping_2],
+            ["bij t", always_non_dropping_2],
+            ["bij", always_non_dropping_1],
+            ["bin", always_non_dropping_1],
+            ["boven d", always_non_dropping_2],
+            ["boven d'", always_non_dropping_2],
+            ["d", always_non_dropping_1],
+            ["d'", either_1],
+            ["da", either_1],
+            ["dal", always_non_dropping_1],
+            ["dal'", always_non_dropping_1],
+            ["dall'", always_non_dropping_1],
+            ["dalla", always_non_dropping_1],
+            ["das", either_1],
+            ["de die le", always_non_dropping_3],
+            ["de die", always_non_dropping_2],
+            ["de l", always_non_dropping_2],
+            ["de l'", always_non_dropping_2],
+            ["de la", non_dropping_2_alt_dropping_1_non_dropping_1],
+            ["de las", non_dropping_2_alt_dropping_1_non_dropping_1],
+            ["de le", always_non_dropping_2],
+            ["de li", either_2],
+            ["de van der", always_non_dropping_3],
+            ["de", either_1],
+            ["de'", either_1],
+            ["deca", always_non_dropping_1],
+            ["degli", either_1],
+            ["dei", either_1],
+            ["del", either_1],
+            ["dela", always_dropping_1],
+            ["dell'", either_1],
+            ["della", either_1],
+            ["delle", either_1],
+            ["dello", either_1],
+            ["den", either_1],
+            ["der", either_1],
+            ["des", either_1],
+            ["di", either_1],
+            ["die le", always_non_dropping_2],
+            ["do", always_non_dropping_1],
+            ["don", always_non_dropping_1],
+            ["dos", either_1],
+            ["du", either_1],
+            ["ed-", either_1],
+            ["edh-", either_1],
+            ["el", either_1],
+            ["el-", either_1],
+            ["en-", either_1],
+            ["er-", either_1],
+            ["es-", either_1],
+            ["esh-", either_1],
+            ["et-", either_1],
+            ["eth-", either_1],
+            ["ez-", either_1],
+            ["eš-", either_1],
+            ["eḍ-", either_1],
+            ["eḏ-", either_1],
+            ["eṣ-", either_1],
+            ["eṭ-", either_1],
+            ["eṯ-", either_1],
+            ["eẓ-", either_1],
+            ["het", always_non_dropping_1],
+            ["i", always_non_dropping_1],
+            ["il", always_dropping_1],
+            ["im", always_non_dropping_1],
+            ["in 't", always_non_dropping_2],
+            ["in de", always_non_dropping_2],
+            ["in den", always_non_dropping_2],
+            ["in der", either_2],
+            ["in het", always_non_dropping_2],
+            ["in t", always_non_dropping_2],
+            ["in", always_non_dropping_1],
+            ["l", always_non_dropping_1],
+            ["l'", always_non_dropping_1],
+            ["la", always_non_dropping_1],
+            ["las", always_non_dropping_1],
+            ["le", always_non_dropping_1],
+            ["les", either_1],
+            ["lo", either_1],
+            ["los", always_non_dropping_1],
+            ["lou", always_non_dropping_1],
+            ["of", always_non_dropping_1],
+            ["onder 't", always_non_dropping_2],
+            ["onder de", always_non_dropping_2],
+            ["onder den", always_non_dropping_2],
+            ["onder het", always_non_dropping_2],
+            ["onder t", always_non_dropping_2],
+            ["onder", always_non_dropping_1],
+            ["op 't", always_non_dropping_2],
+            ["op de", either_2],
+            ["op den", always_non_dropping_2],
+            ["op der", always_non_dropping_2],
+            ["op gen", always_non_dropping_2],
+            ["op het", always_non_dropping_2],
+            ["op t", always_non_dropping_2],
+            ["op ten", always_non_dropping_2],
+            ["op", always_non_dropping_1],
+            ["over 't", always_non_dropping_2],
+            ["over de", always_non_dropping_2],
+            ["over den", always_non_dropping_2],
+            ["over het", always_non_dropping_2],
+            ["over t", always_non_dropping_2],
+            ["over", always_non_dropping_1],
+            ["s", always_non_dropping_1],
+            ["s'", always_non_dropping_1],
+            ["sen", always_dropping_1],
+            ["t", always_non_dropping_1],
+            ["te", always_non_dropping_1],
+            ["ten", always_non_dropping_1],
+            ["ter", always_non_dropping_1],
+            ["tho", always_non_dropping_1],
+            ["thoe", always_non_dropping_1],
+            ["thor", always_non_dropping_1],
+            ["to", always_non_dropping_1],
+            ["toe", always_non_dropping_1],
+            ["tot", always_non_dropping_1],
+            ["uijt 't", always_non_dropping_2],
+            ["uijt de", always_non_dropping_2],
+            ["uijt den", always_non_dropping_2],
+            ["uijt te de", always_non_dropping_3],
+            ["uijt ten", always_non_dropping_2],
+            ["uijt", always_non_dropping_1],
+            ["uit 't", always_non_dropping_2],
+            ["uit de", always_non_dropping_2],
+            ["uit den", always_non_dropping_2],
+            ["uit het", always_non_dropping_2],
+            ["uit t", always_non_dropping_2],
+            ["uit te de", always_non_dropping_3],
+            ["uit ten", always_non_dropping_2],
+            ["uit", always_non_dropping_1],
+            ["unter", always_non_dropping_1],
+            ["v", always_non_dropping_1],
+            ["v.", always_non_dropping_1],
+            ["v.d.", always_non_dropping_1],
+            ["van 't", always_non_dropping_2],
+            ["van de l", always_non_dropping_3],
+            ["van de l'", always_non_dropping_3],
+            ["van de", always_non_dropping_2],
+            ["van de", always_non_dropping_2],
+            ["van den", always_non_dropping_2],
+            ["van der", always_non_dropping_2],
+            ["van gen", always_non_dropping_2],
+            ["van het", always_non_dropping_2],
+            ["van la", always_non_dropping_2],
+            ["van t", always_non_dropping_2],
+            ["van ter", always_non_dropping_2],
+            ["van van de", always_non_dropping_3],
+            ["van", either_1],
+            ["vander", always_non_dropping_1],
+            ["vd", always_non_dropping_1],
+            ["ver", always_non_dropping_1],
+            ["vom und zum", always_dropping_3],
+            ["vom", either_1],
+            ["von 't", always_non_dropping_2],
+            ["von dem", either_2_dropping_best],
+            ["von den", either_2_dropping_best],
+            ["von der", either_2_dropping_best],
+            ["von t", always_non_dropping_2],
+            ["von und zu", either_3_dropping_best],
+            ["von zu", either_2_dropping_best],
+            ["von", either_1_dropping_best],
+            ["voor 't", always_non_dropping_2],
+            ["voor de", always_non_dropping_2],
+            ["voor den", always_non_dropping_2],
+            ["voor in 't", always_non_dropping_3],
+            ["voor in t", always_non_dropping_3],
+            ["voor", always_non_dropping_1],
+            ["vor der", either_2_dropping_best],
+            ["vor", either_1_dropping_best],
+            ["z", always_dropping_1],
+            ["ze", always_dropping_1],
+            ["zu", either_1_dropping_best],
+            ["zum", either_1],
+            ["zur", either_1]
+        ];
+        var particleSpecs = {};
+        for (var i=0,ilen=PARTICLES.length;i<ilen;i++) {
+            particleSpecs[PARTICLES[i][0]] = PARTICLES[i][1];
+        }
+        return particleSpecs[str];
+    }
+
 }

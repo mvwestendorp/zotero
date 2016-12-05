@@ -27,6 +27,7 @@
 
 <?xml-stylesheet href="chrome://zotero/skin/overlay.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero-platform/content/overlay.css" type="text/css"?>
+<?xul-overlay href="chrome://zotero/skin/juris-m-logo.svg"?>
 
 <!DOCTYPE overlay [
 	<!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd"> %globalDTD;
@@ -35,7 +36,8 @@
 ]>
 
 <overlay id="zotero"
-	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    xmlns:svg="http://www.w3.org/2000/svg">
 	
 	<script src="include.js"/>
 	<script src="zoteroPane.js" type="application/javascript;version=1.8"/>
@@ -123,6 +125,12 @@
 							</menu>
 						</menupopup>
 					</toolbarbutton>
+					<spacer flex="1"/>
+                    <vbox>
+                      <hbox onclick="ZoteroPane_Local.openMlzWelcomeDialog();">
+                        <svg:svg id="juris-m-logo"/>
+                      </hbox>
+                    </vbox>
 					<spacer flex="1"/>
 					<toolbarbutton id="zotero-tb-actions-menu" class="zotero-tb-button" tooltiptext="&zotero.toolbar.actions.label;" type="menu">
 						<menupopup id="zotero-tb-actions-popup">
@@ -378,6 +386,7 @@
 									<treecol
 										id="zotero-items-column-title" primary="true" default-in="default feed"
 										label="&zotero.items.title_column;"
+										crop="center"
 										flex="4" zotero-persist="width ordinal hidden sortActive sortDirection"/>
 									<splitter class="tree-splitter"/>
 									<treecol
@@ -414,6 +423,12 @@
 										id="zotero-items-column-journalAbbreviation" disabled-in="feed"
 										submenu="true"
 										label="&zotero.items.journalAbbr_column;"
+										flex="1" zotero-persist="width ordinal hidden sortActive sortDirection"/>
+									<splitter class="tree-splitter"/>
+									<treecol
+										id="zotero-items-column-reporter" hidden="true" disabled-in="feed"
+										submenu="true"
+										label="&zotero.items.reporter_column;"
 										flex="1" zotero-persist="width ordinal hidden sortActive sortDirection"/>
 									<splitter class="tree-splitter"/>
 									<treecol

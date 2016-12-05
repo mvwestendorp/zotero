@@ -143,7 +143,6 @@ Zotero_Preferences.Export = {
 		menulist.click();
 	},
 	
-	
 	updateQuickCopyUI: function () {
 		var format = document.getElementById('zotero-quickCopy-menu').value;
 		
@@ -152,9 +151,20 @@ Zotero_Preferences.Export = {
 		[mode, format] = format.split('=');
 		[mode, contentType] = mode.split('/');
 		
+ 		var linkCheckbox = document.getElementById('zotero-quickCopy-linkWrapOption');
+ 		var linkModeCheckbox = document.getElementById('zotero-quickCopy-linkWrapCitationFormReverse');
+		
 		var checkbox = document.getElementById('zotero-quickCopy-copyAsHTML');
 		checkbox.checked = contentType == 'html';
+ 		if (!(mode === 'bibliography')) {
+ 			linkCheckbox.checked = false;
+ 		}
 		checkbox.disabled = mode != 'bibliography';
+ 		linkCheckbox.disabled = mode !== 'bibliography';
+ 		linkModeCheckbox.disabled = mode !== 'bibliography';
+ 		if (!linkCheckbox.checked) {
+ 			linkModeCheckbox.disabled = true;
+ 		}
 		
 		Zotero.Styles.updateLocaleList(
 			document.getElementById('zotero-quickCopy-locale-menu'),
@@ -163,6 +173,32 @@ Zotero_Preferences.Export = {
 		);
 	},
 	
+        updateQuickCopyHTMLCheckbox: function () {
+                var format = document.getElementById('zotero-quickCopy-menu').value;
+                var mode, contentType;
+
+                var linkCheckbox = document.getElementById('zotero-quickCopy-linkWrapOption');
+                var linkModeCheckbox = document.getElementById('zotero-quickCopy-linkWrapCitationFormReverse');
+                                
+                var checkbox = document.getElementById('zotero-quickCopy-copyAsHTML');
+                [mode, format] = format.split('=');
+                [mode, contentType] = mode.split('/');
+
+                checkbox.checked = contentType === 'html';
+                if (!(mode === 'bibliography')) {
+                        linkCheckbox.checked = false;
+                }
+                checkbox.disabled = mode !== 'bibliography';
+                linkCheckbox.disabled = mode !== 'bibliography';
+                linkModeCheckbox.disabled = mode !== 'bibliography';
+                if (!linkCheckbox.checked) {
+                        linkModeCheckbox.disabled = true;
+                }
+        },
+
+
+
+
 	/**
 	 * Disables UI buttons when no site-specific quick copy entries are selected
 	 */

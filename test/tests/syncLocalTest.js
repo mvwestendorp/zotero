@@ -374,7 +374,10 @@ describe("Zotero.Sync.Data.Local", function() {
 		})
 	})
 	
+<<<<<<< HEAD
+=======
 	
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 	describe("#processObjectsFromJSON()", function () {
 		var types = Zotero.DataObjectUtilities.getTypes();
 		
@@ -384,7 +387,10 @@ describe("Zotero.Sync.Data.Local", function() {
 				skipBundledFiles: true
 			});
 		})
+<<<<<<< HEAD
+=======
 		
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 		it("should update local version number and mark as synced if remote version is identical", function* () {
 			var libraryID = Zotero.Libraries.userLibraryID;
 			
@@ -489,7 +495,15 @@ describe("Zotero.Sync.Data.Local", function() {
 					key,
 					version: 10,
 					itemType: "book",
+<<<<<<< HEAD
+					title: "Test",
+					multi: {
+						main: {},
+						_keys: {}
+					}
+=======
 					title: "Test"
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 				}
 			};
 			
@@ -500,7 +514,10 @@ describe("Zotero.Sync.Data.Local", function() {
 			var versions = yield Zotero.Sync.Data.Local.getObjectsFromSyncQueue(objectType, libraryID);
 			assert.notInclude(versions, key);
 		});
+<<<<<<< HEAD
+=======
 		
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 		it("should mark new attachment items and library for download", function* () {
 			var library = Zotero.Libraries.userLibrary;
 			var libraryID = library.id;
@@ -605,7 +622,15 @@ describe("Zotero.Sync.Data.Local", function() {
 						key: key1,
 						version: 1,
 						itemType: "book",
+<<<<<<< HEAD
+						title: "Test A",
+						multi: {
+							main: {},
+							_keys: {}
+						}
+=======
 						title: "Test A"
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 					}
 				},
 				{
@@ -616,6 +641,13 @@ describe("Zotero.Sync.Data.Local", function() {
 						version: 1,
 						itemType: "journalArticle",
 						title: "Test B",
+<<<<<<< HEAD
+						multi: {
+							main: {},
+							_keys: {}
+						}
+=======
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 						deleted: true // Not allowed in My Publications
 					}
 				}
@@ -632,7 +664,10 @@ describe("Zotero.Sync.Data.Local", function() {
 			), 0);
 		});
 	})
+<<<<<<< HEAD
+=======
 	
+>>>>>>> acb1be97d0b930dc1491502416a1787d2f6413e2
 	describe("Sync Queue", function () {
 		var lib1, lib2;
 		
