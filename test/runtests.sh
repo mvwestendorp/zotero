@@ -95,13 +95,12 @@ fi
 # descriptors open for a few seconds (even with an explicit inputStream.close() in the case of
 # the latter), so a source installation that copies ~500 translators and styles (with fds for
 # source and target) can exceed the default 1024 limit.
-
-# XXX (system for testing is unlimited)
 ulimit -n 4096
 
 # Set up profile directory
-PROFILE="`mktemp -d 2>/dev/null || mktemp -d -t 'zotero-unit'`"
-mkdir "$PROFILE/extensions"
+TEMPDIR="`mktemp -d 2>/dev/null || mktemp -d -t 'zotero-unit'`"
+PROFILE="$TEMPDIR/profile"
+mkdir -p "$PROFILE/extensions"
 
 makePath ZOTERO_UNIT_PATH "$CWD"
 echo "$ZOTERO_UNIT_PATH" > "$PROFILE/extensions/zotero-unit@zotero.org"
@@ -111,7 +110,7 @@ makePath ZOTERO_PATH "`dirname "$CWD"`"
 echo "$ZOTERO_PATH" > "$PROFILE/extensions/juris-m@juris-m.github.io"
 
 # Create data directory
-mkdir "$PROFILE/zotero"
+mkdir "$TEMPDIR/Zotero"
 
 cat <<EOF > "$PROFILE/prefs.js"
 user_pref("extensions.autoDisableScopes", 0);
@@ -137,23 +136,16 @@ if [ -z $IS_CYGWIN ]; then
 	echo "`MOZ_NO_REMOTE=1 NO_EM_RESTART=1 \"$FX_EXECUTABLE\" -v`"
 fi
 
-
 if [ "$TRAVIS" = true ]; then
 	FX_ARGS="$FX_ARGS -ZoteroAutomatedTest -ZoteroTestTimeout 10000"
 fi
 
 # Clean up on exit
-trap "{ rm -rf \"$PROFILE\"; }" EXIT
-
-echo try
+trap "{ rm -rf \"$TEMPDIR\"; }" EXIT
 
 makePath FX_PROFILE "$PROFILE"
 MOZ_NO_REMOTE=1 NO_EM_RESTART=1 "$FX_EXECUTABLE" -profile "$FX_PROFILE" \
-    -chrome chrome://zotero-unit/content/runtests.html -test "$TESTS" -grep "$GREP" $FX_ARGS
-
-echo tried
-
-exit 0
+    -chrome chrome://zotero-unit/content/runtests.html -test "$TESTS" -grep "$GREP" -ZoteroTest $FX_ARGS
 
 # Check for success
 test -e "$PROFILE/success"
