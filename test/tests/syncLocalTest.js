@@ -627,7 +627,7 @@ describe("Zotero.Sync.Data.Local", function() {
 						multi: {
 							main: {},
 							_keys: {}
-						}
+						},
 						deleted: true // Not allowed in My Publications
 					}
 				}
