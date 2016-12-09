@@ -2139,12 +2139,6 @@ Zotero.Utilities = {
 				} else {
 					cslItem[creatorType] = [nameObj];
 				}
-				
-				if(cslItem[creatorType]) {
-					cslItem[creatorType].push(nameObj);
-				} else {
-					cslItem[creatorType] = [nameObj];
-				}
 			}
 		}
 		
