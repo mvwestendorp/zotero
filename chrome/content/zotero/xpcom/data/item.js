@@ -4824,6 +4824,10 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 		delete json.md5;
 		delete json.mtime;
 	}
+
+	if (options.encodeMlzContent) {
+		json = Zotero.DataObjectUtilities.encodeMlzContent(json);
+	}
 	return json;
 }
 
