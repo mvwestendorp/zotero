@@ -2753,7 +2753,7 @@ Zotero.Integration.Session.prototype._getPrePost = function(index) {
 /**
  * Returns a formatted citation
  */
-Zotero.Integration.Session.prototype.formatCitation = function(index, citation) {
+Zotero.Integration.Session.prototype.formatCitation = Zotero.Promise.coroutine(function* (index, citation) {
 	if(!this.citationText[index]) {
 		var citationsPre, citationsPost, citationIndices;
 		[citationsPre, citationsPost, citationIndices] = this._getPrePost(index);
@@ -2767,7 +2767,7 @@ Zotero.Integration.Session.prototype.formatCitation = function(index, citation) 
 		}
 		return newCitations.bibchange;
 	}
-}
+});
 
 /**
  * Updates the list of citations to be serialized to the document
@@ -2811,7 +2811,7 @@ Zotero.Integration.Session.prototype._updateCitations = function* () {
 			
 			var citation = this.citationsByIndex[index];
 			if(!citation || citation.properties.delete) continue;
-			if(this.formatCitation(index, citation)) {
+			if(yield this.formatCitation(index, citation)) {
 				this.bibliographyHasChanged = true;
 			}
 			this.citeprocCitationIDs[citation.citationID] = true;
