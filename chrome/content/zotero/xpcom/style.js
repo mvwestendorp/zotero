@@ -176,7 +176,7 @@ Zotero.Styles = new function() {
 	 */
 	this.get = function (id, skipMappings) {
 		if (!_initialized) {
-			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded", 'styles');
+			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded (1)", 'styles');
 		}
 		
 		if(!skipMappings) {
@@ -205,7 +205,7 @@ Zotero.Styles = new function() {
 	 */
 	this.getVisible = function () {
 		if (!_initialized) {
-			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded", 'styles');
+			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded (2)", 'styles');
 		}
 		return _visibleStyles; // Immutable
 	}
@@ -217,7 +217,7 @@ Zotero.Styles = new function() {
 	 */
 	this.getAll = function () {
 		if (!_initialized) {
-			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded", 'styles');
+			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded (3)", 'styles');
 		}
 		return _styles;
 	}
@@ -479,7 +479,7 @@ Zotero.Styles = new function() {
 	 */
 	this.populateLocaleList = function (menulist) {
 		if (!_initialized) {
-			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded", 'styles');
+			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded (4)", 'styles');
 		}
 		
 		// Reset menulist
@@ -524,7 +524,7 @@ Zotero.Styles = new function() {
 	 */
 	this.updateLocaleList = function (menulist, style, prefLocale) {
 		if (!_initialized) {
-			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded", 'styles');
+			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded (5)", 'styles');
 		}
 		
 		// Remove any nodes that were manually added to menulist
