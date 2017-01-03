@@ -98,7 +98,7 @@ Zotero.Utilities.Internal = {
 			var istream = Components.classes["@mozilla.org/network/file-input-stream;1"]
 							.createInstance(Components.interfaces.nsIFileInputStream);
 			// open for reading
-			istream.init(strOrFile, 0x01, 0444, 0);
+			istream.init(strOrFile, 0x01, 0o444, 0);
 			var ch = Components.classes["@mozilla.org/security/hash;1"]
 						   .createInstance(Components.interfaces.nsICryptoHash);
 			// we want to use the MD5 algorithm
@@ -619,6 +619,7 @@ Zotero.Utilities.Internal = {
 	 *                              maxTime isn't specified, the promises will yield true.
 	 */
 	"delayGenerator": function* (intervals, maxTime) {
+		var delay;
 		var totalTime = 0;
 		var last = false;
 		while (true) {

@@ -136,16 +136,14 @@ grid row hbox:first-child
 }
 
 
-#showIn radio
-{
-	width: 214px;
-}
-
 #fontSize radio
 {
 	margin-right: 20px;
 }
 
+#zotero-prefpane-general .statusLine {
+	margin-left: .75em;
+}
 
 /*
  * Sync pane

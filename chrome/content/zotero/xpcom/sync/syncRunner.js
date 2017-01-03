@@ -41,7 +41,15 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 	Zotero.defineProperty(this, 'syncInProgress', { get: () => _syncInProgress });
 	Zotero.defineProperty(this, 'lastSyncStatus', { get: () => _lastSyncStatus });
 	
-	this.baseURL = options.baseURL || ZOTERO_CONFIG.API_URL;
+	Zotero.defineProperty(this, 'baseURL', {
+		get: () => {
+			let url = options.baseURL || Zotero.Prefs.get("api.url") || ZOTERO_CONFIG.API_URL;
+			if (!url.endsWith('/')) {
+				url += '/';
+			}
+			return url;
+		}
+	});
 	this.apiVersion = options.apiVersion || ZOTERO_CONFIG.API_VERSION;
 	
 	// Allows tests to set apiKey in options or as property, overriding login manager
@@ -89,11 +97,16 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 	 * @param {Function}  [options.onError]           Function to pass errors to instead of
 	 *                                                handling internally (used for testing)
 	 */
-	this.sync = Zotero.Promise.coroutine(function* (options = {}) {
+	this.sync = Zotero.serial(function (options = {}) {
+		return this._sync(options);
+	});
+	
+	
+	this._sync = Zotero.Promise.coroutine(function* (options) {
 		// Clear message list
 		_errors = [];
 		
-		// Shouldn't be possible
+		// Shouldn't be possible because of serial()
 		if (_syncInProgress) {
 			let msg = Zotero.getString('sync.error.syncInProgress');
 			let e = new Zotero.Error(msg, 0, { dialogButtonText: null, frontWindowOnly: true });
@@ -101,6 +114,8 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 			return false;
 		}
 		_syncInProgress = true;
+		
+		yield Zotero.Notifier.trigger('start', 'sync', []);
 		
 		// Purge deleted objects so they don't cause sync errors (e.g., long tags)
 		yield Zotero.purgeDataObjects(true);
@@ -223,7 +238,7 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 			if (options.restartSync) {
 				delete options.restartSync;
 				Zotero.debug("Restarting sync");
-				yield this.sync(options);
+				yield this._sync(options);
 				return;
 			}
 			

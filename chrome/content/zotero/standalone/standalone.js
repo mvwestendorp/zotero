@@ -107,7 +107,9 @@ const ZoteroStandalone = new function() {
 				menuitem.setAttribute("label", itemTypes[i].localized);
 				menuitem.setAttribute("tooltiptext", "");
 				let type = itemTypes[i].id;
-				menuitem.addEventListener("command", function() { ZoteroPane_Local.newItem(type); }, false);
+				menuitem.addEventListener("command", function() {
+					ZoteroPane_Local.newItem(type, null, null, true);
+				}, false);
 				menuitem.className = "zotero-tb-add";
 				addMenu.appendChild(menuitem);
 			}
@@ -116,38 +118,6 @@ const ZoteroStandalone = new function() {
 			if(j !== typeSets.length-1) {
 				addMenu.appendChild(document.createElement("menuseparator"));
 			}
-		}
-	}
-	
-	/**
-	 * Opens a URL in the basic viewer, and optionally run a callback on load
-	 *
-	 * @param {String} uri
-	 * @param {Function} [onLoad] - Function to run once URI is loaded; passed the loaded document
-	 */
-	this.openInViewer = function(uri, onLoad) {
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-			.getService(Components.interfaces.nsIWindowMediator);
-		var win = wm.getMostRecentWindow("zotero:basicViewer");
-		if(win) {
-			win.loadURI(uri);
-		} else {
-			win = window.openDialog("chrome://zotero/content/standalone/basicViewer.xul",
-				"basicViewer", "chrome,resizable,centerscreen,menubar,scrollbars", uri);
-		}
-		if (onLoad) {
-			let browser
-			let func = function () {
-				win.removeEventListener("load", func);
-				browser = win.document.documentElement.getElementsByTagName('browser')[0];
-				browser.addEventListener("pageshow", innerFunc);
-			};
-			let innerFunc = function () {
-				browser.removeEventListener("pageshow", innerFunc);
-				onLoad(browser.contentDocument);
-			};
-			win.addEventListener("load", func);
-			
 		}
 	}
 	

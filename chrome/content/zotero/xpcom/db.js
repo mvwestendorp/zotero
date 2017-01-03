@@ -345,7 +345,7 @@ Zotero.DBConnection.prototype.rollbackAllTransactions = function () {
 
 
 Zotero.DBConnection.prototype.getColumns = function (table) {
-	return Zotero.DB.queryAsync("PRAGMA table_info(" + table + ")")
+	return this.queryAsync("PRAGMA table_info(" + table + ")")
 	.then(function (rows) {
 		return rows.map(row => row.name);
 	})
@@ -375,7 +375,7 @@ Zotero.DBConnection.prototype.getNextName = Zotero.Promise.coroutine(function* (
 		+ " WHERE libraryID=? AND " + field + " LIKE ? ORDER BY " + field;
 	var params = [libraryID, name + "%"];
 	var suffixes = yield this.columnQueryAsync(sql, params);
-	suffixes.filter(function (x) x.match(/^( [0-9]+)?$/));
+	suffixes.filter(x => x.match(/^( [0-9]+)?$/));
 	
 	// If none found or first one has a suffix, use default name
 	if (!suffixes.length || suffixes[0]) {
@@ -468,7 +468,7 @@ Zotero.DBConnection.prototype.executeTransaction = Zotero.Promise.coroutine(func
 	
 	try {
 		while (this._transactionID) {
-			yield Zotero.DB.waitForTransaction(id).timeout(options.waitTimeout || 10000);
+			yield this.waitForTransaction(id).timeout(options.waitTimeout || 10000);
 		}
 		startedTransaction = true;
 		this._transactionID = id;
@@ -499,7 +499,7 @@ Zotero.DBConnection.prototype.executeTransaction = Zotero.Promise.coroutine(func
 		
 		if (options.vacuumOnCommit) {
 			Zotero.debug('Vacuuming database');
-			yield Zotero.DB.queryAsync('VACUUM');
+			yield this.queryAsync('VACUUM');
 		}
 		
 		this._transactionID = null;
@@ -674,6 +674,13 @@ Zotero.DBConnection.prototype.queryAsync = Zotero.Promise.coroutine(function* (s
 						Zotero.debug(msg, 1);
 						throw new Error(msg);
 					}
+				},
+				has: function(target, name) {
+					try {
+						return !!target.getResultByName(name);
+					} catch (e) {
+						return false;
+					}
 				}
 			};
 			for (let i=0, len=rows.length; i<len; i++) {
@@ -809,16 +816,12 @@ Zotero.DBConnection.prototype.logQuery = function (sql, params = [], options) {
 }
 
 
-Zotero.DBConnection.prototype.tableExists = function (table) {
-	return this._getConnectionAsync()
-	.then(function () {
-		var sql = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND tbl_name=?";
-		return Zotero.DB.valueQueryAsync(sql, [table]);
-	})
-	.then(function (count) {
-		return !!count;
-	});
-}
+Zotero.DBConnection.prototype.tableExists = Zotero.Promise.coroutine(function* (table) {
+	yield this._getConnectionAsync();
+	var sql = "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND tbl_name=?";
+	var count = yield this.valueQueryAsync(sql, [table]);
+	return !!count;
+});
 
 
 /**
@@ -834,21 +837,21 @@ Zotero.DBConnection.prototype.executeSQLFile = Zotero.Promise.coroutine(function
 		// Ugly hack to parse triggers with embedded semicolons
 		.replace(/;---/g, "TEMPSEMI")
 		.split("\n")
-		.filter(function (x) nonCommentRE.test(x))
-		.map(function (x) x.match(trailingCommentRE)[1])
+		.filter(x => nonCommentRE.test(x))
+		.map(x => x.match(trailingCommentRE)[1])
 		.join("");
 	if (sql.substr(-1) == ";") {
 		sql = sql.substr(0, sql.length - 1);
 	}
 	
 	var statements = sql.split(";")
-		.map(function (x) x.replace(/TEMPSEMI/g, ";"));
+		.map(x => x.replace(/TEMPSEMI/g, ";"));
 	
 	this.requireTransaction();
 	
 	var statement;
 	while (statement = statements.shift()) {
-		yield Zotero.DB.queryAsync(statement);
+		yield this.queryAsync(statement);
 	}
 });
 
@@ -1252,19 +1255,19 @@ Zotero.DBConnection.prototype._getConnectionAsync = Zotero.Promise.coroutine(fun
 	}
 	
 	if (DB_LOCK_EXCLUSIVE) {
-		yield Zotero.DB.queryAsync("PRAGMA locking_mode=EXCLUSIVE");
+		yield this.queryAsync("PRAGMA locking_mode=EXCLUSIVE");
 	}
 	else {
-		yield Zotero.DB.queryAsync("PRAGMA locking_mode=NORMAL");
+		yield this.queryAsync("PRAGMA locking_mode=NORMAL");
 	}
 	
 	// Set page cache size to 8MB
-	var pageSize = yield Zotero.DB.valueQueryAsync("PRAGMA page_size");
+	var pageSize = yield this.valueQueryAsync("PRAGMA page_size");
 	var cacheSize = 8192000 / pageSize;
-	yield Zotero.DB.queryAsync("PRAGMA cache_size=" + cacheSize);
+	yield this.queryAsync("PRAGMA cache_size=" + cacheSize);
 	
 	// Enable foreign key checks
-	yield Zotero.DB.queryAsync("PRAGMA foreign_keys=true");
+	yield this.queryAsync("PRAGMA foreign_keys=true");
 	
 	// Register idle and shutdown handlers to call this.observe() for DB backup
 	var idleService = Components.classes["@mozilla.org/widget/idleservice;1"]

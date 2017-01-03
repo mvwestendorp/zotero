@@ -75,7 +75,7 @@ Zotero.ItemFields = new function() {
 		var sql = "SELECT DISTINCT baseFieldID FROM baseFieldMappingsCombined";
 		var baseFields = yield Zotero.DB.columnQueryAsync(sql);
 		
-		for each(var field in fields) {
+		for (let field of fields) {
 			_fields[field['fieldID']] = {
 				id: field['fieldID'],
 				name: field.fieldName,
@@ -468,7 +468,7 @@ Zotero.ItemFields = new function() {
 		var baseFields = yield Zotero.DB.columnQueryAsync(sql);
 		
 		var fields = [];
-		for each(var row in rows) {
+		for (let row of rows) {
 			if (!fields[row.itemTypeID]) {
 				fields[row.itemTypeID] = [];
 			}
