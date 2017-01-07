@@ -19,15 +19,15 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Titre">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Mis à jour">
 <!ENTITY zotero.preferences.cite.wordProcessors "Traitements de texte">
-<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Obtenir des extensions pour traitement de texte…">
+<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Obtenir des modules complémentaires pour traitement de texte…">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/fr/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Aucune extension pour traitement de texte n'est installée.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Utiliser la fenêtre classique d'ajout de citation">
-<!ENTITY zotero.preferences.dataDir "Emplacement du répertoire contenant les données">
-<!ENTITY zotero.preferences.dataDir.choose "Sélectionner…">
+<!ENTITY zotero.preferences.dataDir "Emplacement du répertoire de données">
+<!ENTITY zotero.preferences.dataDir.choose "Choisir…">
 <!ENTITY zotero.preferences.dataDir.custom "Personnalisé :">
-<!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
-<!ENTITY zotero.preferences.dataDir.reveal "Afficher le répertoire contenant les données">
+<!ENTITY zotero.preferences.dataDir.migrate "Migrer vers le nouvel emplacement par défaut…">
+<!ENTITY zotero.preferences.dataDir.reveal "Ouvrir le répertoire de données">
 <!ENTITY zotero.preferences.dataDir.useProfile "Utiliser le répertoire de profil">
 <!ENTITY zotero.preferences.dbMaintenance "Maintenance de la base de données">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "Vérifier l'intégrité de la base de données">
@@ -47,7 +47,7 @@
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Quand cette option est désactivée, Zotero inclut les adresses URL dans la citation des articles de revue, magazine et journal seulement si l'article ne précise pas les numéros de pages.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
-<!ENTITY zotero.preferences.export.getAdditionalStyles "Obtenir des styles supplémentaires…">
+<!ENTITY zotero.preferences.export.getAdditionalStyles "Obtenir d'autres styles…">
 <!ENTITY zotero.preferences.feeds "Flux">
 <!ENTITY zotero.preferences.feeds.feedDefaults "Paramètres par défaut des flux">
 <!ENTITY zotero.preferences.feeds.sorting.label "Classement :">
@@ -116,7 +116,7 @@
 <!ENTITY zotero.preferences.layout "Disposition :">
 <!ENTITY zotero.preferences.layout.stacked "Empilée">
 <!ENTITY zotero.preferences.layout.standard "Standard">
-<!ENTITY zotero.preferences.locate.addDescription "Pour ajouter un moteur de recherche absent de la liste, allez sur le moteur de recherche voulu dans votre navigateur et sélectionnez &#34;Ajoutez&#34; dans le menu &#34;Localiser&#34; de Zotero.">
+<!ENTITY zotero.preferences.locate.addDescription "Pour ajouter un moteur de recherche absent de la liste, rendez-vous à l'adresse de ce moteur de recherche avec votre navigateur, puis sélectionnez “Ajoutez” à partir du menu Localiser de Zotero.">
 <!ENTITY zotero.preferences.locate.description "Description">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Gestion des moteurs de recherche d'articles">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "Un moteur de recherche étend les capacités du menu Localiser du panneau Info. En activant des moteurs de recherche dans la liste ci-dessous, ils seront ajoutés au menu déroulant et pourront être utilisés pour localiser des ressources de votre bibliothèque sur le Web.">
@@ -211,7 +211,7 @@
 <!ENTITY zotero.preferences.sync.lostPassword "Mot de passe oublié ?">
 <!ENTITY zotero.preferences.sync.password "Mot de passe :">
 <!ENTITY zotero.preferences.sync.reset "Réinitialisation">
-<!ENTITY zotero.preferences.sync.reset.button "Réinitialiser...">
+<!ENTITY zotero.preferences.sync.reset.button "Réinitialiser…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Synchronisation complète">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Fusionner les données locales avec les données du serveur, en ignorant l'historique de synchronisation.">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Réinitialiser l'historique de synchronisation des fichiers">
@@ -228,7 +228,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Synchroniser le texte intégral des pièces jointes indexées">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero peut synchroniser l'intégralité du texte des pièces jointes indexées (PDF et HTML) de vos bibliothèques Zotero avec zotero.org et, ainsi, avec vos autres appareils connectés. Cela vous permet de rechercher facilement dans le contenu de vos fichiers où que vous soyez. Le texte intégral de vos fichiers ne sera pas partagé publiquement.">
 <!ENTITY zotero.preferences.sync.syncServer "Synchronisation des données">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Dissocier  le compte…">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Dissocier le compte…">
 <!ENTITY zotero.preferences.sync.username "Nom d'utilisateur :">
 <!ENTITY zotero.preferences.title "Préférences de Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "jours">

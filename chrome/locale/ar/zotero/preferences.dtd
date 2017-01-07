@@ -205,7 +205,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "الشروط والأحكام">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "الرابط:">
 <!ENTITY zotero.preferences.sync.librariesToSync "Libraries to Sync">
-<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries...">
+<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries…">
 <!ENTITY zotero.preferences.sync.librariesToSync.library "Library">
 <!ENTITY zotero.preferences.sync.librariesToSync.sync "Sync">
 <!ENTITY zotero.preferences.sync.lostPassword "نسيت كلمة المرور؟">
@@ -228,7 +228,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "مزامنة محتوى النص الكامل">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "يمكن لبرنامج زوتيرو مزامنة محتوى النص الكامل للملفات في مكتبات زوتيرو الخاصة بك مع موقع zotero.org والاجهزة الاخرى المتصلة، لتسمح لك بالبحث بملفاتك في اي مكان. لن يتم مشاركة محتوى النص الكامل لملفاتك مع العامة.">
 <!ENTITY zotero.preferences.sync.syncServer "Data Syncing">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account...">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account…">
 <!ENTITY zotero.preferences.sync.username "اسم المستخدم:">
 <!ENTITY zotero.preferences.title "تفضيلات زوتيرو">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "يوم">
