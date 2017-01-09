@@ -54,6 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Možnosti prevajanja">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "Odstrani prebrane članke po">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "dneh">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
 <!ENTITY zotero.feedSettings.refresh.label1 "Vir posodobi vsakih">
 <!ENTITY zotero.feedSettings.refresh.label2 "ur">
 <!ENTITY zotero.feedSettings.saveButton.label "Shrani">
@@ -67,6 +71,7 @@
 <!ENTITY zotero.general.delete "Izbriši">
 <!ENTITY zotero.general.deselectAll "Ne izberi ničesar">
 <!ENTITY zotero.general.edit "Uredi">
+<!ENTITY zotero.general.loading "Loading…">
 <!ENTITY zotero.general.more "Dodatno">
 <!ENTITY zotero.general.no "Ne">
 <!ENTITY zotero.general.note "Opomba:">

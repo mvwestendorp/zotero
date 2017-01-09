@@ -35,7 +35,7 @@ var Zotero_CSL_Editor = new function() {
 		
 		var lastStyle = Zotero.Prefs.get('export.lastStyle');
 		
-		var styles = Zotero.Styles.getAll();
+		var styles = Zotero.Styles.getVisible();
 		var currentStyle = null;
 		for (let style of styles) {
 			if (style.source) {

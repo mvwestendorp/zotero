@@ -205,7 +205,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "όρους και τις προϋποθέσεις">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
 <!ENTITY zotero.preferences.sync.librariesToSync "Libraries to Sync">
-<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries...">
+<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries…">
 <!ENTITY zotero.preferences.sync.librariesToSync.library "Library">
 <!ENTITY zotero.preferences.sync.librariesToSync.sync "Sync">
 <!ENTITY zotero.preferences.sync.lostPassword "Χάσατε τον κωδικό;">
@@ -228,7 +228,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Συγχρονισμός περιεχομένου πλήρους κειμένου">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Το Zotero μπορεί να συγχρονίσει με το zotero.org και άλλες συνδεδεμένες συσκευές, το πλήρους κειμένου περιεχόμενο των αρχείων μέσα στην βιβλιοθήκη σας Zotero, επιτρέποντας την εύκολη αναζήτηση των αρχείων σας οπουδήποτε κι αν είστε. Το περιεχόμενο πλήρους κειμένου των αρχείων σας δεν κοινοποιηθεί δημοσίως.">
 <!ENTITY zotero.preferences.sync.syncServer "Data Syncing">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account...">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account…">
 <!ENTITY zotero.preferences.sync.username "Όνομα χρήστη:">
 <!ENTITY zotero.preferences.title "Προτιμήσεις Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "ημέρες πριν">

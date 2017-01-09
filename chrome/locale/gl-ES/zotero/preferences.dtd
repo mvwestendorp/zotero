@@ -26,7 +26,7 @@
 <!ENTITY zotero.preferences.dataDir "Localización do cartafol de almacenamento">
 <!ENTITY zotero.preferences.dataDir.choose "Escoller...">
 <!ENTITY zotero.preferences.dataDir.custom "Personalizado:">
-<!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
+<!ENTITY zotero.preferences.dataDir.migrate "Migrar ao novo aloxamento....">
 <!ENTITY zotero.preferences.dataDir.reveal "Mostrar o cartafol de datos">
 <!ENTITY zotero.preferences.dataDir.useProfile "Usar o cartafol de perfís">
 <!ENTITY zotero.preferences.dbMaintenance "Mantemento da base de datos">

@@ -24,9 +24,9 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Brak aktualnie zainstalowanych wtyczek procesorów tekstu.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Użyj klasycznego okna Dodaj cytowanie">
 <!ENTITY zotero.preferences.dataDir "Miejsce przechowywania:">
-<!ENTITY zotero.preferences.dataDir.choose "Przeglądaj...">
+<!ENTITY zotero.preferences.dataDir.choose "Wybierz...">
 <!ENTITY zotero.preferences.dataDir.custom "Określ katalog:">
-<!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
+<!ENTITY zotero.preferences.dataDir.migrate "Przenieś do nowej domyślnej lokalizacji...">
 <!ENTITY zotero.preferences.dataDir.reveal "Wyświetl katalog bazy danych">
 <!ENTITY zotero.preferences.dataDir.useProfile "Użyj katalogu profilu">
 <!ENTITY zotero.preferences.dbMaintenance "Konserwacja bazy danych">
@@ -49,7 +49,7 @@
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "Pobierz dodatkowe style...">
 <!ENTITY zotero.preferences.feeds "Kanały">
-<!ENTITY zotero.preferences.feeds.feedDefaults "Feed Defaults">
+<!ENTITY zotero.preferences.feeds.feedDefaults "Wartości domyślne kanału">
 <!ENTITY zotero.preferences.feeds.sorting.label "Sortowanie:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Od najnowszych elementów">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Od najstarszych elementów">
@@ -116,7 +116,7 @@
 <!ENTITY zotero.preferences.layout "Wygląd:">
 <!ENTITY zotero.preferences.layout.stacked "Stacked">
 <!ENTITY zotero.preferences.layout.standard "Standardowy">
-<!ENTITY zotero.preferences.locate.addDescription "Aby dodać silnik wyszukiwania, którego nie ma na liście, odwiedź określony silnik wyszukiwania w przeglądarce i wybierz &quot;Dodaj&quot; na pasku wyszukiwania Zotero.">
+<!ENTITY zotero.preferences.locate.addDescription "Aby dodać silnik wyszukiwania, którego nie ma na liście, odwiedź określony silnik wyszukiwania w przeglądarce i wybierz &quot;Dodaj&quot; w menu wyszukiwania Zotero.">
 <!ENTITY zotero.preferences.locate.description "Opis">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Zarządzanie silnikami wyszukiwania">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "Silnik wyszukiwania rozszerza możliwości menu wyszukiwania w panelu informacji. Włączając silniki wyszukiwania na poniższej liście, zostaną one dodane do rozwijanego i mogą zostać użyte do wyszukiwania zasobów z twojej biblioteki w sieci internet.">
@@ -211,7 +211,7 @@
 <!ENTITY zotero.preferences.sync.lostPassword "Zapomniane hasło?">
 <!ENTITY zotero.preferences.sync.password "Hasło:">
 <!ENTITY zotero.preferences.sync.reset "Przywróć">
-<!ENTITY zotero.preferences.sync.reset.button "Wyczyść...">
+<!ENTITY zotero.preferences.sync.reset.button "Przywróć...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Pełna synchronizacja">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Połącz lokalne dane Zotero z danymi z serwera synchronizacji, ignorując historię synchronizacji.">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Wyczyść historię synchronizacji plików">
@@ -228,7 +228,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Synchronizuj zawartość pełnotekstową">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero potrafi synchronizować zawartość pełnotekstową plików w twoich bibliotekach za pośrednictwem zotero.org i innych powiązanych urządzeń. Pozwala to łatwo przeszukiwać twoje pliki gdziekolwiek jesteś. Zawartość pełnotekstowa twoich plików nie będzie udostępniana publicznie.">
 <!ENTITY zotero.preferences.sync.syncServer "Synchronizacja danych">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Usuń powiązane konto...">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Odłącz konto...">
 <!ENTITY zotero.preferences.sync.username "Użytkownik:">
 <!ENTITY zotero.preferences.title "Ustawienia Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "dni temu">

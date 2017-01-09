@@ -54,6 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "转换器选项">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "删除已读的文章 在">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "天">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
 <!ENTITY zotero.feedSettings.refresh.label1 "更新订阅 每">
 <!ENTITY zotero.feedSettings.refresh.label2 "小时">
 <!ENTITY zotero.feedSettings.saveButton.label "保存">
@@ -67,6 +71,7 @@
 <!ENTITY zotero.general.delete "删除">
 <!ENTITY zotero.general.deselectAll "取消全选">
 <!ENTITY zotero.general.edit "编辑">
+<!ENTITY zotero.general.loading "Loading…">
 <!ENTITY zotero.general.more "更多">
 <!ENTITY zotero.general.no "否">
 <!ENTITY zotero.general.note "笔记:">

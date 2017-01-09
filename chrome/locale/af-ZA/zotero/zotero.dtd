@@ -54,6 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Vertalerskeuses">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "Remove read articles after ">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
 <!ENTITY zotero.feedSettings.refresh.label1 "Update feed every">
 <!ENTITY zotero.feedSettings.refresh.label2 "hour(s)">
 <!ENTITY zotero.feedSettings.saveButton.label "Save">
@@ -67,6 +71,7 @@
 <!ENTITY zotero.general.delete "Skrap">
 <!ENTITY zotero.general.deselectAll "Ontkies alles">
 <!ENTITY zotero.general.edit "Redigeer">
+<!ENTITY zotero.general.loading "Loading…">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Nota:">
