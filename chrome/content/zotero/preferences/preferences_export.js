@@ -37,6 +37,16 @@ Zotero_Preferences.Export = {
 				charsetMap[Zotero.Prefs.get("import.charset")] : charsetMap["auto"];
 	}),
 	
+	cacheStyleAbbreviations: Zotero.Promise.coroutine(function* (event) {
+		var mode, format;
+		if (event.target.value !== Zotero.Prefs.get("export.quickCopy.setting")) {
+			[mode, format] = event.target.value.split("=");
+			if (Zotero.CiteProc.CSL.setCachedAbbrevList && mode === "bibliography") {
+				yield Zotero.CiteProc.CSL.setCachedAbbrevList(format);
+				Zotero.Prefs.set("export.quickCopy.setting", event.target.value);
+			}
+		}
+	}),
 	
 	/*
 	 * Builds the main Quick Copy drop-down from the current global pref
@@ -56,7 +66,6 @@ Zotero_Preferences.Export = {
 		this.buildQuickCopyFormatDropDown(
 			menulist, format.contentType, format, translators
 		);
-		menulist.setAttribute('preference', "pref-quickCopy-setting");
 		
 		// Initialize locale drop-down
 		var localeMenulist = document.getElementById("zotero-quickCopy-locale-menu");

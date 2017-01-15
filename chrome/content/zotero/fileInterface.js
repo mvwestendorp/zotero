@@ -122,8 +122,6 @@ var Zotero_File_Interface = new function() {
 	this.exportCollection = exportCollection;
 	this.exportItemsToClipboard = exportItemsToClipboard;
 	this.exportItems = exportItems;
-	this.bibliographyFromCollection = bibliographyFromCollection;
-	this.bibliographyFromItems = bibliographyFromItems;
 	
 	/**
 	 * Creates Zotero.Translate instance and shows file picker for file export
@@ -369,7 +367,7 @@ var Zotero_File_Interface = new function() {
 	/*
 	 * Creates a bibliography from a collection or saved search
 	 */
-	function bibliographyFromCollection() {
+	this.bibliographyFromCollection = Zotero.Promise.coroutine(function* () {
 		// find sorted items
 		var items = Zotero.Items.get(ZoteroPane_Local.getSortedItems(true));
 		if(!items) return;
@@ -389,21 +387,21 @@ var Zotero_File_Interface = new function() {
 			}
 		}
 		
-		_doBibliographyOptions(name, items);
+		yield _doBibliographyOptions(name, items);
 		return;
 		
 		throw ("No collection or saved search currently selected");
-	}
+	});
 	
 	/*
 	 * Creates a bibliography from a items
 	 */
-	function bibliographyFromItems() {
+	this.bibliographyFromItems = Zotero.Promise.coroutine(function* () {
 		var items = ZoteroPane_Local.getSelectedItems();
 		if(!items || !items.length) throw("no items currently selected");
 		
-		_doBibliographyOptions(Zotero.getString("fileInterface.untitledBibliography"), items);
-	}
+		yield _doBibliographyOptions(Zotero.getString("fileInterface.untitledBibliography"), items);
+	});
 	
 	
 	/**
@@ -417,7 +415,7 @@ var Zotero_File_Interface = new function() {
 	 * @param {Boolean} [asHTML=false] - Use HTML source for plain-text data
 	 * @param {Boolean} [asCitations=false] - Copy citation cluster instead of bibliography
 	 */
-	this.copyItemsToClipboard = function (items, style, locale, asHTML, asCitations) {
+	this.copyItemsToClipboard = Zotero.Promise.coroutine(function* (items, style, locale, asHTML, asCitations) {
 		// copy to clipboard
 		var transferable = Components.classes["@mozilla.org/widget/transferable;1"].
 						   createInstance(Components.interfaces.nsITransferable);
@@ -426,13 +424,18 @@ var Zotero_File_Interface = new function() {
 		style = Zotero.Styles.get(style);
 		var cslEngine = style.getCiteProc(locale, null, true);
 		
+		var citation = {
+			citationItems: items.map(item => ({ id: item.id })),
+			properties: {}
+		};
+		
+		if (Zotero.CiteProc.CSL.preloadAbbreviations) {
+			yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine.opt.styleID, cslEngine.transform.abbrevs, citation);
+		}
+		
 		if (asCitations) {
 			cslEngine.updateItems(items.map(item => item.id));
-			var citation = {
-				citationItems: items.map(item => ({ id: item.id })),
-				properties: {}
-			};
-			var output = cslEngine.previewCitationCluster(citation, [], [], "html");
+			output = cslEngine.previewCitationCluster(citation, [], [], "html");
 		}
 		else {
 			var output = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine, items, "html");
@@ -454,6 +457,10 @@ var Zotero_File_Interface = new function() {
 				// Generate engine again to work around citeproc-js problem:
 				// https://github.com/zotero/zotero/commit/4a475ff3
 				cslEngine = style.getCiteProc(locale, null, true);
+				// Load external abbreviations to the new processor instance
+				if (Zotero.CiteProc.CSL.preloadAbbreviations) {
+					yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine.opt.styleID, cslEngine.transform.abbrevs, citation);
+				}
 				output = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine, items, "text");
 			}
 		}
@@ -465,13 +472,13 @@ var Zotero_File_Interface = new function() {
 		transferable.setTransferData("text/unicode", str, output.length * 2);
 		
 		clipboardService.setData(transferable, null, Components.interfaces.nsIClipboard.kGlobalClipboard);
-	}
+	});
 	
 	
 	/*
 	 * Shows bibliography options and creates a bibliography
 	 */
-	function _doBibliographyOptions(name, items) {
+	var _doBibliographyOptions = Zotero.Promise.coroutine(function* (name, items) {
 		// make sure at least one item is not a standalone note or attachment
 		var haveRegularItem = false;
 		for (let item of items) {
@@ -503,11 +510,18 @@ var Zotero_File_Interface = new function() {
 		// generate bibliography
 		try {
 			if(io.method == 'copy-to-clipboard') {
-				Zotero_File_Interface.copyItemsToClipboard(items, io.style, locale, false, io.mode === "citations");
+				yield Zotero_File_Interface.copyItemsToClipboard(items, io.style, locale, false, io.mode === "citations");
 			}
 			else {
 				var style = Zotero.Styles.get(io.style);
 				var cslEngine = style.getCiteProc(locale);
+				if (Zotero.CiteProc.CSL.preloadAbbreviations) {
+					let citation = {
+						citationItems: items.map(item => ({ id: item.id })),
+						properties: {}
+					};
+					yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine.opt.styleID, cslEngine.transform.abbrevs, citation);
+				}
 				var bibliography = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine,
 					items, format, io.mode === "citations");
 			}
@@ -586,7 +600,7 @@ var Zotero_File_Interface = new function() {
 				fStream.close();
 			}
 		}
-	}
+	});
 	
 	
 	function _saveBibliography(name, format) {	
