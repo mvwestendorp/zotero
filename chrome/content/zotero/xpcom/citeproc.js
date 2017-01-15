@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.144",
+    PROCESSOR_VERSION: "1.1.145",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -12197,14 +12197,16 @@ CSL.Transform = function (state) {
                 if (!state.transform.abbrevs[tryList[i]]) {
                     state.transform.abbrevs[tryList[i]] = new state.sys.AbbreviationSegments();
                 }
-                if (!state.transform.abbrevs[tryList[i]][category][orig]) {
-                    state.sys.getAbbreviation(state.opt.styleID, state.transform.abbrevs, tryList[i], category, orig, itemType, true);
-                }
-                if (!found && state.transform.abbrevs[tryList[i]][category][orig]) {
-                    if (i < tryList.length) {
-                        state.transform.abbrevs[jurisdiction][category][orig] = state.transform.abbrevs[tryList[i]][category][orig];
+                if (state.transform.abbrevs[tryList[i]][category]) {
+                    if (!state.transform.abbrevs[tryList[i]][category][orig]) {
+                        state.sys.getAbbreviation(state.opt.styleID, state.transform.abbrevs, tryList[i], category, orig, itemType, true);
                     }
-                    found = true;
+                    if (!found && state.transform.abbrevs[tryList[i]][category][orig]) {
+                        if (i < tryList.length) {
+                            state.transform.abbrevs[jurisdiction][category][orig] = state.transform.abbrevs[tryList[i]][category][orig];
+                        }
+                        found = true;
+                    }
                 }
             }
         }
@@ -13917,11 +13919,13 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
     }
     if (val && this.sys.getAbbreviation) {
         var jurisdiction = this.transform.loadAbbreviation(ItemObject.jurisdiction, "number", val);
-        if (this.transform.abbrevs[jurisdiction].number[val]) {
-            val = this.transform.abbrevs[jurisdiction].number[val];
-        } else {
-            if ("undefined" !== typeof this.transform.abbrevs[jurisdiction].number[val]) {
-                delete this.transform.abbrevs[jurisdiction].number[val];
+        if (this.transform.abbrevs[jurisdiction].number) {
+            if (this.transform.abbrevs[jurisdiction].number[val]) {
+                val = this.transform.abbrevs[jurisdiction].number[val];
+            } else {
+                if ("undefined" !== typeof this.transform.abbrevs[jurisdiction].number[val]) {
+                    delete this.transform.abbrevs[jurisdiction].number[val];
+                }
             }
         }
     }
