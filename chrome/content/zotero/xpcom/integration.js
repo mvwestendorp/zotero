@@ -2000,7 +2000,7 @@ Zotero.Integration.CitationEditInterface.prototype = {
 		var me = this;
 		return this._updateSession().then(function* () {
 			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
-				yield Zotero.CiteProc.CSL.preloadAbbreviations(this.style.opt.styleID, this.style.transform.abbrevs, me.citation);
+				yield Zotero.CiteProc.CSL.preloadAbbreviations(this.style, me.citation);
 			}
 			me.citation.properties.zoteroIndex = me._fieldIndex;
 			me.citation.properties.noteIndex = me._field.getNoteIndex();
@@ -2765,7 +2765,7 @@ Zotero.Integration.Session.prototype.formatCitation = Zotero.Promise.coroutine(f
 			Zotero.debug("Integration: style.processCitationCluster("+citation.toSource()+", "+citationsPre.toSource()+", "+citationsPost.toSource());
 		}
 		if (Zotero.CiteProc.CSL.preloadAbbreviations) {
-			yield Zotero.CiteProc.CSL.preloadAbbreviations(this.style.opt.styleID, this.style.transform.abbrevs, citation);
+			yield Zotero.CiteProc.CSL.preloadAbbreviations(this.style, citation);
 		}
 		var newCitations = this.style.processCitationCluster(citation, citationsPre, citationsPost);
 		for (let newCitation of newCitations[1]) {
