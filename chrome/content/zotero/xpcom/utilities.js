@@ -1732,6 +1732,11 @@ Zotero.Utilities = {
 			return '<<Unknown type: ' + type + '>> ' + obj;
 		}
 		
+		// Don't descend into global object cache for data objects
+		if (Zotero.isClient && typeof obj == 'object' && obj instanceof Zotero.DataObject) {
+			maxLevel = 1;
+		}
+		
 		// More complex dump with indentation for objects
 		if (level === undefined) {
 			level = 0;

@@ -197,6 +197,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		this.platformVersion = appInfo.platformVersion;
 		this.platformMajorVersion = parseInt(appInfo.platformVersion.match(/^[0-9]+/)[0]);
 		this.isFx = true;
+		this.isClient = true;
 		this.isStandalone = Services.appinfo.ID == ZOTERO_CONFIG['GUID'];
 		
 		if (Zotero.isStandalone) {
@@ -764,7 +765,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			// Initialize keyboard shortcuts
 			Zotero.Keys.init();
 			
-			// Initialize Locate Manager
+			yield Zotero.Date.init();
 			Zotero.LocateManager.init();
 			yield Zotero.ID.init();
 			yield Zotero.Collections.init();
@@ -1078,11 +1079,12 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	 *
 	 * @param {} message
 	 * @param {Integer} [level=3]
+	 * @param {Integer} [maxDepth]
 	 * @param {Boolean|Integer} [stack] Whether to display the calling stack.
 	 *   If true, stack is displayed starting from the caller. If an integer,
 	 *   that many stack levels will be omitted starting from the caller.
 	 */
-	function debug(message, level, stack) {
+	function debug(message, level, maxDepth, stack) {
 		// Account for this alias
 		if (stack === true) {
 			stack = 1;
@@ -1090,7 +1092,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			stack++;
 		}
 		
-		Zotero.Debug.log(message, level, stack);
+		Zotero.Debug.log(message, level, maxDepth, stack);
 	}
 	
 	
@@ -2357,6 +2359,7 @@ Zotero.VersionHeader = {
 Zotero.DragDrop = {
 	currentEvent: null,
 	currentOrientation: 0,
+	currentSourceNode: null,
 	
 	getDataFromDataTransfer: function (dataTransfer, firstOnly) {
 		var dt = dataTransfer;
@@ -2419,7 +2422,7 @@ Zotero.DragDrop = {
 		// For items, the drag source is the CollectionTreeRow of the parent window
 		// of the source tree
 		if (dataTransfer.types.contains("zotero/item")) {
-			var sourceNode = dataTransfer.mozSourceNode;
+			let sourceNode = dataTransfer.mozSourceNode || this.currentSourceNode;
 			if (!sourceNode || sourceNode.tagName != 'treechildren'
 					|| sourceNode.parentElement.id != 'zotero-items-tree') {
 				return false;
@@ -2430,9 +2433,8 @@ Zotero.DragDrop = {
 			}
 			return win.ZoteroPane.collectionsView.selectedTreeRow;
 		}
-		else {
-			return false;
-		}
+		
+		return false;
 	},
 	
 	

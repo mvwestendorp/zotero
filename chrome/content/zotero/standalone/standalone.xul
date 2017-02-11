@@ -28,7 +28,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/zotero.css" type="text/css"?>
 <?xml-stylesheet href="chrome://zotero/skin/standalone.css" type="text/css"?>
-<?xul-overlay href="chrome://global/content/editMenuOverlay.xul"?>
+<?xul-overlay href="chrome://zotero/content/standalone/editMenuOverlay.xul"?>
 <?xul-overlay href="chrome://zotero/content/zoteroPane.xul"?>
 <?xul-overlay href="chrome://zotero/content/itemPane.xul"?>
 <?xul-overlay href="chrome://zotero-platform/content/standalone/menuOverlay.xul"?>
@@ -65,6 +65,14 @@
 	
 	<keyset id="mainKeyset">
 		<key id="key_close" key="&closeCmd.key;" command="cmd_close" modifiers="accel"/>
+		<key id="key_import"
+				key="&importCmd.key;"
+				command="cmd_zotero_import"
+				modifiers="accel shift"/>
+		<key id="key_importFromClipboard"
+				key="&importCmd.key;"
+				command="cmd_zotero_importFromClipboard"
+				modifiers="accel shift alt"/>
 	</keyset>
 	<keyset id="editMenuKeys"/>
 	
@@ -119,24 +127,22 @@
 							<menuitem id="menu_close" label="&closeCmd.label;" key="key_close"
 									accesskey="&closeCmd.accesskey;" command="cmd_close"/>
 							<menuseparator/>
-							<menuitem id="menu_import" label="&zotero.toolbar.import.label;"
-									command="cmd_zotero_import"/>
-							<menuitem id="menu_importFromClipboard" label="&zotero.toolbar.importFromClipboard;"
-									command="cmd_zotero_importFromClipboard"/>
+							<menuitem id="menu_import" label="&importCmd.label;"
+									command="cmd_zotero_import" key="key_import"/>
+							<menuitem id="menu_importFromClipboard" label="&importFromClipboardCmd.label;"
+									command="cmd_zotero_importFromClipboard" key="key_importFromClipboard"/>
 							<menuitem id="menu_exportLibrary" label="&zotero.toolbar.export.label;"
 									command="cmd_zotero_exportLibrary"/>
 						</menupopup>
 					</menu>
 					
-					<menu id="editMenu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
+					<menu id="menu_edit">
 						<menupopup id="menu_EditPopup">
 							<menuitem id="menu_undo"/>
 							<menuitem id="menu_redo"/>
 							<menuseparator/>
 							<menuitem id="menu_cut"/>
-							<menuitem id="menu_copy" label="&copyCmd.label;"
-									key="key_copy" accesskey="&copyCmd.accesskey;"
-									command="cmd_copy"/>
+							<menuitem id="menu_copy"/>
 							<menuitem id="menu_copyCitation" label="&copyCitationCmd.label;"
 									command="cmd_zotero_copyCitation"/>
 							<menuitem id="menu_copyBibliography" label="&copyBibliographyCmd.label;"

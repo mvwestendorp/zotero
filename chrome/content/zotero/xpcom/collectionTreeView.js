@@ -194,8 +194,36 @@ Zotero.CollectionTreeView.prototype.refresh = Zotero.Promise.coroutine(function*
 		}),
 		added++
 	);
-
+	
 	// TODO: Unify feed and group adding code
+	
+	// Add groups
+	var groups = Zotero.Groups.getAll();
+	if (groups.length) {
+		this._addRowToArray(
+			newRows,
+			new Zotero.CollectionTreeRow('separator', false),
+			added++
+		);
+		this._addRowToArray(
+			newRows,
+			new Zotero.CollectionTreeRow('header', {
+				id: "group-libraries-header",
+				label: Zotero.getString('pane.collections.groupLibraries'),
+				libraryID: -1
+			}, 0),
+			added++
+		);
+		for (let group of groups) {
+			this._addRowToArray(
+				newRows,
+				new Zotero.CollectionTreeRow('group', group),
+				added++
+			);
+			added += yield this._expandRow(newRows, added - 1);
+		}
+	}
+	
 	// Add feeds
 	if (this.hideSources.indexOf('feeds') == -1) {
 		var feeds = Zotero.Feeds.getAll();
@@ -228,33 +256,6 @@ Zotero.CollectionTreeView.prototype.refresh = Zotero.Promise.coroutine(function*
 					added++
 				);
 			}
-		}
-	}
-
-	// Add groups
-	var groups = Zotero.Groups.getAll();
-	if (groups.length) {
-		this._addRowToArray(
-			newRows,
-			new Zotero.CollectionTreeRow('separator', false),
-			added++
-		);
-		this._addRowToArray(
-			newRows,
-			new Zotero.CollectionTreeRow('header', {
-				id: "group-libraries-header",
-				label: Zotero.getString('pane.collections.groupLibraries'),
-				libraryID: -1
-			}, 0),
-			added++
-		);
-		for (let group of groups) {
-			this._addRowToArray(
-				newRows,
-				new Zotero.CollectionTreeRow('group', group),
-				added++
-			);
-			added += yield this._expandRow(newRows, added - 1);
 		}
 	}
 	
@@ -337,8 +338,7 @@ Zotero.CollectionTreeView.prototype.notify = Zotero.Promise.coroutine(function* 
 		// If trash is refreshed, we probably need to update the icon from full to empty
 		if (type == 'trash') {
 			// libraryID is passed as parameter to 'refresh'
-			let deleted = yield Zotero.Items.getDeleted(ids[0], true);
-			this._trashNotEmpty[ids[0]] = !!deleted.length;
+			this._trashNotEmpty[ids[0]] = yield Zotero.Items.hasDeleted(ids[0]);
 			let row = this.getRowIndexByID("T" + ids[0]);
 			this._treebox.invalidateRow(row);
 		}
@@ -1178,7 +1178,7 @@ Zotero.CollectionTreeView.prototype.selectItem = Zotero.Promise.coroutine(functi
 	// Force switch to library view
 	else if (!this.selectedTreeRow.isLibrary() && inLibraryRoot) {
 		Zotero.debug("Told to select in library; switching to library");
-		yield cv.selectLibrary(item.libraryID);
+		yield this.selectLibrary(item.libraryID);
 	}
 	
 	var itemsView = this.selectedTreeRow.itemTreeView;

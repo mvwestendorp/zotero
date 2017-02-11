@@ -232,7 +232,7 @@ Zotero.ItemFields = new function() {
 			throw new Error("Item type field data not found for itemTypeID " + itemTypeID);
 		}
 		
-		return _itemTypeFields[itemTypeID];
+		return [..._itemTypeFields[itemTypeID]];
 	}
 	
 	
@@ -345,7 +345,7 @@ Zotero.ItemFields = new function() {
 		}
 		
 		return _typeFieldIDsByBase[baseFieldID] ?
-			_typeFieldIDsByBase[baseFieldID] : false;
+			[..._typeFieldIDsByBase[baseFieldID]] : false;
 	}
 	
 	

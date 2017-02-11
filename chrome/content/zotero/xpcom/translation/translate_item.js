@@ -35,6 +35,7 @@
  *         <li>cookieSandbox - Cookie sandbox for attachment requests</li>
  *         <li>proxy - A proxy to deproxify item URLs</li>
  *         <li>baseURI - URI to which attachment paths should be relative</li>
+ *         <li>saveOptions - Options to pass to DataObject::save() (e.g., skipSelect)</li>
  */
 Zotero.Translate.ItemSaver = function(options) {
 	// initialize constants
@@ -57,7 +58,7 @@ Zotero.Translate.ItemSaver = function(options) {
 	this._proxy = options.proxy;
 	
 	// the URI to which other URIs are assumed to be relative
-	if(typeof baseURI === "object" && baseURI instanceof Components.interfaces.nsIURI) {
+	if(typeof options.baseURI === "object" && options.baseURI instanceof Components.interfaces.nsIURI) {
 		this._baseURI = options.baseURI;
 	} else {
 		// try to convert to a URI
@@ -66,6 +67,7 @@ Zotero.Translate.ItemSaver = function(options) {
 				getService(Components.interfaces.nsIIOService).newURI(options.baseURI, null, null);
 		} catch(e) {};
 	}
+	this._saveOptions = options.saveOptions || {};
 };
 
 Zotero.Translate.ItemSaver.ATTACHMENT_MODE_IGNORE = 0;
@@ -101,6 +103,7 @@ Zotero.Translate.ItemSaver.prototype = {
 				} else {
 					newItem = new Zotero.Item(type);
 					newItem.libraryID = this._libraryID;
+					if (item.creators) this._cleanCreators(item.creators);
 					if(item.tags) item.tags = this._cleanTags(item.tags);
 
 					// Need to handle these specially. Put them in a separate object to
@@ -125,7 +128,7 @@ Zotero.Translate.ItemSaver.prototype = {
 					}
 					
 					// save item
-					myID = yield newItem.save();
+					myID = yield newItem.save(this._saveOptions);
 
 					// handle notes
 					if (specialFields.notes) {
@@ -157,18 +160,15 @@ Zotero.Translate.ItemSaver.prototype = {
 			}
 		}.bind(this));
 
-		// Handle standalone attachments outside of the transaction, because they can involve downloading
+		// Handle attachments outside of the transaction, because they can involve downloading
 		for (let item of standaloneAttachments) {
 			let newItem = yield this._saveAttachment(item, null, attachmentCallback);
 			if (newItem) newItems.push(newItem);
 		}
-		// Save child attachments afterwards, since we want to signal completion as soon as the main
-		// items are saved
-		var promise = Zotero.Promise.delay(1);
 		for (let a of childAttachments) {
 			// Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=449811 (fixed in Fx51?)
 			let [item, parentItemID] = a;
-			promise = promise.then(() => this._saveAttachment(item, parentItemID, attachmentCallback));
+			yield this._saveAttachment(item, parentItemID, attachmentCallback);
 		}
 		
 		return newItems;
@@ -197,9 +197,7 @@ Zotero.Translate.ItemSaver.prototype = {
 					newCollection.parentID = rootCollectionID;
 					topLevelCollections.push(newCollection)
 				}
-				yield newCollection.save({
-					skipSelect: true
-				});
+				yield newCollection.save(this._saveOptions);
 
 				var toAdd = [];
 
@@ -309,7 +307,7 @@ Zotero.Translate.ItemSaver.prototype = {
 			if (attachment.tags) newAttachment.setTags(this._cleanTags(attachment.tags));
 			if (attachment.note) newAttachment.setNote(attachment.note);
 			this._handleRelated(attachment, newAttachment);
-			yield newAttachment.saveTx();
+			yield newAttachment.saveTx(this._saveOptions);
 
 			Zotero.debug("Translate: Created attachment; id is " + newAttachment.id, 4);
 			attachmentCallback(attachment, 100);
@@ -648,10 +646,19 @@ Zotero.Translate.ItemSaver.prototype = {
 		if (!parentItemID && this._collections) {
 			myNote.setCollections(this._collections);
 		}
-		yield myNote.save();
+		yield myNote.save(this._saveOptions);
 		return myNote;
 	}),
-
+	
+	_cleanCreators: function (creators) {
+		creators.forEach(creator => {
+			if (!creator.creatorType) {
+				Zotero.warn(".creatorType missing in creator -- update translator code");
+				creator.creatorType = "author";
+			}
+		});
+	},
+	
 	/**
 	 * Remove automatic tags if automatic tags pref is on, and set type
 	 * to automatic if forced

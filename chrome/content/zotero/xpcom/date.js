@@ -24,12 +24,6 @@
 */
 
 Zotero.Date = new function(){
-	this.sqlToDate = sqlToDate;
-	this.dateToSQL = dateToSQL;
-	this.strToDate = strToDate;
-	this.formatDate = formatDate;
-	this.strToISO = strToISO;
-	this.strToMultipart = strToMultipart;
 	this.isMultipart = isMultipart;
 	this.multipartToSQL = multipartToSQL;
 	this.multipartToStr = multipartToStr;
@@ -45,39 +39,78 @@ Zotero.Date = new function(){
 	this.getLocaleDateOrder = getLocaleDateOrder;
 	
 	var _localeDateOrder = null;
-	var _months = null;
+	var _months;
+	var _monthsWithEnglish;
 	
-	/**
-	 * Load dateFormat bundle into _dateFormatsBundle
-	 */
-	this.getMonths = function() {
-		if(_months) return _months;
-		
-		if(Zotero.isFx && !Zotero.isBookmarklet) {
-			var src = 'chrome://global/locale/dateFormat.properties';
-			var localeService = Components.classes['@mozilla.org/intl/nslocaleservice;1'].
-								getService(Components.interfaces.nsILocaleService);
-			var appLocale = localeService.getApplicationLocale();
-			
-			var bundle =
-				Components.classes["@mozilla.org/intl/stringbundle;1"]
-				.getService(Components.interfaces.nsIStringBundleService).createBundle(src, appLocale);
-			
-			_months = {"short":[], "long":[]};
-			for(var i=1; i<=12; i++) {
-				_months.short.push(bundle.GetStringFromName("month."+i+".Mmm"));
-				_months.long.push(bundle.GetStringFromName("month."+i+".name"));
-			}
-		} else {
-			// TODO localize for Chrome/Safari
-			_months = {
-				"short":["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-					"Oct", "Nov", "Dec"],
-				"long":["January", "February", "March", "April", "May", "June", "July",
-					"August", "September", "October", "November", "December"]};
+	this.init = function () {
+		if (!Zotero.isFx || Zotero.isBookmarklet) {
+			throw new Error("Unimplemented");
 		}
 		
-		return _months;
+		return Zotero.HTTP.request(
+			'GET', 'resource://zotero/schema/dateFormats.json', { responseType: 'json' }
+		).then(function(xmlhttp) {
+			var json = xmlhttp.response;
+			
+			var locale = Zotero.locale;
+			var english = locale.startsWith('en');
+			// If no exact match, try first two characters ('de')
+			if (!json[locale]) {
+				locale = locale.substr(0, 2);
+			}
+			// Try first two characters repeated ('de-DE')
+			if (!json[locale]) {
+				locale = locale + "-" + locale.toUpperCase();
+			}
+			// Look for another locale with same first two characters
+			if (!json[locale]) {
+				let sameLang = Object.keys(json).filter(l => l.startsWith(locale.substr(0, 2)));
+				if (sameLang.length) {
+					locale = sameLang[0];
+				}
+			}
+			// If all else fails, use English
+			if (!json[locale]) {
+				locale = 'en-US';
+				english = true;
+			}
+			_months = json[locale];
+
+			// Add English versions if not already added
+			if (english) {
+				_monthsWithEnglish = _months;
+			}
+			else {
+				_monthsWithEnglish = {};
+				for (let key in _months) {
+					_monthsWithEnglish[key] = _months[key].concat(json['en-US'][key]);
+				}
+			}
+		});
+	};
+	
+	
+	/**
+	 * @param {Boolean} [withEnglish = false] - Include English months
+	 * @return {Object} - Object with 'short' and 'long' arrays
+	 */
+	this.getMonths = function (withEnglish) {
+		if (withEnglish) {
+			if (_monthsWithEnglish) return _monthsWithEnglish;
+		}
+		else {
+			if (_months) return _months;
+		}
+		
+		if (Zotero.isFx && !Zotero.isBookmarklet) {
+			throw new Error("Months not cached");
+		}
+		
+		// TODO: Use JSON file for connectors
+		return _months = _monthsWithEnglish = {
+			short: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			long: ["January", "February", "March", "April", "May", "June", "July", "August",
+				"September", "October", "November", "December"]};
 	}
 	
 	/**
@@ -85,7 +118,7 @@ Zotero.Date = new function(){
 	*
 	* Can also accept just the date part (e.g. '2006-06-13')
 	**/
-	function sqlToDate(sqldate, isUTC){
+	this.sqlToDate = function (sqldate, isUTC) {
 		try {
 			if (!this.isSQLDate(sqldate) && !this.isSQLDateTime(sqldate)) {
 				throw new Error("Invalid date");
@@ -125,8 +158,7 @@ Zotero.Date = new function(){
 	*
 	* If _toUTC_ is true, creates a UTC date
 	**/
-	function dateToSQL(date, toUTC)
-	{
+	this.dateToSQL = function (date, toUTC) {
 		try {
 			if (toUTC){
 				var year = date.getUTCFullYear();
@@ -231,7 +263,7 @@ Zotero.Date = new function(){
 	
 	
 	this.isoToSQL = function (isoDate) {
-		return this.dateToSQL(this.isoToDate(isoDate), true);
+		return Zotero.Date.dateToSQL(Zotero.Date.isoToDate(isoDate), true); // no 'this' for translator sandbox
 	}
 	
 	
@@ -250,7 +282,7 @@ Zotero.Date = new function(){
 	var _monthRe = null;
 	var _dayRe = null;
 	
-	function strToDate(string) {
+	this.strToDate = function (string) {
 		var date = {
 			order: ''
 		};
@@ -265,7 +297,7 @@ Zotero.Date = new function(){
 		// Parse 'yesterday'/'today'/'tomorrow'
 		var lc = (string + '').toLowerCase();
 		if (lc == 'yesterday' || (Zotero.getString && lc === Zotero.getString('date.yesterday'))) {
-			string = Zotero.Date.dateToSQL(new Date(Date.now() - 1000*60*60*24)).substr(0, 10);
+			string = Zotero.Date.dateToSQL(new Date(Date.now() - 1000*60*60*24)).substr(0, 10); // no 'this' for translator sandbox
 		}
 		else if (lc == 'today' || (Zotero.getString && lc == Zotero.getString('date.today'))) {
 			string = Zotero.Date.dateToSQL(new Date()).substr(0, 10);
@@ -396,14 +428,9 @@ Zotero.Date = new function(){
 		// MONTH
 		if(date.month === undefined) {
 			// compile month regular expression
-			var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul',
-				'aug', 'sep', 'oct', 'nov', 'dec'];
-			// If using a non-English bibliography locale, try those too
-			if (Zotero.locale != 'en-US') {
-				Zotero.Date.getMonths();
-				months = months.concat(_months['short']).concat(_months['long']);
-				for(var i=0, n=months.length; i<n; i++) months[i] = months[i].toLowerCase();
-			}
+			let months = Zotero.Date.getMonths(true); // no 'this' for translator sandbox
+			months = months.short.map(m => m.toLowerCase())
+				.concat(months.long.map(m => m.toLowerCase()));
 			
 			if(!_monthRe) {
 				_monthRe = new RegExp("^(.*)\\b("+months.join("|")+")[^ ]*(?: (.*)$|$)", "i");
@@ -563,7 +590,7 @@ Zotero.Date = new function(){
 	 * @return A formatted date string
 	 * @type String
 	 **/
-	function formatDate(date, shortFormat) {
+	this.formatDate = function (date, shortFormat) {
 		if(shortFormat) {
 			var localeDateOrder = getLocaleDateOrder();
 			var string = localeDateOrder[0]+"/"+localeDateOrder[1]+"/"+localeDateOrder[2];
@@ -577,7 +604,7 @@ Zotero.Date = new function(){
 				string += date.part+" ";
 			}
 			
-			var months = Zotero.Date.getMonths().long;
+			var months = Zotero.Date.getMonths().long; // no 'this' for translator sandbox
 			if(date.month != undefined && months[date.month]) {
 				// get short month strings from CSL interpreter
 				string += months[date.month];
@@ -596,8 +623,8 @@ Zotero.Date = new function(){
 		return string;
 	}
 	
-	function strToISO(str) {
-		var date = Zotero.Date.strToDate(str);
+	this.strToISO = function (str) {
+		var date = this.strToDate(str);
 		
 		if(date.year) {
 			var dateString = Zotero.Utilities.lpad(date.year, "0", 4);
@@ -635,12 +662,12 @@ Zotero.Date = new function(){
 		return date;
 	}
 	
-	function strToMultipart(str){
+	this.strToMultipart = function (str) {
 		if (!str){
 			return '';
 		}
 		
-		var parts = strToDate(str);
+		var parts = this.strToDate(str);
 		
 		// FIXME: Until we have a better BCE date solution,
 		// remove year value if not between 1 and 9999

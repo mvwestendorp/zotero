@@ -766,6 +766,10 @@ Zotero.Schema = new function(){
 		//
 		var sql = "SELECT version FROM version WHERE schema=?";
 		var lastModTime = yield Zotero.DB.valueQueryAsync(sql, mode);
+		// Fix millisecond times (possible in 4.0?)
+		if (lastModTime > 9999999999) {
+			lastModTime = Math.round(lastModTime / 1000);
+		}
 		var cache = {};
 		
 		// XPI installation
@@ -803,7 +807,7 @@ Zotero.Schema = new function(){
 					for (let i = 0; i < dbCache.length; i++) {
 						let metadata = JSON.parse(dbCache[i]);
 						let id = metadata.translatorID;
-						if (index[id] && index[id].lastUpdated == metadata.lastUpdated) {
+						if (index[id] && index[id].lastUpdated <= metadata.lastUpdated) {
 							index[id].extract = false;
 						}
 					}
@@ -1095,8 +1099,9 @@ Zotero.Schema = new function(){
 			return;
 		}
 		
-		// If transaction already in progress, delay by ten minutes
-		yield Zotero.DB.waitForTransaction();
+		if (Zotero.DB.inTransaction()) {
+			yield Zotero.DB.waitForTransaction();
+		}
 		
 		// Get the last timestamp we got from the server
 		var lastUpdated = yield this.getDBVersion('repository');
@@ -1522,35 +1527,27 @@ Zotero.Schema = new function(){
 	}
 	
 	
-	function _updateSchema(schema){
-		return Zotero.Promise.all([Zotero.Schema.getDBVersion(schema), _getSchemaSQLVersion(schema)])
-		.spread(function (dbVersion, schemaVersion) {
-			if (dbVersion == schemaVersion) {
-				return false;
-			}
-			else if (dbVersion < schemaVersion) {
-				return _getSchemaSQL(schema)
-				.then(function (sql) {
-					return Zotero.DB.executeSQLFile(sql);
-				})
-				.then(function () {
-					if (schema === 'jurisdictions') {
-						return _populateJurisdictions();
-					} else {
-						// Don't we need to return something otherwise,
-						// to serve as the promise? Seems like updates
-						// will break like this.
-					}
-				})
-				.then(function () {
-					return _updateDBVersion(schema, schemaVersion);
-				});
-			}
-			
+	/**
+	 * Requires a transaction
+	 */
+	var _updateSchema = Zotero.Promise.coroutine(function* (schema) {
+		var [dbVersion, schemaVersion] = yield Zotero.Promise.all(
+			[Zotero.Schema.getDBVersion(schema), _getSchemaSQLVersion(schema)]
+		);
+		if (dbVersion == schemaVersion) {
+			return false;
+		}
+		if (dbVersion > schemaVersion) {
 			throw new Error("Zotero '" + schema + "' DB version (" + dbVersion
 				+ ") is newer than SQL file (" + schemaVersion + ")");
-		});
-	}
+		}
+		let sql = yield _getSchemaSQL(schema);
+		yield Zotero.DB.executeSQLFile(sql);
+		if (schema === 'jurisdictions') {
+			yield _populateJurisdictions();
+		}
+		return _updateDBVersion(schema, schemaVersion);
+	});
 	
 	
 	/*
