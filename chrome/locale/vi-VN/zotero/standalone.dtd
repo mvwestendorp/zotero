@@ -1,17 +1,17 @@
 <!ENTITY aboutProduct.accesskey "A">
-<!ENTITY aboutProduct.label "About &brandShortName;">
+<!ENTITY aboutProduct.label "Về &brandShortName;">
 <!ENTITY addons.label "Add-ons">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
-<!ENTITY bidiSwitchPageDirectionItem.label "Switch Page Direction">
+<!ENTITY bidiSwitchPageDirectionItem.label "Đổi hướng trang in">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
 <!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
-<!ENTITY bidiSwitchTextDirectionItem.label "Switch Text Direction">
-<!ENTITY bringAllToFront.label "Bring All to Front">
+<!ENTITY bidiSwitchTextDirectionItem.label "Đổi hướng văn bản">
+<!ENTITY bringAllToFront.label "Đưa tất cả ra phía trước">
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
-<!ENTITY closeCmd.label "Close">
-<!ENTITY copyBibliographyCmd.label "Copy Bibliography">
-<!ENTITY copyCitationCmd.label "Copy Citation">
+<!ENTITY closeCmd.label "Đóng">
+<!ENTITY copyBibliographyCmd.label "Sao chép danh mục tài liệu tham khảo">
+<!ENTITY copyCitationCmd.label "Sao chép trích dẫn">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
 <!ENTITY copyCmd.label "Copy">
@@ -24,7 +24,7 @@
 <!ENTITY editMenu.accesskey "E">
 <!ENTITY editMenu.label "Chỉnh sửa">
 <!ENTITY fileMenu.accesskey "F">
-<!ENTITY fileMenu.label "File">
+<!ENTITY fileMenu.label "Tập tin">
 <!ENTITY findAgainCmd.accesskey "g">
 <!ENTITY findAgainCmd.commandkey "g">
 <!ENTITY findAgainCmd.commandkey2 "VK_F3">
@@ -53,61 +53,64 @@
 <!ENTITY fullZoomToggleCmd.accesskey "T">
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
-<!ENTITY helpCheckForUpdates.label "Check for Updates…">
+<!ENTITY helpCheckForUpdates.label "Kiểm tra cập nhật...">
 <!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Submit Feedback…">
+<!ENTITY helpFeedbackPage.label "Gửi phản hồi">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
-<!ENTITY helpMenu.label "Help">
+<!ENTITY helpMenu.label "Giúp đỡ">
 <!ENTITY helpMenuWin.accesskey "H">
-<!ENTITY helpMenuWin.label "Help">
+<!ENTITY helpMenuWin.label "Giúp đỡ">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors to Zotero…">
+<!ENTITY helpReportErrors.label "Báo lỗi tới Zotero...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
-<!ENTITY helpTroubleshootingInfo.label "Troubleshooting Information">
+<!ENTITY helpTroubleshootingInfo.label "Thông tin sửa lỗi">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
-<!ENTITY hideOtherAppsCmdMac.label "Hide Others">
+<!ENTITY hideOtherAppsCmdMac.label "Dấu tất cả mục khác">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
-<!ENTITY hideThisAppCmdMac.label "Hide &brandShortName;">
+<!ENTITY hideThisAppCmdMac.label "Dấu &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
-<!ENTITY minimizeWindow.label "Minimize">
+<!ENTITY minimizeWindow.label "Thu nhỏ">
 <!ENTITY pageSetupCmd.accesskey "U">
-<!ENTITY pageSetupCmd.label "Page Setup…">
+<!ENTITY pageSetupCmd.label "Thiết lập trang in...">
 <!ENTITY pasteCmd.accesskey "P">
 <!ENTITY pasteCmd.key "V">
 <!ENTITY pasteCmd.label "Paste">
 <!ENTITY preferencesCmd.accesskey "O">
 <!ENTITY preferencesCmd.label "Preferences">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "Preferences…">
+<!ENTITY preferencesCmdMac.label "Thiết lập...">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "Preferences">
 <!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
-<!ENTITY printCmd.label "Print…">
+<!ENTITY printCmd.label "In...">
 <!ENTITY productHelp.accesskey "D">
 <!ENTITY productHelp.label "Hộ trợ và Tài liệu">
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Quit">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Quit Zotero">
+<!ENTITY quitApplicationCmdMac.label "Thoát Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
-<!ENTITY quitApplicationCmdWin.label "Exit">
+<!ENTITY quitApplicationCmdWin.label "Thoát">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Redo">
 <!ENTITY saveCmd.accesskey "A">
 <!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.label "Save…">
+<!ENTITY saveCmd.label "Lưu...">
 <!ENTITY selectAllCmd.accesskey "A">
 <!ENTITY selectAllCmd.key "A">
 <!ENTITY selectAllCmd.label "Chạn tất cả">
-<!ENTITY servicesMenuMac.label "Services">
-<!ENTITY showAllAppsCmdMac.label "Show All">
+<!ENTITY servicesMenuMac.label "Các dịch vụ">
+<!ENTITY showAllAppsCmdMac.label "Hiện tất cả">
 <!ENTITY toolsMenu.accesskey "T">
-<!ENTITY toolsMenu.label "Tools">
+<!ENTITY toolsMenu.label "Các công cụ">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Undo">
-<!ENTITY windowMenu.label "Window">
+<!ENTITY windowMenu.label "Cửa sổ">
 <!ENTITY zoomWindow.label "Zoom">

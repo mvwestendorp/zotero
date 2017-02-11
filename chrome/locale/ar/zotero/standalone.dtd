@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "اخفاء الأخرى">
 <!ENTITY hideThisAppCmdMac.commandkey "ا">
 <!ENTITY hideThisAppCmdMac.label "إخفاء اسم العلامة التجارية القصيرة؛">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "تصغير">
 <!ENTITY pageSetupCmd.accesskey "U">

@@ -19,21 +19,21 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Titel">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Uppdaterad">
 <!ENTITY zotero.preferences.cite.wordProcessors "Ordbehandlare">
-<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Hämtar insticksprogram för ordbehandlare...">
+<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Få ordbehandlare insticksfiler...">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Inget insticksprogram för ordbehandlare är installerat.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Använd äldre dialogruta för att lägga till nya källor">
-<!ENTITY zotero.preferences.dataDir "Lagringsplats">
+<!ENTITY zotero.preferences.dataDir "Plats för Datakatalog">
 <!ENTITY zotero.preferences.dataDir.choose "Välj...">
 <!ENTITY zotero.preferences.dataDir.custom "Egen:">
-<!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
-<!ENTITY zotero.preferences.dataDir.reveal "Visa datakatalog">
+<!ENTITY zotero.preferences.dataDir.migrate "Migrera till ny standardplats...">
+<!ENTITY zotero.preferences.dataDir.reveal "Visa Datakatalog">
 <!ENTITY zotero.preferences.dataDir.useProfile "Använd profilkatalog">
 <!ENTITY zotero.preferences.dbMaintenance "Databasunderhåll">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "Undersök om databasen är oskadd">
 <!ENTITY zotero.preferences.dbMaintenance.resetStyles "Återställ stilar...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Återställ källfångare...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Återställ källfångare och stilar...">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Återställ översättare...">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Återställ översättare och stilar...">
 <!ENTITY zotero.preferences.debugOutputLogging "Logga utdata för debuggning">
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Rensa utdata">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Aktivera efter omstart">
@@ -47,7 +47,7 @@
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "När detta är bortvalt lägger Zotero bara till webblänken om artikeln inte har ett sidintervall specificerat.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
-<!ENTITY zotero.preferences.export.getAdditionalStyles "Lägg till ytterligare stilar...">
+<!ENTITY zotero.preferences.export.getAdditionalStyles "Få ytterligare stilar...">
 <!ENTITY zotero.preferences.feeds "Matningar">
 <!ENTITY zotero.preferences.feeds.feedDefaults "Matningens standardvärden">
 <!ENTITY zotero.preferences.feeds.sorting.label "Sortering">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "etiketter">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "När källor kopieras mellan bibliotek, ta med:">
 <!ENTITY zotero.preferences.items "Källor">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Ändringarna gäller bara i nya fönster">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Ändringarna börjar gälla efter omstart">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Kopiera markerade källor som noter till urklipp">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Kopiera markerade källor till urklipp">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Ruta för fokusbibliotek">
@@ -116,7 +116,7 @@
 <!ENTITY zotero.preferences.layout "Utseende:">
 <!ENTITY zotero.preferences.layout.stacked "Staplad">
 <!ENTITY zotero.preferences.layout.standard "Standard">
-<!ENTITY zotero.preferences.locate.addDescription "För att lägga till en söktjänst som inte finns på listan, gå till söktjänstens hemsida i din webbläsare och välj &#34;Lägg till&#34; från Zoteros Hitta-meny.">
+<!ENTITY zotero.preferences.locate.addDescription "För att lägga till en söktjänst som inte finns på listan, gå till söktjänstens hemsida i din webbläsare och välj “Lägg till” i Zoteros Hitta-meny.">
 <!ENTITY zotero.preferences.locate.description "Beskrivning">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Hantera söktjänst för artiklar">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "En söktjänst förbättrar funktionerna i Hitta-menyn ovanför Infofliken. Genom att aktivera söktjänsterna nedan läggs de till Hitta-menyn och kan användas för att hitta källor på ditt bibliotek eller på nätet.">
@@ -128,7 +128,7 @@
 <!ENTITY zotero.preferences.openCSLEdit "Öppna stilredigerare">
 <!ENTITY zotero.preferences.openCSLPreview "Öppna förhandsgranskning av stil">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
-<!ENTITY zotero.preferences.openurl.custom "Anpassat...">
+<!ENTITY zotero.preferences.openurl.custom "Anpassad...">
 <!ENTITY zotero.preferences.openurl.search "Sök efter länkservrar">
 <!ENTITY zotero.preferences.openurl.server "Länkserver:">
 <!ENTITY zotero.preferences.openurl.version "Version:">
@@ -214,6 +214,8 @@
 <!ENTITY zotero.preferences.sync.reset.button "Återställ...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Fullständig synkronsering">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Slå ihop lokala data med data från servern, strunta i synkronseringshistrorik">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Återställ filsynkroniseringshistorik">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Tvinga kontroll mot lagringsservern för alla lokala bifogade filer.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Återställ från Zotero Server">

@@ -19,21 +19,21 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "ชื่อเรื่อง">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "ปรับเป็นรุ่นปัจจุบันแล้ว">
 <!ENTITY zotero.preferences.cite.wordProcessors "โปรแกรมประมวลคำ">
-<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "ใช้ตัวเสริมสำหรับโปรแกรมประมวลคำ...">
+<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Get word processor plug-ins…">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "ไม่มีตัวเสริมสำหรับโปรแกรมประมวลคำติดตั้งอยู่">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "ใช้หน้าจอการอ้างอิงแบบคลาสสิก">
 <!ENTITY zotero.preferences.dataDir "ที่ตั้งของพื้นที่เก็บข้อมูล">
-<!ENTITY zotero.preferences.dataDir.choose "เลือก...">
+<!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "กำหนดเอง:">
 <!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
 <!ENTITY zotero.preferences.dataDir.reveal "แสดงไดเรคทอรีข้อมูล">
 <!ENTITY zotero.preferences.dataDir.useProfile "ใช้ไดเรคทอรีของโพรไฟล์">
 <!ENTITY zotero.preferences.dbMaintenance "การบำรุงรักษาฐานข้อมูล">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "ตรวจสอบความถูกต้องของฐานข้อมูล">
-<!ENTITY zotero.preferences.dbMaintenance.resetStyles "ตั้งค่ารูปแบบอ้างอิงใหม่...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "ตั้งค่าตัวช่วยแปลใหม่...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "ตั้งค่าตัวช่วยแปลและรูปแบบอ้างอิงใหม่...">
+<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Reset Styles…">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Reset Translators…">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Reset Translators and Styles…">
 <!ENTITY zotero.preferences.debugOutputLogging "บันทึกการส่งออกการแก้จุดบกพร่อง">
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "ล้างผลลัพธ์">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "ใช้งานได้หลังจากเริ่มโปรแกรมใหม่">
@@ -47,7 +47,7 @@
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "เมื่อไม่ใช้งานตัวเลือกนี้ Zotero จะรวม URLs เมื่ออ้างถึงวารสาร นิตยสารและหนังสือพิมพ์เฉพาะกรณีที่บทความนั้นไม่มีเลขหน้าเท่านั้น">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
-<!ENTITY zotero.preferences.export.getAdditionalStyles "รับรูปแบบเพิ่มเติม...">
+<!ENTITY zotero.preferences.export.getAdditionalStyles "Get additional styles…">
 <!ENTITY zotero.preferences.feeds "Feeds">
 <!ENTITY zotero.preferences.feeds.feedDefaults "Feed Defaults">
 <!ENTITY zotero.preferences.feeds.sorting.label "Sorting:">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "แท็ก">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "เมื่อสำเนารายการระหว่างไลบรารี ให้รวมถึง:">
 <!ENTITY zotero.preferences.items "รายการ">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "การเปลี่ยนแปลงจะมีผลกับหน้าต่างใหม่เท่านั้น">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Changes take effect after restart">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "ทำสำเนารายการอ้างอิงที่เลือกไว้ไปยังคลิปบอร์ด">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "ทำสำเนารายการที่เลือกไปยังคลิปบอร์ด">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "โฟกัสที่ช่องไลบรารี">
@@ -116,7 +116,7 @@
 <!ENTITY zotero.preferences.layout "Layout:">
 <!ENTITY zotero.preferences.layout.stacked "Stacked">
 <!ENTITY zotero.preferences.layout.standard "Standard">
-<!ENTITY zotero.preferences.locate.addDescription "การเพิ่มเครื่องมือค้นหาซึ่งไม่มีอยู่ในรายการ ให้ไปที่เครื่องมือช่วยค้นหาในเบราว์เซอร์ของคุณและเลือก &#34;เพิ่ม&#34; จากเมนู &quot;หาที่ตั้ง&quot; ของ Zotero">
+<!ENTITY zotero.preferences.locate.addDescription "To add a Lookup Engine that is not on the list, visit the desired search engine in your browser and select “Add” from Zotero’s Locate menu.">
 <!ENTITY zotero.preferences.locate.description "รายละเอียด">
 <!ENTITY zotero.preferences.locate.locateEngineManager "ตัวจัดการเครื่องมือค้นหาบทความ">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "เครื่องมือค้นหาขยายความสามารถของดร็อปดาวน์ &quot;หาที่ตั้ง&quot; ในแผงข้อมูล หากเลือกใช้เครื่องมือค้นหาตามรายการข้างล่างมันจะถูกเพิ่มเข้าไปในดร็อปดาวน์และสามารถใช้กำหนดแหล่งข้อมูลจากไลบรารีของคุณบนเว็บ">
@@ -128,7 +128,7 @@
 <!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
 <!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
-<!ENTITY zotero.preferences.openurl.custom "กำหนดเอง...">
+<!ENTITY zotero.preferences.openurl.custom "Custom…">
 <!ENTITY zotero.preferences.openurl.search "ค้นหาตัวแก้ปัญหา">
 <!ENTITY zotero.preferences.openurl.server "ตัวแก้ปัญหา: ">
 <!ENTITY zotero.preferences.openurl.version "รุ่น:">
@@ -205,15 +205,17 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "เงื่อนไขและข้อกำหนด">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
 <!ENTITY zotero.preferences.sync.librariesToSync "Libraries to Sync">
-<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries...">
+<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries…">
 <!ENTITY zotero.preferences.sync.librariesToSync.library "Library">
 <!ENTITY zotero.preferences.sync.librariesToSync.sync "Sync">
 <!ENTITY zotero.preferences.sync.lostPassword "รหัสผ่านหาย?">
 <!ENTITY zotero.preferences.sync.password "รหัสผ่าน: ">
 <!ENTITY zotero.preferences.sync.reset "ตั้งค่าใหม่">
-<!ENTITY zotero.preferences.sync.reset.button "ตั้งค่าใหม่...">
+<!ENTITY zotero.preferences.sync.reset.button "Reset…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Full Sync">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Merge local data with data from server, ignoring sync history.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "ตั้งค่าประวัติการประสานข้อมูลแฟ้มใหม่">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "บังคับตรวจสอบเครื่องบริการเก็บข้อมูลสำหรับแฟ้มแนบทั้งหมดในเครื่องนี้">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "เรียกคืนจากเครื่องบริการของ Zotero">
@@ -228,7 +230,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Sync full-text content">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero can sync the full-text content of files in your Zotero libraries with zotero.org and other linked devices, allowing you to easily search for your files wherever you are. The full-text content of your files will not be shared publicly.">
 <!ENTITY zotero.preferences.sync.syncServer "Data Syncing">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account...">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account…">
 <!ENTITY zotero.preferences.sync.username "ชื่อผู้ใช้: ">
 <!ENTITY zotero.preferences.title "ตั้งค่าพึงใจสำหรับ Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "วันที่แล้ว">

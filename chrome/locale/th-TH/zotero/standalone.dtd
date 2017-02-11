@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "ซ่อนอื่น ๆ">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "ซ่อน &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "ย่อ">
 <!ENTITY pageSetupCmd.accesskey "U">

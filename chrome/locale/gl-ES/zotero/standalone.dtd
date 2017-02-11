@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "Agochar os outros">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Agochar &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimizar">
 <!ENTITY pageSetupCmd.accesskey "U">

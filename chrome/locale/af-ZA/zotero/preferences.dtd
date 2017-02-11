@@ -24,7 +24,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "No word processor plug-ins are currently installed.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Use classic Add Citation dialog">
 <!ENTITY zotero.preferences.dataDir "Stoorligging">
-<!ENTITY zotero.preferences.dataDir.choose "Kies...">
+<!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "Doelmaak:">
 <!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
 <!ENTITY zotero.preferences.dataDir.reveal "Show Data Directory">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "tags">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "When copying items between libraries, include:">
 <!ENTITY zotero.preferences.items "items">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Veranderinge vind net in nuwe vensters plaas">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Changes take effect after restart">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Copy Selected Item Citations to Clipboard">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Kopieer geselekteerde items na knipbord">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Focus Libraries Pane">
@@ -128,7 +128,7 @@
 <!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
 <!ENTITY zotero.preferences.openCSLPreview "Open Style Preview">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
-<!ENTITY zotero.preferences.openurl.custom "Doelmaak...">
+<!ENTITY zotero.preferences.openurl.custom "Custom…">
 <!ENTITY zotero.preferences.openurl.search "Search for resolvers">
 <!ENTITY zotero.preferences.openurl.server "Oplosser:">
 <!ENTITY zotero.preferences.openurl.version "Weergawe:">
@@ -214,6 +214,8 @@
 <!ENTITY zotero.preferences.sync.reset.button "Reset…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Full Sync">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Merge local data with data from server, ignoring sync history.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Reset File Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Force checking of the storage server for all local attachment files.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restore from Zotero Server">

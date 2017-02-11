@@ -214,6 +214,8 @@
 <!ENTITY zotero.preferences.sync.reset.button "Reinicia...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Sincronització completa amb el servidor del Zotero">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Fusiona les dades locals del Zotero amb les dades del servidor de sincronització i ignorant l'historial de sincronització.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Reinicia l'historial de sincronització dels fitxers">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Força la comprovació del servidor d'emmagatzematge per a tots els fitxers adjunts locals.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restaura des del servidor del Zotero">

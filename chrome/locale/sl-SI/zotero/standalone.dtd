@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "Skrij druge">
 <!ENTITY hideThisAppCmdMac.commandkey "S">
 <!ENTITY hideThisAppCmdMac.label "Skrij &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "k">
 <!ENTITY minimizeWindow.label "Skrči">
 <!ENTITY pageSetupCmd.accesskey "r">

@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "លាក់ផ្សេងៗ">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "លាក់​ និង ឈ្មោះម៉ាក;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "អប្បបរមានីយកម្ម">
 <!ENTITY pageSetupCmd.accesskey "U">

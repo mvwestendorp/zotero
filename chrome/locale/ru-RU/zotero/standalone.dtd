@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "Скрыть другие">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Скрыть &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Свернуть">
 <!ENTITY pageSetupCmd.accesskey "U">

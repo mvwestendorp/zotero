@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "Gøym andre">
 <!ENTITY hideThisAppCmdMac.commandkey "G">
 <!ENTITY hideThisAppCmdMac.label "Gøym &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimer">
 <!ENTITY pageSetupCmd.accesskey "D">

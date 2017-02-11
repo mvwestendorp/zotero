@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "다른 것들은 감추기">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "&brandShortName; 감추기">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "최소화">
 <!ENTITY pageSetupCmd.accesskey "U">

@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "Сакриј остале">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Сакриј &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Умањи">
 <!ENTITY pageSetupCmd.accesskey "U">

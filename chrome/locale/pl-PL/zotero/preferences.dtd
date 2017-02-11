@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "znaczniki">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Podczas kopiowania elementów między bibliotekami dołączaj:">
 <!ENTITY zotero.preferences.items "elementów">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Zmiany zostaną zastosowane tylko w nowych oknach">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Zmiany zostaną zastosowane po ponownym uruchomieniu">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Kopiuje wybrane odnośniki bibliograficzne do schowka">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Kopiuj zaznaczone elementy do schowka">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Focus Libraries Pane">
@@ -214,6 +214,8 @@
 <!ENTITY zotero.preferences.sync.reset.button "Przywróć...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Pełna synchronizacja">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Połącz lokalne dane Zotero z danymi z serwera synchronizacji, ignorując historię synchronizacji.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Wyczyść historię synchronizacji plików">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Wymuś sprawdzenie wszystkich lokalnych załączników na serwerze przechowywania.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Przywróć z serwera Zotero">

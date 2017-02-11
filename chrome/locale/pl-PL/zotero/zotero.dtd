@@ -156,7 +156,7 @@
 <!ENTITY zotero.items.menu.attach.note "Dodaj notatkę">
 <!ENTITY zotero.items.menu.attach.snapshot "Dołącz zrzut ekranu aktywnej strony">
 <!ENTITY zotero.items.menu.changeTag "Change Tag">
-<!ENTITY zotero.items.menu.duplicateItem "Duplikuj zaznaczony element">
+<!ENTITY zotero.items.menu.duplicateItem "Duplikuj element">
 <!ENTITY zotero.items.menu.mergeItems "Złącz elementy...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
@@ -275,27 +275,27 @@
 <!ENTITY zotero.toolbar.duplicate.label "Pokaż duplikaty">
 <!ENTITY zotero.toolbar.duplicatesView.label "Duplicates view">
 <!ENTITY zotero.toolbar.emptyTrash.label "Opróżnij Kosz">
-<!ENTITY zotero.toolbar.export.label "Eksportuj bibliotekę">
+<!ENTITY zotero.toolbar.export.label "Eksportuj bibliotekę...">
 <!ENTITY zotero.toolbar.feeds.edit "Edytuj kanał...">
 <!ENTITY zotero.toolbar.feeds.new "Nowy kanał...">
 <!ENTITY zotero.toolbar.feeds.new.fromOPML "Z OPML...">
 <!ENTITY zotero.toolbar.feeds.new.fromPage "Ze strony...">
 <!ENTITY zotero.toolbar.feeds.new.fromURL "Z URL...">
 <!ENTITY zotero.toolbar.feeds.refresh "Odśwież kanał">
-<!ENTITY zotero.toolbar.import.label "Importuj">
+<!ENTITY zotero.toolbar.import.label "Importuj...">
 <!ENTITY zotero.toolbar.importFromClipboard "Importuj ze schowka">
 <!ENTITY zotero.toolbar.lookup "Wyszukaj za pomocą identyfikatora...">
 <!ENTITY zotero.toolbar.lookup.label "Dodaj element za pomocą identyfikatora">
 <!ENTITY zotero.toolbar.markFeedRead.label "Oznacz kanał jako przeczytany">
 <!ENTITY zotero.toolbar.moreItemTypes.label "Więcej">
-<!ENTITY zotero.toolbar.newCollection.label "Nowa kolekcja">
+<!ENTITY zotero.toolbar.newCollection.label "Nowa kolekcja...">
 <!ENTITY zotero.toolbar.newGroup "Nowa grupa...">
 <!ENTITY zotero.toolbar.newItem.label "Nowy element">
 <!ENTITY zotero.toolbar.newItemFromPage.label "Utwórz nowy element z aktywnej strony">
 <!ENTITY zotero.toolbar.newLibrary.label "Nowa biblioteka...">
 <!ENTITY zotero.toolbar.newNote "Nowa notatka">
-<!ENTITY zotero.toolbar.newSavedSearch.label "Nowe zapisane wyszukiwanie">
-<!ENTITY zotero.toolbar.newSubcollection.label "Nowa subkolekcja">
+<!ENTITY zotero.toolbar.newSavedSearch.label "Nowe zapisane wyszukiwanie...">
+<!ENTITY zotero.toolbar.newSubcollection.label "Nowa subkolekcja...">
 <!ENTITY zotero.toolbar.note.child "Dodaj notatkę potomną">
 <!ENTITY zotero.toolbar.note.standalone "Nowa osobna notatka">
 <!ENTITY zotero.toolbar.openURL.label "Wyszukaj lokalnie">
@@ -303,7 +303,7 @@
 <!ENTITY zotero.toolbar.orphansView.label "Orphans view">
 <!ENTITY zotero.toolbar.preferences.label "Ustawienia...">
 <!ENTITY zotero.toolbar.refresh.label "Refresh">
-<!ENTITY zotero.toolbar.removeItem.label "Usuń element">
+<!ENTITY zotero.toolbar.removeItem.label "Usuń element...">
 <!ENTITY zotero.toolbar.rtfScan.label "Skanowanie RTF...">
 <!ENTITY zotero.toolbar.supportAndDocumentation "Wsparcie i dokumentacja">
 <!ENTITY zotero.toolbar.tab.tooltip "Przełącz tryb zakładki">

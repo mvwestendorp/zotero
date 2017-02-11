@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "Etiketler">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Kitaplıklar arası eserler kopyalanırken, bunları ekle:">
 <!ENTITY zotero.preferences.items "Eser">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Değişiklikler yeni açılan pencerelerde etkili olacaktır.">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Değişiklikler tekrar başlamadan sonra etkinleşir">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Seçili Eserin Göndermelerini Panoya Kopyala">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Seçilen Eserleri Panoya Kopyala">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Dermeler Bölmesine Odaklan">
@@ -214,6 +214,8 @@
 <!ENTITY zotero.preferences.sync.reset.button "Sıfırla...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Tam Eşitleme">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Eşitleme geçmişini gözetmeksinizin, yerel Zotero verilerini sunucudaki veri ile birleştir.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Dosya Eşitleme Geçmişini Sıfırla">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Tüm yerel eklenti dosyaları için depolama sunucusunun kontrol edilmesini zorla.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Zotero Sunucusundan Geri Yükle">

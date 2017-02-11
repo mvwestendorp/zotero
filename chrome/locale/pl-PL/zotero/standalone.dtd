@@ -62,13 +62,16 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Pomoc">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Raport błędów do Zotero...">
+<!ENTITY helpReportErrors.label "Raportuj błędy do Zotero...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Informacje dla pomocy technicznej">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY hideOtherAppsCmdMac.label "Ukryj inne">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Ukryj &brandShortName;">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimalizuj">
 <!ENTITY pageSetupCmd.accesskey "U">

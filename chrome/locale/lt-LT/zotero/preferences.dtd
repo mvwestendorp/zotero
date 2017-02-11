@@ -19,21 +19,21 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Pavadinimas">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Atnaujinta">
 <!ENTITY zotero.preferences.cite.wordProcessors "Tekstų rengyklės">
-<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Papildinių diegimas į tekstų rengykles...">
+<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Parsisiųsti papildinius tekstų rengyklėms...">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Nerasta įdiegtų teksto rengyklės papildinių.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Naudoti klasikinį citatų įdėjimo langą">
 <!ENTITY zotero.preferences.dataDir "Duomenų katalogo vieta">
 <!ENTITY zotero.preferences.dataDir.choose "Pasirinkti...">
-<!ENTITY zotero.preferences.dataDir.custom "Savitas:">
-<!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
+<!ENTITY zotero.preferences.dataDir.custom "Savita:">
+<!ENTITY zotero.preferences.dataDir.migrate "Perkelti į naują numatytąją vietą...">
 <!ENTITY zotero.preferences.dataDir.reveal "Parodyti duomenų katalogą">
 <!ENTITY zotero.preferences.dataDir.useProfile "Naudoti profilio katalogą">
 <!ENTITY zotero.preferences.dbMaintenance "Duomenų bazės priežiūra">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "Tikrinti duomenų bazės vientisumą">
-<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Atkurti pradinius stilius...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Atkurti pradinius transliatorius...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Atkurti pradinius transliatorius ir stilius...">
+<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Atkurti stilius...">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Atkurti transliatorius...">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Atkurti transliatorius ir stilius...">
 <!ENTITY zotero.preferences.debugOutputLogging "Derinimo pranešimų žurnalas">
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Išvalyti išvedimą">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Įgalinti paleidus iš naujo">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "gaires">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Kopijuojant elementus tarp bibliotekų, įtraukti:">
 <!ENTITY zotero.preferences.items "įrašai">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Pakeitimai veiks tik naujai atvertuose languose">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Pakeitimai įsigalios iš naujo paleidus programą">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Kopijuoti pasirinktų įrašų citavimą į iškarpinę">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Kopijuoti pasirinktus įrašus į iškarpinę">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Aktyvuoti bibliotekos skydelį">
@@ -116,7 +116,7 @@
 <!ENTITY zotero.preferences.layout "Išdėstymas">
 <!ENTITY zotero.preferences.layout.stacked "Glaustas">
 <!ENTITY zotero.preferences.layout.standard "Įprastas">
-<!ENTITY zotero.preferences.locate.addDescription "Norėdami į sąrašą įtraukti naują paieškos variklį, savo interneto naršyklėje įeikite į paieškos svetainę ir Zotero paieškos meniu spauskite &#34;Pridėti&#34;.">
+<!ENTITY zotero.preferences.locate.addDescription "Norėdami įtraukti paieškos variklį, kurio nėra sąraše, interneto naršyklėje atverkite tos paieškos sistemos svetainę ir nuspauskite Zotero meniu mygtuką „Pridėti“.">
 <!ENTITY zotero.preferences.locate.description "Aprašas">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Straipsnių paieškos variklių tvarkytuvė">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "Paieškos variklis išplečia dokumentų suradimo galimybes, kuriomis galite pasinaudoti informaciniame skydelyje per išskleidžiamąjį meniu. Įgalindami žemiau pateiktus paieškos variklius, įtrauksite juos į išskleidžiamąjį meniu, tad savo bibliotekos šaltinių galėsite ieškoti internete. ">
@@ -214,6 +214,8 @@
 <!ENTITY zotero.preferences.sync.reset.button "Atkurti...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Visiškas sinchronizavimas">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Vietinius duomenis apjungti su duomenimis iš serverio, nepaisant sinchronizavimų praeityje.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Perrašyti failų sinchronizavimo žurnalą">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Priverstinai patikrinti saugyklos serverį, ar jame yra visi vietiniai prisegtiniai failai.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Atkurti parsiunčiant iš Zotero serverio">
@@ -232,7 +234,7 @@
 <!ENTITY zotero.preferences.sync.username "Naudotojo vardas:">
 <!ENTITY zotero.preferences.title "Zotero nuostatos">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "d.">
-<!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Automatiškai šiukšlinės šalinti įrašus, senesnius nei">
+<!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Automatiškai šalinti šiukšlinės įrašus, senesnius nei">
 <!ENTITY zotero.preferences.updateNow "Atnaujinti dabar">
 <!ENTITY zotero.preferences.userInterface "Naudotojo sąsaja">
 <!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Leisti zotero.org derinti turinį pagal dabartinę Zotero versiją">

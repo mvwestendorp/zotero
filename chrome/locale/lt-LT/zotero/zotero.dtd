@@ -54,10 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Vertimo parinktys">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "Perskaitytus straipsnius pašalinti po">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "d.">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Perskaitytus naujienų kanalo įrašus pašalinti po">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "d.">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Neskaitytus naujienų kanalo įrašus pašalinti po">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "d.">
 <!ENTITY zotero.feedSettings.refresh.label1 "Atnaujinti kas">
 <!ENTITY zotero.feedSettings.refresh.label2 "val.">
 <!ENTITY zotero.feedSettings.saveButton.label "Įrašyti">
@@ -71,7 +71,7 @@
 <!ENTITY zotero.general.delete "Šalinti">
 <!ENTITY zotero.general.deselectAll "Nieko nežymėti">
 <!ENTITY zotero.general.edit "Redaguoti">
-<!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.loading "Įkeliama...">
 <!ENTITY zotero.general.more "Daugiau">
 <!ENTITY zotero.general.no "Ne">
 <!ENTITY zotero.general.note "Pastaba:">
@@ -150,7 +150,7 @@
 <!ENTITY zotero.items.menu.addTag "Add Subfield">
 <!ENTITY zotero.items.menu.attach "Įtraukti priedą">
 <!ENTITY zotero.items.menu.attach.file "Pridėti turimo failo kopiją...">
-<!ENTITY zotero.items.menu.attach.fileLink "Pridėti failo nuorodą...">
+<!ENTITY zotero.items.menu.attach.fileLink "Pridėti nuorodą iki failo...">
 <!ENTITY zotero.items.menu.attach.link "Pridėti nuorodą į šį puslapį">
 <!ENTITY zotero.items.menu.attach.link.uri "Pridėti URI nuorodą...">
 <!ENTITY zotero.items.menu.attach.note "Įtraukti pastabą">

@@ -69,6 +69,9 @@
 <!ENTITY hideOtherAppsCmdMac.label "Slėpti likusius">
 <!ENTITY hideThisAppCmdMac.commandkey "S">
 <!ENTITY hideThisAppCmdMac.label "Slėpti „&brandShortName;“">
+<!ENTITY importCmd.key "I">
+<!ENTITY importCmd.label "Import…">
+<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
 <!ENTITY minimizeWindow.key "r">
 <!ENTITY minimizeWindow.label "Suskleisti">
 <!ENTITY pageSetupCmd.accesskey "n">

@@ -19,21 +19,21 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Titolo">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Aggiornato">
 <!ENTITY zotero.preferences.cite.wordProcessors "Elaboratori di testo">
-<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Scarica plug-in per elaboratori di testo...">
+<!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Get word processor plug-ins…">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Non ci sono plug-in per elaboratori di testo installati.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Usa la classica finestra &quot;Inserisci citazione&quot;">
 <!ENTITY zotero.preferences.dataDir "Posizione salvataggio">
-<!ENTITY zotero.preferences.dataDir.choose "Sfoglia...">
+<!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "Personalizza:">
 <!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
 <!ENTITY zotero.preferences.dataDir.reveal "Visualizza la cartella dati">
 <!ENTITY zotero.preferences.dataDir.useProfile "Utilizza la cartella del profilo di Firefox">
 <!ENTITY zotero.preferences.dbMaintenance "Manutenzione database">
 <!ENTITY zotero.preferences.dbMaintenance.integrityCheck "Controlla l&apos;integrità del database">
-<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Reimposta stili...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Reimposta motori di ricerca...">
-<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Reimposta motori di ricerca e stili...">
+<!ENTITY zotero.preferences.dbMaintenance.resetStyles "Reset Styles…">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslators "Reset Translators…">
+<!ENTITY zotero.preferences.dbMaintenance.resetTranslatorsAndStyles "Reset Translators and Styles…">
 <!ENTITY zotero.preferences.debugOutputLogging "Registrazione dell'output di debug">
 <!ENTITY zotero.preferences.debugOutputLogging.clearOutput "Cancella l'output">
 <!ENTITY zotero.preferences.debugOutputLogging.enableAfterRestart "Attiva dopo il riavvio">
@@ -47,7 +47,7 @@
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "Se l&apos;opzione è disattivata, Zotero includerà gli URL soltanto nelle citazioni degli articoli di giornale, rivista e quotidiano che non contengono un intervallo di pagine specificato.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
-<!ENTITY zotero.preferences.export.getAdditionalStyles "Scarica ulteriori stili...">
+<!ENTITY zotero.preferences.export.getAdditionalStyles "Get additional styles…">
 <!ENTITY zotero.preferences.feeds "Feeds">
 <!ENTITY zotero.preferences.feeds.feedDefaults "Feed Defaults">
 <!ENTITY zotero.preferences.feeds.sorting.label "Ordinamento:">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.preferences.groups.tags "tag">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Quando si copiano elementi tra librerie diverse, includere:">
 <!ENTITY zotero.preferences.items "elementi">
-<!ENTITY zotero.preferences.keys.changesTakeEffect "Le modifiche avranno effetto nelle nuove finestre">
+<!ENTITY zotero.preferences.keys.changesTakeEffect "Changes take effect after restart">
 <!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Copia l&apos;elemento selezionato negli Appunti">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Copia gli elementi selezionati negli Appunti">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Sposta il focus nel pannello laterale delle raccolte">
@@ -116,7 +116,7 @@
 <!ENTITY zotero.preferences.layout "Layout:">
 <!ENTITY zotero.preferences.layout.stacked "Stacked">
 <!ENTITY zotero.preferences.layout.standard "Standard">
-<!ENTITY zotero.preferences.locate.addDescription "To add a Lookup Engine that is not on the list, visit the desired search engine in your browser and select 'Add' from the Firefox Search Bar. When you reopen this preference pane you will have the option to enable the new Lookup Engine.">
+<!ENTITY zotero.preferences.locate.addDescription "To add a Lookup Engine that is not on the list, visit the desired search engine in your browser and select “Add” from Zotero’s Locate menu.">
 <!ENTITY zotero.preferences.locate.description "Descrizione">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Gestore dei motori di ricerca di articoli">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "Un motore di ricerca amplia le funzionalità del menu Trova nella barra degli strumenti Informazioni. Attivando motori di ricerca dalla lista seguente, questi saranno aggiunti al menu e potranno essere usati per rintracciare risorse della propria biblioteca sul web.">
@@ -128,7 +128,7 @@
 <!ENTITY zotero.preferences.openCSLEdit "Open Style Editor">
 <!ENTITY zotero.preferences.openCSLPreview "Apri Stile Precedente">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
-<!ENTITY zotero.preferences.openurl.custom "Personalizza...">
+<!ENTITY zotero.preferences.openurl.custom "Custom…">
 <!ENTITY zotero.preferences.openurl.search "Cerca resolver">
 <!ENTITY zotero.preferences.openurl.server "Resolver:">
 <!ENTITY zotero.preferences.openurl.version "Versione:">
@@ -205,15 +205,17 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "condizioni d'uso">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
 <!ENTITY zotero.preferences.sync.librariesToSync "Libraries to Sync">
-<!ENTITY zotero.preferences.sync.librariesToSync.button "Scegli Librerie...">
+<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries…">
 <!ENTITY zotero.preferences.sync.librariesToSync.library "Libreria">
 <!ENTITY zotero.preferences.sync.librariesToSync.sync "Sync">
 <!ENTITY zotero.preferences.sync.lostPassword "Hai perso la password?">
 <!ENTITY zotero.preferences.sync.password "Password:">
 <!ENTITY zotero.preferences.sync.reset "Reset">
-<!ENTITY zotero.preferences.sync.reset.button "Azzera...">
+<!ENTITY zotero.preferences.sync.reset.button "Reset…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Full Sync">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Merge local data with data from server, ignoring sync history.">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Azzera la cronologia della sincronizzazione file">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Richiedi un controllo di tutti gli allegati locali sul server.">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Ripristina dal server Zotero">
@@ -228,7 +230,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Sincronizza tutto il contenuto full-text">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero può sincronizzare il contenuto full-text dei file nelle tue raccolte Zotero con zotero.org e altri servizi collegati. Questo ti permette di cercare facilmente i propri file ovunque tu ti trovi. Il contenuto full-text dei tuoi file non verrà condiviso pubblicamente.">
 <!ENTITY zotero.preferences.sync.syncServer "Data Syncing">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account...">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account…">
 <!ENTITY zotero.preferences.sync.username "Nome utente:">
 <!ENTITY zotero.preferences.title "Opzioni di Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "giorni">
