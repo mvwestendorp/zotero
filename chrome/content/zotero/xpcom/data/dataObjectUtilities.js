@@ -1012,8 +1012,8 @@ Zotero.DataObjectUtilities = {
 							extradata.extrafields = {};
 						}
 						extradata.extrafields[fieldName] = newjson[fieldName];
-						delete newjson[fieldName];
 					}
+					delete newjson[fieldName];
 				}
 			}
 		}
@@ -1058,7 +1058,7 @@ Zotero.DataObjectUtilities = {
 
 		// xtype
 		if (Zotero.EXTENDED_TYPES[newjson.itemType]) {
-			extradata.xtype = itemType;
+			extradata.xtype = newjson.itemType;
 			newjson.itemType = Zotero.EXTENDED_TYPES[newjson.itemType];
 		}
 
