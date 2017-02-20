@@ -3,7 +3,7 @@
 <!ENTITY zotero.about.localizations "Localisations :">
 <!ENTITY zotero.alumni "Anciens collaborateurs :">
 <!ENTITY zotero.citationProcessing "Traitement des citations et bibliographies">
-<!ENTITY zotero.createdby "Créée par :">
+<!ENTITY zotero.createdby "Créé par :">
 <!ENTITY zotero.developers "Développeurs :">
 <!ENTITY zotero.director "Directeur :">
 <!ENTITY zotero.directors "Directeurs :">
@@ -11,4 +11,4 @@
 <!ENTITY zotero.moreCreditsAndAcknowledgements "Crédits supplémentaires &amp; remerciements">
 <!ENTITY zotero.thanks "Remerciements particuliers :">
 <!ENTITY zotero.version "version">
-<!ENTITY zotero.whatsNew "What’s new">
+<!ENTITY zotero.whatsNew "Quoi de neuf">

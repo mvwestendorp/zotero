@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Thiết lập lại lịch sử đồng bộ tập tin">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Bắt buộc kiểm tra các tập tin đính kèm trên máy chủ lưu trữ.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Phục hồi từ máy chủ Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Xóa toàn bộ dữ liệu Zotero cục bộ và phục hồi từ máy chủ đồng bộ.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Lưu lên máy chủ Zotero">

@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Göm &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importera…">
+<!ENTITY importFromClipboardCmd.label "Importera från urklipp">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimera">
 <!ENTITY pageSetupCmd.accesskey "U">

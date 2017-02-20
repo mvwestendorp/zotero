@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "重置文件同步历史">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "强制检查本地所有附件的存储服务器">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "从 Zotero 服务器恢复">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "删除本地所有 Zotero 数据并从同步服务器恢复.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "恢复到 Zotero 服务器">

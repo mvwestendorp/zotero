@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Poista tiedostojen synkronointihistoria">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Tarkistaa jokaisen paikallisen liitetiedoston löytymisen tallennuspalvelimelta">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Palauta aineisto Zotero-palvelimelta">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Poista kaikki paikallinen aineisto ja palauta aineisto synkronointipalvelimelta">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Palauta aineisto Zotero-palvelimelle">

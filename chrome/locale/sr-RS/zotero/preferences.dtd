@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Поништи историју усклађивања">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Приморава проверу складишта на серверу у тражећи прилоге са локалног рачунара.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Врати са Зотеровог сервера">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Брише све Зотерове локалне податке и поново их преузима са сервера.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Пошаљи на Зотеров сервер">

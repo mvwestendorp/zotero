@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Obnoviť históriu synchronizácie súborov">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Nechať server znovu preveriť, či obsahuje všetky lokálne prílohy.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Obnoviť dáta zo servera Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Vymazať všetky lokálne dáta a nahradiť ich dátami na serveri.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Nahradiť dáta na serveri Zotero">

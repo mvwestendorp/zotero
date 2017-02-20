@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "إعادة تعيين ملف سجل المزامنة">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "تنفيذ عملية التحقق من الخادم لتخزين جميع الملفات المحلية المرفقة.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "الاسترجاع من خادم زوتيرو">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "حذف جميع بيانات زوتيرو المحلية والاسترجاع من خادم التزامن.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "الاسترجاع إلى خادم زوتيرو">

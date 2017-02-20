@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "ファイル同期の履歴を削除する">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "すべてのローカルの添付ファイルに関して、ストレージ・サーバーを強制的に確認する。">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Zotero サーバーから復元（リストア）する">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "ローカル（手元）の Zotero データを全て消去して、同期サーバのデータで復元する。">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Zotero サーバのデータに復元する。">

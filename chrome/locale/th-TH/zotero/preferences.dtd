@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "ตั้งค่าประวัติการประสานข้อมูลแฟ้มใหม่">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "บังคับตรวจสอบเครื่องบริการเก็บข้อมูลสำหรับแฟ้มแนบทั้งหมดในเครื่องนี้">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "เรียกคืนจากเครื่องบริการของ Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "ล้างข้อมูลในเครื่องนี้แล้วเรียกคืนจากเครื่องบริการของ Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "ส่งข้อมูลคืนเครื่องบริการของ Zotero">

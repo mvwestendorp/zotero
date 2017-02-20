@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "A szinkronizációs előzmények törlése">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Valamennyi helyi csatolmány ellenőrzése a tárhely szerveren">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Visszaállítás a Zotero szerverről">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "A helyi adatok törlése és frissítés a szerveren található adatokkal.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Helyreállítás a Zotero szerverre">

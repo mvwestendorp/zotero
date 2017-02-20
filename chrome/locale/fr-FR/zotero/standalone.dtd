@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Cacher &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importer…">
+<!ENTITY importFromClipboardCmd.label "Importer depuis le presse-papiers">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimiser">
 <!ENTITY pageSetupCmd.accesskey "M">

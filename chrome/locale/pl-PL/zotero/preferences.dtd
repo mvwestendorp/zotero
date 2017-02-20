@@ -214,10 +214,10 @@
 <!ENTITY zotero.preferences.sync.reset.button "Przywróć...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Pełna synchronizacja">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Połącz lokalne dane Zotero z danymi z serwera synchronizacji, ignorując historię synchronizacji.">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Wyczyść historię synchronizacji danych">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Połącz lokalne dane ze zdalnymi, ignorując historię synchronizacji">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Wyczyść historię synchronizacji plików">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Wymuś sprawdzenie wszystkich lokalnych załączników na serwerze przechowywania.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Sprawdź zdalne kopie wszystkich lokalnych załączników">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Przywróć z serwera Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Usuń wszystkie lokalne dane Zostero i przywróć je z serwera synchronizacji.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Zapisz na serwer Zotero">

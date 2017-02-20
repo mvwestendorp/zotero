@@ -9,7 +9,7 @@
 <!ENTITY zotero.attachLink.label.title "Başlık">
 <!ENTITY zotero.attachLink.title "URI'ye Bağlantı Ekle.">
 <!ENTITY zotero.bibliography.bibliography "Bibliyografya">
-<!ENTITY zotero.bibliography.copyToClipboard.label "Pano'ya Kopyala">
+<!ENTITY zotero.bibliography.copyToClipboard.label "Panoya Kopyala">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.locale.label "Dil:">

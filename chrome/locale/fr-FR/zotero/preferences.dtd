@@ -214,10 +214,10 @@
 <!ENTITY zotero.preferences.sync.reset.button "Réinitialiser…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Synchronisation complète">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Fusionner les données locales avec les données du serveur, en ignorant l'historique de synchronisation.">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Réinitialiser l'historique de synchronisation des données">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Fusionner les données locales avec les données distantes, en ignorant l'historique de synchronisation">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Réinitialiser l'historique de synchronisation des fichiers">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Forcer le serveur de stockage à rechercher tous les fichiers locaux.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Rechercher les copies distantes de tous les fichiers joints locaux">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restaurer à partir du serveur Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Effacer toutes les données locales de Zotero et restaurer à partir du serveur de synchronisation.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Restaurer vers le serveur Zotero">

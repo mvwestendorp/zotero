@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Perrašyti failų sinchronizavimo žurnalą">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Priverstinai patikrinti saugyklos serverį, ar jame yra visi vietiniai prisegtiniai failai.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Atkurti parsiunčiant iš Zotero serverio">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Išvalyti visus vietinius Zotero duomenis ir parsiųsti duomenis iš sinchronizavimo serverio.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Atkurti perrašant Zotero serverio duomenis">

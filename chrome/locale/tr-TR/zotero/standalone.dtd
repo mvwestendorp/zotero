@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "&brandShortName;'i Sakla">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "İçeri Aktar...">
+<!ENTITY importFromClipboardCmd.label "Panodan İçeri Aktar">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Küçült">
 <!ENTITY pageSetupCmd.accesskey "U">

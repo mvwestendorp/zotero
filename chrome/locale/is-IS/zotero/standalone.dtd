@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Fela &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Flytja inn...">
+<!ENTITY importFromClipboardCmd.label "Flytja inn af klippispjaldi">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minnka">
 <!ENTITY pageSetupCmd.accesskey "U">

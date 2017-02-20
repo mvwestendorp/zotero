@@ -55,12 +55,12 @@
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "Remove read articles after ">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "nap(ok)">
 <!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "nap(ok)">
 <!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "nap(ok)">
 <!ENTITY zotero.feedSettings.refresh.label1 "Update feed every">
-<!ENTITY zotero.feedSettings.refresh.label2 "hour(s)">
-<!ENTITY zotero.feedSettings.saveButton.label "Save">
+<!ENTITY zotero.feedSettings.refresh.label2 "óra">
+<!ENTITY zotero.feedSettings.saveButton.label "Mentés">
 <!ENTITY zotero.feedSettings.title "Feed Settings">
 <!ENTITY zotero.feedSettings.title.label "Cím:">
 <!ENTITY zotero.feedSettings.url.label "URL">
@@ -77,7 +77,7 @@
 <!ENTITY zotero.general.note "Jegyzet:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Nem kötelező)">
-<!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.refresh "Újratöltés">
 <!ENTITY zotero.general.saveAs "Mentés másként…">
 <!ENTITY zotero.general.selectAll "Minden kijelölése">
 <!ENTITY zotero.general.yes "Igen">
@@ -180,7 +180,7 @@
 <!ENTITY zotero.items.year_column "Év">
 <!ENTITY zotero.lookup.button.search "Keresés">
 <!ENTITY zotero.lookup.description "Adja meg az ISBN, DOI vagy PMID azonosítót az alábbi dobozban.">
-<!ENTITY zotero.merge.deleted "Deleted">
+<!ENTITY zotero.merge.deleted "Törölve">
 <!ENTITY zotero.merge.of "of">
 <!ENTITY zotero.merge.title "Conflict Resolution">
 <!ENTITY zotero.moreEncodings.label "További karakterkódolások">

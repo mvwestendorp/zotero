@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Reiniciar o historial de sincronización de ficheiros">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Forzar a comprobación do servidor de almacenamento para todos os ficheiros locais anexos.">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restaurar a partir do servidor de Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Borrar todos os datos do locais de Zotero e restaurar sincronizando os ficheiros do servidor.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Restaurar no servidor de Zotero">

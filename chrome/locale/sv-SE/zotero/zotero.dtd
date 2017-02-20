@@ -230,7 +230,7 @@
 <!ENTITY zotero.sync.error "Synkroniseringsfel">
 <!ENTITY zotero.sync.longTagFixer.character "tecken">
 <!ENTITY zotero.sync.longTagFixer.characters "tecken">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Följande etikett i ditt Zoterobibliotek är för lång för att synkronisera med servern:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Följande etikett i ditt Zotero-bibliotek är för lång för att synkronisera med servern:">
 <!ENTITY zotero.sync.longTagFixer.split "Dela">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Dela vid det">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Du kan antingen dela upp etiketten i flera etiketter, förkorta den, eller radera den.">
