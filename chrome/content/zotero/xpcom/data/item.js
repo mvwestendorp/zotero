@@ -207,7 +207,7 @@ Zotero.Item.prototype._setParentKey = function() {
 //
 //////////////////////////////////////////////////////////////////////////////
 /*
- * Retrieves (and loads from DB, if necessary) an itemData field value
+ * Retrieves an itemData field value
  *
  * @param {String|Integer} field fieldID or fieldName
  * @param {Boolean} [unformatted] Skip any special processing of DB value
@@ -225,19 +225,11 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 	
 	this._requireData('primaryData');
 	
-	// TODO: Fix logic and add sortCreator
+	// TODO: Add sortCreator
 	if (field === 'firstCreator' && !this._id) {
 		// Hack to get a firstCreator for an unsaved item
-		var creatorsData = this.getCreators(true);
-		if (creators.length === 0) {
-			return "";
-		} else if (creators.length === 1) {
-			return creatorsData[0].lastName;
-		} else if (creators.length === 2) {
-			return creatorsData[0].lastName + " " + Zotero.getString('general.and') + " " + creatorsData[1].lastName;
-		} else if (creators.length > 3) {
-			return creatorsData[0].lastName + " " + Zotero.getString('general.etAl');
-		}
+		let creatorsData = this.getCreators(true);
+		return Zotero.Items.getFirstCreatorFromData(this.itemTypeID, creatorsData);
 	} else if (field === 'id' || this.ObjectsClass.isPrimaryField(field)) {
 		var privField = '_' + field;
 		//Zotero.debug('Returning ' + (this[privField] ? this[privField] : '') + ' (typeof ' + typeof this[privField] + ')');
@@ -2287,6 +2279,7 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	// Update child item counts and contents
 	if (reloadParentChildItems) {
 		for (let parentItemID in reloadParentChildItems) {
+			// Keep in sync with Zotero.Items.trash()
 			let parentItem = yield this.ObjectsClass.getAsync(parentItemID);
 			yield parentItem.reload(['primaryData', 'childItems'], true);
 			parentItem.clearBestAttachmentState();
