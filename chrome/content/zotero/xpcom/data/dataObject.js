@@ -819,15 +819,14 @@ Zotero.DataObject.prototype.save = Zotero.Promise.coroutine(function* (options =
 			'skipClientDateModifiedUpdate',
 			'skipSyncedUpdate',
 			'skipEditCheck',
+			'skipNotifier',
 			'skipSelect'
 		].forEach(x => env.options[x] = true);
 	}
-	
 	try {
 		if (Zotero.DataObject.prototype._finalizeSave == this._finalizeSave) {
 			throw new Error("_finalizeSave not implemented for Zotero." + this._ObjectType);
 		}
-		
 		env.notifierData = {};
 		// Pass along any 'notifierData' values
 		if (env.options.notifierData) {
@@ -839,7 +838,6 @@ Zotero.DataObject.prototype.save = Zotero.Promise.coroutine(function* (options =
 		if (!env.isNew) {
 			env.changed = this._previousData;
 		}
-		
 		// Create transaction
 		let result
 		if (env.options.tx) {
