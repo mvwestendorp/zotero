@@ -311,6 +311,7 @@ var createGroup = Zotero.Promise.coroutine(function* (props = {}) {
 	if (props.libraryVersion) {
 		group.libraryVersion = props.libraryVersion;
 	}
+	group.archived = props.archived === undefined ? false : props.archived;
 	yield group.saveTx();
 	return group;
 });
@@ -371,6 +372,9 @@ function createUnsavedDataObject(objectType, params = {}) {
 	}
 	
 	var obj = new Zotero[Zotero.Utilities.capitalize(objectType)](itemType);
+	if (params.libraryID) {
+		obj.libraryID = params.libraryID;
+	}
 	
 	switch (objectType) {
 	case 'item':
