@@ -1457,8 +1457,7 @@ Zotero.Integration.Fields.prototype.updateSession = function() {
 			//this._session.restoreProcessorState(); TODO doesn't appear to be working properly
 			me._session.updateUpdateIndices();
 			// Iterate through citations, yielding for UI updates
-			return Zotero.Promise.each(me._session._updateCitations(), () => {})
-			.then(function() {
+			return me._session._updateCitations(function() {
 				me._session.updateIndices = {};
 				me._session.updateItemIDs = {};
 				me._session.citationText = {};
@@ -1542,7 +1541,7 @@ Zotero.Integration.Fields.prototype.updateDocument = function(forceCitations, fo
 	this._session.updateUpdateIndices(forceCitations);
 	var me = this;
 	// Iterate through citations, yielding for UI updates
-	return Zotero.Promise.each(this._session._updateCitations(), () => {}).then(function() {
+	return this._session._updateCitations(function() {
 		return Zotero.Promise.each(
 			me._updateDocument(
 				forceCitations, forceBibliography, ignoreCitationChanges
@@ -1998,14 +1997,14 @@ Zotero.Integration.CitationEditInterface.prototype = {
 	 */
 	"preview":function preview() {
 		var me = this;
-		return this._updateSession().then(function* () {
+		return this._updateSession().then(Zotero.Promise.coroutine(function* () {
 			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 				yield Zotero.CiteProc.CSL.preloadAbbreviations(this.style, me.citation);
 			}
 			me.citation.properties.zoteroIndex = me._fieldIndex;
 			me.citation.properties.noteIndex = me._field.getNoteIndex();
-			return yield me._session.previewCitation(me.citation);
-		});
+			return me._session.previewCitation(me.citation);
+		}.bind(this)));
 	},
 	
 	/**
@@ -2779,7 +2778,7 @@ Zotero.Integration.Session.prototype.formatCitation = Zotero.Promise.coroutine(f
 /**
  * Updates the list of citations to be serialized to the document
  */
-Zotero.Integration.Session.prototype._updateCitations = function* () {
+Zotero.Integration.Session.prototype._updateCitations = Zotero.Promise.coroutine(function* (callback) {
 	/*var allUpdatesForced = false;
 	var forcedUpdates = {};
 	if(force) {
@@ -2823,7 +2822,6 @@ Zotero.Integration.Session.prototype._updateCitations = function* () {
 			}
 			this.citeprocCitationIDs[citation.citationID] = true;
 			delete this.newIndices[index];
-			yield;
 		}
 	}
 	
@@ -2831,7 +2829,8 @@ Zotero.Integration.Session.prototype._updateCitations = function* () {
 		this.newIndices = {};
 		this.updateIndices = {};
 	}*/
-}
+	callback();
+});
 
 /**
  * Restores processor state from document, without requesting citation updates
