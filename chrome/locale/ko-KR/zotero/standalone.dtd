@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "&brandShortName; 감추기">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "불러오기...">
+<!ENTITY importFromClipboardCmd.label "클립보드에서 불러오기">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "최소화">
 <!ENTITY pageSetupCmd.accesskey "U">
@@ -82,7 +82,7 @@
 <!ENTITY preferencesCmd.accesskey "O">
 <!ENTITY preferencesCmd.label "설정">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "설정">
+<!ENTITY preferencesCmdMac.label "Preferences…">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "설정">
 <!ENTITY printCmd.accesskey "P">
