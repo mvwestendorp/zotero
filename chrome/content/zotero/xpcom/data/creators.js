@@ -161,6 +161,7 @@ Zotero.Creators = new function() {
 		return Zotero.DataObjectUtilities.equals(data1, data2);
 	},
 	
+<<<<<<< HEAD
 	this.cleanData = function (data, includeDependents) {
 		var me = this;
 		function _cleanData(data) {
@@ -174,13 +175,14 @@ Zotero.Creators = new function() {
 			if (data.name !== undefined && data.fieldMode === 0) {
 				throw new Error("'fieldMode' cannot be 0 with 'name' property");
 			}
-			if (data.fieldMode === 1 && !(data.firstName === undefined || data.firstName === "")) {
+			if (data.fieldMode === 1
+				&& !(data.firstName === undefined || data.firstName === "" || data.firstName === null)) {
 				throw new Error("'fieldMode' cannot be 1 with 'firstName' property");
 			}
 			if (data.name !== undefined && typeof data.name != 'string') {
 				throw new Error("'name' must be a string");
 			}
-			if (data.firstName !== undefined && typeof data.firstName != 'string') {
+			if (data.firstName !== undefined && data.firstName !== null && typeof data.firstName != 'string') {
 				throw new Error("'firstName' must be a string");
 			}
 			if (data.lastName !== undefined && typeof data.lastName != 'string') {
@@ -198,7 +200,7 @@ Zotero.Creators = new function() {
 				switch (field) {
 				case 'firstName':
 				case 'lastName':
-					if (val === undefined) continue;
+					if (val === undefined || val === null) continue;
 					cleanedData[field] = val.trim().normalize();
 					break;
 					

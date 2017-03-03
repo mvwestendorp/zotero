@@ -1057,23 +1057,24 @@ Zotero.DBConnection.prototype.backupDatabase = Zotero.Promise.coroutine(function
 			var connection = storageService.openDatabase(Zotero.File.pathToFile(tmpFile));
 		}
 		catch (e) {
-			this._debug("Database file '" + OS.Path.basename(tmpFile) + "' is corrupt -- skipping backup");
+			Zotero.logError(e);
+			this._debug("Database file '" + OS.Path.basename(tmpFile) + "' can't be opened -- skipping backup");
 			if (yield OS.File.exists(tmpFile)) {
 				yield OS.File.remove(tmpFile);
 			}
 			return false;
 		}
 		finally {
-			let resolve;
-			connection.asyncClose({
-				complete: function () {
-					resolve();
-				}
-			});
-			yield new Zotero.Promise(function () {
-				resolve = arguments[0];
-			});
-		}
+			if (connection) {
+				let deferred = Zotero.Promise.defer();
+				connection.asyncClose({
+					complete: function () {
+						deferred.resolve();
+					}
+				});
+				yield deferred.promise;
+			}
+        }
 		
 		// Special backup
 		if (!suffix && numBackups > 1) {
