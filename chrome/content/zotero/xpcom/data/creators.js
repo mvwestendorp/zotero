@@ -161,7 +161,6 @@ Zotero.Creators = new function() {
 		return Zotero.DataObjectUtilities.equals(data1, data2);
 	},
 	
-<<<<<<< HEAD
 	this.cleanData = function (data, includeDependents) {
 		var me = this;
 		function _cleanData(data) {
