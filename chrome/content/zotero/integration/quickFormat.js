@@ -820,7 +820,7 @@ var Zotero_QuickFormat = new function () {
 	/**
 	 * Opens the reference panel and potentially refocuses the main text box
 	 */
-	function _openReferencePanel() {
+	var _openReferencePanel = function() {
 		if(!Zotero.isMac && !Zotero.isWin) {
 			// noautohide and noautofocus are incompatible on Linux
 			// https://bugzilla.mozilla.org/show_bug.cgi?id=545265
@@ -837,7 +837,7 @@ var Zotero_QuickFormat = new function () {
 				referencePanel.setAttribute("noautohide", "true");
 			}, false);
 		}
-	}
+	}.bind(this);
 	
 	/**
 	 * Clears all citations
