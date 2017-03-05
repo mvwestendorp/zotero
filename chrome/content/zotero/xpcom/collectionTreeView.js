@@ -1553,8 +1553,8 @@ Zotero.CollectionTreeCommandController.prototype.onEvent = function(evt)
  */
 Zotero.CollectionTreeView.prototype.onDragStart = function(event) {
 	// See note in LibraryTreeView::_setDropEffect()
-	if (Zotero.isWin) {
-		event.dataTransfer.effectAllowed = 'move';
+	if (Zotero.isWin || Zotero.isLinux) {
+		event.dataTransfer.effectAllowed = 'copyMove';
 	}
 	
 	var treeRow = this.selectedTreeRow;
@@ -1759,7 +1759,7 @@ Zotero.CollectionTreeView.prototype.canDropCheckAsync = Zotero.Promise.coroutine
 				
 				// Cross-library drag
 				if (treeRow.ref.libraryID != item.libraryID) {
-					let linkedItem = item.getLinkedItem(treeRow.ref.libraryID, true);
+					let linkedItem = yield item.getLinkedItem(treeRow.ref.libraryID, true);
 					if (linkedItem && !linkedItem.deleted) {
 						// For drag to root, skip if linked item exists
 						if (treeRow.isLibrary(true)) {
@@ -1811,18 +1811,18 @@ Zotero.CollectionTreeView.prototype.canDropCheckAsync = Zotero.Promise.coroutine
 			// Dragging a collection to a different library
 			if (treeRow.ref.libraryID != draggedCollection.libraryID) {
 				// Disallow if linked collection already exists
-				if (yield col.getLinkedCollection(treeRow.ref.libraryID)) {
+				if (yield draggedCollection.getLinkedCollection(treeRow.ref.libraryID, true)) {
 					return false;
 				}
 				
-				var descendents = col.getDescendents(false, 'collection');
+				let descendents = draggedCollection.getDescendents(false, 'collection');
 				for (let descendent of descendents) {
 					descendent = Zotero.Collections.get(descendent.id);
 					// Disallow if linked collection already exists for any subcollections
 					//
 					// If this is allowed in the future for the root collection,
 					// need to allow drag only to root
-					if (yield descendent.getLinkedCollection(treeRow.ref.libraryID)) {
+					if (yield descendent.getLinkedCollection(treeRow.ref.libraryID, true)) {
 						return false;
 					}
 				}
@@ -1865,7 +1865,7 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 		var targetLibraryType = Zotero.Libraries.get(targetLibraryID).libraryType;
 		
 		// Check if there's already a copy of this item in the library
-		var linkedItem = item.getLinkedItem(targetLibraryID, true);
+		var linkedItem = yield item.getLinkedItem(targetLibraryID, true);
 		if (linkedItem) {
 			// If linked item is in the trash, undelete it and remove it from collections
 			// (since it shouldn't be restored to previous collections)
@@ -2023,14 +2023,14 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 							
 							var newCollection = new Zotero.Collection;
 							newCollection.libraryID = targetLibraryID;
-							yield c.clone(false, newCollection);
+							c.clone(false, newCollection);
 							if (parentID) {
 								newCollection.parentID = parentID;
 							}
 							var collectionID = yield newCollection.save();
 							
 							// Record link
-							c.addLinkedCollection(newCollection);
+							yield c.addLinkedCollection(newCollection);
 							
 							// Recursively copy subcollections
 							if (desc.children.length) {
