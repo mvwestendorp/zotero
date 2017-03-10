@@ -514,29 +514,6 @@
 			<groupbox>
 			  <hbox>
 				<vbox>
-				  <caption label="Apply a tag to sources cited in this document"/>
-				  <label id="project-name" flex="1" class="zotero-clicky thin-border" onclick="Zotero_File_Interface_Bibliography.openProjectName(event);"/>
-				</vbox>
-			  </hbox>
-			  <groupbox id="project-name-comment">
-				<description>
-				  Juris-M can tag items cited by this
-				  document using the project name entered in the field
-				  above. Multiple documents can share the same project
-				  name.
-				</description>
-				<description>
-				  Note that project tags are not removed when references
-				  are deleted from the document: to create a snapshot of
-				  currently cited references, delete the project tag in
-				  MLZ and refresh each of the documents related to the
-				  project.
-				</description>
-			  </groupbox>
-			</groupbox>
-			<groupbox>
-			  <hbox>
-				<vbox>
 				  <caption label="Restore inaccessible references to this Zotero group"/>
 				  <hbox>
 					<checkbox id="group-name-safety-catch" oncommand="Zotero_File_Interface_Bibliography.toggleGroupNameSafetyCatch(event);"/>

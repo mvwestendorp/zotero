@@ -193,10 +193,9 @@ var Zotero_File_Interface_Bibliography = new function() {
 			}
 		}
 
-		// Set project and group name (integrationDocPrefs.xul only)
+		// Set group name (integrationDocPrefs.xul only)
 		var checkNode = document.getElementById("group-name");
 		if (checkNode) {
-			this.displayProjectName();
 			this.displayGroupName();
 		}
 
@@ -642,54 +641,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 			count += 1;
 		}
 		return count;
-	}
-
-	this.displayProjectName = function() {
-		var projectName = document.getElementById('project-name');
-		if (projectName) {
-			projectName.value = _io.projectName ? _io.projectName : '';
-		}
-	}
-
-	this.openProjectName = function(event) {
-		var node = event.target;
-		var projectName = node.value;
-		var parent = node.parentNode;
-		parent.removeChild(node);
-		var newNode = document.createElement('textbox');
-		newNode.setAttribute('id', 'project-name');
-		newNode.setAttribute('flex','1');
-		newNode.setAttribute('onkeydown','Zotero_File_Interface_Bibliography.closeProjectName(event);');
-		newNode.setAttribute('onblur','Zotero_File_Interface_Bibliography.closeProjectName(event);');
-		newNode.setAttribute('value',projectName);
-		parent.appendChild(newNode);
-		newNode.focus();
-	}
-
-	this.closeProjectName = function(event) {
-		var keyCodeMap = {
-			13:'Enter',
-			9:'Tab',
-			27:'Esc',
-			38:'Up',
-			40:'Down'
-		}
-		if ((event.type == 'keydown' && keyCodeMap[event.keyCode] === 'Enter') || event.type == 'blur') {
-			event.preventDefault();
-			var node = event.target;
-			var projectName = node.value;
-			_io['projectName'] = projectName;
-			var parent = node.parentNode;
-			parent.removeChild(node);
-			var newNode = document.createElement('label');
-			newNode.setAttribute('id', 'project-name');
-			newNode.setAttribute('flex','1');
-			newNode.setAttribute('onclick','Zotero_File_Interface_Bibliography.openProjectName(event);');
-			newNode.setAttribute('value',projectName);
-			newNode.classList.add('zotero-clicky');
-			newNode.classList.add('thin-border');
-			parent.appendChild(newNode);
-		}
 	}
 
 	this.displayGroupName = function() {

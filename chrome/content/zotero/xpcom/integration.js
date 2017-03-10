@@ -1457,12 +1457,13 @@ Zotero.Integration.Fields.prototype.updateSession = Zotero.Promise.coroutine(fun
 		//this._session.restoreProcessorState(); TODO doesn't appear to be working properly
 		this._session.updateUpdateIndices();
 		// Iterate through citations, yielding for UI updates
+		var me = this;
 		yield this._session._updateCitations(function() {
-			this._session.updateIndices = {};
-			this._session.updateItemIDs = {};
-			this._session.citationText = {};
-			this._session.bibliographyHasChanged = false;
-			delete this._session.reload;
+			me._session.updateIndices = {};
+			me._session.updateItemIDs = {};
+			me._session.citationText = {};
+			me._session.bibliographyHasChanged = false;
+			delete me._session.reload;
 		});
 	}
 });
@@ -1707,62 +1708,6 @@ Zotero.Integration.Fields.prototype._updateDocument = function* (forceCitations,
 	var removeCodeFields = Object.keys(this._removeCodeFields).sort();
 	for(var i=(removeCodeFields.length-1); i>=0; i--) {
 		this._fields[removeCodeFields[i]].removeCode();
-	}
-
-	// Update projectName tags on Zotero-side
-	var projectName = this._session.data.prefs.projectName;
-	var extractingLibraryID = this._session.data.prefs.extractingLibraryID;
-	var extractingLibraryName = this._session.data.prefs.extractingLibraryName;
-
-	// Act only if the document defines a projectName
-	if (projectName) {
-
-		// If a project name has only one associated document, we may
-		// want to purge the tag from all libraries where it might have 
-		// on each update.
-
-		//var sql = 'SELECT tagID FROM tags WHERE type=10000 AND name=?;';
-		//var tagIDs = Zotero.DB.columnQuery(sql,[projectName]);
-		//Zotero.Tags.erase(tagIDs);
-		//Zotero.Tags.purge(tagIDs);
-
-		// Set the document projectName tag on each cited reference
-		var libraryTagMap = {};
-		var ids = this._session.style.registry.getSortedIds();
-		var existingIDs = Zotero.Items.exist(ids);
-		//var nonexistingIDs = ids.filter(function(x){return existingIDs.indexOf(x) == -1});
-		for (var i=0,ilen=existingIDs.length;i<ilen;i+=1) {
-			
-			var itemID = existingIDs[i];
-			// We can't get the libraryID from the processor registry
-			var libraryID = Zotero.Items.get(itemID).libraryID;
-
-			if (!libraryTagMap[libraryID]) {
-				// Reuse an existing project name if we can
-				var existingTagID = Zotero.Tags.getID(projectName, 10000, libraryID);
-				if (existingTagID) {
-					libraryTagMap[libraryID] = Zotero.Tags.get(existingTagID);
-				} else {
-					libraryTagMap[libraryID] = new Zotero.Tag;
-					libraryTagMap[libraryID].libraryID = libraryID;
-					libraryTagMap[libraryID].name = projectName;
-					libraryTagMap[libraryID].type = 10000;
-					libraryTagMap[libraryID].save();
-				}
-			}
-			libraryTagMap[libraryID].addItem(itemID);
-		}
-		//for (var i=0,ilen=nonexistingIDs.length;i<ilen;i+=1) {
-		//	var id = nonexistingIDs[i];
-		//	Zotero.debug('MLZ: NONEXISTING embedded item: '+JSON.stringify(this._session.style.registry.registry[id].ref));
-		//}
-		//for (var i=0,ilen=existingIDs.length;i<ilen;i+=1) {
-		//	var id = existingIDs[i];
-		//	Zotero.debug('MLZ: EXISTING embedded item: '+JSON.stringify(this._session.style.registry.registry[id].ref));
-		//}
-		for (var libraryID in libraryTagMap) {
-			libraryTagMap[libraryID].save(true);
-		}
 	}
 }
 
@@ -2188,7 +2133,6 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		io.citationLangPrefsPublishers = this.data.prefs.citationLangPrefsPublishers;
 		io.citationLangPrefsPlaces = this.data.prefs.citationLangPrefsPlaces;
 		io.citationAffixes = this.data.prefs.citationAffixes;
-		io.projectName = this.data.prefs.projectName;
 		io.extractingLibraryID = this.data.prefs.extractingLibraryID;
 		io.extractingLibraryName = this.data.prefs.extractingLibraryName;
 		io.suppressTrailingPunctuation = this.data.prefs.suppressTrailingPunctuation;
@@ -2234,7 +2178,6 @@ Zotero.Integration.Session.prototype.setDocPrefs = function(doc, primaryFieldTyp
 		me.data.prefs.citationLangPrefsPublishers = io.citationLangPrefsPublishers;
 		me.data.prefs.citationLangPrefsPlaces = io.citationLangPrefsPlaces;
 		me.data.prefs.citationAffixes = io.citationAffixes;
-		me.data.prefs.projectName = io.projectName;
 		me.data.prefs.suppressTrailingPunctuation = io.suppressTrailingPunctuation;
 		
 		if(!oldData || oldData.style.styleID != data.style.styleID
@@ -2326,7 +2269,7 @@ Zotero.Integration.Session.prototype.getCitationField = function(citation) {
 			// always store itemData, since we have no way to get it back otherwise
 			serializeCitationItem.itemData = citationItem.itemData;
 			// Normalize legacy multilingual data lurking in document
-			Zotero.Sync.Server.Data.mlzEncodeFieldsAndCreators(serializeCitationItem.itemData);
+			serializeCitationItem.itemData = Zotero.DataObjectUtilities.encodeMlzContent(serializeCitationItem.itemData);
 			addSchema = true;
 		} else {
 			serializeCitationItem.id = citationItem.id;
@@ -2532,7 +2475,7 @@ Zotero.Integration.Session.prototype.lookupItems = Zotero.Promise.coroutine(func
 						zoteroItem = new Zotero.Item();
 						// true is for portableJSON (MLZ decoding)
 						Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, this.data.prefs.extractingLibraryID, true);
-						var itemID = zoteroItem.save();
+						var itemID = yield zoteroItem.saveTx();
 						zoteroItem = Zotero.Items.get(itemID);
 						this.extractedItems[oldID] = zoteroItem.id;
 					} else {
@@ -3148,7 +3091,6 @@ Zotero.Integration.DocumentData = function(string) {
 	this.prefs.citationLangPrefsPublishers = [];
 	this.prefs.citationLangPrefsPlaces = [];
 	this.prefs.citationAffixes = [,,,,,,,,,,,,,,,,,,];
-	this.prefs.projectName = '';
 	this.prefs.extractingLibraryID = 0;
 	this.prefs.extractingLibraryName = '';
 	this.sessionID = null;
@@ -3234,7 +3176,6 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 	}
 	if(this.prefs["storeReferences"] === undefined) this.prefs["storeReferences"] = false;
 	if(this.prefs["automaticJournalAbbreviations"] === undefined) this.prefs["automaticJournalAbbreviations"] = false;
-	if(this.prefs["projectName"] === undefined) this.prefs["projectName"] = "";
 	if(this.prefs["extractingLibraryID"] === undefined) this.prefs["extractingLibraryID"] = 0;
 	if(this.prefs["extractingLibraryName"] === undefined) this.prefs["extractingLibraryName"] = "";
 	if(this.prefs["suppressTrailingPunctuation"] === undefined) this.prefs["suppressTrailingPunctuation"] = false;
