@@ -926,8 +926,8 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 				}
 				
 				if (!Zotero.Date.isSQLDate(value) && !Zotero.Date.isSQLDateTime(value)) {
-					Zotero.logError(`Discarding invalid ${field} '${value}' for `
-						+ `item ${this.libraryKey} in setField()`);
+					Zotero.logError(`Discarding invalid ${Zotero.ItemFields.getName(field)} '${value}' `
+						+ `for item ${this.libraryKey} in setField()`);
 					return false;
 				}
 			}
@@ -4471,7 +4471,7 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 	Zotero.DB.requireTransaction();
 	
 	// Remove item from parent collections
-	var parentCollectionIDs = this.collections;
+	var parentCollectionIDs = this._collections;
 	if (parentCollectionIDs) {
 		for (var i=0; i<parentCollectionIDs.length; i++) {
 			let parentCollection = yield Zotero.Collections.getAsync(parentCollectionIDs[i]);
