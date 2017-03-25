@@ -276,7 +276,7 @@ Zotero.ItemTreeView.prototype.setTree = Zotero.Promise.coroutine(function* (tree
 		Zotero.debug("Set tree for items view " + this.id + " in " + (Date.now() - start) + " ms");
 		
 		this._initialized = true;
-		yield this._runListeners('load');
+		yield this.runListeners('load');
 	}
 	catch (e) {
 		Zotero.debug(e, 1);
@@ -425,6 +425,8 @@ Zotero.ItemTreeView.prototype.refresh = Zotero.serial(Zotero.Promise.coroutine(f
 			this._treebox.endUpdateBatch();
 			this.selection.selectEventsSuppressed = false;
 		}
+		
+		yield this.runListeners('refresh');
 		
 		setTimeout(function () {
 			resolve();
@@ -953,14 +955,14 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 	}*/
 	
 	//this._treebox.endUpdateBatch();
+	let selectPromise;
 	if (madeChanges) {
-		var deferred = Zotero.Promise.defer();
-		this.addEventListener('select', () => deferred.resolve());
+		selectPromise = this.waitForSelect();
 	}
 	this.selection.selectEventsSuppressed = false;
 	if (madeChanges) {
 		Zotero.debug("Yielding for select promise"); // TEMP
-		return deferred.promise;
+		return selectPromise;
 	}
 });
 
@@ -1736,12 +1738,12 @@ Zotero.ItemTreeView.prototype.selectItem = Zotero.Promise.coroutine(function* (i
 	// here, which means that 'yield selectItem(itemID)' continues before the itembox has been
 	// refreshed. To get around this, we wait for a select event that's triggered by
 	// itemSelected() when it's done.
+	let promise;
 	if (this.selection.selectEventsSuppressed) {
 		this.selection.select(row);
 	}
 	else {
-		var deferred = Zotero.Promise.defer();
-		this.addEventListener('select', () => deferred.resolve());
+		promise = this.waitForSelect();
 		this.selection.select(row);
 	}
 	
@@ -1751,8 +1753,8 @@ Zotero.ItemTreeView.prototype.selectItem = Zotero.Promise.coroutine(function* (i
 	}
 	this.selection.select(row);
 	
-	if (deferred) {
-		yield deferred.promise;
+	if (promise) {
+		yield promise;
 	}
 	
 	this.betterEnsureRowIsVisible(row, parentRow);
