@@ -71,7 +71,7 @@
 <!ENTITY hideThisAppCmdMac.label "Skrýt &brandShortName;">
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importFromClipboardCmd.label "Vložit ze schránky">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "minimalizovat">
 <!ENTITY pageSetupCmd.accesskey "U">
