@@ -171,7 +171,7 @@ Zotero.Tags = new function() {
 			throw new Error("ids must be an array");
 		}
 		if (!ids.length) {
-			return {};
+			return [];
 		}
 		
 		var prefix = "SELECT DISTINCT name AS tag, type FROM itemTags "
@@ -235,6 +235,9 @@ Zotero.Tags = new function() {
 		}
 		
 		var oldTagID = this.getID(oldName);
+		if (!oldTagID) {
+			throw new Error(`Tag '${oldName}' not found`);
+		}
 		
 		// We need to know if the old tag has a color assigned so that
 		// we can assign it to the new name
@@ -255,11 +258,11 @@ Zotero.Tags = new function() {
 						+ 'WHERE tagID=? AND itemID IN (' + placeholders + ')';
 					yield Zotero.DB.queryAsync(sql, [newTagID, oldTagID].concat(chunk));
 					
-					sql = 'UPDATE items SET clientDateModified=? '
+					sql = 'UPDATE items SET synced=0, clientDateModified=? '
 						+ 'WHERE itemID IN (' + placeholders + ')'
 					yield Zotero.DB.queryAsync(sql, [Zotero.DB.transactionDateTime].concat(chunk));
 					
-					yield Zotero.Items.reload(oldItemIDs, ['tags'], true);
+					yield Zotero.Items.reload(oldItemIDs, ['primaryData', 'tags'], true);
 				})
 			);
 			
@@ -501,7 +504,17 @@ Zotero.Tags = new function() {
 		
 		var tagColors = Zotero.SyncedSettings.get(libraryID, 'tagColors');
 		
-		tagColors = tagColors || [];
+		// Sanitize -- shouldn't be necessary, but just in case a bad value makes it into the setting
+		if (!Array.isArray(tagColors)) {
+			tagColors = [];
+		}
+		tagColors = tagColors.filter(color => {
+			if (typeof color != 'object' || typeof color.name != 'string' || typeof color.color != 'string') {
+				Zotero.logError("Skipping invalid colored tag: " + JSON.stringify(color));
+				return false;
+			}
+			return true;
+		});
 		
 		_libraryColors[libraryID] = tagColors;
 		_libraryColorsByName[libraryID] = new Map;
@@ -539,7 +552,8 @@ Zotero.Tags = new function() {
 				return;
 			}
 			
-			tagColors = tagColors.filter(val => val.name != name);
+			_libraryColors[libraryID] = tagColors = tagColors.filter(val => val.name != name);
+			_libraryColorsByName[libraryID].delete(name);
 		}
 		else {
 			// Get current position if present

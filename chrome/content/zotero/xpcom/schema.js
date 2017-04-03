@@ -598,17 +598,6 @@ Zotero.Schema = new function(){
 			var xpiZipReader = Components.classes["@mozilla.org/libjar/zip-reader;1"]
 					.createInstance(Components.interfaces.nsIZipReader);
 			xpiZipReader.open(new FileUtils.File(installLocation));
-			
-			if(Zotero.isStandalone && !xpiZipReader.hasEntry("translators.index")) {
-				// Symlinked dev Standalone build
-				let parentDir = OS.Path.dirname(installLocation);
-				let translatorsDir = OS.Path.join(parentDir, 'translators');
-				if (yield OS.File.exists(translatorsDir)) {
-					installLocation = parentDir;
-					isUnpacked = true;
-					xpiZipReader.close();
-				}
-			}
 		}
 		
 		switch (mode) {
@@ -681,11 +670,14 @@ Zotero.Schema = new function(){
 			var deleted = xpiZipReader.getInputStream("deleted.txt");
 		}
 		
-		deleted = yield Zotero.File.getContentsAsync(deleted);
-		deleted = deleted.match(/^([^\s]+)/gm);
-		var version = deleted.shift();
+		let deletedVersion;
+		if (deleted) {
+			deleted = yield Zotero.File.getContentsAsync(deleted);
+			deleted = deleted.match(/^([^\s]+)/gm);
+			deletedVersion = deleted.shift();
+		}
 		
-		if (!lastVersion || lastVersion < version) {
+		if (!lastVersion || lastVersion < deletedVersion) {
 			var toDelete = [];
 			let iterator = new OS.File.DirectoryIterator(destDir);
 			try {
@@ -757,7 +749,7 @@ Zotero.Schema = new function(){
 			
 			if (!skipVersionUpdates) {
 				let sql = "REPLACE INTO version (schema, version) VALUES ('delete', ?)";
-				yield Zotero.DB.queryAsync(sql, version);
+				yield Zotero.DB.queryAsync(sql, deletedVersion);
 			}
 		}
 		

@@ -48,6 +48,7 @@ describe("Tag Selector", function () {
 	beforeEach(function* () {
 		var libraryID = Zotero.Libraries.userLibraryID;
 		yield clearTagColors(libraryID);
+		yield doc.getElementById('zotero-tag-selector').refresh(true);
 	})
 	after(function () {
 		win.close();
@@ -194,7 +195,7 @@ describe("Tag Selector", function () {
 			var libraryID = Zotero.Libraries.userLibraryID;
 			
 			var tagSelector = doc.getElementById('zotero-tag-selector');
-			var tagElems = tagSelector.id('tags-box').childNodes;
+			var tagElems = tagSelector.id('tags-box').getElementsByTagName('button');
 			var count = tagElems.length;
 			
 			yield Zotero.Tags.setColor(libraryID, "Top", '#AAAAAA');
@@ -228,7 +229,7 @@ describe("Tag Selector", function () {
 			yield promise;
 			
 			var tagSelector = doc.getElementById('zotero-tag-selector');
-			var tagElems = tagSelector.id('tags-box').childNodes;
+			var tagElems = tagSelector.id('tags-box').getElementsByTagName('button');
 			
 			// Make sure the colored tags are still in the right position
 			var tags = new Map();
@@ -355,7 +356,32 @@ describe("Tag Selector", function () {
 			
 			var tags = getRegularTags();
 			assert.include(tags, newTag);
-		})
+		});
+		
+		it("should rename a non-matching colored tag and update the tag selector", function* () {
+			yield selectLibrary(win);
+			
+			var oldTag = Zotero.Utilities.randomString();
+			var newTag = Zotero.Utilities.randomString();
+			
+			var libraryID = Zotero.Libraries.userLibraryID;
+			var promise = waitForTagSelector(win);
+			yield Zotero.Tags.setColor(libraryID, oldTag, "#F3F3F3");
+			yield promise;
+			
+			var tagSelector = doc.getElementById('zotero-tag-selector');
+			promise = waitForTagSelector(win);
+			var promptPromise = waitForWindow("chrome://global/content/commonDialog.xul", function (dialog) {
+				dialog.document.getElementById('loginTextbox').value = newTag;
+				dialog.document.documentElement.acceptDialog();
+			})
+			yield tagSelector.rename(oldTag);
+			yield promise;
+			
+			var tags = getColoredTags();
+			assert.notInclude(tags, oldTag);
+			assert.include(tags, newTag);
+		});
 	})
 	
 	describe("#_openColorPickerWindow()", function () {
