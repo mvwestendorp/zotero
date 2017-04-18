@@ -1609,7 +1609,8 @@ Zotero.Integration.Fields.prototype.updateDocument = Zotero.Promise.coroutine(fu
 	// Update citations
 	this._session.updateUpdateIndices(forceCitations);
 	// Iterate through citations, yielding for UI updates
-	yield Zotero.Promise.each(this._session._updateCitations(), () => {});
+	//yield Zotero.Promise.each(this._session._updateCitations(), () => {});
+	yield this._session._updateCitations();
 	
 	yield Zotero.Promise.each(
 		this._updateDocument(forceCitations, forceBibliography, ignoreCitationChanges), () => {});
@@ -2252,12 +2253,12 @@ Zotero.Integration.Session.prototype.setDocPrefs = Zotero.Promise.coroutine(func
 		this.oldCitationIDs = {};
 	}
 	
-	this.style.setLangTagsForCslTransliteration(me.data.prefs.citationTransliteration);
-	this.style.setLangTagsForCslTranslation(me.data.prefs.citationTranslation);
-	this.style.setLangTagsForCslSort(me.data.prefs.citationSort);
-	this.style.setLangPrefsForCites(me.data.prefs, function(key){return 'citationLangPrefs'+key});
-	this.style.setLangPrefsForCiteAffixes(me.data.prefs.citationAffixes);
-	this.style.setSuppressTrailingPunctuation(me.data.prefs.suppressTrailingPunctuation);
+	this.style.setLangTagsForCslTransliteration(this.data.prefs.citationTransliteration);
+	this.style.setLangTagsForCslTranslation(this.data.prefs.citationTranslation);
+	this.style.setLangTagsForCslSort(this.data.prefs.citationSort);
+	this.style.setLangPrefsForCites(this.data.prefs, function(key){return 'citationLangPrefs'+key});
+	this.style.setLangPrefsForCiteAffixes(this.data.prefs.citationAffixes);
+	this.style.setSuppressTrailingPunctuation(this.data.prefs.suppressTrailingPunctuation);
 	this.style.setAutoVietnameseNamesOption(Zotero.Prefs.get('csl.autoVietnameseNames'));
 		
 	return oldData || null;
@@ -2833,7 +2834,9 @@ Zotero.Integration.Session.prototype._updateCitations = Zotero.Promise.coroutine
 		this.newIndices = {};
 		this.updateIndices = {};
 	}*/
-	callback();
+	if (callback) {
+		callback();
+	}
 });
 
 /**
