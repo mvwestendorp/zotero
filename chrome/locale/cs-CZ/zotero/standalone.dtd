@@ -4,7 +4,7 @@
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Přepnout směr stránky">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
-<!ENTITY bidiSwitchTextDirectionItem.commandkey "x">
+<!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
 <!ENTITY bidiSwitchTextDirectionItem.label "Přepnout směr textu">
 <!ENTITY bringAllToFront.label "Přesunout vše do popředí">
 <!ENTITY closeCmd.accesskey "C">
@@ -70,7 +70,7 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Skrýt &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
+<!ENTITY importCmd.label "Importovat...">
 <!ENTITY importFromClipboardCmd.label "Vložit ze schránky">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "minimalizovat">
@@ -85,10 +85,10 @@
 <!ENTITY preferencesCmdMac.label "Nastavení...">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "Nastavení">
-<!ENTITY printCmd.accesskey "U">
+<!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Tisk...">
-<!ENTITY productHelp.accesskey "H">
+<!ENTITY productHelp.accesskey "D">
 <!ENTITY productHelp.label "Podpora a dokumentace">
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Zavřít">
