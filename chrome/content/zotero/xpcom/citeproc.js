@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.157",
+    PROCESSOR_VERSION: "1.1.162",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1153,6 +1153,9 @@ CSL.XmlJSON.prototype.getNodesByName = function (myjson,name,nameattrval,ret) {
     return ret;
 }
 CSL.XmlJSON.prototype.nodeNameIs = function (myjson,name) {
+    if (typeof myjson === "undefined") {
+        return false;
+    }
     if (name == myjson.name) {
         return true;
     }
@@ -5454,6 +5457,8 @@ CSL.getSpliceDelimiter = function (last_collapsed, pos) {
         if (alt_affixes && alt_affixes.delimiter) {
             this.tmp.splice_delimiter = alt_affixes.delimiter;
         }
+    } else if (!this.tmp.splice_delimiter) {
+        this.tmp.splice_delimiter = "";
     }
     return this.tmp.splice_delimiter;
 };
@@ -6081,10 +6086,13 @@ CSL.getBibliographyEntries = function (bibsection) {
             this.output.adjust.fix(this.output.queue[j]);
         }
         res = this.output.string(this, this.output.queue)[0];
-        if (!res) {
-            res = "\n[CSL STYLE ERROR: reference with no printed form.]\n";
+        if (!res && this.opt.update_mode === CSL.NUMERIC) {
+            var err = (ret.length + 1) + ". [CSL STYLE ERROR: reference with no printed form.]"
+            res = CSL.Output.Formats[this.opt.mode]["@bibliography/entry"](this, err) 
         }
-        ret.push(res);
+        if (res) {
+            ret.push(res);
+        }
     }
     var done = false;
     if (bibsection && bibsection.page_start && bibsection.page_length) {
@@ -9717,6 +9725,10 @@ CSL.NameOutput.prototype.getStaticOrder = function (name, refresh) {
 }
 CSL.NameOutput.prototype._splitInstitution = function (value, v, i) {
     var ret = {};
+    if (!value.literal && value.family) {
+        value.literal = value.family;
+        delete value.family;
+    }
     var splitInstitution = value.literal.replace(/\s*\|\s*/g, "|");
     splitInstitution = splitInstitution.split("|");
     if (this.institution.strings.form === "short" && this.state.sys.getAbbreviation) {
@@ -10483,6 +10495,9 @@ CSL.Node.text = {
                     state.build.plural = false;
                 } else if (this.variables_real.length) {
                     func = function (state, Item, item) {
+                        if (this.variables_real[0] !== "locator") {
+                            state.tmp.have_collapsed = false;
+                        }
                         var parallel_variable = this.variables[0];
                         if (parallel_variable === "title" 
                             && (form === "short" || Item["title-short"])) { 
@@ -14983,8 +14998,10 @@ CSL.Output.Formatters = new function () {
         if (config.quoteState) {
             for (var i=0,ilen=config.quoteState.length;i<ilen;i++) {
                 var quotePos = config.quoteState[i].pos;
-                var origChar = config.doppel.origStrings[quotePos+1].slice(0, 1);
-                config.doppel.strings[quotePos+1] = origChar + config.doppel.strings[quotePos+1].slice(1);
+                if (typeof quotePos !== 'undefined') {
+                    var origChar = config.doppel.origStrings[quotePos+1].slice(0, 1);
+                    config.doppel.strings[quotePos+1] = origChar + config.doppel.strings[quotePos+1].slice(1);
+                }
             }
         }
         if (config.lastWordPos) {

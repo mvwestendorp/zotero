@@ -419,6 +419,7 @@ Zotero.Item.prototype._parseRowData = function(row) {
 			// Boolean
 			case 'synced':
 			case 'deleted':
+			case 'inPublications':
 				val = !!val;
 				break;
 				
@@ -825,12 +826,18 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 		*/
 		
 		// If field value has changed
-		if (this['_' + field] === value && field != 'synced') {
-			Zotero.debug("Field '" + field + "' has not changed", 4);
-			return false;
+		if (this['_' + field] === value) {
+			if (field == 'synced') {
+				Zotero.debug("Setting synced to " + value);
+			}
+			else {
+				Zotero.debug("Field '" + field + "' has not changed", 4);
+				return false;
+			}
 		}
-		
-		Zotero.debug("Field '" + field + "' has changed from '" + this['_' + field] + "' to '" + value + "'", 4);
+		else {
+			Zotero.debug("Field '" + field + "' has changed from '" + this['_' + field] + "' to '" + value + "'", 4);
+		}
 		
 		// Save a copy of the field before modifying
 		this._markFieldChange(field, this['_' + field]);
@@ -1477,9 +1484,11 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, allowMissing, langTag
 }
 
 
-// Define 'deleted' property (and any others that follow the same pattern in the future)
-for (let name of ['deleted']) {
+// Define boolean properties
+for (let name of ['deleted', 'inPublications']) {
 	let prop = '_' + name;
+	// Fix for https://bugzilla.mozilla.org/show_bug.cgi?id=449811 (Fixed in Fx51)
+	let tmpName = name;
 	
 	Zotero.defineProperty(Zotero.Item.prototype, name, {
 		get: function() {
@@ -1495,12 +1504,12 @@ for (let name of ['deleted']) {
 			val = !!val;
 			
 			if (this[prop] == val) {
-				Zotero.debug(Zotero.Utilities.capitalize(name)
+				Zotero.debug(Zotero.Utilities.capitalize(tmpName)
 					+ " state hasn't changed for item " + this.id);
 				return;
 			}
-			this._markFieldChange(name, !!this[prop]);
-			this._changed[name] = true;
+			this._markFieldChange(tmpName, !!this[prop]);
+			this._changed[tmpName] = true;
 			this[prop] = val;
 		}
 	});
@@ -2031,17 +2040,13 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		}
 	}
 	
-	if (libraryType == 'publications' && !this.isRegularItem() && !parentItemID) {
+	if (this._inPublications && !this.isRegularItem() && !parentItemID) {
 		throw new Error("Top-level attachments and notes cannot be added to My Publications");
 	}
 	
 	// Trashed status
 	if (this._changed.deleted) {
 		if (this._deleted) {
-			if (libraryType == 'publications') {
-				throw new Error("Items in My Publications cannot be moved to trash");
-			}
-			
 			sql = "REPLACE INTO deletedItems (itemID) VALUES (?)";
 		}
 		else {
@@ -2073,6 +2078,16 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		if (parentItemID) {
 			reloadParentChildItems[parentItemID] = true;
 		}
+	}
+	
+	if (this._changed.inPublications) {
+		if (this._inPublications) {
+			sql = "INSERT OR IGNORE INTO publicationsItems (itemID) VALUES (?)";
+		}
+		else {
+			sql = "DELETE FROM publicationsItems WHERE itemID=?";
+		}
+		yield Zotero.DB.queryAsync(sql, itemID);
 	}
 	
 	// Note
@@ -4144,6 +4159,28 @@ Zotero.DataObject.prototype.setDeleted = Zotero.Promise.coroutine(function* (del
 });
 
 
+/**
+ * Update item publications state without marking as changed or modifying DB
+ *
+ * This is used by Zotero.Items.addToPublications()/removeFromPublications()
+ *
+ * Database state must be set separately!
+ *
+ * @param {Boolean} inPublications
+ */
+Zotero.DataObject.prototype.setPublications = Zotero.Promise.coroutine(function* (inPublications) {
+	if (!this.id) {
+		throw new Error("Cannot update publications state of unsaved item");
+	}
+	
+	this._inPublications = !!inPublications;
+	
+	if (this._changed.inPublications) {
+		delete this._changed.inPublications;
+	}
+});
+
+
 Zotero.Item.prototype.getImageSrc = function() {
 	var itemType = Zotero.ItemTypes.getName(this.itemTypeID);
 	if (itemType == 'attachment') {
@@ -4633,7 +4670,8 @@ Zotero.Item.prototype.fromJSON = function (json) {
 			break;
 		
 		case 'deleted':
-			this.deleted = !!val;
+		case 'inPublications':
+			this[field] = !!val;
 			break;
 		
 		case 'creators':
@@ -4858,14 +4896,20 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 		}
 	}
 	
-	// Relations
-	obj.relations = this.getRelations()
+	// My Publications
+	if (this._inPublications || mode == 'full') {
+		obj.inPublications = this._inPublications;
+	}
 	
 	// Deleted
 	let deleted = this.deleted;
 	if (deleted || mode == 'full') {
+		// Match what APIv3 returns, though it would be good to change this
 		obj.deleted = deleted ? 1 : 0;
 	}
+	
+	// Relations
+	obj.relations = this.getRelations()
 	
 	if (obj.accessDate) obj.accessDate = Zotero.Date.sqlToISO8601(obj.accessDate);
 	

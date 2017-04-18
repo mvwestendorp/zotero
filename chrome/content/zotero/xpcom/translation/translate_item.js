@@ -81,8 +81,10 @@ Zotero.Translate.ItemSaver.prototype = {
 	 * @param {Function} [attachmentCallback] A callback that receives information about attachment
 	 *     save progress. The callback will be called as attachmentCallback(attachment, false, error)
 	 *     on failure or attachmentCallback(attachment, progressPercent) periodically during saving.
+	 * @param {Function} [itemsDoneCallback] A callback that is called once all top-level items are
+	 * done saving with a list of items. Will include saved notes, but exclude attachments.
 	 */
-	saveItems: Zotero.Promise.coroutine(function* (items, attachmentCallback) {
+	saveItems: Zotero.Promise.coroutine(function* (items, attachmentCallback, itemsDoneCallback) {
 		let newItems = [], standaloneAttachments = [], childAttachments = [];
 		yield Zotero.DB.executeTransaction(function* () {
 			for (let iitem=0; iitem<items.length; iitem++) {
@@ -159,7 +161,11 @@ Zotero.Translate.ItemSaver.prototype = {
 				newItems.push(newItem);
 			}
 		}.bind(this));
-
+		
+		if (itemsDoneCallback) {
+			itemsDoneCallback(newItems.splice());
+		}
+		
 		// Handle attachments outside of the transaction, because they can involve downloading
 		for (let item of standaloneAttachments) {
 			let newItem = yield this._saveAttachment(item, null, attachmentCallback);

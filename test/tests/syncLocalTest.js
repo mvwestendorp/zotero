@@ -653,7 +653,7 @@ describe("Zotero.Sync.Data.Local", function() {
 		})
 		
 		it("should roll back partial object changes on error", function* () {
-			var libraryID = Zotero.Libraries.publicationsLibraryID;
+			var libraryID = Zotero.Libraries.userLibraryID;
 			var key1 = "AAAAAAAA";
 			var key2 = "BBBBBBBB";
 			var json = [
@@ -677,13 +677,8 @@ describe("Zotero.Sync.Data.Local", function() {
 					data: {
 						key: key2,
 						version: 1,
-						itemType: "journalArticle",
-						title: "Test B",
-						multi: {
-							main: {},
-							_keys: {}
-						},
-						deleted: true // Not allowed in My Publications
+						itemType: "invalidType",
+						title: "Test B"
 					}
 				}
 			];
@@ -705,7 +700,7 @@ describe("Zotero.Sync.Data.Local", function() {
 		
 		before(function* () {
 			lib1 = Zotero.Libraries.userLibraryID;
-			lib2 = Zotero.Libraries.publicationsLibraryID;
+			lib2 = (yield getGroup()).libraryID;
 		});
 		
 		beforeEach(function* () {
@@ -1415,6 +1410,43 @@ describe("Zotero.Sync.Data.Local", function() {
 							op: "modify",
 							value: "Title 3"
 						},
+					]
+				);
+			});
+			
+			it("should automatically apply inPublications setting from remote", function () {
+				var cacheJSON = {
+					key: "AAAAAAAA",
+					version: 1234,
+					title: "Title 1",
+					dateModified: "2017-04-02 12:34:56"
+				};
+				var json1 = {
+					key: "AAAAAAAA",
+					version: 1234,
+					title: "Title 1",
+					dateModified: "2017-04-02 12:34:56"
+				};
+				var json2 = {
+					key: "AAAAAAAA",
+					version: 1235,
+					title: "Title 1",
+					inPublications: true,
+					dateModified: "2017-04-03 12:34:56"
+				};
+				var ignoreFields = ['dateAdded', 'dateModified'];
+				var result = Zotero.Sync.Data.Local._reconcileChanges(
+					'item', cacheJSON, json1, json2, ignoreFields
+				);
+				assert.lengthOf(result.changes, 1);
+				assert.sameDeepMembers(
+					result.changes,
+					[
+						{
+							field: "inPublications",
+							op: "add",
+							value: true
+						}
 					]
 				);
 			});

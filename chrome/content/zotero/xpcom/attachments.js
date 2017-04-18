@@ -257,36 +257,43 @@ Zotero.Attachments = new function(){
 		
 		// Save using a hidden browser
 		var nativeHandlerImport = function () {
-			var deferred = Zotero.Promise.defer();
-			var browser = Zotero.HTTP.processDocuments(
-				url,
-				function() {
-					let channel = browser.docShell.currentDocumentChannel;
-					if (channel && (channel instanceof Components.interfaces.nsIHttpChannel)) {
-						if (channel.responseStatus < 200 || channel.responseStatus >= 400) {
-							deferred.reject(new Error("Invalid response "+channel.responseStatus+" "+channel.responseStatusText+" for '"+url+"'"));
-							return;
+			return new Zotero.Promise(function (resolve, reject) {
+				var browser = Zotero.HTTP.processDocuments(
+					url,
+					Zotero.Promise.coroutine(function* () {
+						let channel = browser.docShell.currentDocumentChannel;
+						if (channel && (channel instanceof Components.interfaces.nsIHttpChannel)) {
+							if (channel.responseStatus < 200 || channel.responseStatus >= 400) {
+								reject(new Error("Invalid response " + channel.responseStatus + " "
+									+ channel.responseStatusText + " for '" + url + "'"));
+								return;
+							}
 						}
-					}
-					return Zotero.Attachments.importFromDocument({
-						libraryID,
-						document: browser.contentDocument,
-						parentItemID,
-						title,
-						collections,
-						saveOptions
-					})
-					.then(function (attachmentItem) {
-						Zotero.Browser.deleteHiddenBrowser(browser);
-						deferred.resolve(attachmentItem);
-					});
-				},
-				undefined,
-				undefined,
-				true,
-				cookieSandbox
-			);
-			return deferred.promise;
+						try {
+							let attachmentItem = yield Zotero.Attachments.importFromDocument({
+								libraryID,
+								document: browser.contentDocument,
+								parentItemID,
+								title,
+								collections,
+								saveOptions
+							});
+							resolve(attachmentItem);
+						}
+						catch (e) {
+							Zotero.logError(e);
+							reject(e);
+						}
+						finally {
+							Zotero.Browser.deleteHiddenBrowser(browser);
+						}
+					}),
+					undefined,
+					undefined,
+					true,
+					cookieSandbox
+				);
+			});
 		};
 		
 		// Save using remote web browser persist
@@ -613,7 +620,7 @@ Zotero.Attachments = new function(){
 			}
 			
 			if (contentType === 'text/html' || contentType === 'application/xhtml+xml') {
-				Zotero.debug('Saving document with saveURI()');
+				Zotero.debug('Saving document with saveDocument()');
 				yield Zotero.Utilities.Internal.saveDocument(document, tmpFile.path);
 			}
 			else {
@@ -697,9 +704,10 @@ Zotero.Attachments = new function(){
 			}, 1000);
 		}
 		else if (Zotero.MIME.isTextType(contentType)) {
-			// Index document immediately, so that browser object can't
-			// be removed before indexing completes
-			yield Zotero.Fulltext.indexDocument(document, attachmentItem.id);
+			// wbp.saveDocument consumes the document context (in Zotero.Utilities.Internal.saveDocument)
+			// Seems like a mozilla bug, but nothing on bugtracker.
+			// Either way, we don't rely on Zotero.Fulltext.indexDocument here anymore
+			yield Zotero.Fulltext.indexItems(attachmentItem.id, true, true);
 		}
 		
 		return attachmentItem;

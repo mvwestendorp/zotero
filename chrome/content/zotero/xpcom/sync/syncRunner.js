@@ -319,7 +319,7 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 		
 		if (syncAllLibraries) {
 			if (access.user && access.user.library) {
-				libraries = [Zotero.Libraries.userLibraryID, Zotero.Libraries.publicationsLibraryID];
+				libraries = [Zotero.Libraries.userLibraryID];
 				// If syncing all libraries, remove skipped libraries
 				libraries = Zotero.Utilities.arrayDiff(
 					libraries, Zotero.Sync.Data.Local.getSkippedLibraries()
@@ -330,7 +330,7 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 			// Check access to specified libraries
 			for (let libraryID of libraries) {
 				let type = Zotero.Libraries.get(libraryID).libraryType;
-				if (type == 'user' || type == 'publications') {
+				if (type == 'user') {
 					if (!access.user || !access.user.library) {
 						// TODO: Alert
 						throw new Error("Key does not have access to library " + libraryID);
@@ -566,7 +566,7 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 					throw e;
 				}
 				
-				Zotero.debug("Sync failed for library " + libraryID);
+				Zotero.debug("Sync failed for library " + libraryID, 1);
 				Zotero.logError(e);
 				this.checkError(e);
 				options.onError(e);
@@ -1217,8 +1217,13 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 			}
 			// For unexpected ones, just show a generic message
 			else {
-				// TODO: improve and localize
-				var msg = "An error occurred during syncing:\n\n" + e.message;
+				if (e instanceof Zotero.HTTP.UnexpectedStatusException) {
+					msg = Zotero.Utilities.ellipsize(e.xmlhttp.responseText, 1000, true);
+				}
+				else {
+					// TODO: Localize
+					var msg = "An error occurred during syncing:\n\n" + e.message;
+				}
 			}
 			
 			var desc = doc.createElement('description');

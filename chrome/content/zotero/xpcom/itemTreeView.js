@@ -34,7 +34,7 @@
 /*
  *  Constructor for the ItemTreeView object
  */
-Zotero.ItemTreeView = function (collectionTreeRow, sourcesOnly) {
+Zotero.ItemTreeView = function (collectionTreeRow) {
 	Zotero.LibraryTreeView.apply(this);
 	
 	this.wrappedJSObject = this;
@@ -43,8 +43,6 @@ Zotero.ItemTreeView = function (collectionTreeRow, sourcesOnly) {
 	collectionTreeRow.itemTreeView = this;
 	
 	this._skipKeypress = false;
-	
-	this._sourcesOnly = sourcesOnly;
 	
 	this._ownerDocument = null;
 	this._needsSort = false;
@@ -64,6 +62,8 @@ Zotero.ItemTreeView = function (collectionTreeRow, sourcesOnly) {
 
 Zotero.ItemTreeView.prototype = Object.create(Zotero.LibraryTreeView.prototype);
 Zotero.ItemTreeView.prototype.type = 'item';
+Zotero.ItemTreeView.prototype.regularOnly = false;
+Zotero.ItemTreeView.prototype.expandAll = false;
 
 
 /**
@@ -118,6 +118,19 @@ Zotero.ItemTreeView.prototype.setTree = Zotero.Promise.coroutine(function* (tree
 		if (!this._treebox.treeBody) {
 			return;
 		}
+		
+		// Expand all parent items for some views (e.g., My Publications). We do this here instead of
+		// refresh so that it doesn't get reverted after item changes.
+		if (this.expandAll) {
+			var t = new Date();
+			for (let i = 0; i < this._rows.length; i++) {
+				if (this.isContainer(i) && !this.isContainerOpen(i)) {
+					this.toggleOpenState(i, true);
+				}
+			}
+			Zotero.debug(`Opened all parent items in ${new Date() - t} ms`);
+		}
+		this._refreshItemRowMap();
 		
 		// Add a keypress listener for expand/collapse
 		var tree = this._treebox.treeBody.parentNode;
@@ -371,8 +384,8 @@ Zotero.ItemTreeView.prototype.refresh = Zotero.serial(Zotero.Promise.coroutine(f
 		for (let i=0, len=newItems.length; i < len; i++) {
 			let item = newItems[i];
 			
-			// Only add regular items if sourcesOnly is set
-			if (this._sourcesOnly && !item.isRegularItem()) {
+			// Only add regular items if regularOnly is set
+			if (this.regularOnly && !item.isRegularItem()) {
 				continue;
 			}
 			
@@ -424,6 +437,11 @@ Zotero.ItemTreeView.prototype.refresh = Zotero.serial(Zotero.Promise.coroutine(f
 		if (unsuppress) {
 			this._treebox.endUpdateBatch();
 			this.selection.selectEventsSuppressed = false;
+		}
+		
+		// Clear My Publications intro text on a refresh with items
+		if (this.collectionTreeRow.isPublications() && this.rowCount) {
+			this._ownerDocument.defaultView.ZoteroPane_Local.clearItemsPaneMessage();
 		}
 		
 		yield this.runListeners('refresh');
@@ -544,12 +562,6 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 				refreshed = true;
 			}
 		}
-		else if (type == 'publications') {
-			if (collectionTreeRow.isPublications()) {
-				yield this.refresh();
-				refreshed = true;
-			}
-		}
 		// If refreshing a single item, clear caches and then unselect and reselect row
 		else if (savedSelection.length == 1 && savedSelection[0] == ids[0]) {
 			let row = this._rowMap[ids[0]];
@@ -654,9 +666,10 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 			delete this._cellTextCache[id];
 		}
 		
-		// If trash or saved search, just re-run search
-		if (collectionTreeRow.isTrash() || collectionTreeRow.isSearch())
-		{
+		// If saved search, publications, or trash, just re-run search
+		if (collectionTreeRow.isSearch()
+				|| collectionTreeRow.isPublications()
+				|| collectionTreeRow.isTrash()) {
 			yield this.refresh();
 			refreshed = true;
 			madeChanges = true;
@@ -764,6 +777,7 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 			}
 			
 			if (!allDeleted) {
+				// DEBUG: Search is async, so this might not work properly
 				quicksearch.doCommand();
 				madeChanges = true;
 				sort = true;
@@ -775,7 +789,10 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 		let items = Zotero.Items.get(ids);
 		
 		// In some modes, just re-run search
-		if (collectionTreeRow.isSearch() || collectionTreeRow.isTrash() || collectionTreeRow.isUnfiled()) {
+		if (collectionTreeRow.isSearch()
+				|| collectionTreeRow.isPublications()
+				|| collectionTreeRow.isTrash()
+				|| collectionTreeRow.isUnfiled()) {
 			yield this.refresh();
 			refreshed = true;
 			madeChanges = true;
@@ -886,15 +903,6 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 		// If single item is selected and was modified
 		else if (action == 'modify' && ids.length == 1 &&
 				savedSelection.length == 1 && savedSelection[0] == ids[0]) {
-			// If the item no longer matches the search term, clear the search
-			// DEBUG: Still needed/wanted? (and search is async, so doesn't work anyway,
-			// here or above)
-			if (quicksearch && this._rowMap[ids[0]] == undefined) {
-				Zotero.debug('Selected item no longer matches quicksearch -- clearing');
-				quicksearch.value = '';
-				quicksearch.doCommand();
-			}
-			
 			if (activeWindow) {
 				yield this.selectItem(ids[0]);
 			}
@@ -1175,7 +1183,7 @@ Zotero.ItemTreeView.prototype.isContainer = function(row)
 
 Zotero.ItemTreeView.prototype.isContainerEmpty = function(row)
 {
-	if (this._sourcesOnly) {
+	if (this.regularOnly) {
 		return true;
 	}
 	
@@ -1883,7 +1891,7 @@ Zotero.ItemTreeView.prototype.deleteSelection = Zotero.Promise.coroutine(functio
 	if (collectionTreeRow.isBucket()) {
 		collectionTreeRow.ref.deleteItems(ids);
 	}
-	else if (collectionTreeRow.isTrash() || collectionTreeRow.isPublications()) {
+	if (collectionTreeRow.isTrash()) {
 		yield Zotero.Items.erase(ids);
 	}
 	else if (collectionTreeRow.isLibrary(true) || force) {
@@ -1894,6 +1902,10 @@ Zotero.ItemTreeView.prototype.deleteSelection = Zotero.Promise.coroutine(functio
 			yield collectionTreeRow.ref.removeItems(ids);
 		});
 	}
+	else if (collectionTreeRow.isPublications()) {
+		yield Zotero.Items.removeFromPublications(ids.map(id => Zotero.Items.get(id)));
+	}
+
 	//this._treebox.endUpdateBatch();
 });
 
@@ -2949,8 +2961,8 @@ Zotero.ItemTreeView.prototype.canDropCheck = function (row, orient, dataTransfer
 				return false;
 			}
 		}
-		// Don't allow drop into searches
-		else if (collectionTreeRow.isSearch()) {
+		// Don't allow drop into searches or publications
+		else if (collectionTreeRow.isSearch() || collectionTreeRow.isPublications()) {
 			return false;
 		}
 		
