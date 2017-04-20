@@ -658,7 +658,7 @@
 					if (fieldName && this._selectField == fieldName) {
 						this.showEditor(valueElement);
 						// Not in official Zotero
-						// this._selectField = false;
+						this._selectField = false;
 					}
 					
 					// In field merge mode, add a button to switchfield versions
