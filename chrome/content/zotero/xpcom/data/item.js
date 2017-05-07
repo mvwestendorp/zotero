@@ -927,7 +927,7 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 		else if (fieldID == Zotero.ItemFields.getID('accessDate')) {
 			if (value && value != 'CURRENT_TIMESTAMP') {
 				// Accept ISO dates
-				if (Zotero.Date.isISODate(value)) {
+				if (Zotero.Date.isISODate(value) && !Zotero.Date.isSQLDate(value)) {
 					let d = Zotero.Date.isoToDate(value);
 					value = Zotero.Date.dateToSQL(d, true);
 				}
@@ -1594,14 +1594,10 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	// If available id value, use it -- otherwise we'll use autoincrement
 	var itemID = this._id = this.id ? this.id : Zotero.ID.get('items');
 	
-	env.sqlColumns.push(
-		'itemTypeID',
-		'dateAdded'
-	);
-	env.sqlValues.push(
-		{ int: itemTypeID },
-		this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime
-	);
+	if (this._changed.primaryData && this._changed.primaryData.itemTypeID) {
+		env.sqlColumns.push('itemTypeID');
+		env.sqlValues.push({ int: itemTypeID });
+	}
 	
 	// If a new item and Date Modified hasn't been provided, or an existing item and
 	// Date Modified hasn't changed from its previous value and skipDateModifiedUpdate wasn't
@@ -1621,6 +1617,9 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	}
 	
 	if (isNew) {
+		env.sqlColumns.push('dateAdded');
+		env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
+		
 		env.sqlColumns.unshift('itemID');
 		env.sqlValues.unshift(parseInt(itemID));
 		
@@ -2040,8 +2039,16 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		}
 	}
 	
-	if (this._inPublications && !this.isRegularItem() && !parentItemID) {
-		throw new Error("Top-level attachments and notes cannot be added to My Publications");
+	if (this._inPublications) {
+		if (!this.isRegularItem() && !parentItemID) {
+			throw new Error("Top-level attachments and notes cannot be added to My Publications");
+		}
+		if (this.isAttachment() && this.attachmentLinkMode == Zotero.Attachments.LINK_MODE_LINKED_FILE) {
+			throw new Error("Linked-file attachments cannot be added to My Publications");
+		}
+		if (Zotero.Libraries.get(this.libraryID).libraryType != 'user') {
+			throw new Error("Only items in user libraries can be added to My Publications");
+		}
 	}
 	
 	// Trashed status

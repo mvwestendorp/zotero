@@ -23,11 +23,6 @@
     ***** END LICENSE BLOCK *****
 */
 
-/**
- * @property {Boolean} cacheTranslatorData Whether translator data should be cached or reloaded
- *	every time a translator is accessed
- * @property {Zotero.CSL} lastCSL
- */
 Zotero.Styles = new function() {
 	var _initialized = false;
 	var _initializationDeferred = false;
@@ -82,7 +77,6 @@ Zotero.Styles = new function() {
 		
 		_styles = {};
 		_visibleStyles = [];
-		this.lastCSL = null;
 		
 		// main dir
 		var dir = Zotero.getStylesDirectory().path;
@@ -136,6 +130,10 @@ Zotero.Styles = new function() {
 		
 		_initializationDeferred.resolve();
 		_initialized = true;
+		
+		// Styles are fully loaded, but we still need to trigger citeproc reloads in Integration
+		// so that style updates are reflected in open documents
+		Zotero.Integration.resetSessionStyles();
 	});
 	
 	this.reinit = function (options = {}) {

@@ -120,8 +120,18 @@ Zotero.Sync.Data.Engine.prototype.start = Zotero.Promise.coroutine(function* () 
 	
 	sync:
 	while (true) {
-		let uploadResult = yield this._startUpload();
-		let downloadResult;
+		let downloadResult, uploadResult;
+		
+		try {
+			uploadResult = yield this._startUpload();
+		}
+		catch (e) {
+			Zotero.debug("Upload failed -- performing download", 2);
+			downloadResult = yield this._startDownload();
+			Zotero.debug("Download result is " + downloadResult, 4);
+			throw e;
+		}
+		
 		Zotero.debug("Upload result is " + uploadResult, 4);
 		
 		switch (uploadResult) {
@@ -204,7 +214,7 @@ Zotero.Sync.Data.Engine.prototype.stop = function () {
 
 
 /**
- * Download updated objects from API and save to local cache
+ * Download updated objects from API and save to DB
  *
  * @return {Promise<Integer>} - A download result code (this.DOWNLOAD_RESULT_*)
  */
@@ -436,6 +446,7 @@ Zotero.Sync.Data.Engine.prototype._downloadUpdatedObjects = Zotero.Promise.corou
 	}
 	
 	keys.push(...queuedKeys);
+	keys = Zotero.Utilities.arrayUnique(keys);
 	
 	if (!keys.length) {
 		Zotero.debug(`No ${objectTypePlural} to download`);
@@ -455,14 +466,13 @@ Zotero.Sync.Data.Engine.prototype._downloadUpdatedObjects = Zotero.Promise.corou
 Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(function* (objectType, keys) {
 	var objectTypePlural = Zotero.DataObjectUtilities.getObjectTypePlural(objectType);
 	
+	var remainingKeys = [...keys];
 	var lastLength = keys.length;
 	var objectData = {};
 	keys.forEach(key => objectData[key] = null);
 	
 	while (true) {
 		this._failedCheck();
-		
-		let lastError = false;
 		
 		// Get data we've downloaded in a previous loop but failed to process
 		var json = [];
@@ -491,26 +501,23 @@ Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(fu
 			"Downloading "
 			+ (keysToDownload.length == 1
 				? "1 " + objectType
-				: Zotero.Utilities.numberFormat(keys.length, 0) + " " + objectTypePlural)
+				: Zotero.Utilities.numberFormat(remainingKeys.length, 0) + " " + objectTypePlural)
 			+ " in " + this.library.name
 		);
 		
 		var conflicts = [];
 		var num = 0;
 		
-		// Process batches when they're available, one at a time
+		// Process batches of object data as they're available, one at a time
 		yield Zotero.Promise.map(
 			json,
-			function (batch) {
+			Zotero.Promise.coroutine(function* (batch) {
 				this._failedCheck();
 				
-				Zotero.debug(`Processing batch of downloaded ${objectTypePlural} in `
-					+ this.library.name);
-				
+				Zotero.debug(`Processing batch of downloaded ${objectTypePlural} in ${this.library.name}`);
 				
 				if (!Array.isArray(batch)) {
 					this.failed = batch;
-					lastError = batch;
 					return;
 				}
 				
@@ -520,7 +527,7 @@ Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(fu
 				});
 				
 				// Process objects
-				return Zotero.Sync.Data.Local.processObjectsFromJSON(
+				let results = yield Zotero.Sync.Data.Local.processObjectsFromJSON(
 					objectType,
 					this.libraryID,
 					batch,
@@ -528,7 +535,8 @@ Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(fu
 						onObjectProcessed: () => {
 							num++;
 						},
-						// Increase the notifier batch size as we go
+						// Increase the notifier batch size as we go, so that new items start coming in
+						// one by one but then switch to larger chunks
 						getNotifierBatchSize: () => {
 							var size;
 							if (num < 10) {
@@ -546,39 +554,54 @@ Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(fu
 							return Math.min(size, batch.length);
 						}
 					})
-				)
-				.then(function (results) {
-					num += results.length;
-					let processedKeys = [];
-					let conflictResults = [];
-					results.forEach(x => {
-						// If data was processed, remove JSON
-						if (x.processed) {
-							delete objectData[x.key];
-						}
-						// If object shouldn't be retried, mark as processed
-						if (x.processed || !x.retry) {
-							processedKeys.push(x.key);
-						}
-						if (x.conflict) {
-							conflictResults.push(x);
-						}
-					});
-					keys = Zotero.Utilities.arrayDiff(keys, processedKeys);
-					conflicts.push(...conflictResults);
-				}.bind(this));
-			}.bind(this),
+				);
+				
+				num += results.length;
+				let processedKeys = [];
+				let conflictResults = [];
+				results.forEach(x => {
+					// If data was processed, remove JSON
+					if (x.processed) {
+						delete objectData[x.key];
+					}
+					// If object shouldn't be retried, mark as processed
+					if (x.processed || !x.retry) {
+						processedKeys.push(x.key);
+					}
+					if (x.conflict) {
+						conflictResults.push(x);
+					}
+				});
+				remainingKeys = Zotero.Utilities.arrayDiff(remainingKeys, processedKeys);
+				conflicts.push(...conflictResults);
+			}.bind(this)),
 			{
 				concurrency: 1
 			}
 		);
 		
-		if (!keys.length || keys.length == lastLength) {
+		this._failedCheck();
+		
+		// If all requests were successful, such that we had a chance to see all keys, remove keys we
+		// didn't see from the sync queue so they don't keep being retried forever
+		if (!this.failed) {
+			let missingKeys = keys.filter(key => objectData[key] === null);
+			if (missingKeys.length) {
+				Zotero.debug(`Removing ${missingKeys.length} missing `
+					+ Zotero.Utilities.pluralize(missingKeys.length, [objectType, objectTypePlural])
+					+ " from sync queue");
+				yield Zotero.Sync.Data.Local.removeObjectsFromSyncQueue(objectType, this.libraryID, missingKeys);
+				remainingKeys = Zotero.Utilities.arrayDiff(remainingKeys, missingKeys);
+			}
+		}
+		
+		if (!remainingKeys.length || remainingKeys.length == lastLength) {
 			// Add failed objects to sync queue
-			let failedKeys = Object.keys(objectData).filter(key => objectData[key])
+			let failedKeys = keys.filter(key => objectData[key]);
 			if (failedKeys.length) {
-				let objDesc = `${failedKeys.length == 1 ? objectType : objectTypePlural}`;
-				Zotero.debug(`Queueing ${failedKeys.length} failed ${objDesc} for later`, 2);
+				Zotero.debug(`Queueing ${failedKeys.length} failed `
+					+ Zotero.Utilities.pluralize(failedKeys.length, [objectType, objectTypePlural])
+					+ " for later", 2);
 				yield Zotero.Sync.Data.Local.addObjectsToSyncQueue(
 					objectType, this.libraryID, failedKeys
 				);
@@ -589,8 +612,7 @@ Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(fu
 				}
 			}
 			else {
-				Zotero.debug("All " + objectTypePlural + " for "
-					+ this.library.name + " saved to database");
+				Zotero.debug(`All ${objectTypePlural} for ${this.library.name} saved to database`);
 				
 				if (objectType == 'item') {
 					this.failedItems = [];
@@ -599,10 +621,10 @@ Zotero.Sync.Data.Engine.prototype._downloadObjects = Zotero.Promise.coroutine(fu
 			break;
 		}
 		
-		lastLength = keys.length;
+		lastLength = remainingKeys.length;
 		
-		var remainingObjectDesc = `${keys.length == 1 ? objectType : objectTypePlural}`;
-		Zotero.debug(`Retrying ${keys.length} remaining ${remainingObjectDesc}`);
+		Zotero.debug(`Retrying ${remainingKeys.length} remaining `
+			+ Zotero.Utilities.pluralize(remainingKeys, [objectType, objectTypePlural]));
 	}
 	
 	// Show conflict resolution window
@@ -824,7 +846,13 @@ Zotero.Sync.Data.Engine.prototype._startUpload = Zotero.Promise.coroutine(functi
 		let unsyncedKeys = ids.map(id => objectsClass.getLibraryAndKeyFromID(id).key);
 		let origUnsynced = unsyncedKeys; // TEMP
 		let queueKeys = yield Zotero.Sync.Data.Local.getObjectsFromSyncQueue(objectType, this.libraryID);
-		unsyncedKeys = Zotero.Utilities.arrayDiff(unsyncedKeys, queueKeys);
+		let newUnsyncedKeys = Zotero.Utilities.arrayDiff(unsyncedKeys, queueKeys);
+		if (newUnsyncedKeys.length < unsyncedKeys.length) {
+			Zotero.debug(`Skipping ${unsyncedKeys.length - newUnsyncedKeys.length} key(s) in sync queue`);
+			Zotero.debug(Zotero.Utilities.arrayDiff(unsyncedKeys, newUnsyncedKeys));
+		}
+		unsyncedKeys = newUnsyncedKeys;
+		
 		// TEMP
 		//ids = unsyncedKeys.map(key => objectsClass.getIDFromLibraryAndKey(this.libraryID, key));
 		let missing = [];
@@ -1105,6 +1133,11 @@ Zotero.Sync.Data.Engine.prototype._uploadObjects = Zotero.Promise.coroutine(func
 				objectsClass.updateSynced(updateSyncedIDs, true);
 			}.bind(this));
 			
+			// Purge older objects in sync cache
+			if (toSave.length) {
+				yield Zotero.Sync.Data.Local.purgeCache(objectType, this.libraryID);
+			}
+			
 			// Handle failed objects
 			for (let index in results.failed) {
 				let { code, message, data } = results.failed[index];
@@ -1122,37 +1155,50 @@ Zotero.Sync.Data.Engine.prototype._uploadObjects = Zotero.Promise.coroutine(func
 				// If an item's dependency is missing remotely and it isn't in the queue (which
 				// shouldn't happen), mark it as unsynced
 				if (e.code == 400 || e.code == 409) {
-					if (objectType == 'item' && data) {
-						if (data.collection) {
-							let collection = Zotero.Collections.getByLibraryAndKey(this.libraryID, data.collection);
-							if (!collection) {
-								throw new Error(`Item ${this.libraryID}/${jsonBatch[index].key} `
-									+ `references collection ${data.collection}, which doesn't exist`);
+					if (data) {
+						if (objectType == 'collection' && e.code == 409) {
+							if (data.collection) {
+								let collection = Zotero.Collections.getByLibraryAndKey(this.libraryID, data.collection);
+								if (!collection) {
+									throw new Error(`Collection ${this.libraryID}/${jsonBatch[index].key} `
+										+ `references parent collection ${data.collection}, which doesn't exist`);
+								}
+								Zotero.logError(`Marking collection ${data.collection} as unsynced`);
+								yield Zotero.Sync.Data.Local.markObjectAsUnsynced(collection);
 							}
-							Zotero.logError(`Marking collection ${data.collection} as unsynced`);
-							yield Zotero.Sync.Data.Local.markObjectAsUnsynced(collection);
 						}
-						else if (data.parentItem) {
-							let parentItem = Zotero.Items.getByLibraryAndKey(this.libraryID, data.parentItem);
-							if (!parentItem) {
-								throw new Error(`Item ${this.libraryID}/${jsonBatch[index].key} references parent `
-									+ `item ${data.parentItem}, which doesn't exist`);
+						else if (objectType == 'item') {
+							if (data.collection) {
+								let collection = Zotero.Collections.getByLibraryAndKey(this.libraryID, data.collection);
+								if (!collection) {
+									throw new Error(`Item ${this.libraryID}/${jsonBatch[index].key} `
+										+ `references collection ${data.collection}, which doesn't exist`);
+								}
+								Zotero.logError(`Marking collection ${data.collection} as unsynced`);
+								yield Zotero.Sync.Data.Local.markObjectAsUnsynced(collection);
 							}
-							
-							let id = parentItem.id;
-							// If parent item isn't already in queue, mark it as unsynced and add it
-							if (!queue.find(o => o.id == id) && !batch.find(o => o.id == id)) {
-								yield Zotero.Sync.Data.Local.markObjectAsUnsynced(parentItem);
-								Zotero.logError(`Adding parent item ${data.parentItem} to upload queue`);
-								queue.push({
-									id,
-									json: null,
-									tries: 0,
-									failed: false
-								});
-								// Pretend that we were successful so syncing continues
-								numSuccessful++;
-								continue;
+							else if (data.parentItem) {
+								let parentItem = Zotero.Items.getByLibraryAndKey(this.libraryID, data.parentItem);
+								if (!parentItem) {
+									throw new Error(`Item ${this.libraryID}/${jsonBatch[index].key} references parent `
+										+ `item ${data.parentItem}, which doesn't exist`);
+								}
+								
+								let id = parentItem.id;
+								// If parent item isn't already in queue, mark it as unsynced and add it
+								if (!queue.find(o => o.id == id) && !batch.find(o => o.id == id)) {
+									yield Zotero.Sync.Data.Local.markObjectAsUnsynced(parentItem);
+									Zotero.logError(`Adding parent item ${data.parentItem} to upload queue`);
+									queue.push({
+										id,
+										json: null,
+										tries: 0,
+										failed: false
+									});
+									// Pretend that we were successful so syncing continues
+									numSuccessful++;
+									continue;
+								}
 							}
 						}
 					}
@@ -1598,6 +1644,7 @@ Zotero.Sync.Data.Engine.prototype._handleUploadError = Zotero.Promise.coroutine(
 			}
 			throw new Error(`Unexpected index value ${index}`);
 		
+		case 409: // TEMP: from classic sync
 		case 412:
 			return this.UPLOAD_RESULT_LIBRARY_CONFLICT;
 		}

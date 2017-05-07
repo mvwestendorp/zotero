@@ -801,6 +801,8 @@ Zotero.Utilities = {
 	 */
 	"htmlSpecialChars":function(str) {
 		if (str && typeof str != 'string') {
+			Zotero.debug('#htmlSpecialChars: non-string arguments are deprecated. Update your code',
+				1, undefined, true);
 			str = str.toString();
 		}
 		
@@ -1079,21 +1081,11 @@ Zotero.Utilities = {
 	/**
 	 * Return new array with duplicate values removed
 	 *
-	 * From http://stackoverflow.com/a/1961068
-	 *
 	 * @param	{Array}		array
 	 * @return	{Array}
 	 */
-	"arrayUnique":function(arr) {
-		var u = {}, a = [];
-		for (var i=0, l=arr.length; i<l; ++i){
-			if (u.hasOwnProperty(arr[i])) {
-				continue;
-			}
-			a.push(arr[i]);
-			u[arr[i]] = 1;
-		}
-		return a;
+	arrayUnique: function (arr) {
+		return [...new Set(arr)];
 	},
 	
 	/**
@@ -1214,6 +1206,22 @@ Zotero.Utilities = {
 		}
 		return str + '\u2026' + (countChars ? ' (' + str.length + ' chars)' : '');
 	},
+	
+	
+	/**
+	 * Return the proper plural form of a string
+	 *
+	 * For now, this is only used for debug output in English.
+	 *
+	 * @param {Integer} num
+	 * @param {String[]} forms - An array of plural forms (e.g., ['object', 'objects']); currently only
+	 *     the two English forms are supported, for 1 and 0/many
+	 * @return {String}
+	 */
+	pluralize: function (num, forms) {
+		return num == 1 ? forms[0] : forms[1];
+	},
+	
 	
 	/**
 	  * Port of PHP's number_format()

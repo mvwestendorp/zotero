@@ -196,11 +196,19 @@ Zotero.Schema = new function(){
 			throw new Zotero.DB.IncompatibleVersionException(msg, dbClientVersion);
 		}
 		
+		// Check if DB is coming from the DB Repair Tool and should be checked
+		var integrityCheck = yield Zotero.DB.valueQueryAsync(
+			"SELECT value FROM settings WHERE setting='db' AND key='integrityCheck'"
+		);
+		
 		var schemaVersion = yield _getSchemaSQLVersion('userdata');
 		
 		// If upgrading userdata, make backup of database first
 		if (userdata < schemaVersion) {
 			yield Zotero.DB.backupDatabase(userdata, true);
+		}
+		else if (integrityCheck) {
+			yield Zotero.DB.backupDatabase(false, true);
 		}
 		
 		yield Zotero.DB.queryAsync("PRAGMA foreign_keys = false");
@@ -213,6 +221,15 @@ Zotero.Schema = new function(){
 				if (Zotero.DB.tableExists('customItemTypes')) {
 					yield _updateCustomTables(updated);
 				}
+				
+				// Auto-repair databases coming from the DB Repair Tool
+				if (integrityCheck) {
+					yield this.integrityCheck(true);
+					yield Zotero.DB.queryAsync(
+						"DELETE FROM settings WHERE setting='db' AND key='integrityCheck'"
+					);
+				}
+				
 				updated = yield _migrateUserDataSchema(userdata, options);
 				var multilingual = yield _getDBVersion('multilingual')
 				var multiUpdated = yield _migrateUserMultiDataSchema(multilingual);
@@ -1233,7 +1250,7 @@ Zotero.Schema = new function(){
 	
 	
 	this.integrityCheck = Zotero.Promise.coroutine(function* (fix) {
-		var userLibraryID = Zotero.Libraries.userLibraryID;
+		Zotero.debug("Checking database integrity");
 		
 		// Just as a sanity check, make sure combined field tables are populated,
 		// so that we don't try to wipe out all data
@@ -2583,6 +2600,18 @@ Zotero.Schema = new function(){
 					yield Zotero.DB.queryAsync("INSERT INTO publicationsItems (itemID) VALUES "
 						+ ids.map(id => `(${id})`).join(', '));
 				}
+			}
+			
+			else if (i == 94) {
+				let ids = yield Zotero.DB.columnQueryAsync("SELECT itemID FROM publicationsItems WHERE itemID IN (SELECT itemID FROM items JOIN itemAttachments USING (itemID) WHERE linkMode=2)");
+				for (let id of ids) {
+					yield Zotero.DB.queryAsync("UPDATE items SET synced=0, clientDateModified=CURRENT_TIMESTAMP WHERE itemID=?", id);
+				}
+				yield Zotero.DB.queryAsync("DELETE FROM publicationsItems WHERE itemID IN (SELECT itemID FROM items JOIN itemAttachments USING (itemID) WHERE linkMode=2)");
+			}
+			
+			else if (i == 95) {
+				yield Zotero.DB.queryAsync("DELETE FROM publicationsItems WHERE itemID NOT IN (SELECT itemID FROM items WHERE libraryID=1)");
 			}
 		}
 		

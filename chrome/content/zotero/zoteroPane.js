@@ -1238,7 +1238,7 @@ var ZoteroPane = new function()
 			
 			this.itemsView = new Zotero.ItemTreeView(collectionTreeRow);
 			if (collectionTreeRow.isPublications()) {
-				this.itemsView.expandAll = true;
+				this.itemsView.collapseAll = true;
 			}
 			this.itemsView.onError = function () {
 				// Don't reload last folder, in case that's the problem
@@ -1605,12 +1605,17 @@ var ZoteroPane = new function()
 		}
 		
 		// My Publications buttons
-		let isPublications = this.getCollectionTreeRow().isPublications();
-		let myPublicationsButtons = document.getElementById('zotero-item-pane-top-buttons-my-publications');
-		let regularItemsSelected = selectedItems.some(item => item.isRegularItem());
-		let myPublicationsShown = isPublications && !regularItemsSelected;
-		myPublicationsButtons.hidden = !myPublicationsShown;
-		if (myPublicationsShown) {
+		var isPublications = this.getCollectionTreeRow().isPublications();
+		// Show in My Publications view if selected items are all notes or non-linked-file attachments
+		var showMyPublicationsButtons = isPublications
+			&& selectedItems.every((item) => {
+				return item.isNote()
+					|| (item.isAttachment()
+						&& item.attachmentLinkMode != Zotero.Attachments.LINK_MODE_LINKED_FILE);
+			});
+		var myPublicationsButtons = document.getElementById('zotero-item-pane-top-buttons-my-publications');
+		myPublicationsButtons.hidden = !showMyPublicationsButtons;
+		if (showMyPublicationsButtons) {
 			let button = myPublicationsButtons.firstChild;
 			let hiddenItemsSelected = selectedItems.some(item => !item.inPublications);
 			let str, onclick;

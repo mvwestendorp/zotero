@@ -76,10 +76,13 @@ describe("Zotero.Integration", function () {
 		/**
 		 * Inserts a field at the given position and initializes the field object.
 		 * @param {String} fieldType
-		 * @param {String} noteType
+		 * @param {Integer} noteType
 		 * @returns {DocumentPluginDummy.Field}
 		 */
 		insertField: function(fieldType, noteType) { 
+			if (typeof noteType != "number") {
+				throw new Error("noteType must be an integer");
+			}
 			var field = new DocumentPluginDummy.Field(this); 
 			this.fields.push(field); 
 			return field 
@@ -249,13 +252,12 @@ describe("Zotero.Integration", function () {
 		data.prefs = {
 			noteType: 0,
 			fieldType: "Field",
-			storeReferences: true,
 			automaticJournalAbbreviations: true
 		};
 		data.style = {styleID, locale: 'en-US', hasBibliography: true, bibliographyStyleHasBeenSet: true};
 		data.sessionID = Zotero.Utilities.randomString(10);
 		Object.assign(data, options);
-		applications[docID].getActiveDocument().setDocumentData(data.serializeXML());
+		applications[docID].getActiveDocument().setDocumentData(data.serialize());
 	}
 	
 	function setDefaultIntegrationDocPrefs() {
@@ -263,7 +265,6 @@ describe("Zotero.Integration", function () {
 			style: "http://www.zotero.org/styles/cell",
 			locale: 'en-US',
 			fieldType: 'Field',
-			storeReferences: true,
 			automaticJournalAbbreviations: false,
 			useEndnotes: 0
 		};
@@ -274,7 +275,7 @@ describe("Zotero.Integration", function () {
 		if (items.length == undefined) items = [items];
 		dialogResults.quickFormat = function(doc, dialogName) {
 			var citationItems = items.map((i) => {return {id: i.id} });
-			var field = doc.insertField();
+			var field = doc.insertField("Field", 0);
 			field.setCode('TEMP');
 			var integrationDoc = addEditCitationSpy.lastCall.thisValue;
 			var fieldGetter = new Zotero.Integration.Fields(integrationDoc._session, integrationDoc._doc, () => 0);
@@ -351,10 +352,10 @@ describe("Zotero.Integration", function () {
 				assert.isFalse(setDocumentDataSpy.called);
 			});
 			
-			it('should not call doc.setDocumentData when document communicates for first time since restart, but has data', function* () {
+			it('should call doc.setDocumentData when document communicates for first time since restart to write new sessionID', function* () {
 				Zotero.Integration.sessions = {};
 				yield execCommand('addEditCitation', docID);
-				assert.isFalse(setDocumentDataSpy.called);
+				assert.isTrue(setDocumentDataSpy.calledOnce);
 			});
 			
 			describe('when style used in the document does not exist', function() {
@@ -470,4 +471,115 @@ describe("Zotero.Integration", function () {
 			});
 		});
 	});
+	
+	describe("DocumentData", function() {
+		it('should properly unserialize old XML document data', function() {
+			var serializedXMLData = "<data data-version=\"3\" zotero-version=\"5.0.SOURCE\"><session id=\"F0NFmZ32\"/><style id=\"http://www.zotero.org/styles/cell\" hasBibliography=\"1\" bibliographyStyleHasBeenSet=\"1\"/><prefs><pref name=\"fieldType\" value=\"ReferenceMark\"/><pref name=\"automaticJournalAbbreviations\" value=\"true\"/><pref name=\"noteType\" value=\"0\"/></prefs></data>";
+			var data = new Zotero.Integration.DocumentData(serializedXMLData);
+			var expectedData = {
+				style: {
+					styleID: 'http://www.zotero.org/styles/cell',
+					locale: null,
+					hasBibliography: true,
+					bibliographyStyleHasBeenSet: true
+				},
+				prefs: {
+					fieldType: 'ReferenceMark',
+					automaticJournalAbbreviations: true,
+					noteType: 0
+				},
+				sessionID: 'F0NFmZ32',
+				zoteroVersion: '5.0.SOURCE',
+				dataVersion: '3'
+			};
+			// Convert to JSON to remove functions from DocumentData object
+			assert.equal(JSON.stringify(data), JSON.stringify(expectedData));
+		});
+		
+		it('should properly unserialize JSON document data', function() {
+			var expectedData = JSON.stringify({
+				style: {
+					styleID: 'http://www.zotero.org/styles/cell',
+					locale: 'en-US',
+					hasBibliography: true,
+					bibliographyStyleHasBeenSet: true
+				},
+				prefs: {
+					fieldType: 'ReferenceMark',
+					automaticJournalAbbreviations: false,
+					noteType: 0
+				},
+				sessionID: 'owl-sesh',
+				zoteroVersion: '5.0.SOURCE',
+				dataVersion: 4
+			});
+			var data = new Zotero.Integration.DocumentData(expectedData);
+			// Convert to JSON to remove functions from DocumentData object
+			assert.equal(JSON.stringify(data), expectedData);
+		});
+		
+		it('should properly serialize document data to XML (data ver 3)', function() {
+			sinon.spy(Zotero, 'debug');
+			var data = new Zotero.Integration.DocumentData();
+			data.sessionID = "owl-sesh";
+			data.zoteroVersion = Zotero.version;
+			data.dataVersion = 3;
+			data.style = {
+				styleID: 'http://www.zotero.org/styles/cell',
+				locale: 'en-US',
+				hasBibliography: false,
+				bibliographyStyleHasBeenSet: true
+			};
+			data.prefs = {
+				noteType: 1,
+				fieldType: "Field",
+				automaticJournalAbbreviations: true
+			};
+			
+			var serializedData = data.serialize();
+			// Make sure we serialized to XML here
+			assert.equal(serializedData[0], '<');
+			// Serialize and unserialize (above test makes sure unserialize works properly).
+			var processedData = new Zotero.Integration.DocumentData(serializedData);
+			
+			// This isn't ideal, but currently how it works. Better serialization which properly retains types
+			// coming with official 5.0 release.
+			data.dataVersion = "3";
+
+			// Convert to JSON to remove functions from DocumentData objects
+			assert.equal(JSON.stringify(processedData), JSON.stringify(data));
+			
+			// Make sure we are not triggering debug traces in Utilities.htmlSpecialChars()
+			assert.isFalse(Zotero.debug.calledWith(sinon.match.string, 1));
+			Zotero.debug.restore();
+		});
+		
+		it('should properly serialize document data to JSON (data ver 4)', function() {
+			var data = new Zotero.Integration.DocumentData();
+			// data version 4 triggers serialization to JSON
+			// (e.g. when we've retrieved data from the doc and it was ver 4 already)
+			data.dataVersion = 4;
+			data.sessionID = "owl-sesh";
+			data.style = {
+				styleID: 'http://www.zotero.org/styles/cell',
+				locale: 'en-US',
+				hasBibliography: false,
+				bibliographyStyleHasBeenSet: true
+			};
+			data.prefs = {
+				noteType: 1,
+				fieldType: "Field",
+				automaticJournalAbbreviations: true
+			};
+			
+			// Serialize and unserialize (above tests makes sure unserialize works properly).
+			var processedData = new Zotero.Integration.DocumentData(data.serialize());
+
+			// Added in serialization routine
+			data.zoteroVersion = Zotero.version;
+			
+			// Convert to JSON to remove functions from DocumentData objects
+			assert.deepEqual(JSON.parse(JSON.stringify(processedData)), JSON.parse(JSON.stringify(data)));
+		});
+	})
 });

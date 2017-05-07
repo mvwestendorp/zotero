@@ -12,24 +12,26 @@ describe("Zotero.Sync.Data.Engine", function () {
 	var setup = Zotero.Promise.coroutine(function* (options = {}) {
 		server = sinon.fakeServer.create();
 		server.autoRespond = true;
+		var background = options.background === undefined ? true : options.background;
+		var stopOnError = options.stopOnError === undefined ?  true : options.stopOnError;
 		
 		Components.utils.import("resource://zotero/concurrentCaller.js");
 		var caller = new ConcurrentCaller(1);
 		caller.setLogger(msg => Zotero.debug(msg));
-		caller.stopOnError = true;
+		caller.stopOnError = stopOnError;
 		
 		var client = new Zotero.Sync.APIClient({
 			baseURL,
 			apiVersion: options.apiVersion || ZOTERO_CONFIG.API_VERSION,
 			apiKey,
 			caller,
-			background: options.background || true
+			background
 		});
 		
 		var engine = new Zotero.Sync.Data.Engine({
 			apiClient: client,
 			libraryID: options.libraryID || Zotero.Libraries.userLibraryID,
-			stopOnError: true
+			stopOnError
 		});
 		
 		return { engine, client, caller };
@@ -694,6 +696,10 @@ describe("Zotero.Sync.Data.Engine", function () {
 					assert.isArray(cached.data.conditions);
 					break;
 				}
+				
+				// Make sure older versions have been removed from the cache
+				let versions = yield Zotero.Sync.Data.Local.getCacheObjectVersions(type, libraryID, key);
+				assert.sameMembers(versions, [version]);
 			}
 		})
 		
@@ -839,6 +845,59 @@ describe("Zotero.Sync.Data.Engine", function () {
 			assert.isAbove(library.libraryVersion, 5);
 			assert.equal(library.libraryVersion, lastLibraryVersion);
 		})
+		
+		
+		it("should process downloads after upload failure", function* () {
+			({ engine, client, caller } = yield setup({
+				stopOnError: false
+			}));
+			
+			var library = Zotero.Libraries.userLibrary;
+			var libraryID = library.id;
+			var lastLibraryVersion = 5;
+			library.libraryVersion = lastLibraryVersion;
+			yield library.saveTx();
+			
+			var collection = yield createDataObject('collection');
+			
+			var called = 0;
+			server.respond(function (req) {
+				if (called == 0) {
+					req.respond(
+						200,
+						{
+							"Last-Modified-Version": lastLibraryVersion
+						},
+						JSON.stringify({
+							successful: {},
+							unchanged: {},
+							failed: {
+								0: {
+									code: 400,
+									message: "Upload failed"
+								}
+							}
+						})
+					);
+				}
+				called++;
+			});
+			
+			var stub = sinon.stub(engine, "_startDownload")
+				.returns(Zotero.Promise.resolve(engine.DOWNLOAD_RESULT_CONTINUE));
+			
+			var e = yield getPromiseError(engine.start());
+			assert.equal(called, 1);
+			// start() should still fail
+			assert.ok(e);
+			assert.equal(e.message, "Made no progress during upload -- stopping");
+			// The collection shouldn't have been marked as synced
+			assert.isFalse(collection.synced);
+			// Download should have been performed
+			assert.ok(stub.called);
+			
+			stub.restore();
+		});
 		
 		
 		it("shouldn't include mtime and md5 for attachments in ZFS libraries", function* () {
@@ -1178,8 +1237,9 @@ describe("Zotero.Sync.Data.Engine", function () {
 		})
 		
 		it("should ignore errors when saving downloaded objects", function* () {
-			({ engine, client, caller } = yield setup());
-			engine.stopOnError = false;
+			({ engine, client, caller } = yield setup({
+				stopOnError: false
+			}));
 			
 			var headers = {
 				"Last-Modified-Version": 3
@@ -2061,6 +2121,88 @@ describe("Zotero.Sync.Data.Engine", function () {
 	});
 	
 	
+	describe("#_downloadUpdatedObjects()", function () {
+		it("should include objects in sync queue", function* () {
+			({ engine, client, caller } = yield setup());
+			
+			var libraryID = Zotero.Libraries.userLibraryID;
+			var objectType = 'collection';
+			var objectTypeID = Zotero.Sync.Data.Utilities.getSyncObjectTypeID(objectType);
+			yield Zotero.Sync.Data.Local.addObjectsToSyncQueue(
+				objectType, libraryID, ["BBBBBBBB", "CCCCCCCC"]
+			);
+			yield Zotero.DB.queryAsync(
+				"UPDATE syncQueue SET lastCheck=lastCheck-3600 "
+					+ "WHERE syncObjectTypeID=? AND libraryID=? AND key IN (?, ?)",
+				[objectTypeID, libraryID, 'BBBBBBBB', 'CCCCCCCC']
+			);
+			
+			var headers = {
+				"Last-Modified-Version": 5
+			};
+			setResponse({
+				method: "GET",
+				url: "users/1/collections?format=versions&since=1",
+				status: 200,
+				headers,
+				json: {
+					AAAAAAAA: 5,
+					BBBBBBBB: 5
+				}
+			});
+			
+			var stub = sinon.stub(engine, "_downloadObjects");
+			
+			yield engine._downloadUpdatedObjects(objectType, 1, 5);
+			
+			assert.ok(stub.calledWith("collection", ["AAAAAAAA", "BBBBBBBB", "CCCCCCCC"]));
+			stub.restore();
+		});
+	});
+	
+	
+	describe("#_downloadObjects()", function () {
+		it("should remove object from sync queue if missing from response", function* () {
+			({ engine, client, caller } = yield setup({
+				stopOnError: false
+			}));
+			var libraryID = Zotero.Libraries.userLibraryID;
+			var objectType = 'collection';
+			var objectTypeID = Zotero.Sync.Data.Utilities.getSyncObjectTypeID(objectType);
+			yield Zotero.Sync.Data.Local.addObjectsToSyncQueue(
+				objectType, libraryID, ["BBBBBBBB", "CCCCCCCC"]
+			);
+			
+			var headers = {
+				"Last-Modified-Version": 5
+			};
+			setResponse({
+				method: "GET",
+				url: "users/1/collections?format=json&collectionKey=AAAAAAAA%2CBBBBBBBB%2CCCCCCCCC",
+				status: 200,
+				headers,
+				json: [
+					makeCollectionJSON({
+						key: "AAAAAAAA",
+						version: 5,
+						name: "A"
+					}),
+					makeCollectionJSON({
+						key: "BBBBBBBB",
+						version: 5
+						// Missing 'name', which causes a save error
+					})
+				]
+			});
+			yield engine._downloadObjects(objectType, ["AAAAAAAA", "BBBBBBBB", "CCCCCCCC"]);
+			
+			// Missing object should have been removed, but invalid object should remain
+			var keys = yield Zotero.Sync.Data.Local.getObjectsFromSyncQueue(objectType, libraryID);
+			assert.sameMembers(keys, ['BBBBBBBB']);
+		});
+	});
+	
+	
 	describe("#_startUpload()", function () {
 		it("shouldn't upload unsynced objects if present in sync queue", function* () {
 			({ engine, client, caller } = yield setup());
@@ -2186,6 +2328,58 @@ describe("Zotero.Sync.Data.Engine", function () {
 			
 			var result = yield engine._startUpload();
 			assert.equal(result, engine.UPLOAD_RESULT_OBJECT_CONFLICT);
+		});
+		
+		
+		// Note: This shouldn't be necessary, since collections are sorted top-down before uploading
+		it("should mark local collection as unsynced if it doesn't exist when uploading collection", function* () {
+			({ engine, client, caller } = yield setup());
+			
+			var library = Zotero.Libraries.userLibrary;
+			var libraryID = library.id;
+			var lastLibraryVersion = 5;
+			library.libraryVersion = lastLibraryVersion;
+			yield library.saveTx();
+			
+			var collection1 = createUnsavedDataObject('collection');
+			// Set the collection as synced (though this shouldn't happen)
+			collection1.synced = true;
+			yield collection1.saveTx();
+			var collection2 = yield createDataObject('collection', { collections: [collection1.id] });
+			
+			var called = 0;
+			server.respond(function (req) {
+				let requestJSON = JSON.parse(req.requestBody);
+				
+				if (called == 0) {
+					assert.lengthOf(requestJSON, 1);
+					assert.equal(requestJSON[0].key, collection2.key);
+					req.respond(
+						200,
+						{
+							"Last-Modified-Version": lastLibraryVersion
+						},
+						JSON.stringify({
+							successful: {},
+							unchanged: {},
+							failed: {
+								0: {
+									code: 409,
+									message: `Parent collection ${collection1.key} doesn't exist`,
+									data: {
+										collection: collection1.key
+									}
+								}
+							}
+						})
+					);
+				}
+				called++;
+			});
+			
+			var e = yield getPromiseError(engine._startUpload());
+			assert.ok(e);
+			assert.isFalse(collection1.synced);
 		});
 		
 		

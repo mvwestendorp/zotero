@@ -1082,10 +1082,9 @@ Zotero.Sync.Data.Local = {
 	 * @param {Integer} [maxVersion]
 	 */
 	deleteCacheObjectVersions: function (objectType, libraryID, key, minVersion, maxVersion) {
-		var sql = "DELETE FROM syncCache WHERE libraryID=? AND key=? "
-			+ "AND syncObjectTypeID IN (SELECT syncObjectTypeID FROM "
-			+ "syncObjectTypes WHERE name=?)";
-		var params = [libraryID, key, objectType];
+		var syncObjectTypeID = Zotero.Sync.Data.Utilities.getSyncObjectTypeID(objectType);
+		var sql = "DELETE FROM syncCache WHERE libraryID=? AND key=? AND syncObjectTypeID=?";
+		var params = [libraryID, key, syncObjectTypeID];
 		if (minVersion && minVersion == maxVersion) {
 			sql += " AND version=?";
 			params.push(minVersion);
@@ -1102,6 +1101,21 @@ Zotero.Sync.Data.Local = {
 		}
 		return Zotero.DB.queryAsync(sql, params);
 	},
+	
+	
+	/**
+	 * Delete entries from sync cache that don't exist or are less than the current object version
+	 */
+	purgeCache: Zotero.Promise.coroutine(function* (objectType, libraryID) {
+		var syncObjectTypeID = Zotero.Sync.Data.Utilities.getSyncObjectTypeID(objectType);
+		var table = Zotero.DataObjectUtilities.getObjectsClassForObjectType(objectType).table;
+		var sql = "DELETE FROM syncCache WHERE ROWID IN ("
+			+ "SELECT SC.ROWID FROM syncCache SC "
+			+ `LEFT JOIN ${table} O USING (libraryID, key, version) `
+			+ "WHERE syncObjectTypeID=? AND SC.libraryID=? AND "
+			+ "(O.libraryID IS NULL OR SC.version < O.version))";
+		yield Zotero.DB.queryAsync(sql, [syncObjectTypeID, libraryID]);
+	}),
 	
 	
 	processConflicts: Zotero.Promise.coroutine(function* (objectType, libraryID, conflicts, options = {}) {
@@ -1678,10 +1692,10 @@ Zotero.Sync.Data.Local = {
 	
 	
 	getObjectsToTryFromSyncQueue: Zotero.Promise.coroutine(function* (objectType, libraryID) {
+		var syncObjectTypeID = Zotero.Sync.Data.Utilities.getSyncObjectTypeID(objectType);
 		var rows = yield Zotero.DB.queryAsync(
-			"SELECT key, lastCheck, tries FROM syncQueue WHERE libraryID=? AND "
-				+ "syncObjectTypeID IN (SELECT syncObjectTypeID FROM syncObjectTypes WHERE name=?)",
-			[libraryID, objectType]
+			"SELECT key, lastCheck, tries FROM syncQueue WHERE libraryID=? AND syncObjectTypeID=?",
+			[libraryID, syncObjectTypeID]
 		);
 		var keysToTry = [];
 		for (let row of rows) {

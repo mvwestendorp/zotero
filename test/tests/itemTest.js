@@ -321,6 +321,13 @@ describe("Zotero.Item", function () {
 			}
 		})
 		
+		it("should accept SQL accessDate without time", function* () {
+			var item = createUnsavedDataObject('item');
+			var date = "2017-04-05";
+			item.setField("accessDate", date);
+			assert.strictEqual(item.getField('accessDate'), date);
+		});
+		
 		it("should ignore unknown accessDate values", function* () {
 			var fields = {
 				accessDate: "foo"
@@ -477,7 +484,28 @@ describe("Zotero.Item", function () {
 					"SELECT COUNT(*) FROM publicationsItems WHERE itemID=?", item.id)),
 				0
 			);
-		})
+		});
+		
+		it("should be invalid for linked-file attachments", function* () {
+			var item = yield createDataObject('item', { inPublications: true });
+			var attachment = yield Zotero.Attachments.linkFromFile({
+				file: OS.Path.join(getTestDataDirectory().path, 'test.png'),
+				parentItemID: item.id
+			});
+			attachment.inPublications = true;
+			var e = yield getPromiseError(attachment.saveTx());
+			assert.ok(e);
+			assert.include(e.message, "Linked-file attachments cannot be added to My Publications");
+		});
+		
+		it("should be invalid for group library items", function* () {
+			var group = yield getGroup();
+			var item = yield createDataObject('item', { libraryID: group.libraryID });
+			item.inPublications = true;
+			var e = yield getPromiseError(item.saveTx());
+			assert.ok(e);
+			assert.equal(e.message, "Only items in user libraries can be added to My Publications");
+		});
 	});
 	
 	describe("#parentID", function () {
@@ -1523,6 +1551,40 @@ describe("Zotero.Item", function () {
 				note.parentID = false;
 				var json = note.toJSON({ patchBase });
 				assert.isFalse(json.parentItem);
+			});
+			
+			it("should include relations if related item was removed", function* () {
+				var item1 = yield createDataObject('item');
+				var item2 = yield createDataObject('item');
+				var item3 = yield createDataObject('item');
+				var item4 = yield createDataObject('item');
+				
+				var relateItems = Zotero.Promise.coroutine(function* (i1, i2) {
+					yield Zotero.DB.executeTransaction(function* () {
+						i1.addRelatedItem(i2);
+						yield i1.save({
+							skipDateModifiedUpdate: true
+						});
+						i2.addRelatedItem(i1);
+						yield i2.save({
+							skipDateModifiedUpdate: true
+						});
+					});
+				});
+				
+				yield relateItems(item1, item2);
+				yield relateItems(item1, item3);
+				yield relateItems(item1, item4);
+				
+				var patchBase = item1.toJSON();
+				
+				item1.removeRelatedItem(item2);
+				yield item1.saveTx();
+				item2.removeRelatedItem(item1);
+				yield item2.saveTx();
+				
+				var json = item1.toJSON({ patchBase });
+				assert.sameMembers(json.relations['dc:relation'], item1.getRelations()['dc:relation']);
 			});
 			
 			it("shouldn't clear storage properties from original in .skipStorageProperties mode", function* () {

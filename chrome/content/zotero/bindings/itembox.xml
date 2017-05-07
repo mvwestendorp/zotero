@@ -3463,7 +3463,7 @@
 					
 					// Fields
 					else {
-						// Access date needs to be parsed and converted to UTC
+						// Access date needs to be parsed and converted to UTC SQL date
 						if (value != '') {
 							switch (fieldName) {
 								case 'accessDate':

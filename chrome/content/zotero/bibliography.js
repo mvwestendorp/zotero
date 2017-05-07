@@ -156,11 +156,12 @@ var Zotero_File_Interface_Bibliography = new function() {
 				document.getElementById(method);
 		}
 		
-		// ONLY FOR integrationDocPrefs.xul: update status of displayAs, set
-		// bookmarks text
+		// ONLY FOR integrationDocPrefs.xul: set selected endnotes/footnotes
 		isDocPrefs = !!document.getElementById("displayAs");
-		if(document.getElementById("displayAs")) {
+		if (isDocPrefs) {
 			if(_io.useEndnotes && _io.useEndnotes == 1) document.getElementById("displayAs").selectedIndex = 1;
+			let dialog = document.getElementById("zotero-doc-prefs-dialog");
+			dialog.setAttribute('title', `${Zotero.clientName} - ${dialog.getAttribute('title')}`);
 		}
 		if(document.getElementById("formatUsing")) {
 			if(_io.fieldType == "Bookmark") document.getElementById("formatUsing").selectedIndex = 1;
@@ -188,12 +189,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 			}
 			if (_io.suppressTrailingPunctuation) {
 				document.getElementById("suppressTrailingPunctuation-checkbox").checked = true;
-			}
-		}
-		if(document.getElementById("storeReferences")) {
-			if(_io.storeReferences || _io.storeReferences === undefined) {
-				document.getElementById("storeReferences").checked = true;
-				if(_io.requireStoreReferences) document.getElementById("storeReferences").disabled = true;
 			}
 		}
 
@@ -348,7 +343,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		}
 		
 		// ONLY FOR integrationDocPrefs.xul:
-		if(document.getElementById("displayAs")) {
+		if(isDocPrefs) {
 			var automaticJournalAbbreviationsEl = document.getElementById("automaticJournalAbbreviations-checkbox");
 			_io.automaticJournalAbbreviations = automaticJournalAbbreviationsEl.checked;
 			if(!automaticJournalAbbreviationsEl.hidden && lastSelectedStyle) {
@@ -358,7 +353,6 @@ var Zotero_File_Interface_Bibliography = new function() {
 			_io.suppressTrailingPunctuation = suppressTrailingPunctuationEl.checked;
 			_io.useEndnotes = document.getElementById("displayAs").selectedIndex;
 			_io.fieldType = (document.getElementById("formatUsing").selectedIndex == 0 ? _io.primaryFieldType : _io.secondaryFieldType);
-			_io.storeReferences = document.getElementById("storeReferences").checked;
 			var groupNameNode = document.getElementById('group-name');
 			_io.extractingLibraryID = groupNameNode.getAttribute('value') ? parseInt(groupNameNode.getAttribute('value'), 10) : 0;
 			_io.extractingLibraryName = groupNameNode.getAttribute('label') ? groupNameNode.getAttribute('label') : '';
