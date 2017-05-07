@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "Perinteinen näkymä">
 <!ENTITY zotero.integration.docPrefs.title "Asiakirjan asetukset">
 <!ENTITY zotero.integration.editBibliography.title "Muokkaa lähdeluetteloa">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Lehtien MEDLINE-lyhenteet muodostetaan automaattisesti lehtien nimistä. &quot;Lehden lyhenne&quot; -kenttä ohitetaan.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Lyhennä lehtien nimet automaattisesti">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Kirjanmerkit säilytetään Microsoft Wordin ja OpenOfficen välillä, mutta ne voivat tahattomasti muuttua.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Kirjanmerkit">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Näytä sitaatit muodossa:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Loppuviitteet">
 <!ENTITY zotero.integration.prefs.footnotes.label "Alaviitteet">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Muotoile käyttäen:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">

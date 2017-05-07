@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "Tavaline vaade">
 <!ENTITY zotero.integration.docPrefs.title "Dokumendi sätted">
 <!ENTITY zotero.integration.editBibliography.title "Toimeta bibliograafiat">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "MEDLINE ajakirjade lühendid luuakse automaatselt kasutades ajakirjade pealkirju. “Ajakirja lühend” välja ignoreeritakse.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Lühendada ajakirjade pealkirju automaatselt">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Järjehoidjad toimivad nii MS Wordi kui ka OpenOffice puhul, kuid võib juhtuda, et neid kogemata muudetakse. Ühilduvuse huvides ei ole võimalik lisada viiteid allmärkustele ja lõppmärkustele, kui see võimalus on aktiveeritud.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Järjehoidjaid">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Näidata viiteid:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Lõppmärkustena">
 <!ENTITY zotero.integration.prefs.footnotes.label "Joonealustena">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Vorminda kasutades:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">

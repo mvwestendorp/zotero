@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "Klasický náhľad">
 <!ENTITY zotero.integration.docPrefs.title "Vlastnosti dokumentu">
 <!ENTITY zotero.integration.editBibliography.title "Upraviť bibliografiu">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Skratky časopisov MEDLINE budú automaticky generované s použitím názvov časopisov. Pole &quot;Journal Abbr&quot; sa bude ignorovať.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Automaticky skracovať názvy časopisov">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Záložky sa môžu uchovať aj vo Worde a OpenOffice, ale môžu sa náhodne pozmeniť. Z dôvodu kompatibility sa citácie nemôžu vkladať do poznámok pod čiarou alebo do koncových poznámok pri výbere tejto možnosti.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "záložiek">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Zobraziť citácie ako:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "poznámky na konci textu">
 <!ENTITY zotero.integration.prefs.footnotes.label "poznámky pod čiarou">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Formátovať pomocou:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">

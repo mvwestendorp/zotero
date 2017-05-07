@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "Vista clásica">
 <!ENTITY zotero.integration.docPrefs.title "Ajustes de documento">
 <!ENTITY zotero.integration.editBibliography.title "Modificar bibliografía">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Se generarán automáticamente abreviaturas de revistas MEDLINE usando los títulos de las revistas. El campo &quot;Abrev. de la revista&quot; será ignorado.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Abreviar títulos de revista automáticamente">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Los marcadores se mantienen en Microsoft Word y OpenOffice, pero puede que se modifiquen accidentalmente.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Marcadores">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar citas como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "notas al final">
 <!ENTITY zotero.integration.prefs.footnotes.label "notas al pie">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Dar formato mediante:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
