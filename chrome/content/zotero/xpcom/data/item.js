@@ -4048,18 +4048,23 @@ Zotero.Item.prototype.setCollections = function (collectionIDsOrKeys) {
 	}
 	
 	// Convert any keys to ids
+
+	// XXX Juris-M change: Apply filter to drop out collections that are missing.
+	// XXX (possibly unwise)
+
 	var collectionIDs = collectionIDsOrKeys.map(function (val) {
 		if (parseInt(val) == val) {
 			return parseInt(val);
 		}
 		var id = this.ContainerObjectsClass.getIDFromLibraryAndKey(this.libraryID, val);
 		if (!id) {
-			let e = new Error("Collection " + val + " not found for item " + this.libraryKey);
-			e.name = "ZoteroObjectNotFoundError";
-			throw e;
+			// let e = new Error("Collection " + val + " not found for item " + this.libraryKey);
+			// e.name = "ZoteroObjectNotFoundError";
+			// throw e;
+			Zotero.debug("JM Warning (formerly Zotero error): Collection " + val + " not found for item " + this.libraryKey);
 		}
 		return id;
-	}.bind(this));
+	}.bind(this)).filter(function(x) { return x; });
 	collectionIDs = Zotero.Utilities.arrayUnique(collectionIDs);
 	
 	if (Zotero.Utilities.arrayEquals(this._collections, collectionIDs)) {
