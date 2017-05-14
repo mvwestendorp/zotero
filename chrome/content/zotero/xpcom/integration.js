@@ -3269,19 +3269,10 @@ Zotero.Integration.DocumentData.prototype.unserializeXML = function(xmlData) {
 			this.prefs[name] = value;
 		}
 	}
-<<<<<<< HEAD
 	if(this.prefs["extractingLibraryID"] === undefined) this.prefs["extractingLibraryID"] = 0;
 	if(this.prefs["extractingLibraryName"] === undefined) this.prefs["extractingLibraryName"] = "";
 	if(this.prefs["suppressTrailingPunctuation"] === undefined) this.prefs["suppressTrailingPunctuation"] = false;
-	try {
-		this.prefs.noteType = parseInt(this.prefs.noteType);
-	} catch (e) {
-		this.prefs.noteType = 0;
-	}
-=======
-	
 	this.prefs.noteType = parseInt(this.prefs.noteType) || 0;
->>>>>>> eb42152c420c3c8017c5be97105ffe21949a76aa
 	if (this.prefs["automaticJournalAbbreviations"] === undefined) this.prefs["automaticJournalAbbreviations"] = false;
 	this.zoteroVersion = doc.documentElement.getAttribute("zotero-version");
 	if (!this.zoteroVersion) this.zoteroVersion = "2.0";
