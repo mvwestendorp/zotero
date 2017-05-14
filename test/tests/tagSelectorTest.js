@@ -48,7 +48,10 @@ describe("Tag Selector", function () {
 	beforeEach(function* () {
 		var libraryID = Zotero.Libraries.userLibraryID;
 		yield clearTagColors(libraryID);
-		yield doc.getElementById('zotero-tag-selector').refresh(true);
+		var tagSelector = doc.getElementById('zotero-tag-selector');
+		// Default "Display All Tags in This Library" off
+		tagSelector.filterToScope = true;
+		yield tagSelector.refresh(true);
 	})
 	after(function () {
 		win.close();
@@ -99,6 +102,45 @@ describe("Tag Selector", function () {
 			assert.sameMembers(tags, ['A', 'B']);
 		});
 	});
+	
+	
+	describe("#filterToScope", function () {
+		it("should show all tags in library when false", function* () {
+			var tagSelector = doc.getElementById('zotero-tag-selector');
+			tagSelector.filterToScope = false;
+			
+			var collection = yield createDataObject('collection');
+			var item1 = createUnsavedDataObject('item');
+			item1.setTags([
+				{
+					tag: "A"
+				}
+			]);
+			var item2 = createUnsavedDataObject('item', { collections: [collection.id] });
+			item2.setTags([
+				{
+					tag: "B"
+				}
+			]);
+			var item3 = createUnsavedDataObject('item', { collections: [collection.id] });
+			item3.setTags([
+				{
+					tag: "C"
+				}
+			]);
+			var promise = waitForTagSelector(win);
+			yield Zotero.DB.executeTransaction(function* () {
+				yield item1.save();
+				yield item2.save();
+				yield item3.save();
+			});
+			yield promise;
+			
+			var tags = getRegularTags();
+			assert.sameMembers(tags, ['A', 'B', 'C']);
+		});
+	});
+	
 	
 	describe("#notify()", function () {
 		it("should add a tag when added to an item in the library root", function* () {

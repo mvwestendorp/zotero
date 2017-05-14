@@ -2356,14 +2356,14 @@ Zotero.Utilities = {
         }
         return validFields;
     },
-
+	
 	/**
 	 * Converts an item in CSL JSON format to a Zotero item
 	 * @param {Zotero.Item} item
 	 * @param {Object} cslItem
 	 */
 	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
-		var isZoteroItem = item instanceof Zotero.Item,
+		var isZoteroItem = !!item.setType,
 			zoteroType;
 		
 		function _addCreator(creator, cslAuthor) {

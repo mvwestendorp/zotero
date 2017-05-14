@@ -2513,7 +2513,8 @@ Zotero.Item.prototype.hasNote = Zotero.Promise.coroutine(function* () {
  **/
 Zotero.Item.prototype.getNote = function() {
 	if (!this.isNote() && !this.isAttachment()) {
-		throw ("getNote() can only be called on notes and attachments");
+		throw new Error("getNote() can only be called on notes and attachments "
+			+ `(${this.libraryID}/${this.key} is a {Zotero.ItemTypes.getName(this.itemTypeID)})`);
 	}
 	
 	// Store access time for later garbage collection
@@ -4670,24 +4671,29 @@ Zotero.Item.prototype.fromJSON = function (json) {
 			break;
 		
 		case 'accessDate':
+			if (val && !Zotero.Date.isSQLDate(val)) {
+				let d = Zotero.Date.isoToDate(val);
+				if (!d) {
+					Zotero.logError(`Discarding invalid ${field} '${val}' for item ${this.libraryKey}`);
+					continue;
+				}
+				val = Zotero.Date.dateToSQL(d, true);
+			}
+			this.setField(field, val);
+			setFields[field] = true;
+			break;
+		
 		case 'dateAdded':
 		case 'dateModified':
 			if (val) {
 				let d = Zotero.Date.isoToDate(val);
 				if (!d) {
-					Zotero.logError("Discarding invalid " + field + " '" + val
-						+ "' for item " + this.libraryKey);
+					Zotero.logError(`Discarding invalid ${field} '${val}' for item ${this.libraryKey}`);
 					continue;
 				}
 				val = Zotero.Date.dateToSQL(d, true);
 			}
-			if (field == 'accessDate') {
-				this.setField(field, val);
-				setFields[field] = true;
-			}
-			else {
-				this[field] = val;
-			}
+			this[field] = val;
 			break;
 		
 		case 'parentItem':

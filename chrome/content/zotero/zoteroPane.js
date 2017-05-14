@@ -4053,7 +4053,7 @@ var ZoteroPane = new function()
 	});
 	
 	
-	this.viewAttachment = Zotero.Promise.coroutine(function* (itemIDs, event, noLocateOnMissing, forceExternalViewer) {
+	this.viewAttachment = Zotero.serial(Zotero.Promise.coroutine(function* (itemIDs, event, noLocateOnMissing, forceExternalViewer) {
 		// If view isn't editable, don't show Locate button, since the updated
 		// path couldn't be sent back up
 		if (!this.collectionsView.editable) {
@@ -4117,14 +4117,8 @@ var ZoteroPane = new function()
 					return;
 				}
 				
-				let downloadedItem = item;
 				try {
-					yield Zotero.Sync.Runner.downloadFile(
-						downloadedItem,
-						{
-							onProgress: function (progress, progressMax) {}
-						}
-					);
+					yield Zotero.Sync.Runner.downloadFile(item);
 				}
 				catch (e) {
 					// TODO: show error somewhere else
@@ -4133,24 +4127,20 @@ var ZoteroPane = new function()
 					return;
 				}
 				
-				if (!(yield downloadedItem.getFilePathAsync())) {
-					ZoteroPane_Local.showAttachmentNotFoundDialog(
-						downloadedItem.id, noLocateOnMissing, true
-					);
+				if (!(yield item.getFilePathAsync())) {
+					ZoteroPane_Local.showAttachmentNotFoundDialog(item.id, noLocateOnMissing, true);
 					return;
 				}
 				
 				// check if unchanged?
 				// maybe not necessary, since we'll get an error if there's an error
 				
-				
 				Zotero.Notifier.trigger('redraw', 'item', []);
-				Zotero.debug('downloaded');
-				Zotero.debug(downloadedItem.id);
-				return ZoteroPane_Local.viewAttachment(downloadedItem.id, event, false, forceExternalViewer);
+				// Retry after download
+				i--;
 			}
 		}
-	});
+	}));
 	
 	
 	/**
