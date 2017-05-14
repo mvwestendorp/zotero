@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "&brandShortName; を隠す">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "インポート...">
+<!ENTITY importFromClipboardCmd.label "クリップボードからインポート">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "しまう">
 <!ENTITY pageSetupCmd.accesskey "U">

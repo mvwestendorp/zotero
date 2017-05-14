@@ -13,7 +13,7 @@
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
 <!ENTITY zotero.bibliography.locale.label "言語:">
-<!ENTITY zotero.bibliography.manageStyles "Manage Styles…">
+<!ENTITY zotero.bibliography.manageStyles "スタイルを管理する...">
 <!ENTITY zotero.bibliography.output.label "アウトプット・フォーマット">
 <!ENTITY zotero.bibliography.outputMethod "出力方法:">
 <!ENTITY zotero.bibliography.outputMode "出力モード:">
@@ -54,10 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "トランスレータのオプション">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "既読の記事を">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "日後に削除する">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "既読フィードアイテムを">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "日後に除去する">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "未読フィードアイテムを">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "日後に除去する">
 <!ENTITY zotero.feedSettings.refresh.label1 "フィードを">
 <!ENTITY zotero.feedSettings.refresh.label2 "時間おきに更新する">
 <!ENTITY zotero.feedSettings.saveButton.label "保存">
@@ -71,8 +71,8 @@
 <!ENTITY zotero.general.delete "削除">
 <!ENTITY zotero.general.deselectAll "選択をすべて解除">
 <!ENTITY zotero.general.edit "編集">
-<!ENTITY zotero.general.loading "Loading…">
-<!ENTITY zotero.general.more "More">
+<!ENTITY zotero.general.loading "読み込み中...">
+<!ENTITY zotero.general.more "その他">
 <!ENTITY zotero.general.no "いいえ">
 <!ENTITY zotero.general.note "メモ:">
 <!ENTITY zotero.general.ok "OK">
@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "クラシック表示">
 <!ENTITY zotero.integration.docPrefs.title "ドキュメントの設定">
 <!ENTITY zotero.integration.editBibliography.title "参考文献目録を編集">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "「雑誌略誌名」のフィールドは無視されます。">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "MEDLINEの略誌名を使用する">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "ブックマークはWordとLibreOfficeの間で共有できますが、意図せずに変更された場合にエラーを生じる場合があり、また脚注に挿入することが出来ません。">
 <!ENTITY zotero.integration.prefs.bookmarks.label "ブックマーク">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "出典表記の出力形式:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "文末注">
 <!ENTITY zotero.integration.prefs.footnotes.label "脚注">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "出典表記の保存形式:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
@@ -286,7 +286,7 @@
 <!ENTITY zotero.toolbar.importFromClipboard "クリップボードからインポートする">
 <!ENTITY zotero.toolbar.lookup "識別子によって所在確認...">
 <!ENTITY zotero.toolbar.lookup.label "識別子によってアイテムを追加する">
-<!ENTITY zotero.toolbar.markFeedRead.label "Mark Feed as Read">
+<!ENTITY zotero.toolbar.markFeedRead.label "フィードを既読にする">
 <!ENTITY zotero.toolbar.moreItemTypes.label "その他">
 <!ENTITY zotero.toolbar.newCollection.label "新規コレクション...">
 <!ENTITY zotero.toolbar.newGroup "新規グループ...">
