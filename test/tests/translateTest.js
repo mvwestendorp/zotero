@@ -415,13 +415,13 @@ describe("Zotero.Translate", function() {
 							"snapshot":false
 						},
 						{
-							"url":"http://127.0.0.1:23119/test/translate/test.html",
+							"url":"http://127.0.0.1:24119/test/translate/test.html",
 							"title":"Test Snapshot",
 							"note":"attachment 2 note",
 							"tags":TEST_TAGS
 						},
 						{
-							"url":"http://127.0.0.1:23119/test/translate/test.pdf",
+							"url":"http://127.0.0.1:24119/test/translate/test.pdf",
 							"title":"Test PDF",
 							"note":"attachment 3 note",
 							"tags":TEST_TAGS
@@ -441,14 +441,14 @@ describe("Zotero.Translate", function() {
 			checkTestTags(link, true);
 
 			let snapshot = containedAttachments["Test Snapshot"];
-			assert.equal(snapshot.getField("url"), "http://127.0.0.1:23119/test/translate/test.html");
+			assert.equal(snapshot.getField("url"), "http://127.0.0.1:24119/test/translate/test.html");
 			assert.equal(snapshot.getNote(), "attachment 2 note");
 			assert.equal(snapshot.attachmentLinkMode, Zotero.Attachments.LINK_MODE_IMPORTED_URL);
 			assert.equal(snapshot.attachmentContentType, "text/html");
 			checkTestTags(snapshot, true);
 
 			let pdf = containedAttachments["Test PDF"];
-			assert.equal(pdf.getField("url"), "http://127.0.0.1:23119/test/translate/test.pdf");
+			assert.equal(pdf.getField("url"), "http://127.0.0.1:24119/test/translate/test.pdf");
 			assert.equal(pdf.getNote(), "attachment 3 note");
 			assert.equal(pdf.attachmentLinkMode, Zotero.Attachments.LINK_MODE_IMPORTED_URL);
 			assert.equal(pdf.attachmentContentType, "application/pdf");
@@ -457,7 +457,7 @@ describe("Zotero.Translate", function() {
 
 		it('web translators should save attachment from document', function* () {
 			let deferred = Zotero.Promise.defer();
-			let browser = Zotero.HTTP.processDocuments("http://127.0.0.1:23119/test/translate/test.html",
+			let browser = Zotero.HTTP.processDocuments("http://127.0.0.1:24119/test/translate/test.html",
 				                                       function (doc) { deferred.resolve(doc) }, undefined,
 				                                       undefined, true);
 			let doc = yield deferred.promise;
@@ -483,7 +483,7 @@ describe("Zotero.Translate", function() {
 			assert.equal(containedAttachments.length, 1);
 
 			let snapshot = containedAttachments[0];
-			assert.equal(snapshot.getField("url"), "http://127.0.0.1:23119/test/translate/test.html");
+			assert.equal(snapshot.getField("url"), "http://127.0.0.1:24119/test/translate/test.html");
 			assert.equal(snapshot.getNote(), "attachment note");
 			assert.equal(snapshot.attachmentLinkMode, Zotero.Attachments.LINK_MODE_IMPORTED_URL);
 			assert.equal(snapshot.attachmentContentType, "text/html");
@@ -500,11 +500,11 @@ describe("Zotero.Translate", function() {
 					"title":"Container Item",
 					"attachments":[
 						{
-							"url":"http://127.0.0.1:23119/test/translate/does_not_exist.html",
+							"url":"http://127.0.0.1:24119/test/translate/does_not_exist.html",
 							"title":"Non-Existent HTML"
 						},
 						{
-							"url":"http://127.0.0.1:23119/test/translate/does_not_exist.pdf",
+							"url":"http://127.0.0.1:24119/test/translate/does_not_exist.pdf",
 							"title":"Non-Existent PDF"
 						}
 					]
@@ -525,12 +525,12 @@ describe("Zotero.Translate", function() {
 					"title":"Container Item",
 					"attachments":[
 						{
-							"url":"http://127.0.0.1:23119/test/translate/test.html",
+							"url":"http://127.0.0.1:24119/test/translate/test.html",
 							"mimeType":"application/pdf",
 							"title":"Test PDF with wrong mime type"
 						},
 						{
-							"url":"http://127.0.0.1:23119/test/translate/test.pdf",
+							"url":"http://127.0.0.1:24119/test/translate/test.pdf",
 							"mimeType":"application/pdf",
 							"title":"Test PDF",
 							"note":"attachment note",
@@ -547,7 +547,7 @@ describe("Zotero.Translate", function() {
 
 			let pdf = containedAttachments[0];
 			assert.equal(pdf.getField("title"), "Test PDF");
-			assert.equal(pdf.getField("url"), "http://127.0.0.1:23119/test/translate/test.pdf");
+			assert.equal(pdf.getField("url"), "http://127.0.0.1:24119/test/translate/test.pdf");
 			assert.equal(pdf.getNote(), "attachment note");
 			assert.equal(pdf.attachmentLinkMode, Zotero.Attachments.LINK_MODE_IMPORTED_URL);
 			checkTestTags(pdf, true);
