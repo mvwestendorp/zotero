@@ -1278,61 +1278,72 @@ Zotero.Schema = new function(){
 		}
 		
 		
-		// For non-foreign key checks, there should be an equivalent entry for every statement
-		// run by the DB Repair Tool. Repair entry (second position) can be either a string or
-		// an array with multiple statements.
-		var queries = [
+		// Non-foreign key checks
+		//
+		// The first position is for testing and the second is for repairing. Can be either SQL
+		// statements or promise-returning functions. For statements, the repair entry can be either a
+		// string or an array with multiple statements. Functions should avoid assuming any global state
+		// (e.g., loaded data).
+		var checks = [
 			// Can't be a FK with itemTypesCombined
 			[
-				"SELECT COUNT(*) FROM items WHERE itemTypeID IS NULL",
+				"SELECT COUNT(*) > 1 FROM items WHERE itemTypeID IS NULL",
 				"DELETE FROM items WHERE itemTypeID IS NULL",
 			],
 			// Attachments row with itemTypeID != 14
 			[
-				"SELECT COUNT(*) FROM itemAttachments JOIN items USING (itemID) WHERE itemTypeID != 14",
+				"SELECT COUNT(*) > 1 FROM itemAttachments JOIN items USING (itemID) WHERE itemTypeID != 14",
 				"UPDATE items SET itemTypeID=14, clientDateModified=CURRENT_TIMESTAMP WHERE itemTypeID != 14 AND itemID IN (SELECT itemID FROM itemAttachments)",
 			],
 			// Fields not in type
 			[
-				"SELECT COUNT(*) FROM itemData WHERE fieldID NOT IN (SELECT fieldID FROM itemTypeFieldsCombined WHERE itemTypeID=(SELECT itemTypeID FROM items WHERE itemID=itemData.itemID))",
+				"SELECT COUNT(*) > 1 FROM itemData WHERE fieldID NOT IN (SELECT fieldID FROM itemTypeFieldsCombined WHERE itemTypeID=(SELECT itemTypeID FROM items WHERE itemID=itemData.itemID))",
 				"DELETE FROM itemData WHERE fieldID NOT IN (SELECT fieldID FROM itemTypeFieldsCombined WHERE itemTypeID=(SELECT itemTypeID FROM items WHERE itemID=itemData.itemID))",
 			],
 			// Missing itemAttachments row
 			[
-				"SELECT COUNT(*) FROM items WHERE itemTypeID=14 AND itemID NOT IN (SELECT itemID FROM itemAttachments)",
+				"SELECT COUNT(*) > 1 FROM items WHERE itemTypeID=14 AND itemID NOT IN (SELECT itemID FROM itemAttachments)",
 				"INSERT INTO itemAttachments (itemID, linkMode) SELECT itemID, 0 FROM items WHERE itemTypeID=14 AND itemID NOT IN (SELECT itemID FROM itemAttachments)",
 			],
 			// Note/child parents
 			[
-				"SELECT COUNT(*) FROM itemAttachments WHERE parentItemID IN (SELECT itemID FROM items WHERE itemTypeID IN (1,14))",
+				"SELECT COUNT(*) > 1 FROM itemAttachments WHERE parentItemID IN (SELECT itemID FROM items WHERE itemTypeID IN (1,14))",
 				"UPDATE itemAttachments SET parentItemID=NULL WHERE parentItemID IN (SELECT itemID FROM items WHERE itemTypeID IN (1,14))",
 			],
 			[
-				"SELECT COUNT(*) FROM itemNotes WHERE parentItemID IN (SELECT itemID FROM items WHERE itemTypeID IN (1,14))",
+				"SELECT COUNT(*) > 1 FROM itemNotes WHERE parentItemID IN (SELECT itemID FROM items WHERE itemTypeID IN (1,14))",
 				"UPDATE itemNotes SET parentItemID=NULL WHERE parentItemID IN (SELECT itemID FROM items WHERE itemTypeID IN (1,14))",
 			],
 			
 			// Delete empty creators
 			// This may cause itemCreator gaps, but that's better than empty creators
 			[
-				"SELECT COUNT(*) FROM creators WHERE firstName='' AND lastName=''",
+				"SELECT COUNT(*) > 1 FROM creators WHERE firstName='' AND lastName=''",
 				"DELETE FROM creators WHERE firstName='' AND lastName=''"
 			],
 			
 			// Non-attachment items in the full-text index
 			[
-				"SELECT COUNT(*) FROM fulltextItemWords WHERE itemID NOT IN (SELECT itemID FROM items WHERE itemTypeID=14)",
+				"SELECT COUNT(*) > 1 FROM fulltextItemWords WHERE itemID NOT IN (SELECT itemID FROM items WHERE itemTypeID=14)",
 				"DELETE FROM fulltextItemWords WHERE itemID NOT IN (SELECT itemID FROM items WHERE itemTypeID=14)"
 			],
 			// Full-text items must be attachments
 			[
-				"SELECT COUNT(*) FROM fulltextItems WHERE itemID NOT IN (SELECT itemID FROM items WHERE itemTypeID=14)",
+				"SELECT COUNT(*) > 1 FROM fulltextItems WHERE itemID NOT IN (SELECT itemID FROM items WHERE itemTypeID=14)",
 				"DELETE FROM fulltextItems WHERE itemID NOT IN (SELECT itemID FROM items WHERE itemTypeID=14)"
 			]
 		];
 		
-		for (let sql of queries) {
-			let errorsFound = yield Zotero.DB.valueQueryAsync(sql[0]);
+		for (let check of checks) {
+			let errorsFound = false;
+			// SQL statement
+			if (typeof check[0] == 'string') {
+				errorsFound = yield Zotero.DB.valueQueryAsync(check[0]);
+			}
+			// Function
+			else {
+				errorsFound = yield check[0]();
+			}
 			if (!errorsFound) {
 				continue;
 			}
@@ -1342,14 +1353,18 @@ Zotero.Schema = new function(){
 			if (fix) {
 				try {
 					// Single query
-					if (typeof sql[1] == 'string') {
-						yield Zotero.DB.queryAsync(sql[1]);
+					if (typeof check[1] == 'string') {
+						yield Zotero.DB.queryAsync(check[1]);
 					}
 					// Multiple queries
-					else {
-						for (let s of sql[1]) {
+					else if (Array.isArray(check[1])) {
+						for (let s of check[1]) {
 							yield Zotero.DB.queryAsync(s);
 						}
+					}
+					// Function
+					else {
+						yield check[1]();
 					}
 					continue;
 				}
