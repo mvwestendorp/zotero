@@ -16,13 +16,13 @@
 	<script src="include.js"/>
 	
 	<vbox id="aboutcontent">
-		<label id="name" value="Zotero"/>
+		<label id="name" value="Juris-M"/>
 		<hbox>
-			<label class="zotero-text-link" href="https://www.zotero.org" value="https://www.zotero.org"/>
+			<label class="zotero-text-link" href="https://juris-m.github.io" value="https://juris-m.github.io"/>
 		</hbox>
 		<hbox>
 			<label id="version"/>
-			<label class="zotero-text-link" href="https://www.zotero.org/support/changelog" value="&zotero.whatsNew;"/>
+			<label class="zotero-text-link" href="http://juris-m.readthedocs.io/en/latest/changes.html" value="&zotero.whatsNew;"/>
 		</hbox>
 		<script>
 			document.getElementById('version').textContent = Zotero.version;
