@@ -65,7 +65,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	this.multiFieldIds;   // key object
 	this.multiFieldNames; // key object	
 	
-	Components.utils.import("resource://zotero/bluebird.js", this);
+	this.Promise = require('resource://zotero/bluebird.js');
 	
 	this.getActiveZoteroPane = function() {
 		var win = Services.wm.getMostRecentWindow("navigator:browser");
@@ -244,7 +244,13 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		}
 		
 		// Load in the localization stringbundle for use by getString(name)
-		var appLocale = Services.locale.getApplicationLocale();
+		if (Services.locale.getAppLocale) {
+			var appLocale = Services.locale.getAppLocale();
+		}
+		// Fx <=53
+		else {
+			var appLocale = Services.locale.getApplicationLocale();
+		}
 		
 		_localizedStringBundle = Services.strings.createBundle(
 			"chrome://zotero/locale/zotero.properties", appLocale);
@@ -990,6 +996,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	this.launchFile = function (file) {
 		file = Zotero.File.pathToFile(file);
 		try {
+			Zotero.debug("Launching " + file.path);
 			file.launch();
 		}
 		catch (e) {
@@ -1009,7 +1016,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 							.createInstance(Components.interfaces.nsILocalFile);
 				exec.initWithPath(path);
 				if (!exec.exists()) {
-					throw (path + " does not exist");
+					throw new Error(path + " does not exist");
 				}
 				
 				var proc = Components.classes["@mozilla.org/process/util;1"]
@@ -1149,6 +1156,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	 * @param {String} msg
 	 */
 	this.alert = function (window, title, msg) {
+		this.debug(`Alert:\n\n${msg}`);
 		var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 			.getService(Components.interfaces.nsIPromptService);
 		ps.alert(window, title, msg);
@@ -1351,12 +1359,16 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			return this.collation;
 		}
 		
-		var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
-				.getService(Components.interfaces.nsILocaleService);
-		var appLocale = localeService.getApplicationLocale();
+		if (Services.locale.getAppLocale) {
+			var locale = Services.locale.getAppLocale();
+		}
+		// Fx <=53
+		else {
+			var locale = Services.locale.getApplicationLocale();
+			locale = locale.getCategory('NSILOCALE_COLLATE');
+		}
 		
 		try {
-			var locale = appLocale.getCategory('NSILOCALE_COLLATE');
 			// Extract a valid language tag
 			locale = locale.match(/^[a-z]{2}(\-[A-Z]{2})?/)[0];
 			var collator = new Intl.Collator(locale, {
@@ -1366,7 +1378,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			});
 		}
 		catch (e) {
-			Zotero.debug(e, 1);
+			Zotero.logError(e);
 			
 			// If there's an error, just skip sorting
 			collator = {
@@ -1975,7 +1987,12 @@ Zotero.Prefs = new function(){
 		
 		// Register observer to handle pref changes
 		this.register();
-		
+
+		// Unregister observer handling pref changes
+		if (Zotero.addShutdownListener) {
+			Zotero.addShutdownListener(this.unregister.bind(this));
+		}
+
 		// Process pref version updates
 		var fromVersion = this.get('prefVersion');
 		if (!fromVersion) {
@@ -2375,12 +2392,12 @@ Zotero.DragDrop = {
 		
 		if (dt.types.contains('zotero/collection')) {
 			dragData.dataType = 'zotero/collection';
-			var ids = dt.getData('zotero/collection').split(",");
+			let ids = dt.getData('zotero/collection').split(",").map(id => parseInt(id));
 			dragData.data = ids;
 		}
 		else if (dt.types.contains('zotero/item')) {
 			dragData.dataType = 'zotero/item';
-			var ids = dt.getData('zotero/item').split(",");
+			let ids = dt.getData('zotero/item').split(",").map(id => parseInt(id));
 			dragData.data = ids;
 		}
 		else {

@@ -632,7 +632,7 @@ describe("Zotero.Sync.Runner", function () {
 			assert.isTrue(stub.calledOnce);
 			assert.isFalse(group.editable);
 			
-			stub.reset();
+			stub.restore();
 		});
 	})
 
@@ -836,6 +836,8 @@ describe("Zotero.Sync.Runner", function () {
 				json: {}
 			});
 			
+			var startTime = new Date().getTime();
+			
 			yield runner.sync({
 				onError: e => { throw e },
 			});
@@ -854,9 +856,9 @@ describe("Zotero.Sync.Runner", function () {
 				20
 			);
 			
-			// Last sync time should be within the last second
+			// Last sync time should be within the last few seconds
 			var lastSyncTime = Zotero.Sync.Data.Local.getLastSyncTime();
-			assert.isAbove(lastSyncTime.getTime(), new Date().getTime() - 2000);
+			assert.isAbove(lastSyncTime.getTime(), startTime);
 			assert.isBelow(lastSyncTime.getTime(), new Date().getTime());
 		})
 		
@@ -1030,6 +1032,58 @@ describe("Zotero.Sync.Runner", function () {
 			var buttons = panel.getElementsByTagName('button');
 			assert.lengthOf(buttons, 1);
 			assert.equal(buttons[0].label, Zotero.getString('sync.openSyncPreferences'));
+		});
+		
+		
+		it("should show a button in error panel to select a too-long note", function* () {
+			win = yield loadZoteroPane();
+			var doc = win.document;
+			
+			if (Zotero.platformMajorVersion >= 48) {
+				var text = "".padStart(256, "a");
+			}
+			else {
+				var text = Array(256).fill("a").join("");
+			}
+			var item = yield createDataObject('item', { itemType: 'note', note: text });
+			
+			setResponse('keyInfo.fullAccess');
+			setResponse('userGroups.groupVersions');
+			setResponse('groups.ownerGroup');
+			setResponse('groups.memberGroup');
+			
+			server.respond(function (req) {
+				if (req.method == "POST" && req.url == baseURL + "users/1/items") {
+					req.respond(
+						200,
+						{
+							"Last-Modified-Version": 5
+						},
+						JSON.stringify({
+							successful: {},
+							success: {},
+							unchanged: {},
+							failed: {
+								"0": {
+									code: 413,
+									message: `Note ${Zotero.Utilities.ellipsize(text, 100)} too long`
+								}
+							}
+						})
+					);
+				}
+			});
+			
+			yield runner.sync({ libraries: [Zotero.Libraries.userLibraryID] });
+			
+			var errorIcon = doc.getElementById('zotero-tb-sync-error');
+			assert.isFalse(errorIcon.hidden);
+			errorIcon.click();
+			var panel = win.document.getElementById('zotero-sync-error-panel');
+			assert.include(panel.innerHTML, text.substr(0, 10));
+			var buttons = panel.getElementsByTagName('button');
+			assert.lengthOf(buttons, 1);
+			assert.include(buttons[0].label, Zotero.getString('pane.items.showItemInLibrary'));
 		});
 		
 		

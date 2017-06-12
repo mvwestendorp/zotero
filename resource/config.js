@@ -20,6 +20,9 @@ var ZOTERO_CONFIG = {
 	APPS: {
 		'6a3e392d-1284-4c81-89b9-4994a2d8a290': '%%VALUE%%'
 	}
+	SUPPORT_URL: "https://juris-m.github.io/support/",
+	TROUBLESHOOTING_URL: "https://juris-m.github.io/support/",
+	FEEDBACK_URL: "https://juris-m.github.io/support/",
 };
 
 EXPORTED_SYMBOLS = ["ZOTERO_CONFIG"];
