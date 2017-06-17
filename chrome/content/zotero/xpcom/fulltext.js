@@ -65,7 +65,7 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	var _pdfInfo = null; // nsIFile to executable
 	
 	var _idleObserverIsRegistered = false;
-	var _idleObserverDelay = 5;
+	var _idleObserverDelay = 30;
 	var _processorTimer = null;
 	var _processorBlacklist = {};
 	var _upgradeCheck = true;
@@ -99,8 +99,36 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 		yield this.registerPDFTool('converter');
 		yield this.registerPDFTool('info');
 		
-		this.startContentProcessor();
-		Zotero.addShutdownListener(this.stopContentProcessor.bind(this));
+		Zotero.uiReadyPromise.delay(30000).then(() => {
+			this.startContentProcessor();
+			Zotero.addShutdownListener(this.stopContentProcessor.bind(this));
+			
+			// Start/stop content processor with full-text content syncing pref
+			Zotero.Prefs.registerObserver('sync.fulltext.enabled', (enabled) => {
+				if (enabled) {
+					this.startContentProcessor();
+				}
+				else {
+					this.stopContentProcessor();
+				}
+			});
+			
+			// Stop content processor during syncs
+			Zotero.Notifier.registerObserver(
+				{
+					notify: Zotero.Promise.method(function (event, type, ids, extraData) {
+						if (event == 'start') {
+							this.stopContentProcessor();
+						}
+						else if (event == 'stop') {
+							this.startContentProcessor();
+						}
+					}.bind(this))
+				},
+				['sync'],
+				'fulltext'
+			);
+		});
 	});
 	
 	
@@ -1014,8 +1042,10 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 * Start the idle observer for the background content processor
 	 */
 	this.startContentProcessor = function () {
+		if (!Zotero.Prefs.get('sync.fulltext.enabled')) return;
+		
 		if (!_idleObserverIsRegistered) {
-			Zotero.debug("Initializing full-text content ingester idle observer");
+			Zotero.debug("Starting full-text content processor");
 			var idleService = Components.classes["@mozilla.org/widget/idleservice;1"]
 					.getService(Components.interfaces.nsIIdleService);
 			idleService.addIdleObserver(this.idleObserver, _idleObserverDelay);
@@ -1028,6 +1058,7 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 */
 	this.stopContentProcessor = function () {
 		if (_idleObserverIsRegistered) {
+			Zotero.debug("Stopping full-text content processor");
 			var idleService = Components.classes["@mozilla.org/widget/idleservice;1"]
 				.getService(Components.interfaces.nsIIdleService);
 			idleService.removeIdleObserver(this.idleObserver, _idleObserverDelay);
@@ -1092,7 +1123,7 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 				function () {
 					Zotero.Fulltext.processUnprocessedContent(itemIDs);
 				},
-				100,
+				200,
 				Components.interfaces.nsITimer.TYPE_ONE_SHOT
 			);
 		}

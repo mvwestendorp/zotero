@@ -940,6 +940,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 	 */
 	purgeOrphanedStorageFiles: Zotero.Promise.coroutine(function* () {
 		const libraryID = Zotero.Libraries.userLibraryID;
+		const library = Zotero.Libraries.get(libraryID);
 		const daysBeforeSyncTime = 7;
 		
 		// If recently purged, skip
@@ -966,7 +967,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			+ "<getlastmodified/>"
 			+ "</prop></propfind>";
 		
-		var lastSyncDate = Zotero.Libraries.userLibrary.lastSync;
+		var lastSyncDate = library.lastSync;
 		if (!lastSyncDate) {
 			Zotero.debug(`No last sync date for library ${libraryID} -- not purging orphaned files`);
 			return false;
@@ -990,6 +991,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			return Zotero.Utilities.xpath(this, path, { D: 'DAV:' });
 		};
 		
+		var syncQueueKeys = new Set(
+			yield Zotero.Sync.Data.Local.getObjectsFromSyncQueue('item', libraryID)
+		);
 		var deleteFiles = [];
 		var trailingSlash = !!path.match(/\/$/);
 		for (let response of responseNode.xpath("D:response")) {
@@ -1045,18 +1049,22 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 				continue;
 			}
 			
-			var isLastSyncFile = file !== 'lastsync.txt' || file != 'lastsync';
-			
-			if (!file.match(/\.zip$/) && !file.match(/\.prop$/) && !isLastSyncFile) {
-				Zotero.debug("Skipping file " + file);
-				continue;
-			}
-			
+			var isLastSyncFile = file == 'lastsync.txt' || file == 'lastsync';
 			if (!isLastSyncFile) {
-				var key = file.replace(/\.(zip|prop)$/, '');
-				var item = yield Zotero.Items.getByLibraryAndKeyAsync(libraryID, key);
+				if (!file.match(/\.zip$/) && !file.match(/\.prop$/)) {
+					Zotero.debug("Skipping file " + file);
+					continue;
+				}
+				
+				let key = file.replace(/\.(zip|prop)$/, '');
+				let item = yield Zotero.Items.getByLibraryAndKeyAsync(libraryID, key);
 				if (item) {
 					Zotero.debug("Skipping existing file " + file);
+					continue;
+				}
+				
+				if (syncQueueKeys.has(key)) {
+					Zotero.debug(`Skipping file for item ${key} in sync queue`);
 					continue;
 				}
 			}
@@ -1071,7 +1079,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			lastModified = Zotero.Date.strToISO(lastModified);
 			lastModified = Zotero.Date.sqlToDate(lastModified, true);
 			
-			// Delete files older than a day before last sync time
+			// Delete files older than a week before last sync time
 			var days = (lastSyncDate - lastModified) / 1000 / 60 / 60 / 24;
 			
 			if (days > daysBeforeSyncTime) {
@@ -1082,6 +1090,8 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 		var results = yield this._deleteStorageFiles(deleteFiles);
 		Zotero.Prefs.set("lastWebDAVOrphanPurge", Math.round(new Date().getTime() / 1000));
 		Zotero.debug(results);
+		
+		return results;
 	}),
 	
 	
@@ -1348,9 +1358,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 	 */
 	_deleteStorageFiles: Zotero.Promise.coroutine(function* (files) {
 		var results = {
-			deleted: [],
-			missing: [],
-			error: []
+			deleted: new Set(),
+			missing: new Set(),
+			error: new Set()
 		};
 		
 		if (files.length == 0) {
@@ -1388,7 +1398,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					);
 				}
 				catch (e) {
-					results.error.push(fileName);
+					results.error.add(fileName);
 					throw e;
 				}
 				
@@ -1396,11 +1406,11 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					case 204:
 					// IIS 5.1 and Sakai return 200
 					case 200:
-						results.deleted.push(fileName);
+						results.deleted.add(fileName);
 						break;
 					
 					case 404:
-						results.missing.push(fileName);
+						results.missing.add(fileName);
 						break;
 				}
 				
@@ -1408,7 +1418,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 				var deletePropURI = this._getPropertyURIFromItemURI(deleteURI);
 				
 				// If we already deleted the prop file, skip it
-				if (!deletePropURI || results.deleted.indexOf(deletePropURI.fileName) != -1) {
+				if (!deletePropURI || results.deleted.has(deletePropURI.fileName)) {
 					return;
 				}
 				
@@ -1426,11 +1436,11 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					case 204:
 					// IIS 5.1 and Sakai return 200
 					case 200:
-						results.deleted.push(fileName);
+						results.deleted.add(fileName);
 						break;
 					
 					case 404:
-						results.missing.push(fileName);
+						results.missing.add(fileName);
 						break;
 				}
 			}.bind(this)));
@@ -1444,6 +1454,11 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			onError: e => Zotero.logError(e)
 		});
 		yield caller.start(funcs);
+		
+		// Convert sets back to arrays
+		for (let i in results) {
+			results[i] = Array.from(results[i]);
+		}
 		return results;
 	}),
 	
