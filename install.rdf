@@ -34,7 +34,7 @@
         <em:id>jurism@juris-m.github.io</em:id>
         <em:minVersion>4.0</em:minVersion>
         <em:maxVersion>4.0.*</em:maxVersion>
-      <Description>
+      </Description>
     </em:targetApplication>
   </Description>
 </RDF>
