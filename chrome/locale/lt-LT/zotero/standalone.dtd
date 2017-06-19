@@ -70,8 +70,8 @@
 <!ENTITY hideThisAppCmdMac.commandkey "S">
 <!ENTITY hideThisAppCmdMac.label "Slėpti „&brandShortName;“">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importuoti...">
+<!ENTITY importFromClipboardCmd.label "Importuoti iškarpinės turinį">
 <!ENTITY minimizeWindow.key "r">
 <!ENTITY minimizeWindow.label "Suskleisti">
 <!ENTITY pageSetupCmd.accesskey "n">

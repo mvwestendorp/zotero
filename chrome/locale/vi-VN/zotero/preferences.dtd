@@ -214,10 +214,10 @@
 <!ENTITY zotero.preferences.sync.reset.button "Đang thiết lập lại...">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Full Sync">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Merge local data with data from server, ignoring sync history.">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Xóa lịch sử đồng bộ dữ liệu">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Trộn dữ liệu cục bộ với dữ liệu trên máy chủ, bỏ qua lịch sử đồng bộ">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Thiết lập lại lịch sử đồng bộ tập tin">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Kiểm tra bản lưu trên máy chủ của các tập tin đính kèm">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Phục hồi từ máy chủ Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Xóa toàn bộ dữ liệu Zotero cục bộ và phục hồi từ máy chủ đồng bộ.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Lưu lên máy chủ Zotero">
