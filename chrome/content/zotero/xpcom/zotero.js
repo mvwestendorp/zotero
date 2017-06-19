@@ -273,9 +273,13 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 		var stringBundleService =
 			Components.classes["@mozilla.org/intl/stringbundle;1"]
 			.getService(Components.interfaces.nsIStringBundleService);
-		var localeService = Components.classes['@mozilla.org/intl/nslocaleservice;1'].
-							getService(Components.interfaces.nsILocaleService);
-		var appLocale = localeService.getApplicationLocale();
+		if (Services.locale.getAppLocale) {
+			var appLocale = Services.locale.getAppLocale();
+		}
+		// Fx <=53
+		else {
+			var appLocale = Services.locale.getApplicationLocale();
+		}
 		
 		_localizedStringBundle = stringBundleService.createBundle(
 			"chrome://zotero/locale/zotero.properties", appLocale);
@@ -636,6 +640,8 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			}
 			catch (e) {
 				if (e instanceof Zotero.DB.IncompatibleVersionException) {
+					Zotero.DB.closeDatabase(true).then(() => Zotero.debug("Database closed"));
+					
 					let kbURL = "https://www.zotero.org/support/kb/newer_db_version";
 					let msg = (e.dbClientVersion
 						? Zotero.getString('startupError.incompatibleDBVersion',
@@ -1591,21 +1597,17 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			return this.collation;
 		}
 		
-		var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
-				.getService(Components.interfaces.nsILocaleService);
-		var appLocale = localeService.getApplicationLocale();
-		
-		// Use nsICollation before Fx30
-		if (Zotero.platformMajorVersion < 30) {
-			var localeService = Components.classes["@mozilla.org/intl/nslocaleservice;1"]
-				.getService(Components.interfaces.nsILocaleService);
-			var collationFactory = Components.classes["@mozilla.org/intl/collation-factory;1"]
-				.getService(Components.interfaces.nsICollationFactory);
-			return this.collation = collationFactory.CreateCollation(appLocale);
+		Components.utils.import("resource://gre/modules/Services.jsm");
+		if (Services.locale.getAppLocale) {
+			var locale = Services.locale.getAppLocale();
+		}
+		// Fx <=53
+		else {
+			var locale = Services.locale.getApplicationLocale();
+			locale = locale.getCategory('NSILOCALE_COLLATE');
 		}
 		
 		try {
-			var locale = appLocale.getCategory('NSILOCALE_COLLATE');
 			// Extract a valid language tag
 			locale = locale.match(/^[a-z]{2}(\-[A-Z]{2})?/)[0];
 			var collator = new Intl.Collator(locale, {
@@ -1615,7 +1617,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 			});
 		}
 		catch (e) {
-			Zotero.debug(e, 1);
+			Zotero.logError(e);
 			
 			// If there's an error, just skip sorting
 			collator = {

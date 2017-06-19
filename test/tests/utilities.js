@@ -37,7 +37,7 @@ describe("Zotero.Utilities", function() {
 		});
 		it("should strip off internal characters in ISBN string", function() {
 			let ignoredChars = '\x2D\xAD\u2010\u2011\u2012\u2013\u2014\u2015\u2043\u2212' // Dashes
-				+ ' \xA0\r\n\t\x0B\x0C\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005' // Spaces
+				+ ' \xA0\r\n\t\x0B\x0C\u1680\u2000\u2001\u2002\u2003\u2004\u2005' // Spaces
 				+ '\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF';
 			for (let i=0; i<ignoredChars.length; i++) {
 				let charCode = '\\u' + Zotero.Utilities.lpad(ignoredChars.charCodeAt(i).toString(16).toUpperCase(), '0', 4);
@@ -134,7 +134,7 @@ describe("Zotero.Utilities", function() {
 		});
 		it("should strip off internal characters in ISSN string", function() {
 			let ignoredChars = '\x2D\xAD\u2010\u2011\u2012\u2013\u2014\u2015\u2043\u2212' // Dashes
-				+ ' \xA0\r\n\t\x0B\x0C\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005' // Spaces
+				+ ' \xA0\r\n\t\x0B\x0C\u1680\u2000\u2001\u2002\u2003\u2004\u2005' // Spaces
 				+ '\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF';
 			for (let i=0; i<ignoredChars.length; i++) {
 				let charCode = '\\u' + Zotero.Utilities.lpad(ignoredChars.charCodeAt(i).toString(16).toUpperCase(), '0', 4);
@@ -234,47 +234,6 @@ describe("Zotero.Utilities", function() {
 			exportFormat.itemType = 'foo';
 			
 			assert.throws(Zotero.Utilities.itemToCSLJSON.bind(Zotero.Utilities, exportFormat), /^Unexpected Zotero Item type ".*"$/, 'throws an error when trying to map invalid item types');
-		});
-		it("should map additional fields from Extra field", function() {
-			let item = new Zotero.Item('journalArticle');
-			item.setField('extra', 'PMID: 12345\nPMCID:123456\nDOI:10.5064/F6PN93H4');
-			item = Zotero.Items.get(item.save());
-			
-			let cslJSON = Zotero.Utilities.itemToCSLJSON(item);
-			
-			assert.equal(cslJSON.PMID, '12345', 'PMID from Extra is mapped to PMID');
-			assert.equal(cslJSON.PMCID, '123456', 'PMCID from Extra is mapped to PMCID');
-			assert.equal(cslJSON.DOI, '10.5064/F6PN93H4', 'DOI from Extra field is mapped to DOI');
-			
-			item.setField('extra', 'PMID: 12345');
-			item.save();
-			cslJSON = Zotero.Utilities.itemToCSLJSON(item);
-			
-			assert.equal(cslJSON.PMID, '12345', 'single-line entry is extracted correctly');
-			
-			item.setField('extra', 'some junk: note\nPMID: 12345\nstuff in-between\nPMCID: 123456\nDOI: 10.5064/F6PN93H4\nlast bit of junk!');
-			item.save();
-			cslJSON = Zotero.Utilities.itemToCSLJSON(item);
-			
-			assert.equal(cslJSON.PMID, '12345', 'PMID from mixed Extra field is mapped to PMID');
-			assert.equal(cslJSON.PMCID, '123456', 'PMCID from mixed Extra field is mapped to PMCID');
-			assert.equal(cslJSON.DOI, '10.5064/F6PN93H4', 'DOI from mixed Extra field is mapped to DOI');
-			
-			item.setField('extra', 'a\n PMID: 12345\nfoo PMCID: 123456\n10.5064/F6PN93H4');
-			item.save();
-			cslJSON = Zotero.Utilities.itemToCSLJSON(item);
-			
-			assert.isUndefined(cslJSON.PMCID, 'field label must not be preceded by other text');
-			assert.isUndefined(cslJSON.PMID, 'field label must not be preceded by a space');
-			assert.isUndefined(cslJSON.DOI, 'DOI must be preceded by label');
-			assert.equal(cslJSON.note, 'a\n PMID: 12345\nfoo PMCID: 123456\n10.5064/F6PN93H4', 'note is left untouched if nothing is extracted');
-
-			
-			item.setField('extra', 'something\npmid: 12345\n');
-			item.save();
-			cslJSON = Zotero.Utilities.itemToCSLJSON(item);
-			
-			assert.isUndefined(cslJSON.PMID, 'field labels are case-sensitive');
 		});
 		it("should parse particles in creator names", function() {
 			let creators = [

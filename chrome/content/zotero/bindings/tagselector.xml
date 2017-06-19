@@ -794,11 +794,11 @@
 			</method>
 			
 			
-			<method name="delete">
+			<method name="deleteTag">
+				<parameter name="name"/>
 				<parameter name="node"/>
 				<body>
 				<![CDATA[
-					var name = node.getAttribute('value');
 					var tagType = node.getAttribute('tagType');
 
 					var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -1054,7 +1054,7 @@ Zotero.debug('MLZ: isProjectName: '+isProjectName);
 					<menuitem id="tag-selector-rename-tag" label="&zotero.tagSelector.renameTag;"
 						oncommand="document.getBindingParent(this).rename(document.getBindingParent(this)._triggerNode.getAttribute('value')); event.stopPropagation()"/>
 					<menuitem label="&zotero.tagSelector.deleteTag;"
-						oncommand="document.getBindingParent(this).delete(document.getBindingParent(this)._triggerNode); event.stopPropagation()"/>
+						oncommand="document.getBindingParent(this).deleteTag(document.popupNode.getAttribute('value'), document.getBindingParent(this)._triggerNode) event.stopPropagation()"/>
 				</menupopup>
 				
 				<vbox id="no-tags-box" align="center" pack="center" flex="1">
