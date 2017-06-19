@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
-    <em:contributor>Center for History and New Media<br/>George Mason University</em:contributor>
     <em:id>juris-m@juris-m.github.io</em:id>
     <em:name>Juris-M</em:name>
     <em:version>4.0.29.12m98</em:version>
     <em:creator>Frank Bennett</em:creator>
+    <em:contributor>Center for History and New Media<br/>George Mason University</em:contributor>
     <em:contributor>Dan Cohen</em:contributor>
     <em:contributor>Sean Takats</em:contributor>
     <em:developer>Simon Kornblith</em:developer>
@@ -34,6 +34,7 @@
         <em:id>jurism@juris-m.github.io</em:id>
         <em:minVersion>4.0</em:minVersion>
         <em:maxVersion>4.0.*</em:maxVersion>
+      <Description>
     </em:targetApplication>
   </Description>
 </RDF>
