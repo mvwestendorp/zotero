@@ -8,9 +8,9 @@ set -e
 PRODUCT="Juris-M: reference manager with legal and multilingual support"
 IS_BETA="false"
 FORK="zotero"
-BRANCH="jurism"
+BRANCH="jurism-dev"
 CLIENT="jurism"
-VERSION_ROOT="4.0.29.12m"
+VERSION_ROOT="4.0.29.21m"
 SIGNED_STUB="juris_m-"
 
 function xx-remove-and-replace-old-build-dir () {
