@@ -2217,13 +2217,13 @@ Zotero.Item.prototype.save = function(options) {
 					*/
 					sql = 'DELETE from itemDataMain WHERE itemID=? '
 						+ 'AND fieldID IN ('
-						+ del.main.map(function () '?').join()
+						+ del.main.map(() => '?').join()
 						+ ')';
 					Zotero.DB.query(sql, [this.id].concat(del.main));
 					
 					sql = 'DELETE from itemData WHERE itemID=? '
 						+ 'AND fieldID IN ('
-						+ del.main.map(function () '?').join()
+						+ del.main.map(() => '?').join()
 						+ ')';
 					Zotero.DB.query(sql, [this.id].concat(del.main));
 				}
