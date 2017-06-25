@@ -4755,6 +4755,9 @@ Zotero.Sync.Server.Data = new function() {
 					creator.fieldMode = 0;
 				}
 				creator.birthYear = creator.birthYear;
+				if (!creator.lastName) {
+					continue;
+				}
 				item.setCreator(
 					(pos+i),
 					creator,
@@ -4775,6 +4778,9 @@ Zotero.Sync.Server.Data = new function() {
 					}
 					creator.firstName = multicreator.firstName;
 					creator.lastName = multicreator.lastName;
+					if (!creator.lastName) {
+						continue;
+					}
 					creator.birthYear = multicreator.birthYear;
 					creator.fieldMode = multicreatorset.fieldMode;
 					if (multicreatorset.fieldMode && multicreatorset._key[lang].firstName) {
