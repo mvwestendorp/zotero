@@ -2514,7 +2514,7 @@ Zotero.Integration.Session.prototype.lookupItems = Zotero.Promise.coroutine(func
 					surrogateItem.cslItemData = itemData;
 					
 					// Puts encoded multi fields into Zotero item
-					this.embeddedItems[anonymousID] = Zotero.Utilities.itemToCSLJSON(surrogateItem, undefined, false, false, true);
+					this.embeddedItems[anonymousID] = Zotero.Utilities.itemToCSLJSON(surrogateItem, true);
 					for(var j=0, m=citationItem.uris.length; j<m; j++) {
 						this.embeddedZoteroItemsByURI[citationItem.uris[j]] = surrogateItem;
 					}
