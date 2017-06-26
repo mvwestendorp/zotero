@@ -801,16 +801,6 @@ Zotero.DataObject.prototype.save = Zotero.Promise.coroutine(function* (options =
 		env.options.tx = true;
 	}
 	
-	var proceed = yield this._initSave(env);
-	if (!proceed) return false;
-	
-	if (env.isNew) {
-		Zotero.debug('Saving data for new ' + this._objectType + ' to database', 4);
-	}
-	else {
-		Zotero.debug('Updating database with new ' + this._objectType + ' data', 4);
-	}
-	
 	if (env.options.skipAll) {
 		[
 			'skipDateModifiedUpdate',
@@ -821,6 +811,17 @@ Zotero.DataObject.prototype.save = Zotero.Promise.coroutine(function* (options =
 			'skipSelect'
 		].forEach(x => env.options[x] = true);
 	}
+	
+	var proceed = yield this._initSave(env);
+	if (!proceed) return false;
+	
+	if (env.isNew) {
+		Zotero.debug('Saving data for new ' + this._objectType + ' to database', 4);
+	}
+	else {
+		Zotero.debug('Updating database with new ' + this._objectType + ' data', 4);
+	}
+	
 	try {
 		if (Zotero.DataObject.prototype._finalizeSave == this._finalizeSave) {
 			throw new Error("_finalizeSave not implemented for Zotero." + this._ObjectType);
@@ -956,7 +957,7 @@ Zotero.DataObject.prototype._saveData = function (env) {
 		env.sqlValues.push(0);
 	}
 	
-	if (env.isNew || !env.options.skipClientDateModified) {
+	if (env.isNew || !env.options.skipClientDateModifiedUpdate) {
 		env.sqlColumns.push('clientDateModified');
 		env.sqlValues.push(Zotero.DB.transactionDateTime);
 	}

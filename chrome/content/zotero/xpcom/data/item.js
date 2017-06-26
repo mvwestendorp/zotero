@@ -1624,28 +1624,30 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		env.sqlValues.push(this.dateModified);
 	}
 	
-	if (isNew) {
-		env.sqlColumns.push('dateAdded');
-		env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
-		
-		env.sqlColumns.unshift('itemID');
-		env.sqlValues.unshift(parseInt(itemID));
-		
-		let sql = "INSERT INTO items (" + env.sqlColumns.join(", ") + ") "
-			+ "VALUES (" + env.sqlValues.map(() => "?").join() + ")";
-		yield Zotero.DB.queryAsync(sql, env.sqlValues);
-		
-		if (!env.options.skipNotifier) {
-			Zotero.Notifier.queue('add', 'item', itemID, env.notifierData, env.options.notifierQueue);
+	if (env.sqlColumns.length) {
+		if (isNew) {
+			env.sqlColumns.push('dateAdded');
+			env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
+			
+			env.sqlColumns.unshift('itemID');
+			env.sqlValues.unshift(parseInt(itemID));
+			
+			let sql = "INSERT INTO items (" + env.sqlColumns.join(", ") + ") "
+				+ "VALUES (" + env.sqlValues.map(() => "?").join() + ")";
+			yield Zotero.DB.queryAsync(sql, env.sqlValues);
+			
+			if (!env.options.skipNotifier) {
+				Zotero.Notifier.queue('add', 'item', itemID, env.notifierData, env.options.notifierQueue);
+			}
 		}
-	}
-	else {
-		let sql = "UPDATE items SET " + env.sqlColumns.join("=?, ") + "=? WHERE itemID=?";
-		env.sqlValues.push(parseInt(itemID));
-		yield Zotero.DB.queryAsync(sql, env.sqlValues);
-		
-		if (!env.options.skipNotifier) {
-			Zotero.Notifier.queue('modify', 'item', itemID, env.notifierData, env.options.notifierQueue);
+		else {
+			let sql = "UPDATE items SET " + env.sqlColumns.join("=?, ") + "=? WHERE itemID=?";
+			env.sqlValues.push(parseInt(itemID));
+			yield Zotero.DB.queryAsync(sql, env.sqlValues);
+			
+			if (!env.options.skipNotifier) {
+				Zotero.Notifier.queue('modify', 'item', itemID, env.notifierData, env.options.notifierQueue);
+			}
 		}
 	}
 	
@@ -1750,7 +1752,9 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 			yield Zotero.DB.queryAsync(sql, [itemID].concat(del));
 			// Also delete main if present
 			sql = 'DELETE from itemDataMain WHERE itemID=? AND '
-				+ 'fieldID IN (' + del.map(function () '?').join() + ')';
+				+ 'fieldID IN ('
+				+ del.map(() => '?').join()
+				+ ')';
 			yield Zotero.DB.queryAsync(sql, [itemID].concat(del));
 		}
 	}
@@ -2333,7 +2337,7 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	if (reloadParentChildItems) {
 		for (let parentItemID in reloadParentChildItems) {
 			// Keep in sync with Zotero.Items.trash()
-			let parentItem = yield this.ObjectsClass.getAsync(parentItemID);
+			let parentItem = yield this.ObjectsClass.getAsync(parseInt(parentItemID));
 			yield parentItem.reload(['primaryData', 'childItems'], true);
 			parentItem.clearBestAttachmentState();
 		}

@@ -24,7 +24,9 @@
 */
 
 EXPORTED_SYMBOLS = ["ConcurrentCaller"];
-Components.utils.import("resource://zotero/bluebird.js");
+Components.utils.import('resource://zotero/require.js');
+
+var Promise = require('resource://zotero/bluebird.js');
 
 /**
  * Call a fixed number of functions at once, queueing the rest until slots

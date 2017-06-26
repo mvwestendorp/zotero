@@ -1,3 +1,5 @@
+chai.use(chaiAsPromised);
+
 // Useful "constants"
 var sqlDateTimeRe = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
 var isoDateTimeRe = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
@@ -352,7 +354,7 @@ var createFeed = Zotero.Promise.coroutine(function* (props = {}) {
 	feed.refreshInterval = props.refreshInterval || 12;
 	feed.cleanupReadAfter = props.cleanupReadAfter || 2;
 	feed.cleanupUnreadAfter = props.cleanupUnreadAfter || 30;
-	yield feed.saveTx();
+	yield feed.saveTx(props.saveOptions);
 	return feed;
 });
 

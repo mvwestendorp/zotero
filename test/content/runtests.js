@@ -141,9 +141,9 @@ function Reporter(runner) {
 		let indentStr = indent();
 		dump("\r" + indentStr
 			// Dark red X for errors
-			+ "\033[31;40m" + Mocha.reporters.Base.symbols.err + " [FAIL]\033[0m"
+			+ "\x1B[31;40m" + Mocha.reporters.Base.symbols.err + " [FAIL]\x1B[0m"
 			// Trigger bell if interactive
-			+ (Zotero.automatedTest ? "" : "\007")
+			+ (Zotero.automatedTest ? "" : "\x07")
 			+ " " + test.title + "\n"
 			+ indentStr + "  " + err.toString() + " at\n"
 			+ err.stack.replace(/^/gm, indentStr + "    "));
@@ -184,19 +184,7 @@ mocha.setup({
 	grep: ZoteroUnit.grep
 });
 
-// Enable Bluebird generator support in Mocha
-(function () {
-	var Runnable = Mocha.Runnable;
-	var run = Runnable.prototype.run;
-	Runnable.prototype.run = function (fn) {
-		if (this.fn.constructor.name === 'GeneratorFunction') {
-			this.fn = Zotero.Promise.coroutine(this.fn);
-		} else if (typeof this.fn == 'function' && this.fn.isGenerator()) {
-			throw new Error("Attempting to use a legacy generator in Mocha test");
-		}
-		return run.call(this, fn);
-	};
-})();
+coMocha(Mocha);
 
 before(function () {
 	// Store all prefs set in runtests.sh
