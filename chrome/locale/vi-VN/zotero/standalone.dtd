@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Nhập khẩu...">
 <!ENTITY importFromClipboardCmd.label "Nhập khẩu từ clipboard">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Thu nhỏ">
 <!ENTITY pageSetupCmd.accesskey "U">

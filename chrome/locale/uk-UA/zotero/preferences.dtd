@@ -24,7 +24,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Плагіни для текстових процесорів не встановлені.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Використовувати стандартний спосіб Додавання цитат">
 <!ENTITY zotero.preferences.dataDir "Розташування каталогу з даними">
-<!ENTITY zotero.preferences.dataDir.choose "Choose…">
+<!ENTITY zotero.preferences.dataDir.choose "Вибрати...">
 <!ENTITY zotero.preferences.dataDir.custom "Користувацька:">
 <!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
 <!ENTITY zotero.preferences.dataDir.reveal "Показати каталог з даними">
@@ -205,7 +205,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "умвами використання">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL-адреса:">
 <!ENTITY zotero.preferences.sync.librariesToSync "Бібліотеки для синхронізації">
-<!ENTITY zotero.preferences.sync.librariesToSync.button "Choose Libraries…">
+<!ENTITY zotero.preferences.sync.librariesToSync.button "Вибрати бібліотеки...">
 <!ENTITY zotero.preferences.sync.librariesToSync.library "Бібліотека">
 <!ENTITY zotero.preferences.sync.librariesToSync.sync "Синхронізація">
 <!ENTITY zotero.preferences.sync.lostPassword "Забули пароль?">
@@ -214,10 +214,10 @@
 <!ENTITY zotero.preferences.sync.reset.button "Reset…">
 <!ENTITY zotero.preferences.sync.reset.fullSync "Повна синхронізація">
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Об'єднати локальні дані з даними з сервера, не звертаючи уваги на історію синхронізації.">
-<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
+<!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Скинути історію синхронізації даних">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Скинути історію синхронізації файлів">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with storage service">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Відновити з серверу Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Видалити всі локальні дані Zotero та відновити з серверу">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Віднвити на сервері Zotero">
@@ -230,7 +230,7 @@
 <!ENTITY zotero.preferences.sync.syncFullTextContent "Синхронізувати повнотекстовий вміст">
 <!ENTITY zotero.preferences.sync.syncFullTextContent.desc "Zotero можете синхронізувати повнотекстовий вміст файлів у ваших бібліотеках Zotero з zotero.org та інших пов'язаних пристроїв, що дозволяє легко знайти ваші файли, де б ви не були. Повнотекстовий вміст ваших файлів не передаватиметься публічно.">
 <!ENTITY zotero.preferences.sync.syncServer "Синхронізація даних">
-<!ENTITY zotero.preferences.sync.unlinkAccount "Unlink Account…">
+<!ENTITY zotero.preferences.sync.unlinkAccount "Від'єднати обліковий запис...">
 <!ENTITY zotero.preferences.sync.username "Ім'я користувача:">
 <!ENTITY zotero.preferences.title "Налаштування Zotero">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPost "днів назад">

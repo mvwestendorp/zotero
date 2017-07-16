@@ -70,8 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Сховати &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Імпорт...">
+<!ENTITY importFromClipboardCmd.label "Імпорт з буферу обміну">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Встановити браузерний конектор">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Згорнути">
 <!ENTITY pageSetupCmd.accesskey "U">

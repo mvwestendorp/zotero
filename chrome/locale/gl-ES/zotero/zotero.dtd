@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "As etiquetas sincronizadas teñen que ter menos de 256 caracteres.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Vaise eliminar a etiqueta de todos os elementos.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "As etiquetas que non estean marcadas non se gardarán.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Descargas:">
 <!ENTITY zotero.sync.storage.progress "Progreso:">
 <!ENTITY zotero.sync.storage.uploads "Subidas:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Asignarlle cor...">
 <!ENTITY zotero.tagSelector.clearAll "Desmarcar todo">
 <!ENTITY zotero.tagSelector.clearVisible "Desmarcar o visible">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Eliminar a etiqueta...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Mostrar todas as etiquetas nesta librería">
 <!ENTITY zotero.tagSelector.filter "Filtro:">

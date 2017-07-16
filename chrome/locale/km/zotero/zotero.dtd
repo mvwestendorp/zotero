@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "ស្លាកដែលអាចធ្វើសមកាលកម្មបានត្រូវតែតិចជា២៥៦ តួអក្សរ។">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "ស្លាកនឹងត្រូវលុបចេញពីគ្រប់ឯកសារទាំងអស់។">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "ស្លាកដែលគ្មានការពិនិត្យនឹងមិនត្រូវបានទាញមករក្សាទុកទេ។">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "ទាញរក្សាទុក:">
 <!ENTITY zotero.sync.storage.progress "កំពុងដំណើរការ:">
 <!ENTITY zotero.sync.storage.uploads "ផ្ទុកឡើង:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assign Color…">
 <!ENTITY zotero.tagSelector.clearAll "ដោះជម្រើសទាំងអស់">
 <!ENTITY zotero.tagSelector.clearVisible "ដោះជម្រើសមើលឃើញ">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "លុបស្លាកចោល...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "បង្ហាញគ្រប់ស្លាកនៅក្នុងបណ្ណាល័យនេះ">
 <!ENTITY zotero.tagSelector.filter "តម្រង:">

@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synchronizowane etykiety muszą być krótsze niż 256 znaków.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Etykieta zostanie usunięta ze wszystkich elementów.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Niezaznaczone etykiety nie będą zachowane.">
+<!ENTITY zotero.sync.stop "Zatrzymaj synchronizację">
 <!ENTITY zotero.sync.storage.downloads "Pobrano:">
 <!ENTITY zotero.sync.storage.progress "Postęp:">
 <!ENTITY zotero.sync.storage.uploads "Wysłano:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Przypisz kolor...">
 <!ENTITY zotero.tagSelector.clearAll "Odznacz wszystkie">
 <!ENTITY zotero.tagSelector.clearVisible "Odznacz widoczne">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Usuń automatycznie nadane etykiety w tej bibliotece...">
 <!ENTITY zotero.tagSelector.deleteTag "Usuń etykietę...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Wyświetl wszystkie etykiety w tej bibliotece">
 <!ENTITY zotero.tagSelector.filter "Filtr:">

@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Resetovat historii synchronizace dat">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Sloučit místní data s vzdálenými daty; historie synchronizace se bude ignorovat">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Resetovat historii synchronizace souborů">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Zkontrolovat vzdálené kopie všech místních příloh">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with storage service">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Obnovit ze Zotero Serveru">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Vymazat všechna lokální data Zotera a obnovit ze synchronizačního serveru.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Obnovit na Zotero Server">

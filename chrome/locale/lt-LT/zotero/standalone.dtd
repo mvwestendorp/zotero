@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importuoti...">
 <!ENTITY importFromClipboardCmd.label "Importuoti iškarpinės turinį">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "r">
 <!ENTITY minimizeWindow.label "Suskleisti">
 <!ENTITY pageSetupCmd.accesskey "n">

@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "帮助">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "向 Zotero 报告错误…">
+<!ENTITY helpReportErrors.label "报告错误…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "故障排除信息">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
@@ -70,8 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "隐藏&brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "导入…">
+<!ENTITY importFromClipboardCmd.label "从剪贴板导入">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "最小化">
 <!ENTITY pageSetupCmd.accesskey "U">

@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "同步的標籤必須少於 256 個字元。">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "所有項目中的這種標籤都會被刪除。">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "未勾選的標籤就不儲存。">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "下載：">
 <!ENTITY zotero.sync.storage.progress "進度：">
 <!ENTITY zotero.sync.storage.uploads "上傳：">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "配上顏色…">
 <!ENTITY zotero.tagSelector.clearAll "全不選">
 <!ENTITY zotero.tagSelector.clearVisible "不選可見的">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "刪除標籤…">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "顯示此文獻庫中的所有標籤">
 <!ENTITY zotero.tagSelector.filter "篩選器：">

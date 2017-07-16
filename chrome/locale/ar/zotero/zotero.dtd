@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "الاوسمة المراد مزامنتها يجب ان تكون اقل من 256 حرف.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "سيتم حذف الوسم من جميع العناصر.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "لن يتم حفظ الاوسمة الغير محددة.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "التحميل:">
 <!ENTITY zotero.sync.storage.progress "التقدم:">
 <!ENTITY zotero.sync.storage.uploads "الرفع:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "تخصيص اللون...">
 <!ENTITY zotero.tagSelector.clearAll "إلغاء تحديد الكل">
 <!ENTITY zotero.tagSelector.clearVisible "إلغاء تحديد العناصر الظاهرة">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "حذف الوسم...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "عرض جميع الاوسمة في هذه المكتبة">
 <!ENTITY zotero.tagSelector.filter "تصفية:">

@@ -70,8 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Сакриј &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Увези…">
+<!ENTITY importFromClipboardCmd.label "Увези из оставе">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Инсталирај програм за повезивање са разгледачем">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Умањи">
 <!ENTITY pageSetupCmd.accesskey "U">

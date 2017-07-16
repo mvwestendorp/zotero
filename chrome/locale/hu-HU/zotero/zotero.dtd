@@ -66,13 +66,13 @@
 <!ENTITY zotero.feedSettings.url.label "URL">
 <!ENTITY zotero.file.choose.label "Choose File...">
 <!ENTITY zotero.file.noneSelected.label "Nincs fájl kiválasztva">
-<!ENTITY zotero.general.advancedOptions.label "Advanced Options">
+<!ENTITY zotero.general.advancedOptions.label "Haladó beállítások">
 <!ENTITY zotero.general.cancel "Mégse">
 <!ENTITY zotero.general.delete "Törlés">
 <!ENTITY zotero.general.deselectAll "Kijelölés megszüntetése">
 <!ENTITY zotero.general.edit "Szerkesztés">
 <!ENTITY zotero.general.loading "Loading…">
-<!ENTITY zotero.general.more "More">
+<!ENTITY zotero.general.more " Egyéb...">
 <!ENTITY zotero.general.no "Nem">
 <!ENTITY zotero.general.note "Jegyzet:">
 <!ENTITY zotero.general.ok "OK">
@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "A szinkronizált címkék nem lehetnek 256 karakternél hosszabbak.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Ez a címke törölve lesz valamennyi elemről.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "A jelöletlenül hagyott címkék nem lesznek elmentve.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Letöltések:">
 <!ENTITY zotero.sync.storage.progress "Állapot:">
 <!ENTITY zotero.sync.storage.uploads "Letöltések:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Szín kiválasztása…">
 <!ENTITY zotero.tagSelector.clearAll "Összes címke kiválasztásának megszüntetése">
 <!ENTITY zotero.tagSelector.clearVisible "Látható címkék kiválasztásának megszüntetése">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Címke törlése...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Szűrő:">

@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Veri Eşitleme Geçmişini Sıfırla">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Eşitleme geçmişini yok sayarak, yerel verileri uzaktaki verilerle birleştir">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Dosya Eşitleme Geçmişini Sıfırla">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Tüm yerel ek dosyalarının uzaktaki kopyalarını kontrol et">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Tüm ek dosyaları depolama hizmetindekiler ile karşılaştır">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Zotero Sunucusundan Geri Yükle">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Bütün yerel Zotero verilerini sil ve eşitleme sunucusundaki verileri yükle.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Zotero Sunucusuna Yükle">

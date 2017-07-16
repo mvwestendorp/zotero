@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "Visão clássica">
 <!ENTITY zotero.integration.docPrefs.title "Preferências do documento">
 <!ENTITY zotero.integration.editBibliography.title "Editar bibliografia">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "O campo &quot;Abreviatura do periódico&quot; será ignorado.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Usar as abreviaturas de periódicos MEDLINE">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "Os marcadores podem ser compartilhados entre o Word e o LibreOffice, mas podem causar erros caso sejam modificados acidentalmente e não podem ser inserido nas notas de rodapé.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Marcadores">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Exibir citações como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas de fim">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas de rodapé">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "Armazenar as citações como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Etiquetas sincronizadas devem ter menos de 256 caracteres.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "A etiqueta será excluída de todos os itens.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Etiquetas desmarcadas não serão salvas.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Downloads:">
 <!ENTITY zotero.sync.storage.progress "Progresso:">
 <!ENTITY zotero.sync.storage.uploads "Envios:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Atribuir cor...">
 <!ENTITY zotero.tagSelector.clearAll "Desmarcar todas">
 <!ENTITY zotero.tagSelector.clearVisible "Desmarcar as visíveis">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Excluir a etiqueta...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Exibir todas as etiquetas dessa biblioteca">
 <!ENTITY zotero.tagSelector.filter "Filtro:">

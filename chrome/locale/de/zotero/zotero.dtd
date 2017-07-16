@@ -54,10 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "Übersetzer-Einstellungen">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "Gelesene Artikel entfernen nach">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "Tag(en)">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Lösche gelesene Feed Einträge nach">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "Tag(en)">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Lösche ungelesene Feed Einträge nach">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "Tag(en)">
 <!ENTITY zotero.feedSettings.refresh.label1 "Feed aktualisieren alle">
 <!ENTITY zotero.feedSettings.refresh.label2 "Stunde(n)">
 <!ENTITY zotero.feedSettings.saveButton.label "Speichern">
@@ -71,7 +71,7 @@
 <!ENTITY zotero.general.delete "Löschen">
 <!ENTITY zotero.general.deselectAll "Auswahl aufheben">
 <!ENTITY zotero.general.edit "Bearbeiten">
-<!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.loading "Lade...">
 <!ENTITY zotero.general.more "Mehr">
 <!ENTITY zotero.general.no "Nein">
 <!ENTITY zotero.general.note "Anmerkung:">
@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "Klassische Ansicht">
 <!ENTITY zotero.integration.docPrefs.title "Dokument-Eigenschaften">
 <!ENTITY zotero.integration.editBibliography.title "Literaturverzeichnis editieren">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Das Feld &quot;Zeitschriften-Abkürzung&quot; wird ignoriert.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Abgekürzte Zeitschriftentitel von MEDLINE verwenden">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "Lesezeichen können zwischen Microsoft Word und OpenOffice.org geteilt werden, aber dies ist fehleranfällig falls diese versehentlich verändert werden und können nicht als Fußnoten benutzt werden.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Lesezeichen">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "Literaturangaben anzeigen als:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Endnoten">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fußnoten">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "Literaturangaben speichern als:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synchronisierte Tags müssen weniger als 256 Zeichen haben.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Das Tag wird aus allen Einträgen gelöscht.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Nicht-markierte Tags werden nicht gespeichert.">
+<!ENTITY zotero.sync.stop "Synchronisation stoppen">
 <!ENTITY zotero.sync.storage.downloads "Downloads:">
 <!ENTITY zotero.sync.storage.progress "Fortschritt:">
 <!ENTITY zotero.sync.storage.uploads "Uploads:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Farbe zuweisen...">
 <!ENTITY zotero.tagSelector.clearAll "Alle abwählen">
 <!ENTITY zotero.tagSelector.clearVisible "Sichtbare abwählen">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Lösche automatische Tags in dieser Bibliothek...">
 <!ENTITY zotero.tagSelector.deleteTag "Tag löschen...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Alle Tags dieser Bibliothek anzeigen">
 <!ENTITY zotero.tagSelector.filter "Filter:">

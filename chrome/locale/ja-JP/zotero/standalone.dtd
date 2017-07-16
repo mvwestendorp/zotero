@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "インポート...">
 <!ENTITY importFromClipboardCmd.label "クリップボードからインポート">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "しまう">
 <!ENTITY pageSetupCmd.accesskey "U">

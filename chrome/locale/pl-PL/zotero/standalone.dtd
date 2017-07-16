@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importuj...">
 <!ENTITY importFromClipboardCmd.label "Importuj ze schowka">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Zainstaluj łącznik do przeglądarki">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimalizuj">
 <!ENTITY pageSetupCmd.accesskey "U">

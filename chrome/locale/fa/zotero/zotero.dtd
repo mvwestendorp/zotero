@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "برچسب‌های همزمان‌ شده باید کوتاه‌تر از ۲۵۶ حرف باشند.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "برچسب در همه آیتم‌‌ها پاک خواهد شد.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "برچسب‌های انتخاب نشده، ذخیره نخواهند شد.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "بارگیری‌ها:">
 <!ENTITY zotero.sync.storage.progress "پیشرفت:">
 <!ENTITY zotero.sync.storage.uploads "بارگذاری‌ها:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "اختصاص رنگ...">
 <!ENTITY zotero.tagSelector.clearAll "انتخاب هیچ‌کدام">
 <!ENTITY zotero.tagSelector.clearVisible "عدم انتخاب برچسب‌های پیدا">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "حذف برچسب...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "نمایش همه برچسب‌های کتابخانه">
 <!ENTITY zotero.tagSelector.filter "فیلتر:">

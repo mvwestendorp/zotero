@@ -3,7 +3,7 @@
 <!ENTITY zotero.about.localizations "Преводиоци:">
 <!ENTITY zotero.alumni "Предходни:">
 <!ENTITY zotero.citationProcessing "Цитирање и сређивање библиографије">
-<!ENTITY zotero.createdby "Направљен од стране:">
+<!ENTITY zotero.createdby "Програм направили:">
 <!ENTITY zotero.developers "Програмери:">
 <!ENTITY zotero.director "Директор:">
 <!ENTITY zotero.directors "Директори:">
@@ -11,4 +11,4 @@
 <!ENTITY zotero.moreCreditsAndAcknowledgements "Додатне заслуге и захвалнице">
 <!ENTITY zotero.thanks "Посебна захвалност:">
 <!ENTITY zotero.version "верзија">
-<!ENTITY zotero.whatsNew "What’s new">
+<!ENTITY zotero.whatsNew "Шта је ново">

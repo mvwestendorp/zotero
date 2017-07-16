@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synchronizované štítky musí být kratší než 256 znaků.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Štítky budou smazány ze všech položek.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Nezaškrtnuté štítky nebudou uloženy.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Stahování:">
 <!ENTITY zotero.sync.storage.progress "Průběh:">
 <!ENTITY zotero.sync.storage.uploads "Nahrávání:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Nastavit barvu...">
 <!ENTITY zotero.tagSelector.clearAll "Zrušit výběr všech">
 <!ENTITY zotero.tagSelector.clearVisible "Zrušit výběr viditelných">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Smazat štítek...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Filtr:">

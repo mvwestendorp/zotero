@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Garbitu Sync kronika">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with storage service">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Datu-basea zerbitzaritik jeitsi">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Ezabatu datu-base lokala eta erabili zerbitzarikoa.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Datu base lokala zerbitzarira igo">

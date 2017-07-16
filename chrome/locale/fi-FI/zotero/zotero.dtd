@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synkronoitavien merkkien tulee olla alle 256 merkkiä pitkiä.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Merkki poistetaan kaikista nimikkeistä.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Rastittamattomia merkkejä ei tallenneta.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Lataukset:">
 <!ENTITY zotero.sync.storage.progress "Tilanne:">
 <!ENTITY zotero.sync.storage.uploads "Siirrot:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Aseta väri">
 <!ENTITY zotero.tagSelector.clearAll "Poista kaikki valinnat">
 <!ENTITY zotero.tagSelector.clearVisible "Poista näkyvät valinnat">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Poista avainsana...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Näytä tämän kirjaston kaikki avainsanat">
 <!ENTITY zotero.tagSelector.filter "Suodatin:">

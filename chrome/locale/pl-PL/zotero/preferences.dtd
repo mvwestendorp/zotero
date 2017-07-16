@@ -69,9 +69,9 @@
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Podczas kopiowania elementów między bibliotekami dołączaj:">
 <!ENTITY zotero.preferences.items "elementów">
 <!ENTITY zotero.preferences.keys.changesTakeEffect "Zmiany zostaną zastosowane po ponownym uruchomieniu">
-<!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Kopiuje wybrane odnośniki bibliograficzne do schowka">
+<!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Kopiuj wybrane odnośniki bibliograficzne do schowka">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Kopiuj zaznaczone elementy do schowka">
-<!ENTITY zotero.preferences.keys.focusLibrariesPane "Focus Libraries Pane">
+<!ENTITY zotero.preferences.keys.focusLibrariesPane "Przenieś fokus na panel bibliotek (lewy)">
 <!ENTITY zotero.preferences.keys.importFromClipboard "Importuj ze schowka">
 <!ENTITY zotero.preferences.keys.library "Biblioteka">
 <!ENTITY zotero.preferences.keys.newItem "Utwórz nowy element">
@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Wyczyść historię synchronizacji danych">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Połącz lokalne dane ze zdalnymi, ignorując historię synchronizacji">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Wyczyść historię synchronizacji plików">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Sprawdź zdalne kopie wszystkich lokalnych załączników">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Porównaj wszystkie pliki załączników z usługą przechowywania">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Przywróć z serwera Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Usuń wszystkie lokalne dane Zostero i przywróć je z serwera synchronizacji.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Zapisz na serwer Zotero">
@@ -238,4 +238,4 @@
 <!ENTITY zotero.preferences.updateNow "Aktualizuj teraz">
 <!ENTITY zotero.preferences.userInterface "Interfejs użytkownika">
 <!ENTITY zotero.preferences.zoteroDotOrgVersionHeader "Pozwól zotero.org dostosować zawartość opierając się na aktualnej wersji Zotero">
-<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "Jeśli zaznaczone, bieżąca wersja Zotero będzie dołączona w nagłówku HTTP podczas zapytań zotero.org.">
+<!ENTITY zotero.preferences.zoteroDotOrgVersionHeader.tooltip "Jeśli zaznaczone, bieżąca wersja Zotero będzie dołączona w nagłówku HTTP podczas zapytań do zotero.org.">

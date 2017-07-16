@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Sincronizuojamos gairės pavadinime gali būti iki 256 rašmenų.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Ši gairė pašalinsima iš visų įrašų.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Nepasirinktos gairės nebus įrašytos.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Siuntiniai:">
 <!ENTITY zotero.sync.storage.progress "Eiga:">
 <!ENTITY zotero.sync.storage.uploads "Įkėlimai:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Priskirti spalvą:">
 <!ENTITY zotero.tagSelector.clearAll "Panaikinti pažymėjimą">
 <!ENTITY zotero.tagSelector.clearVisible "Nesirinkti matomų">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Šalinti gairę...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Rodyti visas šios bibliotekos gaires">
 <!ENTITY zotero.tagSelector.filter "Filtras:">

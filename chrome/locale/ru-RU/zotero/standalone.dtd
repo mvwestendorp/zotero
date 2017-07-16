@@ -71,7 +71,9 @@
 <!ENTITY hideThisAppCmdMac.label "Скрыть &brandShortName;">
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importFromClipboardCmd.label "Импортировать из буфера обмена">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Свернуть">
 <!ENTITY pageSetupCmd.accesskey "U">

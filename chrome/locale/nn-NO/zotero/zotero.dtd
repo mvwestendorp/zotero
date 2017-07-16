@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synkroniserte merke må vera kortare enn 256 teikn.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Dette merket vert sletta frå alle elementa.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Merke som ikkje er kryssa av vert ikkje lagra.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Nedlastingar:">
 <!ENTITY zotero.sync.storage.progress "Framdrift:">
 <!ENTITY zotero.sync.storage.uploads "Opplastingar:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assign Color…">
 <!ENTITY zotero.tagSelector.clearAll "Slepp alle">
 <!ENTITY zotero.tagSelector.clearVisible "Slepp synleg">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Slett tagg …">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Filter:">

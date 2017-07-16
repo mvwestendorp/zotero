@@ -70,8 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Skjul &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importér...">
+<!ENTITY importFromClipboardCmd.label "Importér fra udklipsholderen">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimer">
 <!ENTITY pageSetupCmd.accesskey "U">

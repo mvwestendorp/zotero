@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Sinkronizatutako estekak 256 karaktere baino gutxiago izan behar dituzte.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Esteka hau Item guztietatik kenduko da.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Desautatutako estekak ez dira gordeko.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Downloads:">
 <!ENTITY zotero.sync.storage.progress "Aurrerapena:">
 <!ENTITY zotero.sync.storage.uploads "Uploads:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assign Color…">
 <!ENTITY zotero.tagSelector.clearAll "Guztiak desautatu">
 <!ENTITY zotero.tagSelector.clearVisible "Agerikoak desautatu">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Esteka ezabatu...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Filtroa:">

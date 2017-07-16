@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "İçeri Aktar...">
 <!ENTITY importFromClipboardCmd.label "Panodan İçeri Aktar">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Tarayıcı Bağlayıcılarını Kur...">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Küçült">
 <!ENTITY pageSetupCmd.accesskey "U">

@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Les etiquetes sincronitzades ha de tenir menys de 256 caràcters.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "L'etiqueta se suprimirà de tots els elements.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Les etiquetes desactivades no es desaran.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Descàrregues:">
 <!ENTITY zotero.sync.storage.progress "Progrés:">
 <!ENTITY zotero.sync.storage.uploads "Càrregues">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assigna color...">
 <!ENTITY zotero.tagSelector.clearAll "Desselecciona-ho tot">
 <!ENTITY zotero.tagSelector.clearVisible "Desselecciona les visibles">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Esborra l'etiqueta...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Mostra totes les etiquetes a la biblioteca">
 <!ENTITY zotero.tagSelector.filter "Filtre:">

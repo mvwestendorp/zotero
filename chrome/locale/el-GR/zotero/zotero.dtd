@@ -12,7 +12,7 @@
 <!ENTITY zotero.bibliography.copyToClipboard.label "Αντιγραφή στο Προχειρο">
 <!ENTITY zotero.bibliography.linkTitles.label "Include DOI or URL as a link on the entry title (instead of printing)">
 <!ENTITY zotero.bibliography.links.label "Links">
-<!ENTITY zotero.bibliography.locale.label "Language:">
+<!ENTITY zotero.bibliography.locale.label "Γλώσσα:">
 <!ENTITY zotero.bibliography.manageStyles "Manage Styles…">
 <!ENTITY zotero.bibliography.output.label "Output Format">
 <!ENTITY zotero.bibliography.outputMethod "Μέθοδος αποτελέσματος:">
@@ -55,32 +55,32 @@
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "Remove read articles after ">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "day(s)">
 <!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "ημέρα(/ες)">
 <!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "ημέρα(/ες)">
 <!ENTITY zotero.feedSettings.refresh.label1 "Update feed every">
-<!ENTITY zotero.feedSettings.refresh.label2 "hour(s)">
+<!ENTITY zotero.feedSettings.refresh.label2 "ώρα(/ες)">
 <!ENTITY zotero.feedSettings.saveButton.label "Save">
 <!ENTITY zotero.feedSettings.title "Feed Settings">
 <!ENTITY zotero.feedSettings.title.label "Title:">
 <!ENTITY zotero.feedSettings.url.label "URL:">
 <!ENTITY zotero.file.choose.label "Επιλέξτε αρχείο...">
 <!ENTITY zotero.file.noneSelected.label "Δεν επιλέχθηκε αρχείο">
-<!ENTITY zotero.general.advancedOptions.label "Advanced Options">
+<!ENTITY zotero.general.advancedOptions.label "Προχωρημένες επιλογές">
 <!ENTITY zotero.general.cancel "Ακύρωση">
 <!ENTITY zotero.general.delete "Διαγραφή">
 <!ENTITY zotero.general.deselectAll "Αποεπιλογή όλων">
 <!ENTITY zotero.general.edit "Επεξεργασία">
 <!ENTITY zotero.general.loading "Loading…">
-<!ENTITY zotero.general.more "More">
-<!ENTITY zotero.general.no "No">
+<!ENTITY zotero.general.more "Περισσότερα">
+<!ENTITY zotero.general.no "Όχι">
 <!ENTITY zotero.general.note "Σημείωση:">
 <!ENTITY zotero.general.ok "ΟΚ">
 <!ENTITY zotero.general.optional "(Προαιρετικό)">
 <!ENTITY zotero.general.refresh "Ανανέωση">
 <!ENTITY zotero.general.saveAs "Αποθήκευση ως...">
 <!ENTITY zotero.general.selectAll "Επιλογή όλων">
-<!ENTITY zotero.general.yes "Yes">
+<!ENTITY zotero.general.yes "Ναι">
 <!ENTITY zotero.integration.addEditCitation.title "Προσθήκη/Επεξεργασία Παραπομπής">
 <!ENTITY zotero.integration.classicView.label "Κλασική προβολή">
 <!ENTITY zotero.integration.docPrefs.title "Προτιμήσεις εγγράφου">
@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Οι συγχρονιζόμενες ετικέτες πρέπει να είναι μικρότερες των 256 χαρακτήρων.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Η ετικέτα θα διαγραφεί από όλα τα στοιχεία.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Οι μη επιλεγμένες ετικέτες δεν θα αποθηκευθούν.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Λήψεις:">
 <!ENTITY zotero.sync.storage.progress "Πρόοδος:">
 <!ENTITY zotero.sync.storage.uploads "Μεταφορτώσεις:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Απόδοση χρώματος...">
 <!ENTITY zotero.tagSelector.clearAll "Αποεπιλογή όλων">
 <!ENTITY zotero.tagSelector.clearVisible "Αποεπιλογή ορατών">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Delete Tag...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Εμφάνιση όλων των ετικετών αυτής της βιβλιοθήκης">
 <!ENTITY zotero.tagSelector.filter "Φίλτρο">

@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synced tags must be shorter than 256 characters.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "The tag will be deleted from all items.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Unchecked tags will not be saved.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Downloads:">
 <!ENTITY zotero.sync.storage.progress "Progress:">
 <!ENTITY zotero.sync.storage.uploads "Uploads:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Đặt màu...">
 <!ENTITY zotero.tagSelector.clearAll "Bỏ tất cả lựa chọn">
 <!ENTITY zotero.tagSelector.clearVisible "Bỏ lựa chọn các thẻ nhìn thấy được">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Xóa Thẻ...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Bộ lọc:">

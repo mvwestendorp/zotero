@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "ประสานแท็กต้องมีความยาวน้อยกว่า 256 ตัวอักษร">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "แท็กจะถูกลบออกจากทุกรายการ">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "แท็กที่ไม่ได้เลือกจะไม่ถูกบันทึก">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "ดาวน์โหลด:">
 <!ENTITY zotero.sync.storage.progress "ความคืบหน้า:">
 <!ENTITY zotero.sync.storage.uploads "อัพโหลด:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assign Color…">
 <!ENTITY zotero.tagSelector.clearAll "ไม่เลือกทั้งหมด">
 <!ENTITY zotero.tagSelector.clearVisible "ไม่เลือกตามที่เห็น">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "ลบแท็ก...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "แสดงแท็กทั้งหมดในไลบรารี่นี้">
 <!ENTITY zotero.tagSelector.filter "ตัวกรอง:">

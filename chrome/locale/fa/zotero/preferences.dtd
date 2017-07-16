@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "پاک کردن تاریخچه همزمان‌‌سازی پرونده‌ها">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with storage service">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "بازیابی از کارگزار زوترو">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "پاک کردن همه اطلاعات محلی زوترو و دریافت اطلاعات از کارگزار همزمان‌‌سازی">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "بازنشانی اطلاعات در کارگزار زوترو">

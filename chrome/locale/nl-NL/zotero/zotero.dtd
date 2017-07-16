@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Gesynchroniseerde labels moeten korten zijn dan 256 tekens.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Het label zal van alle items worden verwijderd.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Niet aangevinkte labels worden niet bewaard.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Downloads:">
 <!ENTITY zotero.sync.storage.progress "Voortgang:">
 <!ENTITY zotero.sync.storage.uploads "Uploads:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Wijs een kleur toe...">
 <!ENTITY zotero.tagSelector.clearAll "Niets selecteren">
 <!ENTITY zotero.tagSelector.clearVisible "Selectie zichtbare labels ongedaan maken">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Label verwijderen…">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Toon alle labels in deze bibliotheek">
 <!ENTITY zotero.tagSelector.filter "Filter:">

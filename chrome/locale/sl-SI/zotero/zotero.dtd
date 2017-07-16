@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Usklajene značke morajo obsegati manj kot 256 znakov.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Značka bo izbrisana z vseh vnosov.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Nepotrjene značke ne bodo shranjene.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Prenosi s strežnika:">
 <!ENTITY zotero.sync.storage.progress "Napredek:">
 <!ENTITY zotero.sync.storage.uploads "Prenosi na strežnik:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Dodeli barvo ...">
 <!ENTITY zotero.tagSelector.clearAll "Ne izberi ničesar">
 <!ENTITY zotero.tagSelector.clearVisible "Ne izberi vidno">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Izbriši značko ...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Prikaži vse značke v tej knjižnici">
 <!ENTITY zotero.tagSelector.filter "Filter:">

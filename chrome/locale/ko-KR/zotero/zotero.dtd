@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "클래식 뷰">
 <!ENTITY zotero.integration.docPrefs.title "문서 환경설정">
 <!ENTITY zotero.integration.editBibliography.title "참고문헌 목록 편집">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "&quot;저널 약자&quot; 필드가 무시됩니다.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "MEDLINE 저널 약자 사용">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "책갈피가 Word와 LibreOffice 사이에 공유될 수 있습니다, 단 우연히 변경될 때 오류를 일으킬 수 있으며 각주로 넣을 수 없습니다.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "북마크">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "인용 표시:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "미주">
 <!ENTITY zotero.integration.prefs.footnotes.label "각주">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "다음으로 인용 보관:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "동기화 가능 태그 길이는 최대 256자 미만입니다.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "해당 태그가 모든 항목으로부터 삭제됩니다.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "체크되지 않은 태그는 저장되지 않습니다.">
+<!ENTITY zotero.sync.stop "동기화 중지">
 <!ENTITY zotero.sync.storage.downloads "다운로드:">
 <!ENTITY zotero.sync.storage.progress "진행률:">
 <!ENTITY zotero.sync.storage.uploads "업로드:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "색상 지정...">
 <!ENTITY zotero.tagSelector.clearAll "선택 모두 해제">
 <!ENTITY zotero.tagSelector.clearVisible "보이는 것들 선택 해제">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "이 라이브러리의 자동 태그 삭제...">
 <!ENTITY zotero.tagSelector.deleteTag "태그 지우기...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "이 라이브러리 내 모든 태그 표시">
 <!ENTITY zotero.tagSelector.filter "필터:">

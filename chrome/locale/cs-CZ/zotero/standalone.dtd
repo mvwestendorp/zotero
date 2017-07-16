@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importovat...">
 <!ENTITY importFromClipboardCmd.label "Vložit ze schránky">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "minimalizovat">
 <!ENTITY pageSetupCmd.accesskey "U">

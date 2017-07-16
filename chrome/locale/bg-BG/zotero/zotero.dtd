@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Синхронизираните отметки трябва да са по-къси от 256 знака.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Отметката ще бъде изтрита от всички записи.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Неотбелязаните отметки няма да бъдат съхранени.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Изтегля:">
 <!ENTITY zotero.sync.storage.progress "Прогрес:">
 <!ENTITY zotero.sync.storage.uploads "Качва:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assign Color…">
 <!ENTITY zotero.tagSelector.clearAll "Отказ на всички">
 <!ENTITY zotero.tagSelector.clearVisible "Отказ на видимите">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Изтрива отметка...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Показва всички отметки в тази библиотека">
 <!ENTITY zotero.tagSelector.filter "Филтър:">

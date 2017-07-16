@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importă...">
 <!ENTITY importFromClipboardCmd.label "Importă din memoria clipboard">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Instalează conectorul pentru browser">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimizare">
 <!ENTITY pageSetupCmd.accesskey "U">

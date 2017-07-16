@@ -70,8 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Skryť &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importovať...">
+<!ENTITY importFromClipboardCmd.label "Importovať zo schránky">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Nainštalovať prepájač prehliadača">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimalizovať">
 <!ENTITY pageSetupCmd.accesskey "U">

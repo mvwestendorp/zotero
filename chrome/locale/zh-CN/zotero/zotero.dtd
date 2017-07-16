@@ -54,10 +54,10 @@
 <!ENTITY zotero.exportOptions.translatorOptions.label "转换器选项">
 <!ENTITY zotero.feedSettings.cleanupAfter.label1 "删除已读的文章 在">
 <!ENTITY zotero.feedSettings.cleanupAfter.label2 "天">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "Remove read feed items after">
-<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "day(s)">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "Remove unread feed items after">
-<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "day(s)">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label1 "删除已读提要条目于之后">
+<!ENTITY zotero.feedSettings.cleanupReadAfter.label2 "天">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label1 "删除未读提要条目于之后">
+<!ENTITY zotero.feedSettings.cleanupUnreadAfter.label2 "天">
 <!ENTITY zotero.feedSettings.refresh.label1 "更新订阅 每">
 <!ENTITY zotero.feedSettings.refresh.label2 "小时">
 <!ENTITY zotero.feedSettings.saveButton.label "保存">
@@ -71,7 +71,7 @@
 <!ENTITY zotero.general.delete "删除">
 <!ENTITY zotero.general.deselectAll "取消全选">
 <!ENTITY zotero.general.edit "编辑">
-<!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.loading "加载…">
 <!ENTITY zotero.general.more "更多">
 <!ENTITY zotero.general.no "否">
 <!ENTITY zotero.general.note "笔记:">
@@ -85,16 +85,16 @@
 <!ENTITY zotero.integration.classicView.label "经典视图">
 <!ENTITY zotero.integration.docPrefs.title "文档首选项">
 <!ENTITY zotero.integration.editBibliography.title "编辑引文目录">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
-<!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "“期刊缩写”字段将被忽略。">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "使用 MEDLINE 期刊缩写">
+<!ENTITY zotero.integration.prefs.bookmarks.caption "书签可以在 Word 与 LibreOffice 之间共享，但如果不小心被修改，可能会导致错误，并且不能插入脚注。">
 <!ENTITY zotero.integration.prefs.bookmarks.label "书签">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
 <!ENTITY zotero.integration.prefs.displayAs.label "引文显示为:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "尾注">
 <!ENTITY zotero.integration.prefs.footnotes.label "脚注">
-<!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
+<!ENTITY zotero.integration.prefs.formatUsing.label "引文存储为:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
 <!ENTITY zotero.integration.prefs.lang.institutions "Institutions:">
 <!ENTITY zotero.integration.prefs.lang.journals "Journals:">
@@ -132,7 +132,7 @@
 <!ENTITY zotero.items.accessDate_column "访问时间">
 <!ENTITY zotero.items.archiveLocation_column "归档位置">
 <!ENTITY zotero.items.archive_column "归档">
-<!ENTITY zotero.items.callNumber_column "引用次数">
+<!ENTITY zotero.items.callNumber_column "索取号">
 <!ENTITY zotero.items.court_column "法庭">
 <!ENTITY zotero.items.creator_column "创建者">
 <!ENTITY zotero.items.dateAdded_column "添加日期">
@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "同步标签的长度必须少于256个字符.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "所有条目中的标签将被删除.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "未勾选的标签不会被保存.">
+<!ENTITY zotero.sync.stop "停止同步">
 <!ENTITY zotero.sync.storage.downloads "下载:">
 <!ENTITY zotero.sync.storage.progress "进度:">
 <!ENTITY zotero.sync.storage.uploads "上传:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "指派颜色…">
 <!ENTITY zotero.tagSelector.clearAll "取消全部选择">
 <!ENTITY zotero.tagSelector.clearVisible "取消可见的选择">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "删除此文献库中的自动标签...">
 <!ENTITY zotero.tagSelector.deleteTag "删除标签...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "显示文献库里的所有标签">
 <!ENTITY zotero.tagSelector.filter "过滤:">

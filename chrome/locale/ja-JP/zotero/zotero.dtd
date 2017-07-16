@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "タグを同期させるには 256 文字以下である必要があります。">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "このタグは全てのアイテムから削除されます。">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "チェックされていないタグは保存されません。">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "ダウンロード:">
 <!ENTITY zotero.sync.storage.progress "進捗:">
 <!ENTITY zotero.sync.storage.uploads "アップロード:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "色を指定...">
 <!ENTITY zotero.tagSelector.clearAll "選択をすべて解除">
 <!ENTITY zotero.tagSelector.clearVisible "可視タグの選択を解除">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "タグを削除...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "このライブラリの全タグを表示">
 <!ENTITY zotero.tagSelector.filter "フィルター:">

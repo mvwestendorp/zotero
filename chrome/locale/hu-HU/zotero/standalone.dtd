@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importálás...">
 <!ENTITY importFromClipboardCmd.label "Importálás Vágólapról">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Böngészőmodul telepítése">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Kis méret">
 <!ENTITY pageSetupCmd.accesskey "F">

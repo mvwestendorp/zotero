@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Tag yang disinkronisasikan harus kurang dari 256 karakter.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Tag akan dihapus dari semua item.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Tag yang tidak tercelsi tidak akan disimpan.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Unduh:">
 <!ENTITY zotero.sync.storage.progress "Progres:">
 <!ENTITY zotero.sync.storage.uploads "Unggah:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Assign Color…">
 <!ENTITY zotero.tagSelector.clearAll "Hilangkan Semua Pilihan">
 <!ENTITY zotero.tagSelector.clearVisible "Hilangkan Pilihan pada yang Terlihat">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Hapus Tag...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Tampilkan Semua Tag di Perpustakaan Ini">
 <!ENTITY zotero.tagSelector.filter "Saring:">

@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Resetează istoria sincronizării datelor">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Unește datele locale cu datele la distanță, ignorând istoria sincronizărilor">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Resetează istoria sincronizării fișierelor">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Controlează copiile la distanță ale tuturor fișierelor locale anexate">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compară toate fișierele anexate cu serviciul de stocare">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restaurare de pe serverul Zotero">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Șterge toate datele locale din Zotero și restaurează din serverul de sincronizare.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Restaurare în serverul Zotero">

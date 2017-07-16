@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synkroniserade etiketter måste vara kortare än 256 tecken.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Etiketten kommer att raderas från alla källor.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Omarkerade etiketter kommer inte att sparas.">
+<!ENTITY zotero.sync.stop "Stoppa synkronisering">
 <!ENTITY zotero.sync.storage.downloads "Nedladdningar:">
 <!ENTITY zotero.sync.storage.progress "Förlopp:">
 <!ENTITY zotero.sync.storage.uploads "Uppladdningar:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Ange färg…">
 <!ENTITY zotero.tagSelector.clearAll "Avmarkera alla">
 <!ENTITY zotero.tagSelector.clearVisible "Avmarkera synliga">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Ta bort automatiska etiketter i detta bibliotek…">
 <!ENTITY zotero.tagSelector.deleteTag "Radera etikett...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Visa alla etiketter i detta bibliotek">
 <!ENTITY zotero.tagSelector.filter "Filter:">

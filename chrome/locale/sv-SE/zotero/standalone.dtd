@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importera…">
 <!ENTITY importFromClipboardCmd.label "Importera från urklipp">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimera">
 <!ENTITY pageSetupCmd.accesskey "U">

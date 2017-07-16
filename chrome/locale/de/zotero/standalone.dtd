@@ -70,8 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "&brandShortName; ausblenden">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importieren...">
+<!ENTITY importFromClipboardCmd.label "Importieren aus Zwischenablage">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Browsererweiterungen installieren">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimieren">
 <!ENTITY pageSetupCmd.accesskey "U">

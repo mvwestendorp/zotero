@@ -54,8 +54,8 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "V">
 <!ENTITY helpCheckForUpdates.label "Vérifier les mises à jour…">
-<!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Soumettre un commentaire ou un retour d'expérience…">
+<!ENTITY helpFeedbackPage.accesskey "E">
+<!ENTITY helpFeedbackPage.label "Envoyer un commentaire ou un retour d'expérience…">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "A">
 <!ENTITY helpMenu.label "Aide">
@@ -63,8 +63,8 @@
 <!ENTITY helpMenuWin.label "?">
 <!ENTITY helpReportErrors.accesskey "Z">
 <!ENTITY helpReportErrors.label "Signaler les erreurs à Zotero…">
-<!ENTITY helpTroubleshootingInfo.accesskey "n">
-<!ENTITY helpTroubleshootingInfo.label "Informations de dépannage">
+<!ENTITY helpTroubleshootingInfo.accesskey "i">
+<!ENTITY helpTroubleshootingInfo.label "Aide en cas de problème">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY hideOtherAppsCmdMac.label "Cacher les autres">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importer…">
 <!ENTITY importFromClipboardCmd.label "Importer depuis le presse-papiers">
+<!ENTITY installConnector.accesskey "I">
+<!ENTITY installConnector.label "Installer le Connecteur Zotero dans le navigateur">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimiser">
 <!ENTITY pageSetupCmd.accesskey "M">
@@ -89,7 +91,7 @@
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Imprimer…">
 <!ENTITY productHelp.accesskey "A">
-<!ENTITY productHelp.label "Assistance et documentation">
+<!ENTITY productHelp.label "Assistance et documentation générales">
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Quitter">
 <!ENTITY quitApplicationCmdMac.key "Q">

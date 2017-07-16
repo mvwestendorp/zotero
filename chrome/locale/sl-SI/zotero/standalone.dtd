@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "U">
 <!ENTITY importCmd.label "Uvozi ...">
 <!ENTITY importFromClipboardCmd.label "Uvozi z odložišča">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "k">
 <!ENTITY minimizeWindow.label "Skrči">
 <!ENTITY pageSetupCmd.accesskey "r">

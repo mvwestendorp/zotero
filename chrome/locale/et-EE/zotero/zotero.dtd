@@ -237,6 +237,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Sünkroniseerimiseks peavad lipikud olema lühemad kui 256 märki.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Lipik kustutatakse kõigilt kirjetelt.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Valimata lipikuid ei salvestata.">
+<!ENTITY zotero.sync.stop "Stop Sync">
 <!ENTITY zotero.sync.storage.downloads "Allalaadimised:">
 <!ENTITY zotero.sync.storage.progress "Progress:">
 <!ENTITY zotero.sync.storage.uploads "Üleslaadimised:">
@@ -253,6 +254,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Värvi valik...">
 <!ENTITY zotero.tagSelector.clearAll "Ära vali midagi">
 <!ENTITY zotero.tagSelector.clearVisible "Nähtava valiku eemaldamine">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
 <!ENTITY zotero.tagSelector.deleteTag "Lipiku kustutamine...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Näidata kõiki lipikuid raamatukogus">
 <!ENTITY zotero.tagSelector.filter "Filter:">

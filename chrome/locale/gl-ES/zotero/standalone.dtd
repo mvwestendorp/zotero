@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importar...">
 <!ENTITY importFromClipboardCmd.label "Importar do portaretallos">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Install Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimizar">
 <!ENTITY pageSetupCmd.accesskey "U">

@@ -217,7 +217,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Reset Data Sync History">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Merge local data with remote data, ignoring sync history">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Algseadistada failide sünkroonimise ajalugu">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Check for remote copies of all local attachment files">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with storage service">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Taastada Zotero serverist">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Kustutada kõik kohalikud andmed ja taastada need sünkroon-serverist">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Taastada sünkroon-serveri andmed kohalikust hoidlast">

@@ -72,6 +72,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Importar...">
 <!ENTITY importFromClipboardCmd.label "Importar da área de transferência">
+<!ENTITY installConnector.accesskey "C">
+<!ENTITY installConnector.label "Instalar o conector com o navegador">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimizar">
 <!ENTITY pageSetupCmd.accesskey "U">
