@@ -393,7 +393,7 @@ function createUnsavedDataObject(objectType, params = {}) {
 	var itemType;
 	if (objectType == 'item' || objectType == 'feedItem') {
 		itemType = params.itemType || 'book';
-		allowedParams.push('dateAdded', 'dateModified');
+		allowedParams.push('deleted', 'dateAdded', 'dateModified');
 	}
 	if (objectType == 'item') {
 		allowedParams.push('inPublications');
@@ -869,6 +869,16 @@ function importFileAttachment(filename, options = {}) {
 	};
 	Object.assign(importOptions, options);
 	return Zotero.Attachments.importFromFile(importOptions);
+}
+
+
+function importTextAttachment() {
+	return importFileAttachment('test.txt', { contentType: 'text/plain', charset: 'utf-8' });
+}
+
+
+function importHTMLAttachment() {
+	return importFileAttachment('test.html', { contentType: 'text/html', charset: 'utf-8' });
 }
 
 

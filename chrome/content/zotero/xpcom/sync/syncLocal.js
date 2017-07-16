@@ -593,15 +593,22 @@ Zotero.Sync.Data.Local = {
 	
 	getCacheObjects: Zotero.Promise.coroutine(function* (objectType, libraryID, keyVersionPairs) {
 		if (!keyVersionPairs.length) return [];
-		var sql = "SELECT data FROM syncCache SC JOIN (SELECT "
-			+ keyVersionPairs.map(function (pair) {
-				Zotero.DataObjectUtilities.checkKey(pair[0]);
-				return "'" + pair[0] + "' AS key, " + parseInt(pair[1]) + " AS version";
-			}).join(" UNION SELECT ")
-			+ ") AS pairs ON (pairs.key=SC.key AND pairs.version=SC.version) "
-			+ "WHERE libraryID=? AND "
-			+ "syncObjectTypeID IN (SELECT syncObjectTypeID FROM syncObjectTypes WHERE name=?)";
-		var rows = yield Zotero.DB.columnQueryAsync(sql, [libraryID, objectType]);
+		var rows = [];
+		yield Zotero.Utilities.Internal.forEachChunkAsync(
+			keyVersionPairs,
+			240, // SQLITE_MAX_COMPOUND_SELECT defaults to 500
+			async function (chunk) {
+				var sql = "SELECT data FROM syncCache SC JOIN (SELECT "
+					+ chunk.map((pair) => {
+						Zotero.DataObjectUtilities.checkKey(pair[0]);
+						return "'" + pair[0] + "' AS key, " + parseInt(pair[1]) + " AS version";
+					}).join(" UNION SELECT ")
+					+ ") AS pairs ON (pairs.key=SC.key AND pairs.version=SC.version) "
+					+ "WHERE libraryID=? AND "
+					+ "syncObjectTypeID IN (SELECT syncObjectTypeID FROM syncObjectTypes WHERE name=?)";
+				rows.push(...await Zotero.DB.columnQueryAsync(sql, [libraryID, objectType]));
+			}
+		)
 		return rows.map(row => JSON.parse(row));
 	}),
 	
@@ -665,6 +672,7 @@ Zotero.Sync.Data.Local = {
 	 *         {Boolean} processed
 	 *         {Object} [error]
 	 *         {Boolean} [retry]
+	 *         {Boolean} [restored=false] - Locally deleted object was added back
 	 *         {Boolean} [conflict=false]
 	 *         {Object} [left] - Local JSON data for conflict (or .deleted and .dateDeleted)
 	 *         {Object} [right] - Remote JSON data for conflict
@@ -783,6 +791,7 @@ Zotero.Sync.Data.Local = {
 						let obj = yield objectsClass.getByLibraryAndKeyAsync(
 							libraryID, objectKey, { noCache: true }
 						);
+						let restored = false;
 						if (obj) {
 							Zotero.debug("Matching local " + objectType + " exists", 4);
 							
@@ -921,13 +930,14 @@ Zotero.Sync.Data.Local = {
 								// Auto-restore some locally deleted objects that have changed remotely
 								case 'collection':
 								case 'search':
+									Zotero.debug(`${ObjectType} ${objectKey} was modified remotely `
+										+ '-- restoring');
 									yield this.removeObjectsFromDeleteLog(
 										objectType,
 										libraryID,
 										[objectKey]
 									);
-									
-									throw new Error("Unimplemented");
+									restored = true;
 									break;
 								
 								default:
@@ -946,6 +956,9 @@ Zotero.Sync.Data.Local = {
 						}
 						
 						let saveResults = yield this._saveObjectFromJSON(obj, jsonObject, saveOptions);
+						if (restored) {
+							saveResults.restored = true;
+						}
 						results.push(saveResults);
 						if (!saveResults.processed) {
 							throw saveResults.error;
@@ -1706,6 +1719,13 @@ Zotero.Sync.Data.Local = {
 	}),
 	
 	
+	hasObjectsInSyncQueue: function (libraryID) {
+		return Zotero.DB.valueQueryAsync(
+			"SELECT ROWID FROM syncQueue WHERE libraryID=? LIMIT 1", libraryID
+		).then(x => !!x);
+	},
+	
+	
 	getObjectsFromSyncQueue: function (objectType, libraryID) {
 		return Zotero.DB.columnQueryAsync(
 			"SELECT key FROM syncQueue WHERE libraryID=? AND "
@@ -1713,6 +1733,25 @@ Zotero.Sync.Data.Local = {
 			[libraryID, objectType]
 		);
 	},
+	
+	
+	hasObjectsToTryInSyncQueue: Zotero.Promise.coroutine(function* (libraryID) {
+		var rows = yield Zotero.DB.queryAsync(
+			"SELECT key, lastCheck, tries FROM syncQueue WHERE libraryID=?", libraryID
+		);
+		for (let row of rows) {
+			let interval = this._syncQueueIntervals[row.tries];
+			// Keep using last interval if beyond
+			if (!interval) {
+				interval = this._syncQueueIntervals[this._syncQueueIntervals.length - 1];
+			}
+			let nextCheck = row.lastCheck + interval * 60 * 60;
+			if (nextCheck <= Zotero.Date.getUnixTimestamp()) {
+				return true;
+			}
+		}
+		return false;
+	}),
 	
 	
 	getObjectsToTryFromSyncQueue: Zotero.Promise.coroutine(function* (objectType, libraryID) {

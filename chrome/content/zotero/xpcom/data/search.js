@@ -1203,6 +1203,10 @@ Zotero.Search.prototype._buildQuery = Zotero.Promise.coroutine(function* () {
 								id: 0
 							};
 						}
+						if (objectType == 'search' && obj == this) {
+							Zotero.warn(`Search "${this.name}" references itself -- skipping condition`);
+							continue;
+						}
 						
 						if (objectType == 'collection') {
 							let ids = [obj.id];
@@ -1298,9 +1302,6 @@ Zotero.Search.prototype._buildQuery = Zotero.Promise.coroutine(function* () {
 						break;
 					
 					case 'tempTable':
-						if (!condition.value.match(/^[a-zA-Z0-9]+$/)) {
-							throw ("Invalid temp table '" + condition.value + "'");
-						}
 						condSQL += "itemID IN (SELECT id FROM " + condition.value + ")";
 						skipOperators = true;
 						break;

@@ -1049,9 +1049,26 @@ Zotero.Integration.Document.prototype._getSession = Zotero.Promise.coroutine(fun
 						if (/^https?:\/\/(www\.)?(zotero\.org|citationstyles\.org)/.test(data.style.styleID) || 
 							me._doc.displayAlert(displayError, DIALOG_ICON_WARNING, DIALOG_BUTTONS_YES_NO)) {
 							
-							yield Zotero.Styles.install({url: data.style.styleID}, data.style.styleID, true);
-							yield this._session.setData(data, true);
-							return Zotero.Promise.resolve(this._session);
+							let installed = false;
+							try {
+								yield Zotero.Styles.install(
+									{url: data.style.styleID}, data.style.styleID, true
+								);
+								installed = true;
+							}
+							catch (e) {
+								me._doc.displayAlert(
+									Zotero.getString(
+										'integration.error.styleNotFound', data.style.styleID
+									),
+									DIALOG_ICON_WARNING,
+									DIALOG_BUTTONS_OK
+								);
+							}
+							if (installed) {
+								yield this._session.setData(data, true);
+								return Zotero.Promise.resolve(this._session);
+							}
 						}
 					}
 					return this._session.setDocPrefs(this._doc, this._app.primaryFieldType,
@@ -1521,8 +1538,8 @@ Zotero.Integration.Fields.prototype.updateSession = Zotero.Promise.coroutine(fun
 		try {
 			yield this._session.loadBibliographyData(this._bibliographyData);
 		} catch(e) {
-			var exception = new Zotero.Integration.CorruptBibliographyException(me, e);
-			exception.setContext(me);
+			var exception = new Zotero.Integration.CorruptBibliographyException(this, e);
+			exception.setContext(this);
 			throw exception;
 		}
 	}

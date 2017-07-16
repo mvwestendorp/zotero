@@ -124,6 +124,7 @@ const xpcomFilesLocal = [
 	'router',
 	'schema',
 	'server',
+	'streamer',
 	'style',
 	'sync',
 	'sync/syncAPIClient',
@@ -133,7 +134,6 @@ const xpcomFilesLocal = [
 	'sync/syncFullTextEngine',
 	'sync/syncLocal',
 	'sync/syncRunner',
-	'sync/syncStreamer',
 	'sync/syncUtilities',
 	'storage',
 	'storage/storageEngine',
@@ -398,18 +398,10 @@ function ZoteroService() {
 							let quitStr = "Quit";
 							let checkForUpdateStr = "Check for Update";
 							try {
-								let appLocale;
-								if (Services.locale.getAppLocale) {
-									appLocale = Services.locale.getAppLocale();
-								}
-								// Fx <=53
-								else {
-									appLocale = Services.locale.getApplicationLocale();
-								}
 								let src = 'chrome://zotero/locale/zotero.properties';
 								let stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 									.getService(Components.interfaces.nsIStringBundleService);
-								let stringBundle = stringBundleService.createBundle(src, appLocale);
+								let stringBundle = stringBundleService.createBundle(src);
 								errorStr = stringBundle.GetStringFromName('general.error');
 								checkForUpdateStr = stringBundle.GetStringFromName('general.checkForUpdate');
 								quitStr = stringBundle.GetStringFromName('general.quit');
@@ -574,7 +566,7 @@ ZoteroCommandLineHandler.prototype = {
 					if(win) {
 						win.focus();
 						Components.classes["@mozilla.org/network/protocol;1?name=zotero"]
-							.createInstance(Components.interfaces.nsIProtocolHandler).newChannel(uri);
+							.getService().newChannel(uri);
 					}
 				}
 				// See below

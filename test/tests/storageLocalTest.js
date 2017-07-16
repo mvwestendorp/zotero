@@ -1,27 +1,18 @@
 "use strict";
 
 describe("Zotero.Sync.Storage.Local", function () {
-	var win;
-	
-	before(function* () {
-		win = yield loadBrowserWindow();
-	});
 	beforeEach(function* () {
 		yield resetDB({
 			thisArg: this,
 			skipBundledFiles: true
 		})
 	})
-	after(function () {
-		if (win) {
-			win.close();
-		}
-	});
+	
 	
 	describe("#checkForUpdatedFiles()", function () {
 		it("should flag modified file for upload and return it", function* () {
 			// Create attachment
-			let item = yield importFileAttachment('test.txt')
+			let item = yield importTextAttachment();
 			var hash = yield item.attachmentHash;
 			// Set file mtime to the past (without milliseconds, which aren't used on OS X)
 			var mtime = (Math.floor(new Date().getTime() / 1000) * 1000) - 1000;
@@ -50,7 +41,7 @@ describe("Zotero.Sync.Storage.Local", function () {
 		
 		it("should skip a file if mod time hasn't changed", function* () {
 			// Create attachment
-			let item = yield importFileAttachment('test.txt')
+			let item = yield importTextAttachment();
 			var hash = yield item.attachmentHash;
 			var mtime = yield item.attachmentModificationTime;
 			
@@ -72,7 +63,7 @@ describe("Zotero.Sync.Storage.Local", function () {
 		
 		it("should skip a file if mod time has changed but contents haven't", function* () {
 			// Create attachment
-			let item = yield importFileAttachment('test.txt')
+			let item = yield importTextAttachment();
 			var hash = yield item.attachmentHash;
 			// Set file mtime to the past (without milliseconds, which aren't used on OS X)
 			var mtime = (Math.floor(new Date().getTime() / 1000) * 1000) - 1000;
@@ -101,6 +92,28 @@ describe("Zotero.Sync.Storage.Local", function () {
 			assert.equal(syncedModTime, newModTime);
 		})
 	})
+	
+	describe("#updateSyncStates()", function () {
+		it("should update attachment sync states to 'to_upload'", function* () {
+			var attachment1 = yield importFileAttachment('test.png');
+			attachment1.attachmentSyncState = 'in_sync';
+			yield attachment1.saveTx();
+			var attachment2 = yield importFileAttachment('test.png');
+			attachment2.attachmentSyncState = 'in_sync';
+			yield attachment2.saveTx();
+			
+			var local = Zotero.Sync.Storage.Local;
+			yield local.updateSyncStates([attachment1, attachment2], 'to_upload');
+			
+			for (let attachment of [attachment1, attachment2]) {
+				assert.strictEqual(attachment.attachmentSyncState, local.SYNC_STATE_TO_UPLOAD);
+				let state = yield Zotero.DB.valueQueryAsync(
+					"SELECT syncState FROM itemAttachments WHERE itemID=?", attachment.id
+				);
+				assert.strictEqual(state, local.SYNC_STATE_TO_UPLOAD);
+			}
+		});
+	});
 	
 	describe("#resetAllSyncStates()", function () {
 		it("should reset attachment sync states to 'to_upload'", function* () {
@@ -529,8 +542,8 @@ describe("Zotero.Sync.Storage.Local", function () {
 			var item1 = yield importFileAttachment('test.png');
 			item1.version = 10;
 			yield item1.saveTx();
-			var item2 = yield importFileAttachment('test.txt');
-			var item3 = yield importFileAttachment('test.html');
+			var item2 = yield importTextAttachment();
+			var item3 = yield importHTMLAttachment();
 			item3.version = 11;
 			yield item3.saveTx();
 			
@@ -574,14 +587,27 @@ describe("Zotero.Sync.Storage.Local", function () {
 	})
 	
 	describe("#resolveConflicts()", function () {
+		var win;
+		
+		before(function* () {
+			win = yield loadBrowserWindow();
+		});
+		
+		after(function () {
+			if (win) {
+				win.close();
+			}
+		});
+		
+		
 		it("should show the conflict resolution window on attachment conflicts", function* () {
 			var libraryID = Zotero.Libraries.userLibraryID;
 			
 			var item1 = yield importFileAttachment('test.png');
 			item1.version = 10;
 			yield item1.saveTx();
-			var item2 = yield importFileAttachment('test.txt');
-			var item3 = yield importFileAttachment('test.html');
+			var item2 = yield importTextAttachment();
+			var item3 = yield importHTMLAttachment();
 			item3.version = 11;
 			yield item3.saveTx();
 			
@@ -647,6 +673,4 @@ describe("Zotero.Sync.Storage.Local", function () {
 			assert.isNull(item3.attachmentSyncedHash);
 		})
 	})
-	
-	
 })

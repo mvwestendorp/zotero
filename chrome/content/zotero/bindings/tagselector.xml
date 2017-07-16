@@ -121,23 +121,25 @@
 			
 			<field name="_hasScope">false</field>
 			<field name="_scope">null</field>
-			<property name="scope" onget="return this._scope">
+			<property name="scope">
 				<setter>
 				<![CDATA[
 					if (val.length) {
 						this._hasScope = true;
-						this._scope = {};
+						this._scope = new Map();
 						for (let i=0; i<val.length; i++) {
 							let tag = val[i];
-							if (!this._scope[tag.tag]) {
-								this._scope[tag.tag] = [];
+							let types = this._scope.get(tag.tag);
+							if (!types) {
+								types = []
 							}
-							this._scope[tag.tag].push(tag.type || 0);
+							types.push(tag.type || 0);
+							this._scope.set(tag.tag, types);
 						}
 					}
 					else {
 						this._hasScope = false;
-						this._scope = {};
+						this._scope = new Map();
 					}
 					
 					this.refresh();
@@ -268,21 +270,21 @@
 						// Otherwise just update based on visibility
 						else {
 							// If only a few tags, regenerate buttons from scratch
-							if (this.filterToScope && Object.keys(this.scope).length <= 100) {
+							if (this.filterToScope && this._scope.size <= 100) {
 								// If full set is currently displayed, store it for later
 								if (!this._tagsDiv) {
 									this._tagsDiv = tagsBox.firstChild;
 								}
 								
 								let tags = [];
-								for (let name in this.scope) {
-									tags.push(...this.scope[name].map(type => {
+								this._scope.forEach(function (types, name) {
+									tags.push(...types.map(type => {
 										return {
 											tag: name,
-											type: type
+											type
 										};
 									}));
-								}
+								});
 								let { div, emptyRegular } = this.createTagsList(tags);
 								tagsBox.replaceChild(div, tagsBox.firstChild);
 								this._emptyRegular = emptyRegular;
@@ -833,6 +835,59 @@
 			</method>
 			
 			
+			<method name="_updateDeleteAutomaticMenuOption">
+				<body><![CDATA[
+					(async function () {
+						var hasAutomatic = !!(await Zotero.Tags.getAutomaticInLibrary(this.libraryID)).length;
+						var menuitem = this.id('delete-automatic-tags');
+						menuitem.disabled = !hasAutomatic;
+					}.bind(this))();
+				]]></body>
+			</method>
+			
+			
+			<method name="_deleteAutomatic">
+				<body><![CDATA[
+					(async function () {
+						var num = (await Zotero.Tags.getAutomaticInLibrary(this.libraryID)).length;
+						if (!num) {
+							return;
+						}
+						
+						var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+							.getService(Components.interfaces.nsIPromptService);
+						var confirmed = ps.confirm(
+							window,
+							Zotero.getString('pane.tagSelector.deleteAutomatic.title'),
+							Zotero.getString(
+									'pane.tagSelector.deleteAutomatic.message',
+									new Intl.NumberFormat().format(num),
+									num
+								)
+								+ "\n\n"
+								+ Zotero.getString('general.actionCannotBeUndone')
+						);
+						if (confirmed) {
+							Zotero.showZoteroPaneProgressMeter(null, true);
+							try {
+								await Zotero.Tags.removeAutomaticFromLibrary(
+									this.libraryID,
+									(progress, progressMax) => {
+										Zotero.updateZoteroPaneProgressMeter(
+											Math.round(progress / progressMax * 100)
+										);
+									}
+								);
+							}
+							finally {
+								Zotero.hideZoteroPaneOverlays();
+							}
+						}
+					}.bind(this))();
+				]]></body>
+			</method>
+			
+			
 			<method name="_insertClickableTag">
 				<parameter name="tagsBox"/>
 				<parameter name="tagData"/>
@@ -891,7 +946,7 @@
 					
 					// Check tags against scope
 					if (this._hasScope) {
-						var inScope = !!this._scope[name];
+						var inScope = this._scope.has(name);
 					}
 					
 					// If not in search, hide
@@ -1113,6 +1168,7 @@
 						<toolbarbutton id="view-settings-menu" tooltiptext="&zotero.toolbar.actions.label;"
 								image="chrome://zotero/skin/tag-selector-menu.png" type="menu">
 							<menupopup id="view-settings-popup"
+									onpopupshowing="document.getBindingParent(this)._updateDeleteAutomaticMenuOption()"
 									onpopupshown="/*
 											This is necessary to fix a bug with Display All Tags not
 											being checked if enabled before menuu is shown (OS X only?)
@@ -1135,6 +1191,11 @@
 									oncommand="var displayAll = this.getAttribute('checked') == 'true';
 										this.setAttribute('checked', !displayAll);
 										document.getBindingParent(this).filterToScope = !displayAll;
+										event.stopPropagation();"/>
+								<menuseparator/>
+								<menuitem id="delete-automatic-tags" label="&zotero.tagSelector.deleteAutomaticInLibrary;" type="checkbox"
+									oncommand="document.getBindingParent(this)._deleteAutomatic();
+										this.setAttribute('checked', false);
 										event.stopPropagation();"/>
 							</menupopup>
 						</toolbarbutton>

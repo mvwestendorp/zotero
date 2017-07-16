@@ -590,7 +590,7 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 	if (oldItemTypeID) {
 		// Reset custom creator types to the default
 		let creators = this.getCreators();
-		if (creators) {
+		if (creators.length) {
 			let removeAll = !Zotero.CreatorTypes.itemTypeHasCreators(itemTypeID);
 			for (let i=0; i<creators.length; i++) {
 				// Remove all creators if new item type doesn't have any
@@ -1493,9 +1493,6 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, allowMissing, langTag
 // Define boolean properties
 for (let name of ['deleted', 'inPublications']) {
 	let prop = '_' + name;
-	// Fix for https://bugzilla.mozilla.org/show_bug.cgi?id=449811 (Fixed in Fx51)
-	let tmpName = name;
-	
 	Zotero.defineProperty(Zotero.Item.prototype, name, {
 		get: function() {
 			if (!this.id) {
@@ -1510,12 +1507,12 @@ for (let name of ['deleted', 'inPublications']) {
 			val = !!val;
 			
 			if (this[prop] == val) {
-				Zotero.debug(Zotero.Utilities.capitalize(tmpName)
+				Zotero.debug(Zotero.Utilities.capitalize(name)
 					+ " state hasn't changed for item " + this.id);
 				return;
 			}
-			this._markFieldChange(tmpName, !!this[prop]);
-			this._changed[tmpName] = true;
+			this._markFieldChange(name, !!this[prop]);
+			this._changed[name] = true;
 			this[prop] = val;
 		}
 	});
@@ -1928,7 +1925,7 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		}
 	}
 	
-	// Parent item
+	// Parent item (DB update is done below after collection removals)
 	var parentItemKey = this.parentKey;
 	var parentItemID = this.ObjectsClass.getIDFromLibraryAndKey(this.libraryID, parentItemKey) || null;
 	if (this._changed.parentKey) {
@@ -1957,9 +1954,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 			}
 		}
 		else {
-			let type = Zotero.ItemTypes.getName(itemTypeID);
-			let Type = type[0].toUpperCase() + type.substr(1);
-			
 			if (parentItemKey) {
 				if (!parentItemID) {
 					// TODO: clear caches
@@ -2040,15 +2034,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 				}
 			}
 			
-			// Update DB, if not a note or attachment we're changing below
-			if (!this._changed.attachmentData &&
-					(!this._changed.note || !this.isNote())) {
-				let sql = "UPDATE item" + Type + "s SET parentItemID=? "
-							+ "WHERE itemID=?";
-				let bindParams = [parentItemID, this.id];
-				yield Zotero.DB.queryAsync(sql, bindParams);
-			}
-			
 			// Update the counts of the previous and new sources
 			if (oldParentItemID) {
 				reloadParentChildItems[oldParentItemID] = true;
@@ -2084,6 +2069,14 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 				'item', predicate, thisURI
 			);
 			for (let mergeItem of mergeItems) {
+				// An item shouldn't have itself as a dc:replaces relation, but if it does it causes an
+				// infinite loop
+				if (mergeItem.id == this.id) {
+					Zotero.logError(`Item ${this.libraryKey} has itself as a ${predicate} relation`);
+					this.removeRelation(predicate, thisURI);
+					continue;
+				}
+				
 				mergeItem.removeRelation(predicate, thisURI);
 				yield mergeItem.save({
 					skipDateModifiedUpdate: true
@@ -2115,6 +2108,67 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 			sql = "DELETE FROM publicationsItems WHERE itemID=?";
 		}
 		yield Zotero.DB.queryAsync(sql, itemID);
+	}
+	
+	// Collections
+	//
+	// Only diffing and removal are done here. Additions have to be done below after parentItemID has
+	// been updated in itemAttachments/itemNotes, since a child item that was made a standalone item and
+	// added to a collection can't be added to the collection while it still has a parent, and vice
+	// versa, due to the trigger checks on collectionItems/itemAttachments/itemNotes.
+	if (this._changed.collections) {
+		if (libraryType == 'publications') {
+			throw new Error("Items in My Publications cannot be added to collections");
+		}
+		
+		let oldCollections = this._previousData.collections || [];
+		let newCollections = this._collections;
+		
+		let toAdd = Zotero.Utilities.arrayDiff(newCollections, oldCollections);
+		let toRemove = Zotero.Utilities.arrayDiff(oldCollections, newCollections);
+		
+		env.collectionsAdded = toAdd;
+		env.collectionsRemoved = toRemove;
+		
+		if (toRemove.length) {
+			let sql = "DELETE FROM collectionItems WHERE itemID=? AND collectionID IN ("
+				+ toRemove.join(',')
+				+ ")";
+			yield Zotero.DB.queryAsync(sql, this.id);
+			
+			for (let i=0; i<toRemove.length; i++) {
+				let collectionID = toRemove[i];
+				
+				if (!env.options.skipNotifier) {
+					Zotero.Notifier.queue(
+						'remove',
+						'collection-item',
+						collectionID + '-' + this.id,
+						{},
+						env.options.notifierQueue
+					);
+				}
+			}
+			
+			// Remove this item from any loaded collections' cached item lists after commit
+			Zotero.DB.addCurrentCallback("commit", function () {
+				for (let i = 0; i < toRemove.length; i++) {
+					this.ContainerObjectsClass.unregisterChildItem(toRemove[i], this.id);
+				}
+			}.bind(this));
+		}
+	}
+	
+	// Add parent item for existing item, if note or attachment data isn't going to be updated below
+	//
+	// Technically this doesn't have to go below collection removals, but only because the
+	// 'collectionitem must be top level' trigger check applies only to INSERTs, not UPDATEs, which was
+	// probably done in an earlier attempt to solve this problem.
+	if (!isNew && this._changed.parentKey && !this._changed.note && !this._changed.attachmentData) {
+		let type = Zotero.ItemTypes.getName(itemTypeID);
+		let Type = type[0].toUpperCase() + type.substr(1);
+		let sql = "UPDATE item" + Type + "s SET parentItemID=? WHERE itemID=?";
+		yield Zotero.DB.queryAsync(sql, [parentItemID, this.id]);
 	}
 	
 	// Note
@@ -2165,7 +2219,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 			reloadParentChildItems[parentItemID] = true;
 		}
 	}
-	
 	if (this._changed.attachmentData) {
 		let sql = "REPLACE INTO itemAttachments "
 			+ "(itemID, parentItemID, linkMode, contentType, charsetID, path, "
@@ -2202,6 +2255,39 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		if (!isNew && parentItemID) {
 			reloadParentChildItems[parentItemID] = true;
 		}
+	}
+	
+	// Add to new collections
+	if (env.collectionsAdded) {
+		let toAdd = env.collectionsAdded;
+		for (let i=0; i<toAdd.length; i++) {
+			let collectionID = toAdd[i];
+			
+			let sql = "SELECT IFNULL(MAX(orderIndex)+1, 0) FROM collectionItems "
+				+ "WHERE collectionID=?";
+			let orderIndex = yield Zotero.DB.valueQueryAsync(sql, collectionID);
+			
+			sql = "INSERT OR IGNORE INTO collectionItems "
+				+ "(collectionID, itemID, orderIndex) VALUES (?, ?, ?)";
+			yield Zotero.DB.queryAsync(sql, [collectionID, this.id, orderIndex]);
+			
+			if (!env.options.skipNotifier) {
+				Zotero.Notifier.queue(
+					'add',
+					'collection-item',
+					collectionID + '-' + this.id,
+					{},
+					env.options.notifierQueue
+				);
+			}
+		}
+		
+		// Add this item to any loaded collections' cached item lists after commit
+		Zotero.DB.addCurrentCallback("commit", function () {
+			for (let i = 0; i < toAdd.length; i++) {
+				this.ContainerObjectsClass.registerChildItem(toAdd[i], this.id);
+			}
+		}.bind(this));
 	}
 	
 	// Tags
@@ -2255,81 +2341,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 				}
 			}
 			Zotero.Prefs.set('purge.tags', true);
-		}
-	}
-	
-	// Collections
-	if (this._changed.collections) {
-		if (libraryType == 'publications') {
-			throw new Error("Items in My Publications cannot be added to collections");
-		}
-		
-		let oldCollections = this._previousData.collections || [];
-		let newCollections = this._collections;
-		
-		let toAdd = Zotero.Utilities.arrayDiff(newCollections, oldCollections);
-		let toRemove = Zotero.Utilities.arrayDiff(oldCollections, newCollections);
-
-		env.collectionsAdded = toAdd;
-		env.collectionsRemoved = toRemove;
-		
-		if (toAdd.length) {
-			for (let i=0; i<toAdd.length; i++) {
-				let collectionID = toAdd[i];
-				
-				let sql = "SELECT IFNULL(MAX(orderIndex)+1, 0) FROM collectionItems "
-					+ "WHERE collectionID=?";
-				let orderIndex = yield Zotero.DB.valueQueryAsync(sql, collectionID);
-				
-				sql = "INSERT OR IGNORE INTO collectionItems "
-					+ "(collectionID, itemID, orderIndex) VALUES (?, ?, ?)";
-				yield Zotero.DB.queryAsync(sql, [collectionID, this.id, orderIndex]);
-				
-				if (!env.options.skipNotifier) {
-					Zotero.Notifier.queue(
-						'add',
-						'collection-item',
-						collectionID + '-' + this.id,
-						{},
-						env.options.notifierQueue
-					);
-				}
-			}
-			
-			// Add this item to any loaded collections' cached item lists after commit
-			Zotero.DB.addCurrentCallback("commit", function () {
-				for (let i = 0; i < toAdd.length; i++) {
-					this.ContainerObjectsClass.registerChildItem(toAdd[i], this.id);
-				}
-			}.bind(this));
-		}
-		
-		if (toRemove.length) {
-			let sql = "DELETE FROM collectionItems WHERE itemID=? AND collectionID IN ("
-				+ toRemove.join(',')
-				+ ")";
-			yield Zotero.DB.queryAsync(sql, this.id);
-			
-			for (let i=0; i<toRemove.length; i++) {
-				let collectionID = toRemove[i];
-				
-				if (!env.options.skipNotifier) {
-					Zotero.Notifier.queue(
-						'remove',
-						'collection-item',
-						collectionID + '-' + this.id,
-						{},
-						env.options.notifierQueue
-					);
-				}
-			}
-			
-			// Remove this item from any loaded collections' cached item lists after commit
-			Zotero.DB.addCurrentCallback("commit", function () {
-				for (let i = 0; i < toRemove.length; i++) {
-					this.ContainerObjectsClass.unregisterChildItem(toRemove[i], this.id);
-				}
-			}.bind(this));
 		}
 	}
 	
@@ -4147,9 +4158,6 @@ Zotero.Item.prototype.removeFromCollection = function (collectionIDOrKey) {
 		throw new Error("Invalid collection '" + collectionIDOrKey + "'");
 	}
 	
-	Zotero.debug("REMOVING FROM COLLECTION");
-	Zotero.debug(this._collections);
-	
 	this._requireData('collections');
 	var pos = this._collections.indexOf(collectionID);
 	if (pos == -1) {
@@ -4541,11 +4549,9 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 	
 	// Remove item from parent collections
 	var parentCollectionIDs = this._collections;
-	if (parentCollectionIDs) {
-		for (var i=0; i<parentCollectionIDs.length; i++) {
-			let parentCollection = yield Zotero.Collections.getAsync(parentCollectionIDs[i]);
-			yield parentCollection.removeItem(this.id);
-		}
+	for (let parentCollectionID of parentCollectionIDs) {
+		let parentCollection = yield Zotero.Collections.getAsync(parentCollectionID);
+		yield parentCollection.removeItem(this.id);
 	}
 	
 	var parentItem = this.parentKey;
@@ -4680,6 +4686,8 @@ Zotero.Item.prototype.fromJSON = function (json) {
 		// Use?
 		case 'md5':
 		case 'mtime':
+		// Handled below
+		case 'collections':
 			break;
 		
 		case 'accessDate':
@@ -4723,10 +4731,6 @@ Zotero.Item.prototype.fromJSON = function (json) {
 		
 		case 'tags':
 			this.setTags(json.tags);
-			break;
-		
-		case 'collections':
-			this.setCollections(json.collections);
 			break;
 		
 		case 'relations':
@@ -4804,6 +4808,10 @@ Zotero.Item.prototype.fromJSON = function (json) {
 			}
 			setFields[field] = true;
 		}
+	}
+	
+	if (json.collections || this._collections.length) {
+		this.setCollections(json.collections);
 	}
 	
 	// Clear existing fields not specified

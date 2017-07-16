@@ -243,24 +243,13 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			this.locale = this.locale + '-' + this.locale.toUpperCase();
 		}
 		
-		// Load in the localization stringbundle for use by getString(name)
-		if (Services.locale.getAppLocale) {
-			var appLocale = Services.locale.getAppLocale();
-		}
-		// Fx <=53
-		else {
-			var appLocale = Services.locale.getApplicationLocale();
-		}
-		
-		_localizedStringBundle = Services.strings.createBundle(
-			"chrome://zotero/locale/zotero.properties", appLocale);
+		_localizedStringBundle = Services.strings.createBundle("chrome://zotero/locale/zotero.properties");
 		// Fix logged error in PluralForm.jsm when numForms() is called before get(), as it is in
 		// getString() when a number is based
 		PluralForm.get(1, '1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16')
 		
 		// Also load the brand as appName
-		var brandBundle = Services.strings.createBundle(
-			"chrome://branding/locale/brand.properties", appLocale);
+		var brandBundle = Services.strings.createBundle("chrome://branding/locale/brand.properties");
 		this.appName = brandBundle.GetStringFromName("brandShortName");
 		
 		// Set the locale direction to Zotero.dir
@@ -298,8 +287,8 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 				_startupErrorHandler = function() {
 					var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].
 							createInstance(Components.interfaces.nsIPromptService);
-					var buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_YES)
-						+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_NO)
+					var buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_IS_STRING)
+						+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_IS_STRING)
 						+ (ps.BUTTON_POS_2) * (ps.BUTTON_TITLE_IS_STRING);
 					// TEMP: lastDataDir can be removed once old persistent descriptors have been
 					// converted, which they are in getZoteroDirectory() in 5.0
@@ -308,18 +297,19 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 						Zotero.getString('general.error'),
 						Zotero.startupError + '\n\n' +
 						Zotero.getString('dataDir.previousDir') + ' ' + previousDir,
-						buttonFlags, null,
+						buttonFlags,
+						Zotero.getString('general.quit'),
 						Zotero.getString('dataDir.useDefaultLocation'),
 						Zotero.getString('general.locate'),
 						null, {});
 					
 					// Revert to home directory
 					if (index == 1) {
-						Zotero.DataDirectory.choose(false, true);
+						Zotero.DataDirectory.choose(true, true);
 					}
 					// Locate data directory
 					else if (index == 2) {
-						Zotero.DataDirectory.choose();
+						Zotero.DataDirectory.choose(true);
 					}
 				}
 				return;
@@ -522,31 +512,72 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		if (result.some(r => r)) {
 			[Zotero.restoreFromServer, Zotero.resetDataDir] = result;
 			try {
+				yield Zotero.DB.closeDatabase();
+				
 				// TODO: better error handling
 				
 				// TODO: prompt for location
 				// TODO: Back up database
+				// TODO: Reset translators and styles
 				
 				
-				var dbfile = Zotero.DataDirectory.getDatabase();
-				yield OS.File.remove(dbfile, {ignoreAbsent: true});
 				
 				if (Zotero.restoreFromServer) {
+					let dbfile = Zotero.DataDirectory.getDatabase();
+					Zotero.debug("Deleting " + dbfile);
+					yield OS.File.remove(dbfile, { ignoreAbsent: true });
+					let storageDir = OS.Path.join(dataDir, 'storage');
+					Zotero.debug("Deleting " + storageDir.path);
+					OS.File.removeDir(storageDir, { ignoreAbsent: true }),
 					yield OS.File.remove(restoreFile);
 					Zotero.restoreFromServer = true;
-				} else if (Zotero.resetDataDir) {
-					Zotero.initAutoSync = true;
-					var storageDir = OS.Path.join(dataDir, 'storage');
-					yield Zotero.Promise.all([
-						OS.File.removeDir(storageDir, {ignoreAbsent: true}), 
-						OS.File.remove(resetDataDirFile)
-					]);
 				}
+				else if (Zotero.resetDataDir) {
+					Zotero.initAutoSync = true;
+					
+					// Clear some user prefs
+					[
+						'sync.server.username',
+						'sync.storage.username'
+					].forEach(p => Zotero.Prefs.clear(p));
+					
+					// Clear data directory
+					Zotero.debug("Deleting data directory files");
+					let lastError;
+					// Delete all files in directory rather than removing directory, in case it's
+					// a symlink
+					yield Zotero.File.iterateDirectory(dataDir, function* (iterator) {
+						while (true) {
+							let entry = yield iterator.next();
+							// Don't delete some files
+							if (entry.name == 'pipes'
+									|| entry.name.startsWith(Zotero.Fulltext.pdfInfoName)
+									|| entry.name.startsWith(Zotero.Fulltext.pdfConverterName)) {
+								continue;
+							}
+							Zotero.debug("Deleting " + entry.path);
+							try {
+								if (entry.isDir) {
+									yield OS.File.removeDir(entry.path);
+								}
+								else {
+									yield OS.File.remove(entry.path);
+								}
+							}
+							// Keep trying to delete as much as we can
+							catch (e) {
+								lastError = e;
+								Zotero.logError(e);
+							}
+						}
+					});
+					if (lastError) {
+						throw lastError;
+					}
+				}
+				Zotero.debug("Done with reset");
 				
-				// Recreate database with no quick start guide
-				Zotero.Schema.skipDefaultData = true;
-				yield Zotero.Schema.updateSchema();
-				
+				if (!(yield _initDB())) return false;
 			}
 			catch (e) {
 				// Restore from backup?
@@ -579,7 +610,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 						Zotero.getString('dataDir.incompatibleDbVersion.text'),
 						buttonFlags,
 						Zotero.getString('general.useDefault'),
-						Zotero.getString('dataDir.standaloneMigration.selectCustom'),
+						Zotero.getString('dataDir.chooseNewDataDirectory'),
 						Zotero.getString('general.quit'),
 						null,
 						{}
@@ -760,8 +791,9 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			yield Zotero.Sync.Data.Local.init();
 			yield Zotero.Sync.Data.Utilities.init();
 			Zotero.Sync.Runner = new Zotero.Sync.Runner_Module;
-			Zotero.Sync.Streamer = new Zotero.Sync.Streamer_Module;
 			Zotero.Sync.EventListeners.init();
+			Zotero.Streamer = new Zotero.Streamer_Module;
+			Zotero.Streamer.init();
 			
 			Zotero.MIMETypeHandler.init();
 			yield Zotero.Proxies.init();
@@ -1359,19 +1391,33 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			return this.collation;
 		}
 		
-		if (Services.locale.getAppLocale) {
-			var locale = Services.locale.getAppLocale();
-		}
-		// Fx <=53
-		else {
-			var locale = Services.locale.getApplicationLocale();
-			locale = locale.getCategory('NSILOCALE_COLLATE');
-		}
-		
 		try {
-			// Extract a valid language tag
-			locale = locale.match(/^[a-z]{2}(\-[A-Z]{2})?/)[0];
-			var collator = new Intl.Collator(locale, {
+			// DEBUG: Is this necessary, or will Intl.Collator just default to the same locales we're
+			// passing manually?
+			
+			let locales;
+			// Fx55+
+			if (Services.locale.getAppLocalesAsBCP47) {
+				locales = Services.locale.getAppLocalesAsBCP47();
+			}
+			else {
+				let locale;
+				// Fx54
+				if (Services.locale.getAppLocale) {
+					locale = Services.locale.getAppLocale();
+				}
+				// Fx <=53
+				else {
+					locale = Services.locale.getApplicationLocale();
+					locale = locale.getCategory('NSILOCALE_COLLATE');
+				}
+				
+				// Extract a valid language tag
+				locale = locale.match(/^[a-z]{2}(\-[A-Z]{2})?/)[0];
+				locales = [locale];
+			}
+			
+			var collator = new Intl.Collator(locales, {
 				ignorePunctuation: true,
 				numeric: true,
 				sensitivity: 'base'
@@ -1476,9 +1522,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 				continue;
 			}
 			if (Array.isArray(arg)) {
-				for (var j=0; j<arg.length; j++){
-					returns.push(arg[j]);
-				}
+				returns.push(...arg);
 			}
 			else {
 				returns.push(arg);
@@ -1540,8 +1584,10 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	
 	this.serial = function (fn) {
 		Components.utils.import("resource://zotero/concurrentCaller.js");
-		var caller = new ConcurrentCaller(1);
-		caller.setLogger(Zotero.debug);
+		var caller = new ConcurrentCaller({
+			numConcurrent: 1,
+			onError: e => Zotero.logError(e)
+		});
 		return function () {
 			var args = arguments;
 			return caller.start(function () {
@@ -2108,6 +2154,20 @@ Zotero.Prefs = new function(){
 	}
 	
 	
+	this.resetBranch = function (exclude = []) {
+		var keys = this.prefBranch.getChildList("", {});
+		for (let key of keys) {
+			if (this.prefBranch.prefHasUserValue(key)) {
+				if (exclude.includes(key)) {
+					continue;
+				}
+				Zotero.debug("Clearing " + key);
+				this.prefBranch.clearUserPref(key);
+			}
+		}
+	};
+	
+	
 	// Import settings bundles
 	this.importSettings = function (str, uri) {
 		var ps = Services.prompt;
@@ -2137,7 +2197,7 @@ Zotero.Prefs = new function(){
 	var _handlers = [
 		[ "automaticScraperUpdates", function(val) {
 			if (val){
-				Zotero.Schema.updateFromRepository();
+				Zotero.Schema.updateFromRepository(1);
 			}
 			else {
 				Zotero.Schema.stopRepositoryTimer();
@@ -2531,11 +2591,21 @@ Zotero.Browser = new function() {
  * Implements nsIWebProgressListener
  */
 Zotero.WebProgressFinishListener = function(onFinish) {
+	var _request;
+	
+	this.getRequest = function () {
+		return _request;
+	};
+	
 	this.onStateChange = function(wp, req, stateFlags, status) {
 		//Zotero.debug('onStageChange: ' + stateFlags);
 		if (stateFlags & Components.interfaces.nsIWebProgressListener.STATE_STOP
 				&& stateFlags & Components.interfaces.nsIWebProgressListener.STATE_IS_NETWORK) {
+			_request = null;
 			onFinish();
+		}
+		else {
+			_request = req;
 		}
 	}
 	

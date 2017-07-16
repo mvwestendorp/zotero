@@ -258,15 +258,25 @@ Zotero.Sync.Storage.Local = {
 		//Zotero.debug("Memory usage: " + memmgr.resident);
 		
 		var changed = false;
-		for (let i = 0; i < items.length; i++) {
-			let item = items[i];
+		var statesToSet = {};
+		for (let item of items) {
 			// TODO: Catch error?
 			let state = yield this._checkForUpdatedFile(item, attachmentData[item.id]);
 			if (state !== false) {
-				item.attachmentSyncState = state;
-				yield item.saveTx({ skipAll: true });
+				if (!statesToSet[state]) {
+					statesToSet[state] = [];
+				}
+				statesToSet[state].push(item);
 				changed = true;
 			}
+		}
+		// Update sync states in bulk
+		if (changed) {
+			yield Zotero.DB.executeTransaction(function* () {
+				for (let state in statesToSet) {
+					yield this.updateSyncStates(statesToSet[state], parseInt(state));
+				}
+			}.bind(this));
 		}
 		
 		if (!items.length) {
@@ -368,27 +378,39 @@ Zotero.Sync.Storage.Local = {
 			return this.SYNC_STATE_TO_UPLOAD;
 		}
 		catch (e) {
-			if (e instanceof OS.File.Error &&
-					(e.becauseNoSuchFile
-					// This can happen if a path is too long on Windows,
-					// e.g. a file is being accessed on a VM through a share
-					// (and probably in other cases).
-					|| (e.winLastError && e.winLastError == 3)
-					// Handle long filenames on OS X/Linux
-					|| (e.unixErrno && e.unixErrno == 63))) {
-				Zotero.debug("Marking attachment " + lk + " as missing");
-				return this.SYNC_STATE_TO_DOWNLOAD;
-			}
-			
 			if (e instanceof OS.File.Error) {
+				let missing = e.becauseNoSuchFile
+					// ERROR_PATH_NOT_FOUND: This can happen if a path is too long on Windows, e.g. a
+					// file is being accessed on a VM through a share (and probably in other cases)
+					|| e.winLastError == 3
+					// ERROR_INVALID_NAME: This can happen if there's a colon in the name from before
+					// we were filtering
+					|| e.winLastError == 123
+					// ERROR_BAD_PATHNAME
+					|| e.winLastError == 161;
+				if (!missing) {
+					Components.classes["@mozilla.org/net/osfileconstantsservice;1"]
+						.getService(Components.interfaces.nsIOSFileConstantsService)
+						.init();
+					missing = e.unixErrno == OS.Constants.libc.ENOTDIR
+						// Handle long filenames on OS X/Linux
+						|| e.unixErrno == OS.Constants.libc.ENAMETOOLONG;
+				}
+				if (missing) {
+					if (!e.becauseNoSuchFile) {
+						Zotero.debug(e, 1);
+					}
+					Zotero.debug("Marking attachment " + lk + " as missing");
+					return this.SYNC_STATE_TO_DOWNLOAD;
+				}
 				if (e.becauseClosed) {
 					Zotero.debug("File was closed", 2);
 				}
-				Zotero.debug(e);
-				Zotero.debug(e.toString());
-				throw new Error(`Error for operation '${e.operation}' for ${path}`);
+				Zotero.debug(e, 1);
+				Zotero.debug(e.unixErrno, 1);
+				Zotero.debug(e.winLastError, 1);
+				throw new Error(`Error for operation '${e.operation}' for ${path}: ${e}`);
 			}
-			
 			throw e;
 		}
 		finally {
@@ -492,6 +514,35 @@ Zotero.Sync.Storage.Local = {
 	getDeletedFiles: function (libraryID) {
 		var sql = "SELECT key FROM storageDeleteLog WHERE libraryID=?";
 		return Zotero.DB.columnQueryAsync(sql, libraryID);
+	},
+	
+	
+	/**
+	 * @param {Zotero.Item[]} items
+	 * @param {String|Integer} syncState
+	 * @return {Promise}
+	 */
+	updateSyncStates: function (items, syncState) {
+		if (syncState === undefined) {
+			throw new Error("Sync state not specified");
+		}
+		if (typeof syncState == 'string') {
+			syncState = this["SYNC_STATE_" + syncState.toUpperCase()];
+		}
+		return Zotero.Utilities.Internal.forEachChunkAsync(
+			items,
+			1000,
+			async function (chunk) {
+				chunk.forEach((item) => {
+					item._attachmentSyncState = syncState;
+				});
+				return Zotero.DB.queryAsync(
+					"UPDATE itemAttachments SET syncState=? WHERE itemID IN "
+						+ "(" + chunk.map(item => item.id).join(', ') + ")",
+					syncState
+				);
+			}
+		);
 	},
 	
 	
@@ -868,7 +919,7 @@ Zotero.Sync.Storage.Local = {
 				// For advertising junk files, ignore a bug on Windows where
 				// destFile.create() works but zipReader.extract() doesn't
 				// when the path length is close to 255.
-				if (destFile.leafName.match(/[a-zA-Z0-9+=]{130,}/)) {
+				if (OS.Path.basename(destPath).match(/[a-zA-Z0-9+=]{130,}/)) {
 					var msg = "Ignoring error extracting '" + destPath + "'";
 					Zotero.debug(msg, 2);
 					Zotero.debug(e, 2);

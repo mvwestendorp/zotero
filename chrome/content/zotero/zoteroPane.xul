@@ -211,6 +211,10 @@
 						</toolbarbutton>
 					</hbox>
 					<hbox align="center" pack="end">
+						<toolbarbutton id="zotero-tb-sync-stop"
+							tooltiptext="&zotero.sync.stop;"
+							oncommand="this.hidden = true; Zotero.Sync.Runner.stop()"
+							hidden="true"/>
 						<hbox id="zotero-tb-sync-progress-box" hidden="true" align="center">
 							<!-- TODO: localize -->
 							<toolbarbutton id="zotero-tb-sync-storage-cancel"
@@ -254,7 +258,9 @@
 			</toolbar>
 			
 			<popupset>
-				<menupopup id="zotero-collectionmenu" onpopupshowing="ZoteroPane_Local.buildCollectionContextMenu();">
+				<menupopup id="zotero-collectionmenu"
+						onpopupshowing="ZoteroPane_Local.buildCollectionContextMenu();"
+						oncommand="ZoteroPane.onCollectionContextMenuSelect(event)">
 					<!-- Keep order in sync with buildCollectionContextMenu, which adds additional attributes -->
 					<menuitem class="zotero-menuitem-sync"/>
 					<menuseparator/>
@@ -280,7 +286,7 @@
 				</menupopup>
 				<menupopup id="zotero-itemmenu">
 					<!-- Keep order in sync with buildItemContextMenu -->
-					<menuitem class="menuitem-iconic zotero-menuitem-show-in-library" label="&zotero.items.menu.showInLibrary;" oncommand="ZoteroPane_Local.selectItem(this.parentNode.getAttribute('itemID'), true)"/>
+					<menuitem class="menuitem-iconic zotero-menuitem-show-in-library" label="&zotero.items.menu.showInLibrary;" oncommand="ZoteroPane.selectItem(parseInt(this.parentNode.getAttribute('itemID')), true)"/>
 					<menuseparator/>
 					<!-- with icon: <menuitem class="menuitem-iconic" id="zotero-menuitem-note" label="&zotero.items.menu.attach.note;" oncommand="ZoteroPane_Local.newNote(false, this.parentNode.getAttribute('itemID'))"/>-->
 					<menuitem class="menuitem-iconic zotero-menuitem-attach-note" label="&zotero.items.menu.attach.note;" oncommand="ZoteroPane_Local.newNote(false, this.parentNode.getAttribute('itemKey'))"/>
@@ -370,6 +376,7 @@
 								onkeydown="ZoteroPane_Local.handleKeyDown(event, this.id)"
 								onselect="ZoteroPane_Local.itemSelected(event)"
 								oncommand="ZoteroPane_Local.serializePersist()"
+								oncontextmenu="ZoteroPane.onItemsContextMenuOpen(event)"
 								flex="1"
 								hidden="true"
 								zotero-persist="current-view-group">
@@ -569,7 +576,10 @@
 
 							<!-- Label for displaying messages when items pane is hidden
 							 (e.g. "Advanced search mode — press Enter to search.")-->
-							<vbox id="zotero-items-pane-message-box" pack="center" align="center"/>
+							<vbox id="zotero-items-pane-message-box" pack="center" align="center"
+								ondragenter="return ZoteroPane.itemsView.onDragEnter(event)"
+								ondragover="return ZoteroPane.itemsView.onDragOver(event)"
+								ondrop="ZoteroPane.itemsView.onDrop(event); ZoteroPane.itemsView.drop(-1, -1, event.dataTransfer)"/>
 						</deck>
 					</vbox>
 

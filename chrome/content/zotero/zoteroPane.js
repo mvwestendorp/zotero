@@ -37,7 +37,6 @@ var ZoteroPane = new function()
 	var _lastSelectedItems = [];
 	
 	//Privileged methods
-	this.init = init;
 	this.destroy = destroy;
 	this.isShowing = isShowing;
 	this.isFullScreen = isFullScreen;
@@ -71,15 +70,8 @@ var ZoteroPane = new function()
 	/**
 	 * Called when the window containing Zotero pane is open
 	 */
-	function init() {
+	this.init = function () {
 		Zotero.debug("Initializing Zotero pane");
-		
-		// Fix window without menubar/titlebar when Standalone is closed in full-screen mode
-		// in OS X 10.11
-		if (Zotero.isMac && Zotero.isStandalone
-				&& window.document.documentElement.getAttribute('sizemode') == 'fullscreen') {
-			window.document.documentElement.setAttribute('sizemode', 'normal');
-		}
 		
 		// For now, keep actions menu in the DOM and show it in Firefox for development
 		if (!Zotero.isStandalone) {
@@ -100,7 +92,11 @@ var ZoteroPane = new function()
 		Zotero.setFontSize(zp);
 		ZoteroPane_Local.updateLayout();
 		ZoteroPane_Local.updateToolbarPosition();
-		window.addEventListener("resize", ZoteroPane_Local.updateToolbarPosition, false);
+		this.updateWindow();
+		window.addEventListener("resize", () => {
+			this.updateWindow();
+			this.updateToolbarPosition();
+		});
 		window.setTimeout(ZoteroPane_Local.updateToolbarPosition, 0);
 		
 		Zotero.updateQuickSearchBox(document);
@@ -138,7 +134,7 @@ var ZoteroPane = new function()
 		
 		// continue loading pane
 		_loadPane();
-	}
+	};
 	
 	/**
 	 * Called on window load or when pane has been reloaded after switching into or out of connector
@@ -1598,8 +1594,7 @@ var ZoteroPane = new function()
 	 */
 	this.updateItemPaneButtons = function (selectedItems) {
 		if (!selectedItems.length) {
-			// TODO: Remove Array.from after Firefox 45 support is removed
-			Array.from(document.querySelectorAll('.zotero-item-pane-top-buttons')).forEach(x => x.hidden = true);
+			document.querySelectorAll('.zotero-item-pane-top-buttons').forEach(x => x.hidden = true);
 			return;
 		}
 		
@@ -2343,127 +2338,127 @@ var ZoteroPane = new function()
 	}
 	
 	
+	// menuitem configuration
+	//
+	// This has to be kept in sync with zotero-collectionmenu in zoteroPane.xul. We could do this
+	// entirely in JS, but various localized strings are only in zotero.dtd, and they're used in
+	// standalone.xul as well, so for now they have to remain as XML entities.
+	var _collectionContextMenuOptions = [
+		{
+			id: "sync",
+			label: Zotero.getString('sync.sync'),
+			oncommand: () => {
+				Zotero.Sync.Runner.sync({
+					libraries: [this.getSelectedLibraryID()],
+				});
+			}
+		},
+		{
+			id: "sep1",
+		},
+		{
+			id: "newCollection",
+			command: "cmd_zotero_newCollection"
+		},
+		{
+			id: "newSavedSearch",
+			command: "cmd_zotero_newSavedSearch"
+		},
+		{
+			id: "newSubcollection",
+			oncommand: () => {
+				this.newCollection(this.getSelectedCollection().key);
+			}
+		},
+		{
+			id: "refreshFeed",
+			oncommand: () => this.refreshFeed()
+		},
+		{
+			id: "sep2",
+		},
+		{
+			id: "showDuplicates",
+			oncommand: () => {
+				this.setVirtual(this.getSelectedLibraryID(), 'duplicates', true);
+			}
+		},
+		{
+			id: "showUnfiled",
+			oncommand: () => {
+				this.setVirtual(this.getSelectedLibraryID(), 'unfiled', true);
+			}
+		},
+		{
+			id: "editSelectedCollection",
+			oncommand: () => this.editSelectedCollection()
+		},
+		{
+			id: "markReadFeed",
+			oncommand: () => this.markFeedRead()
+		},
+		{
+			id: "editSelectedFeed",
+			oncommand: () => this.editSelectedFeed()
+		},
+		{
+			id: "deleteCollection",
+			oncommand: () => this.deleteSelectedCollection()
+		},
+		{
+			id: "deleteCollectionAndItems",
+			oncommand: () => this.deleteSelectedCollection(true)
+		},
+		{
+			id: "sep3",
+		},
+		{
+			id: "exportCollection",
+			oncommand: () => Zotero_File_Interface.exportCollection()
+		},
+		{
+			id: "createBibCollection",
+			oncommand: () => Zotero_File_Interface.bibliographyFromCollection()
+		},
+		{
+			id: "exportFile",
+			oncommand: () => Zotero_File_Interface.exportFile()
+		},
+		{
+			id: "loadReport",
+			oncommand: event => Zotero_Report_Interface.loadCollectionReport(event)
+		},
+		{
+			id: "emptyTrash",
+			oncommand: () => this.emptyTrash()
+		},
+		{
+			id: "removeLibrary",
+			label: Zotero.getString('pane.collections.menu.remove.library'),
+			oncommand: () => {
+				let library = Zotero.Libraries.get(this.getSelectedLibraryID());
+				let ps = Services.prompt;
+				let buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_IS_STRING)
+					+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_CANCEL);
+				let index = ps.confirmEx(
+					null,
+					Zotero.getString('pane.collections.removeLibrary'),
+					Zotero.getString('pane.collections.removeLibrary.text', library.name),
+					buttonFlags,
+					Zotero.getString('general.remove'),
+					null,
+					null, null, {}
+				);
+				if (index == 0) {
+					library.eraseTx();
+				}
+			}
+		},
+	];
+	
 	this.buildCollectionContextMenu = function (noRepeat) {
 		var libraryID = this.getSelectedLibraryID();
-		
-		// menuitem configuration
-		//
-		// This has to be kept in sync with zotero-collectionmenu in zoteroPane.xul. We could do this
-		// entirely in JS, but various localized strings are only in zotero.dtd, and they're used in
-		// standalone.xul as well, so for now they have to remain as XML entities.
-		var options = [
-			{
-				id: "sync",
-				label: Zotero.getString('sync.sync'),
-				onclick: () => {
-					Zotero.Sync.Runner.sync({
-						libraries: [libraryID],
-					});
-				}
-			},
-			{
-				id: "sep1",
-			},
-			{
-				id: "newCollection",
-				command: "cmd_zotero_newCollection"
-			},
-			{
-				id: "newSavedSearch",
-				command: "cmd_zotero_newSavedSearch"
-			},
-			{
-				id: "newSubcollection",
-				onclick: () => {
-					this.newCollection(this.getSelectedCollection().key);
-				}
-			},
-			{
-				id: "refreshFeed",
-				onclick: () => this.refreshFeed()
-			},
-			{
-				id: "sep2",
-			},
-			{
-				id: "showDuplicates",
-				onclick: () => {
-					this.setVirtual(libraryID, 'duplicates', true);
-				}
-			},
-			{
-				id: "showUnfiled",
-				onclick: () => {
-					this.setVirtual(libraryID, 'unfiled', true);
-				}
-			},
-			{
-				id: "editSelectedCollection",
-				onclick: () => this.editSelectedCollection()
-			},
-			{
-				id: "markReadFeed",
-				onclick: () => this.markFeedRead()
-			},
-			{
-				id: "editSelectedFeed",
-				onclick: () => this.editSelectedFeed()
-			},
-			{
-				id: "deleteCollection",
-				onclick: () => this.deleteSelectedCollection()
-			},
-			{
-				id: "deleteCollectionAndItems",
-				onclick: () => this.deleteSelectedCollection(true)
-			},
-			{
-				id: "sep3",
-			},
-			{
-				id: "exportCollection",
-				onclick: () => Zotero_File_Interface.exportCollection()
-			},
-			{
-				id: "createBibCollection",
-				onclick: () => Zotero_File_Interface.bibliographyFromCollection()
-			},
-			{
-				id: "exportFile",
-				onclick: () => Zotero_File_Interface.exportFile()
-			},
-			{
-				id: "loadReport",
-				onclick: event => Zotero_Report_Interface.loadCollectionReport(event)
-			},
-			{
-				id: "emptyTrash",
-				onclick: () => this.emptyTrash()
-			},
-			{
-				id: "removeLibrary",
-				label: Zotero.getString('pane.collections.menu.remove.library'),
-				onclick: () => {
-					let library = Zotero.Libraries.get(libraryID);
-					let ps = Services.prompt;
-					let buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_IS_STRING)
-						+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_CANCEL);
-					let index = ps.confirmEx(
-						null,
-						Zotero.getString('pane.collections.removeLibrary'),
-						Zotero.getString('pane.collections.removeLibrary.text', library.name),
-						buttonFlags,
-						Zotero.getString('general.remove'),
-						null,
-						null, null, {}
-					);
-					if (index == 0) {
-						library.eraseTx();
-					}
-				}
-			},
-		];
-		
+		var options = _collectionContextMenuOptions;
 		
 		var collectionTreeRow = this.collectionsView.selectedTreeRow;
 		// This can happen if selection is changing during delayed second call below
@@ -2496,9 +2491,6 @@ var ZoteroPane = new function()
 			}
 			if (option.command) {
 				menuitem.setAttribute('command', option.command);
-			}
-			else if (option.onclick) {
-				menuitem.onclick = option.onclick;
 			}
 		}
 		
@@ -2657,7 +2649,27 @@ var ZoteroPane = new function()
 		for (let id of disable) {
 			m[id].setAttribute('disabled', true);
 		}
-	}
+	};
+	
+	this.onCollectionContextMenuSelect = function (event) {
+		event.stopPropagation();
+		var o = _collectionContextMenuOptions.find(o => o.id == event.target.id)
+		if (o.oncommand) {
+			o.oncommand();
+		}
+	};
+	
+	/**
+	 * Show context menu once it's ready
+	 */
+	this.onItemsContextMenuOpen = function (event) {
+		ZoteroPane.buildItemContextMenu()
+		.then(function () {
+			document.getElementById('zotero-itemmenu').openPopup(
+				null, null, event.clientX + 1, event.clientY + 1, true, false, event
+			);
+		})
+	};
 	
 	this.buildItemContextMenu = Zotero.Promise.coroutine(function* () {
 		var options = [
@@ -3004,20 +3016,6 @@ var ZoteroPane = new function()
 			}
 		}
 		else if (tree.id == 'zotero-items-tree') {
-			// Show context menu once it's ready
-			if (event.button == 2) {
-				// Allow item to be selected first
-				setTimeout(function () {
-					ZoteroPane_Local.buildItemContextMenu()
-					.then(function () {
-						document.getElementById('zotero-itemmenu').openPopup(
-							null, null, event.clientX + 1, event.clientY + 1, true, false, event
-						);
-					})
-				});
-				return;
-			}
-			
 			let collectionTreeRow = ZoteroPane_Local.getCollectionTreeRow();
 			
 			// Automatically select all equivalent items when clicking on an item
@@ -3255,7 +3253,7 @@ var ZoteroPane = new function()
 				if (uri.startsWith('zotero:')) {
 					let nsIURI = Services.io.newURI(uri, null, null);
 					let handler = Components.classes["@mozilla.org/network/protocol;1?name=zotero"]
-						.createInstance(Components.interfaces.nsIProtocolHandler);
+						.getService();
 					let extension = handler.wrappedJSObject.getExtension(nsIURI);
 					if (extension.noContent) {
 						extension.doAction(nsIURI);
@@ -3670,18 +3668,6 @@ var ZoteroPane = new function()
 	 * @return {Promise<Zotero.Item>|false}
 	 */
 	this.addItemFromPage = Zotero.Promise.method(function (itemType, saveSnapshot, row) {
-		if(Zotero.isConnector) {
-			// In connector, save page via Zotero Standalone
-			var doc = window.content.document;
-			Zotero.Connector.callMethod("saveSnapshot", {"url":doc.location.toString(),
-				"cookie":doc.cookie, "html":doc.documentElement.innerHTML,
-				"skipSnapshot": saveSnapshot === false || (saveSnapshot === true ? false : undefined)},
-			function(returnValue, status) {
-				_showPageSaveStatus(doc.title);
-			});
-			return false;
-		}
-		
 		if (row == undefined && this.collectionsView && this.collectionsView.selection) {
 			row = this.collectionsView.selection.currentIndex;
 		}
@@ -4707,18 +4693,10 @@ var ZoteroPane = new function()
 			var errFunc = Zotero.startupErrorHandler;
 		}
 		
-		// Get the stringbundle manually
-		if (Services.locale.getAppLocale) {
-			var appLocale = Services.locale.getAppLocale();
-		}
-		// Fx <=53
-		else {
-			var appLocale = Services.locale.getApplicationLocale();
-		}
 		var stringBundleService = Components.classes["@mozilla.org/intl/stringbundle;1"]
 			.getService(Components.interfaces.nsIStringBundleService);
 		var src = 'chrome://zotero/locale/zotero.properties';
-		var stringBundle = stringBundleService.createBundle(src, appLocale);
+		var stringBundle = stringBundleService.createBundle(src);
 		
 		var title = stringBundle.GetStringFromName('general.error');
 		if (!errMsg) {
@@ -4824,6 +4802,21 @@ var ZoteroPane = new function()
 		}
 		Zotero.Prefs.set("pane.persist", JSON.stringify(serializedValues));
 	}
+	
+	
+	this.updateWindow = function () {
+		var zoteroPane = document.getElementById('zotero-pane');
+		// Must match value in overlay.css
+		var breakpoint = 1000;
+		var className = `width-${breakpoint}`;
+		if (window.innerWidth >= breakpoint) {
+			zoteroPane.classList.add(className);
+		}
+		else {
+			zoteroPane.classList.remove(className);
+		}
+	};
+	
 	
 	/**
 	 * Moves around the toolbar when the user moves around the pane
