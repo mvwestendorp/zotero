@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Hilfe">
 <!ENTITY helpReportErrors.accesskey "e">
-<!ENTITY helpReportErrors.label "Fehlerbericht an Zotero senden">
+<!ENTITY helpReportErrors.label "Fehler melden...">
 <!ENTITY helpTroubleshootingInfo.accesskey "P">
 <!ENTITY helpTroubleshootingInfo.label "Problembehebung">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

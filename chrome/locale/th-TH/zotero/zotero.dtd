@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Refresh">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "เลือกทั้งหมด">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "เพิ่ม/แก้ไขการอ้างอิง">
 <!ENTITY zotero.integration.classicView.label "มุมมองแบบคลาสสิก">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Swap First/Last Names">
 <!ENTITY zotero.item.deletePermanently "Delete Permanently…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "แปลงแบบอักษร">
 <!ENTITY zotero.item.textTransform.sentencecase "แบบประโยค">
 <!ENTITY zotero.item.textTransform.titlecase "แบบชื่อเรื่อง">

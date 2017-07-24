@@ -10,7 +10,7 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "關閉 (C)">
-<!ENTITY copyBibliographyCmd.label "複製成參考文獻條">
+<!ENTITY copyBibliographyCmd.label "複製參考文獻表">
 <!ENTITY copyCitationCmd.label "複製成引用文獻條">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "說明 (H)">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "向 Zotero 回報錯誤 (R)…">
+<!ENTITY helpReportErrors.label "回報錯誤…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "診斷之資訊 (T)">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
@@ -70,10 +70,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "隱藏 &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "匯入…">
+<!ENTITY importFromClipboardCmd.label "從剪貼簿匯入">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.label "安裝瀏覽器資料庫連結器">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "最小化">
 <!ENTITY pageSetupCmd.accesskey "U">
@@ -84,7 +84,7 @@
 <!ENTITY preferencesCmd.accesskey "O">
 <!ENTITY preferencesCmd.label "偏好設定 (N)">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "偏好設定…">
+<!ENTITY preferencesCmdMac.label "偏好設定...">
 <!ENTITY preferencesCmdUnix.accesskey "N">
 <!ENTITY preferencesCmdUnix.label "偏好設定 (N)">
 <!ENTITY printCmd.accesskey "P">

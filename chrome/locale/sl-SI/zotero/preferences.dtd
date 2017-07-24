@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Trenutno ni nameščen noben vstavek za urejevalnike besedil.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Uporabi klasično pogovorno okno Dodaj citat">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Mesto shranjevanja">
 <!ENTITY zotero.preferences.dataDir.choose "Izberi ...">
 <!ENTITY zotero.preferences.dataDir.custom "Po meri:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "V shemi posredovalnih strežnikov lahko uporabite naslednje spremenljivke:">
 <!ENTITY zotero.preferences.quickCopy.caption "Hitro kopiraj">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopiraj kot HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Privzeta izhodna oblika:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Onemogoči Hitro kopiranje ob vleki več kot">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Opomba: Oblikovanje besedila bo na Mac OS X izgubljeno.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domena/pot">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(npr. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Jezik">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Izhodna oblika">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Nastavitve za to mesto:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "ločenem zavihku">
 <!ENTITY zotero.preferences.statusBarIcon "Ikona v vrstici stanja:">
 <!ENTITY zotero.preferences.statusBarIcon.none "brez">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "O usklajevanju">
 <!ENTITY zotero.preferences.sync.createAccount "Ustvari račun">
 <!ENTITY zotero.preferences.sync.fileSyncing "Usklajevanje datotek">

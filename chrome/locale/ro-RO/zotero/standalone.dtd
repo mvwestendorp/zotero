@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Ajutor">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Raportează erorile la Zotero...">
+<!ENTITY helpReportErrors.label "Raportează erori…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Informații pentru probleme">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

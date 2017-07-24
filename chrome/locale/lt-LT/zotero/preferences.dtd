@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Nerasta įdiegtų teksto rengyklės papildinių.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Naudoti klasikinį citatų įdėjimo langą">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Duomenų katalogo vieta">
 <!ENTITY zotero.preferences.dataDir.choose "Pasirinkti...">
 <!ENTITY zotero.preferences.dataDir.custom "Savita:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Įgaliotojo serverio schemoje galite naudoti tokius kintamuosius:">
 <!ENTITY zotero.preferences.quickCopy.caption "Greitas kopijavimas">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopijuoti HTML formatu">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Numatytasis išvedimo formatas:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Neleisti greitai kopijuoti, jei tempiama daugiau kaip">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Pastaba: raiškiojo teksto formatavimas nebus išlaikomas Mac OS X sistemoje.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Sritis/kelias">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(pvz., vikipedija.lt)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Kalba">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Išvedimo formatas">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Parinktys atskiroms svetainėms:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Atskiroje kortelėje">
 <!ENTITY zotero.preferences.statusBarIcon "Ženkliukas būsenos juostoje:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Jokio">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "Apie sinchronizavimą">
 <!ENTITY zotero.preferences.sync.createAccount "Sukurti paskyrą">
 <!ENTITY zotero.preferences.sync.fileSyncing "Failų sinchronizavimas">

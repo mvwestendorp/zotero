@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Yenile">
 <!ENTITY zotero.general.saveAs "Farklı Kaydet...">
 <!ENTITY zotero.general.selectAll "Hepsini Seç">
+<!ENTITY zotero.general.tools "Araçlar">
 <!ENTITY zotero.general.yes "Evet">
 <!ENTITY zotero.integration.addEditCitation.title "Gönderme Ekle/Düzenle">
 <!ENTITY zotero.integration.classicView.label "Klasik Görünüm">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "İlk ve Soyadları Takas Et">
 <!ENTITY zotero.item.deletePermanently "Kalıcı Olarak Sil...">
+<!ENTITY zotero.item.tags.removeAll "Tüm Etiketleri Kaldır...">
 <!ENTITY zotero.item.textTransform "Metni Dönüştür">
 <!ENTITY zotero.item.textTransform.sentencecase "Cümle Biçimi">
 <!ENTITY zotero.item.textTransform.titlecase "Başlık Biçimi">

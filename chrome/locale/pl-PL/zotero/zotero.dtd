@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Odśwież">
 <!ENTITY zotero.general.saveAs "Zapisz jako...">
 <!ENTITY zotero.general.selectAll "Zaznacz wszystkie">
+<!ENTITY zotero.general.tools "Narzędzia">
 <!ENTITY zotero.general.yes "Tak">
 <!ENTITY zotero.integration.addEditCitation.title "Dodaj/Edytuj cytowanie">
 <!ENTITY zotero.integration.classicView.label "Widok klasyczny">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Zamień imię i nazwisko">
 <!ENTITY zotero.item.deletePermanently "Usuń trwale...">
+<!ENTITY zotero.item.tags.removeAll "Usuń wszystkie etykiety...">
 <!ENTITY zotero.item.textTransform "Przekształć tekst">
 <!ENTITY zotero.item.textTransform.sentencecase "Jak w zdaniu">
 <!ENTITY zotero.item.textTransform.titlecase "Kapitaliki">

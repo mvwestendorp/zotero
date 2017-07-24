@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Atnaujinti">
 <!ENTITY zotero.general.saveAs "Įrašyti kaip...">
 <!ENTITY zotero.general.selectAll "Pažymėti viską">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Taip">
 <!ENTITY zotero.integration.addEditCitation.title "Pridėti/redaguoti citavimą">
 <!ENTITY zotero.integration.classicView.label "Klasikinis rodinys">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Sukeisti vardus ir pavardes">
 <!ENTITY zotero.item.deletePermanently "Pašalinti negrįžtamai...">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Teksto trasformavimas">
 <!ENTITY zotero.item.textTransform.sentencecase "Sakinio pavidalu">
 <!ENTITY zotero.item.textTransform.titlecase "Antraštės raidžių lygis">

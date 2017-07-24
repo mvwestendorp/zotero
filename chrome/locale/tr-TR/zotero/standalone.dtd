@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "?">
 <!ENTITY helpMenuWin.label "Yardım">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Hataları Zotero'ya Bildir">
+<!ENTITY helpReportErrors.label "Hataları Bildir...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Sorun Giderme Bilgisi">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
