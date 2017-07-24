@@ -66,7 +66,6 @@
 					oncommand="Zotero_Preferences.Export.buildQuickCopyFormatDropDown(document.getElementById('zotero-quickCopy-menu'), this.checked ? 'html' : '');"/>
 			</hbox>
 			
-<<<<<<< HEAD
  			<hbox align="left">
  			  <checkbox id="zotero-quickCopy-linkWrapOption" label="&zotero.preferences.quickCopy.linkOption;"
  					oncommand="Zotero_Preferences.Export.updateQuickCopyHTMLCheckbox();"
@@ -75,7 +74,6 @@
  					preference="pref-quickCopy-linkCitationFormReverse"/>
  			</hbox>
  
-=======
 			<separator/>
 			
 			<label value="&zotero.preferences.quickCopy.siteEditor.setings;" control="quickCopy-siteSettings"/>
@@ -101,7 +99,6 @@
 					onclick="Zotero_Preferences.Export.showQuickCopySiteEditor()"/>
 			</hbox>
 			
->>>>>>> 6ae2b58d3fd4398f98730541cc1b6fcef65c14eb
 			<hbox align="center">
 				<label value="&zotero.preferences.quickCopy.dragLimit;"/>
 				<textbox preference="pref-quickCopy-dragLimit" size="3"/>
