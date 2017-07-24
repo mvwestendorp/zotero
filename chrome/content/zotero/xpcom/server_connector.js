@@ -348,16 +348,8 @@ Zotero.Server.Connector.SaveItem.prototype = {
 		// My Library if present and editable, and otherwise fail
 		var library = Zotero.Libraries.get(libraryID);
 		if (!library.editable || library.libraryType == 'publications') {
-			let userLibrary = Zotero.Libraries.userLibrary;
-			if (userLibrary && userLibrary.editable) {
-				yield zp.collectionsView.selectLibrary(userLibrary.id);
-				libraryID = userLibrary.id;
-				collection = null;
-			}
-			else {
-				Zotero.logError("Can't add item to read-only library " + library.name);
-				return 500;
-			}
+			Zotero.logError("Can't add item to read-only library " + library.name);
+			return [500, "application/json", JSON.stringify({libraryEditable: false})];
 		}
 		
 		var cookieSandbox = data.uri
@@ -729,8 +721,10 @@ Zotero.Server.Connector.GetSelectedCollection.prototype = {
 			libraryID: libraryID
 		};
 		
-		if(libraryID) {
-			response.libraryName = Zotero.Libraries.getName(libraryID);
+		if (libraryID) {
+			let library = Zotero.Libraries.get(libraryID);
+			response.libraryName = library.name;
+			response.libraryEditable = library.editable;
 		} else {
 			response.libraryName = Zotero.getString("pane.collections.library");
 		}
@@ -776,6 +770,31 @@ Zotero.Server.Connector.GetClientHostnames.prototype = {
 	})
 };
 
+/**
+ * Get a list of stored proxies
+ *
+ * Accepts:
+ *		Nothing
+ * Returns:
+ * 		{Array} hostnames
+ */
+Zotero.Server.Connector.Proxies = {};
+Zotero.Server.Connector.Proxies = function() {};
+Zotero.Server.Endpoints["/connector/proxies"] = Zotero.Server.Connector.Proxies;
+Zotero.Server.Connector.Proxies.prototype = {
+	supportedMethods: ["POST"],
+	supportedDataTypes: ["application/json"],
+	permitBookmarklet: false,
+	
+	/**
+	 * Returns a 200 response to say the server is alive
+	 */
+	init: Zotero.Promise.coroutine(function* () {
+		let proxies = Zotero.Proxies.proxies.map((p) => Object.assign(p.toJSON(), {hosts: p.hosts}));
+		return [200, "application/json", JSON.stringify(proxies)];
+	})
+};
+
 
 /**
  * Test connection
@@ -796,13 +815,28 @@ Zotero.Server.Connector.Ping.prototype = {
 	 * Sends 200 and HTML status on GET requests
 	 * @param data {Object} request information defined in connector.js
 	 */
-	init: function(data) {
-		if (data.method == 'GET') {
+	init: function (req) {
+		if (req.method == 'GET') {
 			return [200, "text/html", '<!DOCTYPE html><html><head>' +
 				'<title>Zotero Connector Server is Available</title></head>' +
 				'<body>Zotero Connector Server is Available</body></html>'];
 		} else {
-			return [200, 'text/plain', ''];
+			// Store the active URL so it can be used for site-specific Quick Copy
+			if (req.data.activeURL) {
+				//Zotero.debug("Setting active URL to " + req.data.activeURL);
+				Zotero.QuickCopy.lastActiveURL = req.data.activeURL;
+			}
+			
+			let response = {
+				prefs: {
+					automaticSnapshots: Zotero.Prefs.get('automaticSnapshots')
+				}
+			};
+			if (Zotero.QuickCopy.hasSiteSettings()) {
+				response.prefs.reportActiveURL = true;
+			}
+			
+			return [200, 'application/json', JSON.stringify(response)];
 		}
 	}
 }

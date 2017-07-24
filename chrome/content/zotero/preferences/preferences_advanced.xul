@@ -133,16 +133,25 @@
 					
 					<groupbox id="zotero-prefpane-advanced-miscellaneous">
 						<caption label="&zotero.preferences.miscellaneous;"/>
+						
+						<hbox align="center">
+							<label value="&zotero.bibliography.locale.label;"/>
+							<menulist id="locale-menu"
+									oncommand="Zotero_Preferences.Advanced.onLocaleChange()">
+								<menupopup/>
+							</menulist>
+						</hbox>
+						
+						<separator/>
+						
 						<hbox id="zotero-prefpane-advanced-openbuttons" align="center" style="display: block">
-							<button id="openAboutConfig"
-								label="&zotero.preferences.openAboutConfig;"
+							<button id="config-editor"
+								label="&zotero.preferences.configEditor;"
 								oncommand="Zotero_Preferences.openInViewer('about:config')"/>
-							<button id="openCSLEdit"
-								label="&zotero.preferences.openCSLEdit;"
-								oncommand="Zotero_Preferences.openInViewer('chrome://zotero/content/tools/csledit.xul', true)"/>
-							<button id="openCSLPreview"
-								label="&zotero.preferences.openCSLPreview;"
-								oncommand="Zotero_Preferences.openInViewer('chrome://zotero/content/tools/cslpreview.xul', true)"/>
+							<button id="memory-info"
+								label="Memory Info"
+								oncommand="Zotero_Preferences.openInViewer('about:memory')"
+								hidden="true"/>
 						</hbox>
 					</groupbox>
 				</tabpanel>

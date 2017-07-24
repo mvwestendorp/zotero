@@ -76,9 +76,7 @@ Zotero_Preferences.Export = {
 		this._lastSelectedLocale = Zotero.Prefs.get("export.quickCopy.locale");
 		this.updateQuickCopyUI();
 		
-		if (!Zotero.isStandalone) {
-			yield this.refreshQuickCopySiteList();
-		}
+		yield this.refreshQuickCopySiteList();
 	}),
 	
 	
@@ -106,7 +104,7 @@ Zotero_Preferences.Export = {
 		menulist.appendChild(popup);
 		
 		var itemNode = document.createElement("menuitem");
-		itemNode.setAttribute("label", Zotero.getString('zotero.preferences.export.quickCopy.bibStyles'));
+		itemNode.setAttribute("label", Zotero.getString('zotero.preferences.export.quickCopy.citationStyles'));
 		itemNode.setAttribute("disabled", true);
 		popup.appendChild(itemNode);
 		
@@ -131,6 +129,7 @@ Zotero_Preferences.Export = {
 		popup.appendChild(itemNode);
 		
 		// add export formats to list
+		translators.sort((a, b) => a.label.localeCompare(b.label))
 		translators.forEach(function (translator) {
 			// Skip RDF formats
 			switch (translator.translatorID) {

@@ -747,7 +747,6 @@ Zotero.Items = function() {
 			}
 			
 			item._loaded.tags = true;
-			item._clearChanged('tags');
 		}.bind(this);
 		
 		yield Zotero.DB.queryAsync(

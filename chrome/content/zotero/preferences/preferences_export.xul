@@ -53,7 +53,7 @@
 			
 			<separator/>
 			
-			<label value="&zotero.preferences.quickCopy.defaultOutputFormat;" control="quickCopy-menu"/>
+			<label value="&zotero.preferences.quickCopy.defaultFormat;" control="quickCopy-menu"/>
 			<menulist id="zotero-quickCopy-menu" label="&zotero.general.loading;" oncommand="Zotero_Preferences.Export.cacheStyleAbbreviations(event)"/>
 			
 			<hbox align="center">
@@ -66,6 +66,7 @@
 					oncommand="Zotero_Preferences.Export.buildQuickCopyFormatDropDown(document.getElementById('zotero-quickCopy-menu'), this.checked ? 'html' : '');"/>
 			</hbox>
 			
+<<<<<<< HEAD
  			<hbox align="left">
  			  <checkbox id="zotero-quickCopy-linkWrapOption" label="&zotero.preferences.quickCopy.linkOption;"
  					oncommand="Zotero_Preferences.Export.updateQuickCopyHTMLCheckbox();"
@@ -74,6 +75,33 @@
  					preference="pref-quickCopy-linkCitationFormReverse"/>
  			</hbox>
  
+=======
+			<separator/>
+			
+			<label value="&zotero.preferences.quickCopy.siteEditor.setings;" control="quickCopy-siteSettings"/>
+			<tree flex="1" id="quickCopy-siteSettings" hidecolumnpicker="true" rows="6" seltype="single"
+					ondblclick="Zotero_Preferences.Export.showQuickCopySiteEditor(this.currentIndex)"
+					onselect="Zotero_Preferences.Export.enableQuickCopySiteButtons()"
+					onkeypress="if (event.keyCode == event.DOM_VK_DELETE) { Zotero_Preferences.Export.deleteSelectedQuickCopySite(); }">
+				<treecols>
+					<treecol id="quickCopy-urlColumn" label="&zotero.preferences.quickCopy.siteEditor.domainPath;" flex="1"/>
+					<treecol id="quickCopy-formatColumn" label="&zotero.preferences.quickCopy.siteEditor.format;" flex="2"/>
+					<treecol id="quickCopy-localeColumn" label="&zotero.preferences.quickCopy.siteEditor.locale;"/>
+					<treecol id="quickCopy-copyAsHTML" label="HTML"/>
+				</treecols>
+				<treechildren id="quickCopy-siteSettings-rows"/>
+			</tree>
+			<separator class="thin"/>
+			<hbox>
+				<button disabled="true" id="quickCopy-edit" label="&zotero.general.edit;"
+					onclick="Zotero_Preferences.Export.showQuickCopySiteEditor(document.getElementById('quickCopy-siteSettings').currentIndex)"/>
+				<spacer flex="1"/>
+				<button disabled="true" id="quickCopy-delete" label="-" onclick="Zotero_Preferences.Export.deleteSelectedQuickCopySite()"/>
+				<button label="+"
+					onclick="Zotero_Preferences.Export.showQuickCopySiteEditor()"/>
+			</hbox>
+			
+>>>>>>> 6ae2b58d3fd4398f98730541cc1b6fcef65c14eb
 			<hbox align="center">
 				<label value="&zotero.preferences.quickCopy.dragLimit;"/>
 				<textbox preference="pref-quickCopy-dragLimit" size="3"/>

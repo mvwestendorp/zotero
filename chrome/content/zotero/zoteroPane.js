@@ -2146,8 +2146,7 @@ var ZoteroPane = new function()
 			return;
 		}
 		
-		var url = (window.content && window.content.location ? window.content.location.href : null);
-		var format = Zotero.QuickCopy.getFormatFromURL(url);
+		var format = Zotero.QuickCopy.getFormatFromURL(Zotero.QuickCopy.lastActiveURL);
 		format = Zotero.QuickCopy.unserializeSetting(format);
 		
 		// determine locale preference
@@ -4570,10 +4569,10 @@ var ZoteroPane = new function()
 				Zotero.debug("Invalid path", 2);
 				break;
 			}
-			var dir = Zotero.File.getClosestDirectory(file);
+			
+			var dir = yield Zotero.File.getClosestDirectory(file);
 			if (dir) {
-				dir.QueryInterface(Components.interfaces.nsILocalFile);
-				fp.displayDirectory = dir;
+				fp.displayDirectory = Zotero.File.pathToFile(dir);
 			}
 			
 			fp.appendFilters(Components.interfaces.nsIFilePicker.filterAll);

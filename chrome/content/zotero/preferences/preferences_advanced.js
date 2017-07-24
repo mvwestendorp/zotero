@@ -23,7 +23,7 @@
     ***** END LICENSE BLOCK *****
 */
 
-"use strict";
+Components.utils.import("resource://gre/modules/Services.jsm");
 
 Zotero_Preferences.Advanced = {
 	_openURLResolvers: null,
@@ -33,7 +33,13 @@ Zotero_Preferences.Advanced = {
 		Zotero_Preferences.Debug_Output.init();
 		Zotero_Preferences.Keys.init();
 		
+		// Show Memory Info button if the Error Console menu option is enabled
+		if (Zotero.Prefs.get('devtools.errorconsole.enabled', true)) {
+			document.getElementById('memory-info').hidden = false;
+		}
+		
 		this.onDataDirLoad();
+		this.refreshLocale();
 	},
 	
 	
@@ -48,6 +54,19 @@ Zotero_Preferences.Advanced = {
 		Components.utils.import("resource://zotero/config.js")
 		var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 			.getService(Components.interfaces.nsIPromptService);
+		
+		// If there's a migration marker, point data directory back to the current location and remove
+		// it to trigger the migration again
+		var marker = OS.Path.join(defaultDir, Zotero.DataDirectory.MIGRATION_MARKER);
+		if (yield OS.File.exists(marker)) {
+			Zotero.Prefs.clear('dataDir');
+			Zotero.Prefs.clear('useDataDir');
+			yield OS.File.remove(marker);
+			try {
+				yield OS.File.remove(OS.Path.join(defaultDir, '.DS_Store'));
+			}
+			catch (e) {}
+		}
 		
 		// ~/Zotero exists and is non-empty
 		if ((yield OS.File.exists(defaultDir)) && !(yield Zotero.File.directoryIsEmpty(defaultDir))) {
@@ -405,6 +424,84 @@ Zotero_Preferences.Advanced = {
 	
 	onOpenURLCustomized: function () {
 		document.getElementById('openURLMenu').value = "custom";
+	},
+	
+	
+	_getAutomaticLocaleMenuLabel: function () {
+		return Zotero.getString(
+			'zotero.preferences.locale.automaticWithLocale',
+			Zotero.Locale.availableLocales[Zotero.locale] || Zotero.locale
+		);
+	},
+	
+	
+	refreshLocale: function () {
+		var matchOS = Zotero.Prefs.get('intl.locale.matchOS', true);
+		var autoLocaleName, currentValue;
+		
+		// If matching OS, get the name of the current locale
+		if (matchOS) {
+			autoLocaleName = this._getAutomaticLocaleMenuLabel();
+			currentValue = 'automatic';
+		}
+		// Otherwise get the name of the locale specified in the pref
+		else {
+			let branch = Services.prefs.getBranch("");
+			let locale = branch.getComplexValue(
+				'general.useragent.locale', Components.interfaces.nsIPrefLocalizedString
+			);
+			autoLocaleName = Zotero.getString('zotero.preferences.locale.automatic');
+			currentValue = locale;
+		}
+		
+		// Populate menu
+		var menu = document.getElementById('locale-menu');
+		var menupopup = menu.firstChild;
+		menupopup.textContent = '';
+		// Show "Automatic (English)", "Automatic (Français)", etc.
+		menu.appendItem(autoLocaleName, 'automatic');
+		menu.menupopup.appendChild(document.createElement('menuseparator'));
+		// Add all available locales
+		for (let locale in Zotero.Locale.availableLocales) {
+			menu.appendItem(Zotero.Locale.availableLocales[locale], locale);
+		}
+		menu.value = currentValue;
+	},
+	
+	onLocaleChange: function () {
+		var menu = document.getElementById('locale-menu');
+		if (menu.value == 'automatic') {
+			// Changed if not already set to automatic (unless we have the automatic locale name,
+			// meaning we just switched away to the same manual locale and back to automatic)
+			var changed = !Zotero.Prefs.get('intl.locale.matchOS', true)
+				&& menu.label != this._getAutomaticLocaleMenuLabel();
+			Zotero.Prefs.set('intl.locale.matchOS', true, true);
+		}
+		else {
+			// Changed if moving to a locale other than the current one
+			var changed = Zotero.locale != menu.value
+			Zotero.Prefs.set('intl.locale.matchOS', false, true);
+			Zotero.Prefs.set('general.useragent.locale', menu.value, true);
+		}
+		
+		if (!changed) {
+			return;
+		}
+		
+		var ps = Services.prompt;
+		var buttonFlags = ps.BUTTON_POS_0 * ps.BUTTON_TITLE_IS_STRING
+			+ ps.BUTTON_POS_1 * ps.BUTTON_TITLE_IS_STRING;
+		var index = ps.confirmEx(null,
+			Zotero.getString('general.restartRequired'),
+			Zotero.getString('general.restartRequiredForChange', Zotero.appName),
+			buttonFlags,
+			Zotero.getString('general.restartNow'),
+			Zotero.getString('general.restartLater'),
+			null, null, {});
+		
+		if (index == 0) {
+			Zotero.Utilities.Internal.quitZotero(true);
+		}
 	}
 };
 
