@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Brak aktualnie zainstalowanych wtyczek procesorów tekstu.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Użyj klasycznego okna Dodaj cytowanie">
+<!ENTITY zotero.preferences.configEditor "Edytor ustawień">
 <!ENTITY zotero.preferences.dataDir "Miejsce przechowywania:">
 <!ENTITY zotero.preferences.dataDir.choose "Wybierz...">
 <!ENTITY zotero.preferences.dataDir.custom "Określ katalog:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Możesz użyć następujących zmiennych w swoim schemacie proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Szybka kopia">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopiuj jako HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Format domyślny:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Domyślny format wyjściowy">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Wyłącz Szybką kopię jeśli przeciągane jest więcej niż">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Uwaga: formatowanie RTF zostanie utracone w systemie Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domena/Ścieżka dostępu">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(np. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Język">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Format wyjściowy">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Ustawienia właściwe tylko dla danej strony:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Oddzielnej zakładce">
 <!ENTITY zotero.preferences.statusBarIcon "Ikona paska stanu:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Brak">
+<!ENTITY zotero.preferences.styleEditor "Edytor stylów">
+<!ENTITY zotero.preferences.stylePreview "Podgląd stylu">
 <!ENTITY zotero.preferences.sync.about "Informacje o synchronizacji">
 <!ENTITY zotero.preferences.sync.createAccount "Utwórz konto">
 <!ENTITY zotero.preferences.sync.fileSyncing "Synchronizacja plików">

@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Újratöltés">
 <!ENTITY zotero.general.saveAs "Mentés másként…">
 <!ENTITY zotero.general.selectAll "Minden kijelölése">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Igen">
 <!ENTITY zotero.integration.addEditCitation.title "Hivatkozás hozzáadása/szerkesztése">
 <!ENTITY zotero.integration.classicView.label "Klasszikus nézet">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Keresztnév/Vezetéknév felcserélése">
 <!ENTITY zotero.item.deletePermanently "Delete Permanently…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Szöveg átalakítása">
 <!ENTITY zotero.item.textTransform.sentencecase "Mondatkezdő">
 <!ENTITY zotero.item.textTransform.titlecase "Szókezdő">

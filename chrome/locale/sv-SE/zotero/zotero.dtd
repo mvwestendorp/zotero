@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Uppdatera">
 <!ENTITY zotero.general.saveAs "Spara som…">
 <!ENTITY zotero.general.selectAll "Markera allt">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.integration.addEditCitation.title "Lägg till/redigera källhänvisning">
 <!ENTITY zotero.integration.classicView.label "Klassisk vy">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Skifta för-/efternamn">
 <!ENTITY zotero.item.deletePermanently "Radera permanent…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Omvandla text">
 <!ENTITY zotero.item.textTransform.sentencecase "Vanlig versalisering">
 <!ENTITY zotero.item.textTransform.titlecase "Engelsk Titelskrivning">

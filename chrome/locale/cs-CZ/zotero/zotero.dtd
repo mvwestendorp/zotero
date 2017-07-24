@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Obnovit">
 <!ENTITY zotero.general.saveAs "Uložit jako...">
 <!ENTITY zotero.general.selectAll "Vybrat vše">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ano">
 <!ENTITY zotero.integration.addEditCitation.title "Přidat/Upravit citaci">
 <!ENTITY zotero.integration.classicView.label "Standardní zobrazení">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Zaměnit křestní jména / přijmení">
 <!ENTITY zotero.item.deletePermanently "Definitivně smazat...">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Převést text">
 <!ENTITY zotero.item.textTransform.sentencecase "Velké první písmeno">
 <!ENTITY zotero.item.textTransform.titlecase "Velká Písmena">

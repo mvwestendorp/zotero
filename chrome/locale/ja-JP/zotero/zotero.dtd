@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "再読み込み">
 <!ENTITY zotero.general.saveAs "名前をつけて保存...">
 <!ENTITY zotero.general.selectAll "すべて選択">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "はい">
 <!ENTITY zotero.integration.addEditCitation.title "出典表記を追加・編集">
 <!ENTITY zotero.integration.classicView.label "クラシック表示">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "姓と名を置き替える">
 <!ENTITY zotero.item.deletePermanently "永久に削除する...">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "テキストの大文字・小文字を指定する">
 <!ENTITY zotero.item.textTransform.sentencecase "各文の先頭を大文字に">
 <!ENTITY zotero.item.textTransform.titlecase "各単語の先頭を大文字に">

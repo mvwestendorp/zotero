@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Er zijn nu geen tekstverwerker plug-ins geïnstalleerd.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Gebruik het klassieke &quot;Citaat Toevoegen&quot;-dialoogvenster">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Locatie opslagmap">
 <!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "Aangepast:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "U kunt de volgende variabelen gebruiken in uw proxy-systeem:">
 <!ENTITY zotero.preferences.quickCopy.caption "Snelle kopie">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopieer als HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Standaard uitvoerformaat:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Snelle kopie uitzetten bij het verslepen van meer dan">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Let op: uitgebreide tekstopmaak gaat verloren onder Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domein/Pad">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(b.v. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Uitvoerformaat">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Webpagina-specifieke instellingen:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Eigen tabblad">
 <!ENTITY zotero.preferences.statusBarIcon "Add-onbalk pictogram:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Geen">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "Over synchroniseren">
 <!ENTITY zotero.preferences.sync.createAccount "Account aanmaken">
 <!ENTITY zotero.preferences.sync.fileSyncing "Bestandssynchronisatie">

@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Keine Erweiterungen für Textverarbeitungsprogramme installiert.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Alten Zitations-Dialog nutzen">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Speicherort">
 <!ENTITY zotero.preferences.dataDir.choose "Auswählen...">
 <!ENTITY zotero.preferences.dataDir.custom "Eigene:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Sie können die folgenden Variablen in Ihrem Proxy-Schema verwenden:">
 <!ENTITY zotero.preferences.quickCopy.caption "Quick-Copy">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Als HTML kopieren">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Standardformat">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Standardausgabeformat">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Quick-Copy deaktiveren, wenn mehr als ... Einträge aktiv sind">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Achtung: Rich-Text-Formatierungen gehen unter Mac OS X verloren.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domain/Pfad">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(z. B. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Sprache">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Ausgabeformat">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Website-spezifische Einstellungen:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Eigenem Tab">
 <!ENTITY zotero.preferences.statusBarIcon "Statusleisten-Icon:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Kein Icon">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "Über Synchronisierung">
 <!ENTITY zotero.preferences.sync.createAccount "Account erstellen">
 <!ENTITY zotero.preferences.sync.fileSyncing "Datei-Synchronisierung">

@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Không có plug-in cho phần mềm soạn thảo nào đã được cài đặt.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Dùng màn hình Thêm trích dẫn kiểu cũ">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Nơi lưu trữ dữ liệu">
 <!ENTITY zotero.preferences.dataDir.choose "Chọn...">
 <!ENTITY zotero.preferences.dataDir.custom "Tùy biến:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Bạn có thể dùng các biến sau trong proxy scheme">
 <!ENTITY zotero.preferences.quickCopy.caption "Sao chép nhanh">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Copy theo dạng HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Định dạng mặc định của dữ liệu đầu ra:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Tắt copy nhanh khi kéo nhiều hơn">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Chú ý: Định dạng rich-text sẽ bị mất khi dùng trên Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Tên miền/Đường dẫn">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(vd: wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Ngôn ngữ">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Định dạng dữ liệu đầu ra">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Những thiết lập đặc thù cho từng Website:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Phân cách">
 <!ENTITY zotero.preferences.statusBarIcon "Biểu tượng trong thanh trạng thái:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Không biểu tượng">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "Về đồng bộ">
 <!ENTITY zotero.preferences.sync.createAccount "Tạo tài khoản">
 <!ENTITY zotero.preferences.sync.fileSyncing "Đồng bộ tập tin">

@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Допомога">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Поскаржитися на помилки в Zotero...">
+<!ENTITY helpReportErrors.label "Повідомити про помилки...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Пошук і усунення несправностей">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

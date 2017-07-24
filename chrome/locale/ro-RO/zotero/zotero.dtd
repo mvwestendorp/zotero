@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Reîmprospătare">
 <!ENTITY zotero.general.saveAs "Salvare ca...">
 <!ENTITY zotero.general.selectAll "Selectează tot">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Da">
 <!ENTITY zotero.integration.addEditCitation.title "Adaugă/Editează citarea">
 <!ENTITY zotero.integration.classicView.label "Vizualizare clasică">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Schimbă Prenume/Nume">
 <!ENTITY zotero.item.deletePermanently "Șterge permanent...">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Transformă text">
 <!ENTITY zotero.item.textTransform.sentencecase "Majusculă ca la propoziție">
 <!ENTITY zotero.item.textTransform.titlecase "Litere de Titlu">

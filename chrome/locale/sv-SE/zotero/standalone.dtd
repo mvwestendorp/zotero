@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Hjälp">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Rapportera fel till Zotero...">
+<!ENTITY helpReportErrors.label "Rapportera fel…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Felsökningsinformation">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

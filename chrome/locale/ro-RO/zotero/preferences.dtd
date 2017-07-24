@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Niciu plug-in pentru procesorul de text nu este instalat în acest moment.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Folosește caseta clasică de dialog Adaugă citare">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Locația dosarului cu date">
 <!ENTITY zotero.preferences.dataDir.choose "Alege...">
 <!ENTITY zotero.preferences.dataDir.custom "Personalizare:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Ai putea folosi următoarele variabile în schema serverului tău proxy:">
 <!ENTITY zotero.preferences.quickCopy.caption "Copiere rapidă">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Copiază ca HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Stil implicit de formatare:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Dezactivează Copierea rapidă în timpul tragerii a mai mult de">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Notă: Formatarea RTF se va pierde pe Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domeniu/Cale">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ex. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Limbă">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Stil de formatare">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Setări specifice site:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Filă separată">
 <!ENTITY zotero.preferences.statusBarIcon "Imaginea din bara de stare:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Niciuna">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "Despre sincronizare">
 <!ENTITY zotero.preferences.sync.createAccount "Creează cont">
 <!ENTITY zotero.preferences.sync.fileSyncing "Sincronizare fișier">

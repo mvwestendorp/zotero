@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "هیچ افزونه‌ای برای ارتباط با واژه‌پردازها نصب نشده است.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "استفاده از پنجره استناد‌کننده کلاسیک">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "محل ذخیره اطلاعات">
 <!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "محل دلخواه:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "می‌توانید از متغیرهای زیر در الگوی پیشکار خود استفاده کنید:">
 <!ENTITY zotero.preferences.quickCopy.caption "رونوشت سریع">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "رونوشت به صورت HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "قالب خروجی پیش‌فرض:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "غیر فعال کردن رونوشت سریع در زمان کشیدن بیش از ">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "تذکر: قالب‌بندی Rich-text در Mac OS X از بین خواهد رفت.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "دامنه/مسیر">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(مثال: wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "قالب خروجی">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "تنظیمات اختصاصی وب‌گاه‌ها:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "برگه جداگانه">
 <!ENTITY zotero.preferences.statusBarIcon "نشانه زوترو:">
 <!ENTITY zotero.preferences.statusBarIcon.none "هیچ‌کدام">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "درباره همزمان‌‌سازی">
 <!ENTITY zotero.preferences.sync.createAccount "ساخت حساب کاربری">
 <!ENTITY zotero.preferences.sync.fileSyncing "همزمان‌‌سازی پرونده‌ها">

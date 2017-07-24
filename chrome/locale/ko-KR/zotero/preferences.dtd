@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "설치된 워드 프로세서 플러그인 없음">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "클래식 인용추가 대화창 사용">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "저장 위치">
 <!ENTITY zotero.preferences.dataDir.choose "선택...">
 <!ENTITY zotero.preferences.dataDir.custom "사용자 지정:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "해당 프록시 구조에 있는 변수를 사용해야 합니다 : ">
 <!ENTITY zotero.preferences.quickCopy.caption "빠른 복사">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "HTML로 복사">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "기본 출력 형식:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "다음 이상 끌을 경우 빠른 복사 동작 안함:">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "주: Rich-text 형식은 Mac OS X 에서는 손실됩니다.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "도메인/경로">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(예. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "언어">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "출력 형식">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "사이트별 설정:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "분리 탭">
 <!ENTITY zotero.preferences.statusBarIcon "상태 표시줄 아이콘:">
 <!ENTITY zotero.preferences.statusBarIcon.none "없음">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "동기화 알아보기">
 <!ENTITY zotero.preferences.sync.createAccount "계정 생성">
 <!ENTITY zotero.preferences.sync.fileSyncing "파일 동기화">

@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Recarregar">
 <!ENTITY zotero.general.saveAs "Guardar Como…">
 <!ENTITY zotero.general.selectAll "Seleccionar Tudo">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Sim">
 <!ENTITY zotero.integration.addEditCitation.title "Adicionar/Editar Citação">
 <!ENTITY zotero.integration.classicView.label "Visualização Clássica">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Trocar Próprio/Apelido">
 <!ENTITY zotero.item.deletePermanently "Remover Permanentemente…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Transformar Texto">
 <!ENTITY zotero.item.textTransform.sentencecase "Maiúsculas Iniciais de Frase">
 <!ENTITY zotero.item.textTransform.titlecase "Maiúsculas Iniciais de Título">

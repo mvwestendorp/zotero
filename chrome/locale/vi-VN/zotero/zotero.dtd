@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Cập nhật">
 <!ENTITY zotero.general.saveAs "Lưu là...">
 <!ENTITY zotero.general.selectAll "Chạn tất cả">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Đồng ý">
 <!ENTITY zotero.integration.addEditCitation.title "Thêm/Soạn thảo Trích dẫn">
 <!ENTITY zotero.integration.classicView.label "Classic View">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Hoán chuyên tên và họ">
 <!ENTITY zotero.item.deletePermanently "Xóa hoàn toàn...">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Biến đổi Văn bản">
 <!ENTITY zotero.item.textTransform.sentencecase "Viết hoa đầu câu">
 <!ENTITY zotero.item.textTransform.titlecase "Viết hoa đầu từ">

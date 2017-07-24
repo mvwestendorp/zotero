@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Opdatér">
 <!ENTITY zotero.general.saveAs "Gem som...">
 <!ENTITY zotero.general.selectAll "Vælg alle">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.integration.addEditCitation.title "Tilføj/rediger reference">
 <!ENTITY zotero.integration.classicView.label "Klassisk visning">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Ombyt fornavn/efternavn">
 <!ENTITY zotero.item.deletePermanently "Slet permanent...">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Transformer tekst">
 <!ENTITY zotero.item.textTransform.sentencecase "Første bogstav med stort">
 <!ENTITY zotero.item.textTransform.titlecase "Betydende ord med stort ">

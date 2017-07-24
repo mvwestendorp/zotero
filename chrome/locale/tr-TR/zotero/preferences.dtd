@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Hiçbir sözcük işlemcisi eklentisi kurulu değildir.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Klasik Gönderme Ekleme İletişim Kutusunu kullan">
+<!ENTITY zotero.preferences.configEditor "Yapılandırma Düzenleyicisi">
 <!ENTITY zotero.preferences.dataDir "Veri Dizini Konumu">
 <!ENTITY zotero.preferences.dataDir.choose "Seç...">
 <!ENTITY zotero.preferences.dataDir.custom "Özel:">
@@ -65,7 +66,7 @@
 <!ENTITY zotero.preferences.groups.childFiles "alt görüntüler ve içeri aktarılan dosyalar">
 <!ENTITY zotero.preferences.groups.childLinks "alt bağlantılar">
 <!ENTITY zotero.preferences.groups.childNotes "alt notlar">
-<!ENTITY zotero.preferences.groups.tags "Etiketler">
+<!ENTITY zotero.preferences.groups.tags "etiketler">
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Kitaplıklar arası eserler kopyalanırken, bunları ekle:">
 <!ENTITY zotero.preferences.items "Eser">
 <!ENTITY zotero.preferences.keys.changesTakeEffect "Değişiklikler, Zotero tekrar başlatıldıktan sonra etkinleşir">
@@ -82,7 +83,7 @@
 <!ENTITY zotero.preferences.keys.saveToZotero "Zotero'ya Kaydet (adres çubuğu ikonu)">
 <!ENTITY zotero.preferences.keys.toggleAllRead "Tüm Besleme Eserlerini Okunmuş/Okunmamış İşaretle">
 <!ENTITY zotero.preferences.keys.toggleFullscreen "Tam Ekran Moduna Geç">
-<!ENTITY zotero.preferences.keys.toggleTagSelector "Konu Seçiciyi Aç">
+<!ENTITY zotero.preferences.keys.toggleTagSelector "Etiket Seçiciyi Aç">
 <!ENTITY zotero.preferences.lang.addLanguage "Add a language">
 <!ENTITY zotero.preferences.lang.configureCitations "(1) Configure citations &#8680;">
 <!ENTITY zotero.preferences.lang.csl "CSL:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Vekil düzeninde aşağıdaki değişkenleri kullanabilirsiniz:">
 <!ENTITY zotero.preferences.quickCopy.caption "Çabuk Kopyala">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "HTML olarak kopyala">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Varsayılan Biçim:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Varsayılan Çıktı Biçimi:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Bu kadardan daha fazla sürüklendiğinde Çabuk Kopyalamayı seçilemez kıl:">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Uyarı: Zengin-metin biçimi Mac OS X'de kaybolacaktır.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Etki alanı/Yol">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ör. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Biçim">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Dil">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Çıktı Biçimi">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Siteye Özgü Ayarlar:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Ayrı sekme">
 <!ENTITY zotero.preferences.statusBarIcon "Durum çubuğu simgesi:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Hiçbiri">
+<!ENTITY zotero.preferences.styleEditor "Stil Düzenleyicisi">
+<!ENTITY zotero.preferences.stylePreview "Stil Önizleyicisi">
 <!ENTITY zotero.preferences.sync.about "Eşitleme Hakkında">
 <!ENTITY zotero.preferences.sync.createAccount "Hesap Oluştur">
 <!ENTITY zotero.preferences.sync.fileSyncing "Dosya Eşitlemesi">

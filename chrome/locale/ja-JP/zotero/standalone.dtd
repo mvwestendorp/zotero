@@ -62,7 +62,7 @@
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "ヘルプ">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "エラーを Zotero に送信する...">
+<!ENTITY helpReportErrors.label "Report Errors…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "トラブルシューティング情報...">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

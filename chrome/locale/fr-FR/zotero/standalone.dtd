@@ -61,8 +61,8 @@
 <!ENTITY helpMenu.label "Aide">
 <!ENTITY helpMenuWin.accesskey "?">
 <!ENTITY helpMenuWin.label "?">
-<!ENTITY helpReportErrors.accesskey "Z">
-<!ENTITY helpReportErrors.label "Signaler les erreurs à Zotero…">
+<!ENTITY helpReportErrors.accesskey "R">
+<!ENTITY helpReportErrors.label "Rapport d'erreurs…">
 <!ENTITY helpTroubleshootingInfo.accesskey "i">
 <!ENTITY helpTroubleshootingInfo.label "Aide en cas de problème">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

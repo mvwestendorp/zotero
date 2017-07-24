@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Der er ikke p.t. installeret et plugin til tekstbehandling.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Brug den klassiske dialog til Tilføj Henvisning">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Placering af datamappen">
 <!ENTITY zotero.preferences.dataDir.choose "Vælg...">
 <!ENTITY zotero.preferences.dataDir.custom "Tilpas:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Du kan bruge følgende variable ved tilknytningen af proxyer">
 <!ENTITY zotero.preferences.quickCopy.caption "Hurtig kopi">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopier som HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Standardformat for output:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Slå Quick Copy fra hvis du trækker mere end">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Bemærk:RTF- formattering vil gå tabt på Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Domæne/Sti">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(dvs. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Sprog">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Output-format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "site-specikke indstillinger">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Separat faneblad">
 <!ENTITY zotero.preferences.statusBarIcon "Ikon på statuslinie:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Intet">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "Om synkronisering">
 <!ENTITY zotero.preferences.sync.createAccount "Opret konto">
 <!ENTITY zotero.preferences.sync.fileSyncing "Fil-synkronisering">

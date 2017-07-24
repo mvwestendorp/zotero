@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Momentálne nie sú nainštalované žiadne zásuvné moduly pre textové editory.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Použiť klasické okno pridávania citácií">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "Umiestnenie priečinku s dátami">
 <!ENTITY zotero.preferences.dataDir.choose "Zvoliť...">
 <!ENTITY zotero.preferences.dataDir.custom "Vlastné umiestnenie:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Vo vašej proxy schéme môžete použiť nasledujúce premenné:">
 <!ENTITY zotero.preferences.quickCopy.caption "Rýchle kopírovanie">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopírovať ako HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Predvolený formát výstupu:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Zakázať rýchle kopírovanie pri presúvaní viac než">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Poznámka: Formát textu sa v Mac OS X nezachová.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "doména/cesta">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(napr. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Jazyk">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "výstupný formát">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Nastavenia pre jednotlivé sídla:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Osobitná záložka">
 <!ENTITY zotero.preferences.statusBarIcon "Ikonka v spodnej lište:">
 <!ENTITY zotero.preferences.statusBarIcon.none "žiadna">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "O synchronizácii">
 <!ENTITY zotero.preferences.sync.createAccount "Vytvoriť nový účet">
 <!ENTITY zotero.preferences.sync.fileSyncing "Synchronizácia súborov">

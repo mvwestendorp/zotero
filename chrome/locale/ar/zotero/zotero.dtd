@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "اعادة تحميل">
 <!ENTITY zotero.general.saveAs "حفظ باسم...">
 <!ENTITY zotero.general.selectAll "تحديد الكل">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "اضافة/تحرير استشهاد مرجعي">
 <!ENTITY zotero.integration.classicView.label "عرض تقليدي">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "تبديل الاسم الاول/اللقب">
 <!ENTITY zotero.item.deletePermanently "Delete Permanently…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "تغيير حالة النص">
 <!ENTITY zotero.item.textTransform.sentencecase "حالة الجملة">
 <!ENTITY zotero.item.textTransform.titlecase "حرف كبير في بداية كل كلمة">

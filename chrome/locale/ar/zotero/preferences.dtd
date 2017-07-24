@@ -23,6 +23,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "الوظائف الاضافية لمعالجات النصوص غير مثبته حالياً">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "استخدم المربع الحواري التقليدي لاضافة استشهاد">
+<!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.dataDir "مكان تخزين البيانات">
 <!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "تخصيص:">
@@ -167,6 +168,7 @@
 <!ENTITY zotero.preferences.proxies.variables "يمكنك استخدام المتغيرات التالية في مخطط الوكيل لديك:">
 <!ENTITY zotero.preferences.quickCopy.caption "النسخ السريع">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "نسخ كترميز HTML">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "الصياغة الافتراضية للمخرجات:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "تعطيل النسخ السريع عند السحب بالماوس لأكثر من">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -174,6 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "ملاحظة: التنسيق الغني للنصوص سيفقد عند استخدام نظام ماكنتوش.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "نطاق الانترنت/المسار">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(مثال: wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "اللغة">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "صياغة المخرجات">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "إعدادات خاصة حسب الموقع:">
@@ -192,6 +195,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "تبويب منفصل">
 <!ENTITY zotero.preferences.statusBarIcon "أيقونة شريط الحالة:">
 <!ENTITY zotero.preferences.statusBarIcon.none "بدون أيقونة">
+<!ENTITY zotero.preferences.styleEditor "Style Editor">
+<!ENTITY zotero.preferences.stylePreview "Style Preview">
 <!ENTITY zotero.preferences.sync.about "نبذة عن التزامن">
 <!ENTITY zotero.preferences.sync.createAccount "تسجيل اشتراك جديد">
 <!ENTITY zotero.preferences.sync.fileSyncing "تزامن الملفات">

@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Vernieuwen">
 <!ENTITY zotero.general.saveAs "Opslaan als...">
 <!ENTITY zotero.general.selectAll "Alles selecteren">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.integration.addEditCitation.title "Verwijzing toevoegen/aanpassen">
 <!ENTITY zotero.integration.classicView.label "Klassieke weergave">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Draai Voor-/Achter- namen om">
 <!ENTITY zotero.item.deletePermanently "Delete Permanently…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Hoofdlettergebruik wijzigen">
 <!ENTITY zotero.item.textTransform.sentencecase "Eerste woord (van een zin)">
 <!ENTITY zotero.item.textTransform.titlecase "Alle woorden (Elke Eerste Letter)">

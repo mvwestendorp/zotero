@@ -80,6 +80,7 @@
 <!ENTITY zotero.general.refresh "Endurnýja">
 <!ENTITY zotero.general.saveAs "Vista sem…">
 <!ENTITY zotero.general.selectAll "Velja allt">
+<!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Já">
 <!ENTITY zotero.integration.addEditCitation.title "Bæta við/breyta tilvitnun">
 <!ENTITY zotero.integration.classicView.label "Hefðbundin framsetning">
@@ -125,6 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Skipta á for-/eftirnafni">
 <!ENTITY zotero.item.deletePermanently "Eyða endanlega…">
+<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
 <!ENTITY zotero.item.textTransform "Varpa texta">
 <!ENTITY zotero.item.textTransform.sentencecase "Stafagerð setninga">
 <!ENTITY zotero.item.textTransform.titlecase "Stafagerð titils">
