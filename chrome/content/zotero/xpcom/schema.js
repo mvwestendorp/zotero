@@ -62,6 +62,10 @@ Zotero.Schema = new function(){
 	var _schemaUpdateDeferred = Zotero.Promise.defer();
 	this.schemaUpdatePromise = _schemaUpdateDeferred.promise;
 	
+	// If updating from this userdata version or later, don't show "Upgrading database…" and don't make
+	// DB backup first. This should be set to false when breaking compatibility or making major changes.
+	const minorUpdateFrom = 95;
+	
 	var _dbVersions = [];
 	var _schemaVersions = [];
 	// Update when adding _updateCompatibility() line to schema update step
@@ -128,7 +132,12 @@ Zotero.Schema = new function(){
 				.then(async function () {
 					await this.updateBundledFiles();
 					if (Zotero.Prefs.get('automaticScraperUpdates')) {
-						await this.updateFromRepository(this.REPO_UPDATE_UPGRADE);
+						try {
+							await this.updateFromRepository(this.REPO_UPDATE_UPGRADE);
+						}
+						catch (e) {
+							Zotero.logError(e);
+						}
 					}
 					_schemaUpdateDeferred.resolve(true);
 				}.bind(this))
@@ -211,9 +220,10 @@ Zotero.Schema = new function(){
 		);
 		
 		var schemaVersion = yield _getSchemaSQLVersion('userdata');
+		options.minor = minorUpdateFrom && userdata >= minorUpdateFrom;
 		
-		// If upgrading userdata, make backup of database first
-		if (userdata < schemaVersion) {
+		// If non-minor userdata upgrade, make backup of database first
+		if (userdata < schemaVersion && !options.minor) {
 			yield Zotero.DB.backupDatabase(userdata, true);
 		}
 		else if (integrityCheck) {
@@ -299,7 +309,12 @@ Zotero.Schema = new function(){
 		.then(async function () {
 			await this.updateBundledFiles();
 			if (Zotero.Prefs.get('automaticScraperUpdates')) {
-				await this.updateFromRepository(this.REPO_UPDATE_STARTUP);
+				try {
+					await this.updateFromRepository(this.REPO_UPDATE_STARTUP);
+				}
+				catch (e) {
+					Zotero.logError(e);
+				}
 			}
 			_schemaUpdateDeferred.resolve(true);
 		}.bind(this));
@@ -2096,7 +2111,7 @@ Zotero.Schema = new function(){
 		}
 		
 		if (options.onBeforeUpdate) {
-			let maybePromise = options.onBeforeUpdate()
+			let maybePromise = options.onBeforeUpdate({ minor: options.minor });
 			if (maybePromise && maybePromise.then) {
 				yield maybePromise;
 			}
@@ -2642,6 +2657,12 @@ Zotero.Schema = new function(){
 			else if (i == 95) {
 				yield Zotero.DB.queryAsync("DELETE FROM publicationsItems WHERE itemID NOT IN (SELECT itemID FROM items WHERE libraryID=1)");
 			}
+			
+			else if (i == 96) {
+				yield Zotero.DB.queryAsync("REPLACE INTO fileTypeMIMETypes VALUES(7, 'application/vnd.ms-powerpoint')");
+			}
+			
+			// If breaking compatibility or doing anything dangerous, clear minorUpdateFrom
 		}
 		
 		yield _updateDBVersion('userdata', toVersion);

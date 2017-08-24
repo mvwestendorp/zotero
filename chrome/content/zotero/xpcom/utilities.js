@@ -1792,14 +1792,15 @@ Zotero.Utilities = {
 			let msg = (obj.message ? ('' + obj.message).replace(/^/gm, level_padding).trim() : '');
 			if (obj.stack) {
 				let stack = obj.stack.trim().replace(/^(?=.)/gm, level_padding);
+				stack = Zotero.Utilities.Internal.filterStack(stack);
 				
 				msg += '\n\n';
 				
 				// At least with Zotero.HTTP.UnexpectedStatusException, the stack contains "Error:"
 				// and the message in addition to the trace. I'm not sure what's causing that
 				// (Bluebird?), but fix it here.
-				if (obj.stack.startsWith('Error:')) {
-					msg += obj.stack.replace('Error: ' + obj.message + '\n', '');
+				if (stack.startsWith('Error:')) {
+					msg += stack.replace('Error: ' + obj.message + '\n', '');
 				}
 				else {
 					msg += stack;
@@ -2237,11 +2238,11 @@ Zotero.Utilities = {
 	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
 		var isZoteroItem = !!item.setType,
 			zoteroType;
-		
+
 		function _addCreator(creator, cslAuthor) {
 			if(cslAuthor.family || cslAuthor.given) {
-				if(cslAuthor.family) creator.lastName = cslAuthor.family;
-				if(cslAuthor.given) creator.firstName = cslAuthor.given;
+				creator.lastName = cslAuthor.family || '';
+				creator.firstName = cslAuthor.given || '';
 				return true;
 			} else if(cslAuthor.literal) {
 				creator.lastName = cslAuthor.literal;
@@ -2364,6 +2365,8 @@ Zotero.Utilities = {
 								_addCreator(variant, cslAuthor.multi._key[langTag]);
 							}
 						}
+					} else {
+						continue;
 					}
 					creator.creatorTypeID = creatorTypeID;
 					

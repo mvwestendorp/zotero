@@ -65,7 +65,9 @@ var ZoteroPluginInstaller = function(addon, failSilently, force) {
 	
 	var me = this;
 	var extensionIDs = [this._addon.EXTENSION_ID].concat(this._addon.REQUIRED_ADDONS.map(req => req.id));
+	Zotero.debug("PluginInstaller: fetching addon info");
 	AddonManager.getAddonsByIDs(extensionIDs, function(addons) {
+		Zotero.debug("PluginInstaller: addon info fetched");
 		me._addons = addons;
 		me._addonInfoAvailable();
 	});
@@ -95,7 +97,10 @@ ZoteroPluginInstaller.prototype = {
 				)) {
 					
 				var me = this;
-				if(installationInProgress) return;
+				if (installationInProgress) {
+					Zotero.debug(`${this._addon.APP} extension installation is already in progress`);
+					return;
+				}
 				
 				installationInProgress = true;
 				if(!this._addon.DISABLE_PROGRESS_WINDOW) {
@@ -110,6 +115,8 @@ ZoteroPluginInstaller.prototype = {
 			}
 		} catch(e) {
 			Zotero.logError(e);
+		} finally {
+			installationInProgress = false;
 		}
 	},
 	

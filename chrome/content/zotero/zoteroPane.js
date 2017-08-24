@@ -726,12 +726,6 @@ var ZoteroPane = new function()
 				case 'toggleTagSelector':
 					ZoteroPane_Local.toggleTagSelector();
 					break;
-				case 'copySelectedItemCitationsToClipboard':
-					ZoteroPane_Local.copySelectedItemsToClipboard(true)
-					break;
-				case 'copySelectedItemsToClipboard':
-					ZoteroPane_Local.copySelectedItemsToClipboard();
-					break;
 				case 'sync':
 					Zotero.Sync.Runner.sync();
 					break;
@@ -749,6 +743,14 @@ var ZoteroPane = new function()
 						this.markFeedRead();
 					}
 					break;
+				
+				// Handled by <key>s in standalone.js, pointing to <command>s in zoteroPane.xul,
+				// which are enabled or disabled by this.updateQuickCopyCommands(), called by
+				// this.itemSelected()
+				case 'copySelectedItemCitationsToClipboard':
+				case 'copySelectedItemsToClipboard':
+					return;
+				
 				default:
 					throw ('Command "' + command + '" not found in ZoteroPane_Local.handleKeyDown()');
 			}
@@ -1396,6 +1398,8 @@ var ZoteroPane = new function()
 			// selection hasn't changed, because the selected items might have been modified.
 			this.updateItemPaneButtons(selectedItems);
 			
+			this.updateQuickCopyCommands(selectedItems);
+			
 			// Check if selection has actually changed. The onselect event that calls this
 			// can be called in various situations where the selection didn't actually change,
 			// such as whenever selectEventsSuppressed is set to false.
@@ -1472,6 +1476,12 @@ var ZoteroPane = new function()
 					
 					document.getElementById('zotero-item-pane-content').selectedIndex = 1;
 					var tabBox = document.getElementById('zotero-view-tabbox');
+					
+					// Reset tab when viewing a feed item, which only has the info tab
+					if (item.isFeedItem) {
+						tabBox.selectedIndex = 0;
+					}
+					
 					var pane = tabBox.selectedIndex;
 					tabBox.firstChild.hidden = isCommons;
 					
@@ -1687,6 +1697,25 @@ var ZoteroPane = new function()
 			}
 		}
 	}
+	
+	
+	/**
+	 * Update the <command> elements that control the shortcut keys and the enabled state of the
+	 * "Copy Citation"/"Copy Bibliography"/"Copy as" menu options. When disabled, the shortcuts are
+	 * still caught in handleKeyPress so that we can show an alert about not having references selected.
+	 */
+	this.updateQuickCopyCommands = function (selectedItems) {
+		var format = Zotero.QuickCopy.getFormatFromURL(Zotero.QuickCopy.lastActiveURL);
+		format = Zotero.QuickCopy.unserializeSetting(format);
+		if (format.mode == 'bibliography') {
+			var canCopy = selectedItems.some(item => item.isRegularItem());
+		}
+		else {
+			var canCopy = true;
+		}
+		document.getElementById('cmd_zotero_copyCitation').setAttribute('disabled', !canCopy);
+		document.getElementById('cmd_zotero_copyBibliography').setAttribute('disabled', !canCopy);
+	};
 	
 	
 	this.checkPDFConverter = function () {
@@ -2123,31 +2152,29 @@ var ZoteroPane = new function()
 			return;
 		}
 		
-		// Make sure at least one item is a regular item
-		//
+		var format = Zotero.QuickCopy.getFormatFromURL(Zotero.QuickCopy.lastActiveURL);
+		format = Zotero.QuickCopy.unserializeSetting(format);
+		
+		// In bibliography mode, remove notes and attachments
+		if (format.mode == 'bibliography') {
+			items = items.filter(item => item.isRegularItem());
+		}
+		
 		// DEBUG: We could copy notes via keyboard shortcut if we altered
 		// Z_F_I.copyItemsToClipboard() to use Z.QuickCopy.getContentFromItems(),
 		// but 1) we'd need to override that function's drag limit and 2) when I
 		// tried it the OS X clipboard seemed to be getting text vs. HTML wrong,
 		// automatically converting text/html to plaintext rather than using
 		// text/unicode. (That may be fixable, however.)
-		var canCopy = false;
-		for (let i = 0; i < items.length; i++) {
-			let item = items[i];
-			if (item.isRegularItem()) {
-				canCopy = true;
-				break;
-			}
-		}
-		if (!canCopy) {
-			var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+		//
+		// This isn't currently shown, because the commands are disabled when not relevant, so this
+		// function isn't called
+		if (!items.length) {
+			let ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 									.getService(Components.interfaces.nsIPromptService);
 			ps.alert(null, "", Zotero.getString("fileInterface.noReferencesError"));
 			return;
 		}
-		
-		var format = Zotero.QuickCopy.getFormatFromURL(Zotero.QuickCopy.lastActiveURL);
-		format = Zotero.QuickCopy.unserializeSetting(format);
 		
 		// determine locale preference
 		var locale = format.locale ? format.locale : Zotero.Prefs.get('export.quickCopy.locale');
@@ -4096,8 +4123,7 @@ var ZoteroPane = new function()
 			}
 			else {
 				if (!item.isImportedAttachment()
-						|| (!Zotero.Sync.Storage.Local.getEnabledForLibrary(item.libraryID)
-							|| !Zotero.Sync.Storage.Local.downloadAsNeeded(item.libraryID))) {
+						|| !Zotero.Sync.Storage.Local.getEnabledForLibrary(item.libraryID)) {
 					this.showAttachmentNotFoundDialog(itemID, noLocateOnMissing);
 					return;
 				}
@@ -4138,50 +4164,11 @@ var ZoteroPane = new function()
 	
 	
 	/**
-	 * Launch an HTTP URL externally, the best way we can
-	 *
-	 * Used only by Standalone
+	 * @deprecated
 	 */
 	this.launchURL = function (url) {
-		if (!url.match(/^https?/)) {
-			throw new Error("launchURL() requires an HTTP(S) URL");
-		}
-		
-		try {
-			var io = Components.classes['@mozilla.org/network/io-service;1']
-						.getService(Components.interfaces.nsIIOService);
-			var uri = io.newURI(url, null, null);
-			var handler = Components.classes['@mozilla.org/uriloader/external-protocol-service;1']
-							.getService(Components.interfaces.nsIExternalProtocolService)
-							.getProtocolHandlerInfo('http');
-			handler.preferredAction = Components.interfaces.nsIHandlerInfo.useSystemDefault;
-			handler.launchWithURI(uri, null);
-		}
-		catch (e) {
-			Zotero.debug("launchWithURI() not supported -- trying fallback executable");
-			
-			if (Zotero.isWin) {
-				var pref = "fallbackLauncher.windows";
-			}
-			else {
-				var pref = "fallbackLauncher.unix";
-			}
-			var path = Zotero.Prefs.get(pref);
-			
-			var exec = Components.classes["@mozilla.org/file/local;1"]
-						.createInstance(Components.interfaces.nsILocalFile);
-			exec.initWithPath(path);
-			if (!exec.exists()) {
-				throw ("Fallback executable not found -- check extensions.zotero." + pref + " in about:config");
-			}
-			
-			var proc = Components.classes["@mozilla.org/process/util;1"]
-							.createInstance(Components.interfaces.nsIProcess);
-			proc.init(exec);
-			
-			var args = [url];
-			proc.runw(false, args, args.length);
-		}
+		Zotero.debug("ZoteroPane.launchURL() is deprecated -- use Zotero.launchURL()", 2);
+		return Zotero.launchURL(url);
 	}
 	
 	
