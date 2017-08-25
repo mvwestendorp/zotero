@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Advanced Configuration">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Skrár og möppur">
 <!ENTITY zotero.preferences.advanced.keys "Flýtivísanir">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Grunnmappa:">
@@ -175,7 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "Athugið: Upplýsingar um letursnið glatast í Mac OS X stýrikerfinu.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Lén/Slóð">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(t.d. wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(e.g., wikipedia.org)">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Tungumál">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Útkeyrslusnið">

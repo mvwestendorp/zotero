@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "n">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Knippen">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "Clear Output">
+<!ENTITY debugOutputLogging.label "Debug Output Logging">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
+<!ENTITY debugOutputLogging.submit "Submit Output">
+<!ENTITY debugOutputLogging.view "View Output">
 <!ENTITY deleteCmd.accesskey "W">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Wissen">
@@ -54,15 +60,15 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "u">
 <!ENTITY helpCheckForUpdates.label "Controleren op updates…">
-<!ENTITY helpFeedbackPage.accesskey "v">
-<!ENTITY helpFeedbackPage.label "Feedback versturen…">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "Discussion Forums">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Help">
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Help">
 <!ENTITY helpReportErrors.accesskey "F">
-<!ENTITY helpReportErrors.label "Foutrapportage opsturen…">
+<!ENTITY helpReportErrors.label "Report Errors…">
 <!ENTITY helpTroubleshootingInfo.accesskey "P">
 <!ENTITY helpTroubleshootingInfo.label "Probleemoplossingsinformatie">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

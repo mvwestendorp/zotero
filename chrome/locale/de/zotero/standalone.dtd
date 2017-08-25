@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "A">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Ausschneiden">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "Ausgabe löschen">
+<!ENTITY debugOutputLogging.label "Logging des Debug-Outputs">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Mit aktiviertem Logging neustarten...">
+<!ENTITY debugOutputLogging.submit "Ausgabe übertragen">
+<!ENTITY debugOutputLogging.view "Ausgabe anzeigen">
 <!ENTITY deleteCmd.accesskey "L">
 <!ENTITY deleteCmd.key "L">
 <!ENTITY deleteCmd.label "Löschen">
@@ -55,7 +61,7 @@
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Auf Updates überprüfen">
 <!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Feedback senden...">
+<!ENTITY helpFeedbackPage.label "Diskussionsforum">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Hilfe">

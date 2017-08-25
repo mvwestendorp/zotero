@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Erweiterte Konfiguration">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Dateien und Ordner">
 <!ENTITY zotero.preferences.advanced.keys "Tastenkombinationen">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Basisverzeichnis:">
@@ -23,7 +24,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Keine Erweiterungen für Textverarbeitungsprogramme installiert.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Alten Zitations-Dialog nutzen">
-<!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.configEditor "Konfigurationseditor">
 <!ENTITY zotero.preferences.dataDir "Speicherort">
 <!ENTITY zotero.preferences.dataDir.choose "Auswählen...">
 <!ENTITY zotero.preferences.dataDir.custom "Eigene:">
@@ -70,7 +71,7 @@
 <!ENTITY zotero.preferences.groups.whenCopyingInclude "Beim Kopieren von Einträgen zwischen Bibliotheken, übernehmen:">
 <!ENTITY zotero.preferences.items "Einträge">
 <!ENTITY zotero.preferences.keys.changesTakeEffect "Änderungen werden nach Neustart wirksam">
-<!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Ausgewählte Eintragszitationen in die Zwischenablage kopieren">
+<!ENTITY zotero.preferences.keys.copySelectedItemCitationsToClipboard "Ausgewählte Einträge als In-Text-Zitationen in die Zwischenablage kopieren">
 <!ENTITY zotero.preferences.keys.copySelectedItemsToClipboard "Ausgewählte Einträge in die Zwischenablage kopieren">
 <!ENTITY zotero.preferences.keys.focusLibrariesPane "Fokus auf Bibliotheksspalte">
 <!ENTITY zotero.preferences.keys.importFromClipboard "Import aus der Zwischenablage">
@@ -195,8 +196,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Eigenem Tab">
 <!ENTITY zotero.preferences.statusBarIcon "Statusleisten-Icon:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Kein Icon">
-<!ENTITY zotero.preferences.styleEditor "Style Editor">
-<!ENTITY zotero.preferences.stylePreview "Style Preview">
+<!ENTITY zotero.preferences.styleEditor "Zitierstil Editor">
+<!ENTITY zotero.preferences.stylePreview "Zitierstil Vorschau">
 <!ENTITY zotero.preferences.sync.about "Über Synchronisierung">
 <!ENTITY zotero.preferences.sync.createAccount "Account erstellen">
 <!ENTITY zotero.preferences.sync.fileSyncing "Datei-Synchronisierung">

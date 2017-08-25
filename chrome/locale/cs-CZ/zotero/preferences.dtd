@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Rozšířené nastavení">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Soubory a Složky">
 <!ENTITY zotero.preferences.advanced.keys "Klávesové zkratky">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Základní adresář">
@@ -23,7 +24,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "V současné době nejsou nainstalovány žádné doplňky pro textové procesory.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Použít pomocí klasického dialogu &quot;Přidat citaci&quot;">
-<!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.configEditor "Editor předvoleb">
 <!ENTITY zotero.preferences.dataDir "Umístění Datového adresáře">
 <!ENTITY zotero.preferences.dataDir.choose "Vybrat...">
 <!ENTITY zotero.preferences.dataDir.custom "Vlastní:">
@@ -168,7 +169,7 @@
 <!ENTITY zotero.preferences.proxies.variables "Ve svém proxy schématu můžete použít následující proměnné:">
 <!ENTITY zotero.preferences.quickCopy.caption "Rychlé kopírování">
 <!ENTITY zotero.preferences.quickCopy.copyAsHTML "Kopírovat jako HTML">
-<!ENTITY zotero.preferences.quickCopy.defaultFormat "Default Format:">
+<!ENTITY zotero.preferences.quickCopy.defaultFormat "Výchozí formát:">
 <!ENTITY zotero.preferences.quickCopy.defaultOutputFormat "Základní výstupní formát:">
 <!ENTITY zotero.preferences.quickCopy.dragLimit "Vypnout Rychlé kopírování, pokud je označeno více než">
 <!ENTITY zotero.preferences.quickCopy.linkCitationFormReverse "Use citation form as default">
@@ -176,7 +177,7 @@
 <!ENTITY zotero.preferences.quickCopy.macWarning "Poznámka: Rich-text formátování bude ztraceno na Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "Doména/Cesta">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(např. wikipedia.org)">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.format "Formát">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Jazyk">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "Výstupní formát">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.setings "Nastavení dle stránky:">
@@ -195,8 +196,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "Samostatný panel">
 <!ENTITY zotero.preferences.statusBarIcon "Ikona ve stavovém řádku:">
 <!ENTITY zotero.preferences.statusBarIcon.none "Žádná">
-<!ENTITY zotero.preferences.styleEditor "Style Editor">
-<!ENTITY zotero.preferences.stylePreview "Style Preview">
+<!ENTITY zotero.preferences.styleEditor "Editor stylu">
+<!ENTITY zotero.preferences.stylePreview "Náhled stylu">
 <!ENTITY zotero.preferences.sync.about "O synchronizaci">
 <!ENTITY zotero.preferences.sync.createAccount "Vytvořit účet">
 <!ENTITY zotero.preferences.sync.fileSyncing "Synchronizace souborů">

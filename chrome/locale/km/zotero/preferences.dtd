@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Advanced Configuration">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "ឯកសារនិងថតឯកសារ">
 <!ENTITY zotero.preferences.advanced.keys "Shortcuts">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Base directory:">
@@ -175,7 +176,7 @@
 <!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "កំណត់ចំណាំ: ទម្រង់អត្ថបទ Rich-text នឹងត្រូវបាត់ចំពោះ Mac OS X.">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "វិស័យ/ផ្លូវ">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(ឧទាហរណ៍ៈ wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(e.g., wikipedia.org)">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.format "Format">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "Language">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "ទម្រង់ទិន្នផល">

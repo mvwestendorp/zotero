@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "ص">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "قص">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "مسح المخرجات">
+<!ENTITY debugOutputLogging.label "سجل تصويب المخرجات">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "أعاده التشغيل مع تمكين التسجيل...">
+<!ENTITY debugOutputLogging.submit "إرسال المخرجات">
+<!ENTITY debugOutputLogging.view "عرض المخرجات">
 <!ENTITY deleteCmd.accesskey "ذ">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "حذف">
@@ -54,15 +60,15 @@
 <!ENTITY fullZoomToggleCmd.label "تكبير النص فقط">
 <!ENTITY helpCheckForUpdates.accesskey "ت">
 <!ENTITY helpCheckForUpdates.label "تحقق من التحديثات">
-<!ENTITY helpFeedbackPage.accesskey "ر">
-<!ENTITY helpFeedbackPage.label "ارسال ملاحظات">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "منتديات المناقشة">
 <!ENTITY helpMac.commandkey "؟">
 <!ENTITY helpMenu.accesskey "م">
 <!ENTITY helpMenu.label "مساعدة">
 <!ENTITY helpMenuWin.accesskey "م">
 <!ENTITY helpMenuWin.label "مساعدة">
 <!ENTITY helpReportErrors.accesskey "ب">
-<!ENTITY helpReportErrors.label "بلغ عن علة في Zotero…">
+<!ENTITY helpReportErrors.label "الإبلاغ عن أخطاء...">
 <!ENTITY helpTroubleshootingInfo.accesskey "م">
 <!ENTITY helpTroubleshootingInfo.label "معلومات المساعدة والتنويه">
 <!ENTITY hideOtherAppsCmdMac.commandkey "ا">
@@ -70,10 +76,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "ا">
 <!ENTITY hideThisAppCmdMac.label "إخفاء اسم العلامة التجارية القصيرة؛">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "استيراد...">
+<!ENTITY importFromClipboardCmd.label "استيراد من الحافظة">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.label "ثبت موصل المتصفح">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "تصغير">
 <!ENTITY pageSetupCmd.accesskey "U">

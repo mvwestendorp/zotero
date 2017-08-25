@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "t">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Klipp ut">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "Töm utmatning">
+<!ENTITY debugOutputLogging.label "Logga felsökningsutmatning">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Starta om med loggning aktiverad…">
+<!ENTITY debugOutputLogging.submit "Skicka utmatning">
+<!ENTITY debugOutputLogging.view "Visa utmatning">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Radera">
@@ -54,8 +60,8 @@
 <!ENTITY fullZoomToggleCmd.label "Zooma endast text">
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Sök efter uppdateringar...">
-<!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Skicka återkoppling...">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "Diskussionsforum">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Hjälp">
@@ -73,7 +79,7 @@
 <!ENTITY importCmd.label "Importera…">
 <!ENTITY importFromClipboardCmd.label "Importera från urklipp">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.label "Installera webbläsaranslutning">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimera">
 <!ENTITY pageSetupCmd.accesskey "U">

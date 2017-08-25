@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Advanced Configuration">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "ファイルとフォルダ">
 <!ENTITY zotero.preferences.advanced.keys "ショートカット">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "基本ディレクトリ">

@@ -80,14 +80,14 @@
 <!ENTITY zotero.general.refresh "Obnovit">
 <!ENTITY zotero.general.saveAs "Uložit jako...">
 <!ENTITY zotero.general.selectAll "Vybrat vše">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "Nástroje">
 <!ENTITY zotero.general.yes "Ano">
 <!ENTITY zotero.integration.addEditCitation.title "Přidat/Upravit citaci">
 <!ENTITY zotero.integration.classicView.label "Standardní zobrazení">
 <!ENTITY zotero.integration.docPrefs.title "Vlastnosti dokumentu">
 <!ENTITY zotero.integration.editBibliography.title "Upravit bibliografii">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
-<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Pole &quot;Zkrácený název časopisu&quot; bude ignorováno">
+<!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Použít zkrácené názvy časopisů MEDLINE">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
 <!ENTITY zotero.integration.prefs.bookmarks.label "Záložky">
 <!ENTITY zotero.integration.prefs.citationAppearance.label "Appearance:">
@@ -126,7 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Zaměnit křestní jména / přijmení">
 <!ENTITY zotero.item.deletePermanently "Definitivně smazat...">
-<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
+<!ENTITY zotero.item.tags.removeAll "Odstranit všechny štítky...">
 <!ENTITY zotero.item.textTransform "Převést text">
 <!ENTITY zotero.item.textTransform.sentencecase "Velké první písmeno">
 <!ENTITY zotero.item.textTransform.titlecase "Velká Písmena">
@@ -239,7 +239,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synchronizované štítky musí být kratší než 256 znaků.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Štítky budou smazány ze všech položek.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Nezaškrtnuté štítky nebudou uloženy.">
-<!ENTITY zotero.sync.stop "Stop Sync">
+<!ENTITY zotero.sync.stop "Zastavit synchronizaci">
 <!ENTITY zotero.sync.storage.downloads "Stahování:">
 <!ENTITY zotero.sync.storage.progress "Průběh:">
 <!ENTITY zotero.sync.storage.uploads "Nahrávání:">
@@ -256,7 +256,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Nastavit barvu...">
 <!ENTITY zotero.tagSelector.clearAll "Zrušit výběr všech">
 <!ENTITY zotero.tagSelector.clearVisible "Zrušit výběr viditelných">
-<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Smazat všechny automatické štítky v této knihovně... ">
 <!ENTITY zotero.tagSelector.deleteTag "Smazat štítek...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Display all tags in this library">
 <!ENTITY zotero.tagSelector.filter "Filtr:">

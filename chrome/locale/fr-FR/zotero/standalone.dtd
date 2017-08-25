@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "C">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Couper">
+<!ENTITY debugOutputLogging.accesskey "J">
+<!ENTITY debugOutputLogging.clear "Effacer le journal">
+<!ENTITY debugOutputLogging.label "Journal de débogage">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Redémarrer avec le journal activé">
+<!ENTITY debugOutputLogging.submit "Envoyer le journal">
+<!ENTITY debugOutputLogging.view "Voir le journal">
 <!ENTITY deleteCmd.accesskey "S">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Supprimer">
@@ -54,8 +60,8 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "V">
 <!ENTITY helpCheckForUpdates.label "Vérifier les mises à jour…">
-<!ENTITY helpFeedbackPage.accesskey "E">
-<!ENTITY helpFeedbackPage.label "Envoyer un commentaire ou un retour d'expérience…">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "Forum Zotero">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "A">
 <!ENTITY helpMenu.label "Aide">

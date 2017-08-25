@@ -80,7 +80,7 @@
 <!ENTITY zotero.general.refresh "Atnaujinti">
 <!ENTITY zotero.general.saveAs "Įrašyti kaip...">
 <!ENTITY zotero.general.selectAll "Pažymėti viską">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "Priemonės">
 <!ENTITY zotero.general.yes "Taip">
 <!ENTITY zotero.integration.addEditCitation.title "Pridėti/redaguoti citavimą">
 <!ENTITY zotero.integration.classicView.label "Klasikinis rodinys">
@@ -126,7 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Sukeisti vardus ir pavardes">
 <!ENTITY zotero.item.deletePermanently "Pašalinti negrįžtamai...">
-<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
+<!ENTITY zotero.item.tags.removeAll "Pašalinti visas gaires...">
 <!ENTITY zotero.item.textTransform "Teksto trasformavimas">
 <!ENTITY zotero.item.textTransform.sentencecase "Sakinio pavidalu">
 <!ENTITY zotero.item.textTransform.titlecase "Antraštės raidžių lygis">
@@ -239,7 +239,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Sincronizuojamos gairės pavadinime gali būti iki 256 rašmenų.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Ši gairė pašalinsima iš visų įrašų.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Nepasirinktos gairės nebus įrašytos.">
-<!ENTITY zotero.sync.stop "Stop Sync">
+<!ENTITY zotero.sync.stop "Stabdyti sinchronizaciją">
 <!ENTITY zotero.sync.storage.downloads "Siuntiniai:">
 <!ENTITY zotero.sync.storage.progress "Eiga:">
 <!ENTITY zotero.sync.storage.uploads "Įkėlimai:">
@@ -256,7 +256,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Priskirti spalvą:">
 <!ENTITY zotero.tagSelector.clearAll "Panaikinti pažymėjimą">
 <!ENTITY zotero.tagSelector.clearVisible "Nesirinkti matomų">
-<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Šioje bibliotekoje pašalinti visas automatines gaires...">
 <!ENTITY zotero.tagSelector.deleteTag "Šalinti gairę...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Rodyti visas šios bibliotekos gaires">
 <!ENTITY zotero.tagSelector.filter "Filtras:">

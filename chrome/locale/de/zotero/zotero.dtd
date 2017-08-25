@@ -80,7 +80,7 @@
 <!ENTITY zotero.general.refresh "Aktualisieren">
 <!ENTITY zotero.general.saveAs "Speichern als...">
 <!ENTITY zotero.general.selectAll "Alles auswählen">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "Werkzeuge">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.integration.addEditCitation.title "Zitation hinzufügen/ändern">
 <!ENTITY zotero.integration.classicView.label "Klassische Ansicht">

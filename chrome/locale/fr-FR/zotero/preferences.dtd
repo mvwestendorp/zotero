@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Configuration avancée">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Fichiers et dossiers">
 <!ENTITY zotero.preferences.advanced.keys "Raccourcis clavier">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Répertoire de base :">
@@ -7,7 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Choisir…">
 <!ENTITY zotero.preferences.autoUpdate "Vérifier automatiquement les mises à jour des convertisseurs et des styles">
 <!ENTITY zotero.preferences.automaticSnapshots "Faire une capture automatique de la page lors de la création de documents à partir de pages Web">
-<!ENTITY zotero.preferences.automaticTags "Ajouter automatiquement aux documents des marqueurs grâce aux mots-clés et aux rubriques">
+<!ENTITY zotero.preferences.automaticTags "Ajouter automatiquement aux documents des marqueurs à partir des mots-clés fournis">
 <!ENTITY zotero.preferences.charset "Codage de caractères">
 <!ENTITY zotero.preferences.charset.displayExportOption "Afficher l'option de codage de caractères à l'exportation">
 <!ENTITY zotero.preferences.charset.importCharset "Importer le codage de caractères">

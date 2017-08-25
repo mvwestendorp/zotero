@@ -264,7 +264,7 @@
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Gösterilecek etiket yok">
 <!ENTITY zotero.tagSelector.renameTag "Etiketi Yeniden Adlandır...">
 <!ENTITY zotero.tagSelector.selectVisible "Görülebileni Seç">
-<!ENTITY zotero.tagSelector.showAutomatic "Otomatik göster">
+<!ENTITY zotero.tagSelector.showAutomatic "Otomatik Etiketleri Göster">
 <!ENTITY zotero.toolbar.about.label "Zotero Hakkında">
 <!ENTITY zotero.toolbar.actions.label "Eylemler">
 <!ENTITY zotero.toolbar.addChildNote.label "Add Child Note">

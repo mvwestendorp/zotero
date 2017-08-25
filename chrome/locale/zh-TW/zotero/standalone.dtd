@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "T">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "剪下 (T)">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "清除輸出">
+<!ENTITY debugOutputLogging.label "偵錯輸出紀錄">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "以紀錄模式重新啟動程式...">
+<!ENTITY debugOutputLogging.submit "送出輸出">
+<!ENTITY debugOutputLogging.view "檢視輸出">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "刪除">
@@ -54,8 +60,8 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "檢查更新 (U)…">
-<!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "回饋 (S)…">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "討論論壇">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "說明 (H)">

@@ -80,7 +80,7 @@
 <!ENTITY zotero.general.refresh "重新整理">
 <!ENTITY zotero.general.saveAs "另存新檔...">
 <!ENTITY zotero.general.selectAll "全選">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "工具">
 <!ENTITY zotero.general.yes "要">
 <!ENTITY zotero.integration.addEditCitation.title "新增/編輯引用文獻">
 <!ENTITY zotero.integration.classicView.label "傳統的外觀">

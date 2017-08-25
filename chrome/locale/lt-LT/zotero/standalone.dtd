@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "r">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Iškirpti">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "Clear Output">
+<!ENTITY debugOutputLogging.label "Debug Output Logging">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
+<!ENTITY debugOutputLogging.submit "Submit Output">
+<!ENTITY debugOutputLogging.view "View Output">
 <!ENTITY deleteCmd.accesskey "š">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Pašalinti">
@@ -54,15 +60,15 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "T">
 <!ENTITY helpCheckForUpdates.label "Tikrinti, ar yra atnaujinimų...">
-<!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Siųsti atsiliepimą...">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "Discussion Forums">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "Ž">
 <!ENTITY helpMenu.label "Žinynas">
 <!ENTITY helpMenuWin.accesskey "Ž">
 <!ENTITY helpMenuWin.label "Žinynas">
 <!ENTITY helpReportErrors.accesskey "r">
-<!ENTITY helpReportErrors.label "Pranešti apie Zotero klaidą...">
+<!ENTITY helpReportErrors.label "Pranešti apie klaidas...">
 <!ENTITY helpTroubleshootingInfo.accesskey "I">
 <!ENTITY helpTroubleshootingInfo.label "Informacija nesklandumų šalinimui">
 <!ENTITY hideOtherAppsCmdMac.commandkey "S">

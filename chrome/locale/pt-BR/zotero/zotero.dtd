@@ -80,7 +80,7 @@
 <!ENTITY zotero.general.refresh "Atualizar">
 <!ENTITY zotero.general.saveAs "Salvar como...">
 <!ENTITY zotero.general.selectAll "Selecionar tudo">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "Ferramentas">
 <!ENTITY zotero.general.yes "Sim">
 <!ENTITY zotero.integration.addEditCitation.title "Adicionar/Editar citação">
 <!ENTITY zotero.integration.classicView.label "Visão clássica">
@@ -126,7 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Inverter primeiro/último nomes">
 <!ENTITY zotero.item.deletePermanently "Excluir permanentemente">
-<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
+<!ENTITY zotero.item.tags.removeAll "Remover todas as etiquetas">
 <!ENTITY zotero.item.textTransform "Transformar o texto">
 <!ENTITY zotero.item.textTransform.sentencecase "Início da frase em maiúscula">
 <!ENTITY zotero.item.textTransform.titlecase "Iniciais em maiúsculas">
@@ -239,7 +239,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Etiquetas sincronizadas devem ter menos de 256 caracteres.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "A etiqueta será excluída de todos os itens.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Etiquetas desmarcadas não serão salvas.">
-<!ENTITY zotero.sync.stop "Stop Sync">
+<!ENTITY zotero.sync.stop "Parar a sincronização">
 <!ENTITY zotero.sync.storage.downloads "Downloads:">
 <!ENTITY zotero.sync.storage.progress "Progresso:">
 <!ENTITY zotero.sync.storage.uploads "Envios:">
@@ -256,7 +256,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Atribuir cor...">
 <!ENTITY zotero.tagSelector.clearAll "Desmarcar todas">
 <!ENTITY zotero.tagSelector.clearVisible "Desmarcar as visíveis">
-<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Excluir as etiquetas automáticas nesta biblioteca...">
 <!ENTITY zotero.tagSelector.deleteTag "Excluir a etiqueta...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Exibir todas as etiquetas dessa biblioteca">
 <!ENTITY zotero.tagSelector.filter "Filtro:">

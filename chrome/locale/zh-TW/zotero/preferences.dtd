@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "進階設定">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "檔案與資料夾">
 <!ENTITY zotero.preferences.advanced.keys "快捷鍵">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "庫目錄：">
@@ -23,7 +24,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "目前未安裝文書處理器外掛。">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "使用傳統新增引用文獻對話框">
-<!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.configEditor "設定編輯器">
 <!ENTITY zotero.preferences.dataDir "資料目錄所在">
 <!ENTITY zotero.preferences.dataDir.choose "選擇…">
 <!ENTITY zotero.preferences.dataDir.custom "自訂：">
@@ -195,8 +196,8 @@
 <!ENTITY zotero.preferences.showIn.separateTab "不同的頁籤">
 <!ENTITY zotero.preferences.statusBarIcon "狀態列圖示：">
 <!ENTITY zotero.preferences.statusBarIcon.none "無">
-<!ENTITY zotero.preferences.styleEditor "Style Editor">
-<!ENTITY zotero.preferences.stylePreview "Style Preview">
+<!ENTITY zotero.preferences.styleEditor "格式編輯器">
+<!ENTITY zotero.preferences.stylePreview "格式預覽">
 <!ENTITY zotero.preferences.sync.about "關於同步">
 <!ENTITY zotero.preferences.sync.createAccount "建立帳號">
 <!ENTITY zotero.preferences.sync.fileSyncing "檔案同步中">

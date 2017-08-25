@@ -80,7 +80,7 @@
 <!ENTITY zotero.general.refresh "새로고침">
 <!ENTITY zotero.general.saveAs "다른 이름으로 저장...">
 <!ENTITY zotero.general.selectAll "모두 선택">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "도구">
 <!ENTITY zotero.general.yes "예">
 <!ENTITY zotero.integration.addEditCitation.title "인용 추가/편집">
 <!ENTITY zotero.integration.classicView.label "클래식 뷰">
@@ -126,7 +126,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "성/이름 맞바꾸기">
 <!ENTITY zotero.item.deletePermanently "완전히 삭제...">
-<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
+<!ENTITY zotero.item.tags.removeAll "모든 태그 제거...">
 <!ENTITY zotero.item.textTransform "글자 변형">
 <!ENTITY zotero.item.textTransform.sentencecase "문장 첫머리는 대문자">
 <!ENTITY zotero.item.textTransform.titlecase "글차 첫머리는 대문자">

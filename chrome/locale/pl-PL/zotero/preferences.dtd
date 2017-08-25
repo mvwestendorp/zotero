@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Ustawienia zaawansowane">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Pliki i katalogi">
 <!ENTITY zotero.preferences.advanced.keys "Skróty klawiaturowe">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Katalog podstawowy:">

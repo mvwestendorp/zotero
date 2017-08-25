@@ -18,6 +18,12 @@
 <!ENTITY cutCmd.accesskey "t">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Kes">
+<!ENTITY debugOutputLogging.accesskey "L">
+<!ENTITY debugOutputLogging.clear "Çıktıyı Temizle">
+<!ENTITY debugOutputLogging.label "Hata Ayıklama Çıktısının Kaydı">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Kayıt Tutmayı Etkinleştirerek Yeniden Başlat...">
+<!ENTITY debugOutputLogging.submit "Çıktıyı Gönder">
+<!ENTITY debugOutputLogging.view "Çıktıyı Göster">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Sil">
@@ -54,8 +60,8 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Güncellemeleri Denetle">
-<!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Geri Bildirim Gönder...">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "Tartışma Forumları">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "?">
 <!ENTITY helpMenu.label "Yardım">
@@ -68,7 +74,7 @@
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY hideOtherAppsCmdMac.label "Diğerlerini Sakla">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
-<!ENTITY hideThisAppCmdMac.label "&brandShortName;'i Sakla">
+<!ENTITY hideThisAppCmdMac.label "&brandShortName;'yu Sakla">
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "İçeri Aktar...">
 <!ENTITY importFromClipboardCmd.label "Panodan İçeri Aktar">

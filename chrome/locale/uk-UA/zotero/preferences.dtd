@@ -1,3 +1,4 @@
+<!ENTITY zotero.preferences.advanced.advancedConfiguration "Advanced Configuration">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Файли та каталоги">
 <!ENTITY zotero.preferences.advanced.keys "Гарячі клавіши">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Базовий каталог:">
