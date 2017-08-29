@@ -1609,6 +1609,9 @@ Zotero.Schema = new function(){
 	 * Requires a transaction
 	 */
 	var _updateSchema = Zotero.Promise.coroutine(function* (schema) {
+		if (schema === 'zls' && Zotero.skipBundledFiles) {
+			schema = 'zls-testing';
+		}
 		var [dbVersion, schemaVersion] = yield Zotero.Promise.all(
 			[Zotero.Schema.getDBVersion(schema), _getSchemaSQLVersion(schema)]
 		);
@@ -1634,6 +1637,8 @@ Zotero.Schema = new function(){
 	 * (re)Populate the jurisdiction table
 	 */
 	var _populateJurisdictions = Zotero.Promise.coroutine(function*() {
+		Zotero.debug("Deleting any previous data in jurisdictions table");
+		yield Zotero.DB.queryAsync('DELETE FROM jurisdictions');
 		Zotero.debug("Populating jurisdictions");
 		var jsonStr = yield Zotero.File.getContentsFromURLAsync("resource://zotero/schema/jurisdictions.json");
 		var jObj = JSON.parse(jsonStr);
