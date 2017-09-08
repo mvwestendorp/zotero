@@ -8469,8 +8469,12 @@ CSL.NameOutput.prototype._checkNickname = function (name) {
         var author = "";
         author = CSL.Util.Names.getRawName(name);
         if (author && this.state.sys.getAbbreviation && !(this.item && this.item["suppress-author"])) {
-            this.state.transform.loadAbbreviation("default", "nickname", author);
-            var myLocalName = this.state.transform.abbrevs["default"].nickname[author];
+            var normalizedKey = author;
+            if (this.state.sys.normalizeAbbrevsKey) {
+                normalizedKey = this.state.sys.normalizeAbbrevsKey(author);
+            }
+            this.state.transform.loadAbbreviation("default", "nickname", normalizedKey);
+            var myLocalName = this.state.transform.abbrevs["default"].nickname[normalizedKey];
             if (myLocalName) {
                 if (myLocalName === "!here>>>") {
                     name = false;
@@ -9710,9 +9714,13 @@ CSL.NameOutput.prototype.fixupInstitution = function (name, varname, listpos) {
     if (this.state.sys.getAbbreviation) {
         var jurisdiction = this.Item.jurisdiction;
         for (var j = 0, jlen = long_form.length; j < jlen; j += 1) {
-            jurisdiction = this.state.transform.loadAbbreviation(jurisdiction, "institution-part", long_form[j]);
+            var normalizedKey = long_form[j];
+            if (this.state.sys.normalizeAbbrevsKey) {
+                normalizedKey = this.state.sys.normalizeAbbrevsKey(long_form[j]);
+            }
+            jurisdiction = this.state.transform.loadAbbreviation(jurisdiction, "institution-part", normalizedKey);
             if (this.state.transform.abbrevs[jurisdiction]["institution-part"][long_form[j]]) {
-                short_form[j] = this.state.transform.abbrevs[jurisdiction]["institution-part"][long_form[j]];
+                short_form[j] = this.state.transform.abbrevs[jurisdiction]["institution-part"][normalizedKey];
                 use_short_form = true;
             }
         }
@@ -9755,9 +9763,13 @@ CSL.NameOutput.prototype._splitInstitution = function (value, v, i) {
         var jurisdiction = this.Item.jurisdiction;
         for (var j = splitInstitution.length; j > 0; j += -1) {
             var str = splitInstitution.slice(0, j).join("|");
-            jurisdiction = this.state.transform.loadAbbreviation(jurisdiction, "institution-entire", str);
-            if (this.state.transform.abbrevs[jurisdiction]["institution-entire"][str]) {
-                var splitLst = this.state.transform.abbrevs[jurisdiction]["institution-entire"][str];
+            var normalizedKey = str;
+            if (this.state.sys.normalizeAbbrevsKey) {
+                normalizedKey = this.state.sys.normalizeAbbrevsKey(str);
+            }
+            jurisdiction = this.state.transform.loadAbbreviation(jurisdiction, "institution-entire", normalizedKey);
+            if (this.state.transform.abbrevs[jurisdiction]["institution-entire"][normalizedKey]) {
+                var splitLst = this.state.transform.abbrevs[jurisdiction]["institution-entire"][normalizedKey];
                 splitLst = this.state.transform.quashCheck(splitLst);
                 var splitSplitLst = splitLst.split(/>>[0-9]{4}>>/);
                 var m = splitLst.match(/>>([0-9]{4})>>/);
@@ -13188,11 +13200,15 @@ CSL.Util.Dates.year.imperial = function (state, num, end, makeShort) {
         offset = 1988;
     }
     if (label && offset) {
-        if (!state.transform.abbrevs['default']['number'][label]) {
-            state.transform.loadAbbreviation('default', "number", label);
+        var normalizedKey = label;
+        if (state.sys.normalizeAbbrevsKey) {
+            normalizedKey = state.sys.normalizeAbbrevsKey(label);
         }
-        if (state.transform.abbrevs['default']['number'][label]) {
-            label = state.transform.abbrevs['default']['number'][label];
+        if (!state.transform.abbrevs['default']['number'][normalizedKey]) {
+            state.transform.loadAbbreviation('default', "number", normalizedKey);
+        }
+        if (state.transform.abbrevs['default']['number'][normalizedKey]) {
+            label = state.transform.abbrevs['default']['number'][normalizedKey];
         };
         year = label + (num - offset);
     }
