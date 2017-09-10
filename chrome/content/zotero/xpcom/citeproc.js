@@ -9706,7 +9706,7 @@ CSL.NameOutput.prototype.setRenderedName = function (name) {
 }
 CSL.NameOutput.prototype.fixupInstitution = function (name, varname, listpos) {
     if (this.state.sys.getHumanForm && "legal_case" === this.Item.type && "authority" === varname) {
-        name.literal = this.state.sys.getHumanForm(this.Item.jurisdiction, name.literal);
+        name.literal = this.state.sys.getHumanForm(this.Item.jurisdiction, name.literal, true);
     }
     name = this._splitInstitution(name, varname, listpos);
     if (this.institution.strings["reverse-order"]) {
