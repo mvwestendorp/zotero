@@ -2094,6 +2094,7 @@
 					}
 					if (!result && textbox.value) {
 						this.hideCourtEditor(textbox, textbox.value, true);
+						return;
 					}
 					textbox.mController.input = null;
 					this.hideCourtEditor(textbox, result);
