@@ -39,8 +39,8 @@ var Zotero_RecognizePDF = new function() {
 	 * @returns {Boolean} True if the PDF can be recognized, false if it cannot be
 	 */
 	this.canRecognize = function(/**Zotero.Item*/ item) {
-		return item.attachmentMIMEType
-			&& item.attachmentMIMEType == "application/pdf"
+		return item.attachmentContentType
+			&& item.attachmentContentType == "application/pdf"
 			&& item.isTopLevelItem();
 	}
 	
@@ -49,11 +49,6 @@ var Zotero_RecognizePDF = new function() {
 	 * of the new items
 	 */
 	this.recognizeSelected = function() {
-		var installed = ZoteroPane_Local.checkPDFConverter();
-		if (!installed) {
-			return;
-		}
-		
 		var items = ZoteroPane_Local.getSelectedItems();
 		if (!items) return;
 		var itemRecognizer = new Zotero_RecognizePDF.ItemRecognizer();
@@ -141,14 +136,14 @@ var Zotero_RecognizePDF = new function() {
 	 * @return {Promise}
 	 */
 	function _extractText(file, pages) {
-		var cacheFile = Zotero.File.pathToFile(Zotero.DataDirectory.dir);
+		var cacheFile = Zotero.getTempDirectory();
 		cacheFile.append("recognizePDFcache.txt");
 		if(cacheFile.exists()) {
 			cacheFile.remove(false);
 		}
 		
 		var {exec, args} = Zotero.Fulltext.getPDFConverterExecAndArgs();
-		args.push('-enc', 'UTF-8', '-nopgbrk', '-layout', '-l', pages, file.path, cacheFile.path);
+		args.push('-nopgbrk', '-layout', '-l', pages, file.path, cacheFile.path);
 		
 		Zotero.debug("RecognizePDF: Running " + exec.path + " " + args.map(arg => "'" + arg + "'").join(" "));
 		
