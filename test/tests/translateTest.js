@@ -529,7 +529,7 @@ describe("Zotero.Translate", function() {
 		
 		it('web translators should save attachment from non-browser document', function* () {
 			return Zotero.HTTP.processDocuments(
-				"http://127.0.0.1:23119/test/translate/test.html",
+				"http://127.0.0.1:24119/test/translate/test.html",
 				async function (doc) {
 					let translate = new Zotero.Translate.Web();
 					translate.setDocument(doc);
@@ -552,7 +552,7 @@ describe("Zotero.Translate", function() {
 					assert.equal(containedAttachments.length, 1);
 		
 					let snapshot = containedAttachments[0];
-					assert.equal(snapshot.getField("url"), "http://127.0.0.1:23119/test/translate/test.html");
+					assert.equal(snapshot.getField("url"), "http://127.0.0.1:24119/test/translate/test.html");
 					assert.equal(snapshot.getNote(), "attachment note");
 					assert.equal(snapshot.attachmentLinkMode, Zotero.Attachments.LINK_MODE_IMPORTED_URL);
 					assert.equal(snapshot.attachmentContentType, "text/html");
@@ -668,7 +668,7 @@ describe("Zotero.Translate", function() {
 	
 	
 	describe("#processDocuments()", function () {
-		var url = "http://127.0.0.1:23119/test/translate/test.html";
+		var url = "http://127.0.0.1:24119/test/translate/test.html";
 		var doc;
 		
 		beforeEach(function* () {
