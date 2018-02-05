@@ -294,7 +294,7 @@ describe("Zotero.Integration", function () {
 		for (let i = 0; i < 5; i++) {
 			let testItem = yield createDataObject('item', {libraryID: Zotero.Libraries.userLibraryID});
 			testItem.setField('title', `title${1}`);
-			testItem.setCreator(0, {creatorType: 'author', name: `Author No${i}`});
+			testItem.setCreator(0, {creatorType: 'author', name: `Author No${i}`, multi: {_key:{}}});
 			testItems.push(testItem);
 		}
 		setAddEditItems(testItems[0]);
