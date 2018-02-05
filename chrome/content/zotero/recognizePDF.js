@@ -682,6 +682,10 @@ var Zotero_RecognizePDF = new function() {
 						skipLine = true;
 						break;
 					}
+					if (words[i].match(/[\u2200-\u22ff\u2a00-\u2aff\u2140-\u214f]/)) {
+						skipLine = true;
+						break;
+					}
 				}
 				// Add words to query
 				if(!skipLine && words.length) {
