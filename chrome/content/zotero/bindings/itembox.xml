@@ -902,7 +902,7 @@
 								if (this.nextSibling.inputField) {
 									this.nextSibling.inputField.blur();
 								}
-							}
+							})
 						}
 					}
 // OH DEAR (end)	
