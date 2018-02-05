@@ -417,12 +417,24 @@ var Zotero_File_Interface = new function() {
 	/*
 	 * Creates a bibliography from a items
 	 */
+	function bibliographyFromItems() {
+		var items = ZoteroPane_Local.getSelectedItems();
+		if(!items || !items.length) throw("no items currently selected");
+		
+		_doBibliographyOptions(Zotero.getString("fileInterface.untitledBibliography"), items);
+	}
+	
+	
+	/*
+	 * Creates a bibliography from a items
+	 *
 	this.bibliographyFromItems = Zotero.Promise.coroutine(function* () {
 		var items = ZoteroPane_Local.getSelectedItems();
 		if(!items || !items.length) throw("no items currently selected");
 		
 		yield _doBibliographyOptions(Zotero.getString("fileInterface.untitledBibliography"), items);
 	});
+	*/
 	
 	
 	/**
