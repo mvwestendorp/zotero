@@ -1854,12 +1854,9 @@ Zotero.Integration.DocumentData.prototype.serialize = function() {
 				'value="'+Zotero.Utilities.htmlSpecialChars(citeprefdata)+'"/>';
 		} else {
 			if (!this.prefs[pref]) continue;
-			prefs += '<pref name="'+Zotero.Utilities.htmlSpecialChars(pref)+'" '+
-				'value="'+Zotero.Utilities.htmlSpecialChars("" + this.prefs[pref])+'"/>';
+			prefs += `<pref name="${Zotero.Utilities.htmlSpecialChars(pref)}" `+
+				`value="${Zotero.Utilities.htmlSpecialChars(this.prefs[pref].toString())}"/>`;
 		}
-		if (!this.prefs[pref]) continue;
-		prefs += `<pref name="${Zotero.Utilities.htmlSpecialChars(pref)}" `+
-			`value="${Zotero.Utilities.htmlSpecialChars(this.prefs[pref].toString())}"/>`;
 	}
 	
 	return '<data data-version="'+Zotero.Utilities.htmlSpecialChars(`${DATA_VERSION}`)+'" '+
