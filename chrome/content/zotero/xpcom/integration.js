@@ -1162,7 +1162,7 @@ Zotero.Integration.Fields.prototype.addEditCitation = Zotero.Promise.coroutine(f
 		
 	var io = new Zotero.Integration.CitationEditInterface(
 		citation, this._session.style.opt.sort_citations,
-		fieldIndexPromise, citationsByItemIDPromise, previewFn
+		fieldIndexPromise, citationsByItemIDPromise, previewFn, this._session.style
 	);
 	
 	Zotero.debug('Integration: Displaying citation dialogue');
@@ -1200,7 +1200,8 @@ Zotero.Integration.Fields.prototype.addEditCitation = Zotero.Promise.coroutine(f
 /**
  * Citation editing functions and propertiesaccessible to quickFormat.js and addCitationDialog.js
  */
-Zotero.Integration.CitationEditInterface = function(citation, sortable, fieldIndexPromise, citationsByItemIDPromise, previewFn) {
+Zotero.Integration.CitationEditInterface = function(citation, sortable, fieldIndexPromise, citationsByItemIDPromise, previewFn, style) {
+	this.style = style,
 	this.citation = citation;
 	this.sortable = sortable;
 	this.previewFn = previewFn;
