@@ -289,7 +289,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 		if (isDocPrefs) {
 			// update status of displayAs box based on style class
 			var isNote = selectedStyleObj.class == "note";
-			document.getElementById("displayAs-groupbox").hidden = !isNote;
+			document.getElementById("displayAs").hidden = !isNote;
 			
 			// update status of formatUsing box based on style class
 			if(isNote) document.getElementById("formatUsing").selectedIndex = 0;
