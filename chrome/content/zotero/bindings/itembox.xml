@@ -452,7 +452,7 @@
 						var langNickname = Zotero.CachedLanguages.getNickname(tag);
 						node.setAttribute('zlang',tag);
 						node.setAttribute('tooltiptext',langNickname);
-						this._modifyField(fieldName,fieldValue,true,tag,true);
+						this._modifyField(fieldName,fieldValue,tag,true);
 					}
 				]]>
 				</body>
