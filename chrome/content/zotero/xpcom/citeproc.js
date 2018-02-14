@@ -24,7 +24,7 @@
  */
 
 var CSL = {
-    PROCESSOR_VERSION: "1.1.183",
+    PROCESSOR_VERSION: "1.1.184",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -259,6 +259,36 @@ var CSL = {
         }
         return lst.join("-");
     },
+    isDatePart: function(str, less, more) {
+        if (str.length > less && str.length < more && parseInt(str)) {
+            return true
+        } else {
+            return false;
+        }
+    },
+    isDateString: function(str) {
+        if (!str) return false;
+        var strLst = str.split("-");
+        if (strLst.length > 0) {
+            if (!isDatePart(strLst[0], 3, 5)) {
+                return false;
+            }
+        }
+        if (strLst.length > 1) {
+            if (!isDatePart(strLst[1], 0, 3)) {
+                return false
+            }
+        }
+        if (strLst.length > 2) {
+            if (!isDatePart(strLst[2], 0, 3)) {
+                return false
+            }
+        }
+        if (strLst.length > 3) {
+            return false;
+        }
+        return true;
+    },
     parseNoteFieldHacks: function(Item, validFieldsForType, allowDateOverride) {
         if ("string" !== typeof Item.note) return;
         var elems = [];
@@ -309,7 +339,7 @@ var CSL = {
             } else if (CSL.DATE_VARIABLES.indexOf(key) > -1) {
                 if (allowDateOverride) {
                     Item[key] = {raw: val};
-                    if (!validFieldsForType || (validFieldsForType[key] && val.match(/^[0-9]{4}(?:-[0-9]{1,2}(?:-[0-9]{1,2})*)*$/))) {
+                    if (!validFieldsForType || (validFieldsForType[key] && isDateString(val))) {
                         lines[i] = "";
                     }
                 }
@@ -4989,7 +5019,6 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
     citationByIndex.push(citation);
     for (var i = 0, ilen = citationsPost.length; i < ilen; i += 1) {
         c = citationsPost[i];
-		Zotero.debug("CITEPROC-JS: c[0] is: "+c[0]);
         this.registry.citationreg.citationById[c[0]].properties.noteIndex = c[1];
         citationByIndex.push(this.registry.citationreg.citationById[c[0]]);
     }
@@ -5298,7 +5327,6 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
             }
         }
     }
-    Zotero.debug(JSON.stringify(citationByIndex, null, 2))
     var ret = [];
     if (flag === CSL.PREVIEW) {
         try {
