@@ -165,7 +165,7 @@ function Reporter(runner) {
 mocha.setup({
 	ui: "bdd",
 	reporter: Reporter,
-	timeout: ZoteroUnit.timeout || 10000,
+	timeout: ZoteroUnit.timeout || 30000,
 	grep: ZoteroUnit.grep
 });
 
