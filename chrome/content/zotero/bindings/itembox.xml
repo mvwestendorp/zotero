@@ -3300,10 +3300,21 @@
 									// Move to left or right one char at a time
 									if (event.keyCode == 37) {
 										lastName.setAttribute("value", lastNameValue + firstNameValue.slice(0,1));
-										firstName.setAttribute("value", firstNameValue.slice(1));
+										lastName.value =  lastNameValue + firstNameValue.slice(0,1);
+										if (firstNameValue.slice(1)) {
+											firstName.setAttribute("value", firstNameValue.slice(1));
+											firstName.value = firstNameValue.slice(1);
+										} else {
+											firstName.setAttribute("value", this._defaultFirstName);
+											firstName.value = this._defaultFirstName;
+										}
 									} else if (event.keyCode == 39) {
-										firstName.setAttribute("value", lastNameValue.slice(-1) + firstNameValue);
-										lastName.setAttribute("value", lastNameValue.slice(0,-1));
+										if (lastNameValue.slice(0, -1)) {
+											firstName.setAttribute("value", lastNameValue.slice(-1) + firstNameValue);
+											firstName.value = lastNameValue.slice(-1) + firstNameValue;
+											lastName.setAttribute("value", lastNameValue.slice(0, -1));
+											lastName.value = lastNameValue.slice(0,-1);
+										}
 									}
 									// Cycle particle state
 									if (event.key == 'p') {
