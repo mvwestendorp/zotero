@@ -65,7 +65,7 @@ describe("Zotero.FeedItem", function () {
 			assert.isFalse(feedItem.isRead);
 		});
 		it("should be settable and persist after saving", function* () {
-			this.timeout(5000);
+			this.timeout(10000);
 			let feedItem = new Zotero.FeedItem('book', { guid: Zotero.randomString() });
 			feedItem.libraryID = feed.libraryID;
 			assert.isFalse(feedItem.isRead);
