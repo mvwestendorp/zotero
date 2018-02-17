@@ -17,7 +17,7 @@ var ZOTERO_CONFIG = {
 	BOOKMARKLET_ORIGIN: 'https://www.zotero.org',
 	HTTP_BOOKMARKLET_ORIGIN: 'http://www.zotero.org',
 	BOOKMARKLET_URL: 'https://www.zotero.org/bookmarklet/',
-	START_URL: "https://www.zotero.org/start",
+	START_URL: "https://juris-m.github.io/downloads/#start",
 	QUICK_START_URL: "https://www.zotero.org/support/quick_start_guide",
 	PDF_TOOLS_URL: "https://www.zotero.org/download/xpdf/",
 	APPS: {
