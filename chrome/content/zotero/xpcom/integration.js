@@ -1599,6 +1599,10 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 			} else {
 				citationsPost = citations.slice(citationToFieldIdxMapping[index]+1);
 			}
+
+			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
+				await Zotero.CiteProc.CSL.preloadAbbreviations(this.style, citation);
+			}
 			
 			Zotero.debug("Integration: style.processCitationCluster("+citation.toSource()+", "+citationsPre.toSource()+", "+citationsPost.toSource());
 			let [info, newCitations] = this.style.processCitationCluster(citation, citationsPre, citationsPost);
