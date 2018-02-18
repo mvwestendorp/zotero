@@ -3,8 +3,7 @@ var ZOTERO_CONFIG = {
 	ID: 'jurism',
 	CLIENT_NAME: 'Juris-M',
 	DOMAIN_NAME: 'zotero.org',
-	REPOSITORY_URL: 'http://citationstylist.org/cgi-bin/',
-	REPOSITORY_URL_NEW: 'http://our.law.nagoya-u.ac.jp/jurism/',
+	REPOSITORY_URL: 'https://our.law.nagoya-u.ac.jp/cgi-bin/',
 	REPOSITORY_CHECK_INTERVAL: 86400, // 24 hours
 	REPOSITORY_RETRY_INTERVAL: 3600, // 1 hour
 	BASE_URI: 'http://zotero.org/',
