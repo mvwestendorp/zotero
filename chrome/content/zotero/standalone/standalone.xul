@@ -220,10 +220,10 @@
 									  label="&helpFeedbackPage.label;"
 									  oncommand="ZoteroStandalone.openHelp('feedback');"/>
 							<menuseparator/>
-							<menuitem id="reportErrors"
+							<!-- menuitem id="reportErrors"
 									  accesskey="&helpReportErrors.accesskey;"
 									  label="&helpReportErrors.label;"
-									  command="cmd_zotero_reportErrors"/>
+									  command="cmd_zotero_reportErrors"/ -->
 							<menu id="debug-output-menu"
 									accesskey="&debugOutputLogging.accesskey;"
 									label="&debugOutputLogging.label;"
