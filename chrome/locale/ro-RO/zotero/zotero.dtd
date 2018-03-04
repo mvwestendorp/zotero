@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Niciun fișier selectat">
 <!ENTITY zotero.general.advancedOptions.label "Opțiuni avansate">
 <!ENTITY zotero.general.cancel "Anulare">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Ștergere">
 <!ENTITY zotero.general.deselectAll "Deselectează tot">
 <!ENTITY zotero.general.edit "Editare">
 <!ENTITY zotero.general.loading "Se încarcă...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Mai mult">
 <!ENTITY zotero.general.no "Nu">
 <!ENTITY zotero.general.note "Notă:">
@@ -86,9 +88,9 @@
 <!ENTITY zotero.integration.classicView.label "Vizualizare clasică">
 <!ENTITY zotero.integration.docPrefs.title "Preferințe document">
 <!ENTITY zotero.integration.editBibliography.title "Editează bibliografia">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Dezactivarea actualizărilor poate mări viteza de introducere a citărilor în documentele mari. Click pe Reîmprospătare pentru a actualiza citările manual.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Actualizează citările automat">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citările cu actualizări în așteptare vor fi evidențiate în document">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Câmpul „Abrev. revistă” va fi ignorat.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Folosește abrevierile de reviste MEDLINE">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Semnele de carte pot fi partajate între Word și LibreOffice, dar pot cauza erori dacă sunt modificate accidental și nu pot fi introduse în notele de subsol.">

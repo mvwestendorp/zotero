@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Nebyl vybrán žádný soubor">
 <!ENTITY zotero.general.advancedOptions.label "Pokročilé možnosti">
 <!ENTITY zotero.general.cancel "Zrušit">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Smazat">
 <!ENTITY zotero.general.deselectAll "Odznačit vše">
 <!ENTITY zotero.general.edit "Editovat">
 <!ENTITY zotero.general.loading "Nahrává se...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Více">
 <!ENTITY zotero.general.no "Ne">
 <!ENTITY zotero.general.note "Poznámka:">

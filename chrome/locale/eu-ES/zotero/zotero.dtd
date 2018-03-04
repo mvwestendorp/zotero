@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Ez dago hautatutako fitxategirik">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
 <!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Ezabatu">
 <!ENTITY zotero.general.deselectAll "Desautatu guztiak">
 <!ENTITY zotero.general.edit "Editatu">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Oharra:">

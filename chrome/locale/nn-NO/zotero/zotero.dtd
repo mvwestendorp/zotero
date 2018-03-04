@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Inga fil vald">
 <!ENTITY zotero.general.advancedOptions.label "Avansert">
 <!ENTITY zotero.general.cancel "Avbryt">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Slett">
 <!ENTITY zotero.general.deselectAll "Fjern merking">
 <!ENTITY zotero.general.edit "Endre">
 <!ENTITY zotero.general.loading "Lastar …">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Meir">
 <!ENTITY zotero.general.no "Nei">
 <!ENTITY zotero.general.note "Notat:">

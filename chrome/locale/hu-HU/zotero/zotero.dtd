@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Nincs fájl kiválasztva">
 <!ENTITY zotero.general.advancedOptions.label "Haladó beállítások">
 <!ENTITY zotero.general.cancel "Mégse">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Törlés">
 <!ENTITY zotero.general.deselectAll "Kijelölés megszüntetése">
 <!ENTITY zotero.general.edit "Szerkesztés">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more " Egyéb...">
 <!ENTITY zotero.general.no "Nem">
 <!ENTITY zotero.general.note "Jegyzet:">

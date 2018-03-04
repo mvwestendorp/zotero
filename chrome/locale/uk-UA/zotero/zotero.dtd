@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Файл не вибрано">
 <!ENTITY zotero.general.advancedOptions.label "Розширені налаштування">
 <!ENTITY zotero.general.cancel "Відміна">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Видалити">
 <!ENTITY zotero.general.deselectAll "Відмінити вибір">
 <!ENTITY zotero.general.edit "Редагувати">
 <!ENTITY zotero.general.loading "Завантаження">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Більше">
 <!ENTITY zotero.general.no "Ні">
 <!ENTITY zotero.general.note "Примітка:">

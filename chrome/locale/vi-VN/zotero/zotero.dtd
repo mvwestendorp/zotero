@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "No file selected">
 <!ENTITY zotero.general.advancedOptions.label "Các tùy chỉnh nâng cao">
 <!ENTITY zotero.general.cancel "Hủy">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Xóa">
 <!ENTITY zotero.general.deselectAll "Bỏ chọn tất cả">
 <!ENTITY zotero.general.edit "Chỉnh sửa">
 <!ENTITY zotero.general.loading "Đang nạp...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "Bỏ qua">
 <!ENTITY zotero.general.note "Chú ý:">

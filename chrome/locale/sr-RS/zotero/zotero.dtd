@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Није изабрана датотека">
 <!ENTITY zotero.general.advancedOptions.label "Напредне опције">
 <!ENTITY zotero.general.cancel "Откажи">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Обриши">
 <!ENTITY zotero.general.deselectAll "Поништи изабрано">
 <!ENTITY zotero.general.edit "Уреди">
 <!ENTITY zotero.general.loading "Учитавам…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Више">
 <!ENTITY zotero.general.no "Не">
 <!ENTITY zotero.general.note "Белешка:">

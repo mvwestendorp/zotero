@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Geen bestand geselecteerd">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
 <!ENTITY zotero.general.cancel "Annuleren">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Verwijderen">
 <!ENTITY zotero.general.deselectAll "Selectie ongedaan maken">
 <!ENTITY zotero.general.edit "Bewerken">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "Aantekening:">

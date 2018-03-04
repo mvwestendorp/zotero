@@ -6,6 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Зотеро ће користити релативне путање за приложене датотеке унутар основног директоријума, што омогућава приступ датотекама на различитим рачунарима док год је структура основног директоријума иста.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Врати на потпуне путање…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Изабери…">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
+<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
 <!ENTITY zotero.preferences.autoUpdate "Аутоматски потражи нова ажурирања превода и стилова">
 <!ENTITY zotero.preferences.automaticSnapshots "Самостално узми снимак када се прави ставка са веб странице">
 <!ENTITY zotero.preferences.automaticTags "Самостално стави назнаку на ставке са кључним речима и насловом субјекта">

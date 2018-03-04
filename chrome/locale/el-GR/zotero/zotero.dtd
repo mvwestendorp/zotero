@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Δεν επιλέχθηκε αρχείο">
 <!ENTITY zotero.general.advancedOptions.label "Προχωρημένες επιλογές">
 <!ENTITY zotero.general.cancel "Ακύρωση">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Διαγραφή">
 <!ENTITY zotero.general.deselectAll "Αποεπιλογή όλων">
 <!ENTITY zotero.general.edit "Επεξεργασία">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Περισσότερα">
 <!ENTITY zotero.general.no "Όχι">
 <!ENTITY zotero.general.note "Σημείωση:">

@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Engin skrá valin">
 <!ENTITY zotero.general.advancedOptions.label "Ítarlegir valkostir">
 <!ENTITY zotero.general.cancel "Hætta við">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Eyða">
 <!ENTITY zotero.general.deselectAll "Velja ekkert">
 <!ENTITY zotero.general.edit "Breyta">
 <!ENTITY zotero.general.loading "Hleð inn…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Meira">
 <!ENTITY zotero.general.no "Nei">
 <!ENTITY zotero.general.note "Athugasemd:">

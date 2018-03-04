@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "No file selected">
 <!ENTITY zotero.general.advancedOptions.label "Avanserte valg">
 <!ENTITY zotero.general.cancel "Avbryt">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Slett">
 <!ENTITY zotero.general.deselectAll "Fjern markeringen">
 <!ENTITY zotero.general.edit "Rediger">
 <!ENTITY zotero.general.loading "Laster inn...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Mer">
 <!ENTITY zotero.general.no "Nei">
 <!ENTITY zotero.general.note "Notat:">

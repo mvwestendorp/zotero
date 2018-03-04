@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Dosya seçilmedi">
 <!ENTITY zotero.general.advancedOptions.label "Gelişmiş Seçenekler">
 <!ENTITY zotero.general.cancel "İptal Et">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Sil">
 <!ENTITY zotero.general.deselectAll "Hiçbirini Seçme">
 <!ENTITY zotero.general.edit "Düzenle">
 <!ENTITY zotero.general.loading "Yükleniyor...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Daha Başka">
 <!ENTITY zotero.general.no "Hayır">
 <!ENTITY zotero.general.note "Not:">

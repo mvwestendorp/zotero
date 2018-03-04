@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Nie wybrano pliku">
 <!ENTITY zotero.general.advancedOptions.label "Zaawansowane ustawienia">
 <!ENTITY zotero.general.cancel "Anuluj">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Usuń">
 <!ENTITY zotero.general.deselectAll "Odznacz wszystkie">
 <!ENTITY zotero.general.edit "Edytuj">
 <!ENTITY zotero.general.loading "Wczytywanie...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Więcej">
 <!ENTITY zotero.general.no "Nie">
 <!ENTITY zotero.general.note "Uwaga:">

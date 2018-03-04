@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Tiedostoa ei ole valittu">
 <!ENTITY zotero.general.advancedOptions.label "Lisäasetukset">
 <!ENTITY zotero.general.cancel "Peruuta">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Poista">
 <!ENTITY zotero.general.deselectAll "Poista valinnat">
 <!ENTITY zotero.general.edit "Muokkaa">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "Ei">
 <!ENTITY zotero.general.note "Huomio:">

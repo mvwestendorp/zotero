@@ -6,6 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "زوتيرو سيستخدم مسارات نسبية لمرفقات الملف المرتبطة داخل المجلد الأساسي، مما يسمح لك بالوصول إلى الملفات على أجهزة حاسبات مختلفة طالما ظلت بنية الملف داخل المجلد الأساسي نفسها.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "حول الى مسارات مطلقة">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "اختار...">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
+<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
 <!ENTITY zotero.preferences.autoUpdate "التأكد التلقائي من وجود مترجمات مواقع محدثة">
 <!ENTITY zotero.preferences.automaticSnapshots "أخذ لقطات تلقائية عند إنشاء العناصر من صفحات الويب">
 <!ENTITY zotero.preferences.automaticTags "اضف اوسمة  تلقائية للعناصر بالكلمات المفتاحية ورؤوس الموضوعات">

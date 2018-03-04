@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "សូមធ្វើការជ្រើសរើសឯកសារណាមួយដែលអ្នកចង់បាន">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
 <!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "លុបចោល">
 <!ENTITY zotero.general.deselectAll "ដោះជម្រើស">
 <!ENTITY zotero.general.edit "កែតម្រូវ">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "កំណត់ចំណាំ:">

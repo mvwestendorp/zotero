@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Nepasirinkote failo">
 <!ENTITY zotero.general.advancedOptions.label "Kitos parinktys">
 <!ENTITY zotero.general.cancel "Atšaukti">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Šalinti">
 <!ENTITY zotero.general.deselectAll "Nieko nežymėti">
 <!ENTITY zotero.general.edit "Redaguoti">
 <!ENTITY zotero.general.loading "Įkeliama...">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "Daugiau">
 <!ENTITY zotero.general.no "Ne">
 <!ENTITY zotero.general.note "Pastaba:">

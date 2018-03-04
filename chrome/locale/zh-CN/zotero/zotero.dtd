@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "未选定文件">
 <!ENTITY zotero.general.advancedOptions.label "高级选项">
 <!ENTITY zotero.general.cancel "取消">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "删除">
 <!ENTITY zotero.general.deselectAll "取消全选">
 <!ENTITY zotero.general.edit "编辑">
 <!ENTITY zotero.general.loading "加载…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "更多">
 <!ENTITY zotero.general.no "否">
 <!ENTITY zotero.general.note "笔记:">
@@ -86,9 +88,9 @@
 <!ENTITY zotero.integration.classicView.label "经典视图">
 <!ENTITY zotero.integration.docPrefs.title "文档首选项">
 <!ENTITY zotero.integration.editBibliography.title "编辑引文目录">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "禁用更新可以加速大文档中的引文的插入。单击刷新手动更新引文。">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "自动更新引文">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "有待更新的引文将在文档中突出显示">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "“期刊缩写”字段将被忽略。">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "使用 MEDLINE 期刊缩写">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "书签可以在 Word 与 LibreOffice 之间共享，但如果不小心被修改，可能会导致错误，并且不能插入脚注。">

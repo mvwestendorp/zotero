@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "لم يتم تحديد ملف">
 <!ENTITY zotero.general.advancedOptions.label "خيارات متقدمة">
 <!ENTITY zotero.general.cancel "الغاء">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "حذف">
 <!ENTITY zotero.general.deselectAll "إلغاء تحديد الكل">
 <!ENTITY zotero.general.edit "تحرير">
 <!ENTITY zotero.general.loading "التحميل">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "المزيد">
 <!ENTITY zotero.general.no "لا">
 <!ENTITY zotero.general.note "ملاحظة:">

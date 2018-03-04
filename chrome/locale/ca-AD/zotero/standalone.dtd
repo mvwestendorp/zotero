@@ -21,7 +21,7 @@
 <!ENTITY debugOutputLogging.accesskey "L">
 <!ENTITY debugOutputLogging.clear "Clear Output">
 <!ENTITY debugOutputLogging.label "Debug Output Logging">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
 <!ENTITY debugOutputLogging.submit "Submit Output">
 <!ENTITY debugOutputLogging.view "View Output">
 <!ENTITY deleteCmd.accesskey "D">
@@ -60,15 +60,15 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Comprova si hi ha actualitzacions...">
-<!ENTITY helpFeedbackPage.accesskey "S">
-<!ENTITY helpFeedbackPage.label "Tramet comentaris">
+<!ENTITY helpFeedbackPage.accesskey "F">
+<!ENTITY helpFeedbackPage.label "Discussion Forums">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Ajuda">
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Ajuda">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Informa d'errors al Zotero">
+<!ENTITY helpReportErrors.label "Report Errors…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Informació de resolució de problemes">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

@@ -68,10 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "ไม่มีการเลือกแฟ้ม">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
 <!ENTITY zotero.general.cancel "Cancel">
+<!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "ลบ">
 <!ENTITY zotero.general.deselectAll "ไม่เลือกทั้งหมด">
 <!ENTITY zotero.general.edit "แก้ไข">
 <!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.minimize "Minimize">
 <!ENTITY zotero.general.more "More">
 <!ENTITY zotero.general.no "No">
 <!ENTITY zotero.general.note "หมายเหตุ:">

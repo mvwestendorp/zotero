@@ -6,6 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero จะใช้เส้นทางซึ่งสัมพันธ์กันสำหรับเชื่อมโยงแฟ้มแนบในสารบบฐาน ช่วยให้คุณเข้าถึงแฟ้มจากคอมพิวเตอร์เครื่องอื่นได้ตราบที่โครงสร้างแฟ้มในสารบบฐานยังคงเหมือนเดิม">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "ย้อนกลับสู่เส้นทางแท้จริง…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "เลือก...">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
+<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
 <!ENTITY zotero.preferences.autoUpdate "Automatically check for updated translators and styles">
 <!ENTITY zotero.preferences.automaticSnapshots "เก็บภาพหน้าจอโดยอัตโนมัติเมื่อสร้างรายการจากหน้าเว็บ">
 <!ENTITY zotero.preferences.automaticTags "สร้างแท็กด้วยคำสำคัญและหัวเรื่องโดยอัตโนมัติ">
