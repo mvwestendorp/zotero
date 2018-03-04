@@ -11,7 +11,6 @@ env:
         - secure: "Y8W9z0JNApKhs/A4EcrILiTgp8RepjF2YrwcE8CBfFG+9ZnYAp1GXrBNHowg8nCnb5PD/r/LksJ8C8JnPSxmucm4T+hhYsEeIMv8CC/Le9K/LzxMII8FrsROZhwHFz3zY0JtDR3UmiJJ4MQIIkc4fsgmkMEbWFAYRdipBb2rJzjeWeuWPRULsV5zPiX7/TGh9crs1JQxP5nh5HK6PNtdCZ3Jz1CM+JRQ9sMLDkHNAiJXupOj5McM2mpHei6YychxkVVxW1fDbjfEKyLwj0oPrpYNFbZKLTtJXalAVahwVIo9Zx2FqNNnce9I8Gb8SiBkju5aas6btjjzq94N3DjLxxgyqKaY1oi/Bjj2l6O3fWNUrhMBI+LZ1TRv1kopzIm/Mdn9+wBikpn6lPiHxXipL/SFal0yvXNGwklXEXTgBE0Y/5tRfsfTysX4TVWOg4XI4FXgD08gx7cwXO7gpqMdckJGzM39vfeL0hdPS8KVi9EiEfXjKKOtV2zJO4zV/mtbV5FOgb5XAs89wyAHfkpBx1HVKAepwy4tPUxxTe6xPoVsIiH4JI3xWeBnreWJMEXiAW7uLACTWmEzmqacLjdINhZHA70CaLXONKFXpb4AUwMxGnKltb3wq2wsSHfZiNnrNYyNH9Q0/DrMUBfPaQcOrGs74WnaOq/50xfyX6m5zmE="
         - secure: "BRYP+42L53kKNkz66yt+wiOTFT+mcGMGTRZjXoiW2lUrlwoFlTh7VGgANJfIcTuc3fi39p1aDDA+9qi8GXUVJsjNaaQ7nbeEZKu+wRIfnSiBPBGpbHgfxYWvzaF26rnN6A9HFdX/n4P6qg3HrgWs1TU/o2SpFAWNDQUSGgmHsDXfj6XwL9f22cgFtbBP6vbOFmaoitmmuXvzMs8kPz2W/Kj47xNjJq7m6grkXUCOqWJNlGtdzcT8dPa06F5EzCrjB1sk+tZbyLYYJKCdD74NKTFefPfblktlabJzg4OYY1P4EhwDjxwfK9daqaQhtgV3TqCCl7UfEwpdt6w5pgiTSnd7blpbrZPdnLieoG8CUk0SEKvdlxD1SD9XsutzaHL+L9i3V3uTVK6RH0Sk0RIUTdjvAqzDIbSm8o43P7TbkKwIqyln/XKKZiYTc621+6rj5Pun4q3m/UJRqn6KYeGeobA1l80WnuJpwjjQBbWa2NEmGSjonT6SO2t0YJHTErngQbTDMBfpMoYwEg4JWuAyM/D0L8d8yJZWYa6N1aoDkHN4nTS05jrCNcxTqVioBbDXrWYutbmwUecs2qVYaHI5S9Znf6Nk+gqrbq7MSBp2OMY9QBr/oRnW/Sg5AaNhnHyUIbpWtO07CS/H/mFtPwfn2P8tYDhKtL5Qa8Y/AEJEgyQ="
     matrix:
-        - FX_VERSION="54.0"
         - FX_VERSION="52.0.3"
 matrix:
     fast_finish: true
@@ -27,19 +26,15 @@ install:
     - if [ $FX_VERSION = "52.0.3" ]; then
         wget -O tarball "https://archive.mozilla.org/pub/firefox/tinderbox-builds/mozilla-release-linux64-add-on-devel/1491732920/firefox-52.0.3.en-US.linux-x86_64-add-on-devel.tar.bz2";
       fi
-    - if [ $FX_VERSION = "54.0" ]; then
-        wget -O tarball "https://archive.mozilla.org/pub/firefox/tinderbox-builds/mozilla-release-linux64-add-on-devel/1496944705/firefox-54.0.en-US.linux-x86_64-add-on-devel.tar.bz2";
-      fi
     - tar xf tarball
 before_script:
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
     - npm i
     - npm run build
-    - if [ $FX_VERSION = "54.0" ] &&
-         [ $TRAVIS_REPO_SLUG = "Juris-M/zotero" ] &&
-         [ $TRAVIS_BRANCH = "jurism-5.0" ] &&
-         [ $TRAVIS_PULL_REQUEST = "false" ]; then
+    - if [[ $TRAVIS_REPO_SLUG = "Juris-M/zotero" &&
+            $TRAVIS_BRANCH = "jurism-5.0" &&
+            $TRAVIS_PULL_REQUEST = "false" ]]; then
         mkdir build-zip;
         cd build;
         zip -r ../build-zip/$TRAVIS_COMMIT.zip *;

@@ -539,6 +539,7 @@ Zotero.Server.Connector.SaveItem.prototype = {
 			collections: collection ? [collection.id] : undefined,
 			attachmentMode: Zotero.Translate.ItemSaver.ATTACHMENT_MODE_DOWNLOAD,
 			forceTagType: 1,
+			referrer: data.uri,
 			cookieSandbox,
 			proxy
 		});
@@ -648,7 +649,13 @@ Zotero.Server.Connector.SaveSnapshot.prototype = {
 					contentType: "application/pdf",
 					cookieSandbox
 				});
-				yield session.addItem(item);
+				if (item) {
+					yield session.addItem(item);
+					
+					// Automatically recognize PDF
+					Zotero.RecognizePDF.autoRecognizeItems([item]);
+				}
+				
 				return 201;
 			}
 			catch (e) {

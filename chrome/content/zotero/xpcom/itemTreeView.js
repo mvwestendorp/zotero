@@ -67,22 +67,18 @@ Zotero.ItemTreeView.prototype.regularOnly = false;
 Zotero.ItemTreeView.prototype.expandAll = false;
 Zotero.ItemTreeView.prototype.collapseAll = false;
 
+Object.defineProperty(Zotero.ItemTreeView.prototype, 'window', {
+	get: function () {
+		return this._ownerDocument.defaultView;
+	},
+	enumerable: true
+});
 
 /**
  * Called by the tree itself
  */
 Zotero.ItemTreeView.prototype.setTree = async function (treebox) {
 	try {
-		Zotero.debug("Setting tree for " + this.collectionTreeRow.id + " items view " + this.id);
-		var start = Date.now();
-		// Try to set the window document if not yet set
-		if (treebox && !this._ownerDocument) {
-			try {
-				this._ownerDocument = treebox.treeBody.ownerDocument;
-			}
-			catch (e) {}
-		}
-		
 		if (this._treebox) {
 			if (this._needsSort) {
 				this.sort();
@@ -90,28 +86,39 @@ Zotero.ItemTreeView.prototype.setTree = async function (treebox) {
 			return;
 		}
 		
+		var start = Date.now();
+		
+		Zotero.debug("Setting tree for " + this.collectionTreeRow.id + " items view " + this.id);
+		
 		if (!treebox) {
 			Zotero.debug("Treebox not passed in setTree()", 2);
 			return;
 		}
+		this._treebox = treebox;
 		
 		if (!this._ownerDocument) {
-			Zotero.debug("No owner document in setTree()", 2);
-			return;
+			try {
+				this._ownerDocument = treebox.treeBody.ownerDocument;
+			}
+			catch (e) {}
+			
+			if (!this._ownerDocument) {
+				Zotero.debug("No owner document in setTree()", 2);
+				return;
+			}
 		}
 		
-		this._treebox = treebox;
 		this.setSortColumn();
 		
-		if (this._ownerDocument.defaultView.ZoteroPane_Local) {
-			this._ownerDocument.defaultView.ZoteroPane_Local.setItemsPaneMessage(Zotero.getString('pane.items.loading'));
+		if (this.window.ZoteroPane) {
+			this.window.ZoteroPane.setItemsPaneMessage(Zotero.getString('pane.items.loading'));
 		}
 		
 		if (Zotero.locked) {
 			Zotero.debug("Zotero is locked -- not loading items tree", 2);
 			
-			if (this._ownerDocument.defaultView.ZoteroPane_Local) {
-				this._ownerDocument.defaultView.ZoteroPane_Local.clearItemsPaneMessage();
+			if (this.window.ZoteroPane) {
+				this.window.ZoteroPane.clearItemsPaneMessage();
 			}
 			return;
 		}
@@ -465,7 +472,7 @@ Zotero.ItemTreeView.prototype.refresh = Zotero.serial(Zotero.Promise.coroutine(f
 		
 		// Clear My Publications intro text on a refresh with items
 		if (this.collectionTreeRow.isPublications() && this.rowCount) {
-			this._ownerDocument.defaultView.ZoteroPane_Local.clearItemsPaneMessage();
+			this.window.ZoteroPane.clearItemsPaneMessage();
 		}
 		
 		yield this.runListeners('refresh');
@@ -713,7 +720,7 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 			}
 		}
 		else if (collectionTreeRow.isFeed()) {
-			this._ownerDocument.defaultView.ZoteroPane.updateReadLabel();
+			this.window.ZoteroPane.updateReadLabel();
 		}
 		// If not a search, process modifications manually
 		else {
@@ -1683,7 +1690,7 @@ Zotero.ItemTreeView.prototype.sort = function (itemIDs) {
  * Show intro text in middle pane for some views when no items
  */
 Zotero.ItemTreeView.prototype._updateIntroText = function() {
-	if (!this._ownerDocument.defaultView.ZoteroPane) {
+	if (!this.window.ZoteroPane) {
 		return;
 	}
 	
@@ -1782,7 +1789,7 @@ Zotero.ItemTreeView.prototype._updateIntroText = function() {
 	}
 	
 	if (this._introText || this._introText === null) {
-		this._ownerDocument.defaultView.ZoteroPane_Local.clearItemsPaneMessage();
+		this.window.ZoteroPane.clearItemsPaneMessage();
 		this._introText = false;
 	}
 };
@@ -1842,9 +1849,9 @@ Zotero.ItemTreeView.prototype.selectItem = Zotero.Promise.coroutine(function* (i
 			// No parent -- it's not here
 			
 			// Clear the quick search and tag selection and try again (once)
-			if (!noRecurse && this._ownerDocument.defaultView.ZoteroPane_Local) {
-				let cleared1 = yield this._ownerDocument.defaultView.ZoteroPane_Local.clearQuicksearch();
-				let cleared2 = this._ownerDocument.defaultView.ZoteroPane_Local.clearTagSelection();
+			if (!noRecurse && this.window.ZoteroPane) {
+				let cleared1 = yield this.window.ZoteroPane.clearQuicksearch();
+				let cleared2 = this.window.ZoteroPane.clearTagSelection();
 				if (cleared1 || cleared2) {
 					return this.selectItem(id, expand, true);
 				}
@@ -3212,9 +3219,7 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 	else if (dataType == 'text/x-moz-url' || dataType == 'application/x-moz-file') {
 		// Disallow drop into read-only libraries
 		if (!collectionTreeRow.editable) {
-			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-					   .getService(Components.interfaces.nsIWindowMediator);
-			var win = wm.getMostRecentWindow("navigator:browser");
+			let win = Services.wm.getMostRecentWindow("navigator:browser");
 			win.ZoteroPane.displayCannotEditLibraryMessage();
 			return;
 		}
@@ -3232,34 +3237,29 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 			var parentCollectionID = collectionTreeRow.ref.id;
 		}
 		
+		let addedItems = [];
 		var notifierQueue = new Zotero.Notifier.Queue;
 		try {
+			// If there's a single file being added to a parent, automatic renaming is enabled,
+			// and there are no other non-HTML attachments, we'll rename the file as long as it's
+			// an allowed type. The dragged data could be a URL, so we don't yet know the file type.
+			// This should be kept in sync with ZoteroPane.addAttachmentFromDialog().
+			let renameIfAllowedType = false;
 			let parentItem;
-			let numExistingFileAttachments;
-			if (parentItemID) {
+			if (parentItemID && data.length == 1 && Zotero.Prefs.get('autoRenameFiles')) {
 				parentItem = Zotero.Items.get(parentItemID);
-				numExistingFileAttachments = parentItem.getAttachments()
-					.map(itemID => Zotero.Items.get(itemID))
-					.filter(item => item.isFileAttachment())
-					.length;
+				if (!parentItem.numNonHTMLFileAttachments()) {
+					renameIfAllowedType = true;
+				}
 			}
 			
 			for (var i=0; i<data.length; i++) {
 				var file = data[i];
 				
-				let fileBaseName;
-				// If only one item is being dragged and it's the only attachment, run
-				// "Rename File from Parent Metadata" automatically
-				if (data.length == 1 && parentItem && !numExistingFileAttachments) {
-					fileBaseName = Zotero.Attachments.getFileBaseNameFromItem(parentItem);
-				}
-				
 				if (dataType == 'text/x-moz-url') {
 					var url = data[i];
 					if (url.indexOf('file:///') == 0) {
-						var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-								   .getService(Components.interfaces.nsIWindowMediator);
-						var win = wm.getMostRecentWindow("navigator:browser");
+						let win = Services.wm.getMostRecentWindow("navigator:browser");
 						// If dragging currently loaded page, only convert to
 						// file if not an HTML document
 						if (win.content.location.href != url ||
@@ -3277,18 +3277,17 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 					
 					// Still string, so remote URL
 					if (typeof file == 'string') {
+						let item;
 						if (parentItemID) {
 							if (!collectionTreeRow.filesEditable) {
-								var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-										   .getService(Components.interfaces.nsIWindowMediator);
-								var win = wm.getMostRecentWindow("navigator:browser");
+								let win = Services.wm.getMostRecentWindow("navigator:browser");
 								win.ZoteroPane.displayCannotEditLibraryFilesMessage();
 								return;
 							}
-							yield Zotero.Attachments.importFromURL({
+							item = yield Zotero.Attachments.importFromURL({
 								libraryID: targetLibraryID,
 								url,
-								fileBaseName,
+								renameIfAllowedType,
 								parentItemID,
 								saveOptions: {
 									notifierQueue
@@ -3296,10 +3295,11 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 							});
 						}
 						else {
-							var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-									   .getService(Components.interfaces.nsIWindowMediator);
-							var win = wm.getMostRecentWindow("navigator:browser");
-							win.ZoteroPane.addItemFromURL(url, 'temporaryPDFHack'); // TODO: don't do this
+							let win = Services.wm.getMostRecentWindow("navigator:browser");
+							item = yield win.ZoteroPane.addItemFromURL(url, 'temporaryPDFHack'); // TODO: don't do this
+						}
+						if (item) {
+							addedItems.push(item);
 						}
 						continue;
 					}
@@ -3307,8 +3307,38 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 					// Otherwise file, so fall through
 				}
 				
+				file = file.path;
+				
+				// Rename file if it's an allowed type
+				let fileBaseName = false;
+				if (renameIfAllowedType) {
+					 fileBaseName = yield Zotero.Attachments.getRenamedFileBaseNameIfAllowedType(
+						parentItem, file
+					);
+				}
+				
+				let item;
 				if (dropEffect == 'link') {
-					yield Zotero.Attachments.linkFromFile({
+					// Rename linked file, with unique suffix if necessary
+					try {
+						if (fileBaseName) {
+							let ext = Zotero.File.getExtension(file);
+							let newName = yield Zotero.File.rename(
+								file,
+								fileBaseName + (ext ? '.' + ext : ''),
+								{
+									unique: true
+								}
+							);
+							// Update path in case the name was changed to be unique
+							file = OS.Path.join(OS.Path.dirname(file), newName);
+						}
+					}
+					catch (e) {
+						Zotero.logError(e);
+					}
+					
+					item = yield Zotero.Attachments.linkFromFile({
 						file,
 						parentItemID,
 						collections: parentCollectionID ? [parentCollectionID] : undefined,
@@ -3318,15 +3348,13 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 					});
 				}
 				else {
-					if (file.leafName.endsWith(".lnk")) {
-						let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-						   .getService(Components.interfaces.nsIWindowMediator);
-						let win = wm.getMostRecentWindow("navigator:browser");
-						win.ZoteroPane.displayCannotAddShortcutMessage(file.path);
+					if (file.endsWith(".lnk")) {
+						let win = Services.wm.getMostRecentWindow("navigator:browser");
+						win.ZoteroPane.displayCannotAddShortcutMessage(file);
 						continue;
 					}
 					
-					yield Zotero.Attachments.importFromFile({
+					item = yield Zotero.Attachments.importFromFile({
 						file,
 						fileBaseName,
 						libraryID: targetLibraryID,
@@ -3339,17 +3367,26 @@ Zotero.ItemTreeView.prototype.drop = Zotero.Promise.coroutine(function* (row, or
 					// If moving, delete original file
 					if (dragData.dropEffect == 'move') {
 						try {
-							file.remove(false);
+							yield OS.File.remove(file);
 						}
 						catch (e) {
-							Components.utils.reportError("Error deleting original file " + file.path + " after drag");
+							Zotero.logError("Error deleting original file " + file + " after drag");
 						}
 					}
+				}
+				
+				if (item) {
+					addedItems.push(item);
 				}
 			}
 		}
 		finally {
 			yield Zotero.Notifier.commit(notifierQueue);
+		}
+		
+		// Automatically retrieve metadata for PDFs
+		if (!parentItemID) {
+			Zotero.RecognizePDF.autoRecognizeItems(addedItems);
 		}
 	}
 });

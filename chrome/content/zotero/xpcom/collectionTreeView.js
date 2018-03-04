@@ -76,6 +76,14 @@ Object.defineProperty(Zotero.CollectionTreeView.prototype, "selectedTreeRow", {
 });
 
 
+Object.defineProperty(Zotero.CollectionTreeView.prototype, 'window', {
+	get: function () {
+		return this._ownerDocument.defaultView;
+	},
+	enumerable: true
+});
+
+
 /*
  *  Called by the tree itself
  */
@@ -86,6 +94,13 @@ Zotero.CollectionTreeView.prototype.setTree = Zotero.Promise.coroutine(function*
 			return;
 		}
 		this._treebox = treebox;
+		
+		if (!this._ownerDocument) {
+			try {
+				this._ownerDocument = treebox.treeBody.ownerDocument;
+			}
+			catch (e) {}
+		}
 		
 		// Add a keypress listener for expand/collapse
 		var tree = this._treebox.treeBody.parentNode;
@@ -2188,9 +2203,7 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 				}
 				*/
 				
-				let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-						   .getService(Components.interfaces.nsIWindowMediator);
-				let lastWin = wm.getMostRecentWindow("navigator:browser");
+				let lastWin = Services.wm.getMostRecentWindow("navigator:browser");
 				lastWin.openDialog('chrome://zotero/content/merge.xul', '', 'chrome,modal,centerscreen', io);
 				
 				yield Zotero.DB.executeTransaction(function* () {
@@ -2229,24 +2242,23 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 	}
 	else if (dataType == 'text/x-moz-url' || dataType == 'application/x-moz-file') {
 		var targetLibraryID = targetTreeRow.ref.libraryID;
-		
 		if (targetTreeRow.isCollection()) {
 			var parentCollectionID = targetTreeRow.ref.id;
 		}
 		else {
 			var parentCollectionID = false;
 		}
+		var addedItems = [];
 		
 		for (var i=0; i<data.length; i++) {
 			var file = data[i];
 			
 			if (dataType == 'text/x-moz-url') {
 				var url = data[i];
+				let item;
 				
 				if (url.indexOf('file:///') == 0) {
-					var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-							   .getService(Components.interfaces.nsIWindowMediator);
-					var win = wm.getMostRecentWindow("navigator:browser");
+					let win = Services.wm.getMostRecentWindow("navigator:browser");
 					// If dragging currently loaded page, only convert to
 					// file if not an HTML document
 					if (win.content.location.href != url ||
@@ -2264,9 +2276,7 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 				
 				// Still string, so remote URL
 				if (typeof file == 'string') {
-					var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-							   .getService(Components.interfaces.nsIWindowMediator);
-					var win = wm.getMostRecentWindow("navigator:browser");
+					let win = Services.wm.getMostRecentWindow("navigator:browser");
 					win.ZoteroPane.addItemFromURL(url, 'temporaryPDFHack', null, row); // TODO: don't do this
 					continue;
 				}
@@ -2275,13 +2285,13 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 			}
 			
 			if (dropEffect == 'link') {
-				yield Zotero.Attachments.linkFromFile({
+				item = yield Zotero.Attachments.linkFromFile({
 					file: file,
 					collections: parentCollectionID ? [parentCollectionID] : undefined
 				});
 			}
 			else {
-				yield Zotero.Attachments.importFromFile({
+				item = yield Zotero.Attachments.importFromFile({
 					file: file,
 					libraryID: targetLibraryID,
 					collections: parentCollectionID ? [parentCollectionID] : undefined
@@ -2296,7 +2306,12 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 					}
 				}
 			}
+			
+			addedItems.push(item);
 		}
+		
+		// Automatically retrieve metadata for PDFs
+		Zotero.RecognizePDF.autoRecognizeItems(addedItems);
 	}
 });
 

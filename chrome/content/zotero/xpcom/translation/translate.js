@@ -1936,29 +1936,21 @@ Zotero.Translate.Base.prototype = {
 	 * Generates a string from an exception
 	 * @param {String|Exception} error
 	 */
-	"_generateErrorString":function(error) {
-		var errorString = "";
-		if(typeof(error) == "string") {
-			errorString = "\nthrown exception => "+error;
-		} else {
-			var haveStack = false;
-			for(var i in error) {
-				if(typeof(error[i]) != "object") {
-					if(i === "stack") haveStack = true;
-					errorString += "\n"+i+' => '+error[i];
-				}
-			}
-			errorString += "\nstring => "+error.toString();
-			if(!haveStack && error.stack) {
-				// In case the stack is not enumerable
-				errorString += "\nstack => "+error.stack.toString();
-			}
+	_generateErrorString: function (error) {
+		var errorString = error;
+		if (error.stack && error) {
+			errorString += "\n\n" + error.stack;
 		}
-		
-		errorString += "\nurl => "+this.path
-			+ "\ndownloadAssociatedFiles => "+Zotero.Prefs.get("downloadAssociatedFiles")
-			+ "\nautomaticSnapshots => "+Zotero.Prefs.get("automaticSnapshots");
-		return errorString.substr(1);
+		if (this.path) {
+			errorString += `\nurl => ${this.path}`;
+		}
+		if (Zotero.Prefs.get("downloadAssociatedFiles")) {
+			errorString += "\ndownloadAssociatedFiles => true";
+		}
+		if (Zotero.Prefs.get("automaticSnapshots")) {
+			errorString += "\nautomaticSnapshots => true";
+		}
+		return errorString;
 	},
 	
 	/**
@@ -2594,6 +2586,7 @@ Zotero.Translate.Search.prototype = new Zotero.Translate.Base();
 Zotero.Translate.Search.prototype.type = "search";
 Zotero.Translate.Search.prototype._entryFunctionSuffix = "Search";
 Zotero.Translate.Search.prototype.Sandbox = Zotero.Translate.Sandbox._inheritFromBase(Zotero.Translate.Sandbox.Search);
+Zotero.Translate.Search.prototype.ERROR_NO_RESULTS = "No items returned from any translator";
 
 /**
  * @borrows Zotero.Translate.Web#setCookieSandbox
@@ -2671,7 +2664,8 @@ Zotero.Translate.Search.prototype.complete = function(returnValue, error) {
 			&& !this._savingItems
 			//length is 0 only when translate was called without translators
 			&& this.translator.length) {
-		Zotero.debug("Translate: Could not find a result using "+this.translator[0].label, 3);
+		Zotero.debug("Translate: Could not find a result using " + this.translator[0].label
+			+ (this.translator.length > 1 ? " -- trying next translator" : ""), 3);
 		if(error) Zotero.debug(this._generateErrorString(error), 3);
 		if(this.translator.length > 1) {
 			this.translator.shift();
@@ -2682,7 +2676,8 @@ Zotero.Translate.Search.prototype.complete = function(returnValue, error) {
 			});
 			return;
 		} else {
-			error = "No items returned from any translator";
+			Zotero.debug("No more translators to try");
+			error = this.ERROR_NO_RESULTS;
 			returnValue = false;
 		}
 	}

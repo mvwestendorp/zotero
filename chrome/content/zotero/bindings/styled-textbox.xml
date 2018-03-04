@@ -410,15 +410,6 @@
 								}
 								switch (event.type) {
 									case 'keydown':
-										// Intercept and manually trigger redo for Cmd-Shift-Z,
-										// which keeps it from toggling the Zotero pane instead
-										if (Zotero.isMac && event.metaKey && event.shiftKey && !event.ctrlKey
-												&& !event.altKey && event.keyCode == 90) {
-											event.stopPropagation();
-											event.preventDefault();
-											this.redo();
-											return;
-										}
 										// Handle forward-delete, which doesn't register as a keypress
 										// when a selection is cleared
 										if (event.which == event.DOM_VK_DELETE) {
@@ -609,19 +600,12 @@
 				</body>
 			</method>
 			
-			<method name="redo">
-				<body>
-				<![CDATA[
-					this._editor.undoManager.redo();
-				]]>
-				</body>
-			</method>
-			
 			<method name="clearUndo">
 				<body>
 				<![CDATA[
 					if (this._editor) {
 						this._editor.undoManager.clear();
+						this._editor.undoManager.add();
 					}
 				]]>
 				</body>
@@ -707,10 +691,16 @@
 								}
 								if (self._value) {
 									self.value = self._value;
+									
+									// Prevent undoing to empty note after initialization
+									self._editor.undoManager.clear();
+									self._editor.undoManager.add();
 								}
 								if (self._focus) {
-									self._iframe.focus();
-									self._editor.focus();
+									setTimeout(function () {
+										self._iframe.focus();
+										self._editor.focus();
+									});
 									self._focus = false;
 								}
 								

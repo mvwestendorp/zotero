@@ -245,9 +245,19 @@ Zotero.Attachments = new function(){
 	
 	
 	/**
-	 * @param {Object} options - 'libraryID', 'url', 'parentItemID', 'collections', 'title',
-	 *                           'fileBaseName', 'contentType', 'cookieSandbox', 'saveOptions'
-	 * @return {Promise<Zotero.Item>} - A promise for the created attachment item
+	 * @param {Object} options
+	 * @param {Integer} options.libraryID
+	 * @param {String} options.url
+	 * @param {Integer} [options.parentItemID]
+	 * @param {Integer[]} [options.collections]
+	 * @param {String} [options.title]
+	 * @param {String} [options.fileBaseName]
+	 * @param {Boolean} [options.renameIfAllowedType=false]
+	 * @param {String} [options.contentType]
+	 * @param {String} [options.referrer]
+	 * @param {CookieSandbox} [options.cookieSandbox]
+	 * @param {Object} [options.saveOptions]
+	 * @return {Promise<Zotero.Item|false>} - A promise for the created attachment item
 	 */
 	this.importFromURL = Zotero.Promise.coroutine(function* (options) {
 		var libraryID = options.libraryID;
@@ -256,7 +266,9 @@ Zotero.Attachments = new function(){
 		var collections = options.collections;
 		var title = options.title;
 		var fileBaseName = options.fileBaseName;
+		var renameIfAllowedType = options.renameIfAllowedType;
 		var contentType = options.contentType;
+		var referrer = options.referrer;
 		var cookieSandbox = options.cookieSandbox;
 		var saveOptions = options.saveOptions;
 		
@@ -286,7 +298,7 @@ Zotero.Attachments = new function(){
 							if (channel.responseStatus < 200 || channel.responseStatus >= 400) {
 								reject(new Error("Invalid response " + channel.responseStatus + " "
 									+ channel.responseStatusText + " for '" + url + "'"));
-								return;
+								return false;
 							}
 						}
 						try {
@@ -318,6 +330,11 @@ Zotero.Attachments = new function(){
 		
 		// Save using remote web browser persist
 		var externalHandlerImport = Zotero.Promise.coroutine(function* (contentType) {
+			// Rename attachment
+			if (renameIfAllowedType && !fileBaseName && this.getRenamedFileTypes().includes(contentType)) {
+				let parentItem = Zotero.Items.get(parentItemID);
+				fileBaseName = this.getFileBaseNameFromItem(parentItem);
+			}
 			if (fileBaseName) {
 				let ext = _getExtensionFromURL(url, contentType);
 				var fileName = fileBaseName + (ext != '' ? '.' + ext : '');
@@ -347,7 +364,12 @@ Zotero.Attachments = new function(){
 			var nsIURL = Components.classes["@mozilla.org/network/standard-url;1"]
 				.createInstance(Components.interfaces.nsIURL);
 			nsIURL.spec = url;
-			Zotero.Utilities.Internal.saveURI(wbp, nsIURL, tmpFile);
+			var headers = {};
+			if (referrer) {
+				headers.Referer = referrer;
+			}
+			Zotero.Utilities.Internal.saveURI(wbp, nsIURL, tmpFile, headers);
+
 
 			yield deferred.promise;
 			let sample = yield Zotero.File.getContentsAsync(tmpFile, null, 1000);
@@ -387,6 +409,8 @@ Zotero.Attachments = new function(){
 					attachmentItem.attachmentPath = 'storage:' + fileName;
 					var itemID = yield attachmentItem.save(saveOptions);
 					
+					Zotero.Fulltext.queueItem(attachmentItem);
+					
 					// DEBUG: Does this fail if 'storage' is symlinked to another drive?
 					destDir = this.getStorageDirectory(attachmentItem).path;
 					yield OS.File.move(tmpDir, destDir);
@@ -405,16 +429,6 @@ Zotero.Attachments = new function(){
 				}
 				throw e;
 			}
-			
-			// We don't have any way of knowing that the file is flushed to disk,
-			// so we just wait a second before indexing and hope for the best.
-			// We'll index it later if it fails. (This may not be necessary.)
-			//
-			// If this is removed, the afterEach() delay in the server_connector /connector/saveSnapshot
-			// tests can also be removed.
-			setTimeout(function () {
-				Zotero.Fulltext.indexItems([attachmentItem.id]);
-			}, 1000);
 			
 			return attachmentItem;
 		}.bind(this));
@@ -680,6 +694,8 @@ Zotero.Attachments = new function(){
 				attachmentItem.attachmentPath = 'storage:' + fileName;
 				var itemID = yield attachmentItem.save();
 				
+				Zotero.Fulltext.queueItem(attachmentItem);
+				
 				// DEBUG: Does this fail if 'storage' is symlinked to another drive?
 				destDir = this.getStorageDirectory(attachmentItem).path;
 				yield OS.File.move(tmpDir, destDir);
@@ -702,21 +718,6 @@ Zotero.Attachments = new function(){
 			}
 			
 			throw e;
-		}
-		
-		// We don't have any way of knowing that the file is flushed to disk,
-		// so we just wait a second before indexing and hope for the best.
-		// We'll index it later if it fails. (This may not be necessary.)
-		if (contentType == 'application/pdf') {
-			setTimeout(function () {
-				Zotero.Fulltext.indexPDF(attachmentItem.getFilePath(), attachmentItem.id);
-			}, 1000);
-		}
-		else if (Zotero.MIME.isTextType(contentType)) {
-			// wbp.saveDocument consumes the document context (in Zotero.Utilities.Internal.saveDocument)
-			// Seems like a mozilla bug, but nothing on bugtracker.
-			// Either way, we don't rely on Zotero.Fulltext.indexDocument here anymore
-			yield Zotero.Fulltext.indexItems(attachmentItem.id, true, true);
 		}
 		
 		return attachmentItem;
@@ -821,6 +822,30 @@ Zotero.Attachments = new function(){
 		
 		formatString = Zotero.File.getValidFileName(formatString);
 		return formatString;
+	}
+	
+	
+	this.getRenamedFileTypes = function () {
+		try {
+			var types = Zotero.Prefs.get('autoRenameFiles.fileTypes');
+			return types ? types.split(',') : [];
+		}
+		catch (e) {
+			return [];
+		}
+	};
+	
+	
+	this.getRenamedFileBaseNameIfAllowedType = async function (parentItem, file) {
+		var types = this.getRenamedFileTypes();
+		var contentType = file.endsWith('.pdf')
+			// Don't bother reading file if there's a .pdf extension
+			? 'application/pdf'
+			: await Zotero.MIME.getMIMETypeFromFile(file);
+		if (!types.includes(contentType)) {
+			return false;
+		}
+		return this.getFileBaseNameFromItem(parentItem);
 	}
 	
 	

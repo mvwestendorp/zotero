@@ -158,9 +158,6 @@ describe("Connector Server", function () {
 			item = Zotero.Items.get(ids[0]);
 			assert.isTrue(item.isImportedAttachment());
 			
-			// Wait until indexing is done
-			yield waitForItemEvent('refresh');
-			
 			var req = yield reqPromise;
 			assert.equal(req.status, 201);
 		});
@@ -257,12 +254,6 @@ describe("Connector Server", function () {
 	});
 	
 	describe("/connector/saveSnapshot", function () {
-		// TEMP: Wait for indexing to complete, which happens after a 1-second delay, after a 201 has
-		// been returned to the connector. Would be better to make sure indexing has completed.
-		afterEach(function* () {
-			yield Zotero.Promise.delay(1050);
-		});
-		
 		it("should save a webpage item and snapshot to the current selected collection", function* () {
 			var collection = yield createDataObject('collection');
 			yield waitForItemsLoad(win);
@@ -305,17 +296,36 @@ describe("Connector Server", function () {
 			assert.equal(item.getField('title'), 'Title');
 		});
 		
-		it("should save a PDF to the current selected collection", function* () {
-			var collection = yield createDataObject('collection');
-			yield waitForItemsLoad(win);
+		it("should save a PDF to the current selected collection and retrieve metadata", async function () {
+			var collection = await createDataObject('collection');
+			await waitForItemsLoad(win);
 			
 			var file = getTestDataDirectory();
 			file.append('test.pdf');
 			httpd.registerFile("/test.pdf", file);
 			
-			var ids;
 			var promise = waitForItemEvent('add');
-			yield Zotero.HTTP.request(
+			var recognizerPromise = waitForRecognizer();
+			
+			var origRequest = Zotero.HTTP.request.bind(Zotero.HTTP);
+			var called = 0;
+			var stub = sinon.stub(Zotero.HTTP, 'request').callsFake(function (method, url, options) {
+				// Forward saveSnapshot request
+				if (url.endsWith('saveSnapshot')) {
+					return origRequest(...arguments);
+				}
+				
+				// Fake recognizer response
+				return Zotero.Promise.resolve({
+					getResponseHeader: () => {},
+					responseText: JSON.stringify({
+						title: 'Test',
+						authors: []
+					})
+				});
+			});
+			
+			await Zotero.HTTP.request(
 				'POST',
 				connectorServerPath + "/connector/saveSnapshot",
 				{
@@ -329,13 +339,20 @@ describe("Connector Server", function () {
 				}
 			);
 			
-			var ids = yield promise;
+			var ids = await promise;
 			
 			assert.lengthOf(ids, 1);
 			var item = Zotero.Items.get(ids[0]);
 			assert.isTrue(item.isImportedAttachment());
 			assert.equal(item.attachmentContentType, 'application/pdf');
 			assert.isTrue(collection.hasItem(item.id));
+			
+			var progressWindow = await recognizerPromise;
+			progressWindow.close();
+			Zotero.RecognizePDF.cancel();
+			assert.isFalse(item.isTopLevelItem());
+			
+			stub.restore();
 		});
 		
 		it("should respond with 500 if a read-only library is selected", function* () {
@@ -374,12 +391,6 @@ describe("Connector Server", function () {
 		before(async function () {
 			await selectLibrary(win);
 			await waitForItemsLoad(win);
-		});
-		
-		// TEMP: Wait for indexing to complete, which happens after a 1-second delay, after a 201 has
-		// been returned to the connector. Would be better to make sure indexing has completed.
-		afterEach(function* () {
-			yield Zotero.Promise.delay(1050);
 		});
 		
 		it("should return 500 if no translator available for page", function* () {
@@ -484,8 +495,6 @@ describe("Connector Server", function () {
 			var item = Zotero.Items.get(ids[0]);
 			assert.isTrue(collection2.hasItem(item.id));
 			await waitForItemEvent('add');
-			// Wait until indexing is done
-			await waitForItemEvent('refresh');
 			
 			var req = await reqPromise;
 			assert.equal(req.status, 201);
@@ -543,8 +552,6 @@ describe("Connector Server", function () {
 			var ids = await promise;
 			var item = Zotero.Items.get(ids[0]);
 			assert.isTrue(collection2.hasItem(item.id));
-			// Wait until indexing is done
-			await waitForItemEvent('refresh');
 			var req = await reqPromise;
 			assert.equal(req.status, 201);
 			

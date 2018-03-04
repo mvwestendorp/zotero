@@ -121,6 +121,7 @@ const xpcomFilesLocal = [
 	'multilingual/jurisdiction',
 	'notifier',
 	'quickCopy',
+	'recognizePDF',
 	'report',
 	'router',
 	'schema',

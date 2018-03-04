@@ -78,7 +78,7 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 			pdfInfoFileName += '.exe';
 		}
 		
-		let dir = FileUtils.getFile('AChrom', []).parent;
+		let dir = FileUtils.getDir('AChrom', []).parent;
 		
 		_pdfData = dir.clone();
 		_pdfData.append('poppler-data');
@@ -260,6 +260,10 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 */
 	var indexString = Zotero.Promise.coroutine(function* (text, charset, itemID, stats, version, synced) {
 		var words = this.semanticSplitter(text, charset);
+		
+		while (Zotero.DB.inTransaction()) {
+			yield Zotero.DB.waitForTransaction('indexString()');
+		}
 		
 		yield Zotero.DB.executeTransaction(function* () {
 			this.clearItemWords(itemID, true);
@@ -523,20 +527,59 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 				continue;
 			}
 			
-			if (ignoreErrors) {
-				try {
-					yield indexFile(path, item.attachmentContentType, item.attachmentCharset, itemID, complete);
-				}
-				catch (e) {
+			try {
+				yield indexFile(path, item.attachmentContentType, item.attachmentCharset, itemID, complete);
+			}
+			catch (e) {
+				if (ignoreErrors) {
 					Components.utils.reportError("Error indexing " + path);
 					Zotero.logError(e);
 				}
-			}
-			else {
-				yield indexFile(path, item.attachmentContentType, item.attachmentCharset, itemID, complete);
+				else {
+					throw e;
+				}
 			}
 		}
 	});
+	
+	
+	// TEMP: Temporary mechanism to serialize indexing of new attachments
+	//
+	// This should instead save the itemID to a table that's read by the content processor
+	var _queue = [];
+	var _indexing = false;
+	var _nextIndexTime;
+	var _indexDelay = 5000;
+	var _indexInterval = 500;
+	this.queueItem = function (item) {
+		// Don't index files in the background during tests
+		if (Zotero.test) return;
+		
+		_queue.push(item.id);
+		_nextIndexTime = Date.now() + _indexDelay;
+		setTimeout(() => {
+			_processNextItem()
+		}, _indexDelay);
+	};
+	
+	async function _processNextItem() {
+		if (!_queue.length) return;
+		// Another _processNextItem() was scheduled
+		if (Date.now() < _nextIndexTime) return;
+		// If indexing is already running, _processNextItem() will be called when it's done
+		if (_indexing) return;
+		_indexing = true;
+		var itemID = _queue.shift();
+		try {
+			await Zotero.Fulltext.indexItems([itemID], false, true);
+		}
+		finally {
+			_indexing = false;
+		}
+		setTimeout(() => {
+			_processNextItem();
+		}, _indexInterval);
+	};
 	
 	
 	//
@@ -781,6 +824,8 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 * Start the idle observer for the background content processor
 	 */
 	this.registerContentProcessor = function () {
+		// Don't start idle observer during tests
+		if (Zotero.test) return;
 		if (!Zotero.Prefs.get('sync.fulltext.enabled')) return;
 		
 		if (!_idleObserverIsRegistered) {
@@ -1351,7 +1396,12 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 * Item must be a non-web-link attachment that isn't already fully indexed
 	 */
 	this.canReindex = Zotero.Promise.coroutine(function* (item) {
-		if (item.isAttachment() && item.attachmentLinkMode != Zotero.Attachments.LINK_MODE_LINKED_URL) {
+		if (item.isAttachment()
+				&& item.attachmentLinkMode != Zotero.Attachments.LINK_MODE_LINKED_URL) {
+			let contentType = item.attachmentContentType;
+			if (!contentType || contentType != 'application/pdf' && !Zotero.MIME.isTextType(contentType)) {
+				return false;
+			}
 			switch (yield this.getIndexedState(item)) {
 				case this.INDEX_STATE_UNAVAILABLE:
 				case this.INDEX_STATE_UNINDEXED:

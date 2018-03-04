@@ -1999,13 +1999,17 @@ Zotero.Utilities = {
 						var isbn = value.match(/^(?:97[89]-?)?(?:\d-?){9}[\dx](?!-)\b/i);
 						if (isbn) value = isbn[0];
 					}
-					if (field == 'jurisdiction') {
+					else if (field == 'jurisdiction') {
 						var m = value.match(/^([0-9]{3})/);
 						if (m) {
 							var offset = parseInt(m[1], 10);
 							value = value.slice(3, (offset + 3));
 						}
 					}
+					else if (field == 'extra') {
+						value = Zotero.Cite.extraToCSL(value);
+					}
+					
 					// Strip enclosing quotes
 					if(value.charAt(0) == '"' && value.indexOf('"', 1) == value.length - 1) {
 						value = value.substring(1, value.length-1);
@@ -2284,6 +2288,9 @@ Zotero.Utilities = {
 					}
 					
 					if(Zotero.ItemFields.isValidForType(fieldID, itemTypeID)) {
+						// TODO: Convert restrictive Extra cheater syntax ('original-date: 2018')
+						// to nicer format we allow ('Original Date: 2018'), unless we've added
+						// those fields before we get to that
 						if(isZoteroItem) {
 							var mainLang = null;
 							if (cslItem.multi) {
