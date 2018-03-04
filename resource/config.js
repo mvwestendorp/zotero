@@ -3,7 +3,7 @@ var ZOTERO_CONFIG = {
 	ID: 'jurism',
 	CLIENT_NAME: 'Juris-M',
 	DOMAIN_NAME: 'zotero.org',
-	REPOSITORY_URL: 'https://our.law.nagoya-u.ac.jp/cgi-bin/',
+	REPOSITORY_URL: 'https://our.law.nagoya-u.ac.jp/updater/',
 	REPOSITORY_CHECK_INTERVAL: 86400, // 24 hours
 	REPOSITORY_RETRY_INTERVAL: 3600, // 1 hour
 	BASE_URI: 'http://zotero.org/',
@@ -11,7 +11,6 @@ var ZOTERO_CONFIG = {
 	PROXY_AUTH_URL: 'https://s3.amazonaws.com/zotero.org/proxy-auth',
 	API_URL: 'https://api.zotero.org/',
 	STREAMING_URL: 'wss://stream.zotero.org/',
-	RECOGNIZE_URL: 'https://recognize.zotero.org/',
 	API_VERSION: 3,
 	PREF_BRANCH: 'extensions.zotero.',
 	BOOKMARKLET_ORIGIN: 'https://www.zotero.org',
@@ -26,7 +25,7 @@ var ZOTERO_CONFIG = {
 	SUPPORT_URL: "https://juris-m.github.io/support/",
 	TROUBLESHOOTING_URL: "https://juris-m.github.io/support/",
 	FEEDBACK_URL: "https://juris-m.github.io/support/",
-	CONNECTORS_URL: "https://juris-m.github.io/downloads"
+	CONNECTORS_URL: "https://juris-m.github.io/downloads/"
 };
 
 EXPORTED_SYMBOLS = ["ZOTERO_CONFIG"];
