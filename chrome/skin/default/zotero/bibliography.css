@@ -28,3 +28,8 @@ radio:not(:first-child)
 #automaticJournalAbbreviations-vbox, #automaticCitationUpdates-vbox {
 	padding: 0 14px;
 }
+
+#lang-prefs {
+	overflow-y: scroll;
+	height: 19em;
+}
