@@ -142,9 +142,9 @@
                     <!-- top-right, cite configs -->
                     <columns>
                       <!-- headings -->
-                      <column minwidth="100" maxwidth="100"/>
-                      <column minwidth="152" maxwidth="152"/>
-                      <column minwidth="200" maxwidth="200"/>
+                      <column minwidth="100" maxwidth="150"/>
+                      <column minwidth="152" maxwidth="258"/>
+                      <column minwidth="200" maxwidth="300"/>
                     </columns>
                     <rows>
                       <row>
@@ -159,20 +159,20 @@
                   <grid>
                     <columns>
                       <!-- menu rows -->
-                      <column minwidth="100" maxwidth="100"/>
-                      <column minwidth="152" maxwidth="152"/>
-                      <column minwidth="66" maxwidth="66"/>
-                      <column minwidth="66" maxwidth="66"/>
-                      <column minwidth="66" maxwidth="66"/>
+                      <column minwidth="100" maxwidth="150"/>
+                      <column minwidth="152" maxwidth="258"/>
+                      <column minwidth="66" maxwidth="99"/>
+                      <column minwidth="66" maxwidth="99"/>
+                      <column minwidth="66" maxwidth="99"/>
                     </columns>
                     <rows>
                       <row>
                         <label/>
                         <grid>
                           <columns>
-                            <column minwidth="40" maxwidth="40"/>
-                            <column minwidth="72" maxwidth="72"/>
-                            <column minwidth="40" maxwidth="40"/>
+                            <column minwidth="40" maxwidth="60"/>
+                            <column minwidth="72" maxwidth="108"/>
+                            <column minwidth="40" maxwidth="60"/>
                           </columns>
                           <rows>
                             <row>
@@ -192,9 +192,9 @@
                         <radiogroup>
                           <grid>
                             <columns>
-                              <column minwidth="40" maxwidth="40"/>
-                              <column minwidth="72" maxwidth="72"/>
-                              <column minwidth="40" maxwidth="40"/>
+                              <column minwidth="40" maxwidth="60"/>
+                              <column minwidth="72" maxwidth="108"/>
+                              <column minwidth="40" maxwidth="60"/>
                             </columns>
                             <rows>
                               <row>
@@ -243,9 +243,9 @@
                         <radiogroup>
                           <grid>
                             <columns>
-                              <column minwidth="40" maxwidth="40"/>
-                              <column minwidth="72" maxwidth="72"/>
-                              <column minwidth="40" maxwidth="40"/>
+                              <column minwidth="40" maxwidth="60"/>
+                              <column minwidth="72" maxwidth="108"/>
+                              <column minwidth="40" maxwidth="60"/>
                             </columns>
                             <rows>
                               <row>
@@ -294,9 +294,9 @@
                         <radiogroup orient="horizontal">
                           <grid>
                             <columns>
-                              <column minwidth="40" maxwidth="40"/>
-                              <column minwidth="72" maxwidth="72"/>
-                              <column minwidth="40" maxwidth="40"/>
+                              <column minwidth="40" maxwidth="60"/>
+                              <column minwidth="72" maxwidth="108"/>
+                              <column minwidth="40" maxwidth="60"/>
                             </columns>
                             <rows>
                               <row>
@@ -345,9 +345,9 @@
                         <radiogroup>
                           <grid>
                             <columns>
-                              <column minwidth="40" maxwidth="40"/>
-                              <column minwidth="72" maxwidth="72"/>
-                              <column minwidth="40" maxwidth="40"/>
+                              <column minwidth="40" maxwidth="60"/>
+                              <column minwidth="72" maxwidth="108"/>
+                              <column minwidth="40" maxwidth="60"/>
                             </columns>
                             <rows>
                               <row>
@@ -396,9 +396,9 @@
                         <radiogroup>
                           <grid>
                             <columns>
-                              <column minwidth="40" maxwidth="40"/>
-                              <column minwidth="72" maxwidth="72"/>
-                              <column minwidth="40" maxwidth="40"/>
+                              <column minwidth="40" maxwidth="60"/>
+                              <column minwidth="72" maxwidth="108"/>
+                              <column minwidth="40" maxwidth="60"/>
                             </columns>
                             <rows>
                               <row>
@@ -447,9 +447,9 @@
                         <radiogroup>
                           <grid>
                             <columns>
-                              <column minwidth="40" maxwidth="40"/>
-                              <column minwidth="72" maxwidth="72"/>
-                              <column minwidth="40" maxwidth="40"/>
+                              <column minwidth="40" maxwidth="60"/>
+                              <column minwidth="72" maxwidth="108"/>
+                              <column minwidth="40" maxwidth="60"/>
                             </columns>
                             <rows>
                               <row>
@@ -504,13 +504,21 @@
 				<column flex="1"/>
 				<column flex="1"/>
 			  </columns>
-			  <rows id="lang-prefs">
+			  <rows>
 				<row>
 				  <caption label="&zotero.integration.prefs.lang.transliteration;"/>
 				  <caption label="&zotero.integration.prefs.lang.translation;"/>
 				  <caption label="&zotero.integration.prefs.lang.sorting;"/>
 				</row>
 			  </rows>
+			</grid>
+			<grid flex="1">
+			  <columns>
+				<column flex="1"/>
+				<column flex="1"/>
+				<column flex="1"/>
+			  </columns>
+			  <rows id="lang-prefs"/>
 			</grid>
 		  </groupbox>
 		</tabpanel>

@@ -226,7 +226,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 
 		var langPrefs = document.getElementById('lang-prefs');
 		if (langPrefs){
-			for (var i = langPrefs.childNodes.length -1; i > 0; i += -1) {
+			for (var i = langPrefs.childNodes.length -1; i > -1; i += -1) {
 				langPrefs.removeChild(langPrefs.childNodes.item(i));
 			}
 			var tags = Zotero.CachedLanguages.getAllLangTagData();
