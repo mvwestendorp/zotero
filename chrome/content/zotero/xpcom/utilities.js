@@ -2089,9 +2089,16 @@ Zotero.Utilities = {
 			
 			if(date) {
 				if (Zotero.Prefs.get('hackUseCiteprocJsDateParser')) {
-					var raw = Zotero.Date.multipartToStr(date);
-					// cslItem[variable] = {raw: raw, "date-parts":[dateParts]};
-					cslItem[variable] = {raw: raw};
+					var country = Zotero.locale ? Zotero.locale.substr(3) : "US";
+					if(country == "US" ||	// The United States
+					   country == "FM" ||	// The Federated States of Micronesia
+					   country == "PW" ||	// Palau
+					   country == "PH") {	// The Philippines
+						Zotero.DateParser.setOrderMonthDay();
+					} else {
+						Zotero.DateParser.setOrderDayMonth();
+					}
+					cslItem[variable] = Zotero.DateParser.parseDateToArray(Zotero.Date.multipartToStr(date));
 				} else {
 					var dateObj = Zotero.Date.strToDate(date);
 					// otherwise, use date-parts
