@@ -71,6 +71,9 @@ Zotero.DateParser = new function () {
      * Fixed values
      */
 
+    var DATE_PARTS_ALL = ["year", "month", "day", "season"];
+
+	
     // jse imperial years
     var epochPairs = [
         ["\u660E\u6CBB", 1867],
@@ -176,7 +179,7 @@ Zotero.DateParser = new function () {
 
         // Check that there are twelve (or sixteen) to add
         if (lst.length !== 12 && lst.length !== 16) {
-            CSL.debug("month [+season] list of "+lst.length+", expected 12 or 16. Ignoring.");
+            Zotero.debug("month [+season] list of "+lst.length+", expected 12 or 16. Ignoring.");
             return;
         }
 
@@ -207,7 +210,7 @@ Zotero.DateParser = new function () {
                             while (this.monthSets[j][k].slice(0, abbrevLength) === lst[i].slice(0, abbrevLength)) {
                                 // Abort when full length is hit, otherwise extend
                                 if (abbrevLength > lst[i].length || abbrevLength > this.monthSets[j][k].length) {
-                                    CSL.debug("unable to disambiguate month string in date parser: "+lst[i]);
+                                    Zotero.debug("unable to disambiguate month string in date parser: "+lst[i]);
                                     break;
                                 } else {
                                     // Mark both new entry and existing abbrev for extension
@@ -286,13 +289,19 @@ Zotero.DateParser = new function () {
     // XXXX String output is currently unable to represent ranges
     this.convertDateObjectToString = function(thedate) {
         // Returns string
+		var ignoreTheRest = false;
         var ret = [];
         for (var i = 0, ilen = 3; i < ilen; i += 1) {
-            if (thedate[DATE_PARTS_ALL[i]]) {
-                ret.push(thedate[DATE_PARTS_ALL[i]]);
-            } else {
-                break;
-            }
+			var part = DATE_PARTS_ALL[i];
+			var strlen = part === "year" ? 4 : 2;
+			if (undefined === thedate[part] || ignoreTheRest) {
+				thedate[part] = "0";
+				ignoreTheRest = true;
+			}
+			while (thedate[part].length < strlen) {
+				thedate[part] = "0" + thedate[part];
+			}
+            ret.push(thedate[part]);
         }
         return ret.join("-");
     }
@@ -546,8 +555,8 @@ Zotero.DateParser = new function () {
         // from the other
         //
         if (isRange) {
-            for (var j=0,jlen=CSL.DATE_PARTS_ALL.length; j<jlen; j++) {
-                var item = CSL.DATE_PARTS_ALL[j];
+            for (var j=0,jlen=DATE_PARTS_ALL.length; j<jlen; j++) {
+                var item = DATE_PARTS_ALL[j];
                 if (thedate[item] && !thedate[(item + "_end")]) {
                     thedate[(item + "_end")] = thedate[item];
                 } else if (!thedate[item] && thedate[(item + "_end")]) {
