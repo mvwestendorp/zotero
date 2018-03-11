@@ -2256,10 +2256,10 @@ var ZoteroPane = new function()
 			return;
 		}
 		var spinner = document.getElementById('zotero-tb-search-spinner');
-		spinner.style.visibility = 'visible';
+		spinner.style.display = 'inline';
 		var searchVal = search.value;
 		yield this.itemsView.setFilter('search', searchVal);
-		spinner.style.visibility = 'hidden';
+		spinner.style.display = 'none';
 		if (runAdvanced) {
 			this.clearItemsPaneMessage();
 		}
@@ -2733,6 +2733,8 @@ var ZoteroPane = new function()
 			'loadReport',
 			'sep4',
 			'recognizePDF',
+			'unrecognize',
+			'reportMetadata',
 			'createParent',
 			'renameAttachments',
 			'reindexItem'
@@ -2778,7 +2780,7 @@ var ZoteroPane = new function()
 			if (items.length > 1) {
 				var multiple =  '.multiple';
 				
-				var canMerge = true, canIndex = true, canRecognize = true, canRename = true;
+				var canMerge = true, canIndex = true, canRecognize = true, canUnrecognize = true, canRename = true;
 				var canMarkRead = collectionTreeRow.isFeed();
 				var markUnread = true;
 				
@@ -2794,6 +2796,10 @@ var ZoteroPane = new function()
 					
 					if (canRecognize && !Zotero.RecognizePDF.canRecognize(item)) {
 						canRecognize = false;
+					}
+					
+					if (canUnrecognize && !Zotero.RecognizePDF.canUnrecognize(item)) {
+						canUnrecognize = false;
 					}
 					
 					// Show rename option only if all items are child attachments
@@ -2816,6 +2822,10 @@ var ZoteroPane = new function()
 				
 				if (canRecognize) {
 					show.push(m.recognizePDF);
+				}
+				
+				if (canUnrecognize) {
+					show.push(m.unrecognize);
 				}
 				
 				if (canMarkRead) {
@@ -2844,7 +2854,7 @@ var ZoteroPane = new function()
 				}
 				
 				// Add in attachment separator
-				if (canCreateParent || canRecognize || canRename || canIndex) {
+				if (canCreateParent || canRecognize || canUnrecognize || canRename || canIndex) {
 					show.push(m.sep4);
 				}
 				
@@ -2880,6 +2890,10 @@ var ZoteroPane = new function()
 					
 					if (item.isRegularItem() && !item.isFeedItem) {
 						show.push(m.addNote, m.addAttachments, m.sep2);
+					}
+					
+					if (Zotero.RecognizePDF.canUnrecognize(item)) {
+						show.push(m.sep4, m.unrecognize, m.reportMetadata);
 					}
 					
 					if (item.isAttachment()) {
@@ -4199,6 +4213,21 @@ var ZoteroPane = new function()
 				}
 				else {
 					Zotero.Notifier.trigger('open', 'file', itemID);
+					
+					// Custom PDF handler
+					if (item.attachmentContentType === 'application/pdf') {
+						let pdfHandler  = Zotero.Prefs.get("fileHandler.pdf");
+						if (pdfHandler) {
+							if (yield OS.File.exists(pdfHandler)) {
+								Zotero.launchFileWithApplication(file.path, pdfHandler);
+								continue;
+							}
+							else {
+								Zotero.logError(`${pdfHandler} not found -- launching file normally`);
+							}
+						}
+					}
+					
 					Zotero.launchFile(file);
 				}
 			}
@@ -4538,6 +4567,45 @@ var ZoteroPane = new function()
 	this.recognizeSelected = function() {
 		Zotero.RecognizePDF.recognizeItems(ZoteroPane.getSelectedItems());
 		Zotero_RecognizePDF_Dialog.open();
+	};
+	
+	
+	this.unrecognizeSelected = async function () {
+		var items = ZoteroPane.getSelectedItems();
+		for (let item of items) {
+			await Zotero.RecognizePDF.unrecognize(item);
+		}
+	};
+	
+	
+	this.reportMetadataForSelected = async function () {
+		var success = false;
+		var items = ZoteroPane.getSelectedItems();
+		for (let item of items) {
+			try {
+				await Zotero.RecognizePDF.report(item);
+				// If at least one report was submitted, show as success
+				success = true;
+			}
+			catch (e) {
+				Zotero.logError(e);
+			}
+		}
+		
+		if (success) {
+			Zotero.alert(
+				window,
+				Zotero.getString('general.submitted'),
+				Zotero.getString('general.thanksForHelpingImprove', Zotero.clientName)
+			);
+		}
+		else {
+			Zotero.alert(
+				window,
+				Zotero.getString('general.error'),
+				Zotero.getString('general.invalidResponseServer')
+			);
+		}
 	};
 	
 	

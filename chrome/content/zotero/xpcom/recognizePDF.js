@@ -26,11 +26,14 @@
 Zotero.RecognizePDF = new function () {
 	const OFFLINE_RECHECK_DELAY = 60 * 1000;
 	const MAX_PAGES = 5;
+	const UNRECOGNIZE_TIMEOUT = 86400 * 1000;
 	
 	this.ROW_QUEUED = 1;
 	this.ROW_PROCESSING = 2;
 	this.ROW_FAILED = 3;
 	this.ROW_SUCCEEDED = 4;
+	
+	let _newItems = new WeakMap();
 	
 	let _listeners = {};
 	let _rows = [];
@@ -129,6 +132,86 @@ Zotero.RecognizePDF = new function () {
 			_listeners['empty']();
 		}
 	};
+	
+	
+	this.canUnrecognize = function (item) {
+		var { dateModified } = _newItems.get(item) || {};
+		// Item must have been recognized recently, must not have been modified since it was
+		// created, and must have only one attachment and no other children
+		if (!dateModified
+				|| Zotero.Date.sqlToDate(dateModified, true) < new Date() - UNRECOGNIZE_TIMEOUT
+				|| item.dateModified != dateModified
+				|| item.numAttachments(true) != 1
+				|| item.numChildren(true) != 1) {
+			_newItems.delete(item);
+			return false;
+		}
+		
+		// Child attachment must be not be in trash and must be a PDF
+		var attachments = Zotero.Items.get(item.getAttachments());
+		if (!attachments.length || attachments[0].attachmentContentType != 'application/pdf') {
+			_newItems.delete(item);
+			return false;
+		}
+		
+		return true;
+	};
+	
+	
+	this.unrecognize = async function (item) {
+		var { originalTitle, originalFilename } = _newItems.get(item);
+		var attachment = Zotero.Items.get(item.getAttachments()[0]);
+		
+		try {
+			let currentFilename = attachment.attachmentFilename;
+			if (currentFilename != originalFilename) {
+				let renamed = await attachment.renameAttachmentFile(originalFilename);
+				if (renamed) {
+					attachment.setField('title', originalTitle);
+				}
+			}
+		}
+		catch (e) {
+			Zotero.logError(e);
+		}
+		
+		return Zotero.DB.executeTransaction(async function () {
+			let collections = item.getCollections();
+			attachment.parentItemID = null
+			attachment.setCollections(collections);
+			await attachment.save();
+			
+			await item.erase();
+		}.bind(this));
+	};
+	
+	
+	this.report = async function (item) {
+		var attachment = Zotero.Items.get(item.getAttachments()[0]);
+		var filePath = attachment.getFilePath();
+		if (!filePath || !await OS.File.exists(filePath)) {
+			throw new Error("File not found when reporting metadata");
+		}
+		
+		var version = Zotero.version;
+		var json = await extractJSON(filePath, MAX_PAGES);
+		var metadata = item.toJSON();
+		
+		var data = { version, json, metadata };
+		var uri = ZOTERO_CONFIG.RECOGNIZE_URL + 'report';
+		return Zotero.HTTP.request(
+			"POST",
+			uri,
+			{
+				successCodes: [200, 204],
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			}
+		);
+	};
+	
 	
 	/**
 	 * Add item for processing
@@ -266,6 +349,16 @@ Zotero.RecognizePDF = new function () {
 			throw new Zotero.Exception.Alert('recognizePDF.error');
 		}
 		
+		var zp = Zotero.getActiveZoteroPane();
+		var selectParent = false;
+		if (zp) {
+			let selected = zp.getSelectedItems();
+			if (selected.length) {
+				// If only the PDF was selected, select the parent when we're done
+				selectParent = selected.length == 1 && selected[0] == attachment;
+			}
+		}
+		
 		let parentItem = await _recognize(attachment);
 		if (!parentItem) {
 			return null;
@@ -286,9 +379,12 @@ Zotero.RecognizePDF = new function () {
 			await attachment.save();
 		});
 		
+		var originalTitle = attachment.getField('title');
+		var path = attachment.getFilePath();
+		var originalFilename = OS.Path.basename(path);
+		
 		// Rename attachment file to match new metadata
 		if (Zotero.Prefs.get('autoRenameFiles')) {
-			let path = attachment.getFilePath();
 			let ext = Zotero.File.getExtension(path);
 			let fileBaseName = Zotero.Attachments.getFileBaseNameFromItem(parentItem);
 			let newName = fileBaseName + (ext ? '.' + ext : '');
@@ -301,6 +397,26 @@ Zotero.RecognizePDF = new function () {
 			await attachment.saveTx();
 		}
 		
+		try {
+			zp = Zotero.getActiveZoteroPane();
+			if (zp) {
+				if (selectParent) {
+					await zp.selectItem(parentItem.id);
+				}
+			}
+		}
+		catch (e) {
+			Zotero.logError(e);
+		}
+		
+		_newItems.set(
+			parentItem,
+			{
+				originalTitle,
+				originalFilename,
+				dateModified: parentItem.dateModified
+			}
+		);
 		return parentItem;
 	}
 	

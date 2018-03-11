@@ -83,6 +83,7 @@ Zotero.Server.Connector.SessionManager = {
 	create: function (id) {
 		// Legacy client
 		if (!id) {
+			Zotero.debug("No session id provided by client", 2);
 			id = Zotero.Utilities.randomString();
 		}
 		if (this._sessions.has(id)) {
@@ -190,9 +191,13 @@ Zotero.Server.Connector.SaveSession.prototype._updateObjects = async function (o
 				if (object.libraryID != libraryID) {
 					throw new Error("Can't move objects between libraries");
 				}
-				// Assign tags and collections to top-level items
+				
+				// Keep automatic tags
+				let originalTags = object.getTags().filter(tag => tag.type == 1);
+				
+				// Assign manual tags and collections to top-level items
 				if (objectType == 'item' && object.isTopLevelItem()) {
-					object.setTags(tags);
+					object.setTags(originalTags.concat(tags));
 					object.setCollections(collectionID ? [collectionID] : []);
 					await object.save();
 				}
@@ -767,6 +772,7 @@ Zotero.Server.Connector.UpdateSession.prototype = {
 		
 		var session = Zotero.Server.Connector.SessionManager.get(data.sessionID);
 		if (!session) {
+			Zotero.debug("Can't find session " + data.sessionID, 1);
 			return [400, "application/json", JSON.stringify({ error: "SESSION_NOT_FOUND" })];
 		}
 		
@@ -848,7 +854,11 @@ Zotero.Server.Connector.Import.prototype = {
 		}
 		let items = yield translate.translate({
 			libraryID: library.libraryID,
-			collections: collection ? [collection.id] : null
+			collections: collection ? [collection.id] : null,
+			// Import translation skips selection by default, so force it to occur
+			saveOptions: {
+				skipSelect: false
+			}
 		});
 		return [201, "application/json", JSON.stringify(items)];
 	})

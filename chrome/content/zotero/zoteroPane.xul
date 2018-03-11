@@ -171,7 +171,7 @@
 							<description>&zotero.lookup.description;</description>
 							<vbox id="zotero-lookup-singleLine">
 								<stack>
-									<progressmeter id="zotero-lookup-progress" mode="undetermined" collapsed="true"/>
+									<progressmeter id="zotero-lookup-progress" mode="determined"/>
 									<textbox id="zotero-lookup-textbox"
 										onkeypress="return Zotero_Lookup.onKeyPress(event, this)"
 										oninput="Zotero_Lookup.onInput(event, this)"
@@ -183,7 +183,7 @@
 								<textbox id="zotero-lookup-multiline-textbox" onkeypress="return Zotero_Lookup.onKeyPress(event, this)" multiline="true" rows="5" wrap="off" flex="1"/>
 								<hbox align="start" id="zotero-lookup-buttons" class="zotero-button-clear-image">
 									<button label="&zotero.lookup.button.search;" align="start" oncommand="Zotero_Lookup.accept(document.getElementById('zotero-lookup-multiline-textbox'))"/>
-									<progressmeter id="zotero-lookup-multiline-progress" mode="undetermined" collapsed="true" flex="1"/>
+									<progressmeter id="zotero-lookup-multiline-progress" mode="determined" flex="1"/>
 								</hbox>
 							</vbox>
 						</vbox>
@@ -208,7 +208,7 @@
 					<toolbarseparator/>
 					<toolbarbutton id="zotero-tb-advanced-search" class="zotero-tb-button" tooltiptext="&zotero.toolbar.advancedSearch;" command="cmd_zotero_advancedSearch"/>
 					<spacer flex="1"/>
-					<image id="zotero-tb-search-spinner" class="zotero-spinner-14" style="visibility: hidden"/>
+					<image id="zotero-tb-search-spinner" class="zotero-spinner-14" style="display: none"/>
 					<textbox id="zotero-tb-search" type="search" timeout="250"
 							onkeypress="ZoteroPane_Local.handleSearchKeypress(this, event)"
 							oninput="ZoteroPane_Local.handleSearchInput(this, event)"
@@ -328,6 +328,8 @@
 					<menuitem class="menuitem-iconic zotero-menuitem-create-report" oncommand="Zotero_Report_Interface.loadItemReport(event)"/>
 					<menuseparator/>
 					<menuitem class="menuitem-iconic zotero-menuitem-retrieve-metadata" oncommand="ZoteroPane.recognizeSelected();"/>
+					<menuitem class="menuitem-iconic zotero-menuitem-unrecognize" label="&zotero.items.menu.unrecognize;" oncommand="ZoteroPane.unrecognizeSelected()"/>
+					<menuitem class="menuitem-iconic zotero-menuitem-report-metadata" label="&zotero.items.menu.reportMetadata;" oncommand="ZoteroPane.reportMetadataForSelected()"/>
 					<menuitem class="menuitem-iconic zotero-menuitem-create-parent" oncommand="ZoteroPane_Local.createParentItemsFromSelected();"/>
 					<menuitem class="menuitem-iconic zotero-menuitem-rename-from-parent" oncommand="ZoteroPane_Local.renameSelectedAttachmentsFromParents()"/>
 					<menuitem class="menuitem-iconic zotero-menuitem-reindex" oncommand="ZoteroPane_Local.reindexItem();"/>
@@ -619,9 +621,10 @@
 			<deck id="zotero-pane-overlay-deck" flex="1">
 				<box id="zotero-pane-progress" flex="1" align="center" pack="center">
 					<box style="background: white; border-radius: 1px; box-shadow: gray 4px 6px 4px;" width="300" height="30">
-						<vbox style="padding:10px" flex="1">
+						<vbox id="zotero-pane-progressmeter-container" style="padding:10px" flex="1">
 							<label id="zotero-pane-progress-label"/>
-							<progressmeter id="zotero-pane-progressmeter" mode="undetermined"/>
+							<!-- See note in Zotero.showZoteroPaneProgressMeter()
+							<progressmeter id="zotero-pane-progressmeter" mode="undetermined"/> -->
 						</vbox>
 					</box>
 				</box>

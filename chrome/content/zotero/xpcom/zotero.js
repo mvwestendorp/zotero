@@ -1158,21 +1158,8 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 				else {
 					var pref = "fallbackLauncher.unix";
 				}
-				var path = Zotero.Prefs.get(pref);
-				
-				var exec = Components.classes["@mozilla.org/file/local;1"]
-							.createInstance(Components.interfaces.nsILocalFile);
-				exec.initWithPath(path);
-				if (!exec.exists()) {
-					throw new Error(path + " does not exist");
-				}
-				
-				var proc = Components.classes["@mozilla.org/process/util;1"]
-								.createInstance(Components.interfaces.nsIProcess);
-				proc.init(exec);
-				
-				var args = [file.path];
-				proc.runw(true, args, args.length);
+				let launcher = Zotero.Prefs.get(pref);
+				this.launchFileWithApplication(file.path, launcher);
 			}
 			catch (e) {
 				Zotero.debug(e);
@@ -1190,7 +1177,31 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 				nsIEPS.loadUrl(uri);
 			}
 		}
-	}
+	};
+	
+	
+	/**
+	 * Launch a file with the given application
+	 */
+	this.launchFileWithApplication = function (filePath, applicationPath) {
+		var exec = Zotero.File.pathToFile(applicationPath);
+		if (!exec.exists()) {
+			throw new Error("'" + applicationPath + "' does not exist");
+		}
+		
+		var args;
+		// On macOS, if we only have an .app, launch it using 'open'
+		if (Zotero.isMac && applicationPath.endsWith('.app')) {
+			args = [filePath, '-a', applicationPath];
+			applicationPath = '/usr/bin/open';
+		}
+		else {
+			args = [filePath];
+		}
+		
+		// Async, but we don't want to block
+		Zotero.Utilities.Internal.exec(applicationPath, args);
+	};
 	
 	
 	/**
@@ -1880,7 +1891,19 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			else {
 				label.hidden = true;
 			}
-			var progressMeter = win.ZoteroPane.document.getElementById('zotero-pane-progressmeter')
+			// This is the craziest thing. In Firefox 52.6.0, the very presence of this line
+			// causes Zotero on Linux to burn 5% CPU at idle, even if everything below it in
+			// the block is commented out. Same if the progressmeter itself is hidden="true".
+			// For some reason it also doesn't seem to work to set the progressmeter to
+			// 'determined' when hiding, which we're doing in lookup.js. So instead, create a new
+			// progressmeter each time and delete it in _hideWindowZoteroPaneOverlay().
+			//
+			//let progressMeter = win.ZoteroPane.document.getElementById('zotero-pane-progressmeter');
+			let doc = win.ZoteroPane.document;
+			let container = doc.getElementById('zotero-pane-progressmeter-container');
+			let progressMeter = doc.createElement('progressmeter');
+			progressMeter.id = 'zotero-pane-progressmeter';
+			progressMeter.setAttribute('mode', 'undetermined');
 			if (determinate) {
 				progressMeter.mode = 'determined';
 				progressMeter.value = 0;
@@ -1889,6 +1912,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			else {
 				progressMeter.mode = 'undetermined';
 			}
+			container.appendChild(progressMeter);
 			
 			_showWindowZoteroPaneOverlay(win.ZoteroPane.document);
 			win.ZoteroPane.document.getElementById('zotero-pane-overlay-deck').selectedIndex = 0;
@@ -1976,6 +2000,12 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		doc.getElementById('zotero-pane-tab-catcher-top').hidden = true;
 		doc.getElementById('zotero-pane-tab-catcher-bottom').hidden = true;
 		doc.getElementById('zotero-pane-overlay').hidden = true;
+		
+		// See note in showZoteroPaneProgressMeter()
+		let pm = doc.getElementById('zotero-pane-progressmeter');
+		if (pm) {
+			pm.parentNode.removeChild(pm);
+		}
 	}
 	
 	

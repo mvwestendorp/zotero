@@ -51,7 +51,7 @@ const INTEGRATION_TYPE_ITEM = 1;
 const INTEGRATION_TYPE_BIBLIOGRAPHY = 2;
 const INTEGRATION_TYPE_TEMP = 3;
 
-const DELAY_CITATIONS_PROMPT_TIMEOUT = 5/*seconds*/;
+const DELAY_CITATIONS_PROMPT_TIMEOUT = 3/*seconds*/;
 const DELAYED_CITATION_STYLING = "\\uldash";
 const DELAYED_CITATION_STYLING_CLEAR = "\\ulclear";
 
@@ -1130,7 +1130,7 @@ Zotero.Integration.Fields.prototype.addEditCitation = Zotero.Promise.coroutine(f
 			if (fields[i].equals(field._field)) {
 				// This is needed, because LibreOffice integration plugin caches the field code instead of asking
 				// the document every time when calling #getCode().
-				field._field = fields[i];
+				field = new Zotero.Integration.CitationField(fields[i]);
 				return i;
 			}
 		}
@@ -1517,6 +1517,8 @@ Zotero.Integration._oldCitationLocatorMap = {
  */
 Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(function* (index, noteIndex, citation) {
 	var index = parseInt(index, 10);
+	
+	yield citation.loadItemData();
 
 	citation.properties.added = true;
 	citation.properties.zoteroIndex = index;
@@ -1677,7 +1679,7 @@ Zotero.Integration.Session.prototype.writeDelayedCitation = Zotero.Promise.corou
 
 
 Zotero.Integration.Session.prototype.getItems = function() {
-	return Zotero.Cite.getItem(Object.keys(this.citationsByItemID), true);
+	return Zotero.Cite.getItem(Object.keys(this.citationsByItemID));
 }
 
 
@@ -2058,10 +2060,9 @@ Zotero.Integration.Field = class {
 		if (field instanceof Zotero.Integration.Field) {
 			throw new Error("Trying to instantiate Integration.Field with Integration.Field, not doc field");
 		}
-		// This is not the best solution in terms of performance
-		for (let prop in field) {
-			if (prop[0] != '_' && !(prop in this)) {
-				this[prop] = field[prop].bind ? field[prop].bind(field) : field[prop];
+		for (let func of Zotero.Integration.Field.INTERFACE) {
+			if (!(func in this)) {
+				this[func] = field[func].bind(field);
 			}
 		}
 		this._field = field;
@@ -2109,6 +2110,8 @@ Zotero.Integration.Field = class {
 		return isRich;
 	}
 };
+Zotero.Integration.Field.INTERFACE = ['delete', 'removeCode', 'select', 'setText',
+	'getText', 'setCode', 'getCode', 'equals', 'getNoteIndex'];
 
 /**
  * Load existing field in document and return correct instance of field type
