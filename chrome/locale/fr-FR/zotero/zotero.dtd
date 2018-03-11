@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Aucun fichier sélectionné">
 <!ENTITY zotero.general.advancedOptions.label "Options avancées">
 <!ENTITY zotero.general.cancel "Annuler">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Fermer">
 <!ENTITY zotero.general.delete "Supprimer">
 <!ENTITY zotero.general.deselectAll "Tout désélectionner">
 <!ENTITY zotero.general.edit "Modifier">
 <!ENTITY zotero.general.loading "Chargement…">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimiser">
 <!ENTITY zotero.general.more "Plus">
 <!ENTITY zotero.general.no "Non">
 <!ENTITY zotero.general.note "Note :">
@@ -88,9 +88,9 @@
 <!ENTITY zotero.integration.classicView.label "Vue classique">
 <!ENTITY zotero.integration.docPrefs.title "Préférences du document">
 <!ENTITY zotero.integration.editBibliography.title "Modifier la bibliographie">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Désactiver les mises à jour peut accélérer l'insertion de citation dans les documents longs. Cliquez sur Rafraichir pour mettre à jour les citations manuellement.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Mettre à jour automatiquement les citations">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Les citations en attente de mise à jour seront surlignées dans le document">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Le champ Zotero &quot;Abrév. de revue&quot; sera ignoré.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Utiliser les abréviations MEDLINE des titres de revues">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Les signets (ou repères de texte) peuvent être partagés entre Word et LibreOffice, mais ils engendrent parfois des erreurs s'ils sont modifiés accidentellement et ne peuvent pas être insérés en notes de bas de page.">
@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Fusionner les documents…">
 <!ENTITY zotero.items.menu.moveDown "Descendre">
 <!ENTITY zotero.items.menu.moveUp "Monter">
+<!ENTITY zotero.items.menu.reportMetadata "Signaler des métadonnées incorrectes">
 <!ENTITY zotero.items.menu.restoreToLibrary "Restaurer vers la bibliothèque">
 <!ENTITY zotero.items.menu.showInLibrary "Afficher dans la bibliothèque">
+<!ENTITY zotero.items.menu.unrecognize "Annuler la récupération des métadonnées">
 <!ENTITY zotero.items.moreColumns.label "Plus de colonnes">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Pages">
@@ -321,7 +323,7 @@
 <!ENTITY zotero.upgrade.autoBackup "Votre base de données actuelle va être sauvegardée automatiquement avant toute modification.">
 <!ENTITY zotero.upgrade.changeLogAfterLink "pour découvrir les nouveautés.">
 <!ENTITY zotero.upgrade.changeLogBeforeLink "Veuillez consulter le">
-<!ENTITY zotero.upgrade.changeLogLink "journal des changements">
+<!ENTITY zotero.upgrade.changeLogLink "journal des modifications">
 <!ENTITY zotero.upgrade.ifZoteroInfo "If you are migrating from official Juris-M/Zotero to MLZ, the next step of the upgrade process will convert your database for use with MLZ.">
 <!ENTITY zotero.upgrade.ifZoteroInfoLabel "Note:">
 <!ENTITY zotero.upgrade.majorUpgrade "Il s'agit d'une mise à jour majeure.">

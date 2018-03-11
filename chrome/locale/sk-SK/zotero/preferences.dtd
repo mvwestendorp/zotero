@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero použije relatívne cesty pre prepojené súbory príloh vo vnútri základného adresára, čím vám sprístupní súbory na rôznych počítačoch pokiaľ štruktúra súborov vo vnútri základného adresára zostáva rovnaká.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Prepnúť na absolútne cesty...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Zvoliť...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automaticky získať metadáta pre PDF">
+<!ENTITY zotero.preferences.autoRenameFiles "Automaticky premenovať súbory príloh pomocou nadradených metadát">
 <!ENTITY zotero.preferences.autoUpdate "Automaticky hľadať aktualizácie konvertorov a štýlov ">
 <!ENTITY zotero.preferences.automaticSnapshots "pri vytváraní záznamov z webstránok automaticky urobiť snímku danej stránky">
 <!ENTITY zotero.preferences.automaticTags "automaticky aplikovať kľúčové slová a predmetové heslá ako značky">
@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Momentálne nie sú nainštalované žiadne zásuvné moduly pre textové editory.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Použiť klasické okno pridávania citácií">
 <!ENTITY zotero.preferences.configEditor "Editor konfigurácie">
+<!ENTITY zotero.preferences.custom "Vlastné...">
 <!ENTITY zotero.preferences.dataDir "Umiestnenie dátového adresára">
 <!ENTITY zotero.preferences.dataDir.choose "Zvoliť...">
 <!ENTITY zotero.preferences.dataDir.custom "Vlastné:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Triedenie:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Najnovšie záznamy ako prvé">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Najstaršie záznamy ako prvé">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Otvoriť PDF pomocou">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Predvolený systém">
+<!ENTITY zotero.preferences.fileHandling "Používanie súborov">
 <!ENTITY zotero.preferences.fontSize "Veľkosť písma:">
 <!ENTITY zotero.preferences.fontSize.large "veľké">
 <!ENTITY zotero.preferences.fontSize.medium "stredné">

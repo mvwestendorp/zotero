@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Er zijn nu geen tekstverwerker plug-ins geïnstalleerd.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Gebruik het klassieke &quot;Citaat Toevoegen&quot;-dialoogvenster">
 <!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Locatie opslagmap">
 <!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "Aangepast:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sorting:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Newest items first">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Oldest items first">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Lettergrootte:">
 <!ENTITY zotero.preferences.fontSize.large "Groot">
 <!ENTITY zotero.preferences.fontSize.medium "Middelgroot">

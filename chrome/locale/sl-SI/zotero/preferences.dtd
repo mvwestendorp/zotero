@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero bo uporabil relativne poti za povezane datotečne priponke v osnovni mapi, kar omogoča dostop do datotek na različnih računalnikih, vse dokler ostaja datotečna struktura v osnovni mapi enaka.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Povrni na absolutne poti ...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Izberite ...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Samodejno pridobi metapodatke za PDF-je">
+<!ENTITY zotero.preferences.autoRenameFiles "Samodejno preimenuj datoteke priponk z uporabo metapodatkov nadrejenih">
 <!ENTITY zotero.preferences.autoUpdate "Samodejno preveri posodobitve prevajalnikov in slogov">
 <!ENTITY zotero.preferences.automaticSnapshots "Samodejno naredi posnetek pri ustvarjanju vnosov s spletnih strani">
 <!ENTITY zotero.preferences.automaticTags "Samodejno označi vnose s ključnimi besedami in predmetnimi naslovi">
@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Trenutno ni nameščen noben vstavek za urejevalnike besedil.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Uporabi klasično pogovorno okno Dodaj citat">
 <!ENTITY zotero.preferences.configEditor "Urejevalnik prilagoditev">
+<!ENTITY zotero.preferences.custom "Po meri ...">
 <!ENTITY zotero.preferences.dataDir "Mesto shranjevanja">
 <!ENTITY zotero.preferences.dataDir.choose "Izberi ...">
 <!ENTITY zotero.preferences.dataDir.custom "Po meri:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Razvrščanje:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Najprej najnovejši">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Najprej najstarejši">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Dokumente PDF odpri s/z">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Sistemsko privzeto">
+<!ENTITY zotero.preferences.fileHandling "Ravnanje z datotekami">
 <!ENTITY zotero.preferences.fontSize "Velikost pisave:">
 <!ENTITY zotero.preferences.fontSize.large "velika">
 <!ENTITY zotero.preferences.fontSize.medium "srednja">

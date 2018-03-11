@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Nie je označený žiaden súbor">
 <!ENTITY zotero.general.advancedOptions.label "Rozšírené možnosti">
 <!ENTITY zotero.general.cancel "Zrušiť">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Zavrieť">
 <!ENTITY zotero.general.delete "Vymazať">
 <!ENTITY zotero.general.deselectAll "Odznačiť všetko">
 <!ENTITY zotero.general.edit "Upraviť">
 <!ENTITY zotero.general.loading "Nahrávam...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimalizovať">
 <!ENTITY zotero.general.more "Viac">
 <!ENTITY zotero.general.no "Nie">
 <!ENTITY zotero.general.note "Poznámka:">
@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Zlúčiť záznamy...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
+<!ENTITY zotero.items.menu.reportMetadata "Nahlásiť nesprávne metadáta">
 <!ENTITY zotero.items.menu.restoreToLibrary "Vrátiť do knižnice">
 <!ENTITY zotero.items.menu.showInLibrary "Zobraziť v knižnici">
+<!ENTITY zotero.items.menu.unrecognize "Vrátiť získanie metadát">
 <!ENTITY zotero.items.moreColumns.label "Viac stĺpcov">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Strany">

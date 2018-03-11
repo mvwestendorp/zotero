@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Izbrana ni nobena datoteka">
 <!ENTITY zotero.general.advancedOptions.label "Napredne možnosti">
 <!ENTITY zotero.general.cancel "Prekliči">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Zapri">
 <!ENTITY zotero.general.delete "Izbriši">
 <!ENTITY zotero.general.deselectAll "Ne izberi ničesar">
 <!ENTITY zotero.general.edit "Uredi">
 <!ENTITY zotero.general.loading "Nalaganje ...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Skrči">
 <!ENTITY zotero.general.more "Dodatno">
 <!ENTITY zotero.general.no "Ne">
 <!ENTITY zotero.general.note "Opomba:">
@@ -88,9 +88,9 @@
 <!ENTITY zotero.integration.classicView.label "Klasični pogled">
 <!ENTITY zotero.integration.docPrefs.title "Lastnosti dokumenta">
 <!ENTITY zotero.integration.editBibliography.title "Uredi bibliografijo">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Onemogočanje posodobitev lahko pohitri vstavljanje navedkov v večjih dokumentih. Za ročno posodobitev navedkov kliknite Osveži.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Samodejno posodobi navedke">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Navedki s čakajočimi posodobitvami bodo v dokumentu poudarjeni">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Polje »Journal Abbr« bo prezrto.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Uporabi okrajšave revij MEDLINE">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Zaznamki se lahko skupno rabijo v Microsoft Word in LibreOffice, vendar lahko povzročijo napako, če se ponesreči spremenijo,  ter jih ni mogoče vstavljati v sprotne opombe.">
@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Spoji vnose ...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
+<!ENTITY zotero.items.menu.reportMetadata "Poročaj o nepravilnih metapodatkih">
 <!ENTITY zotero.items.menu.restoreToLibrary "Obnovi v knjižnico">
 <!ENTITY zotero.items.menu.showInLibrary "Pokaži v knjižnici">
+<!ENTITY zotero.items.menu.unrecognize "Razveljavi pridobivanje metapodatkov">
 <!ENTITY zotero.items.moreColumns.label "Več stolpcev">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Strani">

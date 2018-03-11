@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero użyje względnych ścieżek dla plików załączników w katalogu bazowym. Pozwoli ci to na dostęp do tych plików na różnych komputerach, dopóki struktura katalogów w katalogach bazowych pozostanie taka sama.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Przywróć absolutne ścieżki...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Wybierz...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automatycznie pobierz metadane dla plików PDF">
+<!ENTITY zotero.preferences.autoRenameFiles "Automatycznie zmień nazwy plików załączników na podstawie metadanych rodzica">
 <!ENTITY zotero.preferences.autoUpdate "Automatycznie sprawdzaj, czy są dostępne aktualizacje translatorów i stylów">
 <!ENTITY zotero.preferences.automaticSnapshots "Podczas tworzenia elementów ze stron internetowych automatycznie wykonaj zrzut ekranu">
 <!ENTITY zotero.preferences.automaticTags "Automatycznie oznacz elementy zawierające słowa kluczowe i nagłówki tematyczne">
@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Brak aktualnie zainstalowanych wtyczek procesorów tekstu.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Użyj klasycznego okna Dodaj cytowanie">
 <!ENTITY zotero.preferences.configEditor "Edytor ustawień">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Lokalizacja katalogu bazy danych">
 <!ENTITY zotero.preferences.dataDir.choose "Wybierz...">
 <!ENTITY zotero.preferences.dataDir.custom "Określ katalog:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sortowanie:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Od najnowszych elementów">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Od najstarszych elementów">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Wielkość czcionki:">
 <!ENTITY zotero.preferences.fontSize.large "duża">
 <!ENTITY zotero.preferences.fontSize.medium "średnia">

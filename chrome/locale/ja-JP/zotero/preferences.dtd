@@ -6,7 +6,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero は、基本ディレクトリの中のリンク付き添付ファイルについて相対パスを使用します。これにより、基本ディレクトリのファイル構造が同じである限り、異なるコンピューター上のファイルへのアクセスが可能になります。">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "絶対パスに戻す...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "選択...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
+<!ENTITY zotero.preferences.autoRecognizeFiles "自動的にPDFのメタデータを取得する">
 <!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
 <!ENTITY zotero.preferences.autoUpdate "トランスレータとスタイルの更新を自動的に確認する。">
 <!ENTITY zotero.preferences.automaticSnapshots "ウェブページからアイテムを作成するときに自動的にスナップショットを作成する">
@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "ワード・プロセッサ用プラグインはインストールされていません。">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "旧式の出典表記追加ダイアログを使用する">
 <!ENTITY zotero.preferences.configEditor "設定エディタ">
+<!ENTITY zotero.preferences.custom "カスタム...">
 <!ENTITY zotero.preferences.dataDir "データ・ディレクトリの場所">
 <!ENTITY zotero.preferences.dataDir.choose "選択する...">
 <!ENTITY zotero.preferences.dataDir.custom "個人設定:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "並べ替え:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "最新のアイテムを最初に表示">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "最古のアイテムを最初に表示">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "システムデフォルト">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "文字サイズ:">
 <!ENTITY zotero.preferences.fontSize.large "大">
 <!ENTITY zotero.preferences.fontSize.medium "中">

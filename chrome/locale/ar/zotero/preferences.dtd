@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "الوظائف الاضافية لمعالجات النصوص غير مثبته حالياً">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "استخدم المربع الحواري التقليدي لاضافة استشهاد">
 <!ENTITY zotero.preferences.configEditor "تهيئة المحرر">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "مكان تخزين البيانات">
 <!ENTITY zotero.preferences.dataDir.choose "اختر...">
 <!ENTITY zotero.preferences.dataDir.custom "تخصيص:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "الفرز">
 <!ENTITY zotero.preferences.feeds.sorting.newest "العناصر الأحدث أولاً">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "العناصر الأقدم أولاً">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "حجم الخط:">
 <!ENTITY zotero.preferences.fontSize.large "كبير">
 <!ENTITY zotero.preferences.fontSize.medium "متوسط">

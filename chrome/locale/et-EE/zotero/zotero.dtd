@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Kirjete liitmine...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
+<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
 <!ENTITY zotero.items.menu.restoreToLibrary "Taasta raamatukokku">
 <!ENTITY zotero.items.menu.showInLibrary "Näidata raamatukogus">
+<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
 <!ENTITY zotero.items.moreColumns.label "Rohkem tulpasid">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Leheküljed">

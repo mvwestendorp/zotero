@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Приложением Zotero будут использоваться значения относительных путей для связанных файловых вложений в базовом каталоге, обеспечивая пользователю доступ к файлам на других компьютерах до тех пор, пока структура базового каталога остается без изменений.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Вернуть значения абсолютных путей...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Выбрать...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Автоматически получиать метаданные PDF-файлов">
+<!ENTITY zotero.preferences.autoRenameFiles "Автоматически именовать файлы на основе метаданных записи-родителя">
 <!ENTITY zotero.preferences.autoUpdate "Автоматически проверять на наличие обновленных импóртеров и стилей">
 <!ENTITY zotero.preferences.automaticSnapshots "Автоматически делать снимки при создании документов из веб-страниц">
 <!ENTITY zotero.preferences.automaticTags "Автоматически помечать документы ключевыми словами и предметными заголовками">
@@ -27,9 +27,10 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Плагины для текстовых редакторов не установлены.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Использовать стандартный способ Добавления Цитаты">
 <!ENTITY zotero.preferences.configEditor "Редактор конфигурации">
+<!ENTITY zotero.preferences.custom "Особо…">
 <!ENTITY zotero.preferences.dataDir "Расположение папки с данными">
 <!ENTITY zotero.preferences.dataDir.choose "Выбрать...">
-<!ENTITY zotero.preferences.dataDir.custom "Пользовательская:">
+<!ENTITY zotero.preferences.dataDir.custom "Особая:">
 <!ENTITY zotero.preferences.dataDir.migrate "Переместить в новые место…">
 <!ENTITY zotero.preferences.dataDir.reveal "Показать папку с данными">
 <!ENTITY zotero.preferences.dataDir.useProfile "Использовать папку профиля Firefox">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Сортировать:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Сначала самые новые">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Сначала самые старые">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Открывать PDF-файлы используя">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "По умолчанию для данной системы">
+<!ENTITY zotero.preferences.fileHandling "Обработка файлов">
 <!ENTITY zotero.preferences.fontSize "Размер шрифта:">
 <!ENTITY zotero.preferences.fontSize.large "Большой">
 <!ENTITY zotero.preferences.fontSize.medium "Средний">
@@ -133,7 +137,7 @@
 <!ENTITY zotero.preferences.openCSLEdit "Открыть редактор стилей">
 <!ENTITY zotero.preferences.openCSLPreview "Открыть просмотр стилей">
 <!ENTITY zotero.preferences.openurl.caption "OpenURL">
-<!ENTITY zotero.preferences.openurl.custom "Пользовательский…">
+<!ENTITY zotero.preferences.openurl.custom "Особо…">
 <!ENTITY zotero.preferences.openurl.search "Поиск ресолверов">
 <!ENTITY zotero.preferences.openurl.server "Сервер">
 <!ENTITY zotero.preferences.openurl.version "Версия">

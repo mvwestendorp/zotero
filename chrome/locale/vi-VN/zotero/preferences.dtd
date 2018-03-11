@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Không có plug-in cho phần mềm soạn thảo nào đã được cài đặt.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Dùng màn hình Thêm trích dẫn kiểu cũ">
 <!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Nơi lưu trữ dữ liệu">
 <!ENTITY zotero.preferences.dataDir.choose "Chọn...">
 <!ENTITY zotero.preferences.dataDir.custom "Tùy biến:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sắp xếp:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Mục mới nhất trước">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Mục cũ nhất trước">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Cỡ chữ:">
 <!ENTITY zotero.preferences.fontSize.large "Lớn">
 <!ENTITY zotero.preferences.fontSize.medium "Trung bình">

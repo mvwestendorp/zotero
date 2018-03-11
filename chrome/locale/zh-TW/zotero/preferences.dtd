@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "目前未安裝文書處理器外掛。">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "使用傳統新增引用文獻對話框">
 <!ENTITY zotero.preferences.configEditor "設定編輯器">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "資料目錄所在">
 <!ENTITY zotero.preferences.dataDir.choose "選擇…">
 <!ENTITY zotero.preferences.dataDir.custom "自訂：">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "排序：">
 <!ENTITY zotero.preferences.feeds.sorting.newest "新的項目在前">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "舊的項目在前">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "字型大小：">
 <!ENTITY zotero.preferences.fontSize.large "大">
 <!ENTITY zotero.preferences.fontSize.medium "中">

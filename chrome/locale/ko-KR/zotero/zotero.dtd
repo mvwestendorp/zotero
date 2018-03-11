@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "항목 병합...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
+<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
 <!ENTITY zotero.items.menu.restoreToLibrary "라이브러리로 복원">
 <!ENTITY zotero.items.menu.showInLibrary "라이브러리로 표시">
+<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
 <!ENTITY zotero.items.moreColumns.label "추가 열">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "쪽">

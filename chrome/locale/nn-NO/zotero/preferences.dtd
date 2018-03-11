@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Det er ikkje installert nokon teksthandsamartillegg.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Bruk klassisk Legg til sitering-dialog">
 <!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Lagringsplass">
 <!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "Egendefinert:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sorter:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Nyaste element først">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Eldste element først">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Skriftstorleik">
 <!ENTITY zotero.preferences.fontSize.large "Stor">
 <!ENTITY zotero.preferences.fontSize.medium "Middels">

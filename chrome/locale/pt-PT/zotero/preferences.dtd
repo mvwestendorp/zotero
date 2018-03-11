@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Não há nenhuma extensão para processador de texto instalada neste momento.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Usar a caixa de diálogo Adicionar Citação clássica">
 <!ENTITY zotero.preferences.configEditor "Editor de Configurações">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Localização da Pasta de Dados">
 <!ENTITY zotero.preferences.dataDir.choose "Escolher…">
 <!ENTITY zotero.preferences.dataDir.custom "Personalizada:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Ordenação:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Primeiro os itens mais recentes">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Primeiro os itens mais antigos">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Tamanho da fonte tipográfica:">
 <!ENTITY zotero.preferences.fontSize.large "Grande">
 <!ENTITY zotero.preferences.fontSize.medium "Média">

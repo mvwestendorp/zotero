@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Nerasta įdiegtų teksto rengyklės papildinių.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Naudoti klasikinį citatų įdėjimo langą">
 <!ENTITY zotero.preferences.configEditor "Konfigūracijos rengyklė">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Duomenų katalogo vieta">
 <!ENTITY zotero.preferences.dataDir.choose "Pasirinkti...">
 <!ENTITY zotero.preferences.dataDir.custom "Savita:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Rikiavimas:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Naujausi pradžioje">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Seniausi pradžioje">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Šrifto dydis:">
 <!ENTITY zotero.preferences.fontSize.large "Didelis">
 <!ENTITY zotero.preferences.fontSize.medium "Vidutinis">

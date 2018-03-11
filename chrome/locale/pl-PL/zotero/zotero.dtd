@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Nie wybrano pliku">
 <!ENTITY zotero.general.advancedOptions.label "Zaawansowane ustawienia">
 <!ENTITY zotero.general.cancel "Anuluj">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Zamknij">
 <!ENTITY zotero.general.delete "Usuń">
 <!ENTITY zotero.general.deselectAll "Odznacz wszystkie">
 <!ENTITY zotero.general.edit "Edytuj">
 <!ENTITY zotero.general.loading "Wczytywanie...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimalizuj">
 <!ENTITY zotero.general.more "Więcej">
 <!ENTITY zotero.general.no "Nie">
 <!ENTITY zotero.general.note "Uwaga:">
@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Złącz elementy...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
+<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
 <!ENTITY zotero.items.menu.restoreToLibrary "Przywróć do biblioteki">
 <!ENTITY zotero.items.menu.showInLibrary "Wyświetl w bibliotece">
+<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
 <!ENTITY zotero.items.moreColumns.label "Więcej kolumn">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Strony">

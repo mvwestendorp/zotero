@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "설치된 워드 프로세서 플러그인 없음">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "클래식 인용추가 대화창 사용">
 <!ENTITY zotero.preferences.configEditor "설정 편집기">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "저장 위치">
 <!ENTITY zotero.preferences.dataDir.choose "선택...">
 <!ENTITY zotero.preferences.dataDir.custom "사용자 지정:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "정렬:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "새로운 항목 먼저">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "오래된 항목 먼저">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "글꼴 크기:">
 <!ENTITY zotero.preferences.fontSize.large "크게">
 <!ENTITY zotero.preferences.fontSize.medium "중간">

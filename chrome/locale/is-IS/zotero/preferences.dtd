@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Engin tenging við ritvinnslu hefur verið sett upp.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Nota hefðbundið viðmót við að bæta við tilvísunum">
 <!ENTITY zotero.preferences.configEditor "Stillingarritill">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Storage Location">
 <!ENTITY zotero.preferences.dataDir.choose "Veldu…">
 <!ENTITY zotero.preferences.dataDir.custom "Sérsniðið:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Röðun:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Nýjustu atriði fyrst">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Elstu atriði fyrst">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Stærð leturs:">
 <!ENTITY zotero.preferences.fontSize.large "Stórt">
 <!ENTITY zotero.preferences.fontSize.medium "Meðalstórt">

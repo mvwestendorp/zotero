@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Dosya seçilmedi">
 <!ENTITY zotero.general.advancedOptions.label "Gelişmiş Seçenekler">
 <!ENTITY zotero.general.cancel "İptal Et">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Kapat">
 <!ENTITY zotero.general.delete "Sil">
 <!ENTITY zotero.general.deselectAll "Hiçbirini Seçme">
 <!ENTITY zotero.general.edit "Düzenle">
 <!ENTITY zotero.general.loading "Yükleniyor...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Küçült">
 <!ENTITY zotero.general.more "Daha Başka">
 <!ENTITY zotero.general.no "Hayır">
 <!ENTITY zotero.general.note "Not:">
@@ -167,8 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Eserleri Birleştir...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
+<!ENTITY zotero.items.menu.reportMetadata "geçersiz üstveriyi bildir">
 <!ENTITY zotero.items.menu.restoreToLibrary "Kitaplığa geri yükle">
 <!ENTITY zotero.items.menu.showInLibrary "Kitaplıkta Göster">
+<!ENTITY zotero.items.menu.unrecognize "üstveri alma işlemini geri al">
 <!ENTITY zotero.items.moreColumns.label "Diğer Sütunlar">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Sayfalar">

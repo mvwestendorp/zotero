@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Нису инсталирани додатци уређивача текста.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Користи класични прозорчић за цитирање">
 <!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Место за складиштење">
 <!ENTITY zotero.preferences.dataDir.choose "Изабери…">
 <!ENTITY zotero.preferences.dataDir.custom "Прилагођено:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Ређање:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Најпре најновије ставке">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Најпре најстарије ставке">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Величина фонта:">
 <!ENTITY zotero.preferences.fontSize.large "Велики">
 <!ENTITY zotero.preferences.fontSize.medium "Средњи">

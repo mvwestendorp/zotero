@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Плагіни для текстових процесорів не встановлені.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Використовувати стандартний спосіб Додавання цитат">
 <!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Розташування каталогу з даними">
 <!ENTITY zotero.preferences.dataDir.choose "Вибрати...">
 <!ENTITY zotero.preferences.dataDir.custom "Користувацька:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Сортування:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Спочатку нові записи">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Спочатку старі записи">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Розмір шрифту:">
 <!ENTITY zotero.preferences.fontSize.large "Великий">
 <!ENTITY zotero.preferences.fontSize.medium "Середній">

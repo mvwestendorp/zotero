@@ -2,12 +2,12 @@
 <!ENTITY zotero.preferences.advanced.filesAndFolders "Dosyalar ve Klasörler">
 <!ENTITY zotero.preferences.advanced.keys "Kısayollar">
 <!ENTITY zotero.preferences.attachmentBaseDir.basePath "Temel dizin:">
-<!ENTITY zotero.preferences.attachmentBaseDir.caption "Bağlantılanmış Eklenti Temel DiziniBağlantılanmış Ek Temel Dizini">
+<!ENTITY zotero.preferences.attachmentBaseDir.caption "Bağlantılanmış Ek Taban Dizini">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero, bağlantılanmış dosya ekleri için göreceli yollar kullanacaktır. Bu, temel dizininizdeki dosya yapınız aynı kaldığı sürece, dosyalarınıza değişik bilgisayarlarda ulaşımınızı sağlamaktadır.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Mutlak Yollara Geri Döndür...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Seç...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "PDF'ler için otomatik olarak üstveri al ">
+<!ENTITY zotero.preferences.autoRenameFiles "Ana üstverileri kullanarak ve otomatik olarak ek dosyaları yeniden adlandır">
 <!ENTITY zotero.preferences.autoUpdate "Güncellenmiş çevirmen ve stilleri otomatik olarak ara">
 <!ENTITY zotero.preferences.automaticSnapshots "Web sayfalarından eserler yaratılırken sayfa görünümü otomatik olarak kaydet">
 <!ENTITY zotero.preferences.automaticTags "Anahtar kelimeler ve konu başlıkları ile eserleri otomatik olarak etiketle">
@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Hiçbir sözcük işlemcisi eklentisi kurulu değildir.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Klasik Gönderme Ekleme İletişim Kutusunu kullan">
 <!ENTITY zotero.preferences.configEditor "Yapılandırma Düzenleyicisi">
+<!ENTITY zotero.preferences.custom "Özel...">
 <!ENTITY zotero.preferences.dataDir "Veri Dizini Konumu">
 <!ENTITY zotero.preferences.dataDir.choose "Seç...">
 <!ENTITY zotero.preferences.dataDir.custom "Özel:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sıralama:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "En yeni eserler ilk">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "En eski eserler ilk">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "PDF'leri bu ile Aç:">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Sistem Varsayılanı">
+<!ENTITY zotero.preferences.fileHandling "Dosya Kullanımı">
 <!ENTITY zotero.preferences.fontSize "Yazıtipi boyutu:">
 <!ENTITY zotero.preferences.fontSize.large "Büyük">
 <!ENTITY zotero.preferences.fontSize.medium "Orta">

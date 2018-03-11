@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero verwendet relative Pfade für verknüpfte Dateine innerhalb des Basisverzeichnisses, so dass Sie auf verschiedenen Computern Zugang auf die Datein haben, solange die Ordnerstruktur im Basisverzeichnis die gleiche ist.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Auf Absolute Dateipfade zurücksetzen">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Auswählen...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automatisch Metadaten für PDF-Dateien abrufen">
+<!ENTITY zotero.preferences.autoRenameFiles "Automatisch angehängte Dateien unter Verwendung von übergeordneten Metadaten umbenennen">
 <!ENTITY zotero.preferences.autoUpdate "Automatisch auf Übersetzer- und Style-Updates überprüfen">
 <!ENTITY zotero.preferences.automaticSnapshots "Automatisch einen Schnappschuss erstellen, sobald ein Eintrag aus einer Webseite erstellt wird">
 <!ENTITY zotero.preferences.automaticTags "Automatisch Tags aus Schlüsselwörtern und Schlagwörtern erstellen">
@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Keine Erweiterungen für Textverarbeitungsprogramme installiert.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Alten Zitations-Dialog nutzen">
 <!ENTITY zotero.preferences.configEditor "Konfigurationseditor">
+<!ENTITY zotero.preferences.custom "Benutzerdefiniert...">
 <!ENTITY zotero.preferences.dataDir "Speicherort">
 <!ENTITY zotero.preferences.dataDir.choose "Auswählen...">
 <!ENTITY zotero.preferences.dataDir.custom "Eigene:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sortierung:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Neue Einträge zuerst">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Alte Einträge zuerst">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Zum Öffnen von PDFs benutze">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Systemstandard">
+<!ENTITY zotero.preferences.fileHandling "Dateiverarbeitung">
 <!ENTITY zotero.preferences.fontSize "Schriftgröße:">
 <!ENTITY zotero.preferences.fontSize.large "Groß">
 <!ENTITY zotero.preferences.fontSize.medium "Mittel">
@@ -227,11 +231,11 @@
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "Zurücksetzen des Synchronisierungsverlaufs">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "Lokale Daten mit Daten vom Server zusammenführen, ohne den Synchronisierungsverlauf zu beachten">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "Zurücksetzen des Synchronisierungsverlaufs">
-<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with the storage service">
-<!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restore from Online Library">
-<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Overwrite local Zotero data with data from the online library.">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "Restore to Online Library">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Overwrite online library with local Zotero data">
+<!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Vergleiche alle Dateianhänge mit dem Datenserver">
+<!ENTITY zotero.preferences.sync.reset.restoreFromServer "Wiederherstellen aus der Online-Bibliothek">
+<!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Überschreiben der lokalen Zotero-Daten mit Daten aus der Online-Bibliothek.">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "Wiederherstellen der Online-Bibliothek">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Überschreiben der Online-Bibliothek mit lokalen Zotero-Daten">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Diese Optionen sind nur für spezifische und sehr seltene Probleme geeignet und  sollten nicht als normale Methode zur Problemlösung dienen. Die Reset Option kann oft sogar zusätzliche Probleme verursachen. Siehe ">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Sync Reset Optionen">
 <!ENTITY zotero.preferences.sync.reset.warning3 "für weitere Informationen.">

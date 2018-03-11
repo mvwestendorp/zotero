@@ -27,6 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "កម្មវិធីជំនួយវាយអត្ថបទមិនទាន់បានដំឡើងទេឥលូវនេះ។">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "ប្រើទម្រង់អាគតដ្ឋានបែបបុរាណ">
 <!ENTITY zotero.preferences.configEditor "Config Editor">
+<!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "ទីតាំងថតទិន្នន័យ">
 <!ENTITY zotero.preferences.dataDir.choose "Choose…">
 <!ENTITY zotero.preferences.dataDir.custom "ធម្មតា:">
@@ -58,6 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sorting:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Newest items first">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Oldest items first">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
+<!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "ទំហំអក្សរៈ">
 <!ENTITY zotero.preferences.fontSize.large "ធំ">
 <!ENTITY zotero.preferences.fontSize.medium "មធ្យម">
