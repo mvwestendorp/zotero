@@ -2164,6 +2164,7 @@
 						this._focusNextField(focusBox, this._lastTabIndex, this._tabDirection == -1);
 					}
 					if (this.saveOnEdit) {
+						this.blockRefresh = true;
 						await this.item.saveTx();
 					}
 				}.bind(this))();
