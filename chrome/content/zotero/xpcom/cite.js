@@ -770,14 +770,14 @@ Zotero.Cite.System.prototype = {
 		}
 	},
 
-	"getHumanForm":function(jurisdictionKey, courtKey, allowNonmatch) {
+	"getHumanForm":function(jurisdictionKey, courtKey, useFallback) {
 		var ret;
 		var res;
 		if (jurisdictionKey && courtKey) {
-			ret = Zotero.CachedJurisdictionData.courtNameFromId(jurisdictionKey, courtKey, !allowNonmatch);
+			ret = Zotero.CachedJurisdictionData.courtNameFromId(jurisdictionKey, courtKey, !useFallback);
 		} else if (jurisdictionKey) {
-			// true is for fallback to key if no match is found
-			res = Zotero.CachedJurisdictionData.jurisdictionNameFromId(jurisdictionKey, true);
+			// First true is for long form (i.e. with country name abbrev even if subjurisdiction.
+			res = Zotero.CachedJurisdictionData.jurisdictionNameFromId(jurisdictionKey, !useFallback);
 			if (res) {
 				res = res.split("|");
 				if (res.length > 2) {

@@ -80,38 +80,42 @@ Zotero.CachedJurisdictionData = new function() {
 			id = idOrName;
 		} else {
 			var sql = "SELECT jurisdictionID,jurisdictionName FROM jurisdictions WHERE jurisdictionID=?";
-			var row = yield Zotero.DB.rowQueryAsync(sql, [
-				idOrName
-			]);
+			var row = yield Zotero.DB.rowQueryAsync(sql, [idOrName]);
 			if (!row) {
 				sql = "SELECT jurisdictionID,jurisdictionName FROM jurisdictions WHERE jurisdictionName=?";
-				row = yield Zotero.DB.rowQueryAsync(sql, [
-					idOrName
-				]);
+				row = yield Zotero.DB.rowQueryAsync(sql, [idOrName]);
 			}
 			if (row) {
-				var id = row.jurisdictionID;
-				var shortName = row.jurisdictionName;
-				if (row.jurisdictionName.split("|").length > 2) {
-					shortName = row.jurisdictionName.slice(row.jurisdictionName.indexOf("|") + 1);
+				id = row.jurisdictionID;
+				var longName = row.jurisdictionName;
+				var shortName = longName;
+				if (longName.split("|").length > 2) {
+					// Sans full country name, in other words.
+					shortName = longName.slice(longName.indexOf("|") + 1);
 				}
-				_jurisdictionIdToName[row.jurisdictionID] = {
-					name: row.jurisdictionName,
+				_jurisdictionIdToName[id] = {
+					name: longName,
 					shortName: shortName
 				};
-				_jurisdictionNameToId[shortName] = row.jurisdictionID;
+				// This is correct. Incoming jurisdictions to this function,
+				// if a subjurisdiction, have the full country name in first position,
+				// followed by the (uppercase) country code. shortName
+				// just strips off the full name -- there is no data loss.
+				_jurisdictionNameToId[shortName] = id;
 			}
 		}
 		return id;
 	});
 
-	function jurisdictionNameFromId (id, longForm) {
+	function jurisdictionNameFromId (id, longForm, strict) {
 		if (_jurisdictionIdToName[id]) {
 			if (longForm) {
 				return _jurisdictionIdToName[id].name;
 			} else {
 				return _jurisdictionIdToName[id].shortName;
 			}
+		} else if (strict) {
+			return false;
 		} else {
 			return id;
 		}
@@ -148,10 +152,11 @@ Zotero.CachedJurisdictionData = new function() {
 		if (_courtIdToName[JID] && _courtIdToName[JID][id]) {
 			return _courtIdToName[JID][id];
 		}
-		else if (!strict) {
+		else if (strict) {
+			return false;
+		} else {
 			return id;
 		}
-		return false;
 	}
 
 	function courtIdFromName(JID, name, strict) {

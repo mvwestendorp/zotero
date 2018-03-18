@@ -465,6 +465,9 @@ var Zotero_File_Interface = new function() {
 		if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 			yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine, citation);
 		}
+		if (Zotero.CiteProc.CSL.setSuppressedJurisdictions) {
+			yield Zotero.CiteProc.CSL.setSuppressedJurisdictions(cslEngine.opt.styleID, cslEngine.opt.suppressedJurisdictions);
+		}
 		
 		if (asCitations) {
 			cslEngine.updateItems(items.map(item => item.id));
@@ -493,6 +496,9 @@ var Zotero_File_Interface = new function() {
 				// Load external abbreviations to the new processor instance
 				if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 					yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine, citation);
+				}
+				if (Zotero.CiteProc.CSL.setSuppressedJurisdictions) {
+					yield Zotero.CiteProc.CSL.setSuppressedJurisdictions(cslEngine.opt.styleID, cslEngine.opt.suppressedJurisdictions);
 				}
 				output = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine, items, "text");
 			}
@@ -558,6 +564,9 @@ var Zotero_File_Interface = new function() {
 						properties: {}
 					};
 					yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine, citation);
+				}
+				if (Zotero.CiteProc.CSL.setSuppressedJurisdictions) {
+					yield Zotero.CiteProc.CSL.setSuppressedJurisdictions(cslEngine.opt.styleID, cslEngine.opt.suppressedJurisdictions);
 				}
 				var bibliography = Zotero.Cite.makeFormattedBibliographyOrCitationList(cslEngine,
 					items, format, io.mode === "citations");

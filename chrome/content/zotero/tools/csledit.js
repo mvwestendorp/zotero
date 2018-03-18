@@ -199,6 +199,9 @@ var Zotero_CSL_Editor = new function() {
 		if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 			yield Zotero.CiteProc.CSL.preloadAbbreviations(styleEngine, citation);
 		}
+		if (Zotero.CiteProc.CSL.setSuppressedJurisdictions) {
+			yield Zotero.CiteProc.CSL.setSuppressedJurisdictions(styleEngine.opt.styleID, styleEngine.opt.suppressedJurisdictions);
+		}
 
 		for (var i=0; i<citation.citationItems.length; i++) {
 			citation.citationItems[i]['suppress-author'] = author;

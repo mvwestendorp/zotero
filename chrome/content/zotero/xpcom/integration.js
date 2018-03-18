@@ -1607,6 +1607,9 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 				await Zotero.CiteProc.CSL.preloadAbbreviations(this.style, citation);
 			}
+			if (Zotero.CiteProc.CSL.setSuppressedJurisdictions) {
+				await Zotero.CiteProc.CSL.setSuppressedJurisdictions(this.style.opt.styleID, this.style.opt.suppressedJurisdictions);
+			}
 			
 			Zotero.debug("Integration: style.processCitationCluster("+citation.toSource()+", "+citationsPre.toSource()+", "+citationsPost.toSource());
 			let [info, newCitations] = this.style.processCitationCluster(citation, citationsPre, citationsPost);
