@@ -24,7 +24,7 @@
  */
 
 var CSL = {
-    PROCESSOR_VERSION: "1.1.194",
+    PROCESSOR_VERSION: "1.1.197",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -3365,56 +3365,6 @@ CSL.Engine.prototype.normalDecorIsOrphan = function (blob, params) {
     }
     return false;
 };
-CSL.getJurisdictionNameAndSuppress = function(state, jurisdictionID, jurisdictionName, chopTo) {
-    var ret = null;
-    if (chopTo) {
-        jurisdictionID = jurisdictionID.split(":").slice(0, chopTo).join(":");
-        jurisdictionName = state.sys.getHumanForm(jurisdictionID);
-    }
-    if (!jurisdictionName) {
-        jurisdictionName = state.sys.getHumanForm(jurisdictionID);
-    }
-    if (!jurisdictionName) {
-        ret = jurisdictionID;
-    } else {
-        var code = jurisdictionID.split(":");
-        var name = jurisdictionName.split("|");
-        var valid = false;
-        if (code.length === 1 && name.length === 2) {
-            valid = true;
-        } else if (code.length > 1 && name.length === code.length) {
-            valid = true;
-        }
-        if (!valid) {
-            ret = name.join("|");
-        } else {
-            var mask = 0;
-            var stub;
-            for (var i=0,ilen=code.length;i<ilen;i++) {
-                stub = code.slice(0, i+1).join(":");
-                if (state.opt.suppressedJurisdictions[stub]) {
-                    mask = (i+1);
-                }
-            }
-            if (mask === 0) {
-                if (code.length === 1) {
-                    ret = name[0];
-                } else {
-                    ret = name.join("|");
-                }
-            } else if (mask === 1) {
-                if (code.length === 1) {
-                    ret = "";
-                } else {
-                    ret = name.slice(mask).join("|");
-                }
-            } else {
-                ret = name.slice(mask).join("|");
-            }
-        }
-    }
-    return ret;
-};
 CSL.Engine.prototype.getCitationLabel = function (Item) {
     var label = "";
     var params = this.getTrigraphParams();
@@ -5031,13 +4981,31 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
     var citationByIndex = [];
     for (var i = 0, ilen = citationsPre.length; i < ilen; i += 1) {
         c = citationsPre[i];
-        this.registry.citationreg.citationById[c[0]].properties.noteIndex = c[1];
+        try {
+            this.registry.citationreg.citationById[c[0]].properties.noteIndex = c[1];
+        } catch (e) {
+            var err = "CSL error\n";
+            err += "  " + e + "\n";
+            err += "  citationID=" + c[0] + "\n";
+            err += "  noteIndex=" + c[1] + "\n";
+            err += "  atarray citationsPre index " + i + ", from citation at document position " + citationsPre.length;
+            throw err;
+        }
         citationByIndex.push(this.registry.citationreg.citationById[c[0]]);
     }
     citationByIndex.push(citation);
     for (var i = 0, ilen = citationsPost.length; i < ilen; i += 1) {
         c = citationsPost[i];
-        this.registry.citationreg.citationById[c[0]].properties.noteIndex = c[1];
+        try {
+            this.registry.citationreg.citationById[c[0]].properties.noteIndex = c[1];
+        } catch (e) {
+            var err = "CSL error\n";
+            err += "  " + e + "\n";
+            err += "  citationID=" + c[0] + "\n";
+            err += "  noteIndex=" + c[1] + "\n";
+            err += "  at array citationsPost index " + i + ", from citation at document position " + citationsPre.length;
+            throw err;
+        }
         citationByIndex.push(this.registry.citationreg.citationById[c[0]]);
     }
     this.registry.citationreg.citationByIndex = citationByIndex;
@@ -5200,7 +5168,14 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
                         var ibidme = false;
                         var suprame = false;
                         if (j > 0) {
-                            oldlastid =  citations[j - 1].sortedItems.slice(-1)[0][1].id;
+                            try {
+                                oldlastid =  citations[j - 1].sortedItems.slice(-1)[0][1].id;
+                            } catch (e) {
+                                var err = "CSL Error\n";
+                                err += "  " + e;
+                                err += "  in citation object " + citations[j - 1].citationID + " at index " + (j - 1);
+                                throw err;
+                            }
                             if (citations[j - 1].sortedItems[0].slice(-1)[0].legislation_id) {
                                 oldlastid = citations[j - 1].sortedItems[0].slice(-1)[0].legislation_id;
                             }
@@ -7854,7 +7829,9 @@ CSL.Node.layout = {
         if (this.tokentype === CSL.START && !state.tmp.cite_affixes[state.build.area]) {
             func = function (state, Item) {
                 state.tmp.done_vars = [];
-                if (Item["country"] && state.opt.suppressedJurisdictions[Item["country"]]) {
+                if (state.opt.suppressedJurisdictions[Item["country"]]
+                    && Item["country"]
+                    && ["treaty", "patent"].indexOf(Item.type) === -1) {
                     state.tmp.done_vars.push("country");
                 }
                 if (!state.tmp.just_looking && state.registry.registry[Item.id] && state.registry.registry[Item.id].parallel) {
@@ -12456,17 +12433,9 @@ CSL.Transform = function (state) {
             } else {
                 var loadJurisdiction = "default";
             }
-            Zotero.debug("XXX WTF loadJurisdiction=" + loadJurisdiction+", myabbrev_family="+myabbrev_family+", baseValue="+basevalue+", normalizedKey="+normalizedKey+", Item.type="+Item.type);
             var jurisdiction = state.transform.loadAbbreviation(loadJurisdiction, myabbrev_family, normalizedKey, Item.type);
-            Zotero.debug("XXX WTF --> jurisdiction="+jurisdiction);
             if (state.transform.abbrevs[jurisdiction][myabbrev_family] && normalizedKey) {
-                Zotero.debug("XXX WTF --> entering abbrevs block");
-                if (normalizedKey === "US") {
-                    Zotero.debug("XXX JESUS!\n"+JSON.stringify(state.transform.abbrevs[jurisdiction][myabbrev_family], null, 2));
-                }
                 var abbrev = state.transform.abbrevs[jurisdiction][myabbrev_family][normalizedKey];
-                Zotero.debug("XXX WTF --> for normalizedKey=" + normalizedKey + ", abbrev=" + abbrev);
-                Zotero.debug("XXX WTF --> and variable="+variable);
                 if (tok.strings.form === "short" && abbrev) {
                     value = abbrev;
                 } else {
