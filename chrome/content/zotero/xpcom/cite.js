@@ -518,7 +518,8 @@ Zotero.Cite.System.prototype = {
 			return key.toUpperCase();
 		} else {
 			key = key.toString()
-				.replace(/(?:\b|^)(?:and|et|y|und|l[ae]|the|[ld]')(?:\b|$)|[\x21-\x2C.\/\x3A-\x40\x5B-\x60\\\x7B-\x7E]/ig, "")
+				.replace(/(?:\b|^)(?:and|et|y|und|l[ae]|the|[ld]')(?:\b|$)|[\x21-\x2C.\/\x3A-\x40\x5B-\x60\\\x7B\x7D-\x7E]/ig, "")
+				.replace(/\s*\x7C\s*/g, "\x7C")
 				.replace(/\./g, " ")
 				.replace(/\s+/g, " ")
 				.trim();
