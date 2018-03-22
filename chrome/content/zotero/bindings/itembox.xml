@@ -646,8 +646,13 @@
 						});
 					}
 					else {
-						label.setAttribute("onclick",
-							"if (this.nextSibling.inputField) { this.nextSibling.inputField.blur(); }");
+						label.addEventListener('click', function () {
+							if (this.nextSibling.inputField) {
+								this.nextSibling.inputField.blur();
+							} else if (this.nextSibling.firstElementChild.inputField) {
+								this.nextSibling.firstElementChild.blur();
+							}
+						}.bind(label))
 						label.setAttribute("contextmenu", "mlz-language-menu");
 					}
 					
@@ -1728,89 +1733,93 @@
 				<parameter name="menu"/>
 				<body>
 				<![CDATA[
-					if (itemTypeID == this.item.itemTypeID) {
-						return true;
-					}
-					
-					var fieldsToDelete = this.item.getFieldsNotInType(itemTypeID, true);
-					
-					// Special cases handled below
-					var bookTypeID = Zotero.ItemTypes.getID('book');
-					var bookSectionTypeID = Zotero.ItemTypes.getID('bookSection');
-					
-					// Add warning for shortTitle when moving from book to bookSection
-					// when title will be transferred
-					if (this.item.itemTypeID == bookTypeID && itemTypeID == bookSectionTypeID) {
-						var titleFieldID = Zotero.ItemFields.getID('title');
-						var shortTitleFieldID = Zotero.ItemFields.getID('shortTitle');
-						if (this.item.getField(titleFieldID) && this.item.getField(shortTitleFieldID)) {
-							if (!fieldsToDelete) {
-								fieldsToDelete = [];
-							}
-							fieldsToDelete.push(shortTitleFieldID);
+					return (async function () {
+						if (itemTypeID == this.item.itemTypeID) {
+							return true;
 						}
-					}
-					
-					// Generate list of localized field names for display in pop-up
-					if (fieldsToDelete) {
-						// Ignore warning for bookTitle when going from bookSection to book
-						// if there's not also a title, since the book title is transferred
-						// to title automatically in Zotero.Item.setType()
-						if (this.item.itemTypeID == bookSectionTypeID && itemTypeID == bookTypeID) {
+
+						var fieldsToDelete = this.item.getFieldsNotInType(itemTypeID, true);
+
+						// Special cases handled below
+						var bookTypeID = Zotero.ItemTypes.getID('book');
+						var bookSectionTypeID = Zotero.ItemTypes.getID('bookSection');
+
+						// Add warning for shortTitle when moving from book to bookSection
+						// when title will be transferred
+						if (this.item.itemTypeID == bookTypeID && itemTypeID == bookSectionTypeID) {
 							var titleFieldID = Zotero.ItemFields.getID('title');
-							var bookTitleFieldID = Zotero.ItemFields.getID('bookTitle');
 							var shortTitleFieldID = Zotero.ItemFields.getID('shortTitle');
-							if (this.item.getField(bookTitleFieldID) && !this.item.getField(titleFieldID)) {
-								var index = fieldsToDelete.indexOf(bookTitleFieldID);
-								fieldsToDelete.splice(index, 1);
-								// But warn for short title, which will be removed
-								if (this.item.getField(shortTitleFieldID)) {
-									fieldsToDelete.push(shortTitleFieldID);
+							if (this.item.getField(titleFieldID) && this.item.getField(shortTitleFieldID)) {
+								if (!fieldsToDelete) {
+									fieldsToDelete = [];
+								}
+								fieldsToDelete.push(shortTitleFieldID);
+							}
+						}
+
+						// Generate list of localized field names for display in pop-up
+						if (fieldsToDelete) {
+							// Ignore warning for bookTitle when going from bookSection to book
+							// if there's not also a title, since the book title is transferred
+							// to title automatically in Zotero.Item.setType()
+							if (this.item.itemTypeID == bookSectionTypeID && itemTypeID == bookTypeID) {
+								var titleFieldID = Zotero.ItemFields.getID('title');
+								var bookTitleFieldID = Zotero.ItemFields.getID('bookTitle');
+								var shortTitleFieldID = Zotero.ItemFields.getID('shortTitle');
+								if (this.item.getField(bookTitleFieldID) && !this.item.getField(titleFieldID)) {
+									var index = fieldsToDelete.indexOf(bookTitleFieldID);
+									fieldsToDelete.splice(index, 1);
+									// But warn for short title, which will be removed
+									if (this.item.getField(shortTitleFieldID)) {
+										fieldsToDelete.push(shortTitleFieldID);
+									}
 								}
 							}
+
+							var fieldNames = "";
+							for (var i=0; i<fieldsToDelete.length; i++) {
+								fieldNames += "\n - " +
+									Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldsToDelete[i]);
+							}
+
+							var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+								.getService(Components.interfaces.nsIPromptService);
 						}
-						
-						var fieldNames = "";
-						for (var i=0; i<fieldsToDelete.length; i++) {
-							fieldNames += "\n - " +
-								Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldsToDelete[i]);
+
+						if (!fieldsToDelete || fieldsToDelete.length == 0 ||
+								promptService.confirm(null,
+									Zotero.getString('pane.item.changeType.title'),
+									Zotero.getString('pane.item.changeType.text') + "\n" + fieldNames)) {
+
+							// Force jurisdiction value if required
+							this.forceJurisdiction(itemTypeID);
+							await Zotero.CachedJurisdictionData.load(this.item);
+
+							this.item.setType(itemTypeID);
+
+							if (this.saveOnEdit) {
+								// See note in transformText()
+								this.blurOpenField().then(() => this.item.saveTx());
+							}
+							else {
+								this.refresh();
+							}
+
+							if (this.eventHandlers['itemtypechange'] && this.eventHandlers['itemtypechange'].length) {
+								var self = this;
+								this.eventHandlers['itemtypechange'].forEach(function (f) f.bind(self)());
+							}
+
+							return true;
 						}
-						
-						var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-							.getService(Components.interfaces.nsIPromptService);
-					}
-					
-					if (!fieldsToDelete || fieldsToDelete.length == 0 ||
-							promptService.confirm(null,
-								Zotero.getString('pane.item.changeType.title'),
-								Zotero.getString('pane.item.changeType.text') + "\n" + fieldNames)) {
-						this.item.setType(itemTypeID);
-						
-						// Force jurisdiction value if required
-						this.forceJurisdiction(itemTypeID);
-						
-						if (this.saveOnEdit) {
-							// See note in transformText()
-							this.blurOpenField().then(() => this.item.saveTx());
+
+						// Revert the menu (which changes before the pop-up)
+						if (menu) {
+							menu.value = this.item.itemTypeID;
 						}
-						else {
-							this.refresh();
-						}
-						
-						if (this.eventHandlers['itemtypechange'] && this.eventHandlers['itemtypechange'].length) {
-							var self = this;
-							this.eventHandlers['itemtypechange'].forEach(function (f) f.bind(self)());
-						}
-						
-						return true;
-					}
-					
-					// Revert the menu (which changes before the pop-up)
-					if (menu) {
-						menu.value = this.item.itemTypeID;
-					}
-					
+
 					return false;
+					}.bind(this))();
 				]]>
 				</body>
 			</method>
@@ -1912,94 +1921,6 @@
 			</method>
 			
 			
-			<method name="showJurisdictionEditor">
-				<parameter name="node"/>
-				<body>
-				<![CDATA[
-					var tabindex = node.getAttribute("ztabindex");
-					var value = node.getAttribute('label');
-					var textbox = document.createElement('textbox');
-					textbox.setAttribute("ztabindex", tabindex);
-					textbox.setAttribute('value',value);
-					textbox.setAttribute("oldComment",node.getAttribute("value"));
-					textbox.setAttribute("oldValue",node.getAttribute("label"));
-					textbox.setAttribute("flex","1");
-					textbox.setAttribute('emptytext','Enter a jurisdiction');
-
-					textbox.setAttribute('type','autocomplete');
-					textbox.setAttribute('autocompletesearch','jurism');
-					let params = {
-						fieldName: "jurisdictions"
-					}
-					textbox.setAttribute('ontextentered',
-						'document.getBindingParent(this).handleJurisdictionAutoCompleteSelect(this)');
-					textbox.setAttribute(
-						'autocompletesearchparam', JSON.stringify(params)
-					);
-					textbox.setAttribute('completeselectedindex', true);
-
-					node.parentNode.replaceChild(textbox, node)
-					
-					textbox.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
-
-					textbox.addEventListener('blur', function (event) {
-					  document.getBindingParent(this).hideJurisdictionEditor(this);
-					}, false);
-					textbox.select();
-					this._tabDirection = false;
-					this._lastTabIndex = tabindex;
-				]]>
-				</body>
-			</method>
-
-
-			<method name="showCourtEditor">
-				<parameter name="node"/>
-				<body>
-				<![CDATA[
-					var tabindex = node.getAttribute("ztabindex");
-					var jurisdictionID = document.getElementById("jurisdiction-menu").getAttribute("value");
-					var jurisdictionName = Zotero.CachedJurisdictionData.jurisdictionNameFromId(jurisdictionID, true);
-					var countryID = jurisdictionID.split(":")[0];
-					var value = node.getAttribute('label');
-					var textbox = document.createElement('textbox');
-					textbox.setAttribute("ztabindex", tabindex);
-					textbox.setAttribute('value',value);
-					textbox.setAttribute("oldComment",node.getAttribute("value"));
-					textbox.setAttribute("oldValue",node.getAttribute("label"));
-					textbox.setAttribute("flex","1");
-					textbox.setAttribute('emptytext','Select a court or enter its name');
-
-					textbox.setAttribute('type','autocomplete');
-					textbox.setAttribute('autocompletesearch','jurism');
-					let params = {
-						fieldName: 'courts',
-						jurisdictionName: jurisdictionName,
-						countryID: countryID
-					}
-					textbox.setAttribute('ontextentered',
-						'document.getBindingParent(this).handleCourtAutoCompleteSelect(this)');
-					textbox.setAttribute(
-						'autocompletesearchparam', JSON.stringify(params)
-					);
-					//textbox.setAttribute('completeselectedindex', true);
-					textbox.setAttribute('enablehistory', true);
-					textbox.setAttribute('highlightnonmatches', true);
-
-					node.parentNode.replaceChild(textbox, node)
-
-					textbox.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
-
-					textbox.addEventListener('blur', function (event) {
-						document.getBindingParent(this).hideCourtEditor(this);
-					}, false);
-					textbox.select();
-					this._tabDirection = false;
-					this._lastTabIndex = tabindex;
-				]]>
-				</body>
-			</method>
-
 
 			<method name="handleJurisdictionKeypress">
 				<parameter name="event"/>
@@ -2021,153 +1942,6 @@
 					   return true;
 				   }
 				   return false;
-				]]>
-				</body>
-			</method>
-
-			<method name="hideJurisdictionEditor">
-				<parameter name="node"/>
-				<parameter name="result"/>
-				<body>
-				<![CDATA[
-				return (async function () {
-					if (!result) {
-						result = {val: node.getAttribute("oldValue"), comment: node.getAttribute("oldComment")};
-					}
-					if (!result.val) {
-				  		var itemType = Zotero.ItemTypes.getName(this.item.itemTypeID);
-				  		if (["report","newspaperArticle","journalArticle", "standard"].indexOf(itemType) == -1) {
-				  			result = {val:node.getAttribute("oldValue"),comment:node.getAttribute("oldComment")};
-				  		}
-					}
-					var tabindex = node.getAttribute("ztabindex");
-
-					var valueElement = document.createElement("menulist");
-					valueElement.setAttribute("id","jurisdiction-menu");
-					valueElement.setAttribute("ztabindex", tabindex);
-					valueElement.setAttribute("flex","1");
-					valueElement.classList.add("zotero-clicky");
-					valueElement.setAttribute("onclick","document.getBindingParent(this).showJurisdictionEditor(this);");
-					valueElement.setAttribute("value",result.comment);
-					valueElement.setAttribute("label",result.val);
-					valueElement.setAttribute("tooltiptext",result.val);
-					node.parentNode.replaceChild(valueElement,node);
-					await this.setJurisdictionKey(result.comment);
-					var xpath = '*[local-name()="row"]/'
-						+ '*[local-name()="label" and @fieldname="court"]/'
-						+ 'following-sibling::*[local-name()="hbox"]/'
-						+ '*[local-name()="menulist"]';
-					var courtNodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-					if (courtNodes.snapshotLength) {
-						var courtNode = courtNodes.snapshotItem(0);
-						var courtIdOrName = courtNode.getAttribute('value');
-						var oldCourtName = courtNode.getAttribute('label');
-						var oldJurisdictionID = node.getAttribute('oldComment');
-						var newJurisdictionID = result.comment;
-						var newCourtID = Zotero.CachedJurisdictionData.remapCourtName(oldJurisdictionID, newJurisdictionID, courtIdOrName);
-						courtNode.setAttribute('value', newCourtID);
-						var newCourtName = Zotero.CachedJurisdictionData.courtNameFromId(newJurisdictionID, newCourtID, true);
-						// How did we do
-						if (newCourtName) {
-							courtNode.setAttribute('value', newCourtName);
-							courtNode.classList.remove('yellow');
-						} else {
-							this.item.setField('court', oldCourtName);
-							courtNode.setAttribute('value', oldCourtName);
-							courtNode.classList.add('yellow');
-						}
-					}
-
-					if (this._tabDirection) {
-						var focusBox = this._dynamicFields;
-						this._focusNextField(focusBox, this._lastTabIndex, this._tabDirection == -1);
-					}
-					if (this.saveOnEdit) {
-						this.blockRefresh = true;
-						await this.item.saveTx();
-					}
-				}.bind(this))();
-				]]>
-				</body>
-			</method>
-
-
-			<method name="hideCourtEditor">
-				<parameter name="node"/>
-				<parameter name="result"/>
-				<parameter name="nonMatchHighlight"/>
-				<body>
-				<![CDATA[
-				return (async function () {
-					var valueElement = document.createElement("menulist");
-					if (!result) {
-						// Used when saving hand-typed content of the field (triggred on blur)
-						// XXX Actually I think this never happens now
-						var newValue = node.value;
-						var jurisdictionID = this.item.getField('jurisdiction', true);
-						var newComment = Zotero.CachedJurisdictionData.courtIdFromName(jurisdictionID, newValue, true);
-						result = {val:newValue,comment:newComment};
-						if ("undefined" == typeof result.comment) {
-						    result.comment = result.val;
-							valueElement.classList.add('yellow');
-						}
-					} else {
-						// Used to adjust values when SAYT result from a subjurisdiction is selected.
-						var m = result.val.match(/^([^:]+):\s+(.*)$/);
-						if (m) {
-							// Get the subjurisdiction element to add to the current jurisdiction
-							var jurisdictionStub = m[1];
-							result.val = m[2];
-							var xpath = '*[local-name()="row"]/'
-								+ '*[local-name()="label" and @fieldname="jurisdiction"]/'
-								+ 'following-sibling::*[local-name()="hbox"]/'
-								+ '*[local-name()="menulist"]';
-							var jurisdictionNodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-							if (jurisdictionNodes.snapshotLength) {
-								// Get the currently displayed name value
-								var jurisdictionNode = jurisdictionNodes.snapshotItem(0);
-								var jurisdictionName = jurisdictionNode.getAttribute('label');
-								// Get the canonical long-form country name (awkward b/c I didn't plan for this)
-								var countryID = jurisdictionNode.getAttribute('value').split(":").slice(0,1)[0];
-								await Zotero.CachedJurisdictionData.setJurisdictionByIdOrName(countryID);
-								var countryName = Zotero.CachedJurisdictionData.jurisdictionNameFromId(countryID).split("|")[0];
-								// Splice the name together.
-								if (jurisdictionName.match(/^[A-Z][A-Z]\|/)) {
-									jurisdictionName = countryName + "|" + jurisdictionName + "|" + jurisdictionStub;
-								} else {
-									jurisdictionName = jurisdictionName + "|" + jurisdictionStub;
-								}
-								// Get the ID from the full (searchable) jurisdiction name
-								var jurisdictionID = await Zotero.CachedJurisdictionData.setJurisdictionByIdOrName(jurisdictionName);
-								// Set the ID in the record, and update the UI
-								await this.setJurisdictionKey(jurisdictionID);
-							}
-						}
-					}
-					var tabindex = node.getAttribute("ztabindex");
-					
-					valueElement.setAttribute("id","court-menu");
-					valueElement.setAttribute("ztabindex", tabindex);
-					valueElement.setAttribute("flex","1");
-					valueElement.classList.add("zotero-clicky");
-					valueElement.setAttribute("onclick","document.getBindingParent(this).showCourtEditor(this);");
-					valueElement.setAttribute("value",result.comment);
-					valueElement.setAttribute("label",result.val);
-					valueElement.setAttribute("tooltiptext",result.val);
-					if (nonMatchHighlight) {
-						valueElement.classList.add('yellow');
-					}
-					node.parentNode.replaceChild(valueElement,node);
-					this.item.setField("court",result.comment);
-					if (this._tabDirection) {
-						var focusBox = this._dynamicFields;
-						this._focusNextField(focusBox, this._lastTabIndex, this._tabDirection == -1);
-					}
-					if (this.saveOnEdit) {
-						this.blockRefresh = true;
-						await this.item.saveTx();
-					}
-				}.bind(this))();
 				]]>
 				</body>
 			</method>
@@ -2199,12 +1973,10 @@
 				<![CDATA[
 					// Enables save of non-match text
 					var result = false;
-					var nonMatchHighlight = false;
 					var controller = textbox.controller;
 					var searchString = controller.searchString;
 					if (!controller.matchCount) {
 						result = {val:searchString, comment:searchString};
-						nonMatchHighlight = true;
 					} else {
 						for (var i=0; i<controller.matchCount; i++) {
 							if (controller.getValueAt(i) == textbox.value) {
@@ -2218,7 +1990,7 @@
 						nonMatchHighlight = true;
 					}
 					textbox.mController.input = null;
-					this.hideCourtEditor(textbox, result, nonMatchHighlight);
+					this.hideCourtEditor(textbox, result);
 			]]>
 				</body>
 			</method>
@@ -2255,13 +2027,6 @@
 							if (!label) {
 								label = value;
 								valueElement.classList.add('yellow');
-							} else {
-								label = label.split("|");
-								//if (label.length > 2) {
-								//	label = label.slice(1).join("|");
-								//} else {
-									label = label.join("|");
-								//}
 							}
 							valueElement.setAttribute("label", label);
 							valueElement.setAttribute("value", value);
@@ -2280,7 +2045,7 @@
 								// Double-check for validity - may contain a correct court name string
 								// on upgrade or immediately after data import
 								if (!Zotero.CachedJurisdictionData.courtIdFromName(jurisdictionValue, value, true)) {
-								    valueElement.classList.add('yellow');
+									valueElement.classList.add('yellow');
 								}
 							}
 							valueElement.setAttribute("label", label);
@@ -2458,8 +2223,8 @@
 					if (isMulti) {
 						var langTag = labelToDelete.firstChild.getAttribute("zlang");
 						var creator = Zotero.Creators.cleanData(this.item.getCreator(index), true);
-                        delete creator.multi._key[langTag];
-                        this.item.setCreator(index, creator, creator.creatorTypeID);
+						delete creator.multi._key[langTag];
+						this.item.setCreator(index, creator, creator.creatorTypeID);
 					} else {
 						if (!(labelToDelete.nextSibling && labelToDelete.nextSibling.tagName === 'rows')) {
 							this.item.removeCreator(index);
@@ -2484,7 +2249,7 @@
 					var activeField = this._dynamicFields.querySelector('textbox');
 					if (activeField) {
 						this._refreshed = false;
-						await this.blurOpenField();
+						await this.blurOpenField(activeField.getAttribute('fieldname'));
 						this._lastTabIndex = lastTabIndex;
 						// If the box was refreshed, the clicked element is no longer valid,
 						// so just focus by tab index
@@ -2522,8 +2287,8 @@
 									value = value[creatorField];
 								}
 							} else {
-        	                    value = value[creatorField];
-            	            }
+								value = value[creatorField];
+							}
 						}
 						if (value === false) {
 							value = "";
@@ -2647,7 +2412,7 @@
 					t.addEventListener('blur', function () {
 						var self = document.getBindingParent(this);
 						if (self.ignoreBlur) return;
-						
+
 						removeEventListener("deactivate", ignoreBlur);
 						removeEventListener("activate", unignoreBlur);
 						self.blurHandler(this);
@@ -2660,6 +2425,174 @@
 				]]></body>
 			</method>
 			
+			<method name="showJurisdictionEditor">
+				<parameter name="node"/>
+				<body>
+				<![CDATA[
+					return (async function () {
+						Zotero.debug(`Showing jurisdiction editor for ${node.getAttribute('fieldname')}`);
+
+						var lastTabIndex = this._lastTabIndex = parseInt(node.getAttribute('ztabindex'));
+
+						// If a field is open, hide it before selecting the new field, which might
+						// trigger a refresh
+						var activeField = this._dynamicFields.querySelector('textbox');
+						if (activeField) {
+							this._refreshed = false;
+							await this.blurOpenField(activeField.getAttribute('fieldname'));
+							this._lastTabIndex = lastTabIndex;
+							// If the box was refreshed, the clicked element is no longer valid,
+							// so just focus by tab index
+							if (this._refreshed) {
+								this._focusNextField(this._lastTabIndex);
+								return;
+							}
+						}
+
+						var tabindex = node.getAttribute('ztabindex');
+						var fieldName = node.getAttribute('fieldname');
+
+						var value = node.getAttribute('label');
+						var t = document.createElement('textbox');
+						t.setAttribute("ztabindex", tabindex);
+						t.setAttribute("fieldname", fieldName);
+						t.setAttribute('value',value);
+						t.setAttribute("oldComment",node.getAttribute("value"));
+						t.setAttribute("oldValue",node.getAttribute("label"));
+						t.setAttribute("flex","1");
+						t.setAttribute('emptytext','Enter a jurisdiction');
+
+						t.setAttribute('type','autocomplete');
+						t.setAttribute('autocompletesearch','jurism');
+						let params = {
+							fieldName: "jurisdictions"
+						}
+						t.setAttribute('ontextentered',
+							'document.getBindingParent(this).handleJurisdictionAutoCompleteSelect(this)');
+						t.setAttribute(
+							'autocompletesearchparam', JSON.stringify(params)
+						);
+						t.setAttribute('completeselectedindex', true);
+
+						node.parentNode.replaceChild(t, node)
+
+						t.select();
+
+						// Leave text field open when window loses focus
+						var ignoreBlur = function () {
+							this.ignoreBlur = true;
+						}.bind(this);
+						var unignoreBlur = function () {
+							this.ignoreBlur = false;
+						}.bind(this);
+						addEventListener("deactivate", ignoreBlur);
+						addEventListener("activate", unignoreBlur);
+
+						t.addEventListener('blur', function () {
+							var self = document.getBindingParent(this);
+							if (self.ignoreBlur) return;
+
+							removeEventListener("deactivate", ignoreBlur);
+							removeEventListener("activate", unignoreBlur);
+							self.hideJurisdictionEditor(this);
+						});
+						t.setAttribute('onkeydown', "return document.getBindingParent(this).handleKeyDown(event)");
+						t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
+
+						return t;
+					}.bind(this))();
+				]]>
+				</body>
+			</method>
+
+
+			<method name="showCourtEditor">
+				<parameter name="node"/>
+				<body>
+				<![CDATA[
+					return (async function () {
+						Zotero.debug(`Showing court editor for ${node.getAttribute('fieldname')}`);
+
+						var lastTabIndex = this._lastTabIndex = parseInt(node.getAttribute('ztabindex'));
+
+						// If a field is open, hide it before selecting the new field, which might
+						// trigger a refresh
+						var activeField = this._dynamicFields.querySelector('textbox');
+						if (activeField) {
+							this._refreshed = false;
+							await this.blurOpenField(activeField.getAttribute('fieldname'));
+							this._lastTabIndex = lastTabIndex;
+							// If the box was refreshed, the clicked element is no longer valid,
+							// so just focus by tab index
+							if (this._refreshed) {
+								this._focusNextField(this._lastTabIndex);
+								return;
+							}
+						}
+
+						var tabindex = node.getAttribute('ztabindex');
+						var fieldName = node.getAttribute('fieldname');
+
+						var jurisdictionID = this.item.getField('jurisdiction', true);
+						var jurisdictionName = Zotero.CachedJurisdictionData.jurisdictionNameFromId(jurisdictionID, true);
+						var countryID = jurisdictionID.split(":")[0];
+						var value = node.getAttribute('label');
+						var t = document.createElement('textbox');
+						t.setAttribute("ztabindex", tabindex);
+						t.setAttribute("fieldname", fieldName);
+						t.setAttribute('value',value);
+						t.setAttribute("oldComment",node.getAttribute("value"));
+						t.setAttribute("oldValue",node.getAttribute("label"));
+						t.setAttribute("flex","1");
+						t.setAttribute('emptytext','Select a court or enter its name');
+
+						t.setAttribute('type','autocomplete');
+						t.setAttribute('autocompletesearch','jurism');
+						let params = {
+							fieldName: 'courts',
+							jurisdictionName: jurisdictionName,
+							countryID: countryID
+						}
+						t.setAttribute('ontextentered',
+							'document.getBindingParent(this).handleCourtAutoCompleteSelect(this)');
+						t.setAttribute(
+							'autocompletesearchparam', JSON.stringify(params)
+						);
+						//t.setAttribute('completeselectedindex', true);
+						t.setAttribute('enablehistory', true);
+						t.setAttribute('highlightnonmatches', true);
+
+						node.parentNode.replaceChild(t, node)
+
+						t.select();
+
+						// Leave text field open when window loses focus
+						var ignoreBlur = function () {
+							this.ignoreBlur = true;
+						}.bind(this);
+						var unignoreBlur = function () {
+							this.ignoreBlur = false;
+						}.bind(this);
+						addEventListener("deactivate", ignoreBlur);
+						addEventListener("activate", unignoreBlur);
+
+						t.addEventListener('blur', function () {
+							var self = document.getBindingParent(this);
+							if (self.ignoreBlur) return;
+
+							removeEventListener("deactivate", ignoreBlur);
+							removeEventListener("activate", unignoreBlur);
+							self.hideCourtEditor(this);
+						});
+						t.setAttribute('onkeydown', "return document.getBindingParent(this).handleKeyDown(event)");
+						t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
+
+						return t;
+					}.bind(this))();
+				]]>
+				</body>
+			</method>
+
 			
 			<!--
 			 Save a multiple-field selection for the creator autocomplete
@@ -3442,28 +3375,6 @@
 				</body>
 			</method>
 			
-
-			<method name="jurisdictionMenuTab">
-				<parameter name="event"/>
-				<body>
-				<![CDATA[
-					var elem = event.target;
-					var ztabindex = elem.getAttribute("ztabindex");
-					var tabindex = parseInt(elem.getAttribute("ztabindex"),10);
-					if (!event.shiftKey) {
-						tabindex += 1;
-					} else {
-						// Shift-tab
-						tabindex += -1;
-					}
-					var nextelem = this._dynamicFields.getElementsByAttribute("ztabindex",tabindex)[0];
-					nextelem.click();
-					event.preventDefault();
- 				]]>
- 				</body>
-			</method>
-			
-			
 			<method name="hideEditor">
 				<parameter name="textbox"/>
 				<body><![CDATA[
@@ -3614,7 +3525,6 @@
 						this.switchCreatorMode(row, (otherFields.fieldMode ? 1 : 0), true);
 						if (Zotero.ItemTypes.getName(this.item.itemTypeID) === "bookSection") {
 							var creatorTypeLabels = document.getAnonymousNodes(this)[0].getElementsByClassName("creator-type-label");
-							Zotero.debug(creatorTypeLabels[creatorTypeLabels.length-1] + "");
 							document.getElementById("zotero-author-guidance").show({
 								forEl: creatorTypeLabels[creatorTypeLabels.length-1]
 							});
@@ -3707,6 +3617,164 @@
 				]]></body>
 			</method>
 			
+			<method name="hideJurisdictionEditor">
+				<parameter name="node"/>
+				<parameter name="result"/>
+				<body>
+				<![CDATA[
+				return (async function () {
+					Zotero.debug(`Hiding jurisdiction editor for ${node.getAttribute('fieldname')}`);
+
+					this._lastTabIndex = -1;
+
+					var nonMatchHighlight = false;
+					if (!result) {
+						result = {val: node.getAttribute("oldValue"), comment: node.getAttribute("oldComment")};
+					}
+					if (!result.val) {
+						var itemType = Zotero.ItemTypes.getName(this.item.itemTypeID);
+						if (["report","newspaperArticle","journalArticle", "standard"].indexOf(itemType) == -1) {
+							result = {val:node.getAttribute("oldValue"),comment:node.getAttribute("oldComment")};
+						}
+					}
+					var tabindex = node.getAttribute("ztabindex");
+					var fieldName = node.getAttribute("fieldname");
+
+					var valueElement = document.createElement("menulist");
+					valueElement.setAttribute("id","jurisdiction-menu");
+					valueElement.setAttribute("ztabindex", tabindex);
+					valueElement.setAttribute("fieldname", fieldName);
+					valueElement.setAttribute("flex","1");
+					valueElement.classList.add("zotero-clicky");
+					valueElement.setAttribute("onclick","document.getBindingParent(this).showJurisdictionEditor(this);");
+					valueElement.setAttribute("value",result.comment);
+					valueElement.setAttribute("label",result.val);
+					valueElement.setAttribute("tooltiptext",result.val);
+					node.parentNode.replaceChild(valueElement,node);
+					this.setJurisdictionKey(result.comment);
+					await Zotero.CachedJurisdictionData.load(this.item);
+
+					var courtNode = document.getElementById('court-menu');
+					if (courtNode) {
+						var oldCourtName = courtNode.getAttribute('label');
+						//var oldCourtID = courtNode.getAttribute('value');
+						var newJurisdictionID = result.comment;
+						var newCourtID = Zotero.CachedJurisdictionData.courtIdFromName(newJurisdictionID, oldCourtName, true);
+						if (newCourtID) {
+							courtNode.setAttribute('value', newCourtID);
+							courtNode.classList.remove('yellow');
+						} else {
+							this.item.setField('court', oldCourtName);
+							courtNode.setAttribute('value', oldCourtName);
+							nonMatchHighlight = true;
+							courtNode.classList.add('yellow');
+						}
+					}
+
+					if (this._tabDirection) {
+						var focusBox = this._dynamicFields;
+						this._focusNextField(focusBox, this._lastTabIndex, this._tabDirection == -1);
+					}
+					if (this.saveOnEdit) {
+						await this.item.saveTx();
+					}
+				}.bind(this))();
+				]]>
+				</body>
+			</method>
+
+
+			<method name="hideCourtEditor">
+				<parameter name="node"/>
+				<parameter name="result"/>
+				<body>
+				<![CDATA[
+					return (async function () {
+					Zotero.debug(`Hiding court editor for ${node.getAttribute('fieldname')}`);
+
+					this._lastTabIndex = -1;
+
+					var jurisdictionID;
+					var valueElement = document.createElement("menulist");
+					if (!result) {
+						// Used when saving hand-typed content of the field (triggred on blur)
+						// XXX Actually I think this never happens now
+						var newValue = node.value;
+						jurisdictionID = this.item.getField('jurisdiction', true);
+						var newComment = Zotero.CachedJurisdictionData.courtIdFromName(jurisdictionID, newValue, true);
+						result = {val:newValue,comment:newComment};
+						if ("undefined" == typeof result.comment) {
+							result.comment = result.val;
+							valueElement.classList.add('yellow');
+						}
+					} else {
+						// Used to adjust values when SAYT result from a subjurisdiction is selected.
+						var m = result.val.match(/^([^:]+):\s+(.*)$/);
+						if (m) {
+							// Get the subjurisdiction element to add to the current jurisdiction
+							var jurisdictionStub = m[1];
+							result.val = m[2];
+							var xpath = '*[local-name()="row"]/'
+								+ '*[local-name()="label" and @fieldname="jurisdiction"]/'
+								+ 'following-sibling::*[local-name()="hbox"]/'
+								+ '*[local-name()="menulist"]';
+							var jurisdictionNodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+							if (jurisdictionNodes.snapshotLength) {
+								// Get the currently displayed name value
+								var jurisdictionNode = jurisdictionNodes.snapshotItem(0);
+								var jurisdictionName = jurisdictionNode.getAttribute('label');
+								// Get the canonical long-form country name (awkward b/c I didn't plan for this)
+								var countryID = jurisdictionNode.getAttribute('value').split(":").slice(0,1)[0];
+								await Zotero.CachedJurisdictionData.setJurisdictionByIdOrName(countryID);
+								var countryName = Zotero.CachedJurisdictionData.jurisdictionNameFromId(countryID).split("|")[0];
+								// Splice the name together.
+								if (jurisdictionName.match(/^[A-Z][A-Z]\|/)) {
+									jurisdictionName = countryName + "|" + jurisdictionName + "|" + jurisdictionStub;
+								} else {
+									jurisdictionName = jurisdictionName + "|" + jurisdictionStub;
+								}
+								// Get the ID from the full (searchable) jurisdiction name
+								jurisdictionID = await Zotero.CachedJurisdictionData.setJurisdictionByIdOrName(jurisdictionName);
+								// Set the ID in the record, and update the UI
+								this.setJurisdictionKey(jurisdictionID);
+								await Zotero.CachedJurisdictionData.load(this.item);
+
+							}
+						}
+					}
+					var tabindex = node.getAttribute("ztabindex");
+					var fieldName = node.getAttribute("fieldname");
+
+					valueElement.setAttribute("id","court-menu");
+					valueElement.setAttribute("ztabindex", tabindex);
+					valueElement.setAttribute("fieldname", fieldName);
+					valueElement.setAttribute("flex","1");
+					valueElement.classList.add("zotero-clicky");
+					valueElement.setAttribute("onclick","document.getBindingParent(this).showCourtEditor(this);");
+					valueElement.setAttribute("value",result.comment);
+					valueElement.setAttribute("label",result.val);
+					valueElement.setAttribute("tooltiptext",result.val);
+					var jurisdictionID = this.item.getField('jurisdiction', true);
+					var courtID = Zotero.CachedJurisdictionData.courtIdFromName(jurisdictionID, result.val, true);
+					if (!courtID) {
+						valueElement.classList.add('yellow');
+					} else {
+						valueElement.classList.remove('yellow');
+					}
+					node.parentNode.replaceChild(valueElement,node);
+					this.item.setField("court",result.comment);
+					if (this._tabDirection) {
+						var focusBox = this._dynamicFields;
+						this._focusNextField(focusBox, this._lastTabIndex, this._tabDirection == -1);
+					}
+					if (this.saveOnEdit) {
+						await this.item.saveTx();
+					}
+				}.bind(this))();
+				]]>
+				</body>
+			</method>
+
 			
 			<method name="_rowIsClickable">
 				<parameter name="fieldName"/>
@@ -3881,9 +3949,9 @@
 							}
 						}
 					}
-                    
+
 					var creator;
-                    if (langTag && isMulti) {
+					if (langTag && isMulti) {
 						if (!realOldCreator) {
 							throw "In modifyCreator() attempt to set variant on non-existent creator";
 						}
@@ -4050,7 +4118,6 @@
 						Zotero.debug("Next field not found");
 						return false;
 					}
-					
 					next.click();
 					
 					// 1) next.parentNode is always null for some reason
@@ -4073,13 +4140,20 @@
 			
 			
 			<method name="blurOpenField">
+				<parameter name="blurMode"/>
 				<body><![CDATA[
 					return (async function () {
 						var activeField = this._dynamicFields.querySelector('textbox');
 						if (!activeField) {
 							return false;
 						}
-						return this.blurHandler(activeField);
+						if (blurMode === "jurisdiction") {
+							return this.hideJurisdictionEditor(activeField);
+						} else if (blurMode === "court") {
+							return this.hideCourtEditor(activeField);
+						} else {
+							return this.blurHandler(activeField);
+						}
 					}.bind(this))();
 				]]></body>
 			</method>
@@ -4135,7 +4209,10 @@
 			  <parameter name="key"/>
 			  <body>
 				<![CDATA[
-				return (async function () {
+					//return (async function () {
+					// This function is synchronous, but the value set in "jurisdiction"
+					// and "court" cannot be manipulated until async Zotero.CachedJurisdictionData.load(this.item)
+					// is run with await in async context.
 					var jurisdictionDefaultNode = document.getElementById('jurisdiction-default');
 					if (key && jurisdictionDefaultNode) {
 						if (key && key == Zotero.Prefs.get("import.jurisdictionDefault")) {
@@ -4145,8 +4222,7 @@
 						}
 					}
 					this.item.setField("jurisdiction",key);
-					return Zotero.CachedJurisdictionData.load(this.item);
-				}.bind(this))();
+				//}.bind(this))();
 				]]>
 			  </body>
 			</method>

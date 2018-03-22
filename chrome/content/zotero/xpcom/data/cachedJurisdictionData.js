@@ -39,7 +39,6 @@ Zotero.CachedJurisdictionData = new function() {
 	this.jurisdictionNameFromId = jurisdictionNameFromId;
 	this.courtNameFromId = courtNameFromId;
 	this.courtIdFromName = courtIdFromName;
-	this.remapCourtName = remapCourtName;
 	
 	this.init = function() {
 		// Get jurisdiction and court fieldIDs
@@ -67,7 +66,10 @@ Zotero.CachedJurisdictionData = new function() {
 				courtID = item["court"];
 			}
 			if (_jurisdictionIdToName[jurisdictionID] && courtID) {
+				Zotero.debug("XXX set court! With " + jurisdictionID+ " and " + courtID);
 				yield this.setCourt(jurisdictionID, courtID);
+			} else {
+				Zotero.debug("XXX OH! no segment? " + !!_jurisdictionIdToName[jurisdictionID] + " or " + courtID);
 			}
 		}
 	});
@@ -122,29 +124,33 @@ Zotero.CachedJurisdictionData = new function() {
 	};
 
 	this.setCourt = Zotero.Promise.coroutine(function* (jurisdictionID, courtIdOrName) {
-		let sql = "SELECT courtName FROM jurisdictions JU "
+		let sql = "SELECT courtID,courtName FROM jurisdictions JU "
 			+ "JOIN courtJurisdictionLinks CJL USING(jurisdictionIdx) "
 			+ "JOIN courts USING(courtIdx) "
 			+ "JOIN countryCourtLinks CCL USING(countryCourtLinkIdx) "
 			+ "JOIN courtNames CN USING(courtNameIdx) "
 			+ "JOIN jurisdictions CO ON CO.jurisdictionIdx=CCL.countryIdx "
-			+ "WHERE courtID=? AND JU.jurisdictionID=? AND CO.jurisdictionID=?"
+			+ "WHERE (courtID=? OR CN.courtName=?) AND JU.jurisdictionID=? AND CO.jurisdictionID=?"
 		var countryID = jurisdictionID.split(':')[0];
-		let name = yield Zotero.DB.valueQueryAsync(sql, [
+		let row = yield Zotero.DB.rowQueryAsync(sql, [
+			courtIdOrName,
 			courtIdOrName,
 			jurisdictionID,
 			countryID
 		]);
-		if (name) {
+		Zotero.debug("XXX got name! " + row.courtID + " " + row.courtName);
+		var courtName = row.courtName;
+		var courtID = row.courtID
+		if (courtName) {
 			if (!_courtIdToName[jurisdictionID]) {
 				_courtIdToName[jurisdictionID] = {};
 			}
-			_courtIdToName[jurisdictionID][courtIdOrName] = name;
+			_courtIdToName[jurisdictionID][courtID] = courtName;
 			
 			if (!_courtNameToId[jurisdictionID]) {
 				_courtNameToId[jurisdictionID] = {};
 			}
-			_courtNameToId[jurisdictionID][name] = courtIdOrName;
+			_courtNameToId[jurisdictionID][courtName] = courtID;
 		}
 	});
 
@@ -168,36 +174,4 @@ Zotero.CachedJurisdictionData = new function() {
 		}
 		return false;
 	}
-
-	function remapCourtName(oldJurisdictionID,newJurisdictionID,courtIdOrName) {
-		if (!courtIdOrName) {
-			return "";
-		}
-		// Do we have an ID or a name
-		var isId = false;
-		if (courtIdOrName.match(/^[.a-z0-9]$/)) {
-			isId = true;
-		}
-		var newValue = courtIdOrName;
-		if (isId) {
-			// Try for a name in the new jurisdiction
-			var courtName = _courtIdToName[newJurisdictionID] ? _courtIdToName[newJurisdictionID][courtIdOrName] : "";
-			if (!courtName) {
-				// No luck, so try in the old jurisdiction, falling back to the bare ID
-				newValue = _courtIdToName[oldJurisdictionID] ? _courtIdToName[oldJurisdictionID][courtIdOrName] : "";
-				if (!newValue) {
-					newValue = courtIdOrName;
-				}
-			}
-			// If found in the new jurisdiction, reuse the ID
-		} else {
-			// Try to map to an ID in the new jurisdiction, falling back to the name
-			newValue = _courtIdToName[newJurisdictionID] ? _courtIdToName[newJurisdictionID][courtIdOrName] : "";
-			if (!newValue) {
-				newValue = courtIdOrName;
-			}
-		}
-		return newValue;
-	}
-
 }
