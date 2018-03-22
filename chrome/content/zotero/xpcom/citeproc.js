@@ -24,11 +24,7 @@
  */
 
 var CSL = {
-<<<<<<< HEAD
     PROCESSOR_VERSION: "1.1.197",
-=======
-    PROCESSOR_VERSION: "1.1.193",
->>>>>>> 67b34b14824ca18a3e39543f723b85382d332ccc
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -14082,7 +14078,6 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
                 if (variable === "locator" || variable === "number") {
                     if (!me.getTerm(CSL.STATUTE_SUBDIV_STRINGS[currentLabelInfo.label])) {
                         values[currentLabelInfo.pos].labelVisibility = true;
-<<<<<<< HEAD
                     }
                 }
                 if (["locator", "number"].indexOf(variable) === -1) {
@@ -14117,42 +14112,6 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
                 groupCount = 1;
             }
         }
-=======
-                    }
-                }
-                if (["locator", "number"].indexOf(variable) === -1) {
-                    if (CSL.STATUTE_SUBDIV_STRINGS[currentLabelInfo.label] !== variable) {
-                        values[0].labelVisibility = true;
-                    }
-                }
-            } else {
-                values[currentLabelInfo.pos].labelVisibility = true;
-            }
-        }
-    }
-    function setPluralsAndNumerics(values) {
-        if (values.length === 0) return;
-        var groupStartPos = 0;
-        var groupCount = 1;
-        for (var i=1,ilen=values.length;i<ilen;i++) {
-            var lastVal = values[i-1];
-            var thisVal = values[i];
-            if (lastVal.label === thisVal.label && lastVal.particle === lastVal.particle) {
-                groupCount++;
-            } else {
-                var currentLabelInfo = JSON.parse(JSON.stringify(values[groupStartPos]));
-                currentLabelInfo.pos = groupStartPos;
-                currentLabelInfo.count = groupCount;
-                currentLabelInfo.numeric = true;
-                fixNumericAndCount(values, groupStartPos, currentLabelInfo);
-                if (i === 0 || (lastVal.label !== thisVal.label)) {
-                    fixLabelVisibility(values, groupStartPos, currentLabelInfo);
-                }
-                groupStartPos = i;
-                groupCount = 1;
-            }
-        }
->>>>>>> 67b34b14824ca18a3e39543f723b85382d332ccc
         var currentLabelInfo = JSON.parse(JSON.stringify(values[groupStartPos]));
         currentLabelInfo.pos = groupStartPos;
         currentLabelInfo.count = groupCount;
