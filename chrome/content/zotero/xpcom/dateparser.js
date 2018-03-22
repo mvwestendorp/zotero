@@ -73,7 +73,7 @@ Zotero.DateParser = new function () {
 
     var DATE_PARTS_ALL = ["year", "month", "day", "season"];
 
-	
+    
     // jse imperial years
     var epochPairs = [
         ["\u660E\u6CBB", 1867],
@@ -258,26 +258,46 @@ Zotero.DateParser = new function () {
      */
 
     this.convertDateObjectToArray = function (thedate) {
+        var keep_going = true;
         // Converts object in place and returns object
         thedate["date-parts"] = [];
         thedate["date-parts"].push([]);
         var slicelen = 0;
         for (var i=0,ilen=3; i<ilen; i++) {
             var part = ["year", "month", "day"][i];
-            if (!thedate[part]) {
-                break;
+            if (undefined === thedate[part]) {
+                keep_going = false;
             }
-            slicelen += 1;
-            thedate["date-parts"][0].push(thedate[part]);
+            if (keep_going && !isNaN(parseInt(thedate[part]))) {
+                slicelen += 1;
+                if (part === "year") {
+                    var thepart = "" + thedate[part];
+                } else {
+                    var thepart = parseInt(thedate[part]);
+                }
+                thedate["date-parts"][0].push(thepart);
+            } else {
+                keep_going = false;
+            }
             delete thedate[part];
         }
+        keep_going = true;
         thedate["date-parts"].push([]);
         for (var i=0, ilen=slicelen; i<ilen; i++) {
             part = ["year_end", "month_end", "day_end"][i];
-            if (!thedate[part]) {
-                break;
+            if (undefined === thedate[part]) {
+                keep_going = false;
             }
-            thedate["date-parts"][1].push(thedate[part]);
+            if (keep_going && !isNaN(parseInt(thedate[part]))) {
+                if (part === "year") {
+                    var thepart = "" + thedate[part];
+                } else {
+                    var thepart = parseInt(thedate[part]);
+                }
+                thedate["date-parts"][1].push(thepart);
+            } else {
+                keep_going = false;
+            }
             delete thedate[part];
         }
         if (thedate["date-parts"][0].length !== thedate["date-parts"][1].length) {
@@ -289,18 +309,18 @@ Zotero.DateParser = new function () {
     // XXXX String output is currently unable to represent ranges
     this.convertDateObjectToString = function(thedate) {
         // Returns string
-		var ignoreTheRest = false;
+        var ignoreTheRest = false;
         var ret = [];
         for (var i = 0, ilen = 3; i < ilen; i += 1) {
-			var part = DATE_PARTS_ALL[i];
-			var strlen = part === "year" ? 4 : 2;
-			if (undefined === thedate[part] || ignoreTheRest) {
-				thedate[part] = "0";
-				ignoreTheRest = true;
-			}
-			while (thedate[part].length < strlen) {
-				thedate[part] = "0" + thedate[part];
-			}
+            var part = DATE_PARTS_ALL[i];
+            var strlen = part === "year" ? 4 : 2;
+            if (undefined === thedate[part] || ignoreTheRest) {
+                thedate[part] = "0";
+                ignoreTheRest = true;
+            }
+            while (thedate[part].length < strlen) {
+                thedate[part] = "0" + thedate[part];
+            }
             ret.push(thedate[part]);
         }
         return ret.join("-");

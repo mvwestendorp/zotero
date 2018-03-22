@@ -2441,40 +2441,46 @@ Zotero.Utilities = {
 					var date = "";
 					if(cslDate.literal || cslDate.raw) {
 						date = cslDate.literal || cslDate.raw;
+						var country = Zotero.locale ? Zotero.locale.substr(3) : "US";
+						if(country == "US" ||	// The United States
+						   country == "FM" ||	// The Federated States of Micronesia
+						   country == "PW" ||	// Palau
+						   country == "PH") {	// The Philippines
+							Zotero.DateParser.setOrderMonthDay();
+						} else {
+							Zotero.DateParser.setOrderDayMonth();
+						}
+						cslDate = Zotero.DateParser.parseDateToArray(date);
+					}
+					var newDate = Zotero.Utilities.deepCopy(cslDate);
+					if(cslDate["date-parts"] && typeof cslDate["date-parts"] === "object"
+					   && cslDate["date-parts"] !== null
+					   && typeof cslDate["date-parts"][0] === "object"
+					   && cslDate["date-parts"][0] !== null) {
+						if(cslDate["date-parts"][0][0]) newDate.year = cslDate["date-parts"][0][0];
+						if(cslDate["date-parts"][0][1]) newDate.month = cslDate["date-parts"][0][1];
+						if(cslDate["date-parts"][0][2]) newDate.day = cslDate["date-parts"][0][2];
+					}
+					
+					if(newDate.year) {
 						if(variable === "accessed") {
-							date = Zotero.Date.strToISO(date);
-						}
-					} else {
-						var newDate = Zotero.Utilities.deepCopy(cslDate);
-						if(cslDate["date-parts"] && typeof cslDate["date-parts"] === "object"
-								&& cslDate["date-parts"] !== null
-								&& typeof cslDate["date-parts"][0] === "object"
-								&& cslDate["date-parts"][0] !== null) {
-							if(cslDate["date-parts"][0][0]) newDate.year = cslDate["date-parts"][0][0];
-							if(cslDate["date-parts"][0][1]) newDate.month = cslDate["date-parts"][0][1];
-							if(cslDate["date-parts"][0][2]) newDate.day = cslDate["date-parts"][0][2];
-						}
-						
-						if(newDate.year) {
-							if(variable === "accessed") {
-								// Need to convert to SQL
-								var date = Zotero.Utilities.lpad(newDate.year, "0", 4);
-								if(newDate.month) {
-									date += "-"+Zotero.Utilities.lpad(newDate.month, "0", 2);
-									if(newDate.day) {
-										date += "-"+Zotero.Utilities.lpad(newDate.day, "0", 2);
-									}
+							// Need to convert to SQL
+							var date = Zotero.Utilities.lpad(newDate.year, "0", 4);
+							if(newDate.month) {
+								date += "-"+Zotero.Utilities.lpad(newDate.month, "0", 2);
+								if(newDate.day) {
+									date += "-"+Zotero.Utilities.lpad(newDate.day, "0", 2);
 								}
-							} else {
-								if(newDate.month) newDate.month--;
-								date = Zotero.Date.formatDate(newDate);
-								if(newDate.season) {
-									date = newDate.season+" "+date;
-								}
+							}
+						} else {
+							if(newDate.month) newDate.month--;
+							date = Zotero.Date.formatDate(newDate);
+							if(newDate.season) {
+								date = newDate.season+" "+date;
 							}
 						}
 					}
-					
+
 					if(isZoteroItem) {
 						item.setField(fieldID, date);
 					} else {
