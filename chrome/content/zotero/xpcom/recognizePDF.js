@@ -541,13 +541,20 @@ Zotero.RecognizePDF = new function () {
 		
 		if (res.doi) {
 			Zotero.debug('RecognizePDF: Getting metadata by DOI');
-			let translateDOI = new Zotero.Translate.Search();
-			translateDOI.setTranslator('11645bd1-0420-45c1-badb-53fb41eeb753');
-			translateDOI.setSearch({'itemType': 'journalArticle', 'DOI': res.doi});
+			let translate = new Zotero.Translate.Search();
+			translate.setIdentifier({
+				DOI: res.doi
+			});
+			let translators = await translate.getTranslators();
+			translate.setTranslator(translators);
+			
 			try {
-				let newItem = await _promiseTranslate(translateDOI, libraryID);
+				let newItem = await _promiseTranslate(translate, libraryID);
 				if (!newItem.abstractNote && res.abstract) {
 					newItem.setField('abstractNote', res.abstract);
+				}
+				if (!newItem.language && res.language) {
+					newItem.setField('language', res.language);
 				}
 				newItem.saveTx();
 				return newItem;
@@ -570,10 +577,26 @@ Zotero.RecognizePDF = new function () {
 				Zotero.debug(translatedItems);
 				if (translatedItems.length) {
 					let newItem = new Zotero.Item;
+					// Convert tags to automatic. For other items this is done automatically in
+					// translate.js for other items, but for ISBNs we just get the data
+					// (libraryID=false) and do the saving manually.
+					translatedItems[0].tags = translatedItems[0].tags.map(tag => {
+						if (typeof tag == 'string') {
+							return {
+								tag,
+								type: 1
+							};
+						}
+						tag.type = 1;
+						return tag;
+					});
 					newItem.fromJSON(translatedItems[0]);
 					newItem.libraryID = libraryID;
 					if (!newItem.abstractNote && res.abstract) {
 						newItem.setField('abstractNote', res.abstract);
+					}
+					if (!newItem.language && res.language) {
+						newItem.setField('language', res.language);
 					}
 					newItem.saveTx();
 					return newItem;
@@ -611,6 +634,7 @@ Zotero.RecognizePDF = new function () {
 			if (res.pages) newItem.setField('pages', res.pages);
 			if (res.volume) newItem.setField('volume', res.volume);
 			if (res.url) newItem.setField('url', res.url);
+			if (res.language) newItem.setField('language', res.language);
 			
 			if (type === 'journalArticle') {
 				if (res.issue) newItem.setField('issue', res.issue);
