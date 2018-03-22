@@ -21,7 +21,7 @@
 <!ENTITY debugOutputLogging.accesskey "L">
 <!ENTITY debugOutputLogging.clear "Clear Output">
 <!ENTITY debugOutputLogging.label "Debug Output Logging">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Επανεκκίνηση με καταγραφή...">
 <!ENTITY debugOutputLogging.submit "Submit Output">
 <!ENTITY debugOutputLogging.view "View Output">
 <!ENTITY deleteCmd.accesskey "D">
@@ -68,7 +68,7 @@
 <!ENTITY helpMenuWin.accesskey "Η">
 <!ENTITY helpMenuWin.label "Βοήθεια">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors…">
+<!ENTITY helpReportErrors.label "Αναφορά Λαθών...">
 <!ENTITY helpTroubleshootingInfo.accesskey "Τ">
 <!ENTITY helpTroubleshootingInfo.label "Πληροφορίες για αντιμετώπιση προβλημάτων">
 <!ENTITY hideOtherAppsCmdMac.commandkey "Η">

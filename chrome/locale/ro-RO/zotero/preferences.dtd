@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero va folosi căi relative pentru fișierele anexate în directorul de bază, permițând accesarea fișierelor pe diferite calculatoare atâta timp cât structura fișierelor în dosarul de bază rămâne aceeași.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revino la căi absolute...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Alege…">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Extrage automat metadatele pentru PDF-uri">
+<!ENTITY zotero.preferences.autoRenameFiles "Redenumește automat fișierele anexate folosind metadatele părinte">
 <!ENTITY zotero.preferences.autoUpdate "Verifică în mod automat dacă există translatori și stiluri actualizate">
 <!ENTITY zotero.preferences.automaticSnapshots "Creează automat instantanee, atunci când sunt create înregistrări din paginile web">
 <!ENTITY zotero.preferences.automaticTags "Creează automat etichetele pentru înregistrări, împreună cu cuvintele cheie și cu titlurile">
@@ -27,7 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Niciu plug-in pentru procesorul de text nu este instalat în acest moment.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Folosește caseta clasică de dialog Adaugă citare">
 <!ENTITY zotero.preferences.configEditor "Editor de configurare">
-<!ENTITY zotero.preferences.custom "Custom…">
+<!ENTITY zotero.preferences.custom "Personalizare...">
 <!ENTITY zotero.preferences.dataDir "Locația dosarului cu date">
 <!ENTITY zotero.preferences.dataDir.choose "Alege...">
 <!ENTITY zotero.preferences.dataDir.custom "Personalizare:">
@@ -59,9 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Sortare:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Înregistrările cele mai noi primele">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Înregistrările cele mai vechi primele">
-<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
-<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
-<!ENTITY zotero.preferences.fileHandling "File Handling">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Deschide PDF-urile folosind">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Sistem implicit">
+<!ENTITY zotero.preferences.fileHandling "Operațiuni fișier">
 <!ENTITY zotero.preferences.fontSize "Mărime caractere:">
 <!ENTITY zotero.preferences.fontSize.large "Mari">
 <!ENTITY zotero.preferences.fontSize.medium "Medii">

@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Niciun fișier selectat">
 <!ENTITY zotero.general.advancedOptions.label "Opțiuni avansate">
 <!ENTITY zotero.general.cancel "Anulare">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Închide">
 <!ENTITY zotero.general.delete "Ștergere">
 <!ENTITY zotero.general.deselectAll "Deselectează tot">
 <!ENTITY zotero.general.edit "Editare">
 <!ENTITY zotero.general.loading "Se încarcă...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimizare">
 <!ENTITY zotero.general.more "Mai mult">
 <!ENTITY zotero.general.no "Nu">
 <!ENTITY zotero.general.note "Notă:">
@@ -167,10 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Unește înregistrările...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
-<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
+<!ENTITY zotero.items.menu.reportMetadata "Raportare metadate incorecte">
 <!ENTITY zotero.items.menu.restoreToLibrary "Restaurează la bibliotecă">
 <!ENTITY zotero.items.menu.showInLibrary "Afișează în bibliotecă">
-<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
+<!ENTITY zotero.items.menu.unrecognize "Anulare extragere metadate">
 <!ENTITY zotero.items.moreColumns.label "Mai multe coloane">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Pagini">

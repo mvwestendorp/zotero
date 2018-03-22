@@ -144,14 +144,14 @@
 <!ENTITY zotero.preferences.parseRISRefer "İndirilmiş BibTeX/RIS/Refer dosyaları için, Zotero'yu kullan">
 <!ENTITY zotero.preferences.period ".">
 <!ENTITY zotero.preferences.prefpane.advanced "Gelişmiş">
-<!ENTITY zotero.preferences.prefpane.cite "Gönderme Yapmak">
+<!ENTITY zotero.preferences.prefpane.cite "Gönderme Yap">
 <!ENTITY zotero.preferences.prefpane.export "Dışarı Aktar">
 <!ENTITY zotero.preferences.prefpane.general "Genel">
 <!ENTITY zotero.preferences.prefpane.keys "Kısayol Tuşları">
 <!ENTITY zotero.preferences.prefpane.lang "Languages">
 <!ENTITY zotero.preferences.prefpane.locate "Yerini Bul">
 <!ENTITY zotero.preferences.prefpane.proxies "Vekil Sunucular">
-<!ENTITY zotero.preferences.prefpane.search "Arama">
+<!ENTITY zotero.preferences.prefpane.search "Ara">
 <!ENTITY zotero.preferences.prefpane.sync "Eşitle">
 <!ENTITY zotero.preferences.prefpane.sync.reset "Reset">
 <!ENTITY zotero.preferences.prefpane.sync.settings "Settings">
