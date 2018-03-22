@@ -276,7 +276,7 @@ describe("Zotero.Utilities", function() {
 			let cslJSONAttachment = Zotero.Utilities.itemToCSLJSON(attachment);
 			assert.equal(cslJSONAttachment.type, 'article', 'attachment is exported as "article"');
 			assert.equal(cslJSONAttachment.title, 'Empty', 'attachment title is correct');
-			assert.deepEqual(cslJSONAttachment.accessed, { raw: '2001-02-03T12:13:14Z' }, 'attachment access date is mapped correctly');
+			assert.deepEqual(cslJSONAttachment.accessed, {"date-parts":[["2001",2,3]]}, 'attachment access date is mapped correctly');
 		}));
 		it("should refuse to convert unexpected item types", Zotero.Promise.coroutine(function* () {
 			let data = yield populateDBWithSampleData(loadSampleData('journalArticle'));
@@ -392,6 +392,25 @@ describe("Zotero.Utilities", function() {
 		});
 	});
 	describe("itemFromCSLJSON", function () {
+		it("[Juris-M] should convert raw dates to canonical form", function* () {
+			this.timeout(20000);
+			let dataRaw = loadSampleData('citeProcJSExportRawDates');
+			let dataCanonical = loadSampleData('citeProcJSExport');
+			for (let i in dataRaw) {
+				let json = dataRaw[i];
+
+				let item = new Zotero.Item();
+				Zotero.Utilities.itemFromCSLJSON(item, json);
+				yield item.saveTx();
+				
+				let newJSON = Zotero.Utilities.itemToCSLJSON(item);
+				let canonicalJSON = dataCanonical[i];
+				
+				delete newJSON.id;
+				delete json.id;
+				assert.deepEqual(newJSON, canonicalJSON, i + ' export -> import -> export is stable');
+			}
+		});
 		it("should stably perform itemToCSLJSON -> itemFromCSLJSON -> itemToCSLJSON", function* () {
 			this.timeout(20000);
 			let data = loadSampleData('citeProcJSExport');

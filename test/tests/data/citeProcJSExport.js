@@ -1,12 +1,28 @@
 {
 	"artwork": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "graphic",
+		"multi": {
+			"main": {
+				"title": "en-US"
+			},
+			"_keys": {
+				"title": {
+					"ja-JP": "見出し"
+				}
+			}
 		},
+		"title": "Title",
+		"source": "Library catalog",
+		"dimensions": "Artwork size",
+		"medium": "Medium",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "artistLast",
@@ -27,40 +43,51 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"dimensions": "Artwork size",
-		"id": 37,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "graphic",
-        "multi": {
-            "main": {
-				"title": "en-US"
-			},
-            "_keys": {
-				"title": {
-					"ja-JP": "見出し"
-				}
-			}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"audioRecording": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "song",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
-		"archive-place": "Place",
+		"title": "Title",
+		"collection-title": "Series title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"volume": "6",
+		"number-of-volumes": "7",
+		"source": "Library catalog",
+		"dimensions": "1:22:33",
+		"medium": "Medium",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "performerLast",
@@ -76,8 +103,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-title": "Series title",
 		"composer": [
 			{
 				"family": "composerLast",
@@ -87,34 +112,46 @@
 				}
 			}
 		],
-		"dimensions": "1:22:33",
-		"event-place": "Place",
-		"id": 38,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"number-of-volumes": "7",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "song",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"bill": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "bill",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Code",
+		"authority": "Legislative body",
+		"page": "1-10",
+		"volume": "6",
+		"section": "Section",
+		"chapter-number": "Session",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"number": "3",
+		"references": "History",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"jurisdiction": "us",
 		"author": [
 			{
 				"family": "sponsorLast",
@@ -130,75 +167,39 @@
 				}
 			}
 		],
-        "jurisdiction": "us",
-		"authority": "Legislative body",
-		"chapter-number": "Session",
-		"container-title": "Code",
-		"id": 39,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"note": "Extra",
-		"number": "3",
-		"page": "1-10",
-		"references": "History",
-		"section": "Section",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "bill",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"blogPost": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "post-weblog",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
-		"author": [
-			{
-				"family": "authorLast",
-				"given": "authorFirst",
-				"multi": {
-					"_key": {}
-				}
-			},
-			{
-				"literal": "Institutional Author",
-				"multi": {
-					"_key": {}
-				}
-			}
-		],
+		"title": "Title",
 		"container-title": "Publication title",
 		"genre": "Type",
-		"id": 40,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
 		"note": "Extra",
 		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "post-weblog",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
-	},
-	"book": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
-		},
-		"archive": "Archive",
-		"archive_location": "Archive location",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -214,19 +215,67 @@
 				}
 			}
 		],
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
+	},
+	"book": {
+		"type": "book",
+		"multi": {
+			"main": {},
+			"_keys": {}
+		},
+		"title": "Title",
+		"collection-title": "Series",
+		"collection-number": "9",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"volume": "6",
+		"number-of-volumes": "7",
+		"number-of-pages": "4",
+		"edition": "8",
+		"source": "Library catalog",
+		"archive": "Archive",
+		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
-		"collection-editor": [
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"author": [
 			{
-				"family": "seriesEditorLast",
-				"given": "seriesEditorFirst",
+				"family": "authorLast",
+				"given": "authorFirst",
+				"multi": {
+					"_key": {}
+				}
+			},
+			{
+				"literal": "Institutional Author",
 				"multi": {
 					"_key": {}
 				}
 			}
 		],
-		"collection-number": "9",
-		"collection-title": "Series",
-		"edition": "8",
 		"editor": [
 			{
 				"family": "editorLast",
@@ -236,21 +285,15 @@
 				}
 			}
 		],
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 41,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"number-of-pages": "4",
-		"number-of-volumes": "7",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
+		"collection-editor": [
+			{
+				"family": "seriesEditorLast",
+				"given": "seriesEditorFirst",
+				"multi": {
+					"_key": {}
+				}
+			}
+		],
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -260,22 +303,53 @@
 				}
 			}
 		],
-		"type": "book",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"bookSection": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "chapter",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"collection-title": "Series",
+		"collection-number": "9",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"page": "1-10",
+		"volume": "6",
+		"number-of-volumes": "7",
+		"edition": "8",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -291,18 +365,15 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-editor": [
+		"editor": [
 			{
-				"family": "seriesEditorLast",
-				"given": "seriesEditorFirst",
+				"family": "editorLast",
+				"given": "editorFirst",
 				"multi": {
 					"_key": {}
 				}
 			}
 		],
-		"collection-number": "9",
-		"collection-title": "Series",
 		"container-author": [
 			{
 				"family": "bookAuthorLast",
@@ -312,32 +383,15 @@
 				}
 			}
 		],
-		"container-title": "Publication title",
-		"edition": "8",
-		"editor": [
+		"collection-editor": [
 			{
-				"family": "editorLast",
-				"given": "editorFirst",
+				"family": "seriesEditorLast",
+				"given": "seriesEditorFirst",
 				"multi": {
 					"_key": {}
 				}
 			}
 		],
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 42,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"number-of-volumes": "7",
-		"page": "1-10",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -347,19 +401,44 @@
 				}
 			}
 		],
-		"type": "chapter",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"case": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "legal_case",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Reporter",
+		"authority": "Court",
+		"page": "1-10",
+		"volume": "6",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"number": "3",
+		"references": "History",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"jurisdiction": "us",
 		"author": [
 			{
 				"family": "authorLast",
@@ -375,36 +454,49 @@
 				}
 			}
 		],
-		"authority": "Court",
-		"container-title": "Reporter",
-		"id": 43,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"jurisdiction": "us",
-		"language": "en-US",
-		"note": "Extra",
-		"number": "3",
-		"page": "1-10",
-		"references": "History",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "legal_case",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"computerProgram": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "book",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"collection-title": "Series title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"version": "Version",
+		"genre": "Programming language",
+		"source": "Library catalog",
+		"medium": "System",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
 		"author": [
 			{
 				"family": "programmerLast",
@@ -420,39 +512,52 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-title": "Series title",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "Programming language",
-		"id": 44,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"medium": "System",
-		"note": "Extra",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "book",
-		"version": "Version",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"conferencePaper": {
+		"type": "paper-conference",
+		"multi": {
+			"main": {},
+			"_keys": {}
+		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"collection-title": "Series",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"page": "1-10",
+		"volume": "6",
+		"source": "Library catalog",
+		"archive": "Archive",
+		"archive_location": "Archive location",
+		"event": "Conference name",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
 		"DOI": "10.1234/example.doi",
 		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
-		},
-		"archive": "Archive",
-		"archive_location": "Archive location",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -468,18 +573,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-editor": [
-			{
-				"family": "seriesEditorLast",
-				"given": "seriesEditorFirst",
-				"multi": {
-					"_key": {}
-				}
-			}
-		],
-		"collection-title": "Series",
-		"container-title": "Publication title",
 		"editor": [
 			{
 				"family": "editorLast",
@@ -489,21 +582,15 @@
 				}
 			}
 		],
-		"event": "Conference name",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 45,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"page": "1-10",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
+		"collection-editor": [
+			{
+				"family": "seriesEditorLast",
+				"given": "seriesEditorFirst",
+				"multi": {
+					"_key": {}
+				}
+			}
+		],
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -513,22 +600,53 @@
 				}
 			}
 		],
-		"type": "paper-conference",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"dictionaryEntry": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "entry-dictionary",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"collection-title": "Series",
+		"collection-number": "9",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"page": "1-10",
+		"volume": "6",
+		"number-of-volumes": "7",
+		"edition": "8",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -544,7 +662,15 @@
 				}
 			}
 		],
-		"call-number": "Call number",
+		"editor": [
+			{
+				"family": "editorLast",
+				"given": "editorFirst",
+				"multi": {
+					"_key": {}
+				}
+			}
+		],
 		"collection-editor": [
 			{
 				"family": "seriesEditorLast",
@@ -554,34 +680,6 @@
 				}
 			}
 		],
-		"collection-number": "9",
-		"collection-title": "Series",
-		"container-title": "Publication title",
-		"edition": "8",
-		"editor": [
-			{
-				"family": "editorLast",
-				"given": "editorFirst",
-				"multi": {
-					"_key": {}
-				}
-			}
-		],
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 46,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"number-of-volumes": "7",
-		"page": "1-10",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -591,21 +689,42 @@
 				}
 			}
 		],
-		"type": "entry-dictionary",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"document": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "article",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher": "Publisher",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -621,7 +740,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
 		"editor": [
 			{
 				"family": "editorLast",
@@ -631,13 +749,6 @@
 				}
 			}
 		],
-		"id": 47,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"publisher": "Publisher",
 		"reviewed-author": [
 			{
 				"family": "reviewedAuthorLast",
@@ -647,9 +758,6 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -659,18 +767,37 @@
 				}
 			}
 		],
-		"type": "article",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"email": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "personal_communication",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -686,12 +813,6 @@
 				}
 			}
 		],
-		"id": 48,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
 		"recipient": [
 			{
 				"family": "recipientLast",
@@ -701,23 +822,53 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "personal_communication",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"encyclopediaArticle": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "entry-encyclopedia",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"collection-title": "Series",
+		"collection-number": "9",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"page": "1-10",
+		"volume": "6",
+		"number-of-volumes": "7",
+		"edition": "8",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -733,20 +884,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-editor": [
-			{
-				"family": "seriesEditorLast",
-				"given": "seriesEditorFirst",
-				"multi": {
-					"_key": {}
-				}
-			}
-		],
-		"collection-number": "9",
-		"collection-title": "Series",
-		"container-title": "Publication title",
-		"edition": "8",
 		"editor": [
 			{
 				"family": "editorLast",
@@ -756,21 +893,15 @@
 				}
 			}
 		],
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 49,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"number-of-volumes": "7",
-		"page": "1-10",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
+		"collection-editor": [
+			{
+				"family": "seriesEditorLast",
+				"given": "seriesEditorFirst",
+				"multi": {
+					"_key": {}
+				}
+			}
+		],
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -780,21 +911,45 @@
 				}
 			}
 		],
-		"type": "entry-encyclopedia",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"film": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "motion_picture",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher": "Publisher",
+		"genre": "Type",
+		"source": "Library catalog",
+		"dimensions": "1:22:33",
+		"medium": "Medium",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "directorLast",
@@ -810,32 +965,39 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"dimensions": "1:22:33",
-		"genre": "Type",
-		"id": 50,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"publisher": "Publisher",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "motion_picture",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"forumPost": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "post",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"genre": "Type",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -851,28 +1013,49 @@
 				}
 			}
 		],
-		"container-title": "Publication title",
-		"genre": "Type",
-		"id": 51,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"note": "Extra",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "post",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"hearing": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "hearing",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"authority": "Legislative body",
+		"committee": "Committee",
+		"page": "1-10",
+		"number-of-volumes": "7",
+		"chapter-number": "Session",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"number": "3",
+		"references": "History",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"jurisdiction": "us",
 		"author": [
 			{
 				"family": "contributorLast",
@@ -888,38 +1071,37 @@
 				}
 			}
 		],
-		"authority": "Legislative body",
-		"chapter-number": "Session",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 52,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"jurisdiction": "us",
-		"note": "Extra",
-		"number": "3",
-		"number-of-volumes": "7",
-		"page": "1-10",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"references": "History",
-		"committee": "Committee",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "hearing",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"instantMessage": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "personal_communication",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -935,12 +1117,6 @@
 				}
 			}
 		],
-		"id": 53,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
 		"recipient": [
 			{
 				"family": "recipientLast",
@@ -950,22 +1126,42 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "personal_communication",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"interview": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "interview",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"source": "Library catalog",
+		"medium": "Medium",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "intervieweeLast",
@@ -981,8 +1177,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"id": 54,
 		"interviewer": [
 			{
 				"family": "interviewerLast",
@@ -992,15 +1186,6 @@
 				}
 			}
 		],
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1010,22 +1195,49 @@
 				}
 			}
 		],
-		"type": "interview",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"journalArticle": {
-		"DOI": "10.1234/example.doi",
-		"ISSN": "1234-5679",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "article-journal",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"collection-title": "Series title",
+		"page": "1-10",
+		"volume": "6",
+		"issue": "5",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"DOI": "10.1234/example.doi",
+		"ISSN": "1234-5679",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"journalAbbreviation": "Journal abbreviation",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1041,9 +1253,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-title": "Series title",
-		"container-title": "Publication title",
 		"editor": [
 			{
 				"family": "editorLast",
@@ -1053,15 +1262,6 @@
 				}
 			}
 		],
-		"id": 55,
-		"issue": "5",
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"journalAbbreviation": "Journal abbreviation",
-		"language": "en-US",
-		"note": "Extra",
-		"page": "1-10",
 		"reviewed-author": [
 			{
 				"family": "reviewedAuthorLast",
@@ -1071,9 +1271,6 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1083,21 +1280,42 @@
 				}
 			}
 		],
-		"type": "article-journal",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"letter": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "personal_communication",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"genre": "Type",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1113,14 +1331,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"genre": "Type",
-		"id": 56,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
 		"recipient": [
 			{
 				"family": "recipientLast",
@@ -1130,24 +1340,46 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "personal_communication",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"magazineArticle": {
-		"ISSN": "1234-5679",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "article-magazine",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"page": "1-10",
+		"volume": "6",
+		"issue": "5",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISSN": "1234-5679",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1163,16 +1395,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"container-title": "Publication title",
-		"id": 57,
-		"issue": "5",
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"page": "1-10",
 		"reviewed-author": [
 			{
 				"family": "reviewedAuthorLast",
@@ -1182,9 +1404,6 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1194,21 +1413,46 @@
 				}
 			}
 		],
-		"type": "article-magazine",
-		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"manuscript": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "manuscript",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher-place": "Place",
+		"number-of-pages": "4",
+		"genre": "Type",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1224,21 +1468,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "Type",
-		"id": 58,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"number-of-pages": "4",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1248,21 +1477,50 @@
 				}
 			}
 		],
-		"type": "manuscript",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"map": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "map",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"collection-title": "Series title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"edition": "8",
+		"genre": "Type",
+		"source": "Library catalog",
+		"scale": "Scale",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "cartographerLast",
@@ -1278,7 +1536,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
 		"collection-editor": [
 			{
 				"family": "seriesEditorLast",
@@ -1288,38 +1545,49 @@
 				}
 			}
 		],
-		"collection-title": "Series title",
-		"edition": "8",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "Type",
-		"id": 59,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"note": "Extra",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"scale": "Scale",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "map",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"newspaperArticle": {
-		"ISSN": "1234-5679",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "article-newspaper",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"publisher-place": "Place",
+		"page": "1-10",
+		"edition": "8",
+		"section": "Section",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISSN": "1234-5679",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1335,19 +1603,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"container-title": "Publication title",
-		"edition": "8",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 60,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"page": "1-10",
-		"publisher-place": "Place",
 		"reviewed-author": [
 			{
 				"family": "reviewedAuthorLast",
@@ -1357,10 +1612,6 @@
 				}
 			}
 		],
-		"section": "Section",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1370,18 +1621,48 @@
 				}
 			}
 		],
-		"type": "article-newspaper",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"patent": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "patent",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher-place": "Place",
+		"authority": "Issuing authority",
+		"page": "1-10",
+		"issue": "Priority numbers",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Application number",
+		"note": "Extra",
+		"number": "3",
+		"references": "References",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"jurisdiction": "us",
+		"status": "Legal status",
 		"author": [
 			{
 				"family": "inventorLast",
@@ -1397,40 +1678,50 @@
 				}
 			}
 		],
-		"authority": "Issuing authority",
-		"call-number": "Application number",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 61,
-		"issue": "Priority numbers",
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"jurisdiction": "us",
-		"note": "Extra",
-		"number": "3",
-		"page": "1-10",
-		"publisher-place": "Place",
-		"references": "References",
-		"shortTitle": "Short title",
-		"status": "Legal status",
 		"submitted": {
-			"raw": "2000-01-02"
+			"date-parts": [
+				[
+					"2000",
+					1,
+					2
+				]
+			]
 		},
-		"title": "Title",
-		"type": "patent",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"podcast": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "song",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"collection-title": "Series title",
+		"dimensions": "1:22:33",
+		"medium": "Medium",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"number": "3",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "podcasterLast",
@@ -1446,28 +1737,34 @@
 				}
 			}
 		],
-		"collection-title": "Series title",
-		"dimensions": "1:22:33",
-		"genre": "podcast",
-		"id": 62,
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"number": "3",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "song",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		},
+		"genre": "podcast"
 	},
 	"presentation": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "speech",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher-place": "Place",
+		"genre": "Type",
+		"event": "Meeting name",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "presenterLast",
@@ -1483,33 +1780,49 @@
 				}
 			}
 		],
-		"event": "Meeting name",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "Type",
-		"id": 63,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"note": "Extra",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "speech",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"radioBroadcast": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "broadcast",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"source": "Library catalog",
+		"dimensions": "1:22:33",
+		"medium": "Medium",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"number": "3",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "directorLast",
@@ -1525,39 +1838,50 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"container-title": "Publication title",
-		"dimensions": "1:22:33",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "radio broadcast",
-		"id": 64,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"number": "3",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "broadcast",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		},
+		"genre": "radio broadcast"
 	},
 	"report": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "report",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"collection-title": "Series title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"page": "1-10",
+		"genre": "Type",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"number": "3",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1573,7 +1897,6 @@
 				}
 			}
 		],
-		"call-number": "Call number",
 		"collection-editor": [
 			{
 				"family": "seriesEditorLast",
@@ -1583,23 +1906,6 @@
 				}
 			}
 		],
-		"collection-title": "Series title",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "Type",
-		"id": 65,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"number": "3",
-		"page": "1-10",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1609,18 +1915,45 @@
 				}
 			}
 		],
-		"type": "report",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"statute": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "legislation",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Code",
+		"page": "1-10",
+		"volume": "Code number",
+		"section": "Section",
+		"chapter-number": "Session",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"number": "3",
+		"references": "History",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"jurisdiction": "us",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1636,36 +1969,47 @@
 				}
 			}
 		],
-		"chapter-number": "Session",
-		"container-title": "Code",
-		"id": 66,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"jurisdiction": "us",
-		"language": "en-US",
-		"note": "Extra",
-		"number": "3",
-		"page": "1-10",
-		"references": "History",
-		"section": "Section",
-		"shortTitle": "Short title",
-		"title": "Title",
-		"type": "legislation",
-		"volume": "Code number",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"thesis": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "thesis",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"number-of-pages": "4",
+		"genre": "Type",
+		"source": "Library catalog",
 		"archive": "Archive",
 		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1681,85 +2025,49 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"genre": "Type",
-		"id": 67,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"note": "Extra",
-		"number-of-pages": "4",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "thesis",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"tvBroadcast": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "broadcast",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"publisher": "Publisher",
+		"publisher-place": "Place",
+		"source": "Library catalog",
+		"dimensions": "1:22:33",
+		"medium": "Medium",
 		"archive": "Archive",
 		"archive_location": "Archive location",
-		"author": [
-			{
-				"family": "directorLast",
-				"given": "directorFirst",
-				"multi": {
-					"_key": {}
-				}
-			},
-			{
-				"literal": "Institutional Author",
-				"multi": {
-					"_key": {}
-				}
-			}
-		],
-		"call-number": "Call number",
-		"container-title": "Publication title",
-		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
-		"genre": "television broadcast",
-		"id": 68,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"medium": "Medium",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"call-number": "Call number",
 		"note": "Extra",
 		"number": "3",
-		"publisher": "Publisher",
-		"publisher-place": "Place",
 		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "broadcast",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
-	},
-	"videoRecording": {
-		"ISBN": "978-1-234-56789-7",
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
-		},
-		"archive": "Archive",
-		"archive_location": "Archive location",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "directorLast",
@@ -1775,37 +2083,100 @@
 				}
 			}
 		],
-		"call-number": "Call number",
-		"collection-title": "Series title",
-		"dimensions": "1:22:33",
-		"archive-place": "Place",
-		"event-place": "Place",
-		"id": 69,
 		"issued": {
-			"raw": "1999-12-31"
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
 		},
-		"language": "en-US",
-		"medium": "Medium",
-		"note": "Extra",
-		"number-of-volumes": "7",
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		},
+		"genre": "television broadcast"
+	},
+	"videoRecording": {
+		"type": "video",
+		"multi": {
+			"main": {},
+			"_keys": {}
+		},
+		"title": "Title",
+		"collection-title": "Series title",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
-		"source": "Library catalog",
-		"title": "Title",
-		"type": "video",
 		"volume": "6",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
+		"number-of-volumes": "7",
+		"source": "Library catalog",
+		"dimensions": "1:22:33",
+		"medium": "Medium",
+		"archive": "Archive",
+		"archive_location": "Archive location",
+		"event-place": "Place",
+		"archive-place": "Place",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"ISBN": "978-1-234-56789-7",
+		"call-number": "Call number",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
+		"author": [
+			{
+				"family": "directorLast",
+				"given": "directorFirst",
+				"multi": {
+					"_key": {}
+				}
+			},
+			{
+				"literal": "Institutional Author",
+				"multi": {
+					"_key": {}
+				}
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
 	},
 	"webpage": {
-		"URL": "http://www.example.com",
-		"abstract": "Abstract note",
-		"accessed": {
-			"raw": "1997-06-13"
+		"type": "webpage",
+		"multi": {
+			"main": {},
+			"_keys": {}
 		},
+		"title": "Title",
+		"container-title": "Publication title",
+		"genre": "Type",
+		"abstract": "Abstract note",
+		"URL": "http://www.example.com",
+		"note": "Extra",
+		"shortTitle": "Short title",
+		"language": "en-US",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1821,16 +2192,6 @@
 				}
 			}
 		],
-		"container-title": "Publication title",
-		"genre": "Type",
-		"id": 70,
-		"issued": {
-			"raw": "1999-12-31"
-		},
-		"language": "en-US",
-		"note": "Extra",
-		"shortTitle": "Short title",
-		"title": "Title",
 		"translator": [
 			{
 				"family": "translatorLast",
@@ -1840,10 +2201,23 @@
 				}
 			}
 		],
-		"type": "webpage",
-        "multi": {
-            "main": {},
-            "_keys": {}
-        }
-    }
+		"issued": {
+			"date-parts": [
+				[
+					"1999",
+					12,
+					31
+				]
+			]
+		},
+		"accessed": {
+			"date-parts": [
+				[
+					"1997",
+					6,
+					13
+				]
+			]
+		}
+	}
 }
