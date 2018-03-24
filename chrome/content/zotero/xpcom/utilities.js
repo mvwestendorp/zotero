@@ -2047,7 +2047,11 @@ Zotero.Utilities = {
 				
 				creatorType = CSL_NAMES_MAPPINGS[creatorType];
 				if(!creatorType) continue;
-				
+
+				if (zoteroItem.itemType === "videoRecording") {
+					creatorType = "director";
+				}
+
 				var nameObj = {};
 				Zotero.Utilities.creatorConvItemToCSLJSON(nameObj, creator);
 				
