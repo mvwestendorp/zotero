@@ -96,9 +96,9 @@ Zotero.Utilities.Translate.prototype.getVersion = function() {
  */
 Zotero.Utilities.Translate.prototype.getAppExtra = function(id) {
 	var TRANSLATOR_INFO = {
-		6a3e392d_1284_4c81_89b9_4994a2d8a290: "MDg4NTNmMDk1YmExMTI5OTVjNmNmNTZlZDNhMjhhNTY1YjQ5ODE5MA=="
+		T6a3e392d_1284_4c81_89b9_4994a2d8a290: "MDg4NTNmMDk1YmExMTI5OTVjNmNmNTZlZDNhMjhhNTY1YjQ5ODE5MA=="
 	}
-	id = id.replace(/-/g, "_");
+	id = "T" + id.replace(/-/g, "_");
     return atob(TRANSLATOR_INFO[id]);
 }
 
