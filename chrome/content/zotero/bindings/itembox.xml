@@ -1791,11 +1791,13 @@
 									Zotero.getString('pane.item.changeType.title'),
 									Zotero.getString('pane.item.changeType.text') + "\n" + fieldNames)) {
 
-							// Force jurisdiction value if required
-							this.forceJurisdiction(itemTypeID);
-							await Zotero.CachedJurisdictionData.load(this.item);
-
 							this.item.setType(itemTypeID);
+
+							var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
+							var jurisdictionVal = this.item.getField(jurisdictionID, true);
+							if (jurisdictionVal) {
+								this.setJurisdictionKey(jurisdictionVal);
+							}
 
 							if (this.saveOnEdit) {
 								// See note in transformText()
