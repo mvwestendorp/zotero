@@ -3426,7 +3426,7 @@
 					// Creator fields
 					if (field == 'creator') {
 
-					// NEEDS REVAMPERYzzz
+					// NEEDS REVAMPERY
 
 						var otherFields = this.getCreatorFields(row);
 						otherFields[creatorField] = value;
@@ -3600,7 +3600,7 @@
 						}
 						
 						this._modifyField(fieldName, value, fieldLang, !isMulti);
-						newVal = this.item.getField(fieldName);
+						newVal = this.item.getField(fieldName, null, null, fieldLang);
 					}
 					
 					// Close box
