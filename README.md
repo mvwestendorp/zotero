@@ -22,11 +22,11 @@ This repository contains the core Juris-M code module, and a test suite to valid
 
 ## Cloning the repository
 
-Several repositories are needed to build the Juris-M standalone client, so the keep things tidy, create an empty subdirectory, enter it, and clone this respository into it with the name ``jurism``, using commands like the following:
+Several repositories are needed to build the Juris-M standalone client, so the keep things tidy, create an empty subdirectory, enter it, and clone this respository using commands like the following:
 ```bash
   prompt> mkdir jurism-repos
   prompt> cd jurism-repos
-  prompt> git clone --recursive https://github.com/Juris-M/zotero.git jurism
+  prompt> git clone --recursive https://github.com/Juris-M/zotero.git
 ```
 If (as I often do) you forget to include the ``--recursive`` option when cloning, pull in the submodules by entering the repository directory and issuing commands like the following:
 ```bash
@@ -34,8 +34,7 @@ If (as I often do) you forget to include the ``--recursive`` option when cloning
   prompt> git submodule init
   prompt> git submodule update --remote
 ```
-(Note that the directory name should be *jurism*. Both the build instructions and the build scripts for Juris-M assume that the repository has this name. If you first clone it as ``zotero`` or some other name, you can just rename it in the usual way.)
-
+The subdirectory will be called "zotero", but it will contain Juris-M source code.
 
 ## ``node`` dependencies
 
