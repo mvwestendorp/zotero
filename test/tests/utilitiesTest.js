@@ -392,7 +392,7 @@ describe("Zotero.Utilities", function() {
 		});
 	});
 	describe("itemFromCSLJSON", function () {
-		it("[Juris-M] should convert raw dates to canonical form", function* () {
+		it("[Juris-M] should convert raw dates to canonical form and map video author to video director", function* () {
 			this.timeout(20000);
 			let dataRaw = loadSampleData('citeProcJSExportRawDates');
 			let dataCanonical = loadSampleData('citeProcJSExport');

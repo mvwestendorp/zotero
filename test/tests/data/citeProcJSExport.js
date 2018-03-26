@@ -2129,7 +2129,7 @@
 		"note": "Extra",
 		"shortTitle": "Short title",
 		"language": "en-US",
-		"author": [
+		"director": [
 			{
 				"family": "directorLast",
 				"given": "directorFirst",
