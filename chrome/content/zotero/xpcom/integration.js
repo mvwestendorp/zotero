@@ -897,7 +897,7 @@ Zotero.Integration.Fields.prototype._processFields = Zotero.Promise.coroutine(fu
 		if (field.type === INTEGRATION_TYPE_ITEM) {
 			var noteIndex = field.getNoteIndex(),
 				data = field.unserialize(),
-				citation = new Zotero.Integration.Citation(field, noteIndex, data);
+				citation = new Zotero.Integration.Citation(field, noteIndex, data, this._session.data.prefs.extractingLibraryID);
 			
 			yield this._session.addCitation(i, noteIndex, citation);
 		} else if (field.type === INTEGRATION_TYPE_BIBLIOGRAPHY) {
@@ -1131,11 +1131,11 @@ Zotero.Integration.Fields.prototype.addEditCitation = Zotero.Promise.coroutine(f
 		if (field.type != INTEGRATION_TYPE_ITEM) {
 			throw new Zotero.Exception.Alert("integration.error.notInCitation");
 		}
-		citation = new Zotero.Integration.Citation(field, field.getNoteIndex(), field.unserialize());
+		citation = new Zotero.Integration.Citation(field, field.getNoteIndex(), field.unserialize(), this._session.data.prefs.extractingLibraryID);
 	} else {
 		newField = true;
 		field = new Zotero.Integration.CitationField(yield this.addField(true));
-		citation = new Zotero.Integration.Citation(field);
+		citation = new Zotero.Integration.Citation(field, null, null, this._session.data.prefs.extractingLibraryID);
 	}
 	
 	yield citation.prepareForEditing();
@@ -2389,7 +2389,7 @@ Zotero.Integration.BibliographyField = class extends Zotero.Integration.Field {
 };
 
 Zotero.Integration.Citation = class {
-	constructor(citationField, noteIndex, data) {
+	constructor(citationField, noteIndex, data, extractingLibraryID) {
 		if (!data) {
 			data = {citationItems: [], properties: {}};
 		}
@@ -2399,6 +2399,7 @@ Zotero.Integration.Citation = class {
 		this.properties.noteIndex = noteIndex;
 
 		this._field = citationField;
+		this._extractingLibraryID = extractingLibraryID;
 	}
 
 	/**
@@ -2453,11 +2454,34 @@ Zotero.Integration.Citation = class {
 					}
 					if (zoteroItem) needUpdate = true;
 				}
+
+				var libraryMismatch = (this._extractingLibraryID && zoteroItem.libraryID !== this._extractingLibraryID);
+				var reprocessItem = !zoteroItem || libraryMismatch;
+				var okayForExtraction = zoteroItem || citationItem.itemData;
 				
 				// Item no longer in library
-				if (!zoteroItem) {
-					// Use embedded item
-					if (citationItem.itemData) {
+				if (reprocessItem) {
+					if (libraryMismatch && okayForExtraction) {
+						// Document configured for item extraction
+						Zotero.debug(`Item ${JSON.stringify(citationItem.uris)} not in library ${this._extractingLibraryID}. Extracting embedded data.`);
+						if (!citationItem.itemData) {
+							var itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem);
+						} else {
+							var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
+						}
+						zoteroItem = new Zotero.Item();
+						Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, this._extractingLibraryID, false);
+						var itemID = yield zoteroItem.saveTx();
+						
+						// Make changes to citationItem in place.
+						// Mark for update.
+						// Simples.
+						
+						zoteroItem = Zotero.Items.get(itemID);
+						citationItem.id = zoteroItem.id;
+						needUpdate = true;
+					} else if (citationItem.itemData) {
+						// Default operations from upstream
 						Zotero.debug(`Item ${JSON.stringify(citationItem.uris)} not in library. Using embedded data`);
 						// add new embedded item
 						var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
