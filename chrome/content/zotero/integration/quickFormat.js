@@ -180,10 +180,13 @@ var Zotero_QuickFormat = new function () {
 	 */
 	function _getCurrentEditorTextNode() {
 		var selection = qfiWindow.getSelection();
-		var range = selection.getRangeAt(0);
-		
-		var node = range.startContainer;
-		if(node !== range.endContainer) return false;
+		try {
+			var range = selection.getRangeAt(0);
+			var node = range.startContainer;
+			if(node !== range.endContainer) return false;
+		} catch(e) {
+			return false;
+		}
 		if(node.nodeType === Node.TEXT_NODE) return node;
 
 		// Range could be referenced to the body element
