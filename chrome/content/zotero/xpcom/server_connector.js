@@ -81,7 +81,7 @@ Zotero.Server.Connector.SessionManager = {
 	},
 	
 	create: function (id) {
-		// Legacy client
+		// Legacy connector
 		if (!id) {
 			Zotero.debug("No session id provided by client", 2);
 			id = Zotero.Utilities.randomString();
@@ -124,6 +124,9 @@ Zotero.Server.Connector.SaveSession.prototype.addItems = async function (items) 
 	return this._addObjects('item', items);
 };
 
+/**
+ * Change the target data for this session and update any items that have already been saved
+ */
 Zotero.Server.Connector.SaveSession.prototype.update = async function (libraryID, collectionID, tags) {
 	this._currentLibraryID = libraryID;
 	this._currentCollectionID = collectionID;
@@ -131,26 +134,33 @@ Zotero.Server.Connector.SaveSession.prototype.update = async function (libraryID
 	
 	// Select new destination in collections pane
 	var win = Zotero.getActiveZoteroPane();
+	if (collectionID) {
+		var targetID = "C" + collectionID;
+	}
+	else {
+		var targetID = "L" + libraryID;
+	}
 	if (win && win.collectionsView) {
-		if (collectionID) {
-			var targetID = "C" + collectionID;
-		}
-		else {
-			var targetID = "L" + libraryID;
-		}
 		await win.collectionsView.selectByID(targetID);
+	}
+	else {
+		Zotero.Prefs.set('lastViewedFolder', targetID);
 	}
 	
 	await this._updateObjects(this._objects);
 	
 	// TODO: Update active item saver
 	
-	// If a single item was saved, select it
+	// If a single item was saved, select it (or its parent, if it now has one)
 	if (win && win.collectionsView) {
 		if (this._objects && this._objects.item) {
-			let items = Array.from(this._objects.item).filter(item => item.isTopLevelItem());
-			if (items.length == 1) {
-				await win.selectItem(items[0].id);
+			if (this._objects.item.size == 1) {
+				let item = Array.from(this._objects.item)[0];
+				item = item.isTopLevelItem() ? item : item.parentItem;
+				// Don't select if in trash
+				if (!item.deleted) {
+					await win.selectItem(item.id);
+				}
 			}
 		}
 	}
@@ -160,17 +170,19 @@ Zotero.Server.Connector.SaveSession.prototype._addObjects = async function (obje
 	if (!this._objects[objectType]) {
 		this._objects[objectType] = new Set();
 	}
-	
-	// If target has changed since the save began, update the objects
-	await this._updateObjects({
-		[objectType]: objects
-	});
-	
 	for (let object of objects) {
 		this._objects[objectType].add(object);
 	}
+	
+	// Update the objects with the current target data, in case it changed since the save began
+	await this._updateObjects({
+		[objectType]: objects
+	});
 };
 
+/**
+ * Update the passed objects with the current target and tags
+ */
 Zotero.Server.Connector.SaveSession.prototype._updateObjects = async function (objects) {
 	if (Object.keys(objects).every(type => objects[type].length == 0)) {
 		return;
@@ -186,20 +198,23 @@ Zotero.Server.Connector.SaveSession.prototype._updateObjects = async function (o
 	return Zotero.DB.executeTransaction(async function () {
 		for (let objectType in objects) {
 			for (let object of objects[objectType]) {
-				Zotero.debug(object.libraryID);
-				Zotero.debug(libraryID);
 				if (object.libraryID != libraryID) {
 					throw new Error("Can't move objects between libraries");
 				}
 				
-				// Keep automatic tags
-				let originalTags = object.getTags().filter(tag => tag.type == 1);
-				
-				// Assign manual tags and collections to top-level items
-				if (objectType == 'item' && object.isTopLevelItem()) {
-					object.setTags(originalTags.concat(tags));
-					object.setCollections(collectionID ? [collectionID] : []);
-					await object.save();
+				// Assign manual tags and collections to the item, or the parent item if it's now
+				// a child item (e.g., from Retrieve Metadata for PDF)
+				if (objectType == 'item') {
+					let item = object.isTopLevelItem() ? object : object.parentItem;
+					if (!Zotero.Items.exists(item.id)) {
+						Zotero.debug(`Item ${item.id} in save session no longer exists`);
+						continue;
+					}
+					// Keep automatic tags
+					let originalTags = item.getTags().filter(tag => tag.type == 1);
+					item.setTags(originalTags.concat(tags));
+					item.setCollections(collectionID ? [collectionID] : []);
+					await item.save();
 				}
 			}
 		}
@@ -850,29 +865,41 @@ Zotero.Server.Connector.Import.prototype = {
 	supportedDataTypes: '*',
 	permitBookmarklet: false,
 	
-	init: Zotero.Promise.coroutine(function* (options) {
+	init: async function (options) {
 		let translate = new Zotero.Translate.Import();
 		translate.setString(options.data);
-		let translators = yield translate.getTranslators();
+		let translators = await translate.getTranslators();
 		if (!translators || !translators.length) {
 			return 400;
 		}
 		translate.setTranslator(translators[0]);
 		var { library, collection, editable } = Zotero.Server.Connector.getSaveTarget();
+		var libraryID = library.libraryID;
 		if (!library.editable) {
 			Zotero.logError("Can't import into read-only library " + library.name);
 			return [500, "application/json", JSON.stringify({ libraryEditable: false })];
 		}
-		let items = yield translate.translate({
-			libraryID: library.libraryID,
+		
+		try {
+			var session = Zotero.Server.Connector.SessionManager.create(options.query.session);
+		}
+		catch (e) {
+			return [409, "application/json", JSON.stringify({ error: "SESSION_EXISTS" })];
+		}
+		await session.update(libraryID, collection ? collection.id : false);
+		
+		let items = await translate.translate({
+			libraryID,
 			collections: collection ? [collection.id] : null,
 			// Import translation skips selection by default, so force it to occur
 			saveOptions: {
 				skipSelect: false
 			}
 		});
+		session.addItems(items);
+		
 		return [201, "application/json", JSON.stringify(items)];
-	})
+	}
 }
 
 /**
