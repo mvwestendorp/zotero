@@ -16,3 +16,6 @@
 [submodule "test/resource/chai-as-promised"]
 	path = test/resource/chai-as-promised
 	url = https://github.com/domenic/chai-as-promised.git
+[submodule "deployer"]
+	path = deployer
+	url = git@github.com:Juris-M/deployer.git
