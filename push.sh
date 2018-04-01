@@ -33,3 +33,5 @@ node ./deployer/index.js -u ./build/"$HASH.zip" "$CI_ZIP"/"$HASH.zip"
 rm ./build/"$HASH.zip"
 
 git checkout jurism-5.0
+
+echo "Pushed $HASH"
