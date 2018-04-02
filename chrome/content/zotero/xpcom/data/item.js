@@ -556,6 +556,18 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 				this.setField(shortTitleFieldID, false);
 			}
 		}
+		for (var fieldID in this._itemData) {
+			if (this._itemData[fieldID] &&
+					(!obsoleteFields || obsoleteFields.indexOf(fieldID) == -1)) {
+				copiedFields.push([fieldID, this.getField(fieldID)]);
+				for (var langTag in this.multi._keys[fieldID]) {
+					if (!copiedVariants[fieldID]) {
+						copiedVariants[fieldID] = {};
+					}
+					copiedVariants[fieldID][langTag] = this.multi._keys[fieldID][langTag];
+				}
+			}
+		}
 	}
 	
 	this._itemTypeID = itemTypeID;
