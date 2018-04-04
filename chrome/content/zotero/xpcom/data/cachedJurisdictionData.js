@@ -66,7 +66,6 @@ Zotero.CachedJurisdictionData = new function() {
 				courtID = item["court"];
 			}
 			if (_jurisdictionIdToName[jurisdictionID] && courtID) {
-				Zotero.debug("XXX set court! With " + jurisdictionID+ " and " + courtID);
 				yield this.setCourt(jurisdictionID, courtID);
 			} else {
 				Zotero.debug("XXX OH! no segment? " + !!_jurisdictionIdToName[jurisdictionID] + " or " + courtID);
