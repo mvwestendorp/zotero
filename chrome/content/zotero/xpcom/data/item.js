@@ -505,10 +505,10 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
 					// If so, save value to copy to new field
 					if (newFieldID) {
 						copiedFields.push([newFieldID, this.getField(oldFieldID)]);
-						if (!copiedVariants[oldFieldID]) {
-							copiedVariants[oldFieldID] = {};
-						}
 						if (this.multi._keys[oldFieldID]) {
+							if (!copiedVariants[newFieldID]) {
+								copiedVariants[newFieldID] = {};
+							}
 							for (var langTag in this.multi._keys[oldFieldID]) {
 								copiedVariants[newFieldID][langTag] = this.multi._keys[oldFieldID][langTag];
 							}
