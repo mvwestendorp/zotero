@@ -897,7 +897,7 @@ Zotero.Integration.Fields.prototype._processFields = Zotero.Promise.coroutine(fu
 		if (field.type === INTEGRATION_TYPE_ITEM) {
 			var noteIndex = field.getNoteIndex(),
 				data = field.unserialize(),
-				citation = new Zotero.Integration.Citation(field, noteIndex, data, this._session.data.prefs.extractingLibraryID);
+				citation = new Zotero.Integration.Citation(field, noteIndex, data, this._session.data.prefs.extractingLibraryID, this._session.extractedItems);
 			
 			yield this._session.addCitation(i, noteIndex, citation);
 		} else if (field.type === INTEGRATION_TYPE_BIBLIOGRAPHY) {
@@ -1131,11 +1131,11 @@ Zotero.Integration.Fields.prototype.addEditCitation = Zotero.Promise.coroutine(f
 		if (field.type != INTEGRATION_TYPE_ITEM) {
 			throw new Zotero.Exception.Alert("integration.error.notInCitation");
 		}
-		citation = new Zotero.Integration.Citation(field, field.getNoteIndex(), field.unserialize(), this._session.data.prefs.extractingLibraryID);
+		citation = new Zotero.Integration.Citation(field, field.getNoteIndex(), field.unserialize(), this._session.data.prefs.extractingLibraryID, this._session.extractedItems);
 	} else {
 		newField = true;
 		field = new Zotero.Integration.CitationField(yield this.addField(true));
-		citation = new Zotero.Integration.Citation(field, null, null, this._session.data.prefs.extractingLibraryID);
+		citation = new Zotero.Integration.Citation(field, null, null, this._session.data.prefs.extractingLibraryID, this._session.extractedItems);
 	}
 	
 	yield citation.prepareForEditing();
@@ -2408,7 +2408,7 @@ Zotero.Integration.BibliographyField = class extends Zotero.Integration.Field {
 };
 
 Zotero.Integration.Citation = class {
-	constructor(citationField, noteIndex, data, extractingLibraryID) {
+	constructor(citationField, noteIndex, data, extractingLibraryID, extractedItems) {
 		if (!data) {
 			data = {citationItems: [], properties: {}};
 		}
@@ -2419,6 +2419,7 @@ Zotero.Integration.Citation = class {
 
 		this._field = citationField;
 		this._extractingLibraryID = extractingLibraryID;
+		this._extractedItems = extractedItems;
 	}
 
 	/**
@@ -2483,19 +2484,21 @@ Zotero.Integration.Citation = class {
 					if (libraryMismatch && okayForExtraction) {
 						// Document configured for item extraction
 						Zotero.debug(`Item ${JSON.stringify(citationItem.uris)} not in library ${this._extractingLibraryID}. Extracting embedded data.`);
-						if (!citationItem.itemData) {
-							var itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem);
+						var extractedID = citationItem.id;
+						if (this._extractedItems[extractedID]) {
+							var itemID = this._extractedItems[extractedID];
 						} else {
-							var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
+							if (!citationItem.itemData) {
+								var itemData = Zotero.Utilities.itemToCSLJSON(zoteroItem);
+							} else {
+								var itemData = Zotero.Utilities.deepCopy(citationItem.itemData);
+							}
+							zoteroItem = new Zotero.Item();
+							Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, this._extractingLibraryID, false);
+							var itemID = yield zoteroItem.saveTx();
+							
+							this._extractedItems[extractedID] = itemID;
 						}
-						zoteroItem = new Zotero.Item();
-						Zotero.Utilities.itemFromCSLJSON(zoteroItem, itemData, this._extractingLibraryID, false);
-						var itemID = yield zoteroItem.saveTx();
-						
-						// Make changes to citationItem in place.
-						// Mark for update.
-						// Simples.
-						
 						zoteroItem = Zotero.Items.get(itemID);
 						citationItem.id = zoteroItem.id;
 						needUpdate = true;
