@@ -1731,101 +1731,102 @@
 			<method name="changeTypeTo">
 				<parameter name="itemTypeID"/>
 				<parameter name="menu"/>
-				<body>
-				<![CDATA[
-					return (async function () {
-						if (itemTypeID == this.item.itemTypeID) {
-							return true;
+				<body><![CDATA[
+				return (async function () {
+					if (itemTypeID == this.item.itemTypeID) {
+						return true;
+					}
+					
+					if (this.saveOnEdit) {
+						await this.blurOpenField();
+						await this.item.saveTx();
+					}
+					
+					var fieldsToDelete = this.item.getFieldsNotInType(itemTypeID, true);
+
+					// Special cases handled below
+					var bookTypeID = Zotero.ItemTypes.getID('book');
+					var bookSectionTypeID = Zotero.ItemTypes.getID('bookSection');
+
+					// Add warning for shortTitle when moving from book to bookSection
+					// when title will be transferred
+					if (this.item.itemTypeID == bookTypeID && itemTypeID == bookSectionTypeID) {
+						var titleFieldID = Zotero.ItemFields.getID('title');
+						var shortTitleFieldID = Zotero.ItemFields.getID('shortTitle');
+						if (this.item.getField(titleFieldID) && this.item.getField(shortTitleFieldID)) {
+							if (!fieldsToDelete) {
+								fieldsToDelete = [];
+							}
+							fieldsToDelete.push(shortTitleFieldID);
 						}
-
-						var fieldsToDelete = this.item.getFieldsNotInType(itemTypeID, true);
-
-						// Special cases handled below
-						var bookTypeID = Zotero.ItemTypes.getID('book');
-						var bookSectionTypeID = Zotero.ItemTypes.getID('bookSection');
-
-						// Add warning for shortTitle when moving from book to bookSection
-						// when title will be transferred
-						if (this.item.itemTypeID == bookTypeID && itemTypeID == bookSectionTypeID) {
+					}
+						
+					// Generate list of localized field names for display in pop-up
+					if (fieldsToDelete) {
+						// Ignore warning for bookTitle when going from bookSection to book
+						// if there's not also a title, since the book title is transferred
+						// to title automatically in Zotero.Item.setType()
+						if (this.item.itemTypeID == bookSectionTypeID && itemTypeID == bookTypeID) {
 							var titleFieldID = Zotero.ItemFields.getID('title');
+							var bookTitleFieldID = Zotero.ItemFields.getID('bookTitle');
 							var shortTitleFieldID = Zotero.ItemFields.getID('shortTitle');
-							if (this.item.getField(titleFieldID) && this.item.getField(shortTitleFieldID)) {
-								if (!fieldsToDelete) {
-									fieldsToDelete = [];
-								}
-								fieldsToDelete.push(shortTitleFieldID);
-							}
-						}
-
-						// Generate list of localized field names for display in pop-up
-						if (fieldsToDelete) {
-							// Ignore warning for bookTitle when going from bookSection to book
-							// if there's not also a title, since the book title is transferred
-							// to title automatically in Zotero.Item.setType()
-							if (this.item.itemTypeID == bookSectionTypeID && itemTypeID == bookTypeID) {
-								var titleFieldID = Zotero.ItemFields.getID('title');
-								var bookTitleFieldID = Zotero.ItemFields.getID('bookTitle');
-								var shortTitleFieldID = Zotero.ItemFields.getID('shortTitle');
-								if (this.item.getField(bookTitleFieldID) && !this.item.getField(titleFieldID)) {
-									var index = fieldsToDelete.indexOf(bookTitleFieldID);
-									fieldsToDelete.splice(index, 1);
-									// But warn for short title, which will be removed
-									if (this.item.getField(shortTitleFieldID)) {
-										fieldsToDelete.push(shortTitleFieldID);
-									}
+							if (this.item.getField(bookTitleFieldID) && !this.item.getField(titleFieldID)) {
+								var index = fieldsToDelete.indexOf(bookTitleFieldID);
+								fieldsToDelete.splice(index, 1);
+								// But warn for short title, which will be removed
+								if (this.item.getField(shortTitleFieldID)) {
+									fieldsToDelete.push(shortTitleFieldID);
 								}
 							}
-
-							var fieldNames = "";
-							for (var i=0; i<fieldsToDelete.length; i++) {
-								fieldNames += "\n - " +
-									Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldsToDelete[i]);
-							}
-
-							var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-								.getService(Components.interfaces.nsIPromptService);
+						}
+						
+						var fieldNames = "";
+						for (var i=0; i<fieldsToDelete.length; i++) {
+							fieldNames += "\n - " +
+								Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldsToDelete[i]);
+						}
+						
+						var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+							.getService(Components.interfaces.nsIPromptService);
+					}
+					
+					if (!fieldsToDelete || fieldsToDelete.length == 0 ||
+							promptService.confirm(null,
+								Zotero.getString('pane.item.changeType.title'),
+								Zotero.getString('pane.item.changeType.text') + "\n" + fieldNames)) {
+						this.item.setType(itemTypeID);
+						
+						var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
+						var jurisdictionVal = this.item.getField(jurisdictionID, true);
+						if (jurisdictionVal) {
+							this.setJurisdictionKey(jurisdictionVal);
 						}
 
-						if (!fieldsToDelete || fieldsToDelete.length == 0 ||
-								promptService.confirm(null,
-									Zotero.getString('pane.item.changeType.title'),
-									Zotero.getString('pane.item.changeType.text') + "\n" + fieldNames)) {
-
-							this.item.setType(itemTypeID);
-
-							var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
-							var jurisdictionVal = this.item.getField(jurisdictionID, true);
-							if (jurisdictionVal) {
-								this.setJurisdictionKey(jurisdictionVal);
-							}
-
-							if (this.saveOnEdit) {
-								// See note in transformText()
-								this.blurOpenField().then(() => this.item.saveTx());
-							}
-							else {
-								this.refresh();
-							}
-
-							if (this.eventHandlers['itemtypechange'] && this.eventHandlers['itemtypechange'].length) {
-								var self = this;
-								this.eventHandlers['itemtypechange'].forEach(function (f) f.bind(self)());
-							}
-
-							return true;
+						if (this.saveOnEdit) {
+							// See note in transformText()
+							await this.blurOpenField();
+							await this.item.saveTx();
+						}
+						else {
+							this.refresh();
+						}
+						
+						if (this.eventHandlers['itemtypechange'] && this.eventHandlers['itemtypechange'].length) {
+							this.eventHandlers['itemtypechange'].forEach(f => f.bind(this)());
 						}
 
-						// Revert the menu (which changes before the pop-up)
-						if (menu) {
-							menu.value = this.item.itemTypeID;
-						}
+						return true;
+					}
 
+					// Revert the menu (which changes before the pop-up)
+					if (menu) {
+						menu.value = this.item.itemTypeID;
+					}
+										
 					return false;
-					}.bind(this))();
-				]]>
-				</body>
+				}.bind(this))();
+				]]></body>
 			</method>
-			
 			
 			<method name="forceJurisdiction">
 				<parameter name="itemTypeID"/>
@@ -2116,7 +2117,10 @@
 								if (date) {
 									// If no time, interpret as local, not UTC
 									if (Zotero.Date.isSQLDate(valueText)) {
-										date = Zotero.Date.sqlToDate(valueText);
+										// Add time to avoid showing previous day if date is in
+										// DST (including the current date at 00:00:00) and we're
+										// in standard time
+										date = Zotero.Date.sqlToDate(valueText + ' 12:00:00');
 										valueText = date.toLocaleDateString();
 									}
 									else {

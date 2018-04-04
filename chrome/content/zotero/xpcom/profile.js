@@ -129,10 +129,12 @@ Zotero.Profile = {
 	/**
 	 * Find other profile directories (for this app or the other app) using the given data directory
 	 *
+	 * @param {String} dataDir
+	 * @param {Boolean} [includeOtherApps=false] - Check Firefox profiles
 	 * @return {String[]}
 	 */
-	findOtherProfilesUsingDataDirectory: Zotero.Promise.coroutine(function* (dataDir) {
-		let otherAppProfiles = yield this._findOtherAppProfiles();
+	findOtherProfilesUsingDataDirectory: Zotero.Promise.coroutine(function* (dataDir, includeOtherApps = true) {
+		let otherAppProfiles = includeOtherApps ? (yield this._findOtherAppProfiles()) : [];
 		let otherProfiles = (yield this._findOtherProfiles()).concat(otherAppProfiles);
 		
 		// First get profiles pointing at this directory
@@ -235,6 +237,38 @@ Zotero.Profile = {
 			return false
 		}
 		return true;
+	},
+	
+	
+	readPrefsFromFile: async function (prefsFile) {
+		var sandbox = new Components.utils.Sandbox("http://www.example.com/");
+		Components.utils.evalInSandbox(
+			"var prefs = {};"+
+			"function user_pref(key, val) {"+
+				"prefs[key] = val;"+
+			"}"
+		, sandbox);
+		
+		(await Zotero.File.getContentsAsync(prefsFile))
+			.split(/\n/)
+			.filter((line) => {
+				// Strip comments
+				return !line.startsWith('#')
+					// Only process lines in our pref branch
+					&& line.includes(ZOTERO_CONFIG.PREF_BRANCH);
+			})
+			// Process each line individually
+			.forEach((line) => {
+				try {
+					Zotero.debug("Processing " + line);
+					Components.utils.evalInSandbox(line, sandbox);
+				}
+				catch (e) {
+					Zotero.logError("Error processing prefs line: " + line);
+				}
+			});
+		
+		return sandbox.prefs;
 	},
 	
 	

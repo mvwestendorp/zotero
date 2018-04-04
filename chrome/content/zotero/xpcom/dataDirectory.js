@@ -182,6 +182,23 @@ Zotero.DataDirectory = {
 			
 			dataDir = this.defaultDir;
 			
+			// If there's already a profile pointing to the default location, use a different
+			// data directory named after the profile, as long as one either doesn't exist yet or
+			// one does and it contains a database
+			try {
+				if ((yield Zotero.Profile.findOtherProfilesUsingDataDirectory(dataDir, false)).length) {
+					let profileName = OS.Path.basename(Zotero.Profile.dir).match(/[^.]+\.(.+)/)[1];
+					let newDataDir = this.defaultDir + ' ' + profileName;
+					if (!(yield OS.File.exists(newDataDir))
+							|| (yield OS.File.exists(OS.Path.join(newDataDir, dbFilename)))) {
+						dataDir = newDataDir;
+					}
+				}
+			}
+			catch (e) {
+				Zotero.logError(e);
+			}
+			
 			// Check for ~/Zotero/zotero.sqlite
 			let dbFile = OS.Path.join(dataDir, dbFilename);
 			if (yield OS.File.exists(dbFile)) {
@@ -238,35 +255,7 @@ Zotero.DataDirectory = {
 				// Read in prefs
 				let prefsFile = OS.Path.join(profileDir, "prefs.js");
 				if (yield OS.File.exists(prefsFile)) {
-					// build sandbox
-					var sandbox = new Components.utils.Sandbox("http://www.example.com/");
-					Components.utils.evalInSandbox(
-						"var prefs = {};"+
-						"function user_pref(key, val) {"+
-							"prefs[key] = val;"+
-						"}"
-					, sandbox);
-					
-					(yield Zotero.File.getContentsAsync(prefsFile))
-						.split(/\n/)
-						.filter((line) => {
-							// Strip comments
-							return !line.startsWith('#')
-								// Only process lines in our pref branch
-								&& line.includes(ZOTERO_CONFIG.PREF_BRANCH);
-						})
-						// Process each line individually
-						.forEach((line) => {
-							try {
-								Zotero.debug("Processing " + line);
-								Components.utils.evalInSandbox(line, sandbox);
-							}
-							catch (e) {
-								Zotero.logError("Error processing prefs line: " + line);
-							}
-						});
-					
-					var prefs = sandbox.prefs;
+					let prefs = yield Zotero.Profile.readPrefsFromFile(prefsFile);
 					
 					// Check for data dir pref
 					if (prefs['extensions.zotero.dataDir'] && prefs['extensions.zotero.useDataDir']) {
