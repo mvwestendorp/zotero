@@ -1795,11 +1795,13 @@
 								Zotero.getString('pane.item.changeType.title'),
 								Zotero.getString('pane.item.changeType.text') + "\n" + fieldNames)) {
 						this.item.setType(itemTypeID);
-						
-						var jurisdictionID = Zotero.ItemFields.getID('jurisdiction');
-						var jurisdictionVal = this.item.getField(jurisdictionID, true);
-						if (jurisdictionVal) {
-							this.setJurisdictionKey(jurisdictionVal);
+
+						if (this.forceJurisdiction(itemTypeID)) {
+							var jurisdictionFieldID = Zotero.ItemFields.getID('jurisdiction');
+							var jurisdictionID = this.item.getField(jurisdictionFieldID, true);
+							if (jurisdictionID) {
+								this.setJurisdictionKey(jurisdictionID);
+							}
 						}
 
 						if (this.saveOnEdit) {
@@ -1849,7 +1851,9 @@
 									}
 								}
 							}
+							return true;
 						}
+						return false;
 				]]>
 				</body>
 			</method>
