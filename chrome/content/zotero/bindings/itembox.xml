@@ -444,15 +444,15 @@
 							
 							this.item.multi.changeLangTag(mainLang, tag, fieldName);
 							this.item.saveTx();
-							this.refresh();
 						}
 					} else {
-						// XXX If no matching value exists, just adjust the UI as below.
+						// XXX If no matching value exists, just change the one field value
 						var fieldName = node.getAttribute('fieldname');
 						var langNickname = Zotero.CachedLanguages.getNickname(tag);
 						node.setAttribute('zlang',tag);
 						node.setAttribute('tooltiptext',langNickname);
 						this._modifyField(fieldName,fieldValue,tag,true);
+						this.item.saveTx();
 					}
 				]]>
 				</body>
@@ -649,8 +649,8 @@
 						label.addEventListener('click', function () {
 							if (this.nextSibling.inputField) {
 								this.nextSibling.inputField.blur();
-							} else if (this.nextSibling.firstElementChild.inputField) {
-								this.nextSibling.firstElementChild.blur();
+							} else if (this.nextSibling.firstElementChild && this.nextSibling.firstElementChild.inputField) {
+								this.nextSibling.firstElementChild.inputField.blur();
 							}
 						}.bind(label))
 						label.setAttribute("contextmenu", "mlz-language-menu");
@@ -2314,7 +2314,8 @@
 							value = Zotero.CachedJurisdictionData.jurisdictionNameFromId(value, true);
 						} else if (fieldName === 'court') {
 							var jurisdictionID = this.item.getField('jurisdiction', true);
-							value = Zotero.CachedJurisdictionData.courtNameFromId(jurisdictionID, value, true);
+							// false is for non-strict mode (return argument value if no match)
+							value = Zotero.CachedJurisdictionData.courtNameFromId(jurisdictionID, value, false);
 						}
 						
 						var itemID = this.item.id;
