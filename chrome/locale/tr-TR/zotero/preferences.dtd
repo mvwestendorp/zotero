@@ -21,7 +21,7 @@
 <!ENTITY zotero.preferences.cite.styles.styleManager.csl "CSL">
 <!ENTITY zotero.preferences.cite.styles.styleManager.title "Başlık">
 <!ENTITY zotero.preferences.cite.styles.styleManager.updated "Güncellenme">
-<!ENTITY zotero.preferences.cite.wordProcessors "Sözcük İşlemcileri">
+<!ENTITY zotero.preferences.cite.wordProcessors "Kelime İşlemcileri">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Kelime işlemcisi eklentilerini al...">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Hiçbir sözcük işlemcisi eklentisi kurulu değildir.">
@@ -194,7 +194,7 @@
 <!ENTITY zotero.preferences.search.indexStats.indexed "İndeklenmiş:">
 <!ENTITY zotero.preferences.search.indexStats.partial "Kısmi:">
 <!ENTITY zotero.preferences.search.indexStats.unindexed "İndekslenmemiş:">
-<!ENTITY zotero.preferences.search.indexStats.words "Kelimeler:">
+<!ENTITY zotero.preferences.search.indexStats.words "Sozcükler:">
 <!ENTITY zotero.preferences.search.pdfIndexing "PDF İndeksleme">
 <!ENTITY zotero.preferences.settings "Ayarlar">
 <!ENTITY zotero.preferences.showIn "Zotero'yu Bunda Aç:">

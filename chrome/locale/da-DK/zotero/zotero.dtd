@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Der er ikke valgt en fil">
 <!ENTITY zotero.general.advancedOptions.label "Avancerede indstillinger">
 <!ENTITY zotero.general.cancel "Annullér">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Luk">
 <!ENTITY zotero.general.delete "Slet">
 <!ENTITY zotero.general.deselectAll "Fravælg alle">
 <!ENTITY zotero.general.edit "Rediger">
 <!ENTITY zotero.general.loading "Indlæser...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimér">
 <!ENTITY zotero.general.more "Mere">
 <!ENTITY zotero.general.no "Nej">
 <!ENTITY zotero.general.note "Note:">
@@ -88,9 +88,9 @@
 <!ENTITY zotero.integration.classicView.label "Klassisk visning">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentindstillinger">
 <!ENTITY zotero.integration.editBibliography.title "Rediger referenceliste">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Ved at deaktivere opdateringer kan indsættelse af referencer i store dokumenter gøres hurtigere. Klik Opdatér for at opdatere referencer manuelt.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Opdatér automatisk referencer">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Referencer, som afventer opdatering, vil blive fremhævet i dokumentet.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Feltet “Journal Abbr” vil blive ignoreret.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Brug MEDLINE's tidsskriftforkortelser">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bogmærker kan deles mellem Word og LibreOffice, men kan skabe fejl, hvis de utilsigtet ændres, og de kan ikke indsættes i fodnoter.">
@@ -167,10 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Flet elementer...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
-<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
+<!ENTITY zotero.items.menu.reportMetadata "Rapportér forkerte metadata">
 <!ENTITY zotero.items.menu.restoreToLibrary "Genindlæs i bibliotek">
 <!ENTITY zotero.items.menu.showInLibrary "Vis i bibliotek">
-<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
+<!ENTITY zotero.items.menu.unrecognize "Fortryd indhentning af metadata">
 <!ENTITY zotero.items.moreColumns.label "Flere kolonner">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Sider">
