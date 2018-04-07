@@ -50,7 +50,7 @@ describe("Add Item by Identifier", function() {
 	});
 	
 	it("should add a PMID", function() {
-		this.timeout(10000);
+		this.timeout(20000);
 		return lookupIdentifier(win, "24297125").then(function(ids) {
 			var item = Zotero.Items.get(ids[0]);
 			assert.equal(item.getField("title"), "Taking control of your digital library: how modern citation managers do more than just referencing");
