@@ -146,7 +146,7 @@ Zotero.Relations = new function () {
 	 * @return {Object[]} - An array of objects with a Zotero.DataObject as 'subject'
 	 *     and a predicate string as 'predicate'
 	 */
-	this.getByObject = function (objectType, object) {
+	this.getByObject = Zotero.Promise.coroutine(function* (objectType, object) {
 		var objectsClass = Zotero.DataObjectUtilities.getObjectsClassForObjectType(objectType);
 		var predicateIDs = [];
 		var o = _subjectPredicatesByObject[objectType]
@@ -156,13 +156,16 @@ Zotero.Relations = new function () {
 		}
 		var toReturn = [];
 		for (let predicateID in o) {
-			o[predicateID].forEach(subjectID => toReturn.push({
-				subject: objectsClass.get(subjectID),
-				predicate: Zotero.RelationPredicates.getName(predicateID)
+			o[predicateID].forEach(Zotero.Promise.coroutine(function* (subjectID) {
+				toReturn.push({
+					subject: yield objectsClass.getAsync(subjectID),
+					predicate: Zotero.RelationPredicates.getName(predicateID)
+				})
+				return toReturn;
 			}));
 		}
 		return toReturn;
-	};
+	});
 	
 	
 	this.updateUser = Zotero.Promise.coroutine(function* (fromUserID, toUserID) {
