@@ -608,7 +608,7 @@ Zotero_Preferences.Lang = {
  		    var sql = 'DELETE FROM zlsPreferences WHERE profile=? AND param=? and tag=?';
  		    yield Zotero.DB.queryAsync(sql,['default',param,tag]);
  	    }
- 	    yield Zotero.CachedLanguagePreferences.init();
+ 	    yield Zotero.CachedLanguages.init();
  	    var langRow = document.getElementById(tag+'::row');
  	    var removeButton = langRow.lastChild.lastChild.previousSibling;
  	    Zotero_Preferences.Lang.setRemoveDisable(removeButton,tag);
