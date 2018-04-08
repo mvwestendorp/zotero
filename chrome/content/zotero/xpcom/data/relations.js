@@ -160,8 +160,7 @@ Zotero.Relations = new function () {
 				toReturn.push({
 					subject: yield objectsClass.getAsync(subjectID),
 					predicate: Zotero.RelationPredicates.getName(predicateID)
-				})
-				return toReturn;
+				});
 			}));
 		}
 		return toReturn;
