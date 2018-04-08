@@ -1010,7 +1010,7 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
 	if (this._displayTitle !== null) {
 		return this._displayTitle;
 	}
-	return this._displayTitle = this.getField('title', false, true);
+	return this._displayTitle = this.getField('title', false, true, Zotero.CachedLanguages.getDisplayLang());
 }
 
 
@@ -1018,7 +1018,7 @@ Zotero.Item.prototype.getDisplayTitle = function (includeAuthorAndDate) {
  * Update the generated display title from the loaded data
  */
 Zotero.Item.prototype.updateDisplayTitle = function () {
-	var title = this.getField('title', false, true);
+	var title = this.getField('title', false, true, Zotero.CachedLanguages.getDisplayLang());
 	var itemTypeID = this.itemTypeID;
 	var itemTypeName = Zotero.ItemTypes.getName(itemTypeID);
 	
