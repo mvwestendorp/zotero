@@ -67,8 +67,6 @@ Zotero.CachedJurisdictionData = new function() {
 			}
 			if (_jurisdictionIdToName[jurisdictionID] && courtID) {
 				yield this.setCourt(jurisdictionID, courtID);
-			} else {
-				Zotero.debug("XXX OH! no segment? " + !!_jurisdictionIdToName[jurisdictionID] + " or " + courtID);
 			}
 		}
 	});
@@ -137,7 +135,6 @@ Zotero.CachedJurisdictionData = new function() {
 			jurisdictionID,
 			countryID
 		]);
-		Zotero.debug("XXX got name! " + row.courtID + " " + row.courtName);
 		var courtName = row.courtName;
 		var courtID = row.courtID
 		if (courtName) {
