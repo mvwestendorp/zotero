@@ -804,113 +804,6 @@
 						}
 					}
 
-// OH DEAR (start)
-					for (var i=0; i<fieldNames.length; i++) {
-						var fieldName = fieldNames[i];
-						var val = '';
-						
-						if (fieldName) {
-							var fieldID = Zotero.ItemFields.getID(fieldName);
-							if (fieldID && !Zotero.ItemFields.isValidForType(fieldID, this.item.itemTypeID)) {
-								fieldName = null;
-							}
-						}
-						
-						if (fieldName) {
-							if (this._hiddenFields.indexOf(fieldName) != -1) {
-								continue;
-							}
-							
-							// createValueElement() adds the itemTypeID as an attribute
-							// and converts it to a localized string for display
-							if (fieldName == 'itemType') {
-								val = this.item.itemTypeID;
-							}
-							else {
-								val = this.item.getField(fieldName);
-							}
-							
-							if (!val && this.hideEmptyFields
-									&& this._visibleFields.indexOf(fieldName) == -1
-									&& (this.mode != 'fieldmerge' || typeof this._fieldAlternatives[fieldName] == 'undefined')) {
-								continue;
-							}
-							
-							var fieldIsClickable = this._fieldIsClickable(fieldName);
-							
-							// Start tabindex at 1001 after creators
-							var tabindex = fieldIsClickable
-								? (i>0 ? this._tabIndexMinFields + i : 1) : 0;
-							this._tabIndexMaxFields = Math.max(this._tabIndexMaxFields, tabindex);
-							
-							if (fieldIsClickable
-									&& !Zotero.Items.isPrimaryField(fieldName)
-									&& (Zotero.ItemFields.isFieldOfBase(Zotero.ItemFields.getID(fieldName), 'date')
-										// TEMP - filingDate
-										|| fieldName == 'filingDate')
-									// TEMP - NSF
-									&& fieldName != 'dateSent') {
-								this.addDateRow(fieldNames[i], this.item.getField(fieldName, true), tabindex);
-								continue;
-							}
-						}
-						
-						let label = document.createElement("label");
-						label.setAttribute('fieldname', fieldName);
-						
-						let valueElement = this.createValueElement(
-							val, fieldName, tabindex
-						);
-						
-						var prefix = '';
-						// Add '(...)' before 'Abstract' for collapsed abstracts
-						if (fieldName == 'abstractNote') {
-							if (val && !Zotero.Prefs.get('lastAbstractExpand')) {
-								prefix = '(\u2026) ';
-							}
-						}
-						
-						if (fieldName) {
-							label.setAttribute("value", prefix +
-								Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldName));
-						}
-						
-						// TEMP - NSF (homepage)
-						if ((fieldName == 'url' || fieldName == 'homepage') && val) {
-							label.classList.add("pointer");
-							// TODO: make getFieldValue non-private and use below instead
-							label.setAttribute("onclick", "ZoteroPane_Local.loadURI(this.nextSibling.firstChild ? this.nextSibling.firstChild.nodeValue : this.nextSibling.value, event)");
-							label.setAttribute("tooltiptext", Zotero.getString('locate.online.tooltip'));
-						}
-						else if (fieldName == 'DOI' && val && typeof val == 'string') {
-							// Pull out DOI, in case there's a prefix
-							var doi = Zotero.Utilities.cleanDOI(val);
-							if (doi) {
-								doi = "https://doi.org/" + encodeURIComponent(doi);
-								label.classList.add("pointer");
-								label.setAttribute("onclick", "ZoteroPane_Local.loadURI('" + doi + "', event)");
-								label.setAttribute("tooltiptext", Zotero.getString('locate.online.tooltip'));
-								valueElement.setAttribute('contextmenu', 'zotero-doi-menu');
-								
-								var openURLMenuItem = document.getElementById('zotero-doi-menu-view-online');
-								openURLMenuItem.setAttribute("oncommand", "ZoteroPane_Local.loadURI('" + doi + "', event)");
-								
-								var copyMenuItem = document.getElementById('zotero-doi-menu-copy');
-								copyMenuItem.setAttribute("oncommand", "Zotero.Utilities.Internal.copyTextToClipboard('" + doi + "')");
-							}
-						}
-						else if (fieldName == 'abstractNote') {
-							if (val.length) {
-								label.classList.add("pointer");
-							}
-							label.addEventListener('click', function () {
-								if (this.nextSibling.inputField) {
-									this.nextSibling.inputField.blur();
-								}
-							})
-						}
-					}
-// OH DEAR (end)	
 					//
 					// Creators
 					//
@@ -1428,7 +1321,7 @@
 					// Set single/double field toggle mode
 					// isMulti "detection" for this function is a real mess.
 					var isMulti = false;
-					if (parentNode || creatorData.multi) {
+					if (parentNode || (creatorData && creatorData.multi)) {
 					    isMulti = true;
 					} 
 					if (fieldMode) {
@@ -4127,6 +4020,7 @@
 					
 					if (!next) {
 						Zotero.debug("Next field not found");
+						this._lastTabIndex--;
 						return false;
 					}
 					next.click();
