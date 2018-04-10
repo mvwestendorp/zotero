@@ -91,11 +91,11 @@ function processFile(locale, mode, fn, txt) {
 				if (mapper[fn][key]) {
 					// Apply replacements
 					str = replaceThings(locale, fn, key, str, mapper[fn][key]);
-					lines[i] = "<!ENTITY " + key + " \"" + str + "\">"
 				} else {
 					// Replace Zotero with Juris-M everywhere
-					lines[i] = lines[i].replace(/Zotero/g, "Juris-M");
+					str = str.replace(/Zotero/g, "Juris-M");
 				}
+				lines[i] = "<!ENTITY " + key + " \"" + str + "\">"
 			}
 		} else if (mode === "properties") {
 			var m = line.match(/^(.*?)\s+=\s+(.*)/);
@@ -106,10 +106,10 @@ function processFile(locale, mode, fn, txt) {
 				if (mapper[fn][key]) {
 					// Apply replacements
 					str = replaceThings(locale, fn, key, str, mapper[fn][key]);
-					lines[i] = key + " = " + str;
 				} else {
-					lines[i] = lines[i].replace(/Zotero/g, "Juris-M");
+					str = str.replace(/Zotero/g, "Juris-M");
 				}
+				lines[i] = key + " = " + str;
 			}
 		}
 	}
