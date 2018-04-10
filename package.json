@@ -17,6 +17,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "is-admin": "^2.1.1",
+    "prompt-confirm": "^1.2.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "zotero-web-library": "^0.9.4-alpha"
