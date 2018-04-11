@@ -12,7 +12,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 	
 	var setup = Zotero.Promise.coroutine(function* (options = {}) {
 		server = sinon.fakeServer.create();
-		server.autoRespond = true;
+		server.respondImmediately = true;
 		var background = options.background === undefined ? true : options.background;
 		var stopOnError = options.stopOnError === undefined ?  true : options.stopOnError;
 		
@@ -2096,7 +2096,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				}
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -2111,6 +2111,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			})
 			yield engine._startDownload();
+			yield crPromise;
 			
 			assert.isFalse(Zotero.Items.exists(itemID1));
 			assert.isTrue(Zotero.Items.exists(itemID2));
@@ -2123,23 +2124,13 @@ describe("Zotero.Sync.Data.Engine", function () {
 			var library = Zotero.Libraries.userLibrary;
 			library.libraryVersion = lastLibraryVersion;
 			await library.saveTx();
-			({ engine, client, caller } = await setup({
-				stopOnError: false
-			}));
+			({ engine, client, caller } = await setup());
 			
 			// Create local deleted collection
 			var collection = await createDataObject('collection');
 			var collectionKey = collection.key;
 			await collection.eraseTx();
-			// Create item JSON
-			var item = await createDataObject('item');
-			var itemResponseJSON = item.toResponseJSON();
-			// Add collection to remote item
-			itemResponseJSON.data.collections = [collectionKey];
-			var itemKey = item.key;
-			await item.eraseTx({
-				skipDeleteLog: true
-			});
+			var itemKey = "AAAAAAAA";
 			
 			var headers = {
 				"Last-Modified-Version": newLibraryVersion
@@ -2162,7 +2153,14 @@ describe("Zotero.Sync.Data.Engine", function () {
 				url: `users/1/items?format=json&itemKey=${itemKey}&includeTrashed=1`,
 				status: 200,
 				headers,
-				json: [itemResponseJSON]
+				json: [
+					makeItemJSON({
+						key: itemKey,
+						version: newLibraryVersion,
+						itemType: "book",
+						collections: [collectionKey]
+					})
+				]
 			});
 			
 			await engine._startDownload();
@@ -2170,6 +2168,67 @@ describe("Zotero.Sync.Data.Engine", function () {
 			// Item should be skipped and added to queue, which will allow collection deletion to upload
 			var keys = await Zotero.Sync.Data.Local.getObjectsFromSyncQueue('item', library.id);
 			assert.sameMembers(keys, [itemKey]);
+			
+			// Collection should not be in sync queue
+			assert.lengthOf(
+				await Zotero.Sync.Data.Local.getObjectsFromSyncQueue('collection', library.id), 0
+			);
+		});
+		
+		
+		it("should handle new remote item referencing locally missing collection", async function () {
+			var lastLibraryVersion = 5;
+			var newLibraryVersion = 6;
+			var library = Zotero.Libraries.userLibrary;
+			library.libraryVersion = lastLibraryVersion;
+			await library.saveTx();
+			({ engine, client, caller } = await setup());
+			
+			var collectionKey = 'AAAAAAAA';
+			var itemKey = 'BBBBBBBB'
+			
+			var headers = {
+				"Last-Modified-Version": newLibraryVersion
+			};
+			setDefaultResponses({
+				lastLibraryVersion,
+				libraryVersion: newLibraryVersion
+			});
+			setResponse({
+				method: "GET",
+				url: `users/1/items?format=versions&since=${lastLibraryVersion}&includeTrashed=1`,
+				status: 200,
+				headers,
+				json: {
+					[itemKey]: newLibraryVersion
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: `users/1/items?format=json&itemKey=${itemKey}&includeTrashed=1`,
+				status: 200,
+				headers,
+				json: [
+					makeItemJSON({
+						key: itemKey,
+						version: newLibraryVersion,
+						itemType: "book",
+						collections: [collectionKey]
+					})
+				]
+			});
+			
+			await engine._startDownload();
+			
+			// Item should be skipped and added to queue
+			var keys = await Zotero.Sync.Data.Local.getObjectsFromSyncQueue('item', library.id);
+			assert.sameMembers(keys, [itemKey]);
+			
+			// Collection should be in queue
+			assert.sameMembers(
+				await Zotero.Sync.Data.Local.getObjectsFromSyncQueue('collection', library.id),
+				[collectionKey]
+			);
 		});
 		
 		
@@ -2179,9 +2238,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 			var library = Zotero.Libraries.userLibrary;
 			library.libraryVersion = lastLibraryVersion;
 			await library.saveTx();
-			({ engine, client, caller } = await setup({
-				stopOnError: false
-			}));
+			({ engine, client, caller } = await setup());
 			
 			// Create local deleted collection and item
 			var collection = await createDataObject('collection');
@@ -2218,20 +2275,6 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: [itemResponseJSON]
 			});
 			
-			// This will trigger a conflict for a remote item that references a collection that doesn't
-			// exist. The collection should be removed for display in the CR window, and then the save
-			// should fail and the item should be added to the queue so that the collection deletion
-			// can upload.
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
-				var doc = dialog.document;
-				var wizard = doc.documentElement;
-				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
-				
-				// 1 (accept remote)
-				//assert.equal(mergeGroup.leftpane.getAttribute('selected'), 'true');
-				mergeGroup.rightpane.click();
-				wizard.getButton('finish').click();
-			});
 			await engine._startDownload();
 			
 			// Item should be skipped and added to queue, which will allow collection deletion to upload
@@ -2324,12 +2367,13 @@ describe("Zotero.Sync.Data.Engine", function () {
 				}
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				wizard.getButton('cancel').click();
 			})
 			var e = yield getPromiseError(engine._startDownload());
+			yield crPromise
 			assert.isTrue(e instanceof Zotero.Sync.UserCancelledException);
 			
 			// Non-conflicted item should be saved
@@ -2418,12 +2462,13 @@ describe("Zotero.Sync.Data.Engine", function () {
 				}
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				wizard.getButton('cancel').click();
 			})
 			var e = yield getPromiseError(engine._startDownload());
+			yield crPromise;
 			assert.isTrue(e instanceof Zotero.Sync.UserCancelledException);
 			
 			// Conflicted items should still exists
@@ -3201,7 +3246,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3226,6 +3271,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			})
 			await engine._downloadObjects('item', objects.map(o => o.key));
+			await crPromise;
 			
 			assert.equal(objects[0].getField('title'), values[0].right.title);
 			assert.equal(objects[1].getField('title'), values[1].left.title);
@@ -3307,7 +3353,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3332,6 +3378,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			});
 			await engine._downloadObjects('item', objects.map(o => o.key));
+			await crPromise;
 			
 			assert.equal(objects[0].getNote(), values[0].right.note);
 			assert.equal(objects[1].getNote(), values[1].left.note);
@@ -3422,7 +3469,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3456,11 +3503,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			})
 			await engine._downloadObjects('item', objects.map(o => o.key));
-			
-			Zotero.debug('=-=-=-=');
-			Zotero.debug(objects[0].toJSON());
-			Zotero.debug(objects[1].toJSON());
-			Zotero.debug(objects[2].toJSON());
+			await crPromise;
 			
 			// First object should match remote
 			assert.equal(objects[0].getField('title'), values[0].right.title);
@@ -3548,7 +3591,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3581,6 +3624,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			})
 			await engine._downloadObjects('item', objects.map(o => o.key));
+			await crPromise;
 			
 			assert.equal(objects[0].getField('title'), values[0].right.title);
 			assert.equal(objects[0].version, values[0].right.version);
@@ -3632,10 +3676,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			var windowOpened = false;
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
-				windowOpened = true;
-				
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3648,7 +3689,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			})
 			yield engine._downloadObjects('item', [obj.key]);
-			assert.isTrue(windowOpened);
+			yield crPromise;
 			
 			obj = objectsClass.getByLibraryAndKey(libraryID, key);
 			assert.isFalse(obj);
@@ -3695,10 +3736,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			var windowOpened = false;
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
-				windowOpened = true;
-				
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3711,7 +3749,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			});
 			yield engine._downloadObjects('item', [obj.key]);
-			assert.isTrue(windowOpened);
+			yield crPromise;
 			
 			obj = Zotero.Items.getByLibraryAndKey(libraryID, key);
 			assert.isFalse(obj);
@@ -3753,7 +3791,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				json: responseJSON
 			});
 			
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -3765,6 +3803,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				wizard.getButton('finish').click();
 			})
 			yield engine._downloadObjects('item', [key]);
+			yield crPromise;
 			
 			obj = objectsClass.getByLibraryAndKey(libraryID, key);
 			assert.ok(obj);
@@ -4165,9 +4204,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 			});
 			
 			// Apply remote deletions
-			var shown = false;
-			waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
-				shown = true;
+			var crPromise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
 				var doc = dialog.document;
 				var wizard = doc.documentElement;
 				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
@@ -4187,7 +4224,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 			});
 			
 			yield engine._fullSync();
-			assert.ok(shown);
+			yield crPromise;
 			
 			// Check objects
 			for (let type of types) {
