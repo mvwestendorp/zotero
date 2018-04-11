@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Avslutt">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Avslutt Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Avslutt Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Avslutt">
 <!ENTITY redoCmd.accesskey "R">
