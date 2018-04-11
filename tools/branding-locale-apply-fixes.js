@@ -34,7 +34,12 @@ function processLocale(locale) {
 	}
 }
 
-function scanReplace(count, buf, str, replacements, key, fn, locale) {
+function scanReplace(count, str, replacements, key, fn, locale) {
+	if (replacements.length === 0) return {
+		replacements: replacements,
+		str: str
+	};
+	var buf = "";
 	var deletes = [];
 	for (var i=0,ilen=replacements.length;i<ilen;i++) {
 		var info = replacements[i];
@@ -56,26 +61,26 @@ function scanReplace(count, buf, str, replacements, key, fn, locale) {
 			str = str.slice(m[1].length)
 		}
 	}
-	for (var i=deletes.length-1;i>-1;i--) {
+	if (str.length) {
+		buf += str;
+	}
+	for (var pos=deletes.length-1;pos>-1;pos--) {
+	    var i = deletes[pos];
 		replacements = replacements.slice(0, i).concat(replacements.slice(i+1));
 	}
+	// Aha! On last run, replacements may well have length 0.
 	return {
-		count: count+1,
 		replacements: replacements,
-		str: buf,
-		buf: buf
+		str: buf
 	}
 }
 
 function replaceThings(locale, fn, key, str, replacements) {
-	var buf = "";
-	var offset = 0;
 	var str = str.replace("forums.zotero.hu", "forums.zotero.org").replace("forums.zoter.org", "forums.zotero.org");
-	for (var i=0, ilen= 3; i<ilen; i++) {
-		var {count, str, replacements, buf} = scanReplace(i, buf, str, replacements, key, fn, locale);
+	for (var count=0, countlen= 2; count<countlen; count++) {
+		var {replacements, str} = scanReplace(count, str, replacements, key, fn, locale);
 	}
-	buf += str;
-	return buf;
+	return str;
 }
 
 function processFile(locale, mode, fn, txt) {
