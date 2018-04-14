@@ -4742,6 +4742,9 @@ Zotero.Item.prototype.fromJSON = function (json) {
 		case 'mtime':
 		// Handled below
 		case 'collections':
+		case 'parentKey':
+		case 'deleted':
+		case 'inPublications':
 			break;
 		
 		case 'accessDate':
@@ -4768,15 +4771,6 @@ Zotero.Item.prototype.fromJSON = function (json) {
 				val = Zotero.Date.dateToSQL(d, true);
 			}
 			this[field] = val;
-			break;
-		
-		case 'parentItem':
-			this.parentKey = val;
-			break;
-		
-		case 'deleted':
-		case 'inPublications':
-			this[field] = !!val;
 			break;
 		
 		case 'creators':
@@ -4884,6 +4878,13 @@ Zotero.Item.prototype.fromJSON = function (json) {
 		let note = json.note;
 		this.setNote(note !== undefined ? note : "");
 	}
+	
+	// Update boolean fields that might not be present in JSON
+	['deleted', 'inPublications'].forEach(field => {
+		if (json[field] || this[field]) {
+			this[field] = !!json[field];
+		}
+	});
 }
 
 
