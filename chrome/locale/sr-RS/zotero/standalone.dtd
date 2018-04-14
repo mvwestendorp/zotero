@@ -19,11 +19,11 @@
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Исеци">
 <!ENTITY debugOutputLogging.accesskey "L">
-<!ENTITY debugOutputLogging.clear "Clear Output">
-<!ENTITY debugOutputLogging.label "Debug Output Logging">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
-<!ENTITY debugOutputLogging.submit "Submit Output">
-<!ENTITY debugOutputLogging.view "View Output">
+<!ENTITY debugOutputLogging.clear "Очисти излаз">
+<!ENTITY debugOutputLogging.label "Дневник излаза са грешкама">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Поново покрени са дневником…">
+<!ENTITY debugOutputLogging.submit "Пошаљи излаз">
+<!ENTITY debugOutputLogging.view "Прикажи излаз">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Обриши">
@@ -61,14 +61,14 @@
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Потражи ажурирања…">
 <!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Discussion Forums">
+<!ENTITY helpFeedbackPage.label "Форуми за дискусију">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Помоћ">
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Помоћ">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors…">
+<!ENTITY helpReportErrors.label "Пријави грешке…">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Подаци о проблемима">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">

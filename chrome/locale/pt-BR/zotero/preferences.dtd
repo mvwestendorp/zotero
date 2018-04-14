@@ -6,8 +6,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "O Juris-M utilizará caminhos relativos para os anexos associados à referência a partir desse diretório base. Isso permite o acesso a esses arquivos em diferentes computadores, desde que a estrutura dos arquivos dentro do diretório base permaneça a mesma.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Reverter para caminhos absolutos...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Escolha...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Extrair metadados dos PDFs automaticamente">
+<!ENTITY zotero.preferences.autoRenameFiles "Renomeia os arquivos anexos automaticamente, utilizando metadados do item pai">
 <!ENTITY zotero.preferences.autoUpdate "Verificar automaticamente atualizações de traduções e estilos">
 <!ENTITY zotero.preferences.automaticSnapshots "Salvar instantâneos automaticamente ao criar itens de páginas web">
 <!ENTITY zotero.preferences.automaticTags "Etiquetar os itens com palavras-chaves e cabeçalhos de assunto automaticamente">
@@ -27,7 +27,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Não existe nenhum plug-in de processador de texto instalado.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Utilizar a caixa de diálogo de adição de citação clássica">
 <!ENTITY zotero.preferences.configEditor "Editor de configurações">
-<!ENTITY zotero.preferences.custom "Custom…">
+<!ENTITY zotero.preferences.custom "Personalizar...">
 <!ENTITY zotero.preferences.dataDir "Localização do diretório de dados">
 <!ENTITY zotero.preferences.dataDir.choose "Selecionar...">
 <!ENTITY zotero.preferences.dataDir.custom "Personalizar:">
@@ -59,9 +59,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Ordenação:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Itens mais recentes primeiro">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Itens mais antigos primeiro">
-<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
-<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
-<!ENTITY zotero.preferences.fileHandling "File Handling">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Abrir PDFs com">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "O padrão do sistema">
+<!ENTITY zotero.preferences.fileHandling "Manipulação de arquivos">
 <!ENTITY zotero.preferences.fontSize "Tamanho da fonte:">
 <!ENTITY zotero.preferences.fontSize.large "Grande">
 <!ENTITY zotero.preferences.fontSize.medium "Média">
@@ -247,7 +247,7 @@
 <!ENTITY zotero.preferences.sync.unlinkAccount "Desassociar a conta...">
 <!ENTITY zotero.preferences.sync.username "Usuário:">
 <!ENTITY zotero.preferences.title "Preferências do Juris-M">
-<!ENTITY zotero.preferences.trashAutoEmptyDaysPost "dias atrás">
+<!ENTITY zotero.preferences.trashAutoEmptyDaysPost "dias">
 <!ENTITY zotero.preferences.trashAutoEmptyDaysPre "Remover automaticamente os itens que estão na lixeira há mais de">
 <!ENTITY zotero.preferences.updateNow "Atualizar agora">
 <!ENTITY zotero.preferences.userInterface "Interface de usuário">

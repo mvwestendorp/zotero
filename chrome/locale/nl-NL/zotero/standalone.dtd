@@ -19,11 +19,11 @@
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Knippen">
 <!ENTITY debugOutputLogging.accesskey "L">
-<!ENTITY debugOutputLogging.clear "Clear Output">
-<!ENTITY debugOutputLogging.label "Debug Output Logging">
+<!ENTITY debugOutputLogging.clear "Uitvoer wissen">
+<!ENTITY debugOutputLogging.label "Foutopsporingsberichten bewaren">
 <!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
-<!ENTITY debugOutputLogging.submit "Submit Output">
-<!ENTITY debugOutputLogging.view "View Output">
+<!ENTITY debugOutputLogging.submit "Uitvoer versturen">
+<!ENTITY debugOutputLogging.view "Uitvoer bekijken">
 <!ENTITY deleteCmd.accesskey "W">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Wissen">
@@ -61,14 +61,14 @@
 <!ENTITY helpCheckForUpdates.accesskey "u">
 <!ENTITY helpCheckForUpdates.label "Controleren op updates…">
 <!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Discussion Forums">
+<!ENTITY helpFeedbackPage.label "Discussieforums">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Help">
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Help">
 <!ENTITY helpReportErrors.accesskey "F">
-<!ENTITY helpReportErrors.label "Report Errors…">
+<!ENTITY helpReportErrors.label "Fouten rapporteren…">
 <!ENTITY helpTroubleshootingInfo.accesskey "P">
 <!ENTITY helpTroubleshootingInfo.label "Probleemoplossingsinformatie">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
@@ -76,10 +76,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "&brandShortName; verbergen">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importeren...">
+<!ENTITY importFromClipboardCmd.label "Importeren van klembord">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.label "Installeer Browser Connector">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimaliseren">
 <!ENTITY pageSetupCmd.accesskey "i">

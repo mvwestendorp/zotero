@@ -283,7 +283,7 @@
 <!ENTITY zotero.toolbar.attachment.weblink "Geçerli Sayfaya Bağlantıyı Kaydet">
 <!ENTITY zotero.toolbar.cancelDuplicatesView.label "Cancel duplicates view">
 <!ENTITY zotero.toolbar.cancelOrphansView.label "Cancel orphans view">
-<!ENTITY zotero.toolbar.duplicate.label "Çift Girişleri Göster">
+<!ENTITY zotero.toolbar.duplicate.label "Yinelenmiş Eserleri Göster">
 <!ENTITY zotero.toolbar.duplicatesView.label "Duplicates view">
 <!ENTITY zotero.toolbar.emptyTrash.label "Çöp Sepetini Boşalt">
 <!ENTITY zotero.toolbar.export.label "Kitaplığı Dışarı Aktar...">

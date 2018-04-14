@@ -19,11 +19,11 @@
 <!ENTITY cutCmd.key "Χ">
 <!ENTITY cutCmd.label "Αποκοπή">
 <!ENTITY debugOutputLogging.accesskey "L">
-<!ENTITY debugOutputLogging.clear "Clear Output">
-<!ENTITY debugOutputLogging.label "Debug Output Logging">
+<!ENTITY debugOutputLogging.clear "Καθαρισμός Εξόδου">
+<!ENTITY debugOutputLogging.label "Αποσφαλμάτωση Καταγραφή Εξόδου">
 <!ENTITY debugOutputLogging.restartWithLoggingEnabled "Επανεκκίνηση με καταγραφή...">
-<!ENTITY debugOutputLogging.submit "Submit Output">
-<!ENTITY debugOutputLogging.view "View Output">
+<!ENTITY debugOutputLogging.submit "Υποβολή Εξόδου">
+<!ENTITY debugOutputLogging.view "Επισκόπηση Εξόδου">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Διαγραφή">
@@ -61,7 +61,7 @@
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Έλεγχος για ενημερώσεις...">
 <!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Discussion Forums">
+<!ENTITY helpFeedbackPage.label "Φόρουμ συζήτησης">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "Η">
 <!ENTITY helpMenu.label "Βοήθεια">
@@ -79,7 +79,7 @@
 <!ENTITY importCmd.label "Εισαγωγή...">
 <!ENTITY importFromClipboardCmd.label "Εισαγωγή από το Πρόχειρο">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.label "Εγκατάσταση Σύνδεσης με πρόγραμμα πλοήγησης">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Ελαχιστοποίηση">
 <!ENTITY pageSetupCmd.accesskey "U">
