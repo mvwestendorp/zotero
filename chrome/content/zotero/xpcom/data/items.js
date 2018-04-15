@@ -818,6 +818,8 @@ Zotero.Items = function() {
 	
 	
 	this.merge = function (item, otherItems) {
+		Zotero.debug("Merging items");
+		
 		return Zotero.DB.executeTransaction(function* () {
 			var otherItemIDs = [];
 			var itemURI = Zotero.URI.getItemURI(item);
@@ -841,7 +843,10 @@ Zotero.Items = function() {
 				}
 				
 				// Add relations to master
-				item.setRelations(otherItem.getRelations());
+				let oldRelations = otherItem.getRelations();
+				for (let pred in oldRelations) {
+					oldRelations[pred].forEach(obj => item.addRelation(pred, obj));
+				}
 				
 				// Remove merge-tracking relations from other item, so that there aren't two
 				// subjects for a given deleted object
