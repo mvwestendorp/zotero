@@ -442,12 +442,6 @@
 										flex="1" zotero-persist="width ordinal hidden sortActive sortDirection"/>
 									<splitter class="tree-splitter"/>
 									<treecol
-										id="zotero-items-column-reporter" hidden="true" disabled-in="feed"
-										submenu="true"
-										label="&zotero.items.reporter_column;"
-										flex="1" zotero-persist="width ordinal hidden sortActive sortDirection"/>
-									<splitter class="tree-splitter"/>
-									<treecol
 										id="zotero-items-column-language"
 										submenu="true"
 										label="&zotero.items.language_column;"
