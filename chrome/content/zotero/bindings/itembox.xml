@@ -2551,7 +2551,7 @@
 						
 						if (stayFocused) {
 							this._lastTabIndex = parseInt(textbox.getAttribute('ztabindex')) - 1;
-							this._tabDirection = 1;
+							this._tabDirection = false;
 						}
 						
 						var creator = Zotero.Creators.get(creatorID);

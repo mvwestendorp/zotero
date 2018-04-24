@@ -1347,11 +1347,15 @@ Zotero.Translate.Base.prototype = {
 			Zotero.Promise.resolve(this.translator[0])
 			.then(function (translator) {
 				this.translator[0] = translator;
-				this._loadTranslator(translator).then(() => this._translateTranslatorLoaded());
+				this._loadTranslator(translator)
+					.then(() => this._translateTranslatorLoaded())
+					.catch(e => deferred.reject(e));
 			}.bind(this));
 		}
 		else {
-			this._loadTranslator(this.translator[0]).then(() => this._translateTranslatorLoaded());
+			this._loadTranslator(this.translator[0])
+				.then(() => this._translateTranslatorLoaded())
+				.catch(e => deferred.reject(e));
 		}
 		
 		return deferred.promise;
@@ -2629,6 +2633,12 @@ Zotero.Translate.Search.prototype.setIdentifier = function (identifier) {
 		search = {
 			itemType: "journalArticle",
 			contextObject: "rft_id=info:pmid/" + identifier.PMID
+		};
+	}
+	else if (identifier.arXiv) {
+		search = {
+			itemType: "journalArticle",
+			arXiv: identifier.arXiv
 		};
 	}
 	else {

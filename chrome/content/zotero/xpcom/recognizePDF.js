@@ -186,7 +186,7 @@ Zotero.RecognizePDF = new function () {
 	};
 	
 	
-	this.report = async function (item) {
+	this.report = async function (item, description) {
 		var attachment = Zotero.Items.get(item.getAttachments()[0]);
 		var filePath = attachment.getFilePath();
 		if (!filePath || !await OS.File.exists(filePath)) {
@@ -197,7 +197,7 @@ Zotero.RecognizePDF = new function () {
 		var json = await extractJSON(filePath, MAX_PAGES);
 		var metadata = item.toJSON();
 		
-		var data = { version, json, metadata };
+		var data = { description, version, json, metadata };
 		var uri = ZOTERO_CONFIG.RECOGNIZE_URL + 'report';
 		return Zotero.HTTP.request(
 			"POST",
@@ -538,6 +538,29 @@ Zotero.RecognizePDF = new function () {
 		
 		let res = await _query(json);
 		if (!res) return null;
+		
+		if (res.arxiv) {
+			Zotero.debug('RecognizePDF: Getting metadata by arXiv');
+			let translate = new Zotero.Translate.Search();
+			translate.setIdentifier({arXiv: res.arxiv});
+			let translators = await translate.getTranslators();
+			translate.setTranslator(translators);
+			
+			try {
+				let newItem = await _promiseTranslate(translate, libraryID);
+				if (!newItem.abstractNote && res.abstract) {
+					newItem.setField('abstractNote', res.abstract);
+				}
+				if (!newItem.language && res.language) {
+					newItem.setField('language', res.language);
+				}
+				newItem.saveTx();
+				return newItem;
+			}
+			catch (e) {
+				Zotero.debug('RecognizePDF: ' + e);
+			}
+		}
 		
 		if (res.doi) {
 			Zotero.debug('RecognizePDF: Getting metadata by DOI');
