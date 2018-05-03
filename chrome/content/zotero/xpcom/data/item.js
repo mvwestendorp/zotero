@@ -2160,8 +2160,7 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		let noteText = this._noteText ? this._noteText : '';
 		// Add <div> wrapper if not present
 		if (!noteText.match(/^<div class="zotero-note znv[0-9]+">[\s\S]*<\/div>$/)) {
-			// Keep consistent with getNote()
-			noteText = '<div class="zotero-note znv1">' + noteText + '</div>';
+			noteText = Zotero.Notes.notePrefix + noteText + Zotero.Notes.noteSuffix;
 		}
 		
 		let params = [
@@ -4742,7 +4741,7 @@ Zotero.Item.prototype.fromJSON = function (json) {
 		case 'mtime':
 		// Handled below
 		case 'collections':
-		case 'parentKey':
+		case 'parentItem':
 		case 'deleted':
 		case 'inPublications':
 			break;
