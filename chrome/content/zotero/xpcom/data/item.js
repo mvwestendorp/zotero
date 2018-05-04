@@ -1404,7 +1404,10 @@ Zotero.Item.prototype.removeCreator = function(orderIndex, allowMissing, langTag
 		throw new Error('No creator exists at position ' + orderIndex);
 	}
 	if ((!langTag || langTag === creatorData.multi.main) && Object.keys(creatorData.multi._key).length > 0) {
-		throw new Error('Cannot remove main creator with children');
+		// Changed from error to warning, because this can happen as a consequence of sync.
+		// This constraint is important in the UI, but needs to be applied in the UI, not here.
+		// throw new Error('Cannot remove main creator with children');
+		Zotero.debug('Removing main creator with children');
 	}
 	
 	// Save copy of old creators for notifier
