@@ -18,12 +18,12 @@
 <!ENTITY cutCmd.accesskey "t">
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Cut">
-<!ENTITY debugOutputLogging.accesskey "L">
-<!ENTITY debugOutputLogging.clear "Clear Output">
-<!ENTITY debugOutputLogging.label "Debug Output Logging">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
-<!ENTITY debugOutputLogging.submit "Submit Output">
-<!ENTITY debugOutputLogging.view "View Output">
+<!ENTITY debugOutputLogging.accesskey "R">
+<!ENTITY debugOutputLogging.clear "Xóa output">
+<!ENTITY debugOutputLogging.label "Thông tin output khi chạy gỡ rối">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Khởi động lại cho phép logging...">
+<!ENTITY debugOutputLogging.submit "Gửi output">
+<!ENTITY debugOutputLogging.view "Xem output">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Xóa">
@@ -60,15 +60,15 @@
 <!ENTITY fullZoomToggleCmd.label "Zoom Text Only">
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Kiểm tra cập nhật...">
-<!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Discussion Forums">
+<!ENTITY helpFeedbackPage.accesskey "D">
+<!ENTITY helpFeedbackPage.label "Diễn đàn trao đổi">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Giúp đỡ">
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Giúp đỡ">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors…">
+<!ENTITY helpReportErrors.label "Báo lỗi...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Thông tin sửa lỗi">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
@@ -78,8 +78,8 @@
 <!ENTITY importCmd.key "I">
 <!ENTITY importCmd.label "Nhập khẩu...">
 <!ENTITY importFromClipboardCmd.label "Nhập khẩu từ clipboard">
-<!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.accesskey "K">
+<!ENTITY installConnector.label "Cài bộ kết nối trình duyệt">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Thu nhỏ">
 <!ENTITY pageSetupCmd.accesskey "U">
@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Quit">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Thoát Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Thoát Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Thoát">
 <!ENTITY redoCmd.accesskey "R">

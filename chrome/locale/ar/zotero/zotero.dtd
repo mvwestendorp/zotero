@@ -188,7 +188,7 @@
 <!ENTITY zotero.items.volume_column "صوت">
 <!ENTITY zotero.items.year_column "السنة">
 <!ENTITY zotero.lookup.button.search "بحث">
-<!ENTITY zotero.lookup.description "ادخل الترقيم الدولي الموحد للكتاب او معرف مقالات الميدلاين او معرف الوثيقة الرقمية.">
+<!ENTITY zotero.lookup.description "أدخل ردمك أو معرف الوثيقة الرقمي أو  بميد أو معرف الأرشيف للإضافة لممكتبتك">
 <!ENTITY zotero.merge.deleted "محذوف">
 <!ENTITY zotero.merge.of "من">
 <!ENTITY zotero.merge.title "حل التضارب">

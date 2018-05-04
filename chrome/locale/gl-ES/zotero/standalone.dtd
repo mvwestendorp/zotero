@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Saír">
 <!ENTITY quitApplicationCmdMac.key "S">
-<!ENTITY quitApplicationCmdMac.label "Pechar Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Pechar Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Saír">
 <!ENTITY redoCmd.accesskey "R">

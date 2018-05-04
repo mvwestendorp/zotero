@@ -90,7 +90,7 @@
 <!ENTITY preferencesCmd.accesskey "ي">
 <!ENTITY preferencesCmd.label "تفضيلات">
 <!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY preferencesCmdMac.label "تفضيلات ...">
+<!ENTITY preferencesCmdMac.label "التفضيلات...">
 <!ENTITY preferencesCmdUnix.accesskey "ف">
 <!ENTITY preferencesCmdUnix.label "تفضيلات">
 <!ENTITY printCmd.accesskey "P">

@@ -188,7 +188,7 @@
 <!ENTITY zotero.items.volume_column "Том">
 <!ENTITY zotero.items.year_column "Година">
 <!ENTITY zotero.lookup.button.search "Претрага">
-<!ENTITY zotero.lookup.description "Унесите ИСБН, ДОИ или ПМИД за тражење у приложеним пољима.">
+<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
 <!ENTITY zotero.merge.deleted "Обрисано">
 <!ENTITY zotero.merge.of "од">
 <!ENTITY zotero.merge.title "Решавање конфликта">

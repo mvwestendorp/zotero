@@ -43,7 +43,7 @@
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Vyberte polia, ktoré chcete zachovať z ostatných verzií záznamu:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Zvoľte verziu záznamu, ktorý chcete použiť ako hlavný záznam:">
 <!ENTITY zotero.errorReport.notReviewed "Hlásenia o chybách nie sú preskúmané, pokiaľ sa na ne neodkazuje v diskusných fórach.">
-<!ENTITY zotero.errorReport.postToForums "Prosím napíšte správu do diskusného fóra Juris-M (juris-m.github.io/support) obsahujúcu toto ID, popis problému a kroky, ktoré sú potrebné k jeho reprodukovaniu.">
+<!ENTITY zotero.errorReport.postToForums "Prosím napíšte správu do diskusného fóra Zotero (forums.zotero.org) obsahujúcu toto ID, popis problému a kroky, ktoré sú potrebné k jeho reprodukovaniu.">
 <!ENTITY zotero.errorReport.reportID "ID hlásenia:">
 <!ENTITY zotero.errorReport.submissionInProgress "Počkajte, prosím, kým sa neodošle hlásenie o chybe.">
 <!ENTITY zotero.errorReport.submitted "Hlásenie o chybe bolo odoslané.">
@@ -188,7 +188,7 @@
 <!ENTITY zotero.items.volume_column "Zväzok">
 <!ENTITY zotero.items.year_column "Rok">
 <!ENTITY zotero.lookup.button.search "Hľadať">
-<!ENTITY zotero.lookup.description "Zadajte do poľa ISBN, DOI alebo PMID podľa ktorého chcete vyhľadávať.">
+<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
 <!ENTITY zotero.merge.deleted "Zmazané">
 <!ENTITY zotero.merge.of "z">
 <!ENTITY zotero.merge.title "Riešenie konfliktov">
@@ -213,20 +213,20 @@
 <!ENTITY zotero.rtfScan.ambiguousCitations.label "Nezaraditeľné citácie">
 <!ENTITY zotero.rtfScan.cancel.label "Zrušiť">
 <!ENTITY zotero.rtfScan.citation.label "Citácia">
-<!ENTITY zotero.rtfScan.citationsPage.description "Prezrite si zoznam rozpoznaných citácií a uistite sa, že Juris-M správne označilo korešpondujúce záznamy. Pred ďalším krokom je potrebné priradiť všetky nepriradené alebo nejednoznačné citácie.">
+<!ENTITY zotero.rtfScan.citationsPage.description "Prezrite si zoznam rozpoznaných citácií a uistite sa, že Zotero správne označilo korešpondujúce záznamy. Pred ďalším krokom je potrebné priradiť všetky nepriradené alebo nejednoznačné citácie.">
 <!ENTITY zotero.rtfScan.citationsPage.label "Skontrolovať citované záznamy">
 <!ENTITY zotero.rtfScan.completePage.description "RTF dokument bol spracovaný. Prosím uistite sa, že je formátovaný správne.">
 <!ENTITY zotero.rtfScan.completePage.label "Spracovanie RTF je dokončené.">
-<!ENTITY zotero.rtfScan.formatPage.description "Juris-M spracovávaa a formátuje dokument. Čakajte prosím.">
+<!ENTITY zotero.rtfScan.formatPage.description "Zotero spracovávaa a formátuje dokument. Čakajte prosím.">
 <!ENTITY zotero.rtfScan.formatPage.label "Formátovanie citácií">
 <!ENTITY zotero.rtfScan.inputFile.label "Vstupný súbor">
-<!ENTITY zotero.rtfScan.introPage.description "Juris-M dokáže automaticky vyhľadať citácie, upraviť ich štýl a vložiť bibliografiu do RTF súborov. Funkcia spracovať RTF v súčasnosti podporuje citácie v rôznych z nasledujúcich štýlov:">
+<!ENTITY zotero.rtfScan.introPage.description "Zotero dokáže automaticky vyhľadať citácie, upraviť ich štýl a vložiť bibliografiu do RTF súborov. Funkcia spracovať RTF v súčasnosti podporuje citácie v rôznych z nasledujúcich štýlov:">
 <!ENTITY zotero.rtfScan.introPage.description2 "Na začiatok si vyberte vstupný RTF súbor a výstupný súbor:">
 <!ENTITY zotero.rtfScan.introPage.label "Úvod">
 <!ENTITY zotero.rtfScan.itemName.label "Názov záznamu">
 <!ENTITY zotero.rtfScan.mappedCitations.label "Priradené citácie">
 <!ENTITY zotero.rtfScan.outputFile.label "Výstupný súbor">
-<!ENTITY zotero.rtfScan.scanPage.description "Juris-M vyhľadáva citácie vo vybranom dokumente. Čakajte prosím.">
+<!ENTITY zotero.rtfScan.scanPage.description "Zotero vyhľadáva citácie vo vybranom dokumente. Čakajte prosím.">
 <!ENTITY zotero.rtfScan.scanPage.label "Vyhľadávanie citácií">
 <!ENTITY zotero.rtfScan.stylePage.label "Formátovanie dokumentu">
 <!ENTITY zotero.rtfScan.title "Spracovať RTF">
@@ -239,7 +239,7 @@
 <!ENTITY zotero.sync.error "Chyba pri synchronizácii">
 <!ENTITY zotero.sync.longTagFixer.character "znaku">
 <!ENTITY zotero.sync.longTagFixer.characters "znakoch">
-<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Táto značka vo vašej Juris-M knižnici je príliš dlhá na to, aby sa mohla synchronizovať na serveri:">
+<!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Táto značka vo vašej Zotero knižnici je príliš dlhá na to, aby sa mohla synchronizovať na serveri:">
 <!ENTITY zotero.sync.longTagFixer.split "Rozdeliť">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Rozdeliť pri">
 <!ENTITY zotero.sync.longTagFixer.splitEditDelete "Môžete rozdeliť značku na viacero kratších, skrátiť ju manuálne alebo ju zmazať.">
@@ -333,5 +333,5 @@
 <!ENTITY zotero.upgrade.newVersionInstalled "Nainštalovali ste novú verziu Zotera.">
 <!ENTITY zotero.upgrade.title "Sprievodca aktualizáciou Zotera">
 <!ENTITY zotero.upgrade.upgradeInProgress "Počkajte, prosím, kým sa dokončí aktualizácia. Môže to trvať niekoľko minút.">
-<!ENTITY zotero.upgrade.upgradeRequired "Na to, aby ste mohli pracovať s novou verziou je potrebné aktualizovať vašu Juris-M databázu.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Vaša Juris-M databáza bola úspešne aktualizovaná.">
+<!ENTITY zotero.upgrade.upgradeRequired "Na to, aby ste mohli pracovať s novou verziou je potrebné aktualizovať vašu Zotero databázu.">
+<!ENTITY zotero.upgrade.upgradeSucceeded "Vaša Zotero databáza bola úspešne aktualizovaná.">

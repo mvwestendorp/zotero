@@ -19,11 +19,11 @@
 <!ENTITY cutCmd.key "X">
 <!ENTITY cutCmd.label "Taglia">
 <!ENTITY debugOutputLogging.accesskey "L">
-<!ENTITY debugOutputLogging.clear "Clear Output">
-<!ENTITY debugOutputLogging.label "Debug Output Logging">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
-<!ENTITY debugOutputLogging.submit "Submit Output">
-<!ENTITY debugOutputLogging.view "View Output">
+<!ENTITY debugOutputLogging.clear "Cancella l'output">
+<!ENTITY debugOutputLogging.label "Debug dell'output di logging">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Riavvia con il logging abilitato...">
+<!ENTITY debugOutputLogging.submit "Invia l'output">
+<!ENTITY debugOutputLogging.view "Vedi l'output">
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Cancella">
@@ -61,14 +61,14 @@
 <!ENTITY helpCheckForUpdates.accesskey "U">
 <!ENTITY helpCheckForUpdates.label "Controlla gli aggiornamenti...">
 <!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Discussion Forums">
+<!ENTITY helpFeedbackPage.label "Forum di discussione">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "H">
 <!ENTITY helpMenu.label "Aiuto">
 <!ENTITY helpMenuWin.accesskey "H">
 <!ENTITY helpMenuWin.label "Aiuto">
 <!ENTITY helpReportErrors.accesskey "R">
-<!ENTITY helpReportErrors.label "Report Errors…">
+<!ENTITY helpReportErrors.label "Segnala errori...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
 <!ENTITY helpTroubleshootingInfo.label "Informazioni di risoluzione dei problemi">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
@@ -76,10 +76,10 @@
 <!ENTITY hideThisAppCmdMac.commandkey "H">
 <!ENTITY hideThisAppCmdMac.label "Nascondi &brandShortName;">
 <!ENTITY importCmd.key "I">
-<!ENTITY importCmd.label "Import…">
-<!ENTITY importFromClipboardCmd.label "Import from Clipboard">
+<!ENTITY importCmd.label "Importa...">
+<!ENTITY importFromClipboardCmd.label "Importa dalla Clipboard">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY installConnector.label "Installa il Connettore per il browser">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Riduci a icona">
 <!ENTITY pageSetupCmd.accesskey "U">
@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Abbandona">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Esci da Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Esci da Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Esci">
 <!ENTITY redoCmd.accesskey "R">
