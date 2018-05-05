@@ -744,7 +744,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 						+ Zotero.getString('startupError.zoteroVersionIsOlder.current', Zotero.version)
 							+ "\n\n"
 						+ Zotero.getString('startupError.zoteroVersionIsOlder.upgrade',
-							ZOTERO_CONFIG.DOMAIN_NAME);
+							ZOTERO_CONFIG.DOMAIN_NAME_JURISM);
 					Zotero.startupError = msg;
 					_startupErrorHandler = function() {
 						var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]

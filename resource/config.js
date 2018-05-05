@@ -3,6 +3,7 @@ var ZOTERO_CONFIG = {
 	ID: 'jurism',
 	CLIENT_NAME: 'Juris-M',
 	DOMAIN_NAME: 'zotero.org',
+	DOMAIN_NAME_JURISM: 'juris-m.github.io',
 	REPOSITORY_URL: 'https://our.law.nagoya-u.ac.jp/updater/',
 	REPOSITORY_CHECK_INTERVAL: 86400, // 24 hours
 	REPOSITORY_RETRY_INTERVAL: 3600, // 1 hour

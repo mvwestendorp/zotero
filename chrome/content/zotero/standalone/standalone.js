@@ -368,7 +368,7 @@ ZoteroStandalone.DebugOutput = {
 			var index = ps.confirmEx(
 				null,
 				Zotero.getString('zotero.debugOutputLogging.dialog.title'),
-				Zotero.getString('zotero.debugOutputLogging.dialog.sent', [ZOTERO_CONFIG.DOMAIN_NAME, reportID]),
+				Zotero.getString('zotero.debugOutputLogging.dialog.sent', [ZOTERO_CONFIG.DOMAIN_NAME_JURISM, reportID]),
 				buttonFlags,
 				Zotero.getString('general.copyToClipboard'),
 				null, null, null, {}

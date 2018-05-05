@@ -1283,7 +1283,7 @@ Zotero.Server.Connector.Ping.prototype = {
 			
 			var minVersion = ZOTERO_CONFIG.CONNECTOR_MIN_VERSION;
 			var appName = ZOTERO_CONFIG.CLIENT_NAME;
-			var domain = ZOTERO_CONFIG.DOMAIN_NAME;
+			var domain = ZOTERO_CONFIG.DOMAIN_NAME_JURISM;
 			var origin = req.headers.Origin;
 			
 			var browser;
