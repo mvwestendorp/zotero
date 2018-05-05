@@ -1256,7 +1256,7 @@ Zotero.Sync.Data.Engine.prototype._uploadObjects = Zotero.Promise.coroutine(func
 							// Successful items pushed into cache must be decoded
 							// This forestalls stray mlzsync1 cruft on items inside
 							// the Juris-M client.
-							current.data = Zotero.DataObjectUtilities.decodeMlzContent(current.data);
+							current.data = Zotero.Utilities.decodeMlzContent(current.data);
 							obj.fromJSON(current.data);
 							toSave.push(obj);
 						}

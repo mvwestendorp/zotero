@@ -5038,7 +5038,7 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 	}
 
 	if (options.encodeMlzContent) {
-		json = Zotero.DataObjectUtilities.encodeMlzContent(json);
+		json = Zotero.Utilities.encodeMlzContent(json);
 	}
 	return json;
 }

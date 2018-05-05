@@ -1933,7 +1933,7 @@ Zotero.Utilities = {
 					zoteroItem[field] = Zotero.Date.multipartToSQL(zoteroItem[field]);
 				}
 			}
-			zoteroItem = Zotero.DataObjectUtilities.encodeMlzContent(zoteroItem);
+			zoteroItem = this.encodeMlzContent(zoteroItem);
 		}
 
 		var cslType = CSL_TYPE_MAPPINGS[zoteroItem.itemType];
@@ -2270,7 +2270,7 @@ Zotero.Utilities = {
 			}
 		}
 
-        var zoteroType = Zotero.Utilities.getZoteroTypeFromCslType(cslItem);
+        var zoteroType = this.getZoteroTypeFromCslType(cslItem);
 
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
@@ -2431,7 +2431,7 @@ Zotero.Utilities = {
 				for (var i=0,ilen=fields.length;i<ilen;i++) {
 					var field=fields[i];
 					fieldID = Zotero.ItemFields.getID(field);
-					if (Zotero.EXTENDED_FIELDS[zoteroType] && Zotero.EXTENDED_FIELDS[zoteroType][field]) {
+					if (this.EXTENDED_FIELDS[zoteroType] && this.EXTENDED_FIELDS[zoteroType][field]) {
 						fieldID = Zotero.ItemFields.getID(field);
 					}
 					if(Zotero.ItemFields.isBaseField(fieldID)) {
@@ -2503,7 +2503,7 @@ Zotero.Utilities = {
 			// Run conversion
 			// Convert back to Zotero item.
 			var json = item.toJSON();
-			json = Zotero.DataObjectUtilities.decodeMlzContent(json);
+			json = this.decodeMlzContent(json);
 			item.fromJSON(json);
 		}
 	},
@@ -2862,6 +2862,396 @@ Zotero.Utilities = {
             particleSpecs[PARTICLES[i][0]] = PARTICLES[i][1];
         }
         return particleSpecs[str];
-    }
+    },
 
+	"EXTENDED_CREATORS": {
+		"patent":{
+			"recipient":"recipient"
+		},
+		"book":{
+			"recipient":"recipient"
+		},
+		"bookSection":{
+			"recipient":"recipient"
+		},
+		"hearing":{
+			"testimonyBy":"author",
+			"translator":"translator"
+		},
+		"case":{
+			"translator":"translator"
+		},
+		"statute":{
+			"translator":"translator"
+		},
+		"bill":{
+			"translator":"translator"
+		},
+		"gazette":{
+			"translator":"translator"
+		},
+		"regulation":{
+			"translator":"translator"
+		}
+	},
+
+	"EXTENDED_TYPES": {
+		"gazette":"statute",
+		"regulation":"statute",
+		"classic":"manuscript",
+		"treaty":"document",
+		"standard":"document"
+	},
+
+	"EXTENDED_FIELDS": {
+		"book": {
+			"medium":"medium",
+			"volumeTitle":"volume-title"
+		},
+		"bookSection": {
+			"volumeTitle":"volume-title"
+		},
+		"standard": {
+			"versionNumber":"version",
+			"number":"number"
+		},
+		"conferencePaper": {
+			"conferenceDate":"event-date",
+			"issue":"issue",
+			"institution":"authority"
+		},
+		"interview": {
+			"place": "event-place"
+		},
+		"magazineArticle": {
+			"place":"publisher-place",
+			"publisher":"publisher"
+		},
+		"newspaperArticle": {
+			"jurisdiction":"jurisdiction",
+			"newsCaseDate":"original-date",
+			"court":"authority"
+		},
+		"journalArticle": {
+			"status":"status",
+			"jurisdiction":"jurisdiction"
+		},
+		"bill": {
+			"jurisdiction":"jurisdiction",
+			"resolutionLabel":"event",
+			"assemblyNumber":"collection-number",
+			"sessionType":"genre",
+			"archiveLocation":"archive_location",
+			"reporter":"container-title"
+		}, 
+		"hearing":{
+			"jurisdiction":"jurisdiction",
+			"assemblyNumber":"collection-number",
+			"resolutionLabel":"event",
+			"sessionType":"genre",
+			"archiveLocation":"archive_location",
+			"reporter":"container-title",
+			"meetingName":"chapter-number",
+			"meetingNumber":"number",
+			"volume":"volume"
+		},
+		"artwork": {
+			"websiteTitle":"container-title"
+		}, 
+		"patent": {
+			"jurisdiction":"jurisdiction",
+			"priorityDate":"original-date",
+			"publicationDate":"publication-date",
+			"publicationNumber":"publication-number",
+			"genre":"genre"
+		}, 
+		"case": {
+			"jurisdiction":"jurisdiction",
+			"place":"event-place",
+			"yearAsVolume":"collection-number",
+			"publisher": "publisher",
+			"publicationDate":"publication-date",
+			"reign":"genre",
+			"callNumber":"call-number",
+			"filingDate":"submitted",
+			"supplementName":"genre",
+			"issue":"issue",
+			"archive":"archive",
+			"archiveLocation":"archive_location",
+			"documentName":"document-name"
+		}, 
+		"statute": {
+			"jurisdiction":"jurisdiction",
+			"publisher":"publisher",
+			"publicationDate":"publication-date",
+			"originalDate":"original-date",
+			"reign":"genre",
+			"regnalYear":"collection-number",
+			"dateAmended": "event-date",
+			"gazetteFlag": "gazette-flag"
+		}, 
+		"audioRecording": {
+			"album":"container-title",
+			"opus":"section",
+			"originalDate":"original-date",
+			"publisher":"publisher",
+			"release":"edition"
+		},
+		"podcast": {
+			"date":"issued",
+			"publisher":"publisher"
+		},
+		"videoRecording": {
+			"websiteTitle":"container-title"
+		},
+		"report": {
+			"bookTitle":"container-title",
+			"jurisdiction":"jurisdiction",
+			"status":"status",
+			"medium":"medium",
+			"committee":"committee",
+			"assemblyNumber": "collection-number",
+			"publisher": "publisher"
+		},
+		"gazette": {
+			"jurisdiction":"jurisdiction",
+			"reign": "genre",
+			"regnalYear":"collection-number",
+			"publisher":"publisher",
+			"publicationDate":"publication-date"
+		},
+		"regulation": {
+			"jurisdiction":"jurisdiction",
+			"publisher":"publisher",
+			"publicationDate":"publication-date",
+			"regulatoryBody":"authority",
+			"regulationType":"genre",
+			"gazetteFlag": "gazette-flag"
+		},
+		"treaty": {
+			"reporter":"container-title",
+			"volume":"volume",
+			"pages":"page",
+			"section":"section",
+			"openingDate":"available-date",
+			"adoptionDate":"original-date",
+			"signingDate":"event-date",
+			"versionNumber":"version", // MISSING IN system.sql!
+			"parentTreaty":"collection-title",
+			"supplementName":"genre"
+		},
+		"classic":{
+			"volume":"volume"
+		},
+		"document":{
+			"versionNumber":"version"
+		}
+	},
+
+	"decodeMlzContent": function (json) {
+		if (!json) return;
+
+		var newjson = JSON.parse(JSON.stringify(json));
+
+		// Add multi properties
+		newjson.multi = {
+			main: {},
+			_keys: {}
+		}
+		// Extract extradata
+		var noteMatch = null;
+		if (newjson.extra) {
+			noteMatch = newjson.extra.match(/mlzsync1:([0-9][0-9][0-9][0-9])(.*)/);
+			if (noteMatch) {
+				var offset = parseInt(noteMatch[1], 10);
+				var extradata = JSON.parse(noteMatch[2].slice(0, offset))
+				newjson.extra = newjson.extra.slice((offset+13));
+				
+				if (extradata.xtype) {
+					newjson.itemType = extradata.xtype;
+				}
+				if (extradata.extrafields) {
+					for (var zFieldName in extradata.extrafields) {
+						newjson[zFieldName] = extradata.extrafields[zFieldName];
+					}
+				}
+				if (extradata.multifields) {
+					for (zFieldName in extradata.multifields.main) {
+						newjson.multi.main[zFieldName] = extradata.multifields.main[zFieldName];
+					}
+					for (zFieldName in extradata.multifields._keys) {
+						newjson.multi._keys[zFieldName] = {};
+						for (zLang in extradata.multifields._keys[zFieldName]) {
+							newjson.multi._keys[zFieldName][zLang] = extradata.multifields._keys[zFieldName][zLang];
+						}
+					}
+				}
+				if (extradata.extracreators) {
+					for (var pos in extradata.extracreators) {
+						var extraCreator = extradata.extracreators[pos];
+						if (extraCreator.name || extraCreator.lastName) {
+							var creator = {
+								creatorType: extraCreator.creatorType
+							}
+							if (extraCreator.name) {
+								creator.name = extraCreator.name;
+							} else if (extraCreator.fieldMode == "1") {
+								creator.name = extraCreator.lastName;
+							} else {
+								if (extraCreator.lastName) {
+									creator.lastName = extraCreator.lastName;
+								}
+								if (extraCreator.firstName) {
+									creator.firstName = extraCreator.firstName;
+								}
+							}
+							newjson.creators.push(extraCreator);
+						}
+					}
+				}
+			}
+		}
+		for (var pos in newjson.creators) {
+			var creator = newjson.creators[pos];
+			creator.multi = {
+				main: false,
+				_key: {}
+			}
+		}
+		if (noteMatch) {
+			if (extradata.multicreators) {
+				for (var pos in extradata.multicreators) {
+					var creator = newjson.creators[pos];
+					var multiObj = extradata.multicreators[pos];
+					if (multiObj.main) {
+						creator.multi.main = multiObj.main;
+					}
+					if (multiObj._key) {
+						for (var langTag in multiObj._key) {
+							var nameObj = multiObj._key[langTag];
+							if (nameObj.name || nameObj.lastName) {
+								creator.multi._key[langTag] = {};
+								if (nameObj.name) {
+									creator.multi._key[langTag].name = nameObj.name;
+								} else if (creator.name) {
+									creator.multi._key[langTag].name = nameObj.lastName;
+								} else {
+									if (nameObj.firstName) {
+										creator.multi._key[langTag].firstName = nameObj.firstName;
+									}
+									if (nameObj.lastName) {
+										creator.multi._key[langTag].lastName = nameObj.lastName;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return newjson;
+	},
+	
+	"encodeMlzContent": function (json) {
+		if (!json.multi) {
+			//throw "No multi segment on item JSON. What happened?";
+			return json;
+		}
+		
+		var extradata = {};
+		
+		var newjson = JSON.parse(JSON.stringify(json));
+		
+		// multifields
+		if (Object.keys(newjson.multi.main).length > 0 || Object.keys(newjson.multi._keys).length > 0) {
+			extradata.multifields = newjson.multi;
+		}
+		delete newjson.multi;
+		
+		// extrafields
+		if (this.EXTENDED_FIELDS[newjson.itemType]) {
+			for (var fieldName in newjson) {
+				if (fieldName === "creators") continue;
+				if (this.EXTENDED_FIELDS[newjson.itemType][fieldName]) {
+					if (newjson[fieldName]) {
+						if (!extradata.extrafields) {
+							extradata.extrafields = {};
+						}
+						extradata.extrafields[fieldName] = newjson[fieldName];
+					}
+					delete newjson[fieldName];
+				}
+			}
+		}
+
+		if (newjson.creators) {
+			// extracreators [1]
+			// Move extended creators to the end of the line
+			if (this.EXTENDED_CREATORS[newjson.itemType]) {
+				var extendedcreators = [];
+				for (var i=newjson.creators.length-1;i > -1; i--) {
+					var creator = newjson.creators[i];
+					if (this.EXTENDED_CREATORS[newjson.itemType][creator.creatorType]) {
+						extendedcreators.push(creator);
+						newjson.creators = newjson.creators.slice(0, i).concat(newjson.creators.slice(i+1))
+					}
+				}
+				newjson.creators = newjson.creators.concat(extendedcreators);
+			}
+			
+			// multicreators
+			for (var pos in newjson.creators) {
+				var creator = newjson.creators[pos];
+				if (creator.multi) {
+					if (creator.multi.main || Object.keys(creator.multi._key).length > 0) {
+						if (!extradata.multicreators) {
+							extradata.multicreators = {};
+						}
+						extradata.multicreators[pos] = creator.multi;
+					}
+					delete creator.multi;
+				}
+			}
+			
+			// extracreators [2]
+			// Move extended creators to extradata property
+			if (this.EXTENDED_CREATORS[newjson.itemType]) {
+				if (extendedcreators.length) {
+					extradata.extracreators = extendedcreators;
+					var creatorsLength = (newjson.creators.length - extendedcreators.length);
+					newjson.creators = newjson.creators.slice(0, creatorsLength)
+				}
+			}
+		}
+
+		// xtype
+		if (this.EXTENDED_TYPES[newjson.itemType]) {
+			extradata.xtype = newjson.itemType;
+			newjson.itemType = this.EXTENDED_TYPES[newjson.itemType];
+		}
+
+		// Bundle it
+		if (Object.keys(extradata).length > 0) {
+			extradata = JSON.stringify(extradata);
+			var extradataLength = ("" + extradata.length);
+			while (extradataLength.length < 4) {
+				extradataLength = "0" + extradataLength;
+			}
+			// Check if content exists on extra
+			if (newjson.extra) {
+				// Remove any preexisting sync object in extra (should never happen, but hey)
+				var m = newjson.extra.match(/^mlzsync[1-9]:([0-9][0-9][0-9][0-9])/);
+				if (m) {
+					var totalOffset = parseInt(m[1]) + 13;
+					newjson.extra = newjson.extra.slice(totalOffset);
+				}
+			} else {
+				newjson.extra = "";
+			}
+			// Prepend sync object to extra
+			newjson.extra = 'mlzsync1:' + extradataLength + extradata + newjson.extra;
+			// Done!
+		}
+		return newjson;
+	}
 }
