@@ -61,7 +61,7 @@
 <!ENTITY helpCheckForUpdates.accesskey "V">
 <!ENTITY helpCheckForUpdates.label "Vérifier les mises à jour…">
 <!ENTITY helpFeedbackPage.accesskey "F">
-<!ENTITY helpFeedbackPage.label "Forum Zotero">
+<!ENTITY helpFeedbackPage.label "Forum Juris-M">
 <!ENTITY helpMac.commandkey "?">
 <!ENTITY helpMenu.accesskey "A">
 <!ENTITY helpMenu.label "Aide">
@@ -79,7 +79,7 @@
 <!ENTITY importCmd.label "Importer…">
 <!ENTITY importFromClipboardCmd.label "Importer depuis le presse-papiers">
 <!ENTITY installConnector.accesskey "I">
-<!ENTITY installConnector.label "Installer le Connecteur Zotero dans le navigateur">
+<!ENTITY installConnector.label "Installer le Connecteur Juris-M dans le navigateur">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimiser">
 <!ENTITY pageSetupCmd.accesskey "M">
@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Quitter">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Quitter Zotero">
+<!ENTITY quitApplicationCmdMac.label "Quitter Juris-M">
 <!ENTITY quitApplicationCmdWin.accesskey "Q">
 <!ENTITY quitApplicationCmdWin.label "Quitter">
 <!ENTITY redoCmd.accesskey "R">

@@ -37,17 +37,17 @@
 <!ENTITY zotero.contextMenu.addTextToNewNote "Създава запис и бележка в Зотеро от избраното.">
 <!ENTITY zotero.contextMenu.saveImageAsItem "Съхранява образа като запис в Зотеро">
 <!ENTITY zotero.contextMenu.saveLinkAsItem "Съхранява връзката като запис в Зотеро">
-<!ENTITY zotero.downloadManager.label "Save to Zotero">
+<!ENTITY zotero.downloadManager.label "Save to Juris-M">
 <!ENTITY zotero.downloadManager.noPDFTools.description "To use this feature, you must first install the PDF tools in the Search pane of the Juris-M preferences.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Attachments cannot be saved to the currently selected library. This item will be saved to your library instead.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Select fields to keep from other versions of the item:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Choose the version of the item to use as the master item:">
 <!ENTITY zotero.errorReport.notReviewed "В общият случай, отчетите с грешки няма да бъдат разглеждани, освен ако не са оповестени във форумите.">
-<!ENTITY zotero.errorReport.postToForums "Моля оставете съобщение във форумите на Zotero (forums.zotero.org) с идентификационият номер на отчета, описание на проблема и стъпките необходими, за да бъде възпроизведен.">
+<!ENTITY zotero.errorReport.postToForums "Моля оставете съобщение във форумите на Juris-M (juris-m.github.io/support) с идентификационият номер на отчета, описание на проблема и стъпките необходими, за да бъде възпроизведен.">
 <!ENTITY zotero.errorReport.reportID "Идентификационен номер на отчета:">
 <!ENTITY zotero.errorReport.submissionInProgress "Моля изчакайте докато бъде подаден отчета с грешките.">
 <!ENTITY zotero.errorReport.submitted "Отчета с грешките беше подаден.">
-<!ENTITY zotero.errorReport.title "Zotero Error Report">
+<!ENTITY zotero.errorReport.title "Juris-M Error Report">
 <!ENTITY zotero.errorReport.unrelatedMessages "This may include messages unrelated to Juris-M.">
 <!ENTITY zotero.exportOptions.format.label "Формат:">
 <!ENTITY zotero.exportOptions.title "Износ...">
@@ -331,7 +331,7 @@
 <!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Убедете се, че сте прочели">
 <!ENTITY zotero.upgrade.majorUpgradeLink "инструкциите за надграждане">
 <!ENTITY zotero.upgrade.newVersionInstalled "Инсталирахте нова версия на Зотеро.">
-<!ENTITY zotero.upgrade.title "Zotero Upgrade Wizard">
+<!ENTITY zotero.upgrade.title "Juris-M Upgrade Wizard">
 <!ENTITY zotero.upgrade.upgradeInProgress "Моля изчакайте процеса на осъвременяване да приключи. Това може да отнеме няколко минути.">
 <!ENTITY zotero.upgrade.upgradeRequired "Вашата база дани на Зотеро трябва да бъде осъвременена за да може да работи с новата версия.">
 <!ENTITY zotero.upgrade.upgradeSucceeded "Вашата база дани на Зотеро беше осъвременена успешно.">

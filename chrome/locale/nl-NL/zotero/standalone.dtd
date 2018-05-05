@@ -1,5 +1,5 @@
 <!ENTITY aboutProduct.accesskey "O">
-<!ENTITY aboutProduct.label "Over Zotero">
+<!ENTITY aboutProduct.label "Over Juris-M">
 <!ENTITY addons.label "Add-ons">
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Paginarichting wijzigen">
@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "A">
 <!ENTITY quitApplicationCmd.label "Afsluiten">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Zotero afsluiten">
+<!ENTITY quitApplicationCmdMac.label "Juris-M afsluiten">
 <!ENTITY quitApplicationCmdWin.accesskey "A">
 <!ENTITY quitApplicationCmdWin.label "Afsluiten">
 <!ENTITY redoCmd.accesskey "u">
