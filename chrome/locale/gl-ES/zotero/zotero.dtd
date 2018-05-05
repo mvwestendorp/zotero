@@ -68,12 +68,12 @@
 <!ENTITY zotero.file.noneSelected.label "Ningún ficheiro seleccionado">
 <!ENTITY zotero.general.advancedOptions.label "Opcións avanzadas">
 <!ENTITY zotero.general.cancel "Cancelar">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Pechar">
 <!ENTITY zotero.general.delete "Eliminar">
 <!ENTITY zotero.general.deselectAll "Desmarcar todo">
 <!ENTITY zotero.general.edit "Editar">
 <!ENTITY zotero.general.loading "Cargando...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimizar">
 <!ENTITY zotero.general.more "Máis">
 <!ENTITY zotero.general.no "Non">
 <!ENTITY zotero.general.note "Nota:">
@@ -82,15 +82,15 @@
 <!ENTITY zotero.general.refresh "Actualizar">
 <!ENTITY zotero.general.saveAs "Gardar como...">
 <!ENTITY zotero.general.selectAll "Marcar todo">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "Ferramentas">
 <!ENTITY zotero.general.yes "Si">
 <!ENTITY zotero.integration.addEditCitation.title "Engadir/Editar a cita">
 <!ENTITY zotero.integration.classicView.label "Vista clásica">
 <!ENTITY zotero.integration.docPrefs.title "Preferencias do documento">
 <!ENTITY zotero.integration.editBibliography.title "Editar a bibliografía">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Desactivar as actualizacións pode acelerar a introdución de citas nos documentos grandes. Preme en refrescar para actualizar as citas de xeito manual.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Actualizar as citas automaticamente">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Vanse marcar as citas con actualizacións pendentes no documento">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "O campo «Abrv. Xornal» hase ignorar. ">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Empregar as abreviaturas de MEDLINE">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Os marcapáxinas pódense compartir entre Word e LibreOffice. Porén, se se modifican por erro xa non se poden introducir nas notas ao pé do texto.">
@@ -131,7 +131,7 @@
 <!ENTITY zotero.item.creatorTransform.nameParticles "Adjust Name Particles">
 <!ENTITY zotero.item.creatorTransform.nameSwap "Intercambiar Nome/Apelidos">
 <!ENTITY zotero.item.deletePermanently "Eliminar ao completo...">
-<!ENTITY zotero.item.tags.removeAll "Remove All Tags…">
+<!ENTITY zotero.item.tags.removeAll "Eliminar todas as etiquetas...">
 <!ENTITY zotero.item.textTransform "Transformar o texto">
 <!ENTITY zotero.item.textTransform.sentencecase "Maiúsculas comezando cada oración">
 <!ENTITY zotero.item.textTransform.titlecase "Maiúsculas comezando cada palabra">
@@ -167,10 +167,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Xunguir os elemento...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
-<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
+<!ENTITY zotero.items.menu.reportMetadata "Informar de erros nos metadatos">
 <!ENTITY zotero.items.menu.restoreToLibrary "Restaurar na biblioteca">
 <!ENTITY zotero.items.menu.showInLibrary "Amosar na biblioteca">
-<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
+<!ENTITY zotero.items.menu.unrecognize "Desfacer a recuperación de metadatos">
 <!ENTITY zotero.items.moreColumns.label "Máis columnas">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Páxinas">
@@ -188,7 +188,7 @@
 <!ENTITY zotero.items.volume_column "Volume">
 <!ENTITY zotero.items.year_column "Ano">
 <!ENTITY zotero.lookup.button.search "Buscar">
-<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
+<!ENTITY zotero.lookup.description "Introduce ISBNs, DOIs, PMIDs, ou IDs de arXiv IDs para engadilos na librería:">
 <!ENTITY zotero.merge.deleted "Eliminado">
 <!ENTITY zotero.merge.of "de">
 <!ENTITY zotero.merge.title "Resolución de conflito">
@@ -246,7 +246,7 @@
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "As etiquetas sincronizadas teñen que ter menos de 256 caracteres.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Vaise eliminar a etiqueta de todos os elementos.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "As etiquetas que non estean marcadas non se gardarán.">
-<!ENTITY zotero.sync.stop "Stop Sync">
+<!ENTITY zotero.sync.stop "Deter a sincronización">
 <!ENTITY zotero.sync.storage.downloads "Descargas:">
 <!ENTITY zotero.sync.storage.progress "Progreso:">
 <!ENTITY zotero.sync.storage.uploads "Subidas:">
@@ -263,7 +263,7 @@
 <!ENTITY zotero.tagSelector.assignColor "Asignarlle cor...">
 <!ENTITY zotero.tagSelector.clearAll "Desmarcar todo">
 <!ENTITY zotero.tagSelector.clearVisible "Desmarcar o visible">
-<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Delete Automatic Tags in This Library…">
+<!ENTITY zotero.tagSelector.deleteAutomaticInLibrary "Borrar as etiquetas desta librería automaticamente...">
 <!ENTITY zotero.tagSelector.deleteTag "Eliminar a etiqueta...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Mostrar todas as etiquetas nesta librería">
 <!ENTITY zotero.tagSelector.filter "Filtro:">
