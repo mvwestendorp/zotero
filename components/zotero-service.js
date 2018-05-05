@@ -120,6 +120,7 @@ const xpcomFilesLocal = [
 	'multilingual/ui',
 	'multilingual/jurisdiction',
 	'notifier',
+	'openPDF',
 	'quickCopy',
 	'recognizePDF',
 	'report',
