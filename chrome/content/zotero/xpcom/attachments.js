@@ -798,7 +798,7 @@ Zotero.Attachments = new function(){
 					var value = item.getDisplayTitle()
 						.replace(/^\[/, "")
 						.replace(/\]$/, "")
-						.replace(/\. /g, "")
+						.replace(/\. /g, " ")
 						.replace(/\./g, "-")
 				break;
 				
