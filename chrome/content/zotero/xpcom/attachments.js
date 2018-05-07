@@ -794,6 +794,13 @@ Zotero.Attachments = new function(){
 					}
 				break;
 				
+				case 'title':
+					var value = item.getDisplayTitle()
+						.replace(/^\[/, "")
+						.replace(/\]$/, "")
+						.replace(/\./g, "");
+				break;
+				
 				default:
 					var value = '' + item.getField(field, false, true);
 			}
