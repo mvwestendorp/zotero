@@ -1120,18 +1120,24 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 		}
 	}
 	else if (itemTypeID === 20 || itemTypeID === 1263) {
-		var myTitle = title;
-		var mySection = this.getField('section', true);
-		if (!myTitle) {
-			myTitle = this.getField('code', true);
-		}
-		if (mySection) {
-			myTitle = [myTitle, mySection].join(' ');
-		}
+		var newTitle = [title];
 		if (!title) {
-			title = "[" + myTitle + "]";
+			newTitle.push(this.getField('codeNumber', true));
+			if (!newTitle[newTitle.length-1]) {
+				newTitle.push(this.getField('volume', true));
+			}
+			newTitle.push(this.getField('code', true));
+		}
+		newTitle.push(this.getField('section', true));
+
+		newTitle = newTitle.filter(function(val){
+			return val;
+		}).join(' ');
+		
+		if (!title) {
+			title = "[" + newTitle + "]";
 		} else {
-			title = myTitle;
+			title = newTitle;
 		}
 	}
 	else if (itemTypeID === 18) {
