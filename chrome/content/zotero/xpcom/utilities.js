@@ -2913,7 +2913,8 @@ Zotero.Utilities = {
 		},
 		"standard": {
 			"versionNumber":"version",
-			"number":"number"
+			"number":"number",
+			"jurisdiction": "jurisdiction"
 		},
 		"conferencePaper": {
 			"conferenceDate":"event-date",
