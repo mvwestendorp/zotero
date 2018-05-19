@@ -665,7 +665,7 @@ Zotero.Integration.Interface.prototype.addEditBibliography = Zotero.Promise.coro
 Zotero.Integration.Interface.prototype.refresh = async function() {
 	await this._session.init(true, false)
 	
-	this._session.reload = this._session.data.prefs.delayCitationUpdates;
+	this._session.reload = this._session.reload || this._session.data.prefs.delayCitationUpdates;
 	await this._session.fields.updateSession(FORCE_CITATIONS_REGENERATE)
 	await this._session.fields.updateDocument(FORCE_CITATIONS_REGENERATE, true, false);
 }
@@ -2579,7 +2579,7 @@ Zotero.Integration.Citation = class {
 		}).apply(this, arguments);
 	}
 		
-	async handleMissingItem() {
+	async handleMissingItem(idx) {
 		// Ask user what to do with this item
 		if (this.citationItems.length == 1) {
 			var msg = Zotero.getString("integration.missingItem.single");

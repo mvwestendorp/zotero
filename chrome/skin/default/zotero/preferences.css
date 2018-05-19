@@ -409,3 +409,9 @@ treechildren::-moz-tree-checkbox(checked){
 label.zotero-clicky.thin-border {
 	border: 1px solid rgb(109, 149, 224);
 }
+
+/* BEGIN 2X BLOCK -- DO NOT EDIT MANUALLY -- USE 2XIZE */
+@media (min-resolution: 1.25dppx) {
+	#zotero-prefpane-sync #sync-status-indicator[verified=true] { background-image: url("chrome://zotero/skin/tick@2x.png") }
+	#zotero-prefpane-sync #sync-status-indicator[animated] { background-image: url("chrome://zotero/skin/arrow_rotate_animated@2x.png") }
+}
