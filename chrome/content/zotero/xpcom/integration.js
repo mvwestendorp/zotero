@@ -2412,8 +2412,9 @@ Zotero.Integration.BibliographyField = class extends Zotero.Integration.Field {
 	};
 	
 	async unserialize() {
+		var code = this.getCode();
 		try {
-			return JSON.parse(this.getCode());
+			return JSON.parse(code);
 		} catch(e) {
 			return this.resolveCorrupt(code);
 		}
@@ -2427,7 +2428,7 @@ Zotero.Integration.BibliographyField = class extends Zotero.Integration.Field {
 			throw new Zotero.Exception.UserCancelled("corrupt bibliography resolution");
 		} else {
 			await this.clearCode();
-			return unserialize();
+			return this.unserialize();
 		}
 	}
 };
