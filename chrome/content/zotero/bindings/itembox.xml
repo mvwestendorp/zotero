@@ -394,22 +394,23 @@
 			
 			<method name="creatorChangeLangMenuFunc">
 				<parameter name="node"/>
-				<parameter name="tag"/>
+				<parameter name="newTag"/>
 				<parameter name="creator"/>
 				<body>
 				<![CDATA[
 					var fieldName = node.getAttribute('fieldname');
 					var creatorIndex = parseInt(fieldName.split('-')[1],10);
 					var oldTag = node.getAttribute("zlang");
-					creator.multi.changeLangTag(oldTag, tag);
-					if (!this.item._changedAltCreators) {
-						this.item._changedAltCreators = {};
+					if (creator.multi.main === newTag || creator.multi._key[newTag]) {
+						throw "Attempt to change to existing language tag in creator";
 					}
-					if (!this.item._changedAltCreators[creatorIndex]) {
-						this.item._changedAltCreators[creatorIndex] = {};
+					if (!oldTag || oldTag === creator.multi.main) {
+						creator.multi.main = newTag;
+					} else if (creator.multi._key[oldTag]) {
+						creator.multi._key[newTag] = creator.multi._key[oldTag];
+						delete creator.multi._key[oldTag];
 					}
-					this.item._changedAltCreators[creatorIndex][oldTag] = true;
-					this.item._changedAltCreators[creatorIndex][tag] = true;
+					this.item.setCreator(creatorIndex, creator, creator.creatorTypeID);
 					this.item.saveTx();
 				]]>
 				</body>
