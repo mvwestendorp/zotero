@@ -101,7 +101,7 @@
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Quit">
 <!ENTITY quitApplicationCmdMac.key "Q">
-<!ENTITY quitApplicationCmdMac.label "Thoát Juris-M">
+<!ENTITY quitApplicationCmdMac.label "Thoát Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Thoát">
 <!ENTITY redoCmd.accesskey "R">
