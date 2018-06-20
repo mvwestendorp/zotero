@@ -207,7 +207,12 @@ if [[ "$TRAVIS" != true ]] && ! ps | grep scripts/build.js | grep -v grep > /dev
 	echo
 fi
 
+echo TRY
+
 makePath FX_PROFILE "$PROFILE"
+
+echo "SHITHOLE: $PROFILE"
+
 MOZ_NO_REMOTE=1 NO_EM_RESTART=1 "$FX_EXECUTABLE" -profile "$FX_PROFILE" \
     -chrome chrome://zotero-unit/content/runtests.html -test "$TESTS" -grep "$GREP" -ZoteroTest $FX_ARGS
 
