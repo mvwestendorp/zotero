@@ -702,8 +702,7 @@ Zotero.Collection.prototype.fromJSON = function (json) {
 	this.name = json.name;
 	this.parentKey = json.parentCollection ? json.parentCollection : false;
 	
-	// TODO
-	//this.setRelations(json.relations);
+	this.setRelations(json.relations || {});
 }
 
 
@@ -717,7 +716,7 @@ Zotero.Collection.prototype.toJSON = function (options = {}) {
 	
 	obj.name = this.name;
 	obj.parentCollection = this.parentKey ? this.parentKey : false;
-	obj.relations = {}; // TEMP
+	obj.relations = this.getRelations();
 	
 	return this._postToJSON(env);
 }

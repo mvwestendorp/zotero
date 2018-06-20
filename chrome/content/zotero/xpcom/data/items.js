@@ -364,7 +364,21 @@ Zotero.Items = function() {
 			yield Zotero.CachedJurisdictionData.load(item);
 			
 			// Display titles
-			item.updateDisplayTitle()
+			try {
+				item.updateDisplayTitle()
+			}
+			catch (e) {
+				// A few item types need creators to be loaded. Instead of making
+				// updateDisplayTitle() async and loading conditionally, just catch the error
+				// and load on demand
+				if (e instanceof Zotero.Exception.UnloadedDataException) {
+					yield item.loadDataType('creators');
+					item.updateDisplayTitle()
+				}
+				else {
+					throw e;
+				}
+			}
 		}
 	});
 	

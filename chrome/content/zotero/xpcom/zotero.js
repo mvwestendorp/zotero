@@ -49,7 +49,6 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	this.flattenArguments = flattenArguments;
 	this.getAncestorByTagName = getAncestorByTagName;
 	this.randomString = randomString;
-	this.moveToUnique = moveToUnique;
 	this.reinit = reinit; // defined in zotero-service.js
 	
 	// Public properties
@@ -925,6 +924,9 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	 * Initializes the DB connection
 	 */
 	var _initDB = Zotero.Promise.coroutine(function* (haveReleasedLock) {
+		// Initialize main database connection
+		Zotero.DB = new Zotero.DBConnection('zotero');
+		
 		try {
 			// Test read access
 			yield Zotero.DB.test();
@@ -1756,7 +1758,8 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	}
 	
 	
-	function moveToUnique(file, newFile){
+	this.moveToUnique = function (file, newFile) {
+		Zotero.debug("Zotero.moveToUnique() is deprecated -- use Zotero.File.moveToUnique()", 2);
 		newFile.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0o644);
 		var newName = newFile.leafName;
 		newFile.remove(null);
@@ -2813,7 +2816,7 @@ Zotero.DragDrop = {
 Zotero.Browser = new function() {
 	var nBrowsers = 0;
 	
-	this.createHiddenBrowser = function (win) {
+	this.createHiddenBrowser = function (win, options = {}) {
 		if (!win) {
 			win = Services.wm.getMostRecentWindow("navigator:browser");
 			if (!win) {
@@ -2839,7 +2842,7 @@ Zotero.Browser = new function() {
 		hiddenBrowser.docShell.allowAuth = false;
 		hiddenBrowser.docShell.allowDNSPrefetch = false;
 		hiddenBrowser.docShell.allowImages = false;
-		hiddenBrowser.docShell.allowJavascript = true;
+		hiddenBrowser.docShell.allowJavascript = options.allowJavaScript !== false
 		hiddenBrowser.docShell.allowMetaRedirects = false;
 		hiddenBrowser.docShell.allowPlugins = false;
 		Zotero.debug("Created hidden browser (" + (nBrowsers++) + ")");
