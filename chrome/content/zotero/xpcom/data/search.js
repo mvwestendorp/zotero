@@ -1223,7 +1223,7 @@ Zotero.Search.prototype._buildQuery = Zotero.Promise.coroutine(function* () {
 							let ids = [obj.id];
 							
 							// Search descendent collections if recursive search
-							if (recursive){
+							if (recursive && obj.getDescendents){
 								ids = ids.concat(obj.getDescendents(false, 'collection').map(d => d.id));
 							}
 							
