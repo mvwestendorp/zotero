@@ -79,7 +79,7 @@
 <!ENTITY importCmd.label "불러오기...">
 <!ENTITY importFromClipboardCmd.label "클립보드에서 불러오기">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "브라우저 확장 기능 설치">
+<!ENTITY installConnector.label "브라우저 중계기 설치">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "최소화">
 <!ENTITY pageSetupCmd.accesskey "U">

@@ -79,21 +79,21 @@
 <!ENTITY zotero.general.note "Aantekening:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Optioneel)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "Opties">
+<!ENTITY zotero.general.other "Andere...">
 <!ENTITY zotero.general.refresh "Vernieuwen">
 <!ENTITY zotero.general.saveAs "Opslaan als...">
 <!ENTITY zotero.general.selectAll "Alles selecteren">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ja">
-<!ENTITY zotero.import "Import">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
+<!ENTITY zotero.import "Importeren">
+<!ENTITY zotero.import.createCollection "Geïmporteerde verzamelingen en items in een nieuwe verzameling plaatsen">
 <!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import.importing "Importeren...">
+<!ENTITY zotero.import.lastModified "Laatst gewijzigd">
+<!ENTITY zotero.import.size "Grootte">
+<!ENTITY zotero.import.source.file "Een bestand (BibTeX, RIS, Zotero RDF, etc.)">
+<!ENTITY zotero.import.whereToImportFrom "Waaruit wilt u importeren?">
 <!ENTITY zotero.integration.addEditCitation.title "Verwijzing toevoegen/aanpassen">
 <!ENTITY zotero.integration.classicView.label "Klassieke weergave">
 <!ENTITY zotero.integration.docPrefs.title "Documentvoorkeuren">

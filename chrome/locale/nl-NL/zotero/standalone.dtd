@@ -79,7 +79,7 @@
 <!ENTITY importCmd.label "Importeren...">
 <!ENTITY importFromClipboardCmd.label "Importeren van klembord">
 <!ENTITY installConnector.accesskey "C">
-<!ENTITY installConnector.label "Installeer Browser Connector">
+<!ENTITY installConnector.label "Browser Connector installeren">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimaliseren">
 <!ENTITY pageSetupCmd.accesskey "i">

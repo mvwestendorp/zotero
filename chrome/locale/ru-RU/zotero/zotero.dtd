@@ -308,7 +308,7 @@
 <!ENTITY zotero.toolbar.lookup "Найти по идентификатору…">
 <!ENTITY zotero.toolbar.lookup.label "Добавить документ по идентификатору">
 <!ENTITY zotero.toolbar.markFeedRead.label "Пометить все новости прочитанными">
-<!ENTITY zotero.toolbar.moreItemTypes.label "Далее">
+<!ENTITY zotero.toolbar.moreItemTypes.label "Прочие типы публикаций">
 <!ENTITY zotero.toolbar.newCollection.label "Новая подборка…">
 <!ENTITY zotero.toolbar.newGroup "Новая группа…">
 <!ENTITY zotero.toolbar.newItem.label "Новый документ">

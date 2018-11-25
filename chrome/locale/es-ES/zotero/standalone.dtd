@@ -20,8 +20,8 @@
 <!ENTITY cutCmd.label "Cortar">
 <!ENTITY debugOutputLogging.accesskey "L">
 <!ENTITY debugOutputLogging.clear "Limpiar resultados">
-<!ENTITY debugOutputLogging.label "Registro de resultados de depuración">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Reiniciar con Registro Deshabilitado...">
+<!ENTITY debugOutputLogging.label "Registro de salida de depuración">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Reiniciar con registro habilitado...">
 <!ENTITY debugOutputLogging.submit "Enviar resultados">
 <!ENTITY debugOutputLogging.view "Ver resultados">
 <!ENTITY deleteCmd.accesskey "D">
@@ -70,7 +70,7 @@
 <!ENTITY helpReportErrors.accesskey "R">
 <!ENTITY helpReportErrors.label "Informa de errores...">
 <!ENTITY helpTroubleshootingInfo.accesskey "T">
-<!ENTITY helpTroubleshootingInfo.label "Información de resolución de problemas">
+<!ENTITY helpTroubleshootingInfo.label "Información sobre resolución de problemas">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY hideOtherAppsCmdMac.label "Ocultar otros">
 <!ENTITY hideThisAppCmdMac.commandkey "H">
@@ -93,7 +93,7 @@
 <!ENTITY preferencesCmdMac.label "Preferencias...">
 <!ENTITY preferencesCmdUnix.accesskey "n">
 <!ENTITY preferencesCmdUnix.label "Preferencias">
-<!ENTITY printCmd.accesskey "U">
+<!ENTITY printCmd.accesskey "P">
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Imprimir…">
 <!ENTITY productHelp.accesskey "H">

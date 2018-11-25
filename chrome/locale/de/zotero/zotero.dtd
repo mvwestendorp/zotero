@@ -132,7 +132,7 @@
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.caption "When this option is enabled, all trailing punctuation will be dropped in note styles. To selectively drop trailing punctuation on individual citations, disable this option, and set suppression on each citation directly.">
 <!ENTITY zotero.integration.prefs.suppressTrailingPunctuation.label "Suppress all trailing punctuation">
 <!ENTITY zotero.integration.quickFormatDialog.title "Schnellformatierung Zitation">
-<!ENTITY zotero.integration.references.label "Literaturangaben in Bibliographie">
+<!ENTITY zotero.integration.references.label "Literaturangaben in Bibliografie">
 <!ENTITY zotero.integration.showEditor.label "Editor anzeigen">
 <!ENTITY zotero.item.add "Hinzufügen">
 <!ENTITY zotero.item.attachment.file.show "Datei zeigen">
