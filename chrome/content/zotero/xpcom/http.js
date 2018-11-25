@@ -9,8 +9,9 @@ Zotero.HTTP = new function() {
 	 * Exception returned for unexpected status when promise* is used
 	 * @constructor
 	 */
-	this.UnexpectedStatusException = function(xmlhttp, msg) {
+	this.UnexpectedStatusException = function (xmlhttp, url, msg) {
 		this.xmlhttp = xmlhttp;
+		this.url = url;
 		this.status = xmlhttp.status;
 		this.channelStatus = null;
 		this.responseStatus = null;
@@ -99,36 +100,52 @@ Zotero.HTTP = new function() {
 	/**
 	 * Get a promise for a HTTP request
 	 *
-	 * @param {String} method The method of the request ("GET", "POST", "HEAD", or "OPTIONS")
-	 * @param {nsIURI|String}	url				URL to request
-	 * @param {Object} [options] Options for HTTP request:<ul>
-	 *         <li>body - The body of a POST request</li>
-	 *         <li>headers - Object of HTTP headers to send with the request</li>
-	 *         <li>cookieSandbox - The sandbox from which cookies should be taken</li>
-	 *         <li>debug - Log response text and status code</li>
-	 *         <li>dontCache - If set, specifies that the request should not be fulfilled from the cache</li>
-	 *         <li>foreground - Make a foreground request, showing certificate/authentication dialogs if necessary</li>
-	 *         <li>headers - HTTP headers to include in the request</li>
-	 *         <li>logBodyLength - Length of request body to log (defaults to 1024)</li>
-	 *         <li>timeout - Request timeout specified in milliseconds
-	 *         <li>requestObserver - Callback to receive XMLHttpRequest after open()</li>
-	 *         <li>responseType - The type of the response. See XHR 2 documentation for legal values</li>
-	 *         <li>responseCharset - The charset the response should be interpreted as</li>
-	 *         <li>successCodes - HTTP status codes that are considered successful, or FALSE to allow all</li>
-	 *     </ul>
-	 * @param {Zotero.CookieSandbox} [cookieSandbox] Cookie sandbox object
-	 * @return {Promise<XMLHttpRequest>} A promise resolved with the XMLHttpRequest object if the
-	 *     request succeeds, or rejected if the browser is offline or a non-2XX status response
+	 * @param {String} method - The method of the request ("GET", "POST", etc.)
+	 * @param {nsIURI|String} url - URL to request
+	 * @param {Object} [options] Options for HTTP request:
+	 * @param {String} [options.body] - The body of a POST request
+	 * @param {Object} [options.headers] - Object of HTTP headers to send with the request
+	 * @param {Boolean} [options.followRedirects = true] - Object of HTTP headers to send with the
+	 *     request
+	 * @param {Zotero.CookieSandbox} [options.cookieSandbox] - The sandbox from which cookies should
+	 *     be taken
+	 * @param {Boolean} [options.debug] - Log response text and status code
+	 * @param {Boolean} [options.dontCache] - If set, specifies that the request should not be
+	 *     fulfilled from the cache
+	 * @param {Boolean} [options.foreground] - Make a foreground request, showing
+	 *     certificate/authentication dialogs if necessary
+	 * @param {Number} [options.logBodyLength=1024] - Length of request body to log
+	 * @param {Number} [options.timeout] - Request timeout specified in milliseconds
+	 * @param {Function} [options.requestObserver] - Callback to receive XMLHttpRequest after open()
+	 * @param {String} [options.responseType] - The type of the response. See XHR 2 documentation
+	 *     for legal values
+	 * @param {String} [options.responseCharset] - The charset the response should be interpreted as
+	 * @param {Number[]|false} [options.successCodes] - HTTP status codes that are considered
+	 *     successful, or FALSE to allow all
+	 * @param {Zotero.CookieSandbox} [options.cookieSandbox] - Cookie sandbox object
+	 * @return {Promise<XMLHttpRequest>} - A promise resolved with the XMLHttpRequest object if the
+	 *     request succeeds or rejected if the browser is offline or a non-2XX status response
 	 *     code is received (or a code not in options.successCodes if provided).
 	 */
 	this.request = Zotero.Promise.coroutine(function* (method, url, options = {}) {
 		if (url instanceof Components.interfaces.nsIURI) {
-			// Don't display password in console
-			var dispURL = this.getDisplayURI(url).spec;
+			// Extract username and password from URI and undo Mozilla's excessive percent-encoding
+			options.username = url.username || null;
+			if (options.username) {
+				options.username = options.username.replace(/%2E/, '.');
+				options.password = url.password || null;
+				url = url.clone();
+				url.userPass = '';
+			}
+			
 			url = url.spec;
 		}
-		else {
-			var dispURL = url;
+		
+		var dispURL = url;
+		
+		// Add username:******** to display URL
+		if (options.username) {
+			dispURL = dispURL.replace(/^(https?:\/\/)/, `$1${options.username}:********@`);
 		}
 		
 		// Don't display API key in console
@@ -173,7 +190,7 @@ Zotero.HTTP = new function() {
 		if (!options.foreground) {
 			xmlhttp.mozBackgroundRequest = true;
 		}
-		xmlhttp.open(method, url, true);
+		xmlhttp.open(method, url, true, options.username, options.password);
 		
 		// Pass the request to a callback
 		if (options.requestObserver) {
@@ -190,6 +207,8 @@ Zotero.HTTP = new function() {
 		// Send cookie even if "Allow third-party cookies" is disabled (>=Fx3.6 only)
 		var channel = xmlhttp.channel,
 			isFile = channel instanceof Components.interfaces.nsIFileChannel;
+		var redirectStatus;
+		var redirectLocation;
 		if(channel instanceof Components.interfaces.nsIHttpChannelInternal) {
 			channel.forceAllowThirdPartyCookie = true;
 			
@@ -207,8 +226,22 @@ Zotero.HTTP = new function() {
 			if (options.dontCache) {
 				channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
 			}
+			
+			// Don't follow redirects
+			if (options.followRedirects === false) {
+				channel.notificationCallbacks = {
+					QueryInterface: XPCOMUtils.generateQI([Ci.nsIInterfaceRequestor, Ci.nsIChannelEventSync]),
+					getInterface: XPCOMUtils.generateQI([Ci.nsIChannelEventSink]),
+					asyncOnChannelRedirect: function (oldChannel, newChannel, flags, callback) {
+						redirectStatus = (flags & Ci.nsIChannelEventSink.REDIRECT_PERMANENT) ? 301 : 302;
+						redirectLocation = newChannel.URI.spec;
+						oldChannel.cancel(Cr.NS_BINDING_ABORTED);
+						callback.onRedirectVerifyCallback(Cr.NS_BINDING_ABORTED);
+					}
+				};
+			}
 		}
-
+		
 		// Set responseType
 		if (options.responseType) {
 			xmlhttp.responseType = options.responseType;
@@ -265,17 +298,24 @@ Zotero.HTTP = new function() {
 			deferred.reject(new Zotero.HTTP.TimeoutException(options.timeout));
 		};
 
-		xmlhttp.onloadend = function() {
-			var status = xmlhttp.status;
+		xmlhttp.onloadend = async function() {
+			var status = xmlhttp.status || redirectStatus;
 			
-			// If an invalid HTTP response (e.g., NS_ERROR_INVALID_CONTENT_ENCODING) includes a
-			// 4xx or 5xx HTTP response code, swap it in, since it might be enough info to do
-			// what we need (e.g., verify a 404 from a WebDAV server)
 			try {
-				if (!status && xmlhttp.channel.responseStatus >= 400) {
-					Zotero.warn(`Overriding status for invalid response for ${dispURL} `
-						+ `(${xmlhttp.channel.status})`);
-					status = xmlhttp.channel.responseStatus;
+				if (!status) {
+					let responseStatus = xmlhttp.channel.responseStatus;
+					// If we cancelled a redirect, get the 3xx status from the channel
+					if (responseStatus >= 300 && responseStatus < 400) {
+						status = responseStatus;
+					}
+					// If an invalid HTTP response (e.g., NS_ERROR_INVALID_CONTENT_ENCODING) includes a
+					// 4xx or 5xx HTTP response code, swap it in, since it might be enough info to do
+					// what we need (e.g., verify a 404 from a WebDAV server)
+					else if (responseStatus >= 400) {
+						Zotero.warn(`Overriding status for invalid response for ${dispURL} `
+							+ `(${xmlhttp.channel.status})`);
+						status = responseStatus;
+					}
 				}
 			}
 			catch (e) {}
@@ -290,6 +330,21 @@ Zotero.HTTP = new function() {
 			else if(isFile) {
 				var success = status == 200 || status == 0;
 			}
+			else if (redirectStatus) {
+				var success = true;
+				let channel = xmlhttp.channel;
+				xmlhttp = {
+					status,
+					getResponseHeader: function (header) {
+						if (header.toLowerCase() == 'location') {
+							return redirectLocation;
+						}
+						Zotero.debug("Warning: Attempt to get response header other than Location "
+							+ "for redirect", 2);
+						return null;
+					}
+				};
+			}
 			else {
 				var success = status >= 200 && status < 300;
 			}
@@ -300,6 +355,48 @@ Zotero.HTTP = new function() {
 				if (options.debug) {
 					Zotero.debug(xmlhttp.responseText);
 				}
+				
+				// Follow meta redirects
+				if (options.responseType === 'document' &&
+					(!options.numRedirects || options.numRedirects < 3)) {
+					let contentType = xmlhttp.getResponseHeader('Content-Type');
+					if (contentType && contentType.startsWith('text/html')) {
+						let meta = xmlhttp.response.querySelector('meta[http-equiv="refresh" i]');
+						if (meta) {
+							let content = meta.getAttribute('content');
+							if (content) {
+								let parts = content.split(/;\s*url=/);
+								// If there's a redirect to another URL in less than 15 seconds,
+								// follow it
+								if (parts.length === 2 && parseInt(parts[0]) <= 15) {
+									let url = parts[1].trim().replace(/^'(.+)'/, '$1');
+									
+									// Resolve URL. P.S.: For unknown reason this only works
+									// if server returns 'Content-Type: text/html' header
+									let a = xmlhttp.response.createElement('a');
+									a.href = url;
+									let resolvedUrl = a.href;
+									
+									// Make sure the absolute URL is actually resolved
+									if (/^https?:\/\//.test(resolvedUrl)) {
+										if (options.numRedirects) {
+											options.numRedirects++;
+										}
+										else {
+											options.numRedirects = 1;
+										}
+										
+										// Meta redirect is always GET
+										return Zotero.HTTP.request("GET", resolvedUrl, options)
+											.then(xmlhttp => deferred.resolve(xmlhttp))
+											.catch(e => deferred.reject(e));
+									}
+								}
+							}
+						}
+					}
+				}
+				
 				deferred.resolve(xmlhttp);
 			} else {
 				let msg = "HTTP " + method + " " + dispURL + " failed with status code " + status;
@@ -308,17 +405,19 @@ Zotero.HTTP = new function() {
 				}
 				Zotero.debug(msg, 1);
 				
-				try {
-					_checkSecurity(xmlhttp, channel);
-				}
-				catch (e) {
-					deferred.reject(e);
-					return;
+				if (xmlhttp.status == 0) {
+					try {
+						this.checkSecurity(channel);
+					}
+					catch (e) {
+						deferred.reject(e);
+						return;
+					}
 				}
 				
-				deferred.reject(new Zotero.HTTP.UnexpectedStatusException(xmlhttp, msg));
+				deferred.reject(new Zotero.HTTP.UnexpectedStatusException(xmlhttp, url, msg));
 			}
-		};
+		}.bind(this);
 		
 		if (options.cookieSandbox) {
 			options.cookieSandbox.attachToInterfaceRequestor(xmlhttp);
@@ -651,10 +750,21 @@ Zotero.HTTP = new function() {
 							dontCache: true
 						})
 						.catch(function (e) {
-							Components.utils.reportError(e);
-							var msg = "Error connecting to proxy -- proxied requests may not work";
-							Zotero.log(msg, 'error');
-							Zotero.debug(msg, 1);
+							// Show error icon at startup
+							if (!e.dialogHeader) {
+								e.dialogHeader = Zotero.getString('networkError.errorViaProxy');
+							}
+							e.message += "\n\n" + Zotero.getString('startupError.internetFunctionalityMayNotWork');
+							if (!e.dialogButtonText) {
+								e.dialogButtonText = Zotero.getString('general.moreInformation');
+								e.dialogButtonCallback = () => {
+									Zotero.launchURL('https://www.zotero.org/support/kb/connection_error');
+								};
+							}
+							Zotero.proxyFailure = e;
+							Zotero.logError(e);
+							let msg = "Error connecting to proxy -- proxied requests may not work";
+							Zotero.logError(msg);
 						});
 						break;
 					}
@@ -715,78 +825,6 @@ Zotero.HTTP = new function() {
 	}
 	
 	
-	//
-	// WebDAV methods
-	//
-	
-	this.WebDAV = {};
-	
-	/**
-	 * Send a WebDAV MKCOL request via XMLHTTPRequest
-	 *
-	 * @param	{nsIURI}		url
-	 * @param	{Function}	onDone
-	 * @return	{XMLHTTPRequest}
-	 */
-	this.WebDAV.doMkCol = function (uri, callback) {
-		// Don't display password in console
-		var disp = Zotero.HTTP.getDisplayURI(uri);
-		Zotero.debug("HTTP MKCOL " + disp.spec);
-		
-		if (Zotero.HTTP.browserIsOffline()) {
-			return false;
-		}
-		
-		var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-					.createInstance();
-		// Prevent certificate/authentication dialogs from popping up
-		xmlhttp.mozBackgroundRequest = true;
-		xmlhttp.open('MKCOL', uri.spec, true);
-		var useMethodjit = Components.utils.methodjit;
-		/** @ignore */
-		xmlhttp.onreadystatechange = function() {
-			_stateChange(xmlhttp, callback);
-		};
-		xmlhttp.send(null);
-		return xmlhttp;
-	}
-	
-	
-	/**
-	 * Send a WebDAV PUT request via XMLHTTPRequest
-	 *
-	 * @param	{nsIURI}		url
-	 * @param	{Function}	onDone
-	 * @return	{XMLHTTPRequest}
-	 */
-	this.WebDAV.doDelete = function (uri, callback) {
-		// Don't display password in console
-		var disp = Zotero.HTTP.getDisplayURI(uri);
-		
-		Zotero.debug("WebDAV DELETE to " + disp.spec);
-		
-		if (Zotero.HTTP.browserIsOffline()) {
-			return false;
-		}
-		
-		var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-					.createInstance();
-		// Prevent certificate/authentication dialogs from popping up
-		xmlhttp.mozBackgroundRequest = true;
-		xmlhttp.open("DELETE", uri.spec, true);
-		// Firefox 3 throws a "no element found" error even with a
-		// 204 ("No Content") response, so we override to text
-		xmlhttp.overrideMimeType("text/plain");
-		var useMethodjit = Components.utils.methodjit;
-		/** @ignore */
-		xmlhttp.onreadystatechange = function() {
-			_stateChange(xmlhttp, callback);
-		};
-		xmlhttp.send(null);
-		return xmlhttp;
-	}
-	
-	
 	this.isWriteMethod = function (method) {
 		return method == 'POST' || method == 'PUT' || method == 'PATCH' || method == 'DELETE';
 	};
@@ -833,8 +871,7 @@ Zotero.HTTP = new function() {
 	 * @type Boolean
 	 */
 	this.browserIsOffline = function() { 
-		return Components.classes["@mozilla.org/network/io-service;1"]
-			.getService(Components.interfaces.nsIIOService).offline;
+		return Services.io.offline;
 	}
 	
 	
@@ -868,8 +905,8 @@ Zotero.HTTP = new function() {
 				}
 			)
 			.then((xhr) => {
-				var doc = this.wrapDocument(xhr.response, url);
-				return processor(doc, url);
+				var doc = this.wrapDocument(xhr.response, xhr.responseURL);
+				return processor(doc, xhr.responseURL);
 			});
 		});
 		
@@ -963,7 +1000,7 @@ Zotero.HTTP = new function() {
 			}
 			
 			Zotero.debug("Zotero.HTTP.loadDocuments: " + url + " loaded");
-			hiddenBrowser.removeEventListener("pageshow", onLoad, true);
+			hiddenBrowser.removeEventListener("load", onLoad, true);
 			hiddenBrowser.zotero_loaded = true;
 			
 			var maybePromise;
@@ -1011,7 +1048,7 @@ Zotero.HTTP = new function() {
 		for(var i=0; i<urls.length; i++) {
 			var hiddenBrowser = Zotero.Browser.createHiddenBrowser();
 			if(cookieSandbox) cookieSandbox.attachToBrowser(hiddenBrowser);
-			hiddenBrowser.addEventListener("pageshow", onLoad, true);
+			hiddenBrowser.addEventListener("load", onLoad, true);
 			hiddenBrowsers[i] = hiddenBrowser;
 		}
 		
@@ -1050,8 +1087,8 @@ Zotero.HTTP = new function() {
 		}
 	}
 	
-	function _checkSecurity(xmlhttp, channel) {
-		if (xmlhttp.status != 0 || !channel) {
+	this.checkSecurity = function (channel) {
+		if (!channel) {
 			return;
 		}
 		
@@ -1063,34 +1100,27 @@ Zotero.HTTP = new function() {
 			secInfo.QueryInterface(Ci.nsITransportSecurityInfo);
 			if ((secInfo.securityState & Ci.nsIWebProgressListener.STATE_IS_INSECURE)
 					== Ci.nsIWebProgressListener.STATE_IS_INSECURE) {
-				let url = channel.name;
-				let ios = Components.classes["@mozilla.org/network/io-service;1"]
-					.getService(Components.interfaces.nsIIOService);
-				try {
-					var uri = ios.newURI(url, null, null);
-					var host = uri.host;
-				}
-				catch (e) {
-					Zotero.debug(e);
-				}
-				let kbURL = 'https://www.zotero.org/support/kb/ssl_certificate_error';
-				msg = Zotero.getString('sync.storage.error.webdav.sslCertificateError', host);
+				// Show actual error from the networking stack, with the hyperlink around the
+				// error code removed
+				msg = Zotero.Utilities.unescapeHTML(secInfo.errorMessage);
 				dialogButtonText = Zotero.getString('general.moreInformation');
 				dialogButtonCallback = function () {
-					let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-						.getService(Components.interfaces.nsIWindowMediator);
-					let win = wm.getMostRecentWindow("navigator:browser");
-					win.ZoteroPane.loadURI(kbURL, { metaKey: true, shiftKey: true });
+					Zotero.launchURL('https://www.zotero.org/support/kb/ssl_certificate_error');
 				};
 			}
 			else if ((secInfo.securityState & Ci.nsIWebProgressListener.STATE_IS_BROKEN)
 					== Ci.nsIWebProgressListener.STATE_IS_BROKEN) {
-				msg = Zotero.getString('sync.error.sslConnectionError');
+				msg = Zotero.getString('networkError.connectionNotSecure')
+					+ Zotero.Utilities.unescapeHTML(secInfo.errorMessage);
 			}
 			if (msg) {
 				throw new Zotero.HTTP.SecurityException(
 					msg,
 					{
+						dialogHeader: Zotero.getString(
+							'networkError.connectionNotSecure',
+							Zotero.clientName
+						),
 						dialogButtonText,
 						dialogButtonCallback
 					}

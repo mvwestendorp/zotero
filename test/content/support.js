@@ -20,9 +20,9 @@ function waitForDOMEvent(target, event, capture) {
 }
 
 async function waitForRecognizer() {
-	var win = await waitForWindow('chrome://zotero/content/recognizePDFDialog.xul')
+	var win = await waitForWindow('chrome://zotero/content/progressQueueDialog.xul')
 	// Wait for status to show as complete
-	var completeStr = Zotero.getString("recognizePDF.complete.label");
+	var completeStr = Zotero.getString("general.finished");
 	while (win.document.getElementById("label").value != completeStr) {
 		await Zotero.Promise.delay(20);
 	}
@@ -587,8 +587,6 @@ var removeDir = Zotero.Promise.coroutine(function* (dir) {
  *                             any that were set at startup
  */
 async function resetDB(options = {}) {
-	// Hack to avoid CustomizableUI warnings in console from icon.js
-	var toolbarIconAdded = Zotero.toolbarIconAdded;
 	resetPrefs();
 	
 	if (options.thisArg) {
@@ -603,7 +601,6 @@ async function resetDB(options = {}) {
 		false,
 		options
 	);
-	Zotero.toolbarIconAdded = toolbarIconAdded;
 	await Zotero.Schema.schemaUpdatePromise;
 	initPDFToolsPath();
 }
@@ -915,7 +912,7 @@ function importHTMLAttachment() {
  *                                   that defines the response
  * @param {Object} responses - Predefined responses
  */
-function setHTTPResponse(server, baseURL, response, responses) {
+function setHTTPResponse(server, baseURL, response, responses, username, password) {
 	if (typeof response == 'string') {
 		let [topic, key] = response.split('.');
 		if (!responses[topic]) {
@@ -945,5 +942,17 @@ function setHTTPResponse(server, baseURL, response, responses) {
 		responseArray[1][i] = response.headers[i];
 	}
 	
-	server.respondWith(response.method, baseURL + response.url, responseArray);
+	if (username || password) {
+		server.respondWith(function (req) {
+			if (username && req.username != username) return;
+			if (password && req.password != password) return;
+			
+			if (req.method == response.method && req.url == baseURL + response.url) {
+				req.respond(...responseArray);
+			}
+		});
+	}
+	else {
+		server.respondWith(response.method, baseURL + response.url, responseArray);
+	}
 }

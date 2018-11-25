@@ -267,6 +267,12 @@ Zotero.Integration = new function() {
 					}
 					
 					if(displayError) {
+						if (Zotero.Integration.currentSession && Zotero.Integration.currentSession.progressBar) {
+							Zotero.Promise.delay(5).then(function() {
+								Zotero.Integration.currentSession.progressBar.hide();
+							});
+						}
+						
 						var showErrorInFirefox = !document;
 						
 						if(document) {
@@ -431,7 +437,9 @@ Zotero.Integration = new function() {
 
 				session = Zotero.Integration.sessions[data.sessionID];
 			}
-			if (!session) {
+			// Make sure we don't maintain the session if agent changes (i.e. LO -> Word)
+			// and display wrong field types in doc preferences.
+			if (!session || session.agent != agent) {
 				session = new Zotero.Integration.Session(doc, app);
 				session.reload = true;
 			}
@@ -448,9 +456,10 @@ Zotero.Integration = new function() {
 
 							let installed = false;
 							try {
-								await Zotero.Styles.install(
+								let { styleTitle, styleID } = await Zotero.Styles.install(
 									{url: data.style.styleID}, data.style.styleID, true
 								);
+								data.style.styleID = styleID;
 								installed = true;
 							}
 							catch (e) {
@@ -464,10 +473,15 @@ Zotero.Integration = new function() {
 							}
 							if (installed) {
 								await session.setData(data, true);
+							} else {
+								await session.setDocPrefs();
 							}
+						} else {
+							await session.setDocPrefs();
 						}
+					} else {
+						await session.setDocPrefs();
 					}
-					await session.setDocPrefs();
 				} else {
 					throw e;
 				}
@@ -749,7 +763,7 @@ Zotero.Integration.Interface.prototype.setDocPrefs = Zotero.Promise.coroutine(fu
 	this._session.fields = new Zotero.Integration.Fields(this._session, this._doc);
 	this._session.fields.ignoreEmptyBibliography = false;
 	
-	if (this._session.data.prefs.delayCitationUpdates) return;
+	if (this._session.data.prefs.delayCitationUpdates && !fieldsToConvert.length) return;
 	
 	yield this._session.fields.updateSession(FORCE_CITATIONS_RESET_TEXT);
 	return this._session.fields.updateDocument(FORCE_CITATIONS_RESET_TEXT, true, true);
@@ -1032,16 +1046,22 @@ Zotero.Integration.Fields.prototype._updateDocument = async function(forceCitati
 					DIALOG_ICON_CAUTION, DIALOG_BUTTONS_YES_NO);
 				if (result) {
 					citation.properties.dontUpdate = true;
+					// Sigh. This hurts. setCode in LO forces a text reset. If the formattedText is rtf
+					// it is reinserted, however that breaks what properties.dontUpdate should do
+					if (this._session.primaryFieldType == "ReferenceMark"
+						&& citation.properties.formattedCitation.includes('\\')) {
+						citation.properties.formattedCitation = citation.properties.plainCitation;
+					}
 				}
 			}
 			
 			// Update citation text:
-			// If we're looking to reset the text even if it matches previous text
+			// If we're looking to reset the text even if it matches previous text (i.e. style change)
 			if (forceCitations == FORCE_CITATIONS_RESET_TEXT
 					// Or metadata has changed thus changing the formatted citation
-					|| (citation.properties.formattedCitation !== formattedCitation)
+					|| ((citation.properties.formattedCitation !== formattedCitation
 					// Or plaintext has changed and user does not want to keep the change
-					|| (plaintextChanged && !citation.properties.dontUpdate)) {
+					|| plaintextChanged) && !citation.properties.dontUpdate)) {
 
 				
 				// Word will preserve previous text styling, so we need to force remove it
@@ -1384,20 +1404,19 @@ Zotero.Integration.Session.prototype.init = Zotero.Promise.coroutine(function *(
 	var data = this.data;
 	var haveFields = false;
 	
-	// If prefs exist
-	if (require && data.prefs.fieldType) {
+	// If prefs not present
+	if (require && !data.prefs.fieldType) {
 		// check to see if fields already exist
 		for (let fieldType of [this.primaryFieldType, this.secondaryFieldType]) {
 			var fields = yield this._doc.getFields(fieldType);
 			if (fields.length) {
-				data.prefs.fieldType = fieldType;
 				haveFields = true;
 				break;
 			}
 		}
 	}
 		
-	if (require && (!haveFields || !data.prefs.fieldType)) {
+	if (require && (!haveFields && !data.prefs.fieldType)) {
 		// If required but no fields and preferences exist throw an error
 		return Zotero.Promise.reject(new Zotero.Exception.Alert(
 		"integration.error.mustInsertCitation",

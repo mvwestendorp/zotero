@@ -301,6 +301,13 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 }
 
 
+Zotero.Item.prototype.getExtraField = function (fieldName) {
+	var fields = Zotero.Utilities.Internal.extractExtraFields(this.getField('extra'));
+	var doi = fields.get(fieldName);
+	return (doi && doi.value) ? doi.value : '';
+};
+
+
 /**
  * @param	{Boolean}				asNames
  * @return	{Integer[]|String[]}
@@ -2651,6 +2658,15 @@ Zotero.Item.prototype.numNonHTMLFileAttachments = function () {
 	return this.getAttachments()
 		.map(itemID => Zotero.Items.get(itemID))
 		.filter(item => item.isFileAttachment() && item.attachmentContentType != 'text/html')
+		.length;
+};
+
+
+Zotero.Item.prototype.numPDFAttachments = function () {
+	this._requireData('childItems');
+	return this.getAttachments()
+		.map(itemID => Zotero.Items.get(itemID))
+		.filter(item => item.isFileAttachment() && item.attachmentContentType == 'application/pdf')
 		.length;
 };
 

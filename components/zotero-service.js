@@ -39,15 +39,21 @@ InstallChecker(
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
+const Cr = Components.results;
+const Cu = Components.utils;
 
 /** XPCOM files to be loaded for all modes **/
 const xpcomFilesAll = [
 	'zotero',
+	'intl',
+	'prefs',
 	'dataDirectory',
 	'date',
 	'debug',
 	'dateparser',
 	'error',
+	'utilities',
+	'utilities_internal',
 	'file',
 	'http',
 	'mimeTypeHandler',
@@ -60,9 +66,7 @@ const xpcomFilesAll = [
 	'translation/translate_firefox',
 	'translation/translator',
 	'translation/tlds',
-	'utilities',
 	'isbn',
-	'utilities_internal',
 	'utilities_translate'
 ];
 
@@ -121,6 +125,8 @@ const xpcomFilesLocal = [
 	'multilingual/jurisdiction',
 	'notifier',
 	'openPDF',
+	'progressQueue',
+	'progressQueueDialog',
 	'quickCopy',
 	'recognizePDF',
 	'report',
@@ -358,14 +364,6 @@ function ZoteroService() {
 			makeZoteroContext(false);
 			zContext.Zotero.init(zInitOptions)
 			.catch(function (e) {
-				if (e === "ZOTERO_SHOULD_START_AS_CONNECTOR") {
-					// if Zotero should start as a connector, reload it
-					return zContext.Zotero.shutdown()
-					.then(function() {
-						makeZoteroContext(true);
-						return zContext.Zotero.init(zInitOptions);
-					})
-				}
 				dump(e + "\n\n");
 				Components.utils.reportError(e);
 				if (!zContext.Zotero.startupError) {
@@ -476,9 +474,7 @@ var _isStandalone = null;
  */
 function isStandalone() {
 	if(_isStandalone === null) {
-		var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].
-			getService(Components.interfaces.nsIXULAppInfo);
-		_isStandalone = appInfo.ID === 'juris-m@juris-m.github.io';
+		_isStandalone = Services.appinfo.ID === 'juris-m@juris-m.github.io';
 	}
 	return _isStandalone;
 }

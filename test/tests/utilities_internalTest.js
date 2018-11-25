@@ -67,7 +67,7 @@ describe("Zotero.Utilities.Internal", function () {
 		});
 		
 		afterEach(function () {
-			spy.reset();
+			spy.resetHistory();
 		});
 		
 		after(function () {
@@ -86,7 +86,7 @@ describe("Zotero.Utilities.Internal", function () {
 				let val = yield gen.next().value;
 				assert.isTrue(val);
 				assert.isTrue(spy.calledWith(i));
-				spy.reset();
+				spy.resetHistory();
 			}
 		});
 		
@@ -102,13 +102,41 @@ describe("Zotero.Utilities.Internal", function () {
 				let val = yield gen.next().value;
 				assert.isTrue(val);
 				assert.isTrue(spy.calledWith(i));
-				spy.reset();
+				spy.resetHistory();
 			}
 			
 			// Another interval would put us over maxTime, so return false immediately
 			let val = yield gen.next().value;
 			assert.isFalse(val);
 			assert.isFalse(spy.called);
+		});
+	});
+	
+	
+	describe("#extractExtraFields()", function () {
+		it("should extract a field", function () {
+			var val = '10.1234/abcdef';
+			var str = `DOI: ${val}`;
+			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
+			assert.equal(fields.size, 1);
+			assert.equal(fields.get('DOI').value, val);
+		});
+		
+		it("should extract a field with different case", function () {
+			var val = '10.1234/abcdef';
+			var str = `doi: ${val}`;
+			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
+			assert.equal(fields.size, 1);
+			assert.equal(fields.get('DOI').value, val);
+		});
+		
+		it("should extract a field with other fields, text, and whitespace", function () {
+			var originalDateVal = '1989';
+			var doiVal = '10.1234/abcdef';
+			var str = `\nOriginal Date: ${originalDateVal}\nDOI: ${doiVal}\n\n`;
+			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
+			assert.equal(fields.size, 1);
+			assert.equal(fields.get('DOI').value, doiVal);
 		});
 	});
 	

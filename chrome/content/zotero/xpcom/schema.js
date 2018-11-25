@@ -128,7 +128,7 @@ Zotero.Schema = new function(){
 			return _initializeSchema()
 			.then(function() {
 				(Zotero.isStandalone ? Zotero.uiReadyPromise : Zotero.initializationPromise)
-				.then(1000)
+				.delay(1000)
 				.then(async function () {
 					await this.updateBundledFiles();
 					if (Zotero.Prefs.get('automaticScraperUpdates')) {
@@ -305,19 +305,52 @@ Zotero.Schema = new function(){
 		// In Standalone, don't load bundled files until after UI is ready. In Firefox, load them as
 		// soon initialization is done so that translation works before the Zotero pane is opened.
 		(Zotero.isStandalone ? Zotero.uiReadyPromise : Zotero.initializationPromise)
-		.then(1000)
-		.then(async function () {
-			await this.updateBundledFiles();
-			if (Zotero.Prefs.get('automaticScraperUpdates')) {
+		.then(() => {
+			setTimeout(async function () {
 				try {
-					await this.updateFromRepository(this.REPO_UPDATE_STARTUP);
+					await this.updateBundledFiles();
+					if (Zotero.Prefs.get('automaticScraperUpdates')) {
+						try {
+							await this.updateFromRepository(this.REPO_UPDATE_STARTUP);
+						}
+						catch (e) {
+							Zotero.logError(e);
+						}
+					}
+					_schemaUpdateDeferred.resolve(true);
 				}
 				catch (e) {
-					Zotero.logError(e);
+					let kbURL = 'https://www.zotero.org/support/kb/unable_to_load_translators_and_styles';
+					let msg = Zotero.getString('startupError.bundledFileUpdateError', Zotero.clientName);
+					
+					let ps = Services.prompt;
+					let buttonFlags = ps.BUTTON_POS_0 * ps.BUTTON_TITLE_IS_STRING
+						+ ps.BUTTON_POS_1 * ps.BUTTON_TITLE_CANCEL
+						+ ps.BUTTON_POS_2 * ps.BUTTON_TITLE_IS_STRING;
+					let index = ps.confirmEx(
+						null,
+						Zotero.getString('general.error'),
+						msg,
+						buttonFlags,
+						Zotero.getString('general.moreInformation'),
+						"",
+						Zotero.getString('errorReport.reportError'),
+						null, {}
+					);
+					
+					_schemaUpdateDeferred.reject(e);
+					
+					if (index == 0) {
+						Zotero.launchURL(kbURL);
+					}
+					else if (index == 2) {
+						setTimeout(function () {
+							Zotero.getActiveZoteroPane().reportErrors();
+						}, 250);
+					}
 				}
-			}
-			_schemaUpdateDeferred.resolve(true);
-		}.bind(this));
+			}.bind(this), 1000);
+		});
 		
 		return updated;
 	});
@@ -659,7 +692,7 @@ Zotero.Schema = new function(){
 		var ModeType = Zotero.Utilities.capitalize(modeType);
 		var Mode = Zotero.Utilities.capitalize(mode);
 		
-		var repotime = yield Zotero.File.getContentsFromURLAsync("resource://zotero/schema/repotime.txt");
+		var repotime = yield Zotero.File.getResourceAsync("resource://zotero/schema/repotime.txt");
 		var date = Zotero.Date.sqlToDate(repotime.trim(), true);
 		repotime = Zotero.Date.toUnixTimestamp(date);
 		
@@ -834,9 +867,12 @@ Zotero.Schema = new function(){
 				// If there's anything in the cache, see what we actually need to extract
 				for (let i = 0; i < rows.length; i++) {
 					let json = rows[i].metadataJSON;
-					let metadata;
 					try {
-						metadata = JSON.parse(json);
+						let metadata = JSON.parse(json);
+						let id = metadata.translatorID;
+						if (index[id] && index[id].lastUpdated <= metadata.lastUpdated) {
+							index[id].extract = false;
+						}
 					}
 					catch (e) {
 						Zotero.logError(e);
@@ -847,11 +883,6 @@ Zotero.Schema = new function(){
 							"DELETE FROM translatorCache WHERE rowid=?",
 							rows[i].rowid
 						);
-						continue;
-					}
-					let id = metadata.translatorID;
-					if (index[id] && index[id].lastUpdated <= metadata.lastUpdated) {
-						index[id].extract = false;
 					}
 				}
 				
@@ -1278,6 +1309,10 @@ Zotero.Schema = new function(){
 		var sql = "DELETE FROM version WHERE schema IN "
 			+ "('translators', 'styles', 'repository', 'lastcheck')";
 		yield Zotero.DB.queryAsync(sql);
+		
+		sql = "DELETE FROM translatorCache";
+		yield Zotero.DB.queryAsync(sql);
+		
 		_dbVersions.repository = null;
 		_dbVersions.lastcheck = null;
 		
@@ -1306,6 +1341,10 @@ Zotero.Schema = new function(){
 		var sql = "DELETE FROM version WHERE schema IN "
 			+ "('translators', 'repository', 'lastcheck')";
 		yield Zotero.DB.queryAsync(sql);
+		
+		sql = "DELETE FROM translatorCache";
+		yield Zotero.DB.queryAsync(sql);
+		
 		_dbVersions.repository = null;
 		_dbVersions.lastcheck = null;
 		
@@ -1450,6 +1489,14 @@ Zotero.Schema = new function(){
 						}
 					});
 				}
+			],
+			// TEXT userID
+			[
+				"SELECT COUNT(*) > 0 FROM settings WHERE setting='account' AND key='userID' AND TYPEOF(value)='text'",
+				async function () {
+					let userID = await Zotero.DB.valueQueryAsync("SELECT value FROM settings WHERE setting='account' AND key='userID'");
+					await Zotero.DB.queryAsync("UPDATE settings SET value=? WHERE setting='account' AND key='userID'", parseInt(userID.trim()));
+				}
 			]
 		];
 		
@@ -1530,10 +1577,11 @@ Zotero.Schema = new function(){
 		if (!schema){
 			throw ('Schema type not provided to _getSchemaSQL()');
 		}
+		
 		if (schema === 'zls' && Zotero.skipBundledFiles) {
 			schema = 'zls-testing';
 		}
-		return Zotero.File.getContentsFromURLAsync("resource://zotero/schema/" + schema + ".sql");
+		return Zotero.File.getResourceAsync(`resource://zotero/schema/${schema}.sql`);
 	}
 	
 	
@@ -2068,6 +2116,14 @@ Zotero.Schema = new function(){
 		for (let i = fromVersion + 1; i <= toVersion; i++) {
 			if (i == 80) {
 				yield _updateCompatibility(1);
+				
+				let userID = yield Zotero.DB.valueQueryAsync("SELECT value FROM settings WHERE setting='account' AND key='userID'");
+				if (userID && typeof userID == 'string') {
+					userID = userID.trim();
+					if (userID) {
+						yield Zotero.DB.queryAsync("UPDATE settings SET value=? WHERE setting='account' AND key='userID'", parseInt(userID));
+					}
+				}
 				
 				// Delete 'libraries' rows not in 'groups', which shouldn't exist
 				yield Zotero.DB.queryAsync("DELETE FROM libraries WHERE libraryID != 0 AND libraryID NOT IN (SELECT libraryID FROM groups)");
@@ -2639,6 +2695,16 @@ Zotero.Schema = new function(){
 				let importer = new Zotero_Import_Mendeley();
 				if (yield importer.hasImportedFiles()) {
 					yield importer.queueFileCleanup();
+				}
+			}
+			
+			else if (i == 102) {
+				let userID = yield Zotero.DB.valueQueryAsync("SELECT value FROM settings WHERE setting='account' AND key='userID'");
+				if (userID && typeof userID == 'string') {
+					userID = userID.trim();
+					if (userID) {
+						yield Zotero.DB.queryAsync("UPDATE settings SET value=? WHERE setting='account' AND key='userID'", parseInt(userID));
+					}
 				}
 			}
 			

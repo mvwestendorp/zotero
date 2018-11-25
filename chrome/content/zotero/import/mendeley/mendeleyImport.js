@@ -195,7 +195,11 @@ Zotero_Import_Mendeley.prototype._isValidDatabase = async function () {
 //
 Zotero_Import_Mendeley.prototype._getFolders = async function (groupID) {
 	return this._db.queryAsync(
-		`SELECT F.*, RF.remoteUuid FROM Folders F `
+		`SELECT F.id, F.uuid, F.name, `
+			// Top-level folders can have a parentId of 0 instead of -1 (by mistake?)
+			+ `CASE WHEN F.parentId=0 THEN -1 ELSE F.parentId END AS parentId, `
+			+ `RF.remoteUuid `
+			+ `FROM Folders F `
 			+ `JOIN RemoteFolders RF ON (F.id=RF.folderId) `
 			+ `WHERE groupId=?`,
 		groupID
@@ -400,6 +404,8 @@ Zotero_Import_Mendeley.prototype._getDocumentTags = async function (groupID) {
 	);
 	var map = new Map();
 	for (let row of rows) {
+		// Skip empty tags
+		if (!row.tag.trim()) continue;
 		let docTags = map.get(row.documentId);
 		if (!docTags) docTags = [];
 		docTags.push({
@@ -456,6 +462,10 @@ Zotero_Import_Mendeley.prototype._getDocumentFiles = async function (groupID) {
 	for (let row of rows) {
 		let docFiles = map.get(row.documentId);
 		if (!docFiles) docFiles = [];
+		if (typeof row.localUrl != 'string') {
+			Zotero.debug(`Skipping invalid localUrl '${row.localUrl}' for document ${row.documentId}`);
+			continue;
+		}
 		docFiles.push({
 			hash: row.hash,
 			fileURL: row.localUrl
@@ -1043,6 +1053,7 @@ Zotero_Import_Mendeley.prototype._isDownloadedFile = function (path) {
 	var parentDir = OS.Path.dirname(path);
 	return parentDir.endsWith(OS.Path.join('Application Support', 'Mendeley Desktop', 'Downloaded'))
 		|| parentDir.endsWith(OS.Path.join('Local', 'Mendeley Ltd', 'Mendeley Desktop', 'Downloaded'))
+		|| parentDir.endsWith(OS.Path.join('Local', 'Mendeley Ltd.', 'Mendeley Desktop', 'Downloaded'))
 		|| parentDir.endsWith(OS.Path.join('data', 'Mendeley Ltd.', 'Mendeley Desktop', 'Downloaded'));
 }
 
