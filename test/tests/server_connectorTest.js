@@ -36,7 +36,6 @@ describe("Connector Server", function () {
 		win.close();
 	});
 
-
 	describe('/connector/getTranslatorCode', function() {
 		it('should respond with translator code', function* () {
 			var code = 'function detectWeb() {}\nfunction doImport() {}';
@@ -911,10 +910,9 @@ describe("Connector Server", function () {
 			assert.equal(xmlhttp.status, 500);
 		});
 		
-		it("should translate a page if translators are available", function* () {
+		it("should translate a page if translators are available", async function() {
 			var html = Zotero.File.getContentsFromURL(getTestDataUrl('coins.html'));
-			var promise = waitForItemEvent('add');
-			var xmlhttp = yield Zotero.HTTP.request(
+			var xmlhttp = await Zotero.HTTP.request(
 				'POST',
 				connectorServerPath + "/connector/savePage",
 				{
@@ -929,7 +927,7 @@ describe("Connector Server", function () {
 				}
 			);
 
-			let ids = yield promise;
+			let ids = await waitForItemEvent('add');
 			var item = Zotero.Items.get(ids[0]);
 			var title = "Test Page";
 			assert.equal(JSON.parse(xmlhttp.responseText).items[0].title, title);
