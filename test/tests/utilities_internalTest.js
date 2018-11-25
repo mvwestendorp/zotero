@@ -135,7 +135,7 @@ describe("Zotero.Utilities.Internal", function () {
 			var doiVal = '10.1234/abcdef';
 			var str = `\nOriginal Date: ${originalDateVal}\nDOI: ${doiVal}\n\n`;
 			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
-			assert.equal(fields.size, 1);
+			assert.equal(fields.size, 2);
 			assert.equal(fields.get('DOI').value, doiVal);
 		});
 	});
