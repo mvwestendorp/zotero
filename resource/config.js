@@ -15,7 +15,7 @@ var ZOTERO_CONFIG = {
 	RECOGNIZE_URL: 'https://recognize.zotero.org/',
 	SERVICES_URL: 'https://services.zotero.org/',
 	API_VERSION: 3,
-	CONNECTOR_MIN_VERSION: '5.0.47.3', // show upgrade prompt for requests from below this version
+	CONNECTOR_MIN_VERSION: '5.0.59.1', // show upgrade prompt for requests from below this version
 	PREF_BRANCH: 'extensions.zotero.',
 	BOOKMARKLET_ORIGIN: 'https://www.zotero.org',
 	BOOKMARKLET_URL: 'https://www.zotero.org/bookmarklet/',
