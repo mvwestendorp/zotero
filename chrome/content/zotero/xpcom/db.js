@@ -331,8 +331,10 @@ Zotero.DBConnection.prototype.getColumns = function (table) {
 **/
 Zotero.DBConnection.prototype.getNextName = Zotero.Promise.coroutine(function* (libraryID, table, field, name)
 {
+	Zotero.debug("WARNING: Zotero.DB.getNextName() is deprecated -- "
+		+ "use Zotero.Utilities.Internal.getNextName() instead", 2);
+	
 	if (typeof name == 'undefined') {
-		Zotero.debug("WARNING: The parameters of Zotero.DB.getNextName() have changed -- update your code", 2);
 		[libraryID, table, field, name] = [null, libraryID, table, field];
 	}
 	
@@ -1088,6 +1090,15 @@ Zotero.DBConnection.prototype.backupDatabase = Zotero.Promise.coroutine(function
 		resolveBackupPromise();
 	}
 });
+
+
+/**
+ * Escape '_', '%', and '\' in an SQL LIKE expression so that it can be used with ESCAPE '\' to
+ * prevent the wildcards from having special meaning
+ */
+Zotero.DBConnection.prototype.escapeSQLExpression = function (expr) {
+	return expr.replace(/([_%\\])/g, '\\$1');
+};
 
 
 /////////////////////////////////////////////////////////////////

@@ -886,3 +886,7 @@ Zotero.Cite.getMonthStrings = function(form, locale) {
 		return Zotero.Cite._monthStrings[form];
 	}
 };
+
+if (typeof process === 'object' && process + '' === '[object process]'){
+    module.exports = Zotero.Cite;
+}

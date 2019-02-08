@@ -462,7 +462,7 @@ Zotero.Utilities.Internal = {
 		wbp.progressListener = listener;
 		
 		wbp.saveDocument(
-			document,
+			Zotero.Translate.DOMWrapper.unwrap(document),
 			Zotero.File.pathToFile(destFile),
 			Zotero.File.pathToFile(filesFolder),
 			null,
@@ -846,8 +846,9 @@ Zotero.Utilities.Internal = {
 			item.attachments = [];
 			let attachments = zoteroItem.getAttachments();
 			for (let i=0; i<attachments.length; i++) {
-				let zoteroAttachment = Zotero.Items.get(attachments[i]),
-					attachment = zoteroAttachment.toJSON();
+				let zoteroAttachment = Zotero.Items.get(attachments[i]);
+				let attachment = zoteroAttachment.toJSON();
+				attachment.uri = Zotero.URI.getItemURI(zoteroAttachment);
 				if (legacy) addCompatibilityMappings(attachment, zoteroAttachment);
 				
 				item.attachments.push(attachment);
@@ -857,8 +858,9 @@ Zotero.Utilities.Internal = {
 			item.notes = [];
 			let notes = zoteroItem.getNotes();
 			for (let i=0; i<notes.length; i++) {
-				let zoteroNote = Zotero.Items.get(notes[i]),
-					note = zoteroNote.toJSON();
+				let zoteroNote = Zotero.Items.get(notes[i]);
+				let note = zoteroNote.toJSON();
+				note.uri = Zotero.URI.getItemURI(zoteroNote);
 				if (legacy) addCompatibilityMappings(note, zoteroNote);
 				
 				item.notes.push(note);
@@ -868,6 +870,33 @@ Zotero.Utilities.Internal = {
 		if (legacy) addCompatibilityMappings(item, zoteroItem);
 		
 		return item;
+	},
+	
+	
+	/**
+	 * Given API JSON for an item, return the best single first creator, regardless of creator order
+	 *
+	 * Note that this is just a single creator, not the firstCreator field return from the
+	 * Zotero.Item::firstCreator property or Zotero.Items.getFirstCreatorFromData()
+	 *
+	 * @return {Object|false} - Creator in API JSON format, or false
+	 */
+	getFirstCreatorFromItemJSON: function (json) {
+		var primaryCreatorType = Zotero.CreatorTypes.getName(
+			Zotero.CreatorTypes.getPrimaryIDForType(
+				Zotero.ItemTypes.getID(json.itemType)
+			)
+		);
+		let firstCreator = json.creators.find(creator => {
+			return creator.creatorType == primaryCreatorType || creator.creatorType == 'author';
+		});
+		if (!firstCreator) {
+			firstCreator = json.creators.find(creator => creator.creatorType == 'editor');
+		}
+		if (!firstCreator) {
+			return false;
+		}
+		return firstCreator;
 	},
 	
 	
@@ -1161,6 +1190,57 @@ Zotero.Utilities.Internal = {
 		parts.push(isbn.charAt(isbn.length-1)); // Check digit
 		
 		return parts.join('-');
+	},
+	
+	
+	/**
+	 * Get the next available numbered name that matches a base name, for use when duplicating
+	 *
+	 * - Given 'Foo' and ['Foo'], returns 'Foo 1'.
+	 * - Given 'Foo' and ['Foo', 'Foo 1'], returns 'Foo 2'.
+	 * - Given 'Foo' and ['Foo', 'Foo 1'], returns 'Foo 2'.
+	 * - Given 'Foo 1', ['Foo', 'Foo 1'], and trim=true, returns 'Foo 2'
+	 * - Given 'Foo' and ['Foo', 'Foo 2'], returns 'Foo 1'
+	 */
+	getNextName: function (name, existingNames, trim = false) {
+		// Trim numbers at end of given name
+		if (trim) {
+			let matches = name.match(/^(.+) \d+$/);
+			if (matches) {
+				name = matches[1].trim();
+			}
+		}
+		
+		if (!existingNames.includes(name)) {
+			return name;
+		}
+		
+		var suffixes = existingNames
+			// Get suffix
+			.map(x => x.substr(name.length))
+			// Get "2", "5", etc.
+			.filter(x => x.match(/^ (\d+)$/));
+		
+		suffixes.sort(function (a, b) {
+			return parseInt(a) - parseInt(b);
+		});
+		
+		// If no existing numbered names found, use 1
+		if (!suffixes.length) {
+			return name + ' ' + 1;
+		}
+		
+		// Find first available number
+		var i = 0;
+		var num = 1;
+		while (suffixes[i] == num) {
+			while (suffixes[i + 1] && suffixes[i] == suffixes[i + 1]) {
+				i++;
+			}
+			i++;
+			num++;
+		}
+		return name + ' ' + num;
 	},
 	
 	

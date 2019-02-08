@@ -361,38 +361,28 @@ Zotero.HTTP = new function() {
 					(!options.numRedirects || options.numRedirects < 3)) {
 					let contentType = xmlhttp.getResponseHeader('Content-Type');
 					if (contentType && contentType.startsWith('text/html')) {
-						let meta = xmlhttp.response.querySelector('meta[http-equiv="refresh" i]');
-						if (meta) {
-							let content = meta.getAttribute('content');
-							if (content) {
-								let parts = content.split(/;\s*url=/);
-								// If there's a redirect to another URL in less than 15 seconds,
-								// follow it
-								if (parts.length === 2 && parseInt(parts[0]) <= 15) {
-									let url = parts[1].trim().replace(/^'(.+)'/, '$1');
-									
-									// Resolve URL. P.S.: For unknown reason this only works
-									// if server returns 'Content-Type: text/html' header
-									let a = xmlhttp.response.createElement('a');
-									a.href = url;
-									let resolvedUrl = a.href;
-									
-									// Make sure the absolute URL is actually resolved
-									if (/^https?:\/\//.test(resolvedUrl)) {
-										if (options.numRedirects) {
-											options.numRedirects++;
-										}
-										else {
-											options.numRedirects = 1;
-										}
-										
-										// Meta redirect is always GET
-										return Zotero.HTTP.request("GET", resolvedUrl, options)
-											.then(xmlhttp => deferred.resolve(xmlhttp))
-											.catch(e => deferred.reject(e));
-									}
-								}
+						let doc = xmlhttp.response;
+						let url = xmlhttp.responseURL;
+						let resolvedURL;
+						try {
+							resolvedURL = this.getHTMLMetaRefreshURL(doc, url);
+						}
+						catch (e) {
+							deferred.reject(e);
+							return;
+						}
+						if (resolvedURL) {
+							if (options.numRedirects) {
+								options.numRedirects++;
 							}
+							else {
+								options.numRedirects = 1;
+							}
+							
+							// Meta redirect is always GET
+							return Zotero.HTTP.request("GET", resolvedURL, options)
+								.then(xmlhttp => deferred.resolve(xmlhttp))
+								.catch(e => deferred.reject(e));
 						}
 					}
 				}
@@ -682,6 +672,36 @@ Zotero.HTTP = new function() {
 	}
 	
 	
+	this.getHTMLMetaRefreshURL = function (doc, url) {
+		var meta = doc.querySelector('meta[http-equiv="refresh" i]');
+		if (!meta) {
+			return false;
+		}
+		var content = meta.getAttribute('content');
+		if (!content) {
+			return false;
+		}
+		var parts = content.split(/;\s*url=/);
+		// If there's a redirect to another URL in less than 15 seconds,
+		// follow it
+		if (parts.length === 2 && parseInt(parts[0]) <= 15) {
+			let refreshURL = parts[1].trim().replace(/^'(.+)'/, '$1');
+			let resolvedURL;
+			try {
+				resolvedURL = Services.io.newURI(url, null, null).resolve(refreshURL);
+			}
+			catch (e) {
+				Zotero.logError(e);
+			}
+			// Make sure the URL is actually resolved
+			if (resolvedURL && /^https?:\/\//.test(resolvedURL)) {
+				return resolvedURL;
+			}
+		}
+		return false;
+	};
+	
+	
 	/**
 	 * Make a foreground HTTP request in order to trigger a proxy authentication dialog
 	 *
@@ -883,16 +903,26 @@ Zotero.HTTP = new function() {
 	 * @param {String|String[]} urls URL(s) of documents to load
 	 * @param {Function} processor - Callback to be executed for each document loaded; if function returns
 	 *     a promise, it's waited for before continuing
-	 * @param {Zotero.CookieSandbox} [cookieSandbox] Cookie sandbox object
+	 * @param {Object} [options]
+	 * @param {Zotero.CookieSandbox} [options.cookieSandbox] - Cookie sandbox object
+	 * @param {Object} [options.headers] - Headers to include in the request
 	 * @return {Promise<Array>} - A promise for an array of results from the processor runs
 	 */
-	this.processDocuments = async function (urls, processor, cookieSandbox) {
+	this.processDocuments = async function (urls, processor, options = {}) {
 		// Handle old signature: urls, processor, onDone, onError, dontDelete, cookieSandbox
 		if (arguments.length > 3) {
 			Zotero.debug("Zotero.HTTP.processDocuments() now takes only 3 arguments -- update your code");
 			var onDone = arguments[2];
 			var onError = arguments[3];
 			var cookieSandbox = arguments[5];
+		}
+		else if (options instanceof Zotero.CookieSandbox) {
+			Zotero.debug("Zotero.HTTP.processDocuments() now takes an 'options' object for its third parameter -- update your code");
+			var cookieSandbox = options;
+		}
+		else {
+			var cookieSandbox = options.cookieSandbox;
+			var headers = options.headers;
 		}
 		
 		if (typeof urls == "string") urls = [urls];
@@ -901,7 +931,9 @@ Zotero.HTTP = new function() {
 				"GET",
 				url,
 				{
-					responseType: 'document'
+					responseType: 'document',
+					cookieSandbox,
+					headers
 				}
 			)
 			.then((xhr) => {

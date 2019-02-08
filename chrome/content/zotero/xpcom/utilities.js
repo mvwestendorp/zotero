@@ -2114,6 +2114,16 @@ Zotero.Utilities = {
 			}
 			
 			if(date) {
+				// Convert UTC timestamp to local timestamp for access date
+				if (CSL_DATE_MAPPINGS[variable] == 'accessDate') {
+					// Accept ISO date
+					if (Zotero.Date.isISODate(date) && !Zotero.Date.isSQLDate(date)) {
+						let d = Zotero.Date.isoToDate(date);
+						date = Zotero.Date.dateToSQL(d, true);
+					}
+					let localDate = Zotero.Date.sqlToDate(date, true);
+					date = Zotero.Date.dateToSQL(localDate);
+				}
 				if (Zotero.Prefs.get('hackUseCiteprocJsDateParser')) {
 					var country = Zotero.locale ? Zotero.locale.substr(3) : "US";
 					if(country == "US" ||	// The United States
@@ -2138,12 +2148,12 @@ Zotero.Utilities = {
 							if(dateObj.day) {
 								dateParts.push(dateObj.day);
 							}
-							cslItem[variable] = {"date-parts":[dateParts]};
-							
-							// if no month, use season as month
-							if(dateObj.part && !dateObj.month) {
-								cslItem[variable].season = dateObj.part;
-							}
+						}
+						cslItem[variable] = {"date-parts":[dateParts]};
+						
+						// if no month, use season as month
+						if(dateObj.part && dateObj.month === undefined) {
+							cslItem[variable].season = dateObj.part;
 						} else {
 							// if no year, pass date literally
 							cslItem[variable] = {"literal":date};

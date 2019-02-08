@@ -780,7 +780,7 @@ Zotero.Attachments = new function(){
 			
 			if ((contentType === 'text/html' || contentType === 'application/xhtml+xml')
 					// Documents from XHR don't work here
-					&& document instanceof Ci.nsIDOMDocument) {
+					&& Zotero.Translate.DOMWrapper.unwrap(document) instanceof Ci.nsIDOMDocument) {
 				Zotero.debug('Saving document with saveDocument()');
 				yield Zotero.Utilities.Internal.saveDocument(document, tmpFile);
 			}
@@ -1708,6 +1708,9 @@ Zotero.Attachments = new function(){
 					let redirects = 0;
 					let nextURL = pageURL;
 					let req;
+					let blob;
+					let doc;
+					let contentType;
 					let skip = false;
 					let domains = new Set();
 					while (true) {
@@ -1752,31 +1755,48 @@ Zotero.Attachments = new function(){
 								skip = true;
 								break;
 							}
+							addTriedURL(nextURL);
 							continue;
+						}
+						
+						blob = req.response;
+						responseURL = req.responseURL;
+						if (pageURL != responseURL) {
+							Zotero.debug("Redirected to " + responseURL);
+						}
+						
+						// If HTML, check for a meta redirect
+						contentType = req.getResponseHeader('Content-Type');
+						if (contentType.startsWith('text/html')) {
+							doc = await Zotero.Utilities.Internal.blobToHTMLDocument(blob, responseURL);
+							let refreshURL = Zotero.HTTP.getHTMLMetaRefreshURL(doc, responseURL);
+							if (refreshURL) {
+								if (isTriedURL(refreshURL)) {
+									Zotero.debug("Meta refresh URL has already been tried -- skipping");
+									skip = true;
+									break;
+								}
+								doc = null;
+								nextURL = refreshURL;
+								addTriedURL(nextURL);
+								continue;
+							}
 						}
 						break;
 					}
 					if (skip) {
 						continue;
 					}
-					let blob = req.response;
-					responseURL = req.responseURL;
-					if (pageURL != responseURL) {
-						Zotero.debug("Redirected to " + responseURL);
-					}
-					addTriedURL(responseURL);
 					
-					let contentType = req.getResponseHeader('Content-Type');
 					// If DOI resolves directly to a PDF, save it to disk
-					if (contentType == 'application/pdf') {
+					if (contentType.startsWith('application/pdf')) {
 						Zotero.debug("URL resolves directly to PDF");
 						await Zotero.File.putContentsAsync(path, blob);
 						await _enforcePDF(path);
 						return { url: responseURL, props: urlResolver };
 					}
-					// Otherwise parse the Blob into a Document and translate that
-					else if (contentType.startsWith('text/html')) {
-						let doc = await Zotero.Utilities.Internal.blobToHTMLDocument(blob, responseURL);
+					// Otherwise translate the Document we parsed above
+					else if (doc) {
 						url = await Zotero.Utilities.Internal.getPDFFromDocument(doc);
 					}
 				}

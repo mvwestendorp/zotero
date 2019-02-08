@@ -131,6 +131,16 @@ Zotero.Translate.Sandbox = {
 					}
 				}
 				item = newItem;
+				
+				if (item.title) {
+					item.title = translate._cleanTitle(item.title, item.itemType);
+					// Short Title is added before this in the web itemDone, so if we removed
+					// a suffix (e.g., ": a novel") and the short title now matches the title,
+					// remove it
+					if (item.title == item.shortTitle) {
+						delete item.shortTitle;
+					}
+				}
 	
 				// Clean empty creators
 				if (item.creators) {
@@ -766,7 +776,7 @@ Zotero.Translate.Sandbox = {
 						delete attachment.path;
 					}
 					
-					if(attachment.url) {
+					if (attachment.url && attachment.proxy !== false) {
 						// Remap attachment (but not link) URLs
 						// TODO: provide both proxied and un-proxied URLs (also for documents)
 						//   because whether the attachment is attached as link or file
@@ -1601,7 +1611,14 @@ Zotero.Translate.Base.prototype = {
 		
 		return errorString;
 	},
-
+	
+	_cleanTitle: function (title, itemType) {
+		if (itemType == 'book' || itemType == 'bookSection') {
+			return title.replace(/\s*:\s*a novel\s*$/i, '');
+		}
+		return title;
+	},
+	
 	/**
 	 * Canonicalize an array of tags such that they are all objects with the tag stored in the
 	 * "tag" property and a type (if specified) is stored in the "type" property
@@ -2059,6 +2076,13 @@ Zotero.Translate.Web.prototype.setDocument = function(doc) {
 Zotero.Translate.Web.prototype.setCookieSandbox = function(cookieSandbox) {
 	this.cookieSandbox = cookieSandbox;
 }
+
+/**
+ * Sets headers to include in HTTP requests. Used by translation-server.
+ */
+Zotero.Translate.Web.prototype.setRequestHeaders = function (headers) {
+	this.requestHeaders = headers;
+};
 
 /**
  * Sets the location to operate upon

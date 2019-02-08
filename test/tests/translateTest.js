@@ -6,7 +6,7 @@ Components.utils.import("resource://gre/modules/osfile.jsm");
  * @param {String} translatorType - "import" or "web"
  * @param {Object} items - items as translator JSON
  */
-function saveItemsThroughTranslator(translatorType, items) {
+function saveItemsThroughTranslator(translatorType, items, translateOptions = {}) {
 	let tyname;
 	if (translatorType == "web") {
 		tyname = "Web";
@@ -35,7 +35,7 @@ function saveItemsThroughTranslator(translatorType, items) {
 		"		item.complete();\n"+
 		"	}\n"+
 		"}"));
-	return translate.translate().then(function(items) {
+	return translate.translate(translateOptions).then(function(items) {
 		if (browser) Zotero.Browser.deleteHiddenBrowser(browser);
 		return items;
 	});
@@ -404,7 +404,47 @@ describe("Zotero.Translate", function() {
 			assert.equal(newItems[0].getField("title"), "Container Item");
 			assert.equal(newItems[0].getAttachments().length, 0);
 		});
-
+		
+		it("import translators should save linked-URL attachments with savingAttachments: false", async function () {
+			var json = [
+				{
+					itemType: "journalArticle",
+					title: "Parent Item",
+					attachments: [
+						// snapshot: false
+						{
+							title: "Link",
+							mimeType: "text/html",
+							url: "http://example.com",
+							snapshot: false
+						},
+						// linkMode (used by RDF import)
+						{
+							title: "Link",
+							mimeType: "text/html",
+							url: "http://example.com",
+							linkMode: Zotero.Attachments.LINK_MODE_LINKED_URL
+						}
+					]
+				}
+			];
+			
+			var newItems = itemsArrayToObject(
+				await saveItemsThroughTranslator(
+					"import",
+					json,
+					{
+						saveAttachments: false
+					}
+				)
+			);
+			var attachmentIDs = newItems["Parent Item"].getAttachments();
+			assert.lengthOf(attachmentIDs, 2);
+			var attachments = await Zotero.Items.getAsync(attachmentIDs);
+			assert.equal(attachments[0].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_URL);
+			assert.equal(attachments[1].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_URL);
+		});
+		
 		it('web translators should set accessDate to current date', function* () {
 			let myItem = {
 				"itemType":"webpage",
@@ -1763,6 +1803,33 @@ describe("Zotero.Translate.ItemGetter", function() {
 			
 			var exportFile = OS.Path.join(exportDir, 'export.rdf');
 			assert.isAbove((yield OS.File.stat(exportFile)).size, 0);
+		});
+		
+		it("should handle UNC paths", async function () {
+			var path = '\\\\SHARE\\test.png';
+			var attachment = await Zotero.Attachments.linkFromFile({
+				file: OS.Path.join(getTestDataDirectory().path, 'test.png')
+			});
+			attachment._attachmentPath = path;
+			assert.equal(attachment.attachmentPath, path);
+			
+			var translation = new Zotero.Translate.Export();
+			var tmpDir = await getTempDirectory();
+			var exportDir = OS.Path.join(tmpDir, 'export');
+			translation.setLocation(Zotero.File.pathToFile(exportDir));
+			translation.setItems([attachment]);
+			translation.setTranslator('14763d24-8ba0-45df-8f52-b8d1108e7ac9'); // Zotero RDF
+			translation.setDisplayOptions({
+				exportFileData: true
+			});
+			await translation.translate();
+			
+			var exportFile = OS.Path.join(exportDir, 'export.rdf');
+			assert.isAbove((await OS.File.stat(exportFile)).size, 0);
+			var rdf = Zotero.File.getContents(exportFile);
+			var dp = new DOMParser();
+			var doc = dp.parseFromString(rdf, 'text/xml');
+			assert.equal(doc.querySelector('resource').getAttribute('rdf:resource'), path);
 		});
 	});
 });
