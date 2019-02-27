@@ -47,9 +47,13 @@ const ZoteroStandalone = new function() {
 			}
 			return Zotero.initializationPromise;
 		})
-		.then(function () {
+		.then(async function () {
 			if (Zotero.Prefs.get('devtools.errorconsole.enabled', true)) {
 				document.getElementById('menu_errorConsole').hidden = false;
+			}
+			if (Zotero.Prefs.get('devtools.chrome.enabled', true)) {
+				document.getElementById('menu_errorConsole').hidden = false;
+				document.getElementById('menu_runJS').hidden = false;
 			}
 			
 			document.getElementById('key_copyCitation')
@@ -60,6 +64,7 @@ const ZoteroStandalone = new function() {
 			ZoteroStandalone.DebugOutput.init();
 			
 			Zotero.hideZoteroPaneOverlays();
+			await ZoteroPane.Containers.init();
 			ZoteroPane.init();
 			ZoteroPane.makeVisible();
 			
@@ -447,6 +452,10 @@ ZoteroStandalone.DebugOutput = {
 
 function toJavaScriptConsole() {
 	toOpenWindowByType("global:console", "chrome://global/content/console.xul");
+}
+
+function openRunJSWindow() {
+	window.open('chrome://zotero/content/runJS.html', 'run-js', 'width=900,height=700,resizable');
 }
 
 function toOpenWindowByType(inType, uri, features)

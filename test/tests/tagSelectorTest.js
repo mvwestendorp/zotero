@@ -1,7 +1,7 @@
 "use strict";
 
 describe("Tag Selector", function () {
-	var win, doc, collectionsView, tagSelector;
+	var win, doc, collectionsView, tagSelectorElem, tagSelector;
 	
 	var clearTagColors = Zotero.Promise.coroutine(function* (libraryID) {
 		var tagColors = Zotero.Tags.getColors(libraryID);
@@ -11,27 +11,13 @@ describe("Tag Selector", function () {
 	});
 	
 	function getColoredTags() {
-		var tagsBox = tagSelector.id('tags-box');
-		var elems = tagsBox.getElementsByTagName('button');
-		var names = [];
-		for (let i = 0; i < elems.length; i++) {
-			if (elems[i].style.order < 0) {
-				names.push(elems[i].textContent);
-			}
-		}
-		return names;
+		var elems = Array.from(tagSelectorElem.querySelectorAll('.tag-selector-item.colored'));
+		return elems.map(elem => elem.textContent);
 	}
 	
 	function getRegularTags() {
-		var tagsBox = tagSelector.id('tags-box');
-		var elems = tagsBox.getElementsByTagName('button');
-		var names = [];
-		for (let i = 0; i < elems.length; i++) {
-			if (elems[i].style.order >= 0 && elems[i].style.display != 'none') {
-				names.push(elems[i].textContent);
-			}
-		}
-		return names;
+		var elems = Array.from(tagSelectorElem.querySelectorAll('.tag-selector-item:not(.colored)'));
+		return elems.map(elem => elem.textContent);
 	}
 	
 	
@@ -39,7 +25,8 @@ describe("Tag Selector", function () {
 		win = yield loadZoteroPane();
 		doc = win.document;
 		collectionsView = win.ZoteroPane.collectionsView;
-		tagSelector = doc.getElementById('zotero-tag-selector');
+		tagSelectorElem = doc.getElementById('zotero-tag-selector');
+		tagSelector = win.ZoteroPane.tagSelector;
 		
 		// Wait for things to settle
 		yield Zotero.Promise.delay(100);
@@ -49,16 +36,56 @@ describe("Tag Selector", function () {
 		var libraryID = Zotero.Libraries.userLibraryID;
 		yield clearTagColors(libraryID);
 		// Default "Display All Tags in This Library" off
-		tagSelector.filterToScope = true;
-		tagSelector.setSearch('');
-		yield tagSelector.refresh(true);
-	})
+		tagSelector.displayAllTags = false;
+		tagSelector.selectedTags = new Set();
+		tagSelector.handleSearch('');
+		tagSelector.onItemViewChanged({libraryID});
+	});
 	
 	after(function () {
 		win.close();
 	});
 	
-	describe("#setSearch()", function () {
+	it("should sort colored tags by assigned number key", async function () {
+		var libraryID = Zotero.Libraries.userLibraryID;
+		var collection = await createDataObject('collection');
+		
+		await Zotero.Tags.setColor(libraryID, "B", '#AAAAAA', 1);
+		await Zotero.Tags.setColor(libraryID, "A", '#BBBBBB', 2);
+		await Zotero.Tags.setColor(libraryID, "C", '#CCCCCC', 3);
+		
+		var item = createUnsavedDataObject('item', { collections: [collection.id] });
+		var item = createUnsavedDataObject('item');
+		await item.setTags(["A", "B"]);
+		var promise = waitForTagSelector(win);
+		await item.saveTx();
+		await promise;
+		
+		var tags = getColoredTags();
+		assert.sameOrderedMembers(tags, ['B', 'A', 'C']);
+	});
+	
+	it('should not display duplicate tags when automatic and manual tag with same name exists', async function () {
+		var collection = await createDataObject('collection');
+		var item1 = createUnsavedDataObject('item', { collections: [collection.id] });
+		item1.setTags([{
+			tag: "A",
+			type: 1
+		}]);
+		var item2 = createUnsavedDataObject('item', { collections: [collection.id] });
+		item2.setTags(["A", "B"]);	
+		var promise = waitForTagSelector(win);
+		await Zotero.DB.executeTransaction(async function () {
+			await item1.save();
+			await item2.save();
+		});
+		await promise;
+		
+		var tags = getRegularTags();
+		assert.sameMembers(tags, ['A', 'B']);
+	});
+	
+	describe("#handleSearch()", function () {
 		it("should filter to tags matching the search", function* () {
 			var collection = yield createDataObject('collection');
 			var item = createUnsavedDataObject('item', { collections: [collection.id] });
@@ -67,20 +94,23 @@ describe("Tag Selector", function () {
 			yield item.saveTx();
 			yield promise;
 			
-			var tagsSearch = doc.getElementById('tags-search');
-			tagsSearch.value = 'a';
-			tagsSearch.doCommand();
+			promise = waitForTagSelector(win);
+			tagSelector.handleSearch('a');
+			yield Zotero.Promise.delay(500);
+			
+			yield promise;
 			
 			var tags = getRegularTags();
 			assert.sameMembers(tags, ['a']);
+
+			tagSelector.handleSearch('');
+			yield Zotero.Promise.delay(500);
 			
-			tagsSearch.value = '';
-			tagsSearch.doCommand();
 			yield item.eraseTx();
 		});
 	});
 	
-	describe("#refresh()", function () {
+	describe("#handleTagSelected()", function () {
 		it("should remove tags not on matching items on tag click", function* () {
 			var collection = yield createDataObject('collection');
 			var item1 = createUnsavedDataObject('item', { collections: [collection.id] });
@@ -112,13 +142,8 @@ describe("Tag Selector", function () {
 			});
 			yield promise;
 			
-			var buttons = tagSelector.id('tags-box').getElementsByTagName('button');
-			var spy = sinon.spy(win.ZoteroPane, "updateTagFilter");
-			buttons[0].click();
-			
-			yield spy.returnValues[0];
-			
-			spy.restore();
+			tagSelector.handleTagSelected('A');
+			yield waitForTagSelector(win);
 			
 			var tags = getRegularTags();
 			assert.sameMembers(tags, ['A', 'B']);
@@ -126,9 +151,9 @@ describe("Tag Selector", function () {
 	});
 	
 	
-	describe("#filterToScope", function () {
-		it("should show all tags in library when false", function* () {
-			tagSelector.filterToScope = false;
+	describe("#displayAllTags", function () {
+		it("should show all tags in library when true", function* () {
+			tagSelector.displayAllTags = true;
 			
 			var collection = yield createDataObject('collection');
 			var item1 = createUnsavedDataObject('item');
@@ -165,7 +190,7 @@ describe("Tag Selector", function () {
 	
 	describe("#notify()", function () {
 		it("should add a tag when added to an item in the library root", function* () {
-			var promise, tagSelector;
+			var promise;
 			
 			if (collectionsView.selection.currentIndex != 0) {
 				promise = waitForTagSelector(win);
@@ -256,27 +281,23 @@ describe("Tag Selector", function () {
 		it("should show a colored tag at the top of the list even when linked to no items", function* () {
 			var libraryID = Zotero.Libraries.userLibraryID;
 			
-			var tagElems = tagSelector.id('tags-box').getElementsByTagName('button');
+			var tagElems = tagSelectorElem.querySelectorAll('.tag-selector-item');
 			var count = tagElems.length;
-			
+
+			var promise = waitForTagSelector(win);
 			yield Zotero.Tags.setColor(libraryID, "Top", '#AAAAAA');
-			
+			yield promise;
+
+			tagElems = tagSelectorElem.querySelectorAll('.tag-selector-item');
 			assert.equal(tagElems.length, count + 1);
 		});
 		
 		it("shouldn't re-insert a new tag that matches an existing color", function* () {
 			var libraryID = Zotero.Libraries.userLibraryID;
 			
-			/*// Remove all tags in library
-			var tags = yield Zotero.Tags.getAll(libraryID);
-			tags.forEach(function (tag) {
-				var tagID = Zotero.Tags.getID(tag);
-				yield Zotero.Tags.removeFromLibrary(libraryID, tagID);
-			});*/
-			
-			// Add B and A as colored tags without any items
-			yield Zotero.Tags.setColor(libraryID, "B", '#990000');
-			yield Zotero.Tags.setColor(libraryID, "A", '#CC9933');
+			// Add A and B as colored tags without any items
+			yield Zotero.Tags.setColor(libraryID, "A", '#CC9933', 1);
+			yield Zotero.Tags.setColor(libraryID, "B", '#990000', 2);
 			
 			// Add A to an item to make it a real tag
 			var item = createUnsavedDataObject('item');
@@ -288,16 +309,15 @@ describe("Tag Selector", function () {
 			var promise = waitForTagSelector(win);
 			yield item.saveTx();
 			yield promise;
-			
-			var tagElems = tagSelector.id('tags-box').getElementsByTagName('button');
+
+			var tagElems = tagSelectorElem.querySelectorAll('.tag-selector-item');
 			
 			// Make sure the colored tags are still in the right position
 			var tags = new Map();
 			for (let i = 0; i < tagElems.length; i++) {
-				tags.set(tagElems[i].textContent, tagElems[i].style.order);
+				tags.set(tagElems[i].textContent, i);
 			}
-			assert.isBelow(parseInt(tags.get("B")), 0);
-			assert.isBelow(parseInt(tags.get("B")), parseInt(tags.get("A")));
+			assert.isAbove(tags.get("B"), tags.get("A"));
 		})
 		
 		it("should remove a tag when an item is removed from a collection", function* () {
@@ -325,7 +345,7 @@ describe("Tag Selector", function () {
 			promise = waitForTagSelector(win);
 			yield item.saveTx();
 			yield promise;
-			
+
 			// Tag selector shouldn't show the removed item's tag
 			assert.equal(getRegularTags().length, 0);
 		})
@@ -379,8 +399,9 @@ describe("Tag Selector", function () {
 			
 			// Remove tag from library
 			promise = waitForTagSelector(win);
-			var dialogPromise = waitForDialog();
-			yield tagSelector.deleteTag("A");
+			waitForDialog();
+			tagSelector.contextTag = {name: "A"};
+			yield tagSelector.openDeletePrompt();
 			yield promise;
 			
 			// Tag selector shouldn't show the deleted item's tag
@@ -388,7 +409,7 @@ describe("Tag Selector", function () {
 		})
 	})
 	
-	describe("#rename()", function () {
+	describe("#openRenamePrompt", function () {
 		it("should rename a tag and update the tag selector", function* () {
 			yield selectLibrary(win);
 			
@@ -409,7 +430,8 @@ describe("Tag Selector", function () {
 				dialog.document.getElementById('loginTextbox').value = newTag;
 				dialog.document.documentElement.acceptDialog();
 			})
-			yield tagSelector.rename(tag);
+			tagSelector.contextTag = {name: tag};
+			yield tagSelector.openRenamePrompt();
 			yield promise;
 			
 			var tags = getRegularTags();
@@ -428,11 +450,12 @@ describe("Tag Selector", function () {
 			yield promise;
 			
 			promise = waitForTagSelector(win);
-			var promptPromise = waitForWindow("chrome://global/content/commonDialog.xul", function (dialog) {
+			waitForWindow("chrome://global/content/commonDialog.xul", function (dialog) {
 				dialog.document.getElementById('loginTextbox').value = newTag;
 				dialog.document.documentElement.acceptDialog();
-			})
-			yield tagSelector.rename(oldTag);
+			});
+			tagSelector.contextTag = {name: oldTag};
+			yield tagSelector.openRenamePrompt();
 			yield promise;
 			
 			var tags = getColoredTags();
@@ -441,7 +464,7 @@ describe("Tag Selector", function () {
 		});
 	})
 	
-	describe("#_openColorPickerWindow()", function () {
+	describe("#openColorPickerWindow()", function () {
 		it("should assign a color to a tag", function* () {
 			yield selectLibrary(win);
 			var tag = "b " + Zotero.Utilities.randomString();
@@ -463,7 +486,8 @@ describe("Tag Selector", function () {
 			
 			var dialogPromise = waitForDialog(false, undefined, 'chrome://zotero/content/tagColorChooser.xul');
 			var tagSelectorPromise = waitForTagSelector(win);
-			yield tagSelector._openColorPickerWindow(tag);
+			tagSelector.contextTag = {name: tag};
+			yield tagSelector.openColorPickerWindow();
 			yield dialogPromise;
 			yield tagSelectorPromise;
 			

@@ -4,7 +4,6 @@ menulist.yellow {
 }
 /* Font sizes */
 *[zoteroFontSize=medium] #zotero-tb-search, *[zoteroFontSize=large] #zotero-tb-search,
-*[zoteroFontSize=medium] zoterotagselector textbox, *[zoteroFontSize=large] zoterotagselector textbox
 {
 	font-size: 1em !important;
 }
@@ -206,11 +205,6 @@ zoterosearch
 	-moz-binding: url('chrome://zotero/content/bindings/zoterosearch.xml#search-box');
 }
 
-zoterotagselector
-{
-	-moz-binding: url('chrome://zotero/content/bindings/tagselector.xml#tag-selector');
-}
-
 
 zoterosearchcondition
 {
@@ -312,14 +306,15 @@ label.zotero-text-link {
 	background-image: url('chrome://zotero/skin/plus-active.png') !important;
 }
 
-.zotero-clicky:not([disabled=true]):hover
+.zotero-clicky:not([disabled=true]):not(.disabled):hover
 {
 	background: rgb(187, 206, 241);
 	border: 1px solid rgb(109, 149, 224);
 }
 
-.zotero-clicky:not([disabled=true]):active,
-.zotero-clicky[selected="true"]
+.zotero-clicky:not([disabled=true]):not(.disabled):active,
+.zotero-clicky[selected="true"],
+.zotero-clicky.selected
 {
 	color: white;
 	background: rgb(89, 139, 236);

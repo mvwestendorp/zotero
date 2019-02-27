@@ -802,7 +802,7 @@ Zotero.Integration.Fields = function(session, doc) {
 
 /**
  * Checks that it is appropriate to add fields to the current document at the current
- * positon, then adds one.
+ * position, then adds one.
  */
 Zotero.Integration.Fields.prototype.addField = async function(note) {
 	// Get citation types if necessary
@@ -1002,14 +1002,14 @@ Zotero.Integration.Fields.prototype.updateDocument = Zotero.Promise.coroutine(fu
 Zotero.Integration.Fields.prototype._updateDocument = async function(forceCitations, forceBibliography,
 		ignoreCitationChanges) {
 	if(this.progressCallback) {
-		var nFieldUpdates = Object.keys(this._session.updateIndices).length;
+		var nFieldUpdates = Object.keys(this._session.processIndices).length;
 		if(this._session.bibliographyHasChanged || forceBibliography) {
 			nFieldUpdates += this._bibliographyFields.length*5;
 		}
 	}
 	
 	var nUpdated=0;
-	for(var i in this._session.updateIndices) {
+	for(var i in this._session.processIndices) {
 		if(this.progressCallback && nUpdated % 10 == 0) {
 			try {
 				this.progressCallback(75+(nUpdated/nFieldUpdates)*25);
@@ -1209,7 +1209,7 @@ Zotero.Integration.Fields.prototype.addEditCitation = async function (field) {
 		for (var prevIdx = idx-1; prevIdx >= 0; prevIdx--) {
 			if (prevIdx in fieldToCitationIdxMapping) break;
 		}
-		for (var nextIdx = idx+1; nextIdx < fields.length; nextIdx++) {
+		for (var nextIdx = idx; nextIdx < fields.length; nextIdx++) {
 			if (nextIdx in fieldToCitationIdxMapping) break;
 		}
 		let citationsPre = citations.slice(0, fieldToCitationIdxMapping[prevIdx]+1);
@@ -1257,7 +1257,6 @@ Zotero.Integration.Fields.prototype.addEditCitation = async function (field) {
 	}
 
 	var fieldIndex = await fieldIndexPromise;
-	this._session.updateIndices[fieldIndex] = true;
 	// Make sure session is updated
 	await citationsByItemIDPromise;
 	return [fieldIndex, field, io.citation];
@@ -1374,10 +1373,12 @@ Zotero.Integration.Session.prototype.resetRequest = function(doc) {
 	// citations that are new to the document will be marked
 	// as new,  so that they are correctly loaded into and processed with citeproc
 	this.newIndices = {};
-	// After the processing of new indices with citeproc, some
-	// citations require additional work (because of disambiguation, numbering changes, etc)
-	// and will be marked for an additional reprocessing with citeproc to retrieve updated text
+	// Citations that are not new to the session but where the item metadata
+	// has changed will be marked in updateIndices
 	this.updateIndices = {};
+	// Citations that require updating in the document will be marked in
+	// processIndices
+	this.processIndices = {};
 
 	// When processing citations this list will be checked for citations that are new to the document
 	// (i.e. copied from somewhere else) and marked as newIndices to be processed with citeproc if
@@ -1618,25 +1619,24 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	// citationItems
 	delete this.fields._deleteFields[index];
 
-	citation.properties.added = true;
 	citation.properties.zoteroIndex = index;
 	citation.properties.noteIndex = noteIndex;
 	this.citationsByIndex[index] = citation;
 	
 	// add to citationsByItemID and citationsByIndex
-	for(var i=0; i<citation.citationItems.length; i++) {
+	for (var i=0; i<citation.citationItems.length; i++) {
 		var citationItem = citation.citationItems[i];
-		if(!this.citationsByItemID[citationItem.id]) {
+		if (!this.citationsByItemID[citationItem.id]) {
 			this.citationsByItemID[citationItem.id] = [citation];
 			this.bibliographyHasChanged = true;
 		} else {
 			var byItemID = this.citationsByItemID[citationItem.id];
-			if(byItemID[byItemID.length-1].properties.zoteroIndex < index) {
+			if (byItemID[byItemID.length-1].properties.zoteroIndex < index) {
 				// if index is greater than the last index, add to end
 				byItemID.push(citation);
 			} else {
 				// otherwise, splice in at appropriate location
-				for(var j=0; byItemID[j].properties.zoteroIndex < index && j<byItemID.length-1; j++) {}
+				for (var j=0; byItemID[j].properties.zoteroIndex < index && j<byItemID.length-1; j++) {}
 				byItemID.splice(j++, 0, citation);
 			}
 		}
@@ -1645,14 +1645,14 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	// We need a new ID if there's another citation with the same citation ID in this document
 	var duplicateIndex = this.documentCitationIDs[citation.citationID];
 	var needNewID = !citation.citationID || duplicateIndex != undefined;
-	if(needNewID) {
-		if (duplicateIndex != undefined) {
+	if (needNewID) {
+		if (duplicateIndex != undefined && duplicateIndex != index) {
 			// If this is a duplicate, we need to mark both citations as "new"
 			// since we do not know which one was the "original" one
 			// and either one may need to be updated
 			this.newIndices[duplicateIndex] = true;
 		}
-		if(needNewID) {
+		if (needNewID) {
 			Zotero.debug("Integration: "+citation.citationID+" ("+index+") needs new citationID");
 			citation.citationID = Zotero.Utilities.randomString();
 		}
@@ -1660,7 +1660,7 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	}
 	// Deal with citations that are copied into the document from somewhere else
 	// and have not been added to the processor yet
-	if (! this.oldCitations.has(citation.citationID) && !this.reload) {
+	if (!this.oldCitations.has(citation.citationID)) {
 		this.newIndices[index] = true;
 	}
 	if (this.regenAll && !this.newIndices[index]) {
@@ -1670,16 +1670,15 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	this.documentCitationIDs[citation.citationID] = index;
 });
 
-Zotero.Integration.Session.prototype.getCiteprocLists = function(excludeNew) {
+Zotero.Integration.Session.prototype.getCiteprocLists = function() {
 	var citations = [];
 	var fieldToCitationIdxMapping = {};
 	var citationToFieldIdxMapping = {};
 	var i = 0;
 	// This relies on the order of citationsByIndex keys being stable and sorted in ascending order
 	// Which it seems to currently be true for every modern JS engine, so we're probably fine
-	for(let idx in this.citationsByIndex) {
-		if (excludeNew && this.newIndices[idx]) {
-			i++;
+	for (let idx in this.citationsByIndex) {
+		if (idx in this.newIndices) {
 			continue;
 		}
 		citations.push([this.citationsByIndex[idx].citationID, this.citationsByIndex[idx].properties.noteIndex]);
@@ -1698,10 +1697,16 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 	Zotero.debug("Integration: Indices of updated citations");
 	Zotero.debug(Object.keys(this.updateIndices));
 	
-	var [citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] = this.getCiteprocLists();
-	
+	let citations, fieldToCitationIdxMapping, citationToFieldIdxMapping;
 	for (let indexList of [this.newIndices, this.updateIndices]) {
 		for (let index in indexList) {
+			if (indexList == this.newIndices) {
+				delete this.newIndices[index];
+				delete this.updateIndices[index];
+				[citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] =
+					this.getCiteprocLists()
+			}
+		
 			// Jump to next event loop step for UI updates
 			await Zotero.Promise.delay();
 			index = parseInt(index);
@@ -1709,17 +1714,10 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 			var citation = this.citationsByIndex[index];
 			if (!citation) continue;
 			citation = citation.toJSON();
-			
+
 			let citationsPre = citations.slice(0, citationToFieldIdxMapping[index]);
-			var citationsPost;
-			if (index in this.newIndices) {
-				citationsPost = [];
-				delete this.newIndices[index];
-				// If this item will need updating later citation processing will reset this index later in the loop
-				delete this.updateIndices[index];
-			} else {
-				citationsPost = citations.slice(citationToFieldIdxMapping[index]+1);
-			}
+
+			var citationsPost = citations.slice(citationToFieldIdxMapping[index]+1);
 
 			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 				await Zotero.CiteProc.CSL.preloadAbbreviations(this.style, citation);
@@ -1735,11 +1733,12 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 			
 			for (let citationInfo of newCitations) {
 				let idx = fieldToCitationIdxMapping[citationInfo[0]], text = citationInfo[1];
-				this.updateIndices[idx] = true;
+				this.processIndices[idx] = true;
 				this.citationsByIndex[idx].text = text;
 			}
-			
 		}
+		[citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] =
+			this.getCiteprocLists();
 	}
 }
 
@@ -2169,7 +2168,7 @@ Zotero.Integration.URIMap.prototype.getZoteroItemForURIs = Zotero.Promise.corout
 	}
 	
 	if(zoteroItem) {
-		// make sure URI is up to date (in case user just began synching)
+		// make sure URI is up to date (in case user just began syncing)
 		var newURI = Zotero.URI.getItemURI(zoteroItem);
 		if(newURI != uris[i]) {
 			uris[i] = newURI;

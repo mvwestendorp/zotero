@@ -26,7 +26,12 @@
 EXPORTED_SYMBOLS = ["ConcurrentCaller"];
 
 if (!(typeof process === 'object' && process + '' === '[object process]')) {
-	Components.utils.import('resource://zotero/require.js');
+	// Components.utils.import('resource://zotero/require.js');
+	// Not using Cu.import here since we don't want the require module to be cached
+	// for includes within ZoteroPane or other code where we want the window instance available to modules.
+	Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+		.getService(Components.interfaces.mozIJSSubScriptLoader)
+		.loadSubScript('resource://zotero/require.js');
 	var Promise = require('resource://zotero/bluebird.js');
 } else {
 	Promise = require('bluebird');
@@ -61,6 +66,8 @@ if (!(typeof process === 'object' && process + '' === '[object process]')) {
  * @param {Integer} [options.interval] - Interval between the end of one function run and the
  *     beginning of another, in milliseconds
  * @param {Function} [options.logger]
+ * @param {Object} [options.Promise] The Zotero instance of Promise to allow
+ *		stubbing/spying in tests
  */
 ConcurrentCaller = function (options = {}) {
 	if (typeof options == 'number') {
@@ -71,6 +78,8 @@ ConcurrentCaller = function (options = {}) {
 	}
 	
 	if (!options.numConcurrent) throw new Error("numConcurrent must be provided");
+	
+	if (options.Promise) Promise = options.Promise;
 	
 	this.stopOnError = options.stopOnError || false;
 	this.onError = options.onError || null;

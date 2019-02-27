@@ -1,30 +1,22 @@
 const colors = require('colors/safe');
 
-const adminCheck = require('is-admin');
 const getBrowserify = require('./browserify');
 const getCopy = require('./copy');
 const getJS = require('./js');
 const getSass = require('./sass');
 const getSymlinks = require('./symlinks');
-const { isWindows, formatDirsForMatcher, getSignatures, writeSignatures, cleanUp, onSuccess, onError} = require('./utils');
-const { dirs, symlinkDirs, copyDirs, symlinkFiles, jsFiles, ignoreMask } = require('./config');
+const { formatDirsForMatcher, getSignatures, writeSignatures, cleanUp, onSuccess, onError} = require('./utils');
+const { dirs, symlinkDirs, copyDirs, symlinkFiles, jsFiles, scssFiles, ignoreMask } = require('./config');
 
 if (require.main === module) {
 	(async () => {
 		try {
-			if (isWindows) {
-				var isAdmin = await adminCheck();
-				if(!isAdmin){
-					console.log("Must be run as Administrator on Windows.");
-					console.log("  (close the Cygwin terminal, reopen it with right-click, check the menu)");
-					process.exit();
-				}
-			}
 			const t1 = Date.now();
 			global.isError = false; // used to prevent further output to avoid concealing errors
 			const symlinks = symlinkFiles
 				.concat(dirs.map(d => `${d}/**`))
 				.concat([`!${formatDirsForMatcher(dirs)}/**/*.js`])
+				.concat([`!${formatDirsForMatcher(dirs)}/**/*.jsx`])
 				.concat([`!${formatDirsForMatcher(copyDirs)}/**`])
 
 			const signatures = await getSignatures();
@@ -32,7 +24,7 @@ if (require.main === module) {
 				getBrowserify(signatures),
 				getCopy(copyDirs.map(d => `${d}/**`), { ignore: ignoreMask }, signatures),
 				getJS(jsFiles, { ignore: ignoreMask }, signatures),
-				getSass('scss/*.scss', { root: 'scss', ignore: ignoreMask }, signatures),
+				getSass(scssFiles, { ignore: ignoreMask }, signatures),
 				getSymlinks(symlinks, { nodir: true, ignore: ignoreMask }, signatures),
 				getSymlinks(symlinkDirs, { ignore: ignoreMask }, signatures),
 				cleanUp(signatures)

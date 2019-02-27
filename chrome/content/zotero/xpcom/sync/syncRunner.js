@@ -64,7 +64,8 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 		numConcurrent: 4,
 		stopOnError,
 		logger: msg => Zotero.debug(msg),
-		onError: e => Zotero.logError(e)
+		onError: e => Zotero.logError(e),
+		Promise: Zotero.Promise
 	});
 	
 	var _enabled = false;
@@ -1418,7 +1419,7 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 				content.appendChild(header);
 			}
 			
-			// Show our own error mesages directly
+			// Show our own error messages directly
 			var msg;
 			if (e instanceof Zotero.Error) {
 				msg = e.message;
