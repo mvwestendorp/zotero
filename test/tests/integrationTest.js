@@ -470,7 +470,7 @@ describe("Zotero.Integration", function () {
 				var docID = this.test.fullTitle();
 				var doc = applications[docID].doc;
 
-				testItems[3].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert'});
+				testItems[3].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
 				testItems[3].setField('date', '2019-01-01');
 
 				setAddEditItems(testItems[3]);
@@ -480,7 +480,7 @@ describe("Zotero.Integration", function () {
 				sinon.stub(doc, 'cursorInField').resolves(doc.fields[0]);
 				sinon.stub(doc, 'canInsertField').resolves(false);
 
-				testItems[4].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert'});
+				testItems[4].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
 				testItems[4].setField('date', '2019-01-01');
 
 				setAddEditItems(testItems[4]);
@@ -495,7 +495,7 @@ describe("Zotero.Integration", function () {
 				var docID = this.test.fullTitle();
 				var doc = applications[docID].doc;
 
-				testItems[3].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert'});
+				testItems[3].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
 				testItems[3].setField('date', '2019-01-01');
 
 				setAddEditItems(testItems[3]);
@@ -508,7 +508,7 @@ describe("Zotero.Integration", function () {
 				doc.fields[1].code = doc.fields[0].code;
 				doc.fields[1].text = doc.fields[0].text;
 
-				testItems[4].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert'});
+				testItems[4].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
 				testItems[4].setField('date', '2019-01-01');
 
 				setAddEditItems(testItems[4]);
@@ -556,7 +556,7 @@ describe("Zotero.Integration", function () {
 				sinon.stub(doc, 'cursorInField').resolves(doc.fields[1]);
 				sinon.stub(doc, 'canInsertField').resolves(false);
 
-				testItems[1].setCreator(0, {creatorType: 'author', name: 'Aaaaa'});
+				testItems[1].setCreator(0, {creatorType: 'author', name: 'Aaaaa', multi:{_key: {}}});
 				testItems[1].setField('title', 'Bbbbb');
 
 				setAddEditItems(testItems.slice(1, 3));
