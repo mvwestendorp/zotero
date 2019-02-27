@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Escolha...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Extrair metadados dos PDFs automaticamente">
 <!ENTITY zotero.preferences.autoRenameFiles "Renomeia os arquivos anexos automaticamente, utilizando metadados do item pai">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "Verificar automaticamente atualizações de traduções e estilos">
 <!ENTITY zotero.preferences.automaticSnapshots "Salvar instantâneos automaticamente ao criar itens de páginas web">
 <!ENTITY zotero.preferences.automaticTags "Etiquetar os itens com palavras-chaves e cabeçalhos de assunto automaticamente">

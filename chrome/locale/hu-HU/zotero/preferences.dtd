@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Tallózás…">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
 <!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "Fordítók- és stílusfrissítések automatikus ellenőrzése">
 <!ENTITY zotero.preferences.automaticSnapshots "Weboldalon alapuló elem létrehozásakor automatikus pillanatfelvétel készítése">
 <!ENTITY zotero.preferences.automaticTags "Kulcsszavak és tárgyszavak automatikus hozzárendelése címkeként">
@@ -59,7 +60,7 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Rendezés:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "A legújabb elem felül">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "A legrégebbi elem felül">
-<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "A PDF-fájlok megnyitása">
 <!ENTITY zotero.preferences.fileHandler.systemDefault "Alapértelmezett rendszerbeállítás">
 <!ENTITY zotero.preferences.fileHandling "File Handling">
 <!ENTITY zotero.preferences.fontSize "Betűméret">
@@ -217,7 +218,7 @@
 <!ENTITY zotero.preferences.sync.fileSyncing.tos1 "A Zotero tárhely használata esetén elfogadom a">
 <!ENTITY zotero.preferences.sync.fileSyncing.tos2 "felhasználási feltételeket">
 <!ENTITY zotero.preferences.sync.fileSyncing.url "URL:">
-<!ENTITY zotero.preferences.sync.fileSyncing.verifyServer "Verify Server">
+<!ENTITY zotero.preferences.sync.fileSyncing.verifyServer "Szerver ellenőrzése">
 <!ENTITY zotero.preferences.sync.librariesToSync "Könyvtárak szinkronizálása">
 <!ENTITY zotero.preferences.sync.librariesToSync.button "Könyvtárak kiválasztása...">
 <!ENTITY zotero.preferences.sync.librariesToSync.library "Könyvtár">

@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Επιλέξτε...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Αυτόματη ανάκτηση μεταδεδομένων για αρχεία PDF">
 <!ENTITY zotero.preferences.autoRenameFiles "Αυτόματη μετονομασία συνημμένων αρχείων χρησιμοποιώντας μεταγενέστερα μεταδεδομένα">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "Αυτόματος έλεγχος για ενημερωμένους μεταφραστές και στυλ">
 <!ENTITY zotero.preferences.automaticSnapshots "Αυτόματη λήψη φωτογραφικού στιγμιότυπου όταν δημιουργείτε στοιχεία από ιστοσελίδες">
 <!ENTITY zotero.preferences.automaticTags "Αυτόματη επισήμανση των στοιχείων με λέξεις κλειδιά και κεφαλίδες θέματος">

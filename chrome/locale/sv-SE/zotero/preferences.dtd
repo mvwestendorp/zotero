@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Välj...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "hämta metadata automatiskt för PDF:er">
 <!ENTITY zotero.preferences.autoRenameFiles "Döp automatiskt om bilagefiler uifrån huvudpostens metadata">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "Kolla automatiskt efter uppdaterade källfångare och stilar">
 <!ENTITY zotero.preferences.automaticSnapshots "Ta automatiskt lokala kopior när källor skapas av hemsidor">
 <!ENTITY zotero.preferences.automaticTags "Lägg automatiskt till etiketter med nyckelord och ämnesord">

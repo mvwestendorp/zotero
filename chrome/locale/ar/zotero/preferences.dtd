@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "اختار...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "استرداد البيانات الوصفية تلقائياً لملفات بي دي إف">
 <!ENTITY zotero.preferences.autoRenameFiles "إعادة تسمية الملفات المرفقة تلقائيًا مستخدماً بيانات الأصل الوصفية">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "التأكد التلقائي من وجود مترجمات مواقع محدثة">
 <!ENTITY zotero.preferences.automaticSnapshots "أخذ لقطات تلقائية عند إنشاء العناصر من صفحات الويب">
 <!ENTITY zotero.preferences.automaticTags "اضف اوسمة  تلقائية للعناصر بالكلمات المفتاحية ورؤوس الموضوعات">

@@ -68,19 +68,19 @@
 <!ENTITY zotero.file.noneSelected.label "Nebyl vybrán žádný soubor">
 <!ENTITY zotero.general.advancedOptions.label "Pokročilé možnosti">
 <!ENTITY zotero.general.cancel "Zrušit">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Zavřít">
 <!ENTITY zotero.general.delete "Smazat">
 <!ENTITY zotero.general.deselectAll "Odznačit vše">
 <!ENTITY zotero.general.edit "Editovat">
 <!ENTITY zotero.general.loading "Nahrává se...">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Minimalizovat">
 <!ENTITY zotero.general.more "Více">
 <!ENTITY zotero.general.no "Ne">
 <!ENTITY zotero.general.note "Poznámka:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Volitelné)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "Možnosti">
+<!ENTITY zotero.general.other "Další...">
 <!ENTITY zotero.general.refresh "Obnovit">
 <!ENTITY zotero.general.saveAs "Uložit jako...">
 <!ENTITY zotero.general.selectAll "Vybrat vše">
@@ -88,18 +88,18 @@
 <!ENTITY zotero.general.yes "Ano">
 <!ENTITY zotero.import "Import">
 <!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import.database "Databáze">
+<!ENTITY zotero.import.importing "Importuje...">
+<!ENTITY zotero.import.lastModified "Naposledy změněno">
+<!ENTITY zotero.import.size "Velikost">
+<!ENTITY zotero.import.source.file "Soubor (BibTeX, RIS, Zotero RDF, atd.)">
+<!ENTITY zotero.import.whereToImportFrom "Odkud chcete importovat?">
 <!ENTITY zotero.integration.addEditCitation.title "Přidat/Upravit citaci">
 <!ENTITY zotero.integration.classicView.label "Standardní zobrazení">
 <!ENTITY zotero.integration.docPrefs.title "Vlastnosti dokumentu">
 <!ENTITY zotero.integration.editBibliography.title "Upravit bibliografii">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automaticky aktualizovat citace">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Pole &quot;Zkrácený název časopisu&quot; bude ignorováno">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Použít zkrácené názvy časopisů MEDLINE">
@@ -177,10 +177,10 @@
 <!ENTITY zotero.items.menu.mergeItems "Sloučit položky...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
-<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
+<!ENTITY zotero.items.menu.reportMetadata "Oznámit chybná metadata">
 <!ENTITY zotero.items.menu.restoreToLibrary "Obnovit do knihovny">
 <!ENTITY zotero.items.menu.showInLibrary "Ukázat v knihovně">
-<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
+<!ENTITY zotero.items.menu.unrecognize "Zpět Získávání metadat">
 <!ENTITY zotero.items.moreColumns.label "Více sloupců">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Stránky">
@@ -198,7 +198,7 @@
 <!ENTITY zotero.items.volume_column "Ročník">
 <!ENTITY zotero.items.year_column "Rok">
 <!ENTITY zotero.lookup.button.search "Hledat">
-<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
+<!ENTITY zotero.lookup.description "Pro přidání do knihovny zadejte ISBN, DOI, PMID či arXiv IDs:">
 <!ENTITY zotero.merge.deleted "Smazáno">
 <!ENTITY zotero.merge.of "z">
 <!ENTITY zotero.merge.title "Řešení konfliktů">

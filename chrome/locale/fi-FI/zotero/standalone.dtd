@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Sulje">
 <!ENTITY copyBibliographyCmd.label "Kopioi kirjallisuusluettelo">
-<!ENTITY copyCitationCmd.label "Kopioi sitaatti">
+<!ENTITY copyCitationCmd.label "Kopioi viite">
 <!ENTITY copyCmd.accesskey "C">
 <!ENTITY copyCmd.key "C">
 <!ENTITY copyCmd.label "Kopioi">

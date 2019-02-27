@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "選択...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "自動的にPDFのメタデータを取得する">
 <!ENTITY zotero.preferences.autoRenameFiles "親アイテムのメタデータを使って自動的に添付ファイルを改名する">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "トランスレータとスタイルの更新を自動的に確認する。">
 <!ENTITY zotero.preferences.automaticSnapshots "ウェブページからアイテムを作成するときに自動的にスナップショットを作成する">
 <!ENTITY zotero.preferences.automaticTags "キーワードと件名標目を含むアイテムに自動的にタグを付ける">

@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Избиране...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Автоматично извличане на данни от интернет за PDF">
 <!ENTITY zotero.preferences.autoRenameFiles "Автоматично преименуване на прикачените файлове използвайки метаданните на записа">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "Автоматично проверяване за актуализирани стилове и програми за извличане на данни">
 <!ENTITY zotero.preferences.automaticSnapshots "Автоматична &quot;моментна снимка&quot; при направата записи от интернет страници">
 <!ENTITY zotero.preferences.automaticTags "Автоматично маркиране на записите с ключови думи и заглавия на темата">
