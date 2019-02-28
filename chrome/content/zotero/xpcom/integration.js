@@ -449,7 +449,7 @@ Zotero.Integration = new function() {
 				// make sure style is defined
 				if (e instanceof Zotero.Exception.Alert && e.name === "integration.error.invalidStyle") {
 					if (data.style.styleID) {
-						let trustedSource = /^https?:\/\/(www\.)?(zotero\.org|citationstyles\.org)/.test(data.style.styleID);
+						let trustedSource = /^https?:\/\/(www\.)?(zotero\.org|citationstyles\.org|juris-m.github.io)/.test(data.style.styleID);
 						let errorString = Zotero.getString("integration.error.styleMissing", data.style.styleID);
 						if (trustedSource || 
 							await doc.displayAlert(errorString, DIALOG_ICON_WARNING, DIALOG_BUTTONS_YES_NO)) {
