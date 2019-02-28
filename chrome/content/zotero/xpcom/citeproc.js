@@ -7383,7 +7383,7 @@ CSL.Node.group = {
                 this.execs.push(func);
             }
             func = function (state, Item) {
-                state.output.endTag();
+                state.output.endTag("group");
                 if (this.realGroup) {
                     var flags = state.tmp.group_context.pop();
                     if (state.tmp.group_context.tip.condition) {
