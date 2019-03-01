@@ -24,7 +24,7 @@
  */
 ;
 var CSL = {
-    PROCESSOR_VERSION: "1.1.217",
+    PROCESSOR_VERSION: "1.1.218",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -530,11 +530,12 @@ var CSL = {
         "issued", 
         "event-date", 
         "accessed", 
-        "container", 
         "original-date",
         "publication-date",
         "available-date",
-        "submitted"
+        "submitted",
+        "alt-issued",
+        "alt-event"
     ],
     TITLE_FIELD_SPLITS: function(seg) {
         var keys = ["title", "short", "main", "sub"];
@@ -7383,7 +7384,7 @@ CSL.Node.group = {
                 this.execs.push(func);
             }
             func = function (state, Item) {
-                state.output.endTag("group");
+                state.output.endTag();
                 if (this.realGroup) {
                     var flags = state.tmp.group_context.pop();
                     if (state.tmp.group_context.tip.condition) {
