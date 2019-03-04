@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Εισαγωγή">
 <!ENTITY zotero.import.createCollection "Τοποθετήστε τις εισαγόμενες συλλογές και τα αντικείμενα σε νέα συλλογή">
 <!ENTITY zotero.import.database "Βάση Δεδομένων">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Εισαγωγή ...">
 <!ENTITY zotero.import.lastModified "Τελευταία Τροποποίηση">
 <!ENTITY zotero.import.size "Μέγεθος">

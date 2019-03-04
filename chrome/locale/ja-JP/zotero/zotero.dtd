@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "インポート">
 <!ENTITY zotero.import.createCollection "インポートされたコレクションやアイテムを新しいコレクションに格納する">
 <!ENTITY zotero.import.database "データベース">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "インポート中...">
 <!ENTITY zotero.import.lastModified "最後の更新">
 <!ENTITY zotero.import.size "サイズ">

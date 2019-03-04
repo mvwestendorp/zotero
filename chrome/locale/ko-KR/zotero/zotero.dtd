@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "불러오기">
 <!ENTITY zotero.import.createCollection "컬렉션 및 항목을 새 컬렉션으로 불러오기">
 <!ENTITY zotero.import.database "데이터베이스">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "불러오는 중...">
 <!ENTITY zotero.import.lastModified "마지막 수정 시간">
 <!ENTITY zotero.import.size "크기">

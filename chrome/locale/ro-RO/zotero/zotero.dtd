@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Import">
 <!ENTITY zotero.import.createCollection "Pune colecțiile importate și itemii într-o colecție nouă">
 <!ENTITY zotero.import.database "Baza de date">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Se importă...">
 <!ENTITY zotero.import.lastModified "Ultima modificare">
 <!ENTITY zotero.import.size "Mărime">

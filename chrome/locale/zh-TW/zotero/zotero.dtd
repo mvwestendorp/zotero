@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "匯入">
 <!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
 <!ENTITY zotero.import.database "資料庫">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "匯入中...">
 <!ENTITY zotero.import.lastModified "Last Modified">
 <!ENTITY zotero.import.size "大小">

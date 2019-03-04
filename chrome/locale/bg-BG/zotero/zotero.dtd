@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Внасяне">
 <!ENTITY zotero.import.createCollection "Поместване на внесените колекции и записи в нова колекция">
 <!ENTITY zotero.import.database "База данни">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Внасяне...">
 <!ENTITY zotero.import.lastModified "Променено за последно">
 <!ENTITY zotero.import.size "Размер">

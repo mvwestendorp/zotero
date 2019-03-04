@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Importieren">
 <!ENTITY zotero.import.createCollection "Importierte Sammlungen und Einträge in neue Sammlungen einstellen">
 <!ENTITY zotero.import.database "Datenbank">
+<!ENTITY zotero.import.fileHandling "Dateiverarbeitung">
 <!ENTITY zotero.import.importing "Importieren...">
 <!ENTITY zotero.import.lastModified "Zuletzt geändert">
 <!ENTITY zotero.import.size "Größe">
@@ -173,7 +174,7 @@
 <!ENTITY zotero.items.menu.attach.note "Notiz hinzufügen">
 <!ENTITY zotero.items.menu.attach.snapshot "Schnappschuss von aktueller Webseite anhängen">
 <!ENTITY zotero.items.menu.changeTag "Change Tag">
-<!ENTITY zotero.items.menu.duplicateItem "Ausgewählten Eintrag duplizieren">
+<!ENTITY zotero.items.menu.duplicateItem "Duplizieren">
 <!ENTITY zotero.items.menu.mergeItems "Einträge zusammenführen...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">

@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Importera">
 <!ENTITY zotero.import.createCollection "Lägg importerade samlingar och källor i en ny samling">
 <!ENTITY zotero.import.database "Databas">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Importerar…">
 <!ENTITY zotero.import.lastModified "Senast ändrad">
 <!ENTITY zotero.import.size "Storlek">

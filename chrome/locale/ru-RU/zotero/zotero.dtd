@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Импорт">
 <!ENTITY zotero.import.createCollection "Поместить импортированные коллекции и записи в отдельную коллекцию">
 <!ENTITY zotero.import.database "База данных">
+<!ENTITY zotero.import.fileHandling "Обращение с файлами">
 <!ENTITY zotero.import.importing "Идет импортирование…">
 <!ENTITY zotero.import.lastModified "Последний раз изменено">
 <!ENTITY zotero.import.size "Размер (объём)">

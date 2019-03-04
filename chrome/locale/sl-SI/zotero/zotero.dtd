@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Uvozi">
 <!ENTITY zotero.import.createCollection "Postavi uvožene zbirke in elemente v novo zbirko">
 <!ENTITY zotero.import.database "Zbirka podatkov">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Uvažanje ...">
 <!ENTITY zotero.import.lastModified "Nazadnje spremenjeno">
 <!ENTITY zotero.import.size "Velikost">

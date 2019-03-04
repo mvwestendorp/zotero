@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Importálás">
 <!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
 <!ENTITY zotero.import.database "Adatbázis">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Importálás…">
 <!ENTITY zotero.import.lastModified "Utolsó módosítás">
 <!ENTITY zotero.import.size "Méret">
