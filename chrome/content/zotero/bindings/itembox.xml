@@ -72,6 +72,7 @@
 					switch (val) {
 						case 'view':
 						case 'merge':
+							this._tabbingInProgress = false;
 							break;
 						
 						case 'edit':
@@ -86,9 +87,11 @@
 						case 'fieldmerge':
 							this.hideEmptyFields = true;
 							this._fieldAlternatives = {};
+							this._tabbingInProgress = false;
 							break;
 						
 						default:
+							this._tabbingInProgress = false;
 							throw ("Invalid mode '" + val + "' in itembox.xml");
 					}
 					
@@ -103,10 +106,6 @@
 				<setter><![CDATA[
 					if (!(val instanceof Zotero.Item)) {
 						throw new Error("'item' must be a Zotero.Item");
-					}
-					if (this._suppressRefresh) {
-						this._suppressRefresh = false;
-						return;
 					}
 					
 					// When changing items, reset truncation of creator list
@@ -708,14 +707,8 @@
 				<parameter name="skipFields"/>
 				<body>
 				<![CDATA[
-					if (this.blockRefresh) {
-						this.blockRefresh = false;
-						return;
-					}
-
 					
 					if (!this.item) {
-
 						Zotero.debug('No item to refresh', 2);
 						return;
 					}
@@ -931,7 +924,7 @@
 							// this item, so that added creators aren't
 							// immediately hidden
 							this._displayAllCreators = true;
-							
+							Zotero.debug("XXXX REFRESH _addCreatorRow is "+this._addCreatorRow);
 							if (this._addCreatorRow) {
 								this.addCreatorRow(false, this.item.getCreator(max-1).creatorTypeID, true);
 								this._addCreatorRow = false;
@@ -3210,8 +3203,8 @@
 					
 					switch (event.keyCode)
 					{
-
 						case event.DOM_VK_RETURN:
+							this._tabbingInProgress = false;
 							var fieldname = target.getAttribute('fieldname');
 							// Use shift-enter as the save action for the larger fields
 							if (Zotero.ItemFields.isMultiline(fieldname) && !event.shiftKey) {
@@ -3255,6 +3248,7 @@
 							
 						case event.DOM_VK_ESCAPE:
 							// Reset field to original value
+							this._tabbingInProgress = false;
 							target.value = target.getAttribute('value');
 							
 							focused.blur();
@@ -3269,9 +3263,11 @@
 							
 						case event.DOM_VK_TAB:
 							if (event.shiftKey) {
+								this._tabbingInProgress = "backward";
 								this._focusNextField(this._lastTabIndex, true);
 							}
 							else {
+								this._tabbingInProgress = "forward";
 								this._focusNextField(++this._lastTabIndex);
 							}
 							return false;
@@ -3304,7 +3300,7 @@
 				<body><![CDATA[
 				return (async function () {
 					Zotero.debug(`Hiding editor for ${textbox.getAttribute('fieldname')}`);
-					
+
 					if (["jurisdiction", "court"].indexOf(fieldName) === -1) {
 						var label = Zotero.getAncestorByTagName(textbox, 'row').querySelector('label');
 					}
@@ -3322,6 +3318,17 @@
 					
 					var elem;
 					var [field, creatorIndex, creatorField] = fieldName.split('-');
+
+					if (this._tabbingInProgress === "backward") {
+						if (creatorField === "firstName") {
+							this.saveOnEdit = false;
+						}
+					} else if (this._tabbingInProgress === "forward") {
+						if (creatorField === "lastName") {
+							this.saveOnEdit = false;
+						}
+					}
+
 					var newVal;
 					
 					var row = Zotero.getAncestorByTagName(textbox, 'row');
@@ -3532,9 +3539,13 @@
 						// Disassociate textbox from label
 						label.setAttribute('control', elem.getAttribute('id'));
 					}
-					
 					if (this.saveOnEdit) {
 						await this.item.saveTx();
+					} else {
+						if (this._tabbingInProgress) {
+							this._tabbingInProgress = false;
+							this.saveOnEdit = true;
+						}
 					}
 				}.bind(this))();
 				]]></body>
@@ -3547,6 +3558,8 @@
 				<![CDATA[
 				return (async function () {
 					Zotero.debug(`Hiding jurisdiction editor for ${node.getAttribute('fieldname')}`);
+
+					this._tabbingInProgress = false;
 
 					this._lastTabIndex = -1;
 
@@ -3613,6 +3626,8 @@
 				<![CDATA[
 					return (async function () {
 					Zotero.debug(`Hiding court editor for ${node.getAttribute('fieldname')}`);
+
+					this._tabbingInProgress = false;
 
 					this._lastTabIndex = -1;
 
