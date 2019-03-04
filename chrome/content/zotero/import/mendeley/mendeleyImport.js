@@ -6,6 +6,7 @@ Services.scriptloader.loadSubScript("chrome://zotero/content/include.js");
 
 var Zotero_Import_Mendeley = function () {
 	this.createNewCollection = null;
+	this.linkFiles = null;
 	this.newItems = [];
 	
 	this._db;
@@ -39,7 +40,9 @@ Zotero_Import_Mendeley.prototype.getTranslators = async function () {
 
 Zotero_Import_Mendeley.prototype.setTranslator = function () {};
 
-Zotero_Import_Mendeley.prototype.translate = async function (options) {
+Zotero_Import_Mendeley.prototype.translate = async function (options = {}) {
+	this._linkFiles = options.linkFiles;
+	
 	if (true) {
 		Services.scriptloader.loadSubScript("chrome://zotero/content/import/mendeley/mendeleySchemaMap.js");
 	}
@@ -108,6 +111,11 @@ Zotero_Import_Mendeley.prototype.translate = async function (options) {
 			let docURLs = urls.get(document.id);
 			let docFiles = files.get(document.id);
 			
+			// If there's a single PDF file, use "PDF" for the attachment title
+			if (docFiles && docFiles.length == 1 && docFiles[0].fileURL.endsWith('.pdf')) {
+				docFiles[0].title = 'PDF';
+			}
+			
 			// If there's a single PDF file and a single PDF URL and the file exists, make an
 			// imported_url attachment instead of separate file and linked_url attachments
 			if (docURLs && docFiles) {
@@ -121,7 +129,6 @@ Zotero_Import_Mendeley.prototype.translate = async function (options) {
 						if (x.fileURL.endsWith('.pdf')) {
 							x.title = 'PDF';
 							x.url = pdfURLs[0];
-							x.contentType = 'application/pdf';
 						}
 					});
 					// Remove PDF URL from URLs array
@@ -985,10 +992,11 @@ Zotero_Import_Mendeley.prototype._saveFilesAndAnnotations = async function (file
 				let options = {
 					libraryID,
 					parentItemID,
-					file: realPath
+					file: realPath,
+					title: file.title
 				};
-				// If file is in Mendeley downloads folder, import it
-				if (this._isDownloadedFile(path)) {
+				// If we're not set to link files or file is in Mendeley downloads folder, import it
+				if (!this._linkFiles || this._isDownloadedFile(path)) {
 					if (file.url) {
 						options.title = file.title;
 						options.url = file.url;

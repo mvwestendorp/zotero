@@ -42,6 +42,7 @@ Zotero.Attachments = new function(){
 	 * @param {nsIFile|String} [options.file] - File to add
 	 * @param {Integer} [options.libraryID]
 	 * @param {Integer[]|String[]} [options.parentItemID] - Parent item to add item to
+	 * @param {String} [options.title]
 	 * @param {Integer[]} [options.collections] - Collection keys or ids to add new item to
 	 * @param {String} [options.fileBaseName]
 	 * @param {String} [options.contentType]
@@ -57,6 +58,7 @@ Zotero.Attachments = new function(){
 		var path = file.path;
 		var leafName = file.leafName;
 		var parentItemID = options.parentItemID;
+		var title = options.title;
 		var collections = options.collections;
 		var fileBaseName = options.fileBaseName;
 		var contentType = options.contentType;
@@ -91,7 +93,7 @@ Zotero.Attachments = new function(){
 				else if (libraryID) {
 					attachmentItem.libraryID = libraryID;
 				}
-				attachmentItem.setField('title', newName);
+				attachmentItem.setField('title', title != undefined ? title : newName);
 				attachmentItem.parentID = parentItemID;
 				attachmentItem.attachmentLinkMode = this.LINK_MODE_IMPORTED_FILE;
 				if (collections) {
@@ -151,7 +153,10 @@ Zotero.Attachments = new function(){
 	/**
 	 * @param {nsIFile|String} options.file - File to add
 	 * @param {Integer[]|String[]} [options.parentItemID] - Parent item to add item to
+	 * @param {String} [options.title]
 	 * @param {Integer[]} [options.collections] - Collection keys or ids to add new item to
+	 * @param {String} [options.contentType] - Content type
+	 * @param {String} [options.charset] - Character set
 	 * @param {Object} [options.saveOptions] - Options to pass to Zotero.Item::save()
 	 * @return {Promise<Zotero.Item>}
 	 */
@@ -160,20 +165,22 @@ Zotero.Attachments = new function(){
 		
 		var file = Zotero.File.pathToFile(options.file);
 		var parentItemID = options.parentItemID;
+		var title = options.title;
 		var collections = options.collections;
+		var contentType = options.contentType || (yield Zotero.MIME.getMIMETypeFromFile(file));
+		var charset = options.charset;
 		var saveOptions = options.saveOptions;
 		
 		if (parentItemID && collections) {
 			throw new Error("parentItemID and collections cannot both be provided");
 		}
 		
-		var title = file.leafName;
-		var contentType = yield Zotero.MIME.getMIMETypeFromFile(file);
 		var item = yield _addToDB({
 			file,
-			title,
+			title: title != undefined ? title : file.leafName,
 			linkMode: this.LINK_MODE_LINKED_FILE,
 			contentType,
+			charset,
 			parentItemID,
 			collections,
 			saveOptions
