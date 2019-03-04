@@ -3351,22 +3351,12 @@
 					// Creator fields
 					if (field == 'creator') {
 
-					// NEEDS REVAMPERY
+						// NEEDS REVAMPERY
 
 						var otherFields = this.getCreatorFields(row);
 						otherFields[creatorField] = value;
 						var lastName = otherFields.lastName.trim();
 						var firstName = otherFields.firstName ? otherFields.firstName.trim() : '';
-						
-						if (isMulti) {
-							if (!lastName && !firstName) {
-								delete otherFields.multi._key[fieldLang];
-								this.item.setCreator(creatorIndex, otherFields, otherFields.creatorTypeID);
-								this.item.saveTx();
-								this.refresh(true);
-								return;
-							}
-						}
 
 						//Handle \n\r and \n delimited entries
 						var rawNameArray = lastName.split(/\r\n?|\n/);
@@ -3427,13 +3417,13 @@
 							this.modifyCreator(creatorIndex, otherFields, fieldLang, isMulti);
 						}
 						
-						var val = this.item.getCreator(creatorIndex);
-						if (isMulti && val) {
-							if (val.multi._key[fieldLang]) {
-								val = val.multi._key[fieldLang];
+						var cVal = this.item.getCreator(creatorIndex);
+						if (isMulti && cVal) {
+							if (cVal.multi._key[fieldLang]) {
+								cVal = cVal.multi._key[fieldLang];
 							}
 						}
-						val = val ? val[creatorField] : null;
+						val = cVal ? cVal[creatorField] : null;
 						
 						if (!val) {
 							// Reset to '(first)'/'(last)'/'(name)'
@@ -3447,9 +3437,10 @@
 						}
 						
 						newVal = val;
-						
+
 						// Reset creator mode settings here so that flex attribute gets reset
 						this.switchCreatorMode(row, (otherFields.fieldMode ? 1 : 0), true);
+
 						if (Zotero.ItemTypes.getName(this.item.itemTypeID) === "bookSection") {
 							var creatorTypeLabels = document.getAnonymousNodes(this)[0].getElementsByClassName("creator-type-label");
 							document.getElementById("zotero-author-guidance").show({
@@ -3868,9 +3859,9 @@
 							return false;
 						}
 						if (langTag && isMulti) {
-							return this.item.removeCreator(index, langTag);
+							return this.item.removeCreator(index, false, langTag);
 						} else {
-							// XXX Use xpath to check if multi creators exist, block if they do.
+							// Use xpath to check if multi creators exist, block if they do.
 							var xpath = '*[local-name()="rows" and contains(@class,"creator")][' + (index+1) + ']/*[local-name()="rows" and contains(@class,"multi")]';
 							var nodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 							if (!nodes.snapshotLength) {
@@ -4060,6 +4051,7 @@
 					
 					if (!next) {
 						Zotero.debug("Next field not found");
+						// Prevents tabbing from getting stuck at the last field in Juris-M
 						this._lastTabIndex--;
 						return false;
 					}
