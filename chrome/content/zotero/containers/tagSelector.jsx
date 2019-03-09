@@ -68,26 +68,28 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 				default:
 					return;
 			}
-		}
-
-		// Ignore item events other than 'trash'
-		if (type == 'item' && (event == 'trash')) {
 			return this.setState({tags: await this.getTags()});
 		}
-						
-		// If a selected tag no longer exists, deselect it
-		if (type == 'item-tag') {
-			if (event == 'delete' || event == 'trash' || event == 'modify') {
-				for (let tag of this.selectedTags) {
-					if (tag == extraData[ids[0]].old.tag) {
-						this.selectedTags.delete(tag);
-					}
-				}
-			}
+
+		if (type == 'item' || type == 'item-tag') {
 			return this.setState({tags: await this.getTags()});
 		}
 		
-		this.setState({tags: await this.getTags()});
+		// If a selected tag no longer exists, deselect it
+		if (type == 'tag' && (event == 'modify' || event == 'delete')) {
+			let changed = false;
+			for (let id of ids) {
+				let tag = extraData[id].old.tag;
+				if (this.selectedTags.has(tag)) {
+					this.selectedTags.delete(tag);
+					changed = true;
+				}
+			}
+			if (changed && typeof(this.props.onSelection) === 'function') {
+				this.props.onSelection(this.selectedTags);
+			}
+			return;
+		}
 	}
 	
 	async getTags(tagsInScope, tagColors) {
@@ -157,7 +159,7 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 			onSelect={this.state.viewOnly ? () => {} : this.handleTagSelected}
 			onTagContext={this.handleTagContext}
 			onSearch={this.handleSearch}
-			onSettings={this.handleSettings}
+			onSettings={this.handleSettings.bind(this)}
 			loaded={this.state.loaded}
 		/>;
 	}
@@ -385,6 +387,43 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 		this.selectedTags = new Set();
 		if('onSelection' in this.props && typeof(this.props.onSelection) === 'function') {
 			this.props.onSelection(this.selectedTags);
+		}
+	}
+	
+	async deleteAutomatic() {
+		var num = (await Zotero.Tags.getAutomaticInLibrary(this.libraryID)).length;
+		if (!num) {
+			return;
+		}
+		
+		var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+			.getService(Components.interfaces.nsIPromptService);
+		var confirmed = ps.confirm(
+			window,
+			Zotero.getString('pane.tagSelector.deleteAutomatic.title'),
+			Zotero.getString(
+					'pane.tagSelector.deleteAutomatic.message',
+					new Intl.NumberFormat().format(num),
+					num
+				)
+				+ "\n\n"
+				+ Zotero.getString('general.actionCannotBeUndone')
+		);
+		if (confirmed) {
+			Zotero.showZoteroPaneProgressMeter(null, true);
+			try {
+				await Zotero.Tags.removeAutomaticFromLibrary(
+					this.libraryID,
+					(progress, progressMax) => {
+						Zotero.updateZoteroPaneProgressMeter(
+							Math.round(progress / progressMax * 100)
+						);
+					}
+				);
+			}
+			finally {
+				Zotero.hideZoteroPaneOverlays();
+			}
 		}
 	}
 

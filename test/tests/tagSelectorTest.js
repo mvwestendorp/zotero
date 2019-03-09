@@ -40,6 +40,7 @@ describe("Tag Selector", function () {
 		tagSelector.selectedTags = new Set();
 		tagSelector.handleSearch('');
 		tagSelector.onItemViewChanged({libraryID});
+		yield waitForTagSelector(win);
 	});
 	
 	after(function () {
@@ -189,32 +190,36 @@ describe("Tag Selector", function () {
 	
 	
 	describe("#notify()", function () {
-		it("should add a tag when added to an item in the library root", function* () {
+		it("should add a tag when added to an item in the library root", async function () {
 			var promise;
 			
 			if (collectionsView.selection.currentIndex != 0) {
 				promise = waitForTagSelector(win);
-				yield collectionsView.selectLibrary();
-				yield promise;
+				await collectionsView.selectLibrary();
+				await promise;
 			}
 			
 			// Add item with tag to library root
-			var item = createUnsavedDataObject('item');
+			promise = waitForTagSelector(win);
+			var item = await createDataObject('item');
+			await promise
+			
+			var tagA = Zotero.Utilities.randomString();
+			var tagB = Zotero.Utilities.randomString();
 			item.setTags([
 				{
-					tag: 'A'
+					tag: tagA
 				},
 				{
-					tag: 'B',
+					tag: tagB,
 					type: 1
 				}
 			]);
 			promise = waitForTagSelector(win);
-			yield item.saveTx();
-			yield promise;
+			await item.saveTx();
+			await promise;
 			
-			// Tag selector should have at least one tag
-			assert.isAbove(getRegularTags().length, 1);
+			assert.includeMembers(getRegularTags(), [tagA, tagB]);
 		});
 		
 		it("should add a tag when an item is added in a collection", function* () {
@@ -394,7 +399,7 @@ describe("Tag Selector", function () {
 			yield item.saveTx();
 			yield promise;
 			
-			// Tag selector should show the new item's tag
+			// Tag selector should show the new tag
 			assert.include(getRegularTags(), "A");
 			
 			// Remove tag from library
@@ -404,10 +409,43 @@ describe("Tag Selector", function () {
 			yield tagSelector.openDeletePrompt();
 			yield promise;
 			
-			// Tag selector shouldn't show the deleted item's tag
+			// Tag selector shouldn't show the deleted tag
 			assert.notInclude(getRegularTags(), "A");
-		})
-	})
+		});
+		
+		it("should deselect a tag when deleted from a library", async function () {
+			var libraryID = Zotero.Libraries.userLibraryID;
+			await selectLibrary(win);
+			
+			var promise = waitForTagSelector(win);
+			
+			await createDataObject('item', { tags: [{ tag: 'A' }] });
+			await createDataObject('item', { tags: [{ tag: 'B' }] });
+			await promise;
+			
+			tagSelector.handleTagSelected('A');
+			await waitForTagSelector(win);
+			
+			// Tag selector should show the selected tag
+			assert.include(getRegularTags(), 'A');
+			// And not the unselected one
+			assert.notInclude(getRegularTags(), 'B');
+			
+			// Remove tag from library
+			promise = waitForTagSelector(win);
+			await Zotero.Tags.removeFromLibrary(libraryID, Zotero.Tags.getID('A'));
+			// notify item-tag remove
+			await promise;
+			// notify tag delete which triggers #onSelected, which eventually triggers #onItemViewChanged
+			await waitForTagSelector(win);
+			
+			// Deleted tag should no longer be shown or selected
+			assert.notInclude(getRegularTags(), 'A');
+			assert.notInclude(Array.from(tagSelector.getTagSelection()), 'A');
+			// Other tags should be shown again
+			assert.include(getRegularTags(), 'B');
+		});
+	});
 	
 	describe("#openRenamePrompt", function () {
 		it("should rename a tag and update the tag selector", function* () {
@@ -494,5 +532,36 @@ describe("Tag Selector", function () {
 			assert.include(getColoredTags(), tag);
 			assert.notInclude(getRegularTags(), tag);
 		})
+	});
+	
+	describe("#deleteAutomatic()", function() {
+		it('should delete automatic tags', async function() {
+			await selectLibrary(win);
+			var item = createUnsavedDataObject('item');
+			item.setTags([
+				{
+					tag: "automatic",
+					type: 1
+				},
+				{
+					tag: 'manual'
+				}
+			]);
+			var promise = waitForTagSelector(win);
+			await item.saveTx();
+			await promise;
+			
+			assert.include(getRegularTags(), "automatic");
+			assert.include(getRegularTags(), "manual");
+			
+			var dialogPromise = waitForDialog();
+			var tagSelectorPromise = waitForTagSelector(win);
+			tagSelector.deleteAutomatic();
+			await dialogPromise;
+			await tagSelectorPromise;
+			
+			assert.include(getRegularTags(), 'manual');
+			assert.notInclude(getRegularTags(), 'automatic');
+		});
 	});
 })
