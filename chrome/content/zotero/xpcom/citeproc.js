@@ -1,30 +1,29 @@
 /*
- * Copyright (c) 2009-2019 Frank Bennett
- * 
- * 	This program is free software: you can redistribute it and/or
- * 	modify it under EITHER
- * 
- *       * the terms of the Common Public Attribution License (CPAL) as
- * 	    published by the Open Source Initiative, either version 1 of
- * 	    the CPAL, or (at your option) any later version; OR
- * 
- *       * the terms of the GNU Affero General Public License (AGPL)
- *         as published by the Free Software Foundation, either version
- *         3 of the AGPL, or (at your option) any later version.
- * 
- * 	This program is distributed in the hope that it will be useful,
- * 	but WITHOUT ANY WARRANTY; without even the implied warranty of
- * 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * 	Affero General Public License for more details.
- * 
- * 	You should have received copies of the Common Public Attribution
- *     License and of the GNU Affero General Public License along with
- *     this program.  If not, see <https://opensource.org/licenses/> or
- *     <http://www.gnu.org/licenses/> respectively.
- */
-;
+Copyright (c) 2009-2019 Frank Bennett
+
+	This program is free software: you can redistribute it and/or
+	modify it under EITHER
+
+      * the terms of the Common Public Attribution License (CPAL) as
+	    published by the Open Source Initiative, either version 1 of
+	    the CPAL, or (at your option) any later version; OR
+
+      * the terms of the GNU Affero General Public License (AGPL)
+        as published by the Free Software Foundation, either version
+        3 of the AGPL, or (at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Affero General Public License for more details.
+
+	You should have received copies of the Common Public Attribution
+    License and of the GNU Affero General Public License along with
+    this program.  If not, see <https://opensource.org/licenses/> or
+    <http://www.gnu.org/licenses/> respectively.
+*/
 var CSL = {
-    PROCESSOR_VERSION: "1.1.220",
+    PROCESSOR_VERSION: "1.1.222",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -600,6 +599,7 @@ var CSL = {
         for (var i=0,ilen=segments.length;i<ilen;i++) {
             var seg = segments[i];
             var title = CSL.TITLE_FIELD_SPLITS(seg);
+            console.log(JSON.stringify(title, null, 2))
             var langs = [false];
             if (Item.multi) {
                 for (var lang in Item.multi._keys[title.short]) {
@@ -6886,6 +6886,11 @@ CSL.Node.date = {
     build: function (state, target) {
         var func, date_obj, len, pos, part, dpx, parts, mypos, start, end;
         if (this.tokentype === CSL.START || this.tokentype === CSL.SINGLETON) {
+            state.dateput.string(state, state.dateput.queue);
+            state.tmp.date_token = CSL.Util.cloneToken(this);
+            state.tmp.date_token.strings.prefix = "";
+            state.tmp.date_token.strings.suffix = "";
+            state.dateput.openLevel(this);
             state.build.date_parts = [];
             state.build.date_variables = this.variables;
             if (!state.build.extension) {
@@ -7128,16 +7133,22 @@ CSL.Node["date-part"] = {
                             }
                             state.dateput.append(value_end, this);
                             if (first_date) {
-                                state.dateput.current.value()[0].strings.prefix = "";
+                                state.dateput.current.value().blobs[0].strings.prefix = "";
                             }
                         }
                         state.output.append(value, this);
                         curr = state.output.current.value();
                         curr.blobs[(curr.blobs.length - 1)].strings.suffix = "";
-                        state.output.append(state.getTerm("year-range-delimiter"), "empty");
+                        if (this.strings["range-delimiter"]) {
+                            state.output.append(this.strings["range-delimiter"]);
+                        } else {
+                            state.output.append(state.getTerm("year-range-delimiter"), "empty");
+                        }
+                        state.dateput.closeLevel();
                         dcurr = state.dateput.current.value();
                         curr.blobs = curr.blobs.concat(dcurr);
                         state.dateput.string(state, state.dateput.queue);
+                        state.dateput.openLevel(state.tmp.date_token);
                         state.tmp.date_collapse_at = [];
                     } else {
                         state.output.append(value, this);
