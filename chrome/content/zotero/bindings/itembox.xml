@@ -1499,6 +1499,13 @@
 						if (this._getFieldValue(lastName) == this._defaultLastName) {
 							this._setFieldValue(lastName, this._defaultFullName);
 						}
+						
+						// If one of the creator fields is open, leave it open after swap
+						let activeField = this._dynamicFields.querySelector('textbox');
+						if (activeField == firstName || activeField == lastName) {
+							this._lastTabIndex = parseInt(lastName.getAttribute('ztabindex'));
+							this._tabDirection = false;
+						}
 					}
 					// Switch to two-field mode
 					else {
@@ -1583,8 +1590,7 @@
 						fields.fieldMode = fieldMode;
 						this.modifyCreator(index, fields, langTag, isMulti);
 						if (this.saveOnEdit) {
-							// See note in transformText()
-							this.blurOpenField().then(() => this.item.saveTx());
+							this.item.saveTx();
 						}
 					}
 				]]>
@@ -3954,6 +3960,7 @@
 				<parameter name="dir"/>
 				<body><![CDATA[
 				return Zotero.spawn(function* () {
+					yield this.blurOpenField();
 					if (index == 0 && dir == 'up') {
 						Zotero.debug("Can't move up creator 0");
 						return;
@@ -3993,8 +4000,6 @@
 						this.item.setCreator(index, otherCreator);
 					}
 					if (this.saveOnEdit) {
-						// See note in transformText()
-						yield this.blurOpenField();
 						return this.item.saveTx();
 					}
 				}, this);

@@ -160,7 +160,7 @@ var CSL_TYPE_MAPPINGS = {
 	'videoRecording':"video",
 	'tvBroadcast':"broadcast",
 	'radioBroadcast':"broadcast",
-	'podcast':"song",			// ??
+	'podcast':"broadcast",
 	'computerProgram':"book",		// ??
 	'gazette':'gazette', // deprecated
 	'regulation':'regulation',

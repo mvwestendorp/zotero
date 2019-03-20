@@ -29,10 +29,17 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 		this.displayAllTags = Zotero.Prefs.get('tagSelector.displayAllTags');
 		this.selectedTags = new Set();
 		this.state = defaults;
+		this.searchBoxRef = React.createRef();
 	}
-
+	
+	focusTextbox() {
+		this.searchBoxRef.focus();
+	}
+	
 	// Update trigger #1 (triggered by ZoteroPane)
 	async onItemViewChanged({collectionTreeRow, libraryID, tagsInScope}) {
+		Zotero.debug('Updating tag selector from current view');
+		
 		this.collectionTreeRow = collectionTreeRow || this.collectionTreeRow;
 		
 		let newState = {loaded: true};
@@ -51,6 +58,7 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 	async notify(event, type, ids, extraData) {
 		if (type === 'setting') {
 			if (ids.some(val => val.split('/')[1] == 'tagColors')) {
+				Zotero.debug("Updating tag selector after tag color change");
 				let tagColors = Zotero.Tags.getColors(this.libraryID);
 				this.state.tagColors = tagColors;
 				this.setState({tagColors, tags: await this.getTags(null, tagColors)});
@@ -68,14 +76,11 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 				default:
 					return;
 			}
-			return this.setState({tags: await this.getTags()});
 		}
-
-		if (type == 'item' || type == 'item-tag') {
-			if (event == 'redraw') {
-				return;
-			}
-			return this.setState({tags: await this.getTags()});
+		
+		// Ignore item events other than 'trash'
+		if (type == 'item' && event != 'trash') {
+			return;
 		}
 		
 		// If a selected tag no longer exists, deselect it
@@ -93,6 +98,28 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 			}
 			return;
 		}
+		
+		// TODO: Check libraryID for some events to avoid refreshing unnecessarily on sync changes?
+		
+		Zotero.debug("Updating tag selector after tag change");
+		var newTags = await this.getTags();
+		
+		if (type == 'item-tag' && event == 'remove') {
+			let changed = false;
+			let visibleTags = newTags.map(tag => tag.tag);
+			for (let id of ids) {
+				let tag = extraData[id].tag;
+				if (this.selectedTags.has(tag) && !visibleTags.includes(tag)) {
+					this.selectedTags.delete(tag);
+					changed = true;
+				}
+			}
+			if (changed && typeof(this.props.onSelection) === 'function') {
+				this.props.onSelection(this.selectedTags);
+			}
+		}
+		
+		return this.setState({tags: newTags});
 	}
 	
 	async getTags(tagsInScope, tagColors) {
@@ -143,7 +170,8 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 			tags = Array.from(new Set(tags.map(t => t.tag)));
 		}
 		if (this.state.searchString) {
-			tags = tags.filter(tag => !!tag.match(new RegExp(this.state.searchString, 'i')));
+			let lcStr = this.state.searchString.toLowerCase();
+			tags = tags.filter(tag => tag.toLowerCase().startsWith(lcStr));
 		}
 		tags = tags.map((name) => {
 			return {
@@ -155,9 +183,8 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 		});	
 		return <TagSelector
 			tags={tags}
-			ref={ref => this.focusTextbox = ref && ref.focusTextbox}
+			searchBoxRef={this.searchBoxRef}
 			searchString={this.state.searchString}
-			shouldFocus={this.state.shouldFocus}
 			dragObserver={this.dragObserver}
 			onSelect={this.state.viewOnly ? () => {} : this.handleTagSelected}
 			onTagContext={this.handleTagContext}
@@ -171,16 +198,11 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 		this.state.viewOnly != (mode == 'view') && this.setState({viewOnly: mode == 'view'});
 	}
 
-	unregister() {
+	uninit() {
 		ReactDOM.unmountComponentAtNode(this.domEl);
 		if (this._notifierID) {
 			Zotero.Notifier.unregisterObserver(this._notifierID);
 		}
-	}
-
-	uninit() {
-		this.setState({searchString: ''});
-		this.selectedTags = new Set();
 	}
 
 	handleTagContext = (tag, ev) => {
@@ -209,9 +231,9 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 		}
 	}
 
-	handleSearch = Zotero.Utilities.debounce((searchString) => {
+	handleSearch = (searchString) => {
 		this.setState({searchString});
-	})
+	}
 	
 	dragObserver = {
 		onDragOver: function(event) {
@@ -444,7 +466,7 @@ Zotero.TagSelector = class TagSelectorContainer extends React.Component {
 	static init(domEl, opts) {
 		var ref;
 		let elem = (
-			<IntlProvider locale={Zotero.locale} messages={ZoteroPane.Containers.intlMessages}>
+			<IntlProvider locale={Zotero.locale} messages={Zotero.Intl.strings}>
 				<TagSelectorContainer ref={c => ref = c } {...opts} />
 			</IntlProvider>
 		);
