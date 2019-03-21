@@ -3,8 +3,6 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-  
-<<<<<<< HEAD
     <em:id>juris-m@juris-m.github.io</em:id>
     <em:name>Juris-M</em:name>
     <em:version>5.0.65m44.SOURCE</em:version>
