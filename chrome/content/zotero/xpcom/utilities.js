@@ -2247,6 +2247,8 @@ Zotero.Utilities = {
 		} else if (cslItem.type === 'broadcast') {
 			if (cslItem.genre === 'radio broadcast') {
 				zoteroType = 'radioBroadcast';
+			} else if (cslItem.genre == 'podcast') {
+				zoteroType = 'podcast';
 			} else {
 				zoteroType = 'tvBroadcast';
 			}

@@ -1340,7 +1340,7 @@
 		}
 	},
 	"podcast": {
-		"type": "song",
+		"type": "broadcast",
 		"title": "Title",
 		"collection-title": "Series title",
 		"dimensions": "1:22:33",

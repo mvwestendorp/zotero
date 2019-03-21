@@ -1456,7 +1456,7 @@
 		"number": "3",
 		"shortTitle": "Short title",
 		"title": "Title",
-		"type": "song",
+		"type": "broadcast",
         "multi": {
             "main": {},
             "_keys": {}

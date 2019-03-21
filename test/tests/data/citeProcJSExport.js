@@ -1707,7 +1707,7 @@
 		}
 	},
 	"podcast": {
-		"type": "song",
+		"type": "broadcast",
 		"multi": {
 			"main": {},
 			"_keys": {}
