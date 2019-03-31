@@ -1031,7 +1031,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 
 	if (title === "" && ["journalArticle", "magazineArticle", "newspaperArticle", "encyclopediaArticle", "dictionaryEntry"].indexOf(itemTypeName) > -1) {
 		var containerID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, "publicationTitle")
-		var containerTitle = getField(containerID);
+		var containerTitle = this.getField(containerID);
 		if (containerTitle) {
 			title = "[" + containerTitle + "]"
 		}
