@@ -1028,8 +1028,14 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 	var title = this.getField('title', false, true, Zotero.CachedLanguages.getDisplayLang());
 	var itemTypeID = this.itemTypeID;
 	var itemTypeName = Zotero.ItemTypes.getName(itemTypeID);
-	
-	if (title === "" && (itemTypeID == 8 || itemTypeID == 10)) { // 'letter' and 'interview' itemTypeIDs
+
+	if (title === "" && ["journalArticle", "magazineArticle", "newspaperArticle", "encyclopediaArticle", "dictionaryEntry"].indexOf(itemTypeID) > -1) {
+		var containerID = Zotero.Item.Fields.getFieldIDFromTypeAndBase(itemTypeID, "publicationTitle")
+		var containerTitle = getField(containerID);
+		if (containerTitle) {
+			title = "[" + containerTitle + "]"
+		}
+	} else if (title === "" && (itemTypeID == 8 || itemTypeID == 10)) { // 'letter' and 'interview' itemTypeIDs
 		var creatorsData = this.getCreators();
 		var authors = [];
 		var participants = [];
