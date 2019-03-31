@@ -23,7 +23,7 @@ class Search extends React.PureComponent {
 		};
 	}
 	
-	handleInput = (event) => {
+	handleChange = (event) => {
 		var value = event.target.value;
 		// Update controlled value and cancel button immediately
 		this.setState({
@@ -54,17 +54,17 @@ class Search extends React.PureComponent {
 	}
 	
 	focus() {
-		this.inputRef.focus();
+		this.inputRef.current.focus();
 	}
 	
 	render() {
 		return (
 			<div className="search">
 				<input
-					type="search"
-					onInput={this.handleInput}
-					onKeyDown={this.handleKeyDown}
 					ref={this.inputRef}
+					type="search"
+					onChange={this.handleChange}
+					onKeyDown={this.handleKeyDown}
 					value={this.state.immediateValue}
 				/>
 				{this.state.immediateValue !== ''
