@@ -8,7 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Seç...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "PDF'ler için otomatik olarak üstveri al ">
 <!ENTITY zotero.preferences.autoRenameFiles "Ana üstverileri kullanarak ve otomatik olarak ek dosyaları yeniden adlandır">
-<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Bağlantılanmış dosyaları yeniden adlandır">
 <!ENTITY zotero.preferences.autoUpdate "Güncellenmiş çevirmen ve stilleri otomatik olarak ara">
 <!ENTITY zotero.preferences.automaticSnapshots "Web sayfalarından eserler yaratılırken sayfa görünümü otomatik olarak kaydet">
 <!ENTITY zotero.preferences.automaticTags "Anahtar kelimeler ve konu başlıkları ile eserleri otomatik olarak etiketle">

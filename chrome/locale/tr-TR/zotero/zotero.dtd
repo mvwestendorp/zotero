@@ -89,7 +89,7 @@
 <!ENTITY zotero.import "İçeri Aktar">
 <!ENTITY zotero.import.createCollection "İçeri aktarılmış dermeler ve eserleri yeni bir dermeye yerleştir">
 <!ENTITY zotero.import.database "Veritabanı">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Dosyaların İdare Edilmesi">
 <!ENTITY zotero.import.importing "İçeri aktarılıyor...">
 <!ENTITY zotero.import.lastModified "Son Değiştirilmesi">
 <!ENTITY zotero.import.size "Boyut">
