@@ -422,6 +422,23 @@
 				<body>
 				<![CDATA[
 					var fieldName = node.getAttribute('fieldname');
+					// Adopting Adam Lisbon's suggestion to set Language field
+					// to follow Title
+					if (fieldName === "title") {
+						var langFieldVal = this.item.getField("language");
+						if (langFieldVal) {
+							var mPrefix = langFieldVal.match(/^(.*>).*$/);
+							var mSuffix = langFieldVal.match(/^.*(<.*)$/);
+							if (mPrefix) {
+								langFieldVal = mPrefix[1] + tag;
+							} else if (mSuffix) {
+								langFieldVal = tag + mSuffix[1];
+							} else {
+								langFieldVal = tag;
+							}
+						}
+						this.item.setField("language", langFieldVal);
+					}
 					// XXX Check for existing target tag among variants.
 					if (this.item.multi.hasLang(tag, fieldName)) {
 						// XXX If a matching variant exists, get the row and its values.
@@ -441,7 +458,7 @@
 							// XXX Also get the values of main.
 							var mainLang = this.item.multi.mainLang(fieldName);
 							var mainValue = this.item.getField(fieldName);
-							
+
 							this.item.multi.changeLangTag(mainLang, tag, fieldName);
 							this.item.saveTx();
 						}
