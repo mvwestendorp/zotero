@@ -94,6 +94,7 @@ var CSL_TEXT_MAPPINGS = {
 	//"pending-number":["applicationNumber"],
 	"references":["history", "references"],
 	"shortTitle":["shortTitle"],
+	"title-short":["shortTitle"],
 	"journalAbbreviation":["journalAbbreviation"],
 	"language":["language"],
 	"jurisdiction":["jurisdiction"],
@@ -2003,11 +2004,12 @@ Zotero.Utilities = {
 
 		// get all text variables (there must be a better way)
 		for(var variable in CSL_TEXT_MAPPINGS) {
+			if (variable === "shortTitle") continue; // We have both. For zoteroItem -> cslItem conversion, we use only title-short.
 			var fields = CSL_TEXT_MAPPINGS[variable];
 			for(var i=0, n=fields.length; i<n; i++) {
 				var field = fields[i],
 					baseFieldName,
-					value = null;
+					value = null; // So we will try shortTitle on both iterations.
 				
 				if(field in zoteroItem) {
 					baseFieldName = field;
@@ -2273,7 +2275,7 @@ Zotero.Utilities = {
         var validFields = {};
         outer: for (var i=0,ilen=zoteroFields.length;i<ilen;i++) {
             var zField = Zotero.ItemFields.getName(zoteroFields[i]);
-            for (var cField in CSL_TEXT_MAPPINGS) {
+            for (var cField in CSL_TEXT_MAPPINGS) { // Both title-short and shortTitle are okay for validation.
                 var lst = CSL_TEXT_MAPPINGS[cField];
                 if (lst.indexOf(zField) > -1) {
                     validFields[cField] = true;
@@ -2328,7 +2330,7 @@ Zotero.Utilities = {
 		}
 		
 		// map text fields
-		for(var variable in CSL_TEXT_MAPPINGS) {
+		for(var variable in CSL_TEXT_MAPPINGS) { // Here, we accept both shortTitle and title-short
 			if(variable in cslItem) {
 				if ("string" !== typeof cslItem[variable]) {
 					continue;
