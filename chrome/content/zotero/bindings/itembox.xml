@@ -426,18 +426,9 @@
 					// to follow Title
 					if (fieldName === "title") {
 						var langFieldVal = this.item.getField("language");
-						if (langFieldVal) {
-							var mPrefix = langFieldVal.match(/^(.*>).*$/);
-							var mSuffix = langFieldVal.match(/^.*(<.*)$/);
-							if (mPrefix) {
-								langFieldVal = mPrefix[1] + tag;
-							} else if (mSuffix) {
-								langFieldVal = tag + mSuffix[1];
-							} else {
-								langFieldVal = tag;
-							}
+						if (!langFieldVal) {
+							this.item.setField("language", tag);
 						}
-						this.item.setField("language", langFieldVal);
 					}
 					// XXX Check for existing target tag among variants.
 					if (this.item.multi.hasLang(tag, fieldName)) {
@@ -4206,7 +4197,10 @@
 							jurisdictionDefaultNode.setAttribute("checked",false);
 						}
 					}
-					this.item.setField("jurisdiction",key);
+					// Jurisdiction may be undefined on newspaper articles, journal articles, and standards
+					if ("undefined" !== typeof key) {
+						this.item.setField("jurisdiction", key);
+					}
 				//}.bind(this))();
 				]]>
 			  </body>
