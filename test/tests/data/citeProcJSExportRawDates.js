@@ -36,7 +36,7 @@
 		"language": "en-US",
 		"medium": "Medium",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "graphic",
@@ -99,7 +99,7 @@
 		"number-of-volumes": "7",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "song",
@@ -144,7 +144,7 @@
 		"page": "1-10",
 		"references": "History",
 		"section": "Section",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "bill",
 		"volume": "6",
@@ -182,7 +182,7 @@
 		},
 		"language": "en-US",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "post-weblog",
         "multi": {
@@ -248,7 +248,7 @@
 		"number-of-volumes": "7",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -335,7 +335,7 @@
 		"page": "1-10",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -387,7 +387,7 @@
 		"number": "3",
 		"page": "1-10",
 		"references": "History",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "legal_case",
 		"volume": "6",
@@ -433,7 +433,7 @@
 		"note": "Extra",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "book",
@@ -501,7 +501,7 @@
 		"page": "1-10",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -579,7 +579,7 @@
 		"page": "1-10",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -647,7 +647,7 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -701,7 +701,7 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "personal_communication",
         "multi": {
@@ -768,7 +768,7 @@
 		"page": "1-10",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -821,7 +821,7 @@
 		"medium": "Medium",
 		"note": "Extra",
 		"publisher": "Publisher",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "motion_picture",
@@ -859,7 +859,7 @@
 		},
 		"language": "en-US",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "post",
         "multi": {
@@ -906,7 +906,7 @@
 		"publisher-place": "Place",
 		"references": "History",
 		"committee": "Committee",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "hearing",
         "multi": {
@@ -950,7 +950,7 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "personal_communication",
         "multi": {
@@ -998,7 +998,7 @@
 		"language": "en-US",
 		"medium": "Medium",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -1071,7 +1071,7 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -1130,7 +1130,7 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "personal_communication",
@@ -1182,7 +1182,7 @@
 				}
 			}
 		],
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -1236,7 +1236,7 @@
 		"note": "Extra",
 		"number-of-pages": "4",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -1302,7 +1302,7 @@
 		"publisher": "Publisher",
 		"publisher-place": "Place",
 		"scale": "Scale",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "map",
@@ -1358,7 +1358,7 @@
 			}
 		],
 		"section": "Section",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -1413,7 +1413,7 @@
 		"page": "1-10",
 		"publisher-place": "Place",
 		"references": "References",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"status": "Legal status",
 		"submitted": {
 			"raw": "2000-01-02"
@@ -1454,7 +1454,7 @@
 		"medium": "Medium",
 		"note": "Extra",
 		"number": "3",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "broadcast",
         "multi": {
@@ -1494,7 +1494,7 @@
 		"language": "en-US",
 		"note": "Extra",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "speech",
         "multi": {
@@ -1541,7 +1541,7 @@
 		"number": "3",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "broadcast",
@@ -1597,7 +1597,7 @@
 		"page": "1-10",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"translator": [
@@ -1649,7 +1649,7 @@
 		"page": "1-10",
 		"references": "History",
 		"section": "Section",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"type": "legislation",
 		"volume": "Code number",
@@ -1694,7 +1694,7 @@
 		"number-of-pages": "4",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "thesis",
@@ -1742,7 +1742,7 @@
 		"number": "3",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "broadcast",
@@ -1790,7 +1790,7 @@
 		"number-of-volumes": "7",
 		"publisher": "Publisher",
 		"publisher-place": "Place",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"source": "Library catalog",
 		"title": "Title",
 		"type": "video",
@@ -1829,7 +1829,7 @@
 		},
 		"language": "en-US",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"title": "Title",
 		"translator": [
 			{

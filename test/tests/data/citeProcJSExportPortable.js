@@ -11,7 +11,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "mlzsync1:0164{\"multifields\":{\"main\":{\"title\":\"en-US\"},\"_keys\":{\"title\":{\"ja-JP\":\"見出し\"}}},\"multicreators\":{\"0\":{\"_key\":{\"ja-JP\":{\"firstName\":\"アーティスト名前\",\"lastName\":\"アーティスト名字\"}}}}}Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -61,7 +61,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -111,7 +111,7 @@
 		"note": "mlzsync1:0056{\"extrafields\":{\"jurisdiction\":\"002usUnited States|US\"}}Extra",
 		"number": "3",
 		"references": "History",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -149,7 +149,7 @@
 		"abstract": "Abstract note",
 		"URL": "http://www.example.com",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -200,7 +200,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -270,7 +270,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -336,7 +336,7 @@
 		"note": "mlzsync1:0056{\"extrafields\":{\"jurisdiction\":\"002usUnited States|US\"}}Extra",
 		"number": "3",
 		"references": "History",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -385,7 +385,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"author": [
 			{
 				"family": "programmerLast",
@@ -435,7 +435,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -505,7 +505,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -564,7 +564,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -618,7 +618,7 @@
 		"abstract": "Abstract note",
 		"URL": "http://www.example.com",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -676,7 +676,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -738,7 +738,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -776,7 +776,7 @@
 		"abstract": "Abstract note",
 		"URL": "http://www.example.com",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -823,7 +823,7 @@
 		"note": "mlzsync1:0056{\"extrafields\":{\"jurisdiction\":\"002usUnited States|US\"}}Extra",
 		"number": "3",
 		"references": "History",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -859,7 +859,7 @@
 		"abstract": "Abstract note",
 		"URL": "http://www.example.com",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -906,7 +906,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -965,7 +965,7 @@
 		"ISSN": "1234-5679",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"journalAbbreviation": "Journal abbreviation",
 		"language": "en-US",
 		"author": [
@@ -1025,7 +1025,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1076,7 +1076,7 @@
 		"ISSN": "1234-5679",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1133,7 +1133,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1188,7 +1188,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1242,7 +1242,7 @@
 		"ISSN": "1234-5679",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1299,7 +1299,7 @@
 		"note": "mlzsync1:0056{\"extrafields\":{\"jurisdiction\":\"002usUnited States|US\"}}Extra",
 		"number": "3",
 		"references": "References",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"status": "Legal status",
 		"author": [
@@ -1349,7 +1349,7 @@
 		"URL": "http://www.example.com",
 		"note": "Extra",
 		"number": "3",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1382,7 +1382,7 @@
 		"abstract": "Abstract note",
 		"URL": "http://www.example.com",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1430,7 +1430,7 @@
 		"call-number": "Call number",
 		"note": "Extra",
 		"number": "3",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1478,7 +1478,7 @@
 		"call-number": "Call number",
 		"note": "mlzsync1:0041{\"extrafields\":{\"publisher\":\"Publisher\"}}Extra",
 		"number": "3",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1533,7 +1533,7 @@
 		"note": "mlzsync1:0056{\"extrafields\":{\"jurisdiction\":\"002usUnited States|US\"}}Extra",
 		"number": "3",
 		"references": "History",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1579,7 +1579,7 @@
 		"URL": "http://www.example.com",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1627,7 +1627,7 @@
 		"call-number": "Call number",
 		"note": "Extra",
 		"number": "3",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
@@ -1678,7 +1678,7 @@
 		"ISBN": "978-1-234-56789-7",
 		"call-number": "Call number",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"director": [
 			{
@@ -1716,7 +1716,7 @@
 		"abstract": "Abstract note",
 		"URL": "http://www.example.com",
 		"note": "Extra",
-		"shortTitle": "Short title",
+		"title-short": "Short title",
 		"language": "en-US",
 		"author": [
 			{
