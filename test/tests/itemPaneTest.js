@@ -29,7 +29,7 @@ describe("Item pane", function () {
 		})
 		
 		
-		it.skip("should swap creator names", function* () {
+		it("should swap creator names", function* () {
 			var item = new Zotero.Item('book');
 			item.setCreators([
 				{
@@ -40,18 +40,24 @@ describe("Item pane", function () {
 			]);
 			yield item.saveTx();
 			
+			var evt = new MouseEvent('contextmenu', {
+				bubbles: true,
+				cancelable: true,
+				view: window,
+				buttons: 2
+			});
+
 			var itemBox = doc.getElementById('zotero-editpane-item-box');
 			var label = doc.getAnonymousNodes(itemBox)[0].getElementsByAttribute('fieldname', 'creator-0-lastName')[0];
 			var parent = label.parentNode;
 			assert.isTrue(parent.hasAttribute('contextmenu'));
-			
+
 			var menupopup = doc.getAnonymousNodes(itemBox)[0]
 				.getElementsByAttribute('id', 'zotero-creator-transform-menu')[0];
+
 			// Fake a right-click
-			doc.popupNode = parent;
-			menupopup.openPopup(
-				parent, "after_start", 0, 0, true, false, new MouseEvent('click', { button: 2 })
-			);
+			parent.dispatchEvent(evt);
+			yield waitForDOMEvent(menupopup, "popupshown");
 			var menuitem = menupopup.getElementsByTagName('menuitem')[0];
 			menuitem.click();
 			yield waitForItemEvent('modify');
@@ -80,6 +86,37 @@ describe("Item pane", function () {
 			assert.isFalse(label.parentNode.hasAttribute('contextmenu'));
 		});
 		
+		
+		it("should write the title main language to an empty language field", function* () {
+			
+			var evt = new MouseEvent('contextmenu', {
+				bubbles: true,
+				cancelable: true,
+				view: window,
+				buttons: 2
+			});
+			yield Zotero.CachedLanguages.addTag("ja", "Japanese");
+			var res = Zotero.CachedLanguages.hasTag("ja");
+			assert.equal(res, true);
+			
+			var item = new Zotero.Item('book');
+			item.setField('title', 'Test');
+			var id = yield item.saveTx();
+			
+			var itemBox = doc.getElementById('zotero-editpane-item-box');
+			var label = doc.getAnonymousNodes(itemBox)[0].getElementsByAttribute('fieldname', 'title')[0];
+			assert.isTrue(label.hasAttribute('contextmenu'));
+			
+			var menupopup = doc.getElementById('mlz-language-menu');
+			label.dispatchEvent(evt);
+			yield waitForDOMEvent(menupopup, "popupshown");
+			var menuitem = menupopup.getElementsByTagName('menuitem')[0];
+			menuitem.click();
+			yield waitForItemEvent('modify');
+			yield item.saveTx();
+			var languageFieldVal = item.getField("language");
+			assert.equal(languageFieldVal, 'ja');
+		});
 		
 		// Note: This issue applies to all context menus in the item box (text transform, name swap),
 		// though the others aren't tested. This might go away with the XUL->HTML transition.
