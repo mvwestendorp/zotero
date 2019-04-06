@@ -23,7 +23,7 @@ Copyright (c) 2009-2019 Frank Bennett
     <http://www.gnu.org/licenses/> respectively.
 */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.234",
+    PROCESSOR_VERSION: "1.1.235",
     LOCATOR_LABELS_REGEXP: new RegExp("^((art|ch|subch|col|fig|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\\.)\\s+(.*)"),
     STATUTE_SUBDIV_PLAIN_REGEX: /(?:(?:^| )(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
     STATUTE_SUBDIV_PLAIN_REGEX_FRONT: /(?:^\s*[.,;]*\s*(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
@@ -2482,7 +2482,7 @@ CSL.DateParser = function () {
                     continue;
                 }
                 if (element === "~" || element === "?" || element === "c" || element.match(/^cir/)) {
-                    thedate.circa = "" + 1;
+                    thedate.circa = true;
                 }
                 for (var k=0,klen=this.monthRexes.length; k<klen; k++) {
                     if (element.toLocaleLowerCase().match(this.monthRexes[k])) {
@@ -2650,7 +2650,6 @@ CSL.Engine = function (sys, style, lang, forceLang) {
         this.opt.development_extensions.static_statute_locator = true;
         this.opt.development_extensions.handle_parallel_articles = true;
         this.opt.development_extensions.main_title_from_short_title = true;
-        this.opt.development_extensions.rtl_support = true;
         this.opt.development_extensions.expect_and_symbol_form = true;
         this.opt.development_extensions.require_explicit_legal_case_title_short = true;
         this.opt.development_extensions.force_jurisdiction = true;
@@ -4789,13 +4788,12 @@ CSL.Engine.Opt = function () {
     this.development_extensions.uppercase_subtitles = false;
     this.development_extensions.normalize_lang_keys_to_lowercase = false;
     this.development_extensions.strict_text_case_locales = false;
-    this.development_extensions.rtl_support = false;
     this.development_extensions.expect_and_symbol_form = false;
     this.development_extensions.require_explicit_legal_case_title_short = false;
     this.development_extensions.spoof_institutional_affiliations = false;
     this.development_extensions.force_jurisdiction = false;
     this.development_extensions.parse_names = true;
-    this.development_extensions.hanging_indent_legacy_number = true;
+    this.development_extensions.hanging_indent_legacy_number = false;
     this.development_extensions.throw_on_empty = false;
 };
 CSL.Engine.Tmp = function () {
@@ -4972,6 +4970,13 @@ CSL.Engine.InText = function () {
 CSL.Engine.prototype.previewCitationCluster = function (citation, citationsPre, citationsPost, newMode) {
     var oldMode = this.opt.mode;
     this.setOutputFormat(newMode);
+	Zotero.debug("XXX We are: " + citation.citationID);
+	if (citation.citationID) {
+		delete citation.citationID;
+	}
+	Zotero.debug("XXX We are now: "+citation.citationID);
+	Zotero.debug("XXX We have in pre: " + JSON.stringify(citationsPre));
+	Zotero.debug("XXX We have in post: " + JSON.stringify(citationsPost));
     var ret = this.processCitationCluster(citation, citationsPre, citationsPost, CSL.PREVIEW);
     this.setOutputFormat(oldMode);
     return ret[1];
@@ -4998,7 +5003,7 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
     if (flag === CSL.PREVIEW) {
         oldCitationList = this.registry.citationreg.citationByIndex.slice();
         oldItemList = this.registry.reflist.slice();
-        var newCitationList = citationsPre.concat([["" + citation.citationID, citation.properties.noteIndex]]).concat(citationsPost);
+        var newCitationList = citationsPre.concat(citationsPost);
         var newItemIds = {};
         var newItemIdsList = [];
         for (var i = 0, ilen = newCitationList.length; i < ilen; i += 1) {
@@ -5007,6 +5012,10 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
                 newItemIds[c.citationItems[j].id] = true;
                 newItemIdsList.push("" + c.citationItems[j].id);
             }
+        }
+        for (j = 0, jlen = citation.citationItems.length; j < jlen; j += 1) {
+            newItemIds[citation.citationItems[j].id] = true;
+            newItemIdsList.push("" + citation.citationItems[j].id);
         }
         oldAmbigs = {};
         for (var i = 0, ilen = oldItemList.length; i < ilen; i += 1) {
@@ -8057,21 +8066,10 @@ CSL.Node.layout = {
             this.execs.push(func);
             func = function (state, Item) {
                 var tok = new CSL.Token();
-                if (state.opt.development_extensions.rtl_support) {
-                    if (["ar", "he", "fa", "ur", "yi", "ps", "syr"].indexOf(Item.language) > -1) {
-                        tok = new CSL.Token();
-                        tok.strings.prefix = "\u202b";
-                        tok.strings.suffix = "\u202c";
-                    }
-                }
                 state.output.openLevel(tok);
             };
             this.execs.push(func);
             target.push(this);
-            if (state.opt.development_extensions.rtl_support && false) {
-                this.strings.prefix = this.strings.prefix.replace(/\((.|$)/g,"(\u200e$1");
-                this.strings.suffix = this.strings.suffix.replace(/\)(.|$)/g,")\u200e$1");
-            }
             if (state.build.area === "citation") {
                 prefix_token = new CSL.Token("text", CSL.SINGLETON);
                 func = function (state, Item, item) {
