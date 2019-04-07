@@ -461,6 +461,7 @@ describe("Zotero.Utilities", function() {
 			}
 			
 		});
+
 		it("[Juris-M] with portableJSON enabled, should stably perform itemToCSLJSON -> itemFromCSLJSON -> itemToCSLJSON", function* () {
 			this.timeout(20000);
 			let data = loadSampleData('citeProcJSExport');
@@ -481,6 +482,24 @@ describe("Zotero.Utilities", function() {
 				
 				assert.deepEqual(newPortableJSON, portablejson, i + ' export -> import -> export is stable');
 			}
+		});
+
+		it("should recognize the legacy shortTitle key", function* () {
+			this.timeout(20000);
+
+			let data = loadSampleData('citeProcJSExport');
+
+			var json = data.artwork;
+			var canonicalKeys = Object.keys(json);
+			json.shortTitle = json["title-short"];
+			delete json["title-short"];
+
+			let item = new Zotero.Item();
+			Zotero.Utilities.itemFromCSLJSON(item, json);
+			yield item.saveTx();
+
+			let newJSON = Zotero.Utilities.itemToCSLJSON(item);
+			assert.hasAllKeys(newJSON, canonicalKeys);
 		});
 		it("should import exported standalone note", function* () {
 			let note = new Zotero.Item('note');
