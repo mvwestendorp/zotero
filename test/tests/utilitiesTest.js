@@ -490,6 +490,7 @@ describe("Zotero.Utilities", function() {
 			let data = loadSampleData('citeProcJSExport');
 
 			var json = data.artwork;
+			delete json.id;
 			var canonicalKeys = Object.keys(json);
 			json.shortTitle = json["title-short"];
 			delete json["title-short"];
@@ -499,6 +500,7 @@ describe("Zotero.Utilities", function() {
 			yield item.saveTx();
 
 			let newJSON = Zotero.Utilities.itemToCSLJSON(item);
+			delete newJSON.id;
 			assert.hasAllKeys(newJSON, canonicalKeys);
 		});
 		it("should import exported standalone note", function* () {
