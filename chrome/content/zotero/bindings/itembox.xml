@@ -113,7 +113,7 @@
 						this._displayAllCreators = false;
 					}
 					
-					if (this._item && val.id == this._item.id) {
+					if (this._item && val.id == this._item.id && this._mode !== 'fieldmerge') {
 						this._item = val;
 						this.refresh(true);
 					} else {
