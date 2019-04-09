@@ -574,7 +574,8 @@ var Zotero_Citation_Dialog = new function () {
 				io.preview().then(function(preview) {
 					_originalHTML = preview;
 					editor.value = text;
-				}).done();
+				})
+					//.done();
 			} else {
 				_updatePreview();
 			}
