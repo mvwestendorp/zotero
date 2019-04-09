@@ -23,7 +23,7 @@ Copyright (c) 2009-2019 Frank Bennett
     <http://www.gnu.org/licenses/> respectively.
 */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.237",
+    PROCESSOR_VERSION: "1.1.238",
     LOCATOR_LABELS_REGEXP: new RegExp("^((art|ch|subch|col|fig|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\\.)\\s+(.*)"),
     STATUTE_SUBDIV_PLAIN_REGEX: /(?:(?:^| )(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
     STATUTE_SUBDIV_PLAIN_REGEX_FRONT: /(?:^\s*[.,;]*\s*(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
@@ -4795,6 +4795,7 @@ CSL.Engine.Opt = function () {
     this.development_extensions.parse_names = true;
     this.development_extensions.hanging_indent_legacy_number = false;
     this.development_extensions.throw_on_empty = false;
+    this.development_extensions.check_note_index_sanity = true;
 };
 CSL.Engine.Tmp = function () {
     this.names_max = new CSL.Stack();
@@ -4993,6 +4994,33 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
     this.tmp.citation_errors = [];
     this.registry.return_data = {"bibchange": false};
     this.setCitationId(citation);
+    if (this.opt.development_extensions.check_note_index_sanity) {
+        var mostNoteIndexes= citationsPre
+            .map(
+                function (arr) {
+                    return arr[1];
+                }
+            )
+            .concat([citation.properties.noteIndex])
+            .concat(
+                citationsPost
+                    .map(
+                        function (arr) {
+                            return arr[1];
+                        }
+                    )
+            )
+            .filter(
+                function (val) {
+                    return val;
+                }
+            )
+        for (var i=1, ilen=mostNoteIndexes.length; i<ilen; i++) {
+            if (mostNoteIndexes[i] < mostNoteIndexes[i-1]) {
+                throw "Note index sequence is not sane";
+            }
+        }
+    }
     var oldCitationList;
     var oldItemList;
     var oldAmbigs;
