@@ -1704,7 +1704,7 @@ Zotero.Integration.Session.prototype.getCiteprocLists = function() {
 			continue;
 		}
 		citations.push([this.citationsByIndex[idx].citationID, this.citationsByIndex[idx].properties.noteIndex]);
-		fieldToCitationIdxMapping[i] = parseInt(idx, 10);
+		fieldToCitationIdxMapping[i] = parseInt(idx);
 		citationToFieldIdxMapping[idx] = i++;
 	}
 	return [citations, fieldToCitationIdxMapping, citationToFieldIdxMapping];
