@@ -37,7 +37,6 @@
 
 <overlay id="zotero"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-	xmlns:svg="http://www.w3.org/2000/svg"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	
 	<script src="include.js"/>
@@ -109,7 +108,7 @@
 					</toolbarbutton>
 					
 					<toolbarbutton id="zotero-tb-lookup" class="zotero-tb-button" tooltiptext="&zotero.toolbar.lookup.label;" type="panel"
-							onmousedown="Zotero_Lookup.showPanel(this)"/>
+							onclick="Zotero_Lookup.showPanel(this)"/>
 					
 					<panel id="zotero-lookup-panel" type="arrow" onpopupshown="Zotero_Lookup.onShowing(event)"
 							onpopuphidden="Zotero_Lookup.onHidden(event)">
