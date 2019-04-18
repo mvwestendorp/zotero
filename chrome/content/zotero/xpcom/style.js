@@ -775,6 +775,8 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
 		citeproc.opt.development_extensions.wrap_url_and_doi = true;
 		// Don't try to parse author names. We parse them in itemToCSLJSON
 		citeproc.opt.development_extensions.parse_names = false;
+		// Parse raw dates in Jurism
+		citeproc.opt.development_extensions.raw_date_parsing = true;
 		
 		Zotero.setCitationLanguages({}, citeproc);
 		citeproc.opt.trigraph = trigraph;
