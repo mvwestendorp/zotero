@@ -608,6 +608,7 @@ Zotero.Cite.System = function(automaticJournalAbbreviations) {
 }
 
 Zotero.Cite.System.prototype = {
+	"prioritize_disambiguate_condition": true,
 	/**
 	 * citeproc-js system function for getting items
 	 * See http://gsl-nagoya-u.net/http/pub/citeproc-doc.html#retrieveitem
