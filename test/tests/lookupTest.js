@@ -66,7 +66,7 @@ describe("Add Item by Identifier", function() {
 		this.timeout(40000);
 		return lookupIdentifier(win, "ECLI:NL:RBOVE:2019:1347").then(function(ids) {
 			var item = Zotero.Items.get(ids[0]);
-			assert.equal(item.getField("title"), "");
+			assert.equal(item.getField("extra"), "ecli: ECLI:NL:RBOVE:2019:1347");
 		});
 	});
 
