@@ -2696,6 +2696,12 @@ Zotero.Translate.Search.prototype.setIdentifier = function (identifier) {
 			contextObject: "rft_id=info:pmid/" + identifier.PMID
 		};
 	}
+	else if (identifier.ECLI) {
+		search = {
+			itemType: "case",
+			contextObject: "rft_id=info:ecli/" + identifier.ECLI
+		};
+	}
 	else if (identifier.arXiv) {
 		search = {
 			itemType: "journalArticle",

@@ -1025,22 +1025,34 @@ Zotero.Utilities.Internal = {
 				}
 			}
 		}
-		
-		// Finally try for PMID
+
+		// Try for PMID
 		if (!identifiers.length) {
 			// PMID; right now, the longest PMIDs are 8 digits, so it doesn't seem like we'll
 			// need to discriminate for a fairly long time
 			let PMID_RE = /(^|\s|,|:)(\d{1,9})(?=\s|,|$)/g;
 			let pmid;
-			while ((pmid = PMID_RE.exec(text)) && !foundIDs.has(pmid)) {
+			while ((pmid = PMID_RE.exec(text)) && !foundIDs.has(pmid) && !text.includes('ECLI')) {
 				identifiers.push({
 					PMID: pmid[2]
 				});
 				foundIDs.add(pmid);
 			}
 		}
-		
+
+		// Finally try for ECLI
+		if (!identifiers.length) {
+			let ECLI_RE = /(^|\s|,)(ECLI:(.*?:){3}\d*)(?=\s|,|$)/g;
+			let ecli;
+			while ((ecli = ECLI_RE.exec(text)) && !foundIDs.has(ecli)) {
+				identifiers.push({
+					ECLI: ecli[2]
+				});
+				foundIDs.add(ecli);
+			}
+		}
 		return identifiers;
+
 	},
 	
 	

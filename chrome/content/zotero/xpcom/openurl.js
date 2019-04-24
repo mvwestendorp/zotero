@@ -113,6 +113,11 @@ Zotero.OpenURL = new function() {
 		const pmidRe = /(?:\n|^)PMID:\s*(\d+)/g;
 		var pmid = pmidRe.exec(item.extra);
 		if(pmid) pmid = pmid[1];
+
+		// find ecli
+		const ecliRe = /(?:\n|^)ECLI:(.*?:){3}\d*/g;
+		var ecli = ecliRe.exec(item.extra);
+		if (ecli) ecli = ecli[0];
 		
 		// encode ctx_ver (if available) and encode identifiers
 		if(version == "0.1") {
@@ -120,6 +125,7 @@ Zotero.OpenURL = new function() {
 			if(item.DOI) _mapTag("doi:"+item.DOI, "id", true);
 			if(item.ISBN) _mapTag(item.ISBN, "isbn", true);
 			if(pmid) _mapTag("pmid:"+pmid, "id", true);
+			if (ecli) _mapTag("ecli:" + ecli, "id", true);
 		} else {
 			_mapTag("Z39.88-2004", "url_ver", true);
 			_mapTag("Z39.88-2004", "ctx_ver", true);
@@ -127,6 +133,7 @@ Zotero.OpenURL = new function() {
 			if(item.DOI) _mapTag("info:doi/"+item.DOI, "rft_id", true);
 			if(item.ISBN) _mapTag("urn:isbn:"+item.ISBN, "rft_id", true);
 			if(pmid) _mapTag("info:pmid/"+pmid, "rft_id", true);
+			if (ecli) _mapTag("info:ecli/" + ecli, "rtf_id", true);
 		}
 		
 		// encode genre and item-specific data
