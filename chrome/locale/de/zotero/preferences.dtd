@@ -8,7 +8,8 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Auswählen...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Automatisch Metadaten für PDF-Dateien abrufen">
 <!ENTITY zotero.preferences.autoRenameFiles "Automatisch angehängte Dateien unter Verwendung von übergeordneten Metadaten umbenennen">
-<!ENTITY zotero.preferences.autoUpdate "Automatisch auf Übersetzer- und Style-Updates überprüfen">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Verknüpfte Dateien umbenennen">
+<!ENTITY zotero.preferences.autoUpdate "Automatische Suche nach aktualisierten Übersetzern und Stilen">
 <!ENTITY zotero.preferences.automaticSnapshots "Automatisch einen Schnappschuss erstellen, sobald ein Eintrag aus einer Webseite erstellt wird">
 <!ENTITY zotero.preferences.automaticTags "Automatisch Tags aus Schlüsselwörtern und Schlagwörtern erstellen">
 <!ENTITY zotero.preferences.charset "Zeichenkodierung">

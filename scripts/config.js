@@ -3,17 +3,15 @@ const dirs = [
 	'chrome',
 	'components',
 	'defaults',
-	'resource',
-	'resource/web-library',
 	'test',
 	'test/resource/chai',
 	'test/resource/chai-as-promised',
 	'test/resource/mocha'
 ];
 
-// list of folders from which all files are symlinked
+// list of folders that are symlinked
 const symlinkDirs = [
-	'resource/tinymce',
+	'chrome/content/zotero/xpcom/rdf',
 	'styles',
 	'translators'
 ];
@@ -26,7 +24,15 @@ const copyDirs = [
 
 // list of files from root folder to symlink
 const symlinkFiles = [
-	'chrome.manifest', 'install.rdf', 'update.rdf'
+	'chrome.manifest',
+	'install.rdf',
+	// React needs to be patched by babel-worker.js, so symlink all files in resource/ except for
+	// those. Babel transpilation for React is still disabled in .babelrc.
+	'resource/**/*',
+	'!resource/react.js',
+	'!resource/react-dom.js',
+	'!resource/react-virtualized.js',
+	'update.rdf'
 ];
 
 
@@ -49,13 +55,24 @@ const browserifyConfigs = [
 ];
 
 // exclude mask used for js, copy, symlink and sass tasks
-const ignoreMask = ['**/#*'];
+const ignoreMask = ['**/#*', '**/_*.scss'];
 
 const jsFiles = [
 	`{${dirs.join(',')}}/**/*.js`,
-	`!{${symlinkDirs.concat(copyDirs).join(',')}}/**/*.js`
+	`{${dirs.join(',')}}/**/*.jsx`,
+	`!{${symlinkDirs.concat(copyDirs).join(',')}}/**/*.js`,
+	`!{${symlinkDirs.concat(copyDirs).join(',')}}/**/*.jsx`,
+	// Special handling for React -- see note above
+	'resource/react.js',
+	'resource/react-dom.js',
+	'resource/react-virtualized.js',
+];
+
+const scssFiles = [
+	'scss/**/*.scss',
+	'chrome/skin/default/zotero/**/*.scss'
 ];
 
 module.exports = {
-	dirs, symlinkDirs, copyDirs, symlinkFiles, browserifyConfigs, jsFiles, ignoreMask
+	dirs, symlinkDirs, copyDirs, symlinkFiles, browserifyConfigs, jsFiles, scssFiles, ignoreMask
 };

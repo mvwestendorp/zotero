@@ -390,6 +390,31 @@ describe("Zotero.Utilities", function() {
 			assert.deepEqual(cslCreators[4], creators[4].expect, 'institutional author is not parsed');
 			assert.deepEqual(cslCreators[5], creators[5].expect, 'protected last name prevents parsing');
 		});
+		
+		it("should convert UTC access date to local time", async function () {
+			var offset = new Date().getTimezoneOffset();
+			var item = new Zotero.Item('webpage');
+			var localDate;
+			if (offset < 0) {
+				localDate = '2019-01-09 00:00:00';
+			}
+			else if (offset > 0) {
+				localDate = '2019-01-09 23:59:59';
+			}
+			// Can't test timezone offset if in UTC
+			else {
+				this.skip();
+				return;
+			}
+			var utcDate = Zotero.Date.sqlToDate(localDate);
+			item.setField('accessDate', Zotero.Date.dateToSQL(utcDate, true));
+			await item.saveTx();
+			let accessed = Zotero.Utilities.itemToCSLJSON(item).accessed;
+			
+			assert.equal(accessed['date-parts'][0][0], 2019);
+			assert.equal(accessed['date-parts'][0][1], 1);
+			assert.equal(accessed['date-parts'][0][2], 9);
+		});
 	});
 	describe("itemFromCSLJSON", function () {
 		it("[Juris-M] should convert raw dates to canonical form and map video author to video director", function* () {
@@ -418,6 +443,11 @@ describe("Zotero.Utilities", function() {
 			for (let i in data) {
 				let json = data[i];
 				
+				// TEMP: https://github.com/zotero/zotero/issues/1667
+				if (i == 'podcast') {
+					delete json['collection-title'];
+				}
+				
 				let item = new Zotero.Item();
 				Zotero.Utilities.itemFromCSLJSON(item, json);
 				yield item.saveTx();
@@ -431,6 +461,7 @@ describe("Zotero.Utilities", function() {
 			}
 			
 		});
+
 		it("[Juris-M] with portableJSON enabled, should stably perform itemToCSLJSON -> itemFromCSLJSON -> itemToCSLJSON", function* () {
 			this.timeout(20000);
 			let data = loadSampleData('citeProcJSExport');
@@ -451,6 +482,26 @@ describe("Zotero.Utilities", function() {
 				
 				assert.deepEqual(newPortableJSON, portablejson, i + ' export -> import -> export is stable');
 			}
+		});
+
+		it("should recognize the legacy shortTitle key", function* () {
+			this.timeout(20000);
+
+			let data = loadSampleData('citeProcJSExport');
+
+			var json = data.artwork;
+			delete json.id;
+			var canonicalKeys = Object.keys(json);
+			json.shortTitle = json["title-short"];
+			delete json["title-short"];
+
+			let item = new Zotero.Item();
+			Zotero.Utilities.itemFromCSLJSON(item, json);
+			yield item.saveTx();
+
+			let newJSON = Zotero.Utilities.itemToCSLJSON(item);
+			delete newJSON.id;
+			assert.hasAllKeys(newJSON, canonicalKeys);
 		});
 		it("should import exported standalone note", function* () {
 			let note = new Zotero.Item('note');

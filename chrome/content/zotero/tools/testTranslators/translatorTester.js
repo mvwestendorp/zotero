@@ -24,16 +24,18 @@
 */
 
 // Timeout for test to complete
-var TEST_RUN_TIMEOUT = 600000;
+var TEST_RUN_TIMEOUT = 60000;
 var EXPORTED_SYMBOLS = ["Zotero_TranslatorTesters"];
 
 // For debugging specific translators by label
 var includeTranslators = [];
 
-try {
-	Zotero;
-} catch(e) {
-	var Zotero;
+if (typeof window != "undefined") {
+	window.Zotero = window.Zotero;
+} else if (typeof global != 'undefined') {
+	global.Zotero = global.Zotero;
+} else if (typeof this != 'undefined') {
+	this.Zotero = this.Zotero;
 }
 
 var Zotero_TranslatorTesters = new function() {
@@ -46,11 +48,13 @@ var Zotero_TranslatorTesters = new function() {
 	this.runAllTests = function (numConcurrentTests, skipTranslators, writeDataCallback) {
 		var id = Math.random() * (100000000 - 1) + 1;
 		
-		waitForDialog();
+		if (!(typeof process === 'object' && process + '' === '[object process]')){
+			waitForDialog();
 		
-		if(!Zotero) {
-			Zotero = Components.classes["@zotero.org/Zotero;1"]
-				.getService(Components.interfaces.nsISupports).wrappedJSObject;
+			if(!Zotero) {
+				Zotero = Components.classes["@zotero.org/Zotero;1"]
+					.getService(Components.interfaces.nsISupports).wrappedJSObject;
+			}
 		}
 		
 		var testers = [];
@@ -407,12 +411,18 @@ Zotero_TranslatorTester.prototype._runTestsRecursively = function(testDoneCallba
  * @param {Function} testDoneCallback - A callback to be executed when test is complete
  */
 Zotero_TranslatorTester.prototype.fetchPageAndRunTest = function (test, testDoneCallback) {
+	if (typeof process === 'object' && process + '' === '[object process]'){
+		this._cookieSandbox = require('request').jar();
+	}
 	Zotero.HTTP.processDocuments(
 		test.url,
 		(doc) => {
 			this.runTest(test, doc, function (obj, test, status, message) {
 				testDoneCallback(obj, test, status, message);
 			});
+		},
+		{
+			cookieSandbox: this._cookieSandbox
 		}
 	)
 	.catch(function (e) {
@@ -438,6 +448,9 @@ Zotero_TranslatorTester.prototype.runTest = function(test, doc, testDoneCallback
 		translate.setString(test.input);
 	} else if(this.type === "search") {
 		translate.setSearch(test.input);
+	}
+	if (translate.setCookieSandbox && this._cookieSandbox) {
+		translate.setCookieSandbox(this._cookieSandbox);
 	}
 	
 	translate.setHandler("translators", function(obj, translators) {
@@ -760,3 +773,10 @@ Zotero_TranslatorTester._generateDiff = new function() {
 		return txt.substr(0, txt.length-1);
 	};
 };
+
+if (typeof process === 'object' && process + '' === '[object process]'){
+	module.exports = {
+		Tester: Zotero_TranslatorTesters, 
+		TranslatorTester: Zotero_TranslatorTester
+	};
+}

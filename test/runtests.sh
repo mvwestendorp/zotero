@@ -31,7 +31,6 @@ fi
 echo $(pwd)
 
 if [ -f "runtests-custom.sh" ]; then
-    echo HI
     . runtests-custom.sh
 fi
 
@@ -167,6 +166,7 @@ user_pref("browser.shell.checkDefaultBrowser", false);
 user_pref("dom.max_chrome_script_run_time", 0);
 // It would be better to leave this on and handle it in Sinon's FakeXMLHttpRequest
 user_pref("extensions.zotero.sync.server.compressData", false);
+user_pref("extensions.zotero.automaticScraperUpdates", false);
 user_pref("extensions.zotero.debug.log", $DEBUG);
 user_pref("extensions.zotero.debug.level", $DEBUG_LEVEL);
 user_pref("extensions.zotero.debug.time", $DEBUG);
@@ -207,11 +207,7 @@ if [[ "$TRAVIS" != true ]] && ! ps | grep scripts/build.js | grep -v grep > /dev
 	echo
 fi
 
-echo TRY
-
 makePath FX_PROFILE "$PROFILE"
-
-echo "SHITHOLE: $PROFILE"
 
 MOZ_NO_REMOTE=1 NO_EM_RESTART=1 "$FX_EXECUTABLE" -profile "$FX_PROFILE" \
     -chrome chrome://zotero-unit/content/runtests.html -test "$TESTS" -grep "$GREP" -ZoteroTest $FX_ARGS

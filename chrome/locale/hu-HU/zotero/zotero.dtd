@@ -68,38 +68,39 @@
 <!ENTITY zotero.file.noneSelected.label "Nincs fájl kiválasztva">
 <!ENTITY zotero.general.advancedOptions.label "Haladó beállítások">
 <!ENTITY zotero.general.cancel "Mégse">
-<!ENTITY zotero.general.close "Close">
+<!ENTITY zotero.general.close "Bezárás">
 <!ENTITY zotero.general.delete "Törlés">
 <!ENTITY zotero.general.deselectAll "Kijelölés megszüntetése">
 <!ENTITY zotero.general.edit "Szerkesztés">
 <!ENTITY zotero.general.loading "Loading…">
-<!ENTITY zotero.general.minimize "Minimize">
+<!ENTITY zotero.general.minimize "Kis méret">
 <!ENTITY zotero.general.more " Egyéb...">
 <!ENTITY zotero.general.no "Nem">
 <!ENTITY zotero.general.note "Jegyzet:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Nem kötelező)">
-<!ENTITY zotero.general.options "Options">
+<!ENTITY zotero.general.options "Beállítások">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Újratöltés">
 <!ENTITY zotero.general.saveAs "Mentés másként…">
 <!ENTITY zotero.general.selectAll "Minden kijelölése">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Igen">
-<!ENTITY zotero.import "Import">
+<!ENTITY zotero.import "Importálás">
 <!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import.database "Adatbázis">
+<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.importing "Importálás…">
+<!ENTITY zotero.import.lastModified "Utolsó módosítás">
+<!ENTITY zotero.import.size "Méret">
+<!ENTITY zotero.import.source.file "Egy fájl (BibTeX, RIS, Zotero RDF, stb.)">
+<!ENTITY zotero.import.whereToImportFrom "Honnét szeretné importálni?">
 <!ENTITY zotero.integration.addEditCitation.title "Hivatkozás hozzáadása/szerkesztése">
 <!ENTITY zotero.integration.classicView.label "Klasszikus nézet">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentum beállításai">
 <!ENTITY zotero.integration.editBibliography.title "Bibliográfia szerkesztése">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatically update citations">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Hivatkozások automatikus frissítése">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
@@ -177,7 +178,7 @@
 <!ENTITY zotero.items.menu.mergeItems "Elemek összefésülése…">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">
-<!ENTITY zotero.items.menu.reportMetadata "Report Incorrect Metadata">
+<!ENTITY zotero.items.menu.reportMetadata "Hibás metaadatok jelentése">
 <!ENTITY zotero.items.menu.restoreToLibrary "Visszaállítás könyvtárba">
 <!ENTITY zotero.items.menu.showInLibrary "Megjelenítés a könyvtárban">
 <!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
@@ -198,7 +199,7 @@
 <!ENTITY zotero.items.volume_column "Kötet">
 <!ENTITY zotero.items.year_column "Év">
 <!ENTITY zotero.lookup.button.search "Keresés">
-<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
+<!ENTITY zotero.lookup.description "ISBN, DOI, PMID, vagy arXiv ID hozzáadása a könyvtárhoz:">
 <!ENTITY zotero.merge.deleted "Törölve">
 <!ENTITY zotero.merge.of "of">
 <!ENTITY zotero.merge.title "Conflict Resolution">

@@ -79,21 +79,22 @@
 <!ENTITY zotero.general.note "Opomba:">
 <!ENTITY zotero.general.ok "V redu">
 <!ENTITY zotero.general.optional "(neobvezno)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "Možnosti">
+<!ENTITY zotero.general.other "Drugo ...">
 <!ENTITY zotero.general.refresh "Osveži">
 <!ENTITY zotero.general.saveAs "Shrani kot ...">
 <!ENTITY zotero.general.selectAll "Izberi vse">
 <!ENTITY zotero.general.tools "Orodja">
 <!ENTITY zotero.general.yes "Da">
-<!ENTITY zotero.import "Import">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import "Uvozi">
+<!ENTITY zotero.import.createCollection "Postavi uvožene zbirke in elemente v novo zbirko">
+<!ENTITY zotero.import.database "Zbirka podatkov">
+<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.importing "Uvažanje ...">
+<!ENTITY zotero.import.lastModified "Nazadnje spremenjeno">
+<!ENTITY zotero.import.size "Velikost">
+<!ENTITY zotero.import.source.file "Datoteka (BibTeX, RIS, Zotero RDF itn.)">
+<!ENTITY zotero.import.whereToImportFrom "Od kod želite uvoziti?">
 <!ENTITY zotero.integration.addEditCitation.title "Dodaj/uredi navedek">
 <!ENTITY zotero.integration.classicView.label "Klasični pogled">
 <!ENTITY zotero.integration.docPrefs.title "Lastnosti dokumenta">
@@ -198,7 +199,7 @@
 <!ENTITY zotero.items.volume_column "Zvezek">
 <!ENTITY zotero.items.year_column "Leto">
 <!ENTITY zotero.lookup.button.search "Išči">
-<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
+<!ENTITY zotero.lookup.description "Vnesite identifikacijske kode ISBN, DOI, PMID ali arXiv za dodajanje v knjižnico:">
 <!ENTITY zotero.merge.deleted "Izbrisano">
 <!ENTITY zotero.merge.of "od">
 <!ENTITY zotero.merge.title "Razrešitev sporov">

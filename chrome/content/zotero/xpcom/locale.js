@@ -10,6 +10,7 @@ Zotero.Locale = {
 		'da-DK': 'Dansk',
 		'de': 'Deutsch',
 		'en-US': 'English',
+		'en-GB': 'English (UK)',
 		'es-ES': 'Español',
 		'et-EE': 'Eesti keel',
 		'fa': 'فارسی',
@@ -40,5 +41,16 @@ Zotero.Locale = {
 		'vi-VN': 'Tiếng Việt',
 		'zh-CN': '中文 (简体)',
 		'zh-TW': '正體中文 (繁體)'
-	})
+	}),
+
+	defaultScriptDirection(locale) {
+		switch (locale.split('-')[0]) {
+			case 'ar':
+			case 'fa':
+			case 'he':
+				return 'rtl';
+			default:
+				return 'ltr';
+		}
+	}
 }

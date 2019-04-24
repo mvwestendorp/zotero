@@ -126,21 +126,6 @@ Zotero.DBConnection.prototype.test = function () {
 	return this._getConnectionAsync().then(() => {});
 }
 
-Zotero.DBConnection.prototype.getAsyncStatement = Zotero.Promise.coroutine(function* (sql) {
-	var conn = yield this._getConnectionAsync();
-	conn = conn._connection;
-	
-	try {
-		this._debug(sql, 4);
-		return conn.createAsyncStatement(sql);
-	}
-	catch (e) {
-		var dberr = (conn.lastErrorString != 'not an error')
-			? ' [ERROR: ' + conn.lastErrorString + ']' : '';
-		throw new Error(e + ' [QUERY: ' + sql + ']' + dberr); 
-	}
-});
-
 
 Zotero.DBConnection.prototype.parseQueryAndParams = function (sql, params) {
 	// If single scalar value, wrap in an array
@@ -267,44 +252,6 @@ Zotero.DBConnection.prototype.parseQueryAndParams = function (sql, params) {
 };
 
 
-/**
- * Execute an asynchronous statement with previously bound parameters
- *
- * Warning: This will freeze if used with a write statement within executeTransaction()!
- *
- * @param {mozIStorageAsyncStatement} statement - Statement to run
- * @param {Function} [progressHandler] - Function to pass each available row to for SELECT queries
- * @return {Promise} - Resolved on completion, rejected with a reason on error
- */
-Zotero.DBConnection.prototype.executeAsyncStatement = Zotero.Promise.method(function (statement, progressHandler) {
-	var resolve;
-	var reject;
-	statement.executeAsync({
-		handleResult: function (resultSet) {
-			if (progressHandler) {
-				progressHandler(resultSet.getNextRow());
-			}
-		},
-		
-		handleError: function (e) {
-			reject(e);
-		},
-		
-		handleCompletion: function (reason) {
-			if (reason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED) {
-				reject(reason);
-			}
-			resolve();
-		}
-	});
-	return new Zotero.Promise(function () {
-		resolve = arguments[0];
-		reject = arguments[1];
-	});
-});
-
-
-
 Zotero.DBConnection.prototype.addCallback = function (type, cb) {
 	switch (type) {
 		case 'begin':
@@ -384,8 +331,10 @@ Zotero.DBConnection.prototype.getColumns = function (table) {
 **/
 Zotero.DBConnection.prototype.getNextName = Zotero.Promise.coroutine(function* (libraryID, table, field, name)
 {
+	Zotero.debug("WARNING: Zotero.DB.getNextName() is deprecated -- "
+		+ "use Zotero.Utilities.Internal.getNextName() instead", 2);
+	
 	if (typeof name == 'undefined') {
-		Zotero.debug("WARNING: The parameters of Zotero.DB.getNextName() have changed -- update your code", 2);
 		[libraryID, table, field, name] = [null, libraryID, table, field];
 	}
 	
@@ -924,8 +873,7 @@ Zotero.DBConnection.prototype.checkException = function (e) {
 		
 		this._dbIsCorrupt = true;
 		
-		var ps = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-								.getService(Components.interfaces.nsIPromptService);
+		var ps = Services.prompt;
 		
 		var buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_IS_STRING)
 			+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_IS_STRING);
@@ -939,8 +887,7 @@ Zotero.DBConnection.prototype.checkException = function (e) {
 			null, null, {});
 		
 		if (index == 0) {
-			var appStartup = Components.classes["@mozilla.org/toolkit/app-startup;1"]
-					.getService(Components.interfaces.nsIAppStartup);
+			var appStartup = Services.startup;
 			appStartup.quit(Components.interfaces.nsIAppStartup.eRestart);
 			appStartup.quit(Components.interfaces.nsIAppStartup.eAttemptQuit);
 		}
@@ -975,8 +922,7 @@ Zotero.DBConnection.prototype.backupDatabase = Zotero.Promise.coroutine(function
 		return false;
 	}
 	
-	var storageService = Components.classes["@mozilla.org/storage/service;1"]
-		.getService(Components.interfaces.mozIStorageService);
+	var storageService = Services.storage;
 	
 	if (!suffix) {
 		var numBackups = Zotero.Prefs.get("backup.numBackups");
@@ -1021,7 +967,7 @@ Zotero.DBConnection.prototype.backupDatabase = Zotero.Promise.coroutine(function
 		if (!suffix && !force) {
 			let backupFile = this._dbPath + '.bak';
 			if (yield OS.File.exists(backupFile)) {
-				let currentDBTime = (yield OS.File.stat(file.path)).lastModificationDate;
+				let currentDBTime = (yield OS.File.stat(file)).lastModificationDate;
 				let lastBackupTime = (yield OS.File.stat(backupFile)).lastModificationDate;
 				if (currentDBTime == lastBackupTime) {
 					Zotero.debug("Database '" + this._dbName + "' hasn't changed -- skipping backup");
@@ -1146,6 +1092,15 @@ Zotero.DBConnection.prototype.backupDatabase = Zotero.Promise.coroutine(function
 });
 
 
+/**
+ * Escape '_', '%', and '\' in an SQL LIKE expression so that it can be used with ESCAPE '\' to
+ * prevent the wildcards from having special meaning
+ */
+Zotero.DBConnection.prototype.escapeSQLExpression = function (expr) {
+	return expr.replace(/([_%\\])/g, '\\$1');
+};
+
+
 /////////////////////////////////////////////////////////////////
 //
 // Private methods
@@ -1183,8 +1138,7 @@ Zotero.DBConnection.prototype._getConnectionAsync = async function (options) {
 	Zotero.debug(this._dbPath);
 	
 	// Get the storage service
-	var store = Components.classes["@mozilla.org/storage/service;1"].
-		getService(Components.interfaces.mozIStorageService);
+	var store = Services.storage;
 	
 	var file = this._dbPath;
 	var backupFile = this._dbPath + '.bak';

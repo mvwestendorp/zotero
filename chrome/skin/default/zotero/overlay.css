@@ -383,11 +383,6 @@
 }
 
 
-#zotero-tb-actions-menu
-{
-	list-style-image: url('chrome://zotero/skin/cog.png');
-}
-
 #zotero-tb-add
 {
 	list-style-image: url('chrome://zotero/skin/toolbar-item-add.png');
@@ -513,14 +508,13 @@
 	list-style-image: url('chrome://zotero/skin/treeitem-attachment-link.png');
 }
 
-.zotero-menuitem-attachments-snapshot
-{
-	list-style-image: url('chrome://zotero/skin/treeitem-attachment-snapshot.png');
-}
-
 .zotero-menuitem-attachments-web-link
 {
 	list-style-image: url('chrome://zotero/skin/treeitem-attachment-web-link.png');
+}
+
+.zotero-menuitem-find-pdf {
+	list-style-image: url('chrome://zotero/skin/treeitem-attachment-pdf.png');
 }
 
 .zotero-menuitem-duplicate-item
@@ -614,11 +608,11 @@
 	text-align: right;
 }
 
-#zotero-tb-recognize {
+#zotero-tb-pq-recognize {
 	list-style-image: url(chrome://zotero/skin/pdf-search.png);
 }
 
-#zotero-tb-recognize .toolbarbutton-icon {
+#zotero-tb-pq-recognize .toolbarbutton-icon {
 	width: 18px;
 	margin-top: 1px;
 }
@@ -639,6 +633,15 @@
 /* Sync error panel */
 #zotero-sync-error-panel {
 	margin-right: 0;
+}
+
+#zotero-sync-error-panel .error-header {
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 1em;
+	-moz-user-select: text;
+	user-select: text;
+	cursor: text
 }
 
 .zotero-sync-error-panel-library-name {
@@ -706,41 +709,6 @@
 	background-image: none;
 }
 
-#zotero-annotate-tb-add
-{
-	list-style-image: url('chrome://zotero/skin/annotate-add.png');
-}
-
-#zotero-annotate-tb-collapse
-{
-	list-style-image: url('chrome://zotero/skin/annotate-collapse.png');
-}
-
-#zotero-annotate-tb-highlight
-{
-	list-style-image: url('chrome://zotero/skin/annotate-highlight.png');
-}
-
-#zotero-annotate-tb-unhighlight
-{
-	list-style-image: url('chrome://zotero/skin/annotate-unhighlight.png');
-}
-
-#zotero-annotate-tb-add[tool-active=true]
-{
-	list-style-image: url('chrome://zotero/skin/annotate-add-selected.png');
-}
-
-#zotero-annotate-tb-highlight[tool-active=true]
-{
-	list-style-image: url('chrome://zotero/skin/annotate-highlight-selected.png');
-}
-
-#zotero-annotate-tb-unhighlight[tool-active=true]
-{
-	list-style-image: url('chrome://zotero/skin/annotate-unhighlight-selected.png');
-}
-
 #zotero-toolbar
 {
 	visibility: visible !important;
@@ -770,7 +738,6 @@
 	#zotero-tb-collection-add { list-style-image: url('chrome://zotero/skin/toolbar-collection-add@2x.png'); }
 	.zotero-menuitem-new-feed { list-style-image: url('chrome://zotero/skin/toolbar-feed-add@2x.png'); }
 	#zotero-tb-library-add-menu { list-style-image: url('chrome://zotero/skin/library_add@2x.png'); }
-	#zotero-tb-actions-menu { list-style-image: url('chrome://zotero/skin/cog@2x.png'); }
 	#zotero-tb-add { list-style-image: url('chrome://zotero/skin/toolbar-item-add@2x.png'); }
 	#zotero-tb-lookup { list-style-image: url('chrome://zotero/skin/toolbar-lookup@2x.png'); }
 	#zotero-tb-attachment-add { list-style-image: url('chrome://zotero/skin/attach@2x.png'); }
@@ -792,11 +759,12 @@
 	.zotero-menuitem-attachments-file { list-style-image: url('chrome://zotero/skin/treeitem@2x.png'); }
 	.zotero-menuitem-attachments-link { list-style-image: url('chrome://zotero/skin/treeitem-attachment-link@2x.png'); }
 	.zotero-menuitem-attachments-web-link { list-style-image: url('chrome://zotero/skin/treeitem-attachment-web-link@2x.png'); }
+	.zotero-menuitem-find-pdf  { list-style-image: url('chrome://zotero/skin/treeitem-attachment-pdf@2x.png'); }
 	.zotero-menuitem-create-report { list-style-image: url('chrome://zotero/skin/treeitem-report@2x.png'); }
 	#zotero-tb-advanced-search { list-style-image: url('chrome://zotero/skin/toolbar-advanced-search@2x.png'); }
 	#zotero-tb-locate { list-style-image: url('chrome://zotero/skin/toolbar-go-arrow@2x.png'); }
 	#zotero-tb-sync-stop { list-style-image: url(chrome://zotero/skin/control_stop_blue@2x.png); }
-	#zotero-tb-recognize  { list-style-image: url(chrome://zotero/skin/pdf-search@2x.png); }
+	#zotero-tb-pq-recognize  { list-style-image: url(chrome://zotero/skin/pdf-search@2x.png); }
 	#zotero-tb-sync-error  { list-style-image: url(chrome://zotero/skin/error@2x.png); }
 	#zotero-tb-sync-error[state=warning]  { list-style-image: url(chrome://zotero/skin/warning@2x.png); }
 	#zotero-tb-sync  { list-style-image: url(chrome://zotero/skin/arrow_rotate_static@2x.png); }

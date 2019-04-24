@@ -1,12 +1,13 @@
 new function() {
 Components.utils.import("resource://gre/modules/osfile.jsm");
+Components.utils.import("resource://zotero-unit/httpd.js");
 
 /**
  * Create a new translator that saves the specified items
  * @param {String} translatorType - "import" or "web"
  * @param {Object} items - items as translator JSON
  */
-function saveItemsThroughTranslator(translatorType, items) {
+function saveItemsThroughTranslator(translatorType, items, translateOptions = {}) {
 	let tyname;
 	if (translatorType == "web") {
 		tyname = "Web";
@@ -35,7 +36,7 @@ function saveItemsThroughTranslator(translatorType, items) {
 		"		item.complete();\n"+
 		"	}\n"+
 		"}"));
-	return translate.translate().then(function(items) {
+	return translate.translate(translateOptions).then(function(items) {
 		if (browser) Zotero.Browser.deleteHiddenBrowser(browser);
 		return items;
 	});
@@ -404,7 +405,187 @@ describe("Zotero.Translate", function() {
 			assert.equal(newItems[0].getField("title"), "Container Item");
 			assert.equal(newItems[0].getAttachments().length, 0);
 		});
-
+		
+		it('import translators should save link attachments', async function () {
+			// Start a local server so we can make sure a web request isn't made for the URL
+			var port = 16213;
+			var baseURL = `http://127.0.0.1:${port}/`;
+			var httpd = new HttpServer();
+			httpd.start(port);
+			var callCount = 0;
+			var handler = function (_request, response) {
+				callCount++;
+				response.setStatusLine(null, 200, "OK");
+				response.write("<html><head><title>Title</title><body>Body</body></html>");
+			};
+			httpd.registerPathHandler("/1", { handle: handler });
+			httpd.registerPathHandler("/2", { handle: handler });
+			
+			var items = [{
+				itemType: "book",
+				title: "Item",
+				attachments: [
+					// With mimeType
+					{
+						itemType: "attachment",
+						linkMode: Zotero.Attachments.LINK_MODE_LINKED_URL,
+						title: "Link 1",
+						url: baseURL + "1",
+						mimeType: 'text/html'
+					},
+					// Without mimeType
+					{
+						itemType: "attachment",
+						linkMode: Zotero.Attachments.LINK_MODE_LINKED_URL,
+						title: "Link 2",
+						url: baseURL + "2"
+					}
+				]
+			}];
+			
+			var newItems = itemsArrayToObject(await saveItemsThroughTranslator("import", items));
+			
+			assert.equal(callCount, 0);
+			
+			var attachments = await Zotero.Items.getAsync(newItems.Item.getAttachments());
+			assert.equal(attachments.length, 2);
+			
+			assert.equal(attachments[0].getField("title"), "Link 1");
+			assert.equal(attachments[0].getField("url"), baseURL + "1");
+			assert.equal(attachments[0].attachmentContentType, "text/html");
+			assert.equal(attachments[0].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_URL);
+			
+			assert.equal(attachments[1].getField("title"), "Link 2");
+			assert.equal(attachments[1].getField("url"), baseURL + "2");
+			assert.equal(attachments[1].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_URL);
+			assert.equal(attachments[1].attachmentContentType, '');
+			
+			await new Promise(function (resolve) {
+				httpd.stop(resolve);
+			});
+		});
+		
+		it("import translators should save linked-URL attachments with savingAttachments: false", async function () {
+			var json = [
+				{
+					itemType: "journalArticle",
+					title: "Parent Item",
+					attachments: [
+						// snapshot: false
+						{
+							title: "Link",
+							mimeType: "text/html",
+							url: "http://example.com",
+							snapshot: false
+						},
+						// linkMode (used by RDF import)
+						{
+							title: "Link",
+							mimeType: "text/html",
+							url: "http://example.com",
+							linkMode: Zotero.Attachments.LINK_MODE_LINKED_URL
+						}
+					]
+				}
+			];
+			
+			var newItems = itemsArrayToObject(
+				await saveItemsThroughTranslator(
+					"import",
+					json,
+					{
+						saveAttachments: false
+					}
+				)
+			);
+			var attachmentIDs = newItems["Parent Item"].getAttachments();
+			assert.lengthOf(attachmentIDs, 2);
+			var attachments = await Zotero.Items.getAsync(attachmentIDs);
+			assert.equal(attachments[0].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_URL);
+			assert.equal(attachments[1].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_URL);
+		});
+		
+		it("import translators should save linked-file attachments with linkFiles: true", async function () {
+			var testDir = getTestDataDirectory().path;
+			var file1 = OS.Path.join(testDir, 'test.pdf');
+			var file2 = OS.Path.join(testDir, 'test.html');
+			var file2URL = "http://example.com";
+			var json = [
+				{
+					itemType: "journalArticle",
+					title: "Parent Item",
+					attachments: [
+						{
+							title: "PDF",
+							mimeType: "application/pdf",
+							path: file1
+						},
+						{
+							title: "Snapshot",
+							mimeType: "text/html",
+							charset: "utf-8",
+							url: file2URL,
+							path: file2
+						}
+					]
+				}
+			];
+			
+			var newItems = itemsArrayToObject(
+				await saveItemsThroughTranslator(
+					"import",
+					json,
+					{
+						linkFiles: true
+					}
+				)
+			);
+			var attachmentIDs = newItems["Parent Item"].getAttachments();
+			assert.lengthOf(attachmentIDs, 2);
+			var attachments = await Zotero.Items.getAsync(attachmentIDs);
+			assert.equal(attachments[0].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_FILE);
+			assert.equal(attachments[0].attachmentContentType, 'application/pdf');
+			assert.equal(attachments[1].attachmentLinkMode, Zotero.Attachments.LINK_MODE_LINKED_FILE);
+			assert.equal(attachments[1].attachmentContentType, 'text/html');
+			assert.equal(attachments[1].attachmentCharset, 'utf-8');
+			assert.equal(attachments[1].getNote(), file2URL);
+		});
+		
+		it("import translators shouldn't save linked-file attachment with linkFiles: true if path is within current storage directory", async function () {
+			var attachment = await importFileAttachment('test.png');
+			var path = attachment.getFilePath();
+			var json = [
+				{
+					itemType: "journalArticle",
+					title: "Parent Item",
+					attachments: [
+						{
+							title: "PDF",
+							mimeType: "application/pdf",
+							path
+						}
+					]
+				}
+			];
+			
+			var newItems = itemsArrayToObject(
+				await saveItemsThroughTranslator(
+					"import",
+					json,
+					{
+						linkFiles: true
+					}
+				)
+			);
+			var attachmentIDs = newItems["Parent Item"].getAttachments();
+			assert.lengthOf(attachmentIDs, 1);
+			var attachments = await Zotero.Items.getAsync(attachmentIDs);
+			assert.equal(attachments[0].attachmentLinkMode, Zotero.Attachments.LINK_MODE_IMPORTED_FILE);
+			var newPath = attachments[0].getFilePath();
+			assert.ok(newPath);
+			assert.notEqual(newPath, path);
+		});
+		
 		it('web translators should set accessDate to current date', function* () {
 			let myItem = {
 				"itemType":"webpage",
@@ -1763,6 +1944,33 @@ describe("Zotero.Translate.ItemGetter", function() {
 			
 			var exportFile = OS.Path.join(exportDir, 'export.rdf');
 			assert.isAbove((yield OS.File.stat(exportFile)).size, 0);
+		});
+		
+		it("should handle UNC paths", async function () {
+			var path = '\\\\SHARE\\test.png';
+			var attachment = await Zotero.Attachments.linkFromFile({
+				file: OS.Path.join(getTestDataDirectory().path, 'test.png')
+			});
+			attachment._attachmentPath = path;
+			assert.equal(attachment.attachmentPath, path);
+			
+			var translation = new Zotero.Translate.Export();
+			var tmpDir = await getTempDirectory();
+			var exportDir = OS.Path.join(tmpDir, 'export');
+			translation.setLocation(Zotero.File.pathToFile(exportDir));
+			translation.setItems([attachment]);
+			translation.setTranslator('14763d24-8ba0-45df-8f52-b8d1108e7ac9'); // Zotero RDF
+			translation.setDisplayOptions({
+				exportFileData: true
+			});
+			await translation.translate();
+			
+			var exportFile = OS.Path.join(exportDir, 'export.rdf');
+			assert.isAbove((await OS.File.stat(exportFile)).size, 0);
+			var rdf = Zotero.File.getContents(exportFile);
+			var dp = new DOMParser();
+			var doc = dp.parseFromString(rdf, 'text/xml');
+			assert.equal(doc.querySelector('resource').getAttribute('rdf:resource'), path);
 		});
 	});
 });

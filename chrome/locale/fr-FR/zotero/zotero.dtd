@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Importer">
 <!ENTITY zotero.import.createCollection "Placer les collections et les documents importés dans une nouvelle collection">
 <!ENTITY zotero.import.database "Base de données">
+<!ENTITY zotero.import.fileHandling "File Handling">
 <!ENTITY zotero.import.importing "Importation…">
 <!ENTITY zotero.import.lastModified "Dernière modification">
 <!ENTITY zotero.import.size "Taille">

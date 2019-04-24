@@ -194,12 +194,12 @@ describe("ZoteroPane", function() {
 			);
 			
 			// Disable loadURI() so viewAttachment() doesn't trigger translator loading
-			var stub = sinon.stub(zp, "loadURI");
+			var stub = sinon.stub(Zotero, "launchFile");
 			
 			await zp.viewAttachment(item.id);
 			
 			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(OS.Path.toFileURI(item.getFilePath())));
+			assert.ok(stub.calledWith(item.getFilePath()));
 			stub.restore();
 			
 			assert.equal(await item.attachmentHash, md5);
@@ -573,7 +573,7 @@ describe("ZoteroPane", function() {
 			yield zp.setVirtual(group.libraryID, 'unfiled', false);
 			// Row should have been removed
 			assert.isFalse(cv.getRowIndexByID(id));
-			// Pref should have been udpated
+			// Pref should have been updated
 			assert.isFalse(JSON.parse(Zotero.Prefs.get('unfiledLibraries'))[group.libraryID]);
 			// Group row shouldn't have changed
 			assert.equal(cv.getRowIndexByID(group.treeViewID), groupRow);
@@ -637,7 +637,7 @@ describe("ZoteroPane", function() {
 			assert.isOk(settings.default.dateAdded);
 		});
 		
-		it("should restore column visiblity when switching between default and feeds", function* () {
+		it("should restore column visibility when switching between default and feeds", function* () {
 			doc.getElementById('zotero-items-column-dateAdded').setAttribute('hidden', false);
 			var feed = yield createFeed();
 			yield cv.selectLibrary(feed.libraryID);

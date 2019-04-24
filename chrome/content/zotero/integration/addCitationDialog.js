@@ -515,7 +515,7 @@ var Zotero_Citation_Dialog = new function () {
 	});
 	
 	/*
-	 * Ask whether to modifiy the preview
+	 * Ask whether to modify the preview
 	 */
 	function confirmRegenerate(focusShifted) {
 		if(document.getElementById('editor').value == _originalHTML || _originalHTML === undefined) {
@@ -574,7 +574,8 @@ var Zotero_Citation_Dialog = new function () {
 				io.preview().then(function(preview) {
 					_originalHTML = preview;
 					editor.value = text;
-				}).done();
+				})
+					//.done();
 			} else {
 				_updatePreview();
 			}

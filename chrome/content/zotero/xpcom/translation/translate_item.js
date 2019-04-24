@@ -31,6 +31,7 @@
  *         <li>libraryID - ID of library in which items should be saved</li>
  *         <li>collections - New collections to create (used during Import translation</li>
  *         <li>attachmentMode - One of Zotero.Translate.ItemSaver.ATTACHMENT_* specifying how attachments should be saved</li>
+ *         <li>linkFiles - Save attachments as linked files instead of stored files</li>
  *         <li>forceTagType - Force tags to specified tag type</li>
  *         <li>cookieSandbox - Cookie sandbox for attachment requests</li>
  *         <li>proxy - A proxy to deproxify item URLs</li>
@@ -53,6 +54,7 @@ Zotero.Translate.ItemSaver = function(options) {
 	// If group filesEditable==false, don't save attachments
 	this.attachmentMode = Zotero.Libraries.get(this._libraryID).filesEditable ? options.attachmentMode :
 	                      Zotero.Translate.ItemSaver.ATTACHMENT_MODE_IGNORE;
+	this._linkFiles = options.linkFiles;
 	this._forceTagType = options.forceTagType;
 	this._referrer = options.referrer;
 	this._cookieSandbox = options.cookieSandbox;
@@ -78,113 +80,292 @@ Zotero.Translate.ItemSaver.ATTACHMENT_MODE_FILE = 2;
 Zotero.Translate.ItemSaver.prototype = {
 	/**
 	 * Saves items to Standalone or the server
-	 * @param items Items in Zotero.Item.toArray() format
+	 * @param {Object[]} jsonItems - Items in Zotero.Item.toArray() format
 	 * @param {Function} [attachmentCallback] A callback that receives information about attachment
 	 *     save progress. The callback will be called as attachmentCallback(attachment, false, error)
 	 *     on failure or attachmentCallback(attachment, progressPercent) periodically during saving.
 	 * @param {Function} [itemsDoneCallback] A callback that is called once all top-level items are
 	 * done saving with a list of items. Will include saved notes, but exclude attachments.
 	 */
-	saveItems: Zotero.Promise.coroutine(function* (items, attachmentCallback, itemsDoneCallback) {
-		let newItems = [], standaloneAttachments = [], childAttachments = [];
-		yield Zotero.DB.executeTransaction(function* () {
-			for (let iitem=0; iitem<items.length; iitem++) {
-				let item = items[iitem], newItem, myID;
-				// Type defaults to "webpage"
-				let type = (item.itemType ? item.itemType : "webpage");
+	saveItems: async function (jsonItems, attachmentCallback, itemsDoneCallback) {
+		var items = [];
+		var standaloneAttachments = [];
+		var childAttachments = [];
+		var jsonByItem = new Map();
+		
+		await Zotero.DB.executeTransaction(async function () {
+			for (let jsonItem of jsonItems) {
+				jsonItem = Object.assign({}, jsonItem);
 				
-				if (type == "note") {				// handle notes differently
-					newItem = yield this._saveNote(item);
+				let item;
+				let itemID;
+				// Type defaults to "webpage"
+				let type = jsonItem.itemType || "webpage";
+				
+				// Handle notes differently
+				if (type == "note") {
+					item = await this._saveNote(jsonItem);
 				}
 				// Handle standalone attachments differently
 				else if (type == "attachment") {
-					if (this._canSaveAttachment(item)) {
-						standaloneAttachments.push(item);
-						attachmentCallback(item, 0);
+					if (this._canSaveAttachment(jsonItem)) {
+						standaloneAttachments.push(jsonItem);
+						attachmentCallback(jsonItem, 0);
 					}
 					continue;
-				} else {
-					newItem = new Zotero.Item(type);
-					newItem.libraryID = this._libraryID;
-					if (item.creators) this._cleanCreators(item.creators);
-					if(item.tags) item.tags = this._cleanTags(item.tags);
+				}
+				else {
+					item = new Zotero.Item(type);
+					item.libraryID = this._libraryID;
+					if (jsonItem.creators) this._cleanCreators(jsonItem.creators);
+					if (jsonItem.tags) jsonItem.tags = this._cleanTags(jsonItem.tags);
 					
-					if (item.accessDate == 'CURRENT_TIMESTAMP') {
-						item.accessDate = Zotero.Date.dateToISO(new Date());
+					if (jsonItem.accessDate == 'CURRENT_TIMESTAMP') {
+						jsonItem.accessDate = Zotero.Date.dateToISO(new Date());
 					}
-
-					// Need to handle these specially. Put them in a separate object to
-					// avoid a warning from fromJSON()
-					let specialFields = {
-						attachments:item.attachments,
-						notes:item.notes,
-						seeAlso:item.seeAlso,
-						id:item.itemID || item.id
-					};
-					newItem.fromJSON(this._deleteIrrelevantFields(item));
+					
+					item.fromJSON(this._copyJSONItemForImport(jsonItem));
 					
 					// deproxify url
-					if (this._proxy && item.url) {
-						let url = this._proxy.toProper(item.url);
-						Zotero.debug(`Deproxifying item url ${item.url} with scheme ${this._proxy.scheme} to ${url}`, 5);
-						newItem.setField('url', url);
+					if (this._proxy && jsonItem.url) {
+						let url = this._proxy.toProper(jsonItem.url);
+						Zotero.debug(`Deproxifying item url ${jsonItem.url} with scheme ${this._proxy.scheme} to ${url}`, 5);
+						item.setField('url', url);
 					}
 					
 					if (this._collections) {
-						newItem.setCollections(this._collections);
+						item.setCollections(this._collections);
 					}
 					
 					// save item
-					myID = yield newItem.save(this._saveOptions);
-
+					itemID = await item.save(this._saveOptions);
+					
 					// handle notes
-					if (specialFields.notes) {
-						for (let i=0; i<specialFields.notes.length; i++) {
-							yield this._saveNote(specialFields.notes[i], myID);
+					if (jsonItem.notes) {
+						for (let note of jsonItem.notes) {
+							await this._saveNote(note, itemID);
 						}
-						item.notes = specialFields.notes;
 					}
 
 					// handle attachments
-					if (specialFields.attachments) {
-						for (let attachment of specialFields.attachments) {
-							if (!this._canSaveAttachment(attachment)) {
+					if (jsonItem.attachments) {
+						let attachmentsToSave = [];
+						let foundPrimaryPDF = false;
+						for (let jsonAttachment of jsonItem.attachments) {
+							if (!this._canSaveAttachment(jsonAttachment)) {
 								continue;
 							}
-							attachmentCallback(attachment, 0);
-							childAttachments.push([attachment, myID]);
+							
+							// The first PDF is the primary one. If that one fails to download,
+							// we might check for an open-access PDF below.
+							let isPrimaryPDF = false;
+							if (jsonAttachment.mimeType == 'application/pdf' && !foundPrimaryPDF) {
+								jsonAttachment.isPrimaryPDF = true;
+								foundPrimaryPDF = true;
+							}
+							attachmentsToSave.push(jsonAttachment);
+							attachmentCallback(jsonAttachment, 0);
+							childAttachments.push([jsonAttachment, itemID]);
 						}
-						// Restore the attachments field, since we use it later in
-						// translation
-						item.attachments = specialFields.attachments;
+						jsonItem.attachments = attachmentsToSave;
 					}
-
+					
 					// handle see also
-					this._handleRelated(specialFields, newItem);
+					this._handleRelated(jsonItem, item);
 				}
-
-				// add to new item list
-				newItems.push(newItem);
+				
+				// Add to new item list
+				items.push(item);
+				jsonByItem.set(item, jsonItem);
 			}
 		}.bind(this));
-		
+
 		if (itemsDoneCallback) {
-			itemsDoneCallback(newItems.splice());
+			itemsDoneCallback(items.map(item => jsonByItem.get(item)), items);
 		}
 		
-		// Handle attachments outside of the transaction, because they can involve downloading
-		for (let item of standaloneAttachments) {
-			let newItem = yield this._saveAttachment(item, null, attachmentCallback);
-			if (newItem) newItems.push(newItem);
-		}
-		for (let a of childAttachments) {
-			// Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=449811 (fixed in Fx51?)
-			let [item, parentItemID] = a;
-			yield this._saveAttachment(item, parentItemID, attachmentCallback);
+		// Save standalone attachments
+		for (let jsonItem of standaloneAttachments) {
+			let item = await this._saveAttachment(jsonItem, null, attachmentCallback);
+			if (item) {
+				items.push(item);
+			}
 		}
 		
-		return newItems;
-	}),
+		// For items with DOIs and without PDFs from the translator, look for possible
+		// open-access PDFs. There's no guarantee that either translated PDFs or OA PDFs will
+		// successfully download, but this lets us update the progress window sooner with
+		// possible downloads.
+		//
+		// TODO: Separate pref?
+		var shouldDownloadOAPDF = this.attachmentMode == Zotero.Translate.ItemSaver.ATTACHMENT_MODE_DOWNLOAD
+				&& Zotero.Prefs.get('downloadAssociatedFiles');
+		var openAccessPDFURLs = new Map();
+		if (shouldDownloadOAPDF) {
+			for (let item of items) {
+				let jsonItem = jsonByItem.get(item);
+				
+				// Skip items with translated PDF attachments
+				if (jsonItem.attachments
+						&& jsonItem.attachments.some(x => x.mimeType == 'application/pdf')) {
+					continue;
+				}
+				
+				try {
+					let resolvers = Zotero.Attachments.getPDFResolvers(item, ['oa']);
+					if (!resolvers.length) {
+						openAccessPDFURLs.set(item, []);
+						continue;
+					}
+					let urlObjects = await resolvers[0]();
+					openAccessPDFURLs.set(item, urlObjects);
+					// If there are possible URLs, create a status line for the PDF
+					if (urlObjects.length) {
+						let title = Zotero.getString('findPDF.openAccessPDF');
+						let jsonAttachment = this._makeJSONAttachment(jsonItem.id, title);
+						if (!jsonItem.attachments) jsonItem.attachments = [];
+						jsonItem.attachments.push(jsonAttachment);
+						attachmentCallback(jsonAttachment, 0);
+					}
+				}
+				catch (e) {
+					Zotero.logError(e);
+				}
+			}
+		}
+		
+		// Save translated child attachments, and keep track of whether the save was successful
+		var itemIDsWithPDFAttachments = new Set();
+		for (let [jsonAttachment, parentItemID] of childAttachments) {
+			let attachment = await this._saveAttachment(
+				jsonAttachment,
+				parentItemID,
+				function (attachment, progress, error) {
+					// Don't cancel failed primary PDFs until we've tried other methods
+					if (progress === false && attachment.isPrimaryPDF && shouldDownloadOAPDF) {
+						return;
+					}
+					attachmentCallback(...arguments);
+				}
+			);
+			if (attachment && jsonAttachment.isPrimaryPDF) {
+				itemIDsWithPDFAttachments.add(parentItemID);
+			}
+		}
+		
+		// If a translated PDF attachment wasn't saved successfully, either because there wasn't
+		// one or there was but it failed, look for another PDF (if enabled)
+		if (shouldDownloadOAPDF) {
+			for (let item of items) {
+				// Already have a PDF from translation
+				if (itemIDsWithPDFAttachments.has(item.id)) {
+					continue;
+				}
+				
+				let jsonItem = jsonByItem.get(item);
+				// Reuse the existing status line if there is one. This could be a failed
+				// translator attachment or a possible OA PDF found above.
+				let jsonAttachment = jsonItem.attachments && jsonItem.attachments.find(
+					x => x.mimeType == 'application/pdf' && x.isPrimaryPDF
+				);
+				
+				// If no translated, no OA, and no custom, don't show a line
+				// If no translated and potential OA, show "Open-Access PDF"
+				// If no translated, no OA, but custom, show custom when it starts
+				// If translated fails and potential OA, show "Open-Access PDF"
+				// If translated fails, no OA, no custom, fail original
+				// If translated fails, no OA, but custom, change to custom when it starts
+				let resolvers = openAccessPDFURLs.get(item);
+				// No translated PDF, so we checked for OA PDFs above
+				if (resolvers) {
+					// Add custom resolvers
+					resolvers.push(...Zotero.Attachments.getPDFResolvers(item, ['custom'], true));
+					
+					// No translated, no OA, no custom, no status line
+					if (!resolvers.length) {
+						continue;
+					}
+					
+					// No translated, no OA, just potential custom, so create a status line
+					if (!jsonAttachment) {
+						jsonAttachment = this._makeJSONAttachment(
+							jsonItem.id, Zotero.getString('findPDF.searchingForAvailablePDFs')
+						);
+					}
+				}
+				// There was a translated PDF, so we didn't check for OA PDFs yet and didn't
+				// update the status line
+				else {
+					// Look for OA PDFs now
+					resolvers = Zotero.Attachments.getPDFResolvers(item, ['oa']);
+					if (resolvers.length) {
+						resolvers = await resolvers[0]();
+					}
+					
+					// Add custom resolvers
+					resolvers.push(...Zotero.Attachments.getPDFResolvers(item, ['custom'], true));
+					
+					// Failed translated, no OA, no custom, so fail the existing translator line
+					if (!resolvers.length) {
+						attachmentCallback(jsonAttachment, false);
+						continue;
+					}
+				}
+				
+				let attachment;
+				try {
+					attachment = await Zotero.Attachments.addPDFFromURLs(
+						item,
+						resolvers,
+						{
+							// When a new access method starts, update the status line
+							onAccessMethodStart: (method) => {
+								jsonAttachment.title = this._getPDFTitleForAccessMethod(method);
+								attachmentCallback(jsonAttachment, 0);
+							}
+						}
+					);
+				}
+				catch (e) {
+					Zotero.logError(e);
+					attachmentCallback(jsonAttachment, false, e);
+					continue;
+				}
+				
+				if (attachment) {
+					attachmentCallback(jsonAttachment, 100);
+				}
+				else {
+					attachmentCallback(jsonAttachment, false, "PDF not found");
+				}
+			}
+		}
+		
+		return items;
+	},
+	
+	
+	_makeJSONAttachment: function (parentID, title) {
+		return {
+			id: Zotero.Utilities.randomString(),
+			parent: parentID,
+			title,
+			mimeType: 'application/pdf',
+			isPrimaryPDF: true
+		};
+	},
+	
+	
+	_getPDFTitleForAccessMethod: function (accessMethod) {
+		if (accessMethod == 'oa') {
+			return Zotero.getString('findPDF.openAccessPDF');
+		}
+		if (accessMethod) {
+			return Zotero.getString('findPDF.pdfWithMethod', accessMethod);
+		}
+		return "PDF";
+	},
+	
 	
 	"saveCollections": Zotero.Promise.coroutine(function* (collections) {
 		var collectionsToProcess = collections.slice();
@@ -240,19 +421,37 @@ Zotero.Translate.ItemSaver.prototype = {
 	}),
 
 	/**
-	 * Deletes irrelevant fields from an item object to avoid warnings in Item#fromJSON
+	 * Create a copy of item JSON without irrelevant fields to avoid warnings in Item#fromJSON
+	 *
 	 * Also delete some things like dateAdded, dateModified, and path that translators
 	 * should not be able to set directly.
 	 */
-	"_deleteIrrelevantFields": function(item) {
-		const DELETE_FIELDS = ["attachments", "notes", "dateAdded", "dateModified", "seeAlso", "version", "id", "itemID", "path"];
-		for (let i=0; i<DELETE_FIELDS.length; i++) delete item[DELETE_FIELDS[i]];
-		return item;
+	_copyJSONItemForImport: function (item) {
+		var newItem = Object.assign({}, item);
+		const fieldsToDelete = [
+			"attachments",
+			"notes",
+			"dateAdded",
+			"dateModified",
+			"seeAlso",
+			"version",
+			"id",
+			"itemID",
+			"path"
+		];
+		for (let field of fieldsToDelete) {
+			delete newItem[field];
+		}
+		return newItem;
 	},
 	
 	
 	_canSaveAttachment: function (attachment) {
-		if (this.attachmentMode == Zotero.Translate.ItemSaver.ATTACHMENT_MODE_DOWNLOAD) {
+		// Always save link attachments
+		var isLink = Zotero.MIME.isWebPageType(attachment.mimeType)
+			// .snapshot coming from most translators, .linkMode coming from RDF
+			&& (attachment.snapshot === false || attachment.linkMode == Zotero.Attachments.LINK_MODE_LINKED_URL);
+		if (isLink || this.attachmentMode == Zotero.Translate.ItemSaver.ATTACHMENT_MODE_DOWNLOAD) {
 			if (!attachment.url && !attachment.document) {
 				Zotero.debug("Translate: Not adding attachment: no URL specified");
 				return false;
@@ -290,15 +489,18 @@ Zotero.Translate.ItemSaver.prototype = {
 	 *   parameters: translator attachment object, percent completion (integer),
 	 *   and an optional error object
 	 *
-	 * @return {Zotero.Primise<Zotero.Item|False} Flase is returned if attachment
+	 * @return {Zotero.Promise<Zotero.Item|false} - False is returned if attachment
 	 *   was not saved due to error or user settings.
 	 */
 	_saveAttachment: Zotero.Promise.coroutine(function* (attachment, parentItemID, attachmentCallback) {
 		try {
 			let newAttachment;
-
+			
 			// determine whether to save files and attachments
-			if (this.attachmentMode == Zotero.Translate.ItemSaver.ATTACHMENT_MODE_DOWNLOAD) {
+			var isLink = Zotero.MIME.isWebPageType(attachment.mimeType)
+				// .snapshot coming from most translators, .linkMode coming from RDF
+				&& (attachment.snapshot === false || attachment.linkMode == Zotero.Attachments.LINK_MODE_LINKED_URL);
+			if (isLink || this.attachmentMode == Zotero.Translate.ItemSaver.ATTACHMENT_MODE_DOWNLOAD) {
 				newAttachment = yield this._saveAttachmentDownload.apply(this, arguments);
 			} else if (this.attachmentMode == Zotero.Translate.ItemSaver.ATTACHMENT_MODE_FILE) {
 				newAttachment = yield this._saveAttachmentFile.apply(this, arguments);
@@ -325,6 +527,7 @@ Zotero.Translate.ItemSaver.prototype = {
 			attachmentCallback(attachment, 100);
 			return newAttachment;
 		} catch(e) {
+			Zotero.debug("Saving attachment failed", 2);
 			Zotero.debug(e, 2);
 			attachmentCallback(attachment, false, e);
 			return false;
@@ -340,6 +543,18 @@ Zotero.Translate.ItemSaver.prototype = {
 		}
 		
 		if (attachment.path) {
+			// If we have an explicit "attachments:" value, just save that as a linked file
+			if (attachment.path.startsWith(Zotero.Attachments.BASE_PATH_PLACEHOLDER)) {
+				attachment.linkMode = "linked_file";
+				return Zotero.Attachments.linkFromFileWithRelativePath({
+					path: attachment.path.substr(Zotero.Attachments.BASE_PATH_PLACEHOLDER.length),
+					title: attachment.title,
+					contentType: attachment.mimeType,
+					parentItemID,
+					collections: !parentItemID ? this._collections : undefined
+				});
+			}
+			
 			var url = Zotero.Attachments.cleanAttachmentURI(attachment.path, false);
 			if (url && /^(?:https?|ftp):/.test(url)) {
 				// A web URL. Don't bother parsing it as path below
@@ -384,7 +599,7 @@ Zotero.Translate.ItemSaver.prototype = {
 			}
 
 			// At this point, must be a valid HTTP/HTTPS url
-			attachment.linkMode = "linked_file";
+			attachment.linkMode = "linked_url";
 			newItem = yield Zotero.Attachments.linkFromURL({
 				url: attachment.url,
 				parentItemID,
@@ -392,7 +607,24 @@ Zotero.Translate.ItemSaver.prototype = {
 				title: attachment.title || undefined,
 				collections: !parentItemID ? this._collections : undefined
 			});
-		} else {
+		}
+		else if (this._linkFiles
+				// Don't link if it's a path to the current storage directory
+				&& !Zotero.File.directoryContains(Zotero.DataDirectory.getSubdirectory('storage'), file.path)) {
+			attachment.linkMode = "linked_file";
+			newItem = yield Zotero.Attachments.linkFromFile({
+				file,
+				parentItemID,
+				collections: !parentItemID ? this._collections : undefined
+			});
+			if (attachment.title) {
+				newItem.setField("title", attachment.title);
+			}
+			if (attachment.url) {
+				newItem.setNote(attachment.url);
+			}
+		}
+		else {
 			if (attachment.url) {
 				attachment.linkMode = "imported_url";
 				newItem = yield Zotero.Attachments.importSnapshotFromFile({
@@ -562,7 +794,9 @@ Zotero.Translate.ItemSaver.prototype = {
 		// Commit to saving
 		attachmentCallback(attachment, 0);
 		
-		if(attachment.snapshot === false || this.attachmentMode === Zotero.Translate.ItemSaver.ATTACHMENT_MODE_IGNORE) {
+		var isLink = attachment.snapshot === false
+			|| attachment.linkMode == Zotero.Attachments.LINK_MODE_LINKED_URL;
+		if (isLink || this.attachmentMode === Zotero.Translate.ItemSaver.ATTACHMENT_MODE_IGNORE) {
 			// if snapshot is explicitly set to false, attach as link
 			attachment.linkMode = "linked_url";
 			let url, mimeType;
@@ -801,7 +1035,12 @@ Zotero.Translate.ItemGetter.prototype = {
 				// Add path and filename if not an internet link
 				let attachFile;
 				if (attachmentArray.localPath) {
-					attachFile = Zotero.File.pathToFile(attachmentArray.localPath);
+					try {
+						attachFile = Zotero.File.pathToFile(attachmentArray.localPath);
+					}
+					catch (e) {
+						Zotero.logError(e);
+					}
 				}
 				else {
 					Zotero.logError(`Path doesn't exist for attachment ${attachment.libraryKey} `
@@ -852,7 +1091,7 @@ Zotero.Translate.ItemGetter.prototype = {
 						
 						if(!inExportFileDirectory) {
 							throw new Error("Invalid path; attachment cannot be placed above export "+
-								"directory in the file hirarchy");
+								"directory in the file hierarchy");
 						}
 						
 						// Create intermediate directories if they don't exist

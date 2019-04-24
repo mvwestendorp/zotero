@@ -290,13 +290,36 @@ Zotero.CachedLanguages = new function() {
 		}
 		var mainLang = null;
 		if (item) {
+			var itemLanguage = item.getField('language');
+			if (itemLanguage) {
+				var maybeLang = null;
+				var m = itemLanguage.match(/(.*)\s*(\<|\>)\s*(.*)/);
+				if (m) {
+					if (m[2] === ">") {
+						maybeLang = m[3];
+					} else {
+						maybeLang = m[1];
+					}
+				} else {
+					maybeLang = itemLanguage;
+				}
+			}
+			if (maybeLang && _languages[maybeLang]) {
+				mainLang = maybeLang;
+			} else {
+				mainLang = null;
+			}
 			if (isItem) {
 				if (fieldName) {
-					mainLang = item.multi.mainLang(fieldName);
+					if (item.multi.mainLang(fieldName)) {
+						mainLang = item.multi.mainLang(fieldName);
+					}
 				}
 			} else if (creator) {
 				fieldName = true;
-				mainLang = creator.multi.main;
+				if (creator.multi.main) {
+					mainLang = creator.multi.main;
+				}
 			}
 			var checkLanguages = {};
 			for (var fieldID in item.multi._keys) {
@@ -309,7 +332,10 @@ Zotero.CachedLanguages = new function() {
 			}
 			for (var tag in checkLanguages) {
 				if (!_languages[tag]) {
-                    validateTagAndAdd(tag);
+					// Ideally, would validate and add to language settings,
+					// but this operation is async, and so would require
+					// asyncifying large swaths of code in itembox.xul.
+					//Zotero.subtagRegistry.validate(tag);
 				}
 			}
 		}

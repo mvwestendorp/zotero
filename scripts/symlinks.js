@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
 
-const { formatDirsForMatcher, getSignatures, writeSignatures, cleanUp, onSuccess, onError, onProgress } = require('./utils');
+const { isWindows, formatDirsForMatcher, getSignatures, writeSignatures, cleanUp, onSuccess, onError, onProgress } = require('./utils');
 const { dirs, symlinkDirs, copyDirs, symlinkFiles, ignoreMask } = require('./config');
 const ROOT = path.resolve(__dirname, '..');
 
@@ -37,7 +37,11 @@ async function getSymlinks(source, options, signatures) {
 	while ((f = filesToProcess.pop()) != null) {
 		const dest = path.join('build', f);
 		try {
-			await fs.ensureSymlink(f, dest);
+			if (isWindows) {
+				await fs.copy(f, dest);
+			} else {
+				await fs.ensureSymlink(f, dest);
+			}
 			signatures[f] = {
 				isSymlinked: true
 			};

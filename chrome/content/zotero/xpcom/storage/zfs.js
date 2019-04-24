@@ -158,6 +158,17 @@ Zotero.Sync.Storage.Mode.ZFS.prototype = {
 							return;
 						}
 						
+						// Check for SSL certificate error
+						if (status == 0) {
+							try {
+								Zotero.HTTP.checkSecurity(req);
+							}
+							catch (e) {
+								deferred.reject(e);
+								return;
+							}
+						}
+						
 						// If S3 connection is interrupted, delay and retry, or bail if too many
 						// consecutive failures
 						if (status == 0 || status == 500 || status == 503) {
@@ -658,6 +669,8 @@ Zotero.Sync.Storage.Mode.ZFS.prototype = {
 					Zotero.debug(this._s3ConsecutiveFailures
 						+ " consecutive S3 failures -- aborting", 1);
 					this._s3ConsecutiveFailures = 0;
+					let e = Zotero.getString('sync.storage.error.zfs.restart', Zotero.appName);
+					throw new Error(e);
 				}
 				else {
 					let msg = "S3 returned " + e.status + " (" + item.libraryKey + ") "

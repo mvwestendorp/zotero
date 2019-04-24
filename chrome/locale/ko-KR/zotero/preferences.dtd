@@ -6,8 +6,9 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero는 링크된 첨부 파일을 기본 디렉토리를 기준으로 하는 상대 경로로 참조합니다. 이를 통해 기본 디렉토리 하위의 파일 구조가 같게 유지되는 한 다른 컴퓨터에서도 파일에 접근할 수 있게 합니다.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "절대 경로로 되돌리기...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "선택...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
+<!ENTITY zotero.preferences.autoRecognizeFiles "PDF 파일 메타데이터 자동 검색">
+<!ENTITY zotero.preferences.autoRenameFiles "부모 메타데이터를 이용하여 첨부 파일 이름 자동 변경">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "중계기 및 스타일 업데이트를 자동으로 확인">
 <!ENTITY zotero.preferences.automaticSnapshots "웹 페이지  항목을 생성할 때 자동으로 스냅샷 저장">
 <!ENTITY zotero.preferences.automaticTags "핵심어와 주제어가 첨부된 항목 저장시 자동으로 태그 생성">
@@ -27,7 +28,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "설치된 워드 프로세서 플러그인 없음">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "클래식 인용 대화창 사용">
 <!ENTITY zotero.preferences.configEditor "설정 편집기">
-<!ENTITY zotero.preferences.custom "Custom…">
+<!ENTITY zotero.preferences.custom "사용자 지정...">
 <!ENTITY zotero.preferences.dataDir "저장 위치">
 <!ENTITY zotero.preferences.dataDir.choose "선택...">
 <!ENTITY zotero.preferences.dataDir.custom "사용자 지정:">
@@ -50,7 +51,7 @@
 <!ENTITY zotero.preferences.default "기본값:">
 <!ENTITY zotero.preferences.downloadAssociatedFiles "항목 저장시 연관된 PDF 및 다른 파일을 자동으로 첨부">
 <!ENTITY zotero.preferences.export.citePaperJournalArticleURL "참조 내 신문 기사의 URL포함">
-<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "이 기능을 선택하지 않으면, 페이지 범위가 지정되어 있지 않은 경우에만 저널, 잡지, 신문 기사 인용문에 URL을 넣습니다.">
+<!ENTITY zotero.preferences.export.citePaperJournalArticleURL.description "이 기능을 선택하지 않으면, 페이지 범위가 지정되지 않은 저널, 잡지, 신문 기사 인용문에 대해서만 URL을 넣습니다.">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation "Suppress trailing punctuation in note styles">
 <!ENTITY zotero.preferences.export.citeSuppressTrailingPunctuation.description "When this option is enabled, trailing punctuation will be dropped in note styles by default. The setting can be overridden in individual word processor documents, and on individual citations.">
 <!ENTITY zotero.preferences.export.getAdditionalStyles "추가 스타일 받기...">
@@ -59,9 +60,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "정렬:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "새로운 항목 먼저">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "오래된 항목 먼저">
-<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
-<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
-<!ENTITY zotero.preferences.fileHandling "File Handling">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "PDF 파일을 열 앱">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "시스템 기본값">
+<!ENTITY zotero.preferences.fileHandling "파일 관리">
 <!ENTITY zotero.preferences.fontSize "글꼴 크기:">
 <!ENTITY zotero.preferences.fontSize.large "크게">
 <!ENTITY zotero.preferences.fontSize.medium "중간">

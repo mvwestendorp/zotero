@@ -3,8 +3,7 @@ menulist.yellow {
     background: yellow;
 }
 /* Font sizes */
-*[zoteroFontSize=medium] #zotero-tb-search, *[zoteroFontSize=large] #zotero-tb-search,
-*[zoteroFontSize=medium] zoterotagselector textbox, *[zoteroFontSize=large] zoterotagselector textbox
+*[zoteroFontSize=medium] #zotero-tb-search, *[zoteroFontSize=large] #zotero-tb-search
 {
 	font-size: 1em !important;
 }
@@ -25,6 +24,7 @@ menulist.yellow {
 	padding:0;
 }
 
+/* MAYBE DELETE [start] */
 /*
  *
  * Toolbar icons
@@ -141,6 +141,9 @@ toolbarpaletteitem[place="palette"] #zotero-toolbar-buttons #zotero-toolbar-save
 }
 
 /* End toolbar icons */
+/* MAYBE DELETE [end] */
+
+
 
 /* Bindings */
 textbox[multiline="true"][type="timed"]
@@ -200,11 +203,6 @@ relatedbox
 zoterosearch
 {
 	-moz-binding: url('chrome://zotero/content/bindings/zoterosearch.xml#search-box');
-}
-
-zoterotagselector
-{
-	-moz-binding: url('chrome://zotero/content/bindings/tagselector.xml#tag-selector');
 }
 
 
@@ -308,14 +306,15 @@ label.zotero-text-link {
 	background-image: url('chrome://zotero/skin/plus-active.png') !important;
 }
 
-.zotero-clicky:not([disabled=true]):hover
+.zotero-clicky:not([disabled=true]):not(.disabled):hover
 {
 	background: rgb(187, 206, 241);
 	border: 1px solid rgb(109, 149, 224);
 }
 
-.zotero-clicky:not([disabled=true]):active,
-.zotero-clicky[selected="true"]
+.zotero-clicky:not([disabled=true]):not(.disabled):active,
+.zotero-clicky[selected="true"],
+.zotero-clicky.selected
 {
 	color: white;
 	background: rgb(89, 139, 236);
@@ -505,10 +504,13 @@ rows.multi .zotero-alien-clicky:hover {
 	width: 16px;
 }
 
+#zotero-edit-bibliography-dialog #item-list .listcell-icon {
+	max-width: 16px;
+}
+
 
 /* BEGIN 2X BLOCK -- DO NOT EDIT MANUALLY -- USE 2XIZE */
 @media (min-resolution: 1.25dppx) {
-	#zotero-toolbar-save-button,#zotero-toolbar-save-button-single  { list-style-image: url("chrome://zotero/skin/treeitem-webpage@2x.png"); }
 	.zotero-clicky-minus  { background: url(chrome://zotero/skin/minus@2x.png) center/auto 18px no-repeat !important; }
 	.zotero-clicky-plus  { background: url(chrome://zotero/skin/plus@2x.png) center/auto 18px no-repeat !important; }
 	.zotero-clicky-minus:not([disabled=true]):active  { background-image: url('chrome://zotero/skin/minus-active@2x.png') !important; }

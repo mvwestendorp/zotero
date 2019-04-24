@@ -89,6 +89,7 @@
 <!ENTITY zotero.import "Импорт">
 <!ENTITY zotero.import.createCollection "Поместить импортированные коллекции и записи в отдельную коллекцию">
 <!ENTITY zotero.import.database "База данных">
+<!ENTITY zotero.import.fileHandling "Обращение с файлами">
 <!ENTITY zotero.import.importing "Идет импортирование…">
 <!ENTITY zotero.import.lastModified "Последний раз изменено">
 <!ENTITY zotero.import.size "Размер (объём)">
@@ -308,7 +309,7 @@
 <!ENTITY zotero.toolbar.lookup "Найти по идентификатору…">
 <!ENTITY zotero.toolbar.lookup.label "Добавить документ по идентификатору">
 <!ENTITY zotero.toolbar.markFeedRead.label "Пометить все новости прочитанными">
-<!ENTITY zotero.toolbar.moreItemTypes.label "Далее">
+<!ENTITY zotero.toolbar.moreItemTypes.label "Прочие типы публикаций">
 <!ENTITY zotero.toolbar.newCollection.label "Новая подборка…">
 <!ENTITY zotero.toolbar.newGroup "Новая группа…">
 <!ENTITY zotero.toolbar.newItem.label "Новый документ">

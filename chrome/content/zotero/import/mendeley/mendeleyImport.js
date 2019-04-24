@@ -6,6 +6,7 @@ Services.scriptloader.loadSubScript("chrome://zotero/content/include.js");
 
 var Zotero_Import_Mendeley = function () {
 	this.createNewCollection = null;
+	this.linkFiles = null;
 	this.newItems = [];
 	
 	this._db;
@@ -39,7 +40,9 @@ Zotero_Import_Mendeley.prototype.getTranslators = async function () {
 
 Zotero_Import_Mendeley.prototype.setTranslator = function () {};
 
-Zotero_Import_Mendeley.prototype.translate = async function (options) {
+Zotero_Import_Mendeley.prototype.translate = async function (options = {}) {
+	this._linkFiles = options.linkFiles;
+	
 	if (true) {
 		Services.scriptloader.loadSubScript("chrome://zotero/content/import/mendeley/mendeleySchemaMap.js");
 	}
@@ -108,6 +111,11 @@ Zotero_Import_Mendeley.prototype.translate = async function (options) {
 			let docURLs = urls.get(document.id);
 			let docFiles = files.get(document.id);
 			
+			// If there's a single PDF file, use "PDF" for the attachment title
+			if (docFiles && docFiles.length == 1 && docFiles[0].fileURL.endsWith('.pdf')) {
+				docFiles[0].title = 'PDF';
+			}
+			
 			// If there's a single PDF file and a single PDF URL and the file exists, make an
 			// imported_url attachment instead of separate file and linked_url attachments
 			if (docURLs && docFiles) {
@@ -121,7 +129,6 @@ Zotero_Import_Mendeley.prototype.translate = async function (options) {
 						if (x.fileURL.endsWith('.pdf')) {
 							x.title = 'PDF';
 							x.url = pdfURLs[0];
-							x.contentType = 'application/pdf';
 						}
 					});
 					// Remove PDF URL from URLs array
@@ -195,7 +202,11 @@ Zotero_Import_Mendeley.prototype._isValidDatabase = async function () {
 //
 Zotero_Import_Mendeley.prototype._getFolders = async function (groupID) {
 	return this._db.queryAsync(
-		`SELECT F.*, RF.remoteUuid FROM Folders F `
+		`SELECT F.id, F.uuid, F.name, `
+			// Top-level folders can have a parentId of 0 instead of -1 (by mistake?)
+			+ `CASE WHEN F.parentId=0 THEN -1 ELSE F.parentId END AS parentId, `
+			+ `RF.remoteUuid `
+			+ `FROM Folders F `
 			+ `JOIN RemoteFolders RF ON (F.id=RF.folderId) `
 			+ `WHERE groupId=?`,
 		groupID
@@ -400,6 +411,8 @@ Zotero_Import_Mendeley.prototype._getDocumentTags = async function (groupID) {
 	);
 	var map = new Map();
 	for (let row of rows) {
+		// Skip empty tags
+		if (!row.tag.trim()) continue;
 		let docTags = map.get(row.documentId);
 		if (!docTags) docTags = [];
 		docTags.push({
@@ -456,6 +469,10 @@ Zotero_Import_Mendeley.prototype._getDocumentFiles = async function (groupID) {
 	for (let row of rows) {
 		let docFiles = map.get(row.documentId);
 		if (!docFiles) docFiles = [];
+		if (typeof row.localUrl != 'string') {
+			Zotero.debug(`Skipping invalid localUrl '${row.localUrl}' for document ${row.documentId}`);
+			continue;
+		}
 		docFiles.push({
 			hash: row.hash,
 			fileURL: row.localUrl
@@ -975,10 +992,11 @@ Zotero_Import_Mendeley.prototype._saveFilesAndAnnotations = async function (file
 				let options = {
 					libraryID,
 					parentItemID,
-					file: realPath
+					file: realPath,
+					title: file.title
 				};
-				// If file is in Mendeley downloads folder, import it
-				if (this._isDownloadedFile(path)) {
+				// If we're not set to link files or file is in Mendeley downloads folder, import it
+				if (!this._linkFiles || this._isDownloadedFile(path)) {
 					if (file.url) {
 						options.title = file.title;
 						options.url = file.url;
@@ -1043,6 +1061,7 @@ Zotero_Import_Mendeley.prototype._isDownloadedFile = function (path) {
 	var parentDir = OS.Path.dirname(path);
 	return parentDir.endsWith(OS.Path.join('Application Support', 'Mendeley Desktop', 'Downloaded'))
 		|| parentDir.endsWith(OS.Path.join('Local', 'Mendeley Ltd', 'Mendeley Desktop', 'Downloaded'))
+		|| parentDir.endsWith(OS.Path.join('Local', 'Mendeley Ltd.', 'Mendeley Desktop', 'Downloaded'))
 		|| parentDir.endsWith(OS.Path.join('data', 'Mendeley Ltd.', 'Mendeley Desktop', 'Downloaded'));
 }
 

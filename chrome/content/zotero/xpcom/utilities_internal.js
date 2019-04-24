@@ -40,7 +40,7 @@ Zotero.Utilities.Internal = {
 	 * @param {Function} func - A promise-returning function
 	 * @return {Array} The return values from the successive runs
 	 */
-	"forEachChunkAsync": Zotero.Promise.coroutine(function* (arr, chunkSize, func) {
+	"forEachChunkAsync": async function (arr, chunkSize, func) {
 		var retValues = [];
 		var tmpArray = arr.concat();
 		var num = arr.length;
@@ -49,12 +49,12 @@ Zotero.Utilities.Internal = {
 		do {
 			var chunk = tmpArray.splice(0, chunkSize);
 			done += chunk.length;
-			retValues.push(yield func(chunk));
+			retValues.push(await func(chunk));
 		}
 		while (done < num);
 		
 		return retValues;
-	}),
+	},
 	
 	
 	/**
@@ -202,7 +202,7 @@ Zotero.Utilities.Internal = {
 	},
 	
 	
-	gzip: Zotero.Promise.coroutine(function* (data) {
+	gzip: async function (data) {
 		var deferred = Zotero.Promise.defer();
 		
 		// Get input stream from POST data
@@ -258,10 +258,10 @@ Zotero.Utilities.Internal = {
 		pump.asyncRead(converter, null);
 		
 		return deferred.promise;
-	}),
+	},
 	
 	
-	gunzip: Zotero.Promise.coroutine(function* (data) {
+	gunzip: async function (data) {
 		var deferred = Zotero.Promise.defer();
 		
 		Components.utils.import("resource://gre/modules/NetUtil.jsm");
@@ -318,7 +318,7 @@ Zotero.Utilities.Internal = {
 		pump.asyncRead(converter, null);
 		
 		return deferred.promise;
-	}),
+	},
 	
 	
 	/**
@@ -462,7 +462,7 @@ Zotero.Utilities.Internal = {
 		wbp.progressListener = listener;
 		
 		wbp.saveDocument(
-			document,
+			Zotero.Translate.DOMWrapper.unwrap(document),
 			Zotero.File.pathToFile(destFile),
 			Zotero.File.pathToFile(filesFolder),
 			null,
@@ -713,6 +713,29 @@ Zotero.Utilities.Internal = {
 	
 	
 	/**
+	 * Parse a Blob (e.g., as received from Zotero.HTTP.request()) into an HTML Document
+	 */
+	blobToHTMLDocument: async function (blob, url) {
+		var charset = null;
+		var matches = blob.type && blob.type.match(/charset=([a-z0-9\-_+])/i);
+		if (matches) {
+			charset = matches[1];
+		}
+		var responseText = await new Promise(function (resolve) {
+			let fr = new FileReader();
+			fr.addEventListener("loadend", function() {
+				resolve(fr.result);
+			});
+			fr.readAsText(blob, charset);
+		});
+		var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+			.createInstance(Components.interfaces.nsIDOMParser);
+		var doc = parser.parseFromString(responseText, 'text/html');
+		return Zotero.HTTP.wrapDocument(doc, url);
+	},
+	
+	
+	/**
 	 * Converts Zotero.Item to a format expected by translators
 	 * This is mostly the Zotero web API item JSON format, but with an attachments
 	 * and notes arrays and optional compatibility mappings for older translators.
@@ -823,8 +846,9 @@ Zotero.Utilities.Internal = {
 			item.attachments = [];
 			let attachments = zoteroItem.getAttachments();
 			for (let i=0; i<attachments.length; i++) {
-				let zoteroAttachment = Zotero.Items.get(attachments[i]),
-					attachment = zoteroAttachment.toJSON();
+				let zoteroAttachment = Zotero.Items.get(attachments[i]);
+				let attachment = zoteroAttachment.toJSON();
+				attachment.uri = Zotero.URI.getItemURI(zoteroAttachment);
 				if (legacy) addCompatibilityMappings(attachment, zoteroAttachment);
 				
 				item.attachments.push(attachment);
@@ -834,8 +858,9 @@ Zotero.Utilities.Internal = {
 			item.notes = [];
 			let notes = zoteroItem.getNotes();
 			for (let i=0; i<notes.length; i++) {
-				let zoteroNote = Zotero.Items.get(notes[i]),
-					note = zoteroNote.toJSON();
+				let zoteroNote = Zotero.Items.get(notes[i]);
+				let note = zoteroNote.toJSON();
+				note.uri = Zotero.URI.getItemURI(zoteroNote);
 				if (legacy) addCompatibilityMappings(note, zoteroNote);
 				
 				item.notes.push(note);
@@ -845,6 +870,95 @@ Zotero.Utilities.Internal = {
 		if (legacy) addCompatibilityMappings(item, zoteroItem);
 		
 		return item;
+	},
+	
+	
+	/**
+	 * Given API JSON for an item, return the best single first creator, regardless of creator order
+	 *
+	 * Note that this is just a single creator, not the firstCreator field return from the
+	 * Zotero.Item::firstCreator property or Zotero.Items.getFirstCreatorFromData()
+	 *
+	 * @return {Object|false} - Creator in API JSON format, or false
+	 */
+	getFirstCreatorFromItemJSON: function (json) {
+		var primaryCreatorType = Zotero.CreatorTypes.getName(
+			Zotero.CreatorTypes.getPrimaryIDForType(
+				Zotero.ItemTypes.getID(json.itemType)
+			)
+		);
+		let firstCreator = json.creators.find(creator => {
+			return creator.creatorType == primaryCreatorType || creator.creatorType == 'author';
+		});
+		if (!firstCreator) {
+			firstCreator = json.creators.find(creator => creator.creatorType == 'editor');
+		}
+		if (!firstCreator) {
+			return false;
+		}
+		return firstCreator;
+	},
+	
+	
+	/**
+	 * Find valid fields in Extra field text
+	 *
+	 * @param {String} str
+	 * @return {Map} - Map of fields to objects with 'originalField', 'field', and 'value'
+	 */
+	extractExtraFields: function (str) {
+		if (!str) {
+			return new Map();
+		}
+		
+		//
+		// Build a Map of normalized field names that might appear in Extra (including CSL variables)
+		// to arrays of built-in fields
+		//
+		// Built-in fields
+		var fieldNames = new Map(Zotero.ItemFields.getAll().map(x => [x.name.toLowerCase(), [x.name]]));
+		// CSL fields
+		for (let map of [CSL_TEXT_MAPPINGS, CSL_DATE_MAPPINGS]) {
+			for (let cslVar in map) {
+				let normalized = cslVar.toLowerCase();
+				let existing = fieldNames.get(normalized) || [];
+				fieldNames.set(normalized, new Set([...existing, ...map[cslVar]]));
+			}
+		}
+		
+		var lines = str.split(/\n+/g);
+		var fields = new Map();
+		for (let line of lines) {
+			let parts = line.match(/^([a-z \-]+):(.+)/i);
+			if (!parts) {
+				continue;
+			}
+			let [_, originalField, value] = parts;
+			
+			let field = originalField.trim().toLowerCase()
+				// Strip spaces
+				.replace(/\s+/g, '')
+				// Old citeproc.js cheater syntax
+				.replace(/{:([^:]+):([^}]+)}/);
+			value = value.trim();
+			let possibleFields = fieldNames.get(field);
+			// No valid fields
+			if (!possibleFields) {
+				continue;
+			}
+			// Create an entry for each possible field, since we don't know what type this is for
+			for (let possibleField of possibleFields) {
+				fields.set(
+					possibleField,
+					{
+						originalField,
+						field: possibleField,
+						value
+					}
+				);
+			}
+		}
+		return fields;
 	},
 	
 	
@@ -936,9 +1050,12 @@ Zotero.Utilities.Internal = {
 	 * Note: This uses a private API. Please use Unpaywall directly for non-Zotero projects.
 	 *
 	 * @param {String} doi
-	 * @return {String[]} - An array of PDF URLs
+	 * @param {Object} [options]
+	 * @param {Number} [options.timeout] - Request timeout in milliseconds
+	 * @return {Object[]} - An array of objects with 'url' and/or 'pageURL' and 'version'
+	 *     ('submittedVersion', 'acceptedVersion', 'publishedVersion')
 	 */
-	getOpenAccessPDFURLs: async function (doi) {
+	getOpenAccessPDFURLs: async function (doi, options = {}) {
 		doi = Zotero.Utilities.cleanDOI(doi);
 		if (!doi) {
 			throw new Error(`Invalid DOI '${doi}'`);
@@ -946,16 +1063,58 @@ Zotero.Utilities.Internal = {
 		Zotero.debug(`Looking for open-access PDFs for ${doi}`);
 		
 		var url = ZOTERO_CONFIG.SERVICES_URL + 'oa/search';
-		var req = await Zotero.HTTP.request('POST', url, {
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ doi }),
-			responseType: 'json'
-		});
+		var req = await Zotero.HTTP.request(
+			'POST',
+			url,
+			Object.assign(
+				{
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ doi }),
+					responseType: 'json'
+				},
+				options.timeout && {
+					timeout: options.timeout
+				}
+			)
+		);
 		var urls = req.response;
-		Zotero.debug(`Found ${urls.length} ${Zotero.Utilities.pluralize(urls.length, ['URL', 'URLs'])}`);
+		Zotero.debug(`Found ${urls.length} open-access PDF `
+			+ `${Zotero.Utilities.pluralize(urls.length, ['URL', 'URLs'])}`);
 		return urls;
+	},
+	
+	
+	/**
+	 * Run translation on a Document to try to find a PDF URL
+	 *
+	 * @param {doc} Document
+	 * @return {String|false} - PDF URL, or false if none found
+	 */
+	getPDFFromDocument: async function (doc) {
+		let translate = new Zotero.Translate.Web();
+		translate.setDocument(doc);
+		var translators = await translate.getTranslators();
+		// TEMP: Until there's a generic webpage translator
+		if (!translators.length) {
+			return false;
+		}
+		translate.setTranslator(translators[0]);
+		var options = {
+			libraryID: false,
+			saveAttachments: true
+		};
+		let newItems = await translate.translate(options);
+		if (!newItems.length) {
+			return false;
+		}
+		for (let attachment of newItems[0].attachments) {
+			if (attachment.mimeType == 'application/pdf') {
+				return attachment.url;
+			}
+		}
+		return false;
 	},
 	
 	
@@ -1031,6 +1190,57 @@ Zotero.Utilities.Internal = {
 		parts.push(isbn.charAt(isbn.length-1)); // Check digit
 		
 		return parts.join('-');
+	},
+	
+	
+	/**
+	 * Get the next available numbered name that matches a base name, for use when duplicating
+	 *
+	 * - Given 'Foo' and ['Foo'], returns 'Foo 1'.
+	 * - Given 'Foo' and ['Foo', 'Foo 1'], returns 'Foo 2'.
+	 * - Given 'Foo' and ['Foo', 'Foo 1'], returns 'Foo 2'.
+	 * - Given 'Foo 1', ['Foo', 'Foo 1'], and trim=true, returns 'Foo 2'
+	 * - Given 'Foo' and ['Foo', 'Foo 2'], returns 'Foo 1'
+	 */
+	getNextName: function (name, existingNames, trim = false) {
+		// Trim numbers at end of given name
+		if (trim) {
+			let matches = name.match(/^(.+) \d+$/);
+			if (matches) {
+				name = matches[1].trim();
+			}
+		}
+		
+		if (!existingNames.includes(name)) {
+			return name;
+		}
+		
+		var suffixes = existingNames
+			// Get suffix
+			.map(x => x.substr(name.length))
+			// Get "2", "5", etc.
+			.filter(x => x.match(/^ (\d+)$/));
+		
+		suffixes.sort(function (a, b) {
+			return parseInt(a) - parseInt(b);
+		});
+		
+		// If no existing numbered names found, use 1
+		if (!suffixes.length) {
+			return name + ' ' + 1;
+		}
+		
+		// Find first available number
+		var i = 0;
+		var num = 1;
+		while (suffixes[i] == num) {
+			while (suffixes[i + 1] && suffixes[i] == suffixes[i + 1]) {
+				i++;
+			}
+			i++;
+			num++;
+		}
+		return name + ' ' + num;
 	},
 	
 	
@@ -1293,6 +1503,150 @@ Zotero.Utilities.Internal = {
 			.join('\n');
 	},
 	
+	/**
+	 * Generate a function that produces a static output
+	 *
+	 * Zotero.lazy(fn) returns a function. The first time this function
+	 * is called, it calls fn() and returns its output. Subsequent
+	 * calls return the same output as the first without calling fn()
+	 * again.
+	 */
+	lazy: function (fn) {
+		var x, called = false;
+		return function() {
+			if(!called) {
+				x = fn.apply(this);
+				called = true;
+			}
+			return x;
+		};
+	},
+	
+	serial: function (fn) {
+		Components.utils.import("resource://zotero/concurrentCaller.js");
+		var caller = new ConcurrentCaller({
+			numConcurrent: 1,
+			onError: e => Zotero.logError(e)
+		});
+		return function () {
+			var args = arguments;
+			return caller.start(function () {
+				return fn.apply(this, args);
+			}.bind(this));
+		};
+	},
+	
+	spawn: function (generator, thisObject) {
+		if (thisObject) {
+			return Zotero.Promise.coroutine(generator.bind(thisObject))();
+		}
+		return Zotero.Promise.coroutine(generator)();
+	},
+
+	/**
+	 * Defines property on the object
+	 * More compact way to do Object.defineProperty
+	 *
+	 * @param {Object} obj Target object
+	 * @param {String} prop Property to be defined
+	 * @param {Object} desc Property descriptor. If not overridden, "enumerable" is true
+	 * @param {Object} opts Options:
+	 *   lazy {Boolean} If true, the _getter_ is intended for late
+	 *     initialization of the property. The getter is replaced with a simple
+	 *     property once initialized.
+	 */
+	defineProperty: function(obj, prop, desc, opts) {
+		if (typeof prop != 'string') throw new Error("Property must be a string");
+		var d = { __proto__: null, enumerable: true, configurable: true }; // Enumerable by default
+		for (let p in desc) {
+			if (!desc.hasOwnProperty(p)) continue;
+			d[p] = desc[p];
+		}
+		
+		if (opts) {
+			if (opts.lazy && d.get) {
+				let getter = d.get;
+				d.configurable = true; // Make sure we can change the property later
+				d.get = function() {
+					let val = getter.call(this);
+					
+					// Redefine getter on this object as non-writable value
+					delete d.set;
+					delete d.get;
+					d.writable = false;
+					d.value = val;
+					Object.defineProperty(this, prop, d);
+					
+					return val;
+				}
+			}
+		}
+		
+		Object.defineProperty(obj, prop, d);
+	},
+	
+	extendClass: function(superClass, newClass) {
+		newClass._super = superClass;
+		newClass.prototype = Object.create(superClass.prototype);
+		newClass.prototype.constructor = newClass;
+	},
+
+	/*
+	 * Flattens mixed arrays/values in a passed _arguments_ object and returns
+	 * an array of values -- allows for functions to accept both arrays of
+	 * values and/or an arbitrary number of individual values
+	 */
+	flattenArguments: function (args){
+		// Put passed scalar values into an array
+		if (args === null || typeof args == 'string' || typeof args.length == 'undefined') {
+			args = [args];
+		}
+			
+		var returns = [];
+		for (var i=0; i<args.length; i++){
+			var arg = args[i];
+			if (!arg && arg !== 0) {
+				continue;
+			}
+			if (Array.isArray(arg)) {
+				returns.push(...arg);
+			}
+			else {
+				returns.push(arg);
+			}
+		}
+		return returns;
+	},
+
+	/*
+	 * Sets font size based on prefs -- intended for use on root element
+	 *  (zotero-pane, note window, etc.)
+	 */
+	setFontSize: function (rootElement) {
+		var size = Zotero.Prefs.get('fontSize');
+		rootElement.style.fontSize = size + 'em';
+		if (size <= 1) {
+			size = 'small';
+		}
+		else if (size <= 1.25) {
+			size = 'medium';
+		}
+		else {
+			size = 'large';
+		}
+		// Custom attribute -- allows for additional customizations in zotero.css
+		rootElement.setAttribute('zoteroFontSize', size);
+	},
+
+	getAncestorByTagName: function (elem, tagName){
+		while (elem.parentNode){
+			elem = elem.parentNode;
+			if (elem.localName == tagName) {
+				return elem;
+			}
+		}
+		return false;
+	},
 	
 	quitZotero: function(restart=false) {
 		Zotero.debug("Zotero.Utilities.Internal.quitZotero() is deprecated -- use quit()");
@@ -1838,3 +2192,6 @@ Zotero.Utilities.Internal.Base64 = {
 		 return string;
 	 }
  }
+if (typeof process === 'object' && process + '' === '[object process]'){
+    module.exports = Zotero.Utilities.Internal;
+}

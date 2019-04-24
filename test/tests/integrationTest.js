@@ -138,7 +138,7 @@ describe("Zotero.Integration", function () {
 		/**
 		 * Deletes this field and its contents.
 		 */
-		delete: function() {this.doc.fields.filter((field) => field !== this)},
+		delete: function() {this.doc.fields = this.doc.fields.filter((field) => field !== this)},
 		/**
 		 * Removes this field, but maintains the field's contents.
 		 */
@@ -268,7 +268,10 @@ describe("Zotero.Integration", function () {
 				item = Zotero.Cite.getItem(item.id);
 				return {id: item.id, uris: item.cslURIs, itemData: item.cslItemData};
 			});
-			await io.previewFn(io.citation);
+			try {
+				await io.previewFn(io.citation);
+			}
+			catch (e) {}
 			io._acceptDeferred.resolve(() => {});
 		};
 	}
@@ -365,7 +368,10 @@ describe("Zotero.Integration", function () {
 			
 				describe('when the style is not from a trusted source', function() {
 					it('should download the style and if user clicks YES', function* () {
-						var styleInstallStub = sinon.stub(Zotero.Styles, "install").resolves();
+						var styleInstallStub = sinon.stub(Zotero.Styles, "install").resolves({
+							styleTitle: 'Waterbirds',
+							styleID: 'waterbirds'
+						});
 						var style = Zotero.Styles.get(styleID);
 						var styleGetCalledOnce = false;
 						var styleGetStub = sinon.stub(Zotero.Styles, 'get').callsFake(function() {
@@ -397,7 +403,10 @@ describe("Zotero.Integration", function () {
 					
 				it('should download the style without prompting if it is from zotero.org', function* (){
 					yield initDoc(docID, {styleID: "http://www.zotero.org/styles/waterbirds", locale: 'en-US'});
-					var styleInstallStub = sinon.stub(Zotero.Styles, "install").resolves();
+					var styleInstallStub = sinon.stub(Zotero.Styles, "install").resolves({
+						styleTitle: 'Waterbirds',
+						styleID: 'waterbirds'
+					});
 					var style = Zotero.Styles.get(styleID);
 					var styleGetCalledOnce = false;
 					var styleGetStub = sinon.stub(Zotero.Styles, 'get').callsFake(function() {
@@ -442,7 +451,7 @@ describe("Zotero.Integration", function () {
 				}
 			});
 			it('should insert citation if not in field', insertMultipleCitations);
-			
+
 			it('should edit citation if in citation field', function* () {
 				yield insertMultipleCitations.call(this);
 				var docID = this.test.fullTitle();
@@ -459,6 +468,59 @@ describe("Zotero.Integration", function () {
 				assert.equal(citation.citationItems[0].id, testItems[3].id);
 			});
 			
+			it('should write an implicitly updated citation into the document', function* () {
+				yield insertMultipleCitations.call(this);
+				var docID = this.test.fullTitle();
+				var doc = applications[docID].doc;
+
+				testItems[3].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
+				testItems[3].setField('date', '2019-01-01');
+
+				setAddEditItems(testItems[3]);
+				yield execCommand('addEditCitation', docID);
+				assert.equal(doc.fields[2].text, "(Smith, 2019)");
+
+				sinon.stub(doc, 'cursorInField').resolves(doc.fields[0]);
+				sinon.stub(doc, 'canInsertField').resolves(false);
+
+				testItems[4].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
+				testItems[4].setField('date', '2019-01-01');
+
+				setAddEditItems(testItems[4]);
+				yield execCommand('addEditCitation', docID);
+				assert.equal(doc.fields.length, 3);
+				assert.equal(doc.fields[0].text, "(Smith, 2019a)");
+				assert.equal(doc.fields[2].text, "(Smith, 2019b)");
+			});
+
+			it('should place an implicitly updated citation correctly after multiple new insertions', function* () {
+				yield insertMultipleCitations.call(this);
+				var docID = this.test.fullTitle();
+				var doc = applications[docID].doc;
+
+				testItems[3].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
+				testItems[3].setField('date', '2019-01-01');
+
+				setAddEditItems(testItems[3]);
+				yield execCommand('addEditCitation', docID);
+				assert.equal(doc.fields[2].text, "(Smith, 2019)");
+
+				sinon.stub(doc, 'cursorInField').resolves(doc.fields[0]);
+				sinon.stub(doc, 'canInsertField').resolves(false);
+
+				doc.fields[1].code = doc.fields[0].code;
+				doc.fields[1].text = doc.fields[0].text;
+
+				testItems[4].setCreator(0, {creatorType: 'author', lastName: 'Smith', firstName: 'Robert', multi:{_key: {}}});
+				testItems[4].setField('date', '2019-01-01');
+
+				setAddEditItems(testItems[4]);
+				yield execCommand('addEditCitation', docID);
+				assert.equal(doc.fields.length, 3);
+				assert.equal(doc.fields[0].text, "(Smith, 2019a)");
+				assert.equal(doc.fields[2].text, "(Smith, 2019b)");
+			});
+
 			it('should update bibliography if present', function* () {
 				yield insertMultipleCitations.call(this);
 				var docID = this.test.fullTitle();
@@ -476,6 +538,35 @@ describe("Zotero.Integration", function () {
 				setAddEditItems(testItems[3]);
 				yield execCommand('addEditCitation', docID);
 				assert.equal(getCiteprocBibliographySpy.lastCall.returnValue[0].entry_ids.length, 4);
+
+				getCiteprocBibliographySpy.restore();
+			});
+
+			it('should update bibliography sort order on change to item', function* () {
+				yield insertMultipleCitations.call(this);
+				var docID = this.test.fullTitle();
+				var doc = applications[docID].doc;
+
+				let getCiteprocBibliographySpy =
+					sinon.spy(Zotero.Integration.Bibliography.prototype, 'getCiteprocBibliography');
+
+				yield execCommand('addEditBibliography', docID);
+				assert.isTrue(getCiteprocBibliographySpy.calledOnce);
+
+				assert.equal(getCiteprocBibliographySpy.lastCall.returnValue[0].entry_ids.length, 3);
+				getCiteprocBibliographySpy.reset();
+
+				sinon.stub(doc, 'cursorInField').resolves(doc.fields[1]);
+				sinon.stub(doc, 'canInsertField').resolves(false);
+
+				testItems[1].setCreator(0, {creatorType: 'author', name: 'Aaaaa', multi:{_key: {}}});
+				testItems[1].setField('title', 'Bbbbb');
+
+				setAddEditItems(testItems.slice(1, 3));
+				yield execCommand('addEditCitation', docID);
+
+				assert.equal(getCiteprocBibliographySpy.lastCall.returnValue[0].entry_ids.length, 3);
+				assert.equal(getCiteprocBibliographySpy.lastCall.returnValue[1][0], "Aaaaa Bbbbb.");
 
 				getCiteprocBibliographySpy.restore();
 			});
@@ -626,6 +717,31 @@ describe("Zotero.Integration", function () {
 					} finally {
 						stubUpdateDocument.restore();
 					}
+				});
+				
+				it('should successfully insert a citation after canceled citation insert', async function () {
+					var docID = this.test.fullTitle();
+					if (!(docID in applications)) initDoc(docID);
+					var doc = applications[docID].doc;
+
+					setAddEditItems(testItems[0]);
+					await execCommand('addEditCitation', docID);
+					assert.equal(doc.fields.length, 1);
+					doc.fields.push(new DocumentPluginDummy.Field(doc));
+					// Add a "citation copied from somewhere else"
+					// the content doesn't really matter, just make sure that the citationID is different
+					var newCitationID = Zotero.Utilities.randomString();
+					doc.fields[1].code = doc.fields[0].code;
+					doc.fields[1].code = doc.fields[1].code.replace(/"citationID":"[A-Za-z0-9^"]*"/,
+						`"citationID":"${newCitationID}"`);
+					doc.fields[1].text = doc.fields[0].text;
+					
+					setAddEditItems([]);
+					await execCommand('addEditCitation', docID);
+
+					setAddEditItems(testItems[1]);
+					await execCommand('addEditCitation', docID);
+					assert.notEqual(doc.fields[2].code, "TEMP");
 				});
 			});
 			

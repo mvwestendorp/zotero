@@ -37,6 +37,8 @@ Zotero.Styles = new function() {
 	this.ns = {
 		"csl":"http://purl.org/net/xbiblio/csl"
 	};
+
+	this.CSL_VALIDATOR_URL = "resource://zotero/csl-validator.js";
 	
 	
 	/**
@@ -101,8 +103,9 @@ Zotero.Styles = new function() {
 		var localeFile = {};
 		var locales = {};
 		var primaryDialects = {};
-		var localesLocation = "chrome://zotero/content/locale/csl/locales.json";
-		localeFile = JSON.parse(yield Zotero.File.getContentsFromURLAsync(localesLocation));
+		localeFile = JSON.parse(
+			yield Zotero.File.getResourceAsync("chrome://zotero/content/locale/csl/locales.json")
+		);
 		
 		primaryDialects = localeFile["primary-dialects"];
 		
@@ -115,19 +118,10 @@ Zotero.Styles = new function() {
 		this.primaryDialects = primaryDialects;
 		
 		// Load renamed styles
-		_renamedStyles = {};
-		var xmlhttp = yield Zotero.HTTP.request(
-			"GET",
-			"resource://zotero/schema/renamed-styles.json",
-			{
-				responseType: 'json'
-			}
+		_renamedStyles = JSON.parse(
+			yield Zotero.File.getResourceAsync("resource://zotero/schema/renamed-styles.json")
 		);
-		// Map some obsolete styles to current ones
-		if (xmlhttp.response) {
-			_renamedStyles = xmlhttp.response;
-		}
-		
+
 		_initializationDeferred.resolve();
 		_initialized = true;
 		
@@ -259,20 +253,20 @@ Zotero.Styles = new function() {
 	 * @return {Promise} A promise representing the style file. This promise is rejected
 	 *    with the validation error if validation fails, or resolved if it is not.
 	 */
-	this.validate = function(style) {
-		var deferred = Zotero.Promise.defer(),
-			worker = new Worker("resource://zotero/csl-validator.js"); 
-		worker.onmessage = function(event) {
-			if(event.data) {
-                // Disable validation for the time being.
-				//deferred.reject(event.data);
-                deferred.resolve();
-			} else {
-				deferred.resolve();
-			}
-		};
-		worker.postMessage(style);
-		return deferred.promise;
+	this.validate = function (style) {
+		return new Zotero.Promise((resolve, reject) => {
+			let worker = new Worker(this.CSL_VALIDATOR_URL);
+			worker.onmessage = function (event) {
+				// Disable validation for the time being.
+				resolve();
+				//if (event.data) {
+				//	reject(event.data);
+				//} else {
+				//	resolve();
+				//}
+			};
+			worker.postMessage(style);
+		});
 	}
 	
 	/**
@@ -288,7 +282,6 @@ Zotero.Styles = new function() {
 	 * @param {Boolean} [silent=false] Skip prompts
 	 */
 	this.install = Zotero.Promise.coroutine(function* (style, origin, silent=false) {
-		var styleTitle;
 		var warnDeprecated;
 		if (style instanceof Components.interfaces.nsIFile) {
 			warnDeprecated = true;
@@ -308,11 +301,11 @@ Zotero.Styles = new function() {
 			else if (style.url) {
 				style.string = yield Zotero.File.getContentsFromURLAsync(style.url);
 			}
-			styleTitle = yield _install(style.string, origin, false, silent);
+			var { styleTitle, styleID } = yield _install(style.string, origin, false, silent);
 		}
 		catch (error) {
 			// Unless user cancelled, show an alert with the error
-			if(typeof error === "object" && error instanceof Zotero.Exception.UserCancelled) return;
+			if(typeof error === "object" && error instanceof Zotero.Exception.UserCancelled) return {};
 			if(typeof error === "object" && error instanceof Zotero.Exception.Alert) {
 				Zotero.logError(error);
 				if (silent) {
@@ -330,7 +323,7 @@ Zotero.Styles = new function() {
 				}
 			}
 		}
-		return styleTitle;
+		return { styleTitle, styleID };
 	});
 	
 	/**
@@ -503,16 +496,17 @@ Zotero.Styles = new function() {
 		yield Zotero.Styles.reinit();
 		
 		// Refresh preferences windows
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].
-			getService(Components.interfaces.nsIWindowMediator);
-		var enumerator = wm.getEnumerator("zotero:pref");
+		var enumerator = Services.wm.getEnumerator("zotero:pref");
 		while(enumerator.hasMoreElements()) {
 			var win = enumerator.getNext();
 			if(win.Zotero_Preferences.Cite) {
 				yield win.Zotero_Preferences.Cite.refreshStylesList(styleID);
 			}
 		}
-		return existingTitle || title;
+		return {
+			styleTitle: existingTitle || title,
+			styleID: styleID
+		};
 	});
 	
 	/**
@@ -689,7 +683,7 @@ Zotero.Style = function (style, path) {
 		'/csl:style/csl:info[1]/csl:link[@rel="source" or @rel="independent-parent"][1]/@href',
 		Zotero.Styles.ns);
 	if(this.source === this.styleID) {
-		throw "Style with ID "+this.styleID+" references itself as source";
+		throw new Error("Style with ID "+this.styleID+" references itself as source");
 	}
 }
 
@@ -781,6 +775,8 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
 		citeproc.opt.development_extensions.wrap_url_and_doi = true;
 		// Don't try to parse author names. We parse them in itemToCSLJSON
 		citeproc.opt.development_extensions.parse_names = false;
+		// Parse raw dates in Jurism
+		citeproc.opt.development_extensions.raw_date_parsing = true;
 		
 		Zotero.setCitationLanguages({}, citeproc);
 		citeproc.opt.trigraph = trigraph;

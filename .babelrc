@@ -1,22 +1,20 @@
 {
   "compact": false,
   "retainLines": true,
-  "presets": [],
+  "presets": [
+    "@babel/preset-react"
+  ],
   "ignore": [
-    "resource/require.js",
     "chrome/content/zotero/include.js",
     "chrome/content/zotero/xpcom/citeproc.js",
-    "resource/csl-validator.js",
     "resource/react.js",
     "resource/react-dom.js",
-    "resource/bluebird.js",
-    "resource/bluebird/*.js",
+    "resource/react-virtualized.js",
     "test/resource/*.js"
   ],
   "plugins": [
-    "syntax-jsx",
-    "transform-react-jsx",
-    "transform-react-display-name",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
     [
       "transform-es2015-modules-commonjs",
       {

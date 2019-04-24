@@ -1451,8 +1451,8 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 *
 	 * @return {Promise}
 	 */
-	this.clearIndex = function (skipLinkedURLs) {
-		return Zotero.DB.executeTransaction(function* () {
+	this.clearIndex = async function (skipLinkedURLs) {
+		await Zotero.DB.executeTransaction(async function () {
 			var sql = "DELETE FROM fulltextItems";
 			if (skipLinkedURLs) {
 				var linkSQL = "SELECT itemID FROM itemAttachments WHERE linkMode ="
@@ -1460,23 +1460,24 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 				
 				sql += " WHERE itemID NOT IN (" + linkSQL + ")";
 			}
-			yield Zotero.DB.queryAsync(sql);
+			await Zotero.DB.queryAsync(sql);
 			
 			sql = "DELETE FROM fulltextItemWords";
 			if (skipLinkedURLs) {
 				sql += " WHERE itemID NOT IN (" + linkSQL + ")";
 			}
-			yield Zotero.DB.queryAsync(sql);
-			
-			if (skipLinkedURLs) {
-				yield this.purgeUnusedWords();
-			}
-			else {
-				yield Zotero.DB.queryAsync("DELETE FROM fulltextWords");
-			}
-			
-			yield clearCacheFiles();
-		}.bind(this));
+			await Zotero.DB.queryAsync(sql);
+		});
+		
+		if (skipLinkedURLs) {
+			await this.purgeUnusedWords();
+		}
+		else {
+			await Zotero.DB.queryAsync("DELETE FROM fulltextWords");
+		}
+		
+		await clearCacheFiles();
+		await Zotero.DB.queryAsync('VACUUM');
 	}
 	
 	
@@ -1551,7 +1552,7 @@ Zotero.Fulltext = Zotero.FullText = new function(){
 	 * @return {Promise}
 	 */
 	var convertItemHTMLToText = Zotero.Promise.coroutine(function* (itemID, html, maxLength) {
-		// Split elements to avoid word concatentation
+		// Split elements to avoid word concatenation
 		html = html.replace(/>/g, '> ');
 		
 		var text = HTMLToText(html);

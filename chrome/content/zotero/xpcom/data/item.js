@@ -301,6 +301,13 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 }
 
 
+Zotero.Item.prototype.getExtraField = function (fieldName) {
+	var fields = Zotero.Utilities.Internal.extractExtraFields(this.getField('extra'));
+	var doi = fields.get(fieldName);
+	return (doi && doi.value) ? doi.value : '';
+};
+
+
 /**
  * @param	{Boolean}				asNames
  * @return	{Integer[]|String[]}
@@ -1021,8 +1028,14 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 	var title = this.getField('title', false, true, Zotero.CachedLanguages.getDisplayLang());
 	var itemTypeID = this.itemTypeID;
 	var itemTypeName = Zotero.ItemTypes.getName(itemTypeID);
-	
-	if (title === "" && (itemTypeID == 8 || itemTypeID == 10)) { // 'letter' and 'interview' itemTypeIDs
+
+	if (title === "" && ["journalArticle", "magazineArticle", "newspaperArticle", "encyclopediaArticle", "dictionaryEntry"].indexOf(itemTypeName) > -1) {
+		var containerID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, "publicationTitle")
+		var containerTitle = this.getField(containerID);
+		if (containerTitle) {
+			title = "[" + containerTitle + "]"
+		}
+	} else if (title === "" && (itemTypeID == 8 || itemTypeID == 10)) { // 'letter' and 'interview' itemTypeIDs
 		var creatorsData = this.getCreators();
 		var authors = [];
 		var participants = [];
@@ -1582,6 +1595,11 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		env.sqlValues.push({ int: itemTypeID });
 	}
 	
+	if (isNew || (this._changed.primaryData && this._changed.primaryData.dateAdded)) {
+		env.sqlColumns.push('dateAdded');
+		env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
+	}
+	
 	// If a new item and Date Modified hasn't been provided, or an existing item and
 	// Date Modified hasn't changed from its previous value and skipDateModifiedUpdate wasn't
 	// passed, use the current timestamp
@@ -1601,9 +1619,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	
 	if (env.sqlColumns.length) {
 		if (isNew) {
-			env.sqlColumns.push('dateAdded');
-			env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
-			
 			env.sqlColumns.unshift('itemID');
 			env.sqlValues.unshift(parseInt(itemID));
 			
@@ -2312,12 +2327,14 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 			for (let i=0; i<toRemove.length; i++) {
 				let tag = toRemove[i];
 				let tagID = Zotero.Tags.getID(tag.tag);
+				let tagType = tag.type ? tag.type : 0;
 				let sql = "DELETE FROM itemTags WHERE itemID=? AND tagID=? AND type=?";
-				yield Zotero.DB.queryAsync(sql, [this.id, tagID, tag.type ? tag.type : 0]);
+				yield Zotero.DB.queryAsync(sql, [this.id, tagID, tagType]);
 				let notifierData = {};
 				notifierData[this.id + '-' + tagID] = {
 					libraryID: this.libraryID,
-					tag: tag.tag
+					tag: tag.tag,
+					type: tagType
 				};
 
 				if (!env.options.skipNotifier) {
@@ -2555,7 +2572,7 @@ Zotero.Item.prototype.getNotes = function(includeTrashed) {
 		+ 'With' + (includeTrashed ? '' : 'out') + 'Trashed';
 	
 	if (this._notes[cacheKey]) {
-		return this._notes[cacheKey];
+		return [...this._notes[cacheKey]];
 	}
 	
 	var rows = this._notes.rows.concat();
@@ -2651,6 +2668,15 @@ Zotero.Item.prototype.numNonHTMLFileAttachments = function () {
 	return this.getAttachments()
 		.map(itemID => Zotero.Items.get(itemID))
 		.filter(item => item.isFileAttachment() && item.attachmentContentType != 'text/html')
+		.length;
+};
+
+
+Zotero.Item.prototype.numPDFAttachments = function () {
+	this._requireData('childItems');
+	return this.getAttachments()
+		.map(itemID => Zotero.Items.get(itemID))
+		.filter(item => item.isFileAttachment() && item.attachmentContentType == 'application/pdf')
 		.length;
 };
 
@@ -4054,8 +4080,8 @@ Zotero.Item.prototype.setCollections = function (collectionIDsOrKeys) {
 	// Convert any keys to ids
 
 	var collectionIDs = collectionIDsOrKeys.map(function (val) {
-		if (parseInt(val) == val) {
-			return parseInt(val);
+		if (typeof val == 'number') {
+			return val;
 		}
 		var id = this.ContainerObjectsClass.getIDFromLibraryAndKey(this.libraryID, val);
 		if (!id) {
@@ -4198,12 +4224,13 @@ Zotero.Item.prototype.getImageSrc = function() {
 	if (itemType == 'attachment') {
 		var linkMode = this.attachmentLinkMode;
 		
-		// Quick hack to use PDF icon for imported files and URLs --
-		// extend to support other document types later
-		if ((linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_FILE ||
-				linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_URL) &&
-				this.attachmentContentType == 'application/pdf') {
-			itemType += '-pdf';
+		if (this.attachmentContentType == 'application/pdf' && this.isFileAttachment()) {
+			if (linkMode == Zotero.Attachments.LINK_MODE_LINKED_FILE) {
+				itemType += '-pdf-link';
+			}
+			else {
+				itemType += '-pdf';
+			}
 		}
 		else if (linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_FILE) {
 			itemType += "-file";

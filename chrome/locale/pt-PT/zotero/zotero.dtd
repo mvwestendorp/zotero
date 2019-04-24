@@ -79,21 +79,22 @@
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opcional)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "Opções">
+<!ENTITY zotero.general.other "Outros...">
 <!ENTITY zotero.general.refresh "Recarregar">
 <!ENTITY zotero.general.saveAs "Guardar Como…">
 <!ENTITY zotero.general.selectAll "Seleccionar Tudo">
 <!ENTITY zotero.general.tools "Ferramentas">
 <!ENTITY zotero.general.yes "Sim">
-<!ENTITY zotero.import "Import">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import "Importar">
+<!ENTITY zotero.import.createCollection "Colocar as coleções e itens importados numa nova coleção">
+<!ENTITY zotero.import.database "Base de dados">
+<!ENTITY zotero.import.fileHandling "Manipulação de Ficheiros">
+<!ENTITY zotero.import.importing "A importar...">
+<!ENTITY zotero.import.lastModified "Última Modificação">
+<!ENTITY zotero.import.size "Tamanho">
+<!ENTITY zotero.import.source.file "Um ficheiro (BibTeX, RIS, Zotero RDF, etc...)">
+<!ENTITY zotero.import.whereToImportFrom "A partir de onde deseja importar?">
 <!ENTITY zotero.integration.addEditCitation.title "Adicionar/Editar Citação">
 <!ENTITY zotero.integration.classicView.label "Visualização Clássica">
 <!ENTITY zotero.integration.docPrefs.title "Preferências do Documento">

@@ -8,6 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "选择...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "自动检索 PDF 的元数据">
 <!ENTITY zotero.preferences.autoRenameFiles "使用父类元数据自动重命名附件文件">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
 <!ENTITY zotero.preferences.autoUpdate "自动检查更新的转换器和样式">
 <!ENTITY zotero.preferences.automaticSnapshots "从 Web 页面创建条目时自动生成快照">
 <!ENTITY zotero.preferences.automaticTags "使用关键词和标题自动给条目添加标签">

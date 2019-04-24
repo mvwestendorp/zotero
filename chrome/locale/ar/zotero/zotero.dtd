@@ -79,21 +79,22 @@
 <!ENTITY zotero.general.note "ملاحظة:">
 <!ENTITY zotero.general.ok "موافق">
 <!ENTITY zotero.general.optional "(اختياري)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "خيارات">
+<!ENTITY zotero.general.other "غير ذلك...">
 <!ENTITY zotero.general.refresh "اعادة تحميل">
 <!ENTITY zotero.general.saveAs "حفظ باسم...">
 <!ENTITY zotero.general.selectAll "تحديد الكل">
 <!ENTITY zotero.general.tools "أدوات">
 <!ENTITY zotero.general.yes "نعم">
-<!ENTITY zotero.import "Import">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import "استيراد">
+<!ENTITY zotero.import.createCollection "ضع المجموعات المستوردة والمواد في مجموعة جديدة">
+<!ENTITY zotero.import.database "قاعدة البيانات">
+<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.importing "استيراد...">
+<!ENTITY zotero.import.lastModified "آخر تعديل">
+<!ENTITY zotero.import.size "حجم">
+<!ENTITY zotero.import.source.file " ملف (BibTeX, RIS, Zotero RDF, etc.)">
+<!ENTITY zotero.import.whereToImportFrom "من أين تريد الاستيراد؟">
 <!ENTITY zotero.integration.addEditCitation.title "اضافة/تحرير استشهاد مرجعي">
 <!ENTITY zotero.integration.classicView.label "عرض تقليدي">
 <!ENTITY zotero.integration.docPrefs.title "تفضيلات المستند">

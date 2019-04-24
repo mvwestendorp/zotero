@@ -113,7 +113,7 @@ Zotero.Cite = {
 				output.push("}");
 				return output.join("");
 			} else {
-				throw "Unimplemented bibliography format "+format;
+				throw new Error("Unimplemented bibliography format "+format);
 			}
 		} else {
 			if(format == "html") {
@@ -176,9 +176,9 @@ Zotero.Cite = {
 			var secondFieldAlign = bib[0]["second-field-align"];
 			
 			// Validate input
-			if(maxOffset == NaN) throw "Invalid maxoffset";
-			if(entrySpacing == NaN) throw "Invalid entryspacing";
-			if(lineSpacing == NaN) throw "Invalid linespacing";
+			if(maxOffset == NaN) throw new Error("Invalid maxoffset");
+			if(entrySpacing == NaN) throw new Error("Invalid entryspacing");
+			if(lineSpacing == NaN) throw new Error("Invalid linespacing");
 			
 			var str;
 			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
@@ -206,7 +206,7 @@ Zotero.Cite = {
 				}
 				// If only one field, apply hanging indent on root
 				else if (!multiField) {
-					style += "margin-left: " + hangingIndent + "em; text-indent:-" + hangingIndent + "em;";
+					style += "margin-left: 2em; text-indent:-2em;";
 				}
 			}
 			
@@ -259,7 +259,7 @@ Zotero.Cite = {
 				divStyle = "margin: 0 .4em 0 " + (secondFieldAlign ? maxOffset + rightPadding : "0") + "em;";
 				
 				if (hangingIndent) {
-					divStyle += "padding-left: " + hangingIndent + "em; text-indent:-" + hangingIndent + "em;";
+					divStyle += "padding-left: 2em; text-indent:-2em;";
 				}
 				
 				div.setAttribute("style", divStyle);
@@ -283,7 +283,7 @@ Zotero.Cite = {
 			
 			return bib[0].bibstart+preamble+bib[1].join("\\\r\n")+"\\\r\n"+bib[0].bibend;
 		} else {
-			throw "Unimplemented bibliography format "+format;
+			throw new Error("Unimplemented bibliography format "+format);
 		}
 	},
 
@@ -608,6 +608,7 @@ Zotero.Cite.System = function(automaticJournalAbbreviations) {
 }
 
 Zotero.Cite.System.prototype = {
+	"prioritize_disambiguate_condition": true,
 	/**
 	 * citeproc-js system function for getting items
 	 * See http://gsl-nagoya-u.net/http/pub/citeproc-doc.html#retrieveitem
@@ -886,3 +887,7 @@ Zotero.Cite.getMonthStrings = function(form, locale) {
 		return Zotero.Cite._monthStrings[form];
 	}
 };
+
+if (typeof process === 'object' && process + '' === '[object process]'){
+    module.exports = Zotero.Cite;
+}

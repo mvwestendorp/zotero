@@ -204,7 +204,7 @@ Zotero.Integration = new function() {
 			throw new Zotero.Exception.Alert("integration.error.notInstalled",
 				[], "integration.error.title");
 		}	
-	},
+	};
 	
 	/**
 	 * Executes an integration command, first checking to make sure that versions are compatible
@@ -252,43 +252,10 @@ Zotero.Integration = new function() {
 			await document.setDocumentData(session.data.serialize());
 		}
 		catch (e) {
-			if(!(e instanceof Zotero.Exception.UserCancelled)) {
-				try {
-					var displayError = null;
-					if(e instanceof Zotero.Exception.Alert) {
-						displayError = e.message;
-					} else {
-						if(e.toString().indexOf("ExceptionAlreadyDisplayed") === -1) {
-							displayError = Zotero.getString("integration.error.generic")+"\n\n"+(e.message || e.toString());
-						}
-						if(e.stack) {
-							Zotero.debug(e.stack);
-						}
-					}
-					
-					if(displayError) {
-						var showErrorInFirefox = !document;
-						
-						if(document) {
-							try {
-								await document.activate();
-								await document.displayAlert(displayError, DIALOG_ICON_STOP, DIALOG_BUTTONS_OK);
-							} catch(e) {
-								showErrorInFirefox = true;
-							}
-						}
-						
-						if(showErrorInFirefox) {
-							Zotero.Utilities.Internal.activate();
-							Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-								.getService(Components.interfaces.nsIPromptService)
-								.alert(null, Zotero.getString("integration.error.title"), displayError);
-						}
-					}
-				} finally {
-					Zotero.logError(e);
-				}
-			} else {
+			if (!(e instanceof Zotero.Exception.UserCancelled)) {
+				Zotero.Integration._handleCommandError(document, e);
+			}
+			else {
 				// If user cancels we should still write the currently assigned session ID
 				await document.setDocumentData(session.data.serialize());
 			}
@@ -332,6 +299,60 @@ Zotero.Integration = new function() {
 			}
 			
 			Zotero.Integration.currentDoc = Zotero.Integration.currentWindow = false;
+		}
+	};
+	
+	this._handleCommandError = async function (document, e) {
+		try {
+			const supportURL = "https://www.zotero.org/support/kb/debugging_broken_documents";
+			var displayError;
+			if (e instanceof Zotero.Exception.Alert) {
+				displayError = e.message;
+			}
+			else {
+				if (e.toString().indexOf("ExceptionAlreadyDisplayed") === -1) {
+					displayError = Zotero.getString("integration.error.generic")
+						+ "\n\n" + Zotero.getString("integration.error.viewTroubleshootingInfo");
+				}
+				else {
+					return;
+				}
+				if (e.stack) {
+					Zotero.debug(e.stack);
+				}
+			}
+			
+			if (Zotero.Integration.currentSession && Zotero.Integration.currentSession.progressBar) {
+				Zotero.Promise.delay(5).then(() =>
+					Zotero.Integration.currentSession.progressBar.hide());
+			}
+			
+			
+			// display alerts in the document processor
+			if (document) {
+				try {
+					await document.activate();
+					let index = await document.displayAlert(displayError, DIALOG_ICON_STOP, DIALOG_BUTTONS_YES_NO);
+					if (index == 1) {
+						Zotero.launchURL(supportURL);
+					}
+					return;
+				}
+				catch (e) {
+					Zotero.debug("Integration: An error occurred while trying to display an alert. Falling back to Zotero");
+					Zotero.logError(e);
+				}
+			}
+			
+			Zotero.Utilities.Internal.activate();
+			let ps = Services.prompt;
+			let index = ps.confirm(null, Zotero.getString('integration.error.title'), displayError);
+			if (index == 1) {
+				Zotero.launchURL(supportURL);
+			}
+		}
+		finally {
+			Zotero.logError(e);
 		}
 	};
 	
@@ -431,7 +452,9 @@ Zotero.Integration = new function() {
 
 				session = Zotero.Integration.sessions[data.sessionID];
 			}
-			if (!session) {
+			// Make sure we don't maintain the session if agent changes (i.e. LO -> Word)
+			// and display wrong field types in doc preferences.
+			if (!session || session.agent != agent) {
 				session = new Zotero.Integration.Session(doc, app);
 				session.reload = true;
 			}
@@ -441,16 +464,17 @@ Zotero.Integration = new function() {
 				// make sure style is defined
 				if (e instanceof Zotero.Exception.Alert && e.name === "integration.error.invalidStyle") {
 					if (data.style.styleID) {
-						let trustedSource = /^https?:\/\/(www\.)?(zotero\.org|citationstyles\.org)/.test(data.style.styleID);
+						let trustedSource = /^https?:\/\/(www\.)?(zotero\.org|citationstyles\.org|juris-m.github.io)/.test(data.style.styleID);
 						let errorString = Zotero.getString("integration.error.styleMissing", data.style.styleID);
 						if (trustedSource || 
 							await doc.displayAlert(errorString, DIALOG_ICON_WARNING, DIALOG_BUTTONS_YES_NO)) {
 
 							let installed = false;
 							try {
-								await Zotero.Styles.install(
+								let { styleTitle, styleID } = await Zotero.Styles.install(
 									{url: data.style.styleID}, data.style.styleID, true
 								);
+								data.style.styleID = styleID;
 								installed = true;
 							}
 							catch (e) {
@@ -464,10 +488,15 @@ Zotero.Integration = new function() {
 							}
 							if (installed) {
 								await session.setData(data, true);
+							} else {
+								await session.setDocPrefs();
 							}
+						} else {
+							await session.setDocPrefs();
 						}
+					} else {
+						await session.setDocPrefs();
 					}
-					await session.setDocPrefs();
 				} else {
 					throw e;
 				}
@@ -749,7 +778,7 @@ Zotero.Integration.Interface.prototype.setDocPrefs = Zotero.Promise.coroutine(fu
 	this._session.fields = new Zotero.Integration.Fields(this._session, this._doc);
 	this._session.fields.ignoreEmptyBibliography = false;
 	
-	if (this._session.data.prefs.delayCitationUpdates) return;
+	if (this._session.data.prefs.delayCitationUpdates && !fieldsToConvert.length) return;
 	
 	yield this._session.fields.updateSession(FORCE_CITATIONS_RESET_TEXT);
 	return this._session.fields.updateDocument(FORCE_CITATIONS_RESET_TEXT, true, true);
@@ -788,7 +817,7 @@ Zotero.Integration.Fields = function(session, doc) {
 
 /**
  * Checks that it is appropriate to add fields to the current document at the current
- * positon, then adds one.
+ * position, then adds one.
  */
 Zotero.Integration.Fields.prototype.addField = async function(note) {
 	// Get citation types if necessary
@@ -988,14 +1017,14 @@ Zotero.Integration.Fields.prototype.updateDocument = Zotero.Promise.coroutine(fu
 Zotero.Integration.Fields.prototype._updateDocument = async function(forceCitations, forceBibliography,
 		ignoreCitationChanges) {
 	if(this.progressCallback) {
-		var nFieldUpdates = Object.keys(this._session.updateIndices).length;
+		var nFieldUpdates = Object.keys(this._session.processIndices).length;
 		if(this._session.bibliographyHasChanged || forceBibliography) {
 			nFieldUpdates += this._bibliographyFields.length*5;
 		}
 	}
 	
 	var nUpdated=0;
-	for(var i in this._session.updateIndices) {
+	for(var i in this._session.processIndices) {
 		if(this.progressCallback && nUpdated % 10 == 0) {
 			try {
 				this.progressCallback(75+(nUpdated/nFieldUpdates)*25);
@@ -1032,16 +1061,22 @@ Zotero.Integration.Fields.prototype._updateDocument = async function(forceCitati
 					DIALOG_ICON_CAUTION, DIALOG_BUTTONS_YES_NO);
 				if (result) {
 					citation.properties.dontUpdate = true;
+					// Sigh. This hurts. setCode in LO forces a text reset. If the formattedText is rtf
+					// it is reinserted, however that breaks what properties.dontUpdate should do
+					if (this._session.primaryFieldType == "ReferenceMark"
+						&& citation.properties.formattedCitation.includes('\\')) {
+						citation.properties.formattedCitation = citation.properties.plainCitation;
+					}
 				}
 			}
 			
 			// Update citation text:
-			// If we're looking to reset the text even if it matches previous text
+			// If we're looking to reset the text even if it matches previous text (i.e. style change)
 			if (forceCitations == FORCE_CITATIONS_RESET_TEXT
 					// Or metadata has changed thus changing the formatted citation
-					|| (citation.properties.formattedCitation !== formattedCitation)
+					|| ((citation.properties.formattedCitation !== formattedCitation
 					// Or plaintext has changed and user does not want to keep the change
-					|| (plaintextChanged && !citation.properties.dontUpdate)) {
+					|| plaintextChanged) && !citation.properties.dontUpdate)) {
 
 				
 				// Word will preserve previous text styling, so we need to force remove it
@@ -1185,11 +1220,12 @@ Zotero.Integration.Fields.prototype.addEditCitation = async function (field) {
 		await citationsByItemIDPromise;
 		var fields = await this.get();
 
-		var [citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] = this._session.getCiteprocLists(true);
+		var [citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] = this._session.getCiteprocLists();
+
 		for (var prevIdx = idx-1; prevIdx >= 0; prevIdx--) {
 			if (prevIdx in fieldToCitationIdxMapping) break;
 		}
-		for (var nextIdx = idx+1; nextIdx < fields.length; nextIdx++) {
+		for (var nextIdx = idx; nextIdx < fields.length; nextIdx++) {
 			if (nextIdx in fieldToCitationIdxMapping) break;
 		}
 		let citationsPre = citations.slice(0, fieldToCitationIdxMapping[prevIdx]+1);
@@ -1237,7 +1273,6 @@ Zotero.Integration.Fields.prototype.addEditCitation = async function (field) {
 	}
 
 	var fieldIndex = await fieldIndexPromise;
-	this._session.updateIndices[fieldIndex] = true;
 	// Make sure session is updated
 	await citationsByItemIDPromise;
 	return [fieldIndex, field, io.citation];
@@ -1350,22 +1385,30 @@ Zotero.Integration.Session.prototype.resetRequest = function(doc) {
 	
 	this.bibliographyHasChanged = false;
 	this.bibliographyDataHasChanged = false;
-	// After adding fields to the session
-	// citations that are new to the document will be marked
-	// as new,  so that they are correctly loaded into and processed with citeproc
-	this.newIndices = {};
-	// After the processing of new indices with citeproc, some
-	// citations require additional work (because of disambiguation, numbering changes, etc)
-	// and will be marked for an additional reprocessing with citeproc to retrieve updated text
-	this.updateIndices = {};
 
 	// When processing citations this list will be checked for citations that are new to the document
 	// (i.e. copied from somewhere else) and marked as newIndices to be processed with citeproc if
 	// not present
 	this.oldCitations = new Set();
 	for (let i in this.citationsByIndex) {
+		// But ignore indices from this.newIndices. If any are present it means that the last
+		// call to this.updateSession() was never followed up with this.updateDocument()
+		// i.e. the operation was user cancelled
+		if (i in this.newIndices) continue;
 		this.oldCitations.add(this.citationsByIndex[i].citationID);
 	}
+	
+	// After adding fields to the session
+	// citations that are new to the document will be marked
+	// as new,  so that they are correctly loaded into and processed with citeproc
+	this.newIndices = {};
+	// Citations that are not new to the session but where the item metadata
+	// has changed will be marked in updateIndices
+	this.updateIndices = {};
+	// Citations that require updating in the document will be marked in
+	// processIndices
+	
+	this.processIndices = {};
 	this.citationsByItemID = {};
 	this.citationsByIndex = {};
 	this.documentCitationIDs = {};
@@ -1384,20 +1427,19 @@ Zotero.Integration.Session.prototype.init = Zotero.Promise.coroutine(function *(
 	var data = this.data;
 	var haveFields = false;
 	
-	// If prefs exist
-	if (require && data.prefs.fieldType) {
+	// If prefs not present
+	if (require && !data.prefs.fieldType) {
 		// check to see if fields already exist
 		for (let fieldType of [this.primaryFieldType, this.secondaryFieldType]) {
 			var fields = yield this._doc.getFields(fieldType);
 			if (fields.length) {
-				data.prefs.fieldType = fieldType;
 				haveFields = true;
 				break;
 			}
 		}
 	}
 		
-	if (require && (!haveFields || !data.prefs.fieldType)) {
+	if (require && (!haveFields && !data.prefs.fieldType)) {
 		// If required but no fields and preferences exist throw an error
 		return Zotero.Promise.reject(new Zotero.Exception.Alert(
 		"integration.error.mustInsertCitation",
@@ -1599,25 +1641,24 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	// citationItems
 	delete this.fields._deleteFields[index];
 
-	citation.properties.added = true;
 	citation.properties.zoteroIndex = index;
 	citation.properties.noteIndex = noteIndex;
 	this.citationsByIndex[index] = citation;
 	
 	// add to citationsByItemID and citationsByIndex
-	for(var i=0; i<citation.citationItems.length; i++) {
+	for (var i=0; i<citation.citationItems.length; i++) {
 		var citationItem = citation.citationItems[i];
-		if(!this.citationsByItemID[citationItem.id]) {
+		if (!this.citationsByItemID[citationItem.id]) {
 			this.citationsByItemID[citationItem.id] = [citation];
 			this.bibliographyHasChanged = true;
 		} else {
 			var byItemID = this.citationsByItemID[citationItem.id];
-			if(byItemID[byItemID.length-1].properties.zoteroIndex < index) {
+			if (byItemID[byItemID.length-1].properties.zoteroIndex < index) {
 				// if index is greater than the last index, add to end
 				byItemID.push(citation);
 			} else {
 				// otherwise, splice in at appropriate location
-				for(var j=0; byItemID[j].properties.zoteroIndex < index && j<byItemID.length-1; j++) {}
+				for (var j=0; byItemID[j].properties.zoteroIndex < index && j<byItemID.length-1; j++) {}
 				byItemID.splice(j++, 0, citation);
 			}
 		}
@@ -1626,14 +1667,14 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	// We need a new ID if there's another citation with the same citation ID in this document
 	var duplicateIndex = this.documentCitationIDs[citation.citationID];
 	var needNewID = !citation.citationID || duplicateIndex != undefined;
-	if(needNewID) {
-		if (duplicateIndex != undefined) {
+	if (needNewID) {
+		if (duplicateIndex != undefined && duplicateIndex != index) {
 			// If this is a duplicate, we need to mark both citations as "new"
 			// since we do not know which one was the "original" one
 			// and either one may need to be updated
 			this.newIndices[duplicateIndex] = true;
 		}
-		if(needNewID) {
+		if (needNewID) {
 			Zotero.debug("Integration: "+citation.citationID+" ("+index+") needs new citationID");
 			citation.citationID = Zotero.Utilities.randomString();
 		}
@@ -1641,7 +1682,7 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	}
 	// Deal with citations that are copied into the document from somewhere else
 	// and have not been added to the processor yet
-	if (! this.oldCitations.has(citation.citationID) && !this.reload) {
+	if (!this.oldCitations.has(citation.citationID)) {
 		this.newIndices[index] = true;
 	}
 	if (this.regenAll && !this.newIndices[index]) {
@@ -1651,20 +1692,19 @@ Zotero.Integration.Session.prototype.addCitation = Zotero.Promise.coroutine(func
 	this.documentCitationIDs[citation.citationID] = index;
 });
 
-Zotero.Integration.Session.prototype.getCiteprocLists = function(excludeNew) {
+Zotero.Integration.Session.prototype.getCiteprocLists = function() {
 	var citations = [];
 	var fieldToCitationIdxMapping = {};
 	var citationToFieldIdxMapping = {};
 	var i = 0;
 	// This relies on the order of citationsByIndex keys being stable and sorted in ascending order
 	// Which it seems to currently be true for every modern JS engine, so we're probably fine
-	for(let idx in this.citationsByIndex) {
-		if (excludeNew && this.newIndices[idx]) {
-			i++;
+	for (let idx in this.citationsByIndex) {
+		if (idx in this.newIndices) {
 			continue;
 		}
 		citations.push([this.citationsByIndex[idx].citationID, this.citationsByIndex[idx].properties.noteIndex]);
-		fieldToCitationIdxMapping[i] = idx;
+		fieldToCitationIdxMapping[i] = parseInt(idx);
 		citationToFieldIdxMapping[idx] = i++;
 	}
 	return [citations, fieldToCitationIdxMapping, citationToFieldIdxMapping];
@@ -1679,10 +1719,16 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 	Zotero.debug("Integration: Indices of updated citations");
 	Zotero.debug(Object.keys(this.updateIndices));
 	
-	var [citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] = this.getCiteprocLists();
-	
+	let citations, fieldToCitationIdxMapping, citationToFieldIdxMapping;
 	for (let indexList of [this.newIndices, this.updateIndices]) {
 		for (let index in indexList) {
+			if (indexList == this.newIndices) {
+				delete this.newIndices[index];
+				delete this.updateIndices[index];
+				[citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] =
+					this.getCiteprocLists()
+			}
+		
 			// Jump to next event loop step for UI updates
 			await Zotero.Promise.delay();
 			index = parseInt(index);
@@ -1690,17 +1736,10 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 			var citation = this.citationsByIndex[index];
 			if (!citation) continue;
 			citation = citation.toJSON();
-			
+
 			let citationsPre = citations.slice(0, citationToFieldIdxMapping[index]);
-			var citationsPost;
-			if (index in this.newIndices) {
-				citationsPost = [];
-				delete this.newIndices[index];
-				// If this item will need updating later citation processing will reset this index later in the loop
-				delete this.updateIndices[index];
-			} else {
-				citationsPost = citations.slice(citationToFieldIdxMapping[index]+1);
-			}
+
+			var citationsPost = citations.slice(citationToFieldIdxMapping[index]+1);
 
 			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 				await Zotero.CiteProc.CSL.preloadAbbreviations(this.style, citation);
@@ -1716,11 +1755,12 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 			
 			for (let citationInfo of newCitations) {
 				let idx = fieldToCitationIdxMapping[citationInfo[0]], text = citationInfo[1];
-				this.updateIndices[idx] = true;
+				this.processIndices[idx] = true;
 				this.citationsByIndex[idx].text = text;
 			}
-			
 		}
+		[citations, fieldToCitationIdxMapping, citationToFieldIdxMapping] =
+			this.getCiteprocLists();
 	}
 }
 
@@ -2150,7 +2190,7 @@ Zotero.Integration.URIMap.prototype.getZoteroItemForURIs = Zotero.Promise.corout
 	}
 	
 	if(zoteroItem) {
-		// make sure URI is up to date (in case user just began synching)
+		// make sure URI is up to date (in case user just began syncing)
 		var newURI = Zotero.URI.getItemURI(zoteroItem);
 		if(newURI != uris[i]) {
 			uris[i] = newURI;

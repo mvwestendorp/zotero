@@ -1164,57 +1164,75 @@ Zotero.CollectionTreeView.prototype.selectTrash = Zotero.Promise.coroutine(funct
 
 
 /**
- * Find item in current collection, or, if not there, in a library root, and select it
+ * Find an item in the current collection, or, if not there, in a library root, and select it
  *
- * @param {Integer} itemID
+ * @param {Integer} - itemID
  * @param {Boolean} [inLibraryRoot=false] - Always show in library root
- * @param {Boolean} [expand=false] - Open item if it's a container
- * @return {Boolean} - True if item was found, false if not
+ * @return {Boolean} - TRUE if the item was selected, FALSE if not
  */
-Zotero.CollectionTreeView.prototype.selectItem = Zotero.Promise.coroutine(function* (itemID, inLibraryRoot, expand) {
-	if (!itemID) {
-		return false;
+Zotero.CollectionTreeView.prototype.selectItem = async function (itemID, inLibraryRoot) {
+	return !!(await this.selectItems([itemID], inLibraryRoot));
+};
+
+
+/**
+ * Find items in current collection, or, if not there, in a library root, and select them
+ *
+ * @param {Integer[]} itemIDs
+ * @param {Boolean} [inLibraryRoot=false] - Always show in library root
+ * @return {Integer} - The number of items selected
+ */
+Zotero.CollectionTreeView.prototype.selectItems = async function (itemIDs, inLibraryRoot) {
+	if (!itemIDs.length) {
+		return 0;
 	}
 	
-	var item = yield Zotero.Items.getAsync(itemID);
-	if (!item) {
-		return false;
+	var items = await Zotero.Items.getAsync(itemIDs);
+	if (!items.length) {
+		return 0;
 	}
 	
-	yield this.waitForLoad();
+	await this.waitForLoad();
+	
+	// Check if items from multiple libraries were specified
+	if (items.length > 1 && new Set(items.map(item => item.libraryID)).size > 1) {
+		Zotero.debug("Can't select items in multiple libraries", 2);
+		return 0;
+	}
 	
 	var currentLibraryID = this.getSelectedLibraryID();
+	var libraryID = items[0].libraryID;
 	// If in a different library
-	if (item.libraryID != currentLibraryID) {
+	if (libraryID != currentLibraryID) {
 		Zotero.debug("Library ID differs; switching library");
-		yield this.selectLibrary(item.libraryID);
+		await this.selectLibrary(libraryID);
 	}
 	// Force switch to library view
 	else if (!this.selectedTreeRow.isLibrary() && inLibraryRoot) {
 		Zotero.debug("Told to select in library; switching to library");
-		yield this.selectLibrary(item.libraryID);
+		await this.selectLibrary(libraryID);
 	}
 	
-	yield this.itemTreeView.waitForLoad();
+	await this.itemTreeView.waitForLoad();
 	
-	var selected = yield this.itemTreeView.selectItem(itemID, expand);
-	if (selected) {
-		return true;
+	var numSelected = await this.itemTreeView.selectItems(itemIDs);
+	if (numSelected == items.length) {
+		return numSelected;
 	}
 	
-	if (item.deleted) {
+	// If there's a single item and it's in the trash, switch to that
+	if (items.length == 1 && items[0].deleted) {
 		Zotero.debug("Item is deleted; switching to trash");
-		yield this.selectTrash(item.libraryID);
+		await this.selectTrash(libraryID);
 	}
 	else {
 		Zotero.debug("Item was not selected; switching to library");
-		yield this.selectLibrary(item.libraryID);
+		await this.selectLibrary(libraryID);
 	}
 	
-	yield this.itemTreeView.waitForLoad();
-	
-	return this.itemTreeView.selectItem(itemID, expand);
-});
+	await this.itemTreeView.waitForLoad();
+	return this.itemTreeView.selectItems(itemIDs);
+};
 
 
 /*
@@ -1573,6 +1591,7 @@ Zotero.CollectionTreeView.prototype.onDragStart = function(event) {
 		return;
 	}
 	event.dataTransfer.setData("zotero/collection", treeRow.ref.id);
+	Zotero.debug("Dragging collection " + treeRow.id);
 }
 
 
@@ -1581,7 +1600,8 @@ Zotero.CollectionTreeView.prototype.onDragStart = function(event) {
  * which is checked in libraryTreeView.canDrop()
  */
 Zotero.CollectionTreeView.prototype.canDropCheck = function (row, orient, dataTransfer) {
-	//Zotero.debug("Row is " + row + "; orient is " + orient);
+	// TEMP
+	Zotero.debug("Row is " + row + "; orient is " + orient);
 	
 	var dragData = Zotero.DragDrop.getDataFromDataTransfer(dataTransfer);
 	if (!dragData) {
@@ -2032,10 +2052,7 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 						// Collections
 						if (desc.type == 'collection') {
 							var c = yield Zotero.Collections.getAsync(desc.id);
-							
-							var newCollection = new Zotero.Collection;
-							newCollection.libraryID = targetLibraryID;
-							c.clone(false, newCollection);
+							let newCollection = c.clone(targetLibraryID);
 							if (parentID) {
 								newCollection.parentID = parentID;
 							}
@@ -2059,8 +2076,10 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 							}
 							// Mark copied item for adding to collection
 							if (parentID) {
-								if (!addItems[parentID]) {
-									addItems[parentID] = [];
+								let parentItems = addItems.get(parentID);
+								if (!parentItems) {
+									parentItems = [];
+									addItems.set(parentID, parentItems);
 								}
 								
 								// If source item is a top-level non-regular item (which can exist in a
@@ -2074,7 +2093,7 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 									}
 								}
 								
-								addItems[parentID].push(id);
+								parentItems.push(id);
 							}
 						}
 					}
@@ -2086,11 +2105,11 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 					type: 'collection'
 				}];
 				
-				var addItems = {};
+				var addItems = new Map();
 				yield copyCollections(collections, targetCollectionID, addItems);
-				for (var collectionID in addItems) {
-					var collection = yield Zotero.Collections.getAsync(collectionID);
-					yield collection.addItems(addItems[collectionID]);
+				for (let [collectionID, items] of addItems.entries()) {
+					let collection = yield Zotero.Collections.getAsync(collectionID);
+					yield collection.addItems(items);
 				}
 				
 				// TODO: add subcollections and subitems, if they don't already exist,
@@ -2169,16 +2188,22 @@ Zotero.CollectionTreeView.prototype.drop = Zotero.Promise.coroutine(function* (r
 		if (!sameLibrary) {
 			let toReconcile = [];
 			
-			yield Zotero.DB.executeTransaction(function* () {
-				for (let item of newItems) {
-					var id = yield copyItem(item, targetLibraryID, copyOptions)
-					// Standalone attachments might not get copied
-					if (!id) {
-						continue;
-					}
-					newIDs.push(id);
+			yield Zotero.Utilities.Internal.forEachChunkAsync(
+				newItems,
+				100,
+				function (chunk) {
+					return Zotero.DB.executeTransaction(async function () {
+						for (let item of chunk) {
+							var id = await copyItem(item, targetLibraryID, copyOptions)
+							// Standalone attachments might not get copied
+							if (!id) {
+								continue;
+							}
+							newIDs.push(id);
+						}
+					});
 				}
-			});
+			);
 			
 			if (toReconcile.length) {
 				let sourceName = Zotero.Libraries.getName(items[0].libraryID);

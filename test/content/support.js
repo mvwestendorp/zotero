@@ -20,9 +20,9 @@ function waitForDOMEvent(target, event, capture) {
 }
 
 async function waitForRecognizer() {
-	var win = await waitForWindow('chrome://zotero/content/recognizePDFDialog.xul')
+	var win = await waitForWindow('chrome://zotero/content/progressQueueDialog.xul')
 	// Wait for status to show as complete
-	var completeStr = Zotero.getString("recognizePDF.complete.label");
+	var completeStr = Zotero.getString("general.finished");
 	while (win.document.getElementById("label").value != completeStr) {
 		await Zotero.Promise.delay(20);
 	}
@@ -209,16 +209,30 @@ var waitForItemsLoad = Zotero.Promise.coroutine(function* (win, collectionRowToS
 	yield zp.itemsView.waitForLoad();
 });
 
-var waitForTagSelector = function (win) {
+/**
+ * Return a promise that resolves once the tag selector has updated
+ *
+ * Some operations result in two tag selector updates, one from the notify() and another from
+ * onItemViewChanged(). Pass 2 for numUpdates to wait for both.
+ */
+var waitForTagSelector = function (win, numUpdates = 1) {
+	var updates = 0;
+	
 	var zp = win.ZoteroPane;
 	var deferred = Zotero.Promise.defer();
 	if (zp.tagSelectorShown()) {
-		var tagSelector = win.document.getElementById('zotero-tag-selector');
-		var onRefresh = () => {
-			tagSelector.removeEventListener('refresh', onRefresh);
-			deferred.resolve();
-		};
-		tagSelector.addEventListener('refresh', onRefresh);
+		let tagSelector = zp.tagSelector;
+		let componentDidUpdate = tagSelector.componentDidUpdate;
+		tagSelector.componentDidUpdate = function() {
+			updates++;
+			if (updates == numUpdates) {
+				deferred.resolve();
+				tagSelector.componentDidUpdate = componentDidUpdate;
+			}
+			if (typeof componentDidUpdate == 'function') {
+				componentDidUpdate.call(this, arguments);
+			}
+		}
 	}
 	else {
 		deferred.resolve();
@@ -587,8 +601,6 @@ var removeDir = Zotero.Promise.coroutine(function* (dir) {
  *                             any that were set at startup
  */
 async function resetDB(options = {}) {
-	// Hack to avoid CustomizableUI warnings in console from icon.js
-	var toolbarIconAdded = Zotero.toolbarIconAdded;
 	resetPrefs();
 	
 	if (options.thisArg) {
@@ -603,7 +615,6 @@ async function resetDB(options = {}) {
 		false,
 		options
 	);
-	Zotero.toolbarIconAdded = toolbarIconAdded;
 	await Zotero.Schema.schemaUpdatePromise;
 	initPDFToolsPath();
 }
@@ -915,7 +926,7 @@ function importHTMLAttachment() {
  *                                   that defines the response
  * @param {Object} responses - Predefined responses
  */
-function setHTTPResponse(server, baseURL, response, responses) {
+function setHTTPResponse(server, baseURL, response, responses, username, password) {
 	if (typeof response == 'string') {
 		let [topic, key] = response.split('.');
 		if (!responses[topic]) {
@@ -945,5 +956,17 @@ function setHTTPResponse(server, baseURL, response, responses) {
 		responseArray[1][i] = response.headers[i];
 	}
 	
-	server.respondWith(response.method, baseURL + response.url, responseArray);
+	if (username || password) {
+		server.respondWith(function (req) {
+			if (username && req.username != username) return;
+			if (password && req.password != password) return;
+			
+			if (req.method == response.method && req.url == baseURL + response.url) {
+				req.respond(...responseArray);
+			}
+		});
+	}
+	else {
+		server.respondWith(response.method, baseURL + response.url, responseArray);
+	}
 }

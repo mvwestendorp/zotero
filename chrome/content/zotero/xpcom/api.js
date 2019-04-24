@@ -35,6 +35,9 @@ Zotero.API = {
 	},
 	
 	
+	/**
+	 * @return {(Zotero.Collection|Zotero.Item)[]}
+	 */
 	getResultsFromParams: Zotero.Promise.coroutine(function* (params) {
 		if (!params.objectType) {
 			throw new Error("objectType not specified");
@@ -42,7 +45,13 @@ Zotero.API = {
 		
 		var results;
 		
-		if (params.objectType == 'item') {
+		if (params.objectType == 'collection') {
+			let col = Zotero.Collections.getByLibraryAndKey(params.libraryID, params.objectKey);
+			if (col) {
+				results = [col];
+			}
+		}
+		else if (params.objectType == 'item') {
 			switch (params.scopeObject) {
 				case 'collections':
 					if (params.scopeObjectKey) {
@@ -88,9 +97,7 @@ Zotero.API = {
 					}
 					
 					var s = new Zotero.Search;
-					if (params.libraryID !== undefined) {
-						s.addCondition('libraryID', 'is', params.libraryID);
-					}
+					s.libraryID = params.libraryID;
 					
 					if (params.objectKey) {
 						s.addCondition('key', 'is', params.objectKey);
@@ -98,11 +105,12 @@ Zotero.API = {
 					else if (params.objectID) {
 						s.addCondition('itemID', 'is', params.objectID);
 					}
-					
-					if (params.itemKey) {
-						for (let i=0; i<params.itemKey.length; i++) {
-							let itemKey = params.itemKey[i];
-							s.addCondition('key', 'is', itemKey);
+					// For performance reasons, add requested item keys instead of filtering after.
+					// This will need to be changed if other conditions are added to the search.
+					else if (params.itemKey) {
+						s.addCondition('joinMode', 'any');
+						for (let key of params.itemKey) {
+							s.addCondition('key', 'is', key);
 						}
 					}
 					
@@ -114,20 +122,19 @@ Zotero.API = {
 					var ids = yield s.search();
 			}
 			
+			let itemKeys = new Set(params.itemKey || []);
 			if (results) {
 				// Filter results by item key
 				if (params.itemKey) {
-					results = results.filter(function (result) {
-						return params.itemKey.indexOf(result.key) !== -1;
-					});
+					results = results.filter(key => itemKeys.has(key));
 				}
 			}
 			else if (ids) {
 				// Filter results by item key
 				if (params.itemKey) {
-					ids = ids.filter(function (id) {
+					ids = ids.filter((id) => {
 						var {libraryID, key} = Zotero.Items.getLibraryAndKeyFromID(id);
-						return params.itemKey.indexOf(key) !== -1;
+						return itemKeys.has(key);
 					});
 				}
 				results = yield Zotero.Items.getAsync(ids);

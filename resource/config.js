@@ -9,16 +9,14 @@ var ZOTERO_CONFIG = {
 	REPOSITORY_RETRY_INTERVAL: 3600, // 1 hour
 	BASE_URI: 'http://zotero.org/',
 	WWW_BASE_URL: 'https://www.zotero.org/',
-	PROXY_AUTH_URL: 'https://s3.amazonaws.com/zotero.org/proxy-auth',
+	PROXY_AUTH_URL: 'https://zoteroproxycheck.s3.amazonaws.com/test',
 	API_URL: 'https://api.zotero.org/',
 	STREAMING_URL: 'wss://stream.zotero.org/',
-	RECOGNIZE_URL: 'https://recognize.zotero.org/',
 	SERVICES_URL: 'https://services.zotero.org/',
 	API_VERSION: 3,
-	CONNECTOR_MIN_VERSION: '5.0.47.3', // show upgrade prompt for requests from below this version
+	CONNECTOR_MIN_VERSION: '5.0.59.1', // show upgrade prompt for requests from below this version
 	PREF_BRANCH: 'extensions.zotero.',
 	BOOKMARKLET_ORIGIN: 'https://www.zotero.org',
-	HTTP_BOOKMARKLET_ORIGIN: 'http://www.zotero.org',
 	BOOKMARKLET_URL: 'https://www.zotero.org/bookmarklet/',
 	START_URL: "https://juris-m.github.io/downloads/#start",
 	QUICK_START_URL: "https://www.zotero.org/support/quick_start_guide",
@@ -29,4 +27,8 @@ var ZOTERO_CONFIG = {
 	CONNECTORS_URL: "https://juris-m.github.io/downloads/"
 };
 
-EXPORTED_SYMBOLS = ["ZOTERO_CONFIG"];
+if (typeof process === 'object' && process + '' === '[object process]'){
+	module.exports = ZOTERO_CONFIG;
+} else {
+	EXPORTED_SYMBOLS = ["ZOTERO_CONFIG"];
+}

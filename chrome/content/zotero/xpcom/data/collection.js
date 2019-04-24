@@ -259,7 +259,7 @@ Zotero.Collection.prototype._initSave = Zotero.Promise.coroutine(function* (env)
 		}
 		
 		if (this.id && this.hasDescendent('collection', newParent.id)) {
-			throw ('Cannot move collection "' + this.name + '" into one of its own descendents');
+			throw new Error(`Cannot move collection '${this.name}' into one of its own descendents`);
 		}
 		
 		env.parent = newParent.id;
@@ -450,11 +450,16 @@ Zotero.Collection.prototype.removeItems = Zotero.Promise.coroutine(function* (it
 
 
 /**
-* Check if an item belongs to the collection
-**/
-Zotero.Collection.prototype.hasItem = function(itemID) {
+ * Check if an item belongs to the collection
+ *
+ * @param {Zotero.Item|Number} item - Item or itemID
+ */
+Zotero.Collection.prototype.hasItem = function (item) {
 	this._requireData('childItems');
-	return this._childItems.has(itemID);
+	if (item instanceof Zotero.Item) {
+		item = item.id;
+	}
+	return this._childItems.has(item);
 }
 
 
@@ -528,34 +533,31 @@ Zotero.Collection.prototype.diff = function (collection, includeMatches) {
 
 
 /**
- * Returns an unsaved copy of the collection
+ * Returns an unsaved copy of the collection without id and key
  *
- * Does not copy parent collection or child items
- *
- * @param	{Boolean}		[includePrimary=false]
- * @param	{Zotero.Collection} [newCollection=null]
+ * Doesn't duplicate subcollections or items, because the collection isn't saved
  */
-Zotero.Collection.prototype.clone = function (includePrimary, newCollection) {
+Zotero.Collection.prototype.clone = function (libraryID) {
 	Zotero.debug('Cloning collection ' + this.id);
 	
-	if (newCollection) {
-		var sameLibrary = newCollection.libraryID == this.libraryID;
-	}
-	else {
-		var newCollection = new this.constructor;
-		var sameLibrary = true;
-		
-		if (includePrimary) {
-			newCollection.id = this.id;
-			newCollection.libraryID = this.libraryID;
-			newCollection.key = this.key;
-			
-			// TODO: This isn't used, but if it were, it should probably include
-			// parent collection and child items
-		}
+	if (libraryID !== undefined && libraryID !== null && typeof libraryID !== 'number') {
+		throw new Error("libraryID must be null or an integer");
 	}
 	
-	newCollection.name = this.name;
+	if (libraryID === undefined || libraryID === null) {
+		libraryID = this.libraryID;
+	}
+	var sameLibrary = libraryID == this.libraryID;
+	
+	var newCollection = new Zotero.Collection;
+	newCollection.libraryID = libraryID;
+	
+	var json = this.toJSON();
+	if (!sameLibrary) {
+		delete json.parentCollection;
+		delete json.relations;
+	}
+	newCollection.fromJSON(json);
 	
 	return newCollection;
 }

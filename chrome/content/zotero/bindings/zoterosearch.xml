@@ -440,6 +440,10 @@
 					var operators = condition.operators;
 					
 					conditionsMenu.value = conditionName;
+					// Store in attribute as well because the value doesn't get set properly when
+					// the value is from a menuitem in the More menu, and we need this to select
+					// the previous condition when creating a new row
+					conditionsMenu.setAttribute('data-value', conditionName);
 					
 					// Parent state isn't set automatically for submenu selections
 					if (!this.isPrimaryCondition(conditionName)) {
@@ -812,7 +816,14 @@
 				<body>
 					<![CDATA[
 						if (this.parent){
-							this.parent.addCondition();
+							let ref = this.parent.search.getCondition(
+								this.parent.search.addCondition(
+									this.id('conditionsmenu').getAttribute('data-value'),
+									this.id('operatorsmenu').value,
+									""
+								)
+							)
+							this.parent.addCondition(ref);
 							window.sizeToContent();
 						}
 					]]>

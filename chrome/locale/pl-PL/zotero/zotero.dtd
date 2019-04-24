@@ -42,7 +42,7 @@
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Załączniki nie mogą być zapisane w aktualnie wybranej bibliotece. Ten element zostanie zapisany zamiast tego w twojej bibliotece.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Wybierz pola, które chcesz zachować z innych wersji elementu:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Wybierz wersję elementu, którą chcesz użyć jako element główny:">
-<!ENTITY zotero.errorReport.notReviewed "Raporty błędów nie są zwykle przeglądane, jeśli nie zostaną zamieszczone na forum.">
+<!ENTITY zotero.errorReport.notReviewed "Raporty błędów zwykle nie są przeglądane, jeśli nie zostaną zamieszczone na forum.">
 <!ENTITY zotero.errorReport.postToForums "Proszę wysłać informację na forum Zotero (forums.zotero.org) z podaniem tego ID raportu, opisem problemu oraz wszystkmi krokami niezbędnymi do powtórzenia błędu.">
 <!ENTITY zotero.errorReport.reportID "ID raportu:">
 <!ENTITY zotero.errorReport.submissionInProgress "Proszę czekać, informacje o błędzie są wysyłane.">
@@ -89,16 +89,17 @@
 <!ENTITY zotero.import "Importuj">
 <!ENTITY zotero.import.createCollection "Umieść zaimportowane kolekcje i elementy w nowej kolekcji">
 <!ENTITY zotero.import.database "Baza danych">
+<!ENTITY zotero.import.fileHandling "Obsługa plików">
 <!ENTITY zotero.import.importing "Importowanie...">
 <!ENTITY zotero.import.lastModified "Ostatnia modyfikacja">
 <!ENTITY zotero.import.size "Rozmiar">
-<!ENTITY zotero.import.source.file "Z pliku (BibTeX, RIS, Zotero RDF, etc.)">
+<!ENTITY zotero.import.source.file "Z pliku (BibTeX, RIS, Zotero RDF itp.)">
 <!ENTITY zotero.import.whereToImportFrom "Skąd chcesz zaimportować?">
 <!ENTITY zotero.integration.addEditCitation.title "Dodaj/Edytuj cytowanie">
 <!ENTITY zotero.integration.classicView.label "Widok klasyczny">
 <!ENTITY zotero.integration.docPrefs.title "Ustawienia dokumentu">
 <!ENTITY zotero.integration.editBibliography.title "Edytuj bibliografię">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Wyłączenie aktualizacji cytować może przyspieszyć wstawianie cytowań w dużych dokumentach. Wciśnij Odśwież aby ręcznie zaktualizować cytowania.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Wyłączenie aktualizacji cytować może przyspieszyć wstawianie cytowań w dużych dokumentach. Wciśnij Odśwież, aby ręcznie zaktualizować cytowania.">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatycznie aktualizuj cytowania">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Cytowania z oczekującymi aktualizacjami będą podświetlone w dokumencie">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Pole &quot;Skrót czasopisma&quot; będzie ignorowane.">
@@ -198,18 +199,18 @@
 <!ENTITY zotero.items.volume_column "Tom">
 <!ENTITY zotero.items.year_column "Rok">
 <!ENTITY zotero.lookup.button.search "Wyszukiwanie">
-<!ENTITY zotero.lookup.description "Podaj numery lub identyfikatory ISBN, DOI, PMID lub arXiv aby dodać je do twojej biblioteki:">
+<!ENTITY zotero.lookup.description "Podaj numery lub identyfikatory ISBN, DOI, PMID lub arXiv, aby dodać je do twojej biblioteki:">
 <!ENTITY zotero.merge.deleted "Usunięty">
 <!ENTITY zotero.merge.of "z">
 <!ENTITY zotero.merge.title "Rozwiązanie konfliktu">
 <!ENTITY zotero.moreEncodings.label "Więcej kodowań">
 <!ENTITY zotero.notes.separate "Edytuj w oddzielnym oknie">
 <!ENTITY zotero.progress.title "Postęp">
-<!ENTITY zotero.proxy.recognized.disable.label "Nie przekierowuj automatycznie żądań za pomocą poprzednio rozpoznanych serwerów proxy">
+<!ENTITY zotero.proxy.recognized.disable.label "Nie przekierowuj automatycznie żądań za pomocą poprzednio rozpoznanych serwerów pośredniczących">
 <!ENTITY zotero.proxy.recognized.ignore.label "Ignoruj">
-<!ENTITY zotero.proxy.recognized.title "Rozpoznano proxy">
-<!ENTITY zotero.proxy.recognized.warning "Dodaj tylko zaufane serwery proxy, powiązane z twoją stroną biblioteki, szkoły lub organizacji. ">
-<!ENTITY zotero.proxy.recognized.warning.secondary "Dodawanie innych serwerów proxy umożliwia złośliwym stronom internetowym podszywanie się pod zaufane.">
+<!ENTITY zotero.proxy.recognized.title "Rozpoznano serwer pośredniczący">
+<!ENTITY zotero.proxy.recognized.warning "Dodaj tylko zaufane serwery pośredniczące, powiązane z twoją stroną biblioteki, szkoły lub organizacji. ">
+<!ENTITY zotero.proxy.recognized.warning.secondary "Dodawanie innych serwerów pośredniczących umożliwia złośliwym stronom internetowym podszywanie się pod zaufane.">
 <!ENTITY zotero.recognizePDF.cancel.label "Anuluj">
 <!ENTITY zotero.recognizePDF.captcha.label "Wprowadź poniższy tekst aby kontynuować pobieranie metadanych.">
 <!ENTITY zotero.recognizePDF.itemName.label "Nazwa elementu">
@@ -252,7 +253,7 @@
 <!ENTITY zotero.sync.longTagFixer.followingTagTooLong "Poniższa etykieta w twojej bibliotece Zotero jest zbyt długa, aby ją zsynchornizować z serwerem:">
 <!ENTITY zotero.sync.longTagFixer.split "Podziel">
 <!ENTITY zotero.sync.longTagFixer.splitAtThe "Podziel na ">
-<!ENTITY zotero.sync.longTagFixer.splitEditDelete "Możesz podzielić etykietę na kilka, edytować ręcznie aby ją skrócić lub też po prostu ją usunąć.">
+<!ENTITY zotero.sync.longTagFixer.splitEditDelete "Możesz podzielić etykietę na kilka osobnych, edytować ręcznie, aby ją skrócić lub też po prostu ją usunąć.">
 <!ENTITY zotero.sync.longTagFixer.syncedTagSizeLimit "Synchronizowane etykiety muszą być krótsze niż 256 znaków.">
 <!ENTITY zotero.sync.longTagFixer.tagWillBeDeleted "Etykieta zostanie usunięta ze wszystkich elementów.">
 <!ENTITY zotero.sync.longTagFixer.uncheckedTagsNotSaved "Niezaznaczone etykiety nie będą zachowane.">
@@ -269,7 +270,7 @@
 <!ENTITY zotero.tagColorChooser.position "Pozycja:">
 <!ENTITY zotero.tagColorChooser.removeColor "Usuń kolor">
 <!ENTITY zotero.tagColorChooser.setColor "Ustaw kolor">
-<!ENTITY zotero.tagColorChooser.title "Wybierz kolor i pozycję etykiety">
+<!ENTITY zotero.tagColorChooser.title "Wybierz kolor i pozycję etykiety">
 <!ENTITY zotero.tagSelector.assignColor "Przypisz kolor...">
 <!ENTITY zotero.tagSelector.clearAll "Odznacz wszystkie">
 <!ENTITY zotero.tagSelector.clearVisible "Odznacz widoczne">
@@ -277,7 +278,7 @@
 <!ENTITY zotero.tagSelector.deleteTag "Usuń etykietę...">
 <!ENTITY zotero.tagSelector.displayAllInLibrary "Wyświetl wszystkie etykiety w tej bibliotece">
 <!ENTITY zotero.tagSelector.filter "Filtr:">
-<!ENTITY zotero.tagSelector.loadingTags "Wczytywanie znaczników...">
+<!ENTITY zotero.tagSelector.loadingTags "Wczytywanie etykiet...">
 <!ENTITY zotero.tagSelector.noTagsToDisplay "Brak etykiet do wyświetlenia">
 <!ENTITY zotero.tagSelector.renameTag "Zmień nazwę etykiety...">
 <!ENTITY zotero.tagSelector.selectVisible "Zaznacz widoczne">
@@ -343,5 +344,5 @@
 <!ENTITY zotero.upgrade.newVersionInstalled "Nowa wersja Zotero została zainstalowana.">
 <!ENTITY zotero.upgrade.title "Kreator aktualizacji Zotero">
 <!ENTITY zotero.upgrade.upgradeInProgress "Proszę poczekać na zakończenie procesu aktualizacji. Może to potrwać kilka minut.">
-<!ENTITY zotero.upgrade.upgradeRequired "Baza danych Zotero musi zostać zaktualizowana, aby współpracowała z nową wersją programu.">
+<!ENTITY zotero.upgrade.upgradeRequired "Baza danych Zotero musi zostać zaktualizowana, aby mogła współpracować z nową wersją programu.">
 <!ENTITY zotero.upgrade.upgradeSucceeded "Baza danych Zotero została pomyślnie zaktualizowana.">

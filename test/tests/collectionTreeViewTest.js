@@ -490,7 +490,19 @@ describe("Zotero.CollectionTreeView", function() {
 			await cv.selectItem(item.id);
 			await waitForItemsLoad(win);
 			assert.equal(cv.selection.currentIndex, 0);
-			assert.sameMembers(zp.itemsView.getSelectedItems(), [item]);
+			assert.sameMembers(zp.itemsView.getSelectedItems(true), [item.id]);
+		});
+	});
+	
+	describe("#selectItems()", function () {
+		it("should switch to library root if at least one item isn't in the current collection", async function () {
+			var collection = await createDataObject('collection');
+			var item1 = await createDataObject('item', { collections: [collection.id] });
+			var item2 = await createDataObject('item');
+			await cv.selectItems([item1.id, item2.id]);
+			await waitForItemsLoad(win);
+			assert.equal(cv.selection.currentIndex, 0);
+			assert.sameMembers(zp.itemsView.getSelectedItems(true), [item1.id, item2.id]);
 		});
 	});
 	
@@ -1058,6 +1070,53 @@ describe("Zotero.CollectionTreeView", function() {
 				assert.equal(newColIndexG, newColIndexH - 1);
 				
 				// TODO: Check deeper subcollection open states
+			})
+			
+			it("should copy a collection and its subcollection to another library", async function () {
+				var group = await createGroup();
+				
+				var collectionA = await createDataObject('collection', { name: "A" }, { skipSelect: true });
+				var collectionB = await createDataObject('collection', { name: "B", parentKey: collectionA.key });
+				var itemA = await createDataObject('item', { collections: [collectionA.key] }, { skipSelect: true });
+				var itemB = await createDataObject('item', { collections: [collectionB.key] }, { skipSelect: true });
+				
+				await cv.selectCollection(collectionA.id);
+				
+				// Add observer to wait for collection add
+				var deferred = Zotero.Promise.defer();
+				var observerID = Zotero.Notifier.registerObserver({
+					notify: function (event, type, ids, extraData) {
+						if (type == 'collection' && event == 'modify' && ids.includes(collectionB.id)) {
+							setTimeout(function () {
+								deferred.resolve();
+							}, 50);
+						}
+					}
+				}, 'collection', 'test');
+				
+				await drop(
+					'collection',
+					'L' + group.libraryID,
+					[collectionA.id],
+					deferred.promise
+				);
+				
+				Zotero.Notifier.unregisterObserver(observerID);
+				
+				var pred = Zotero.Relations.linkedObjectPredicate;
+				var newCollectionA = await Zotero.URI.getURICollection(collectionA.getRelations()[pred][0]);
+				var newCollectionB = await Zotero.URI.getURICollection(collectionB.getRelations()[pred][0]);
+				var newItemA = await Zotero.URI.getURIItem(itemA.getRelations()[pred][0]);
+				var newItemB = await Zotero.URI.getURIItem(itemB.getRelations()[pred][0]);
+				assert.equal(newCollectionA.libraryID, group.libraryID);
+				assert.equal(newCollectionB.libraryID, group.libraryID);
+				assert.equal(newCollectionB.parentID, newCollectionA.id);
+				assert.equal(newItemA.libraryID, group.libraryID);
+				assert.equal(newItemB.libraryID, group.libraryID);
+				assert.isTrue(newCollectionA.hasItem(newItemA));
+				assert.isTrue(newCollectionB.hasItem(newItemB));
+				assert.isFalse(newCollectionA.hasItem(newItemB));
+				assert.isFalse(newCollectionB.hasItem(newItemA));
 			})
 		})
 

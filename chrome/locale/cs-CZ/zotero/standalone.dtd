@@ -21,7 +21,7 @@
 <!ENTITY debugOutputLogging.accesskey "L">
 <!ENTITY debugOutputLogging.clear "Vymazat výstup">
 <!ENTITY debugOutputLogging.label "Debug Output Logging">
-<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restart with Logging Enabled…">
+<!ENTITY debugOutputLogging.restartWithLoggingEnabled "Restartovat se zapnutým logováním...">
 <!ENTITY debugOutputLogging.submit "Zaslat výstup">
 <!ENTITY debugOutputLogging.view "Prohlédnout výstup">
 <!ENTITY deleteCmd.accesskey "D">

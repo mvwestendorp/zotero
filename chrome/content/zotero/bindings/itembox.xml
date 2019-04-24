@@ -72,6 +72,7 @@
 					switch (val) {
 						case 'view':
 						case 'merge':
+							this._tabbingInProgress = false;
 							break;
 						
 						case 'edit':
@@ -86,9 +87,11 @@
 						case 'fieldmerge':
 							this.hideEmptyFields = true;
 							this._fieldAlternatives = {};
+							this._tabbingInProgress = false;
 							break;
 						
 						default:
+							this._tabbingInProgress = false;
 							throw ("Invalid mode '" + val + "' in itembox.xml");
 					}
 					
@@ -104,17 +107,13 @@
 					if (!(val instanceof Zotero.Item)) {
 						throw new Error("'item' must be a Zotero.Item");
 					}
-					if (this._suppressRefresh) {
-						this._suppressRefresh = false;
-						return;
-					}
 					
 					// When changing items, reset truncation of creator list
 					if (!this._item || val.id != this._item.id) {
 						this._displayAllCreators = false;
 					}
 					
-					if (this._item && val.id == this._item.id) {
+					if (this._item && val.id == this._item.id && this._mode !== 'fieldmerge') {
 						this._item = val;
 						this.refresh(true);
 					} else {
@@ -422,39 +421,78 @@
 				<parameter name="fieldValue"/>
 				<body>
 				<![CDATA[
-					var fieldName = node.getAttribute('fieldname');
-					// XXX Check for existing target tag among variants.
-					if (this.item.multi.hasLang(tag, fieldName)) {
-						// XXX If a matching variant exists, get the row and its values.
-						var variantNickname = Zotero.CachedLanguages.getNickname(tag);
-						var variantValue = this.item.getField(fieldName, null, null, tag);
-						var row = null;
-						var parentRow = Zotero.getAncestorByTagName(node, 'row');
-						var rows = parentRow.nextSibling;
-						if (rows.tagName === 'rows' && rows.classList.contains('multi')) {
-							for (var i=0,ilen=rows.childNodes.length;i<ilen;i++) {
-								var lang = rows.childNodes[i].firstChild.getAttribute('zlang');
-								if (lang === tag) {
-									row = rows.childNodes[i];
-									break;
-								}
-							}
-							// XXX Also get the values of main.
-							var mainLang = this.item.multi.mainLang(fieldName);
-							var mainValue = this.item.getField(fieldName);
-							
-							this.item.multi.changeLangTag(mainLang, tag, fieldName);
-							this.item.saveTx();
-						}
-					} else {
-						// XXX If no matching value exists, just change the one field value
+					return (async function() {
 						var fieldName = node.getAttribute('fieldname');
-						var langNickname = Zotero.CachedLanguages.getNickname(tag);
-						node.setAttribute('zlang',tag);
-						node.setAttribute('tooltiptext',langNickname);
-						this._modifyField(fieldName,fieldValue,tag,true);
-						this.item.saveTx();
-					}
+						// Adopting Adam Lisbon's suggestion to set Language field
+						// to follow Title
+						var setLanguageFieldVal = false;
+						var savedItem = false;
+						if (fieldName === "title") {
+							var langFieldVal = this.item.getField("language");
+							if (!langFieldVal) {
+								this.item.setField("language", tag);
+								setLanguageFieldVal = true;
+							}
+						}
+						// XXX Check for existing target tag among variants.
+						if (this.item.multi.hasLang(tag, fieldName)) {
+							// XXX If a matching variant exists, get the row and its values.
+							var variantNickname = Zotero.CachedLanguages.getNickname(tag);
+							var variantValue = this.item.getField(fieldName, null, null, tag);
+							var row = null;
+							var parentRow = Zotero.getAncestorByTagName(node, 'row');
+							var rows = parentRow.nextSibling;
+							if (rows.tagName === 'rows' && rows.classList.contains('multi')) {
+								for (var i=0,ilen=rows.childNodes.length;i<ilen;i++) {
+									var lang = rows.childNodes[i].firstChild.getAttribute('zlang');
+									if (lang === tag) {
+										row = rows.childNodes[i];
+										break;
+									}
+								}
+								// XXX Also get the values of main.
+								var mainLang = this.item.multi.mainLang(fieldName);
+								var mainValue = this.item.getField(fieldName);
+
+								this.item.multi.changeLangTag(mainLang, tag, fieldName);
+								savedItem = true;
+								await this.item.saveTx();
+							}
+						} else {
+							// XXX If no matching value exists, just change the one field value
+							var fieldName = node.getAttribute('fieldname');
+							var langNickname = Zotero.CachedLanguages.getNickname(tag);
+							node.setAttribute('zlang',tag);
+							node.setAttribute('tooltiptext',langNickname);
+							this._modifyField(fieldName,fieldValue,tag,true);
+							savedItem = true;
+							await this.item.saveTx();
+						}
+						if (setLanguageFieldVal) {
+							if (!savedItem) {
+								await this.item.saveTx();
+							}
+							var xpath = '*[local-name()="row"]/'
+								+ '*[local-name()="label" and @fieldname="language"]/'
+								+ 'following-sibling::*[local-name()="label"]'
+							var languageNodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+							function fadeIn(node) {
+								var incr=0.09;
+								var opacity=incr;
+								var timer = setInterval(function() {
+									opacity += incr;
+									node.setAttribute("style", "background-color:rgba(254,254,0," + opacity + ");")
+									if (opacity >= 1) {
+										incr = -1 * incr;
+									}
+									if (opacity <= 0) {
+										clearInterval(timer);
+									}
+								}, 50);
+							}
+							fadeIn(languageNodes.snapshotItem(0));
+						}
+					}.bind(this))();
 				]]>
 				</body>
 			</method>
@@ -708,14 +746,8 @@
 				<parameter name="skipFields"/>
 				<body>
 				<![CDATA[
-					if (this.blockRefresh) {
-						this.blockRefresh = false;
-						return;
-					}
-
 					
 					if (!this.item) {
-
 						Zotero.debug('No item to refresh', 2);
 						return;
 					}
@@ -831,16 +863,21 @@
 						}
 						
 						var moveSep = document.createElement("menuseparator");
+						var moveToTop = document.createElement("menuitem");
 						var moveUp = document.createElement("menuitem");
 						var moveDown = document.createElement("menuitem");
 						moveSep.id = "zotero-creator-move-sep";
+						moveToTop.id = "zotero-creator-move-to-top";
 						moveUp.id = "zotero-creator-move-up";
 						moveDown.id = "zotero-creator-move-down";
+						moveToTop.className = "zotero-creator-move";
 						moveUp.className = "zotero-creator-move";
 						moveDown.className = "zotero-creator-move";
+						moveToTop.setAttribute("label", Zotero.getString('pane.item.creator.moveToTop'));
 						moveUp.setAttribute("label", Zotero.getString('pane.item.creator.moveUp'));
 						moveDown.setAttribute("label", Zotero.getString('pane.item.creator.moveDown'));
 						this._creatorTypeMenu.appendChild(moveSep);
+						this._creatorTypeMenu.appendChild(moveToTop);
 						this._creatorTypeMenu.appendChild(moveUp);
 						this._creatorTypeMenu.appendChild(moveDown);
 					}
@@ -926,7 +963,7 @@
 							// this item, so that added creators aren't
 							// immediately hidden
 							this._displayAllCreators = true;
-							
+							Zotero.debug("XXXX REFRESH _addCreatorRow is "+this._addCreatorRow);
 							if (this._addCreatorRow) {
 								this.addCreatorRow(false, this.item.getCreator(max-1).creatorTypeID, true);
 								this._addCreatorRow = false;
@@ -1501,6 +1538,13 @@
 						if (this._getFieldValue(lastName) == this._defaultLastName) {
 							this._setFieldValue(lastName, this._defaultFullName);
 						}
+						
+						// If one of the creator fields is open, leave it open after swap
+						let activeField = this._dynamicFields.querySelector('textbox');
+						if (activeField == firstName || activeField == lastName) {
+							this._lastTabIndex = parseInt(lastName.getAttribute('ztabindex'));
+							this._tabDirection = false;
+						}
 					}
 					// Switch to two-field mode
 					else {
@@ -1585,8 +1629,7 @@
 						fields.fieldMode = fieldMode;
 						this.modifyCreator(index, fields, langTag, isMulti);
 						if (this.saveOnEdit) {
-							// See note in transformText()
-							this.blurOpenField().then(() => this.item.saveTx());
+							this.item.saveTx();
 						}
 					}
 				]]>
@@ -2107,8 +2150,8 @@
 			<method name="removeCreator">
 				<parameter name="index"/>
 				<parameter name="labelToDelete"/>
-				<body>
-				<![CDATA[
+				<body><![CDATA[
+				return (async function () {
 					// Are you multi?
 					isMulti = labelToDelete.parentNode.classList.contains('multi');
 					// If unsaved row, just remove element
@@ -2137,9 +2180,10 @@
 							this.item.removeCreator(index);
 						}
 					}
-					this.item.saveTx();
-				]]>
-				</body>
+					await this.blurOpenField();
+					await this.item.saveTx();
+				}.bind(this))();
+				]]></body>
 			</method>
 			
 			
@@ -3204,8 +3248,8 @@
 					
 					switch (event.keyCode)
 					{
-
 						case event.DOM_VK_RETURN:
+							this._tabbingInProgress = false;
 							var fieldname = target.getAttribute('fieldname');
 							// Use shift-enter as the save action for the larger fields
 							if (Zotero.ItemFields.isMultiline(fieldname) && !event.shiftKey) {
@@ -3249,6 +3293,7 @@
 							
 						case event.DOM_VK_ESCAPE:
 							// Reset field to original value
+							this._tabbingInProgress = false;
 							target.value = target.getAttribute('value');
 							
 							focused.blur();
@@ -3263,9 +3308,11 @@
 							
 						case event.DOM_VK_TAB:
 							if (event.shiftKey) {
+								this._tabbingInProgress = "backward";
 								this._focusNextField(this._lastTabIndex, true);
 							}
 							else {
+								this._tabbingInProgress = "forward";
 								this._focusNextField(++this._lastTabIndex);
 							}
 							return false;
@@ -3298,7 +3345,7 @@
 				<body><![CDATA[
 				return (async function () {
 					Zotero.debug(`Hiding editor for ${textbox.getAttribute('fieldname')}`);
-					
+
 					if (["jurisdiction", "court"].indexOf(fieldName) === -1) {
 						var label = Zotero.getAncestorByTagName(textbox, 'row').querySelector('label');
 					}
@@ -3316,6 +3363,17 @@
 					
 					var elem;
 					var [field, creatorIndex, creatorField] = fieldName.split('-');
+
+					if (this._tabbingInProgress === "backward") {
+						if (creatorField === "firstName") {
+							this.saveOnEdit = false;
+						}
+					} else if (this._tabbingInProgress === "forward") {
+						if (creatorField === "lastName") {
+							this.saveOnEdit = false;
+						}
+					}
+
 					var newVal;
 					
 					var row = Zotero.getAncestorByTagName(textbox, 'row');
@@ -3345,22 +3403,12 @@
 					// Creator fields
 					if (field == 'creator') {
 
-					// NEEDS REVAMPERY
+						// NEEDS REVAMPERY
 
 						var otherFields = this.getCreatorFields(row);
 						otherFields[creatorField] = value;
 						var lastName = otherFields.lastName.trim();
 						var firstName = otherFields.firstName ? otherFields.firstName.trim() : '';
-						
-						if (isMulti) {
-							if (!lastName && !firstName) {
-								delete otherFields.multi._key[fieldLang];
-								this.item.setCreator(creatorIndex, otherFields, otherFields.creatorTypeID);
-								this.item.saveTx();
-								this.refresh(true);
-								return;
-							}
-						}
 
 						//Handle \n\r and \n delimited entries
 						var rawNameArray = lastName.split(/\r\n?|\n/);
@@ -3421,13 +3469,13 @@
 							this.modifyCreator(creatorIndex, otherFields, fieldLang, isMulti);
 						}
 						
-						var val = this.item.getCreator(creatorIndex);
-						if (isMulti && val) {
-							if (val.multi._key[fieldLang]) {
-								val = val.multi._key[fieldLang];
+						var cVal = this.item.getCreator(creatorIndex);
+						if (isMulti && cVal) {
+							if (cVal.multi._key[fieldLang]) {
+								cVal = cVal.multi._key[fieldLang];
 							}
 						}
-						val = val ? val[creatorField] : null;
+						val = cVal ? cVal[creatorField] : null;
 						
 						if (!val) {
 							// Reset to '(first)'/'(last)'/'(name)'
@@ -3441,9 +3489,10 @@
 						}
 						
 						newVal = val;
-						
+
 						// Reset creator mode settings here so that flex attribute gets reset
 						this.switchCreatorMode(row, (otherFields.fieldMode ? 1 : 0), true);
+
 						if (Zotero.ItemTypes.getName(this.item.itemTypeID) === "bookSection") {
 							var creatorTypeLabels = document.getAnonymousNodes(this)[0].getElementsByClassName("creator-type-label");
 							document.getElementById("zotero-author-guidance").show({
@@ -3535,9 +3584,13 @@
 						// Disassociate textbox from label
 						label.setAttribute('control', elem.getAttribute('id'));
 					}
-					
 					if (this.saveOnEdit) {
 						await this.item.saveTx();
+					} else {
+						if (this._tabbingInProgress) {
+							this._tabbingInProgress = false;
+							this.saveOnEdit = true;
+						}
 					}
 				}.bind(this))();
 				]]></body>
@@ -3550,6 +3603,8 @@
 				<![CDATA[
 				return (async function () {
 					Zotero.debug(`Hiding jurisdiction editor for ${node.getAttribute('fieldname')}`);
+
+					this._tabbingInProgress = false;
 
 					this._lastTabIndex = -1;
 
@@ -3616,6 +3671,8 @@
 				<![CDATA[
 					return (async function () {
 					Zotero.debug(`Hiding court editor for ${node.getAttribute('fieldname')}`);
+
+					this._tabbingInProgress = false;
 
 					this._lastTabIndex = -1;
 
@@ -3862,9 +3919,9 @@
 							return false;
 						}
 						if (langTag && isMulti) {
-							return this.item.removeCreator(index, langTag);
+							return this.item.removeCreator(index, false, langTag);
 						} else {
-							// XXX Use xpath to check if multi creators exist, block if they do.
+							// Use xpath to check if multi creators exist, block if they do.
 							var xpath = '*[local-name()="rows" and contains(@class,"creator")][' + (index+1) + ']/*[local-name()="rows" and contains(@class,"multi")]';
 							var nodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 							if (!nodes.snapshotLength) {
@@ -3939,26 +3996,49 @@
 			-->
 			<method name="moveCreator">
 				<parameter name="index"/>
-				<parameter name="moveUp"/>
+				<parameter name="dir"/>
 				<body><![CDATA[
 				return Zotero.spawn(function* () {
-					if (index == 0 && moveUp) {
+					yield this.blurOpenField();
+					if (index == 0 && dir == 'up') {
 						Zotero.debug("Can't move up creator 0");
 						return;
 					}
-					else if (index + 1 == this.item.numCreators() && !moveUp) {
+					else if (index + 1 == this.item.numCreators() && dir == 'down') {
 						Zotero.debug("Can't move down last creator");
 						return;
 					}
 					
-					var newIndex = moveUp ? index - 1 : index + 1;
-					var a = this.item.getCreator(index);
-					var b = this.item.getCreator(newIndex);
-					this.item.setCreator(newIndex, a);
-					this.item.setCreator(index, b);
+					var newIndex;
+					switch (dir) {
+					case 'top':
+						newIndex = 0;
+						break;
+					
+					case 'up':
+						newIndex = index - 1;
+						break;
+					
+					case 'down':
+						newIndex = index + 1;
+						break;
+					}
+					let creator = this.item.getCreator(index);
+					// When moving to top, increment index of all other creators
+					if (dir == 'top') {
+						let otherCreators = this.item.getCreators();
+						this.item.setCreator(newIndex, creator);
+						for (let i = 0; i < index; i++) {
+							this.item.setCreator(i + 1, otherCreators[i]);
+						}
+					}
+					// When moving up or down, swap places with next creator
+					else {
+						let otherCreator = this.item.getCreator(newIndex);
+						this.item.setCreator(newIndex, creator);
+						this.item.setCreator(index, otherCreator);
+					}
 					if (this.saveOnEdit) {
-						// See note in transformText()
-						yield this.blurOpenField();
 						return this.item.saveTx();
 					}
 				}, this);
@@ -4041,6 +4121,7 @@
 					
 					if (!next) {
 						Zotero.debug("Next field not found");
+						// Prevents tabbing from getting stuck at the last field in Juris-M
 						this._lastTabIndex--;
 						return false;
 					}
@@ -4147,7 +4228,10 @@
 							jurisdictionDefaultNode.setAttribute("checked",false);
 						}
 					}
-					this.item.setField("jurisdiction",key);
+					// Jurisdiction may be undefined on newspaper articles, journal articles, and standards
+					if ("undefined" !== typeof key) {
+						this.item.setField("jurisdiction", key);
+					}
 				//}.bind(this))();
 				]]>
 			  </body>
@@ -4167,27 +4251,41 @@
 								var exists = item.hasCreatorAt(index);
 								var moreCreators = item.numCreators() > index + 1;
 								
+								var hideMoveToTop = !exists || index &lt; 2;
 								var hideMoveUp = !exists || index == 0;
 								var hideMoveDown = !exists || !moreCreators;
 								var hideMoveSep = hideMoveUp &amp;&amp; hideMoveDown;
 								
 								document.getElementById('zotero-creator-move-sep').setAttribute('hidden', hideMoveSep);
+								document.getElementById('zotero-creator-move-to-top').setAttribute('hidden', hideMoveToTop);
 								document.getElementById('zotero-creator-move-up').setAttribute('hidden', hideMoveUp);
 								document.getElementById('zotero-creator-move-down').setAttribute('hidden', hideMoveDown);"
-						oncommand="var typeBox = document.popupNode.localName == 'hbox' ? document.popupNode : document.popupNode.parentNode;
+						oncommand="return async function () {
+							var typeBox = document.popupNode.localName == 'hbox' ? document.popupNode : document.popupNode.parentNode;
 							var index = parseInt(typeBox.getAttribute('fieldname').split('-')[1]);
 							
-							var itemBox = document.getBindingParent(this);
-							
 							if (event.explicitOriginalTarget.className == 'zotero-creator-move') {
-								var up = event.explicitOriginalTarget.id == 'zotero-creator-move-up';
-								itemBox.moveCreator(index, up);
+								let dir;
+								switch (event.explicitOriginalTarget.id) {
+								case 'zotero-creator-move-to-top':
+									dir = 'top';
+									break;
+								
+								case 'zotero-creator-move-up':
+									dir = 'up';
+									break;
+								
+								case 'zotero-creator-move-down':
+									dir = 'down';
+									break;
+								}
+								this.moveCreator(index, dir);
 								return;
 							}
 							
 							var typeID = event.explicitOriginalTarget.getAttribute('typeid');
 							var row = typeBox.parentNode;
-							var fields = itemBox.getCreatorFields(row);
+							var fields = this.getCreatorFields(row);
 							fields.creatorTypeID = typeID;
 							typeBox.getElementsByTagName('label')[0].setAttribute(
 								'value',
@@ -4203,13 +4301,14 @@
 							var changedParams = {
 								creatorTypeID: typeID
 							};
-							itemBox._updateAutoCompleteParams(row, changedParams);
+							this._updateAutoCompleteParams(row, changedParams);
 							
-							itemBox.modifyCreator(index, fields);
-							if (itemBox.saveOnEdit) {
-								itemBox.item.saveTx();
+							this.modifyCreator(index, fields);
+							if (this.saveOnEdit) {
+								await this.blurOpenField();
+								await this.item.saveTx();
 							}
-							"/>
+						}.bind(document.getBindingParent(this))();"/>
 					<menupopup id="zotero-field-transform-menu">
 						<menu label="&zotero.item.textTransform;">
 							<menupopup>

@@ -67,7 +67,7 @@ describe("Zotero.Utilities.Internal", function () {
 		});
 		
 		afterEach(function () {
-			spy.reset();
+			spy.resetHistory();
 		});
 		
 		after(function () {
@@ -86,7 +86,7 @@ describe("Zotero.Utilities.Internal", function () {
 				let val = yield gen.next().value;
 				assert.isTrue(val);
 				assert.isTrue(spy.calledWith(i));
-				spy.reset();
+				spy.resetHistory();
 			}
 		});
 		
@@ -102,13 +102,41 @@ describe("Zotero.Utilities.Internal", function () {
 				let val = yield gen.next().value;
 				assert.isTrue(val);
 				assert.isTrue(spy.calledWith(i));
-				spy.reset();
+				spy.resetHistory();
 			}
 			
 			// Another interval would put us over maxTime, so return false immediately
 			let val = yield gen.next().value;
 			assert.isFalse(val);
 			assert.isFalse(spy.called);
+		});
+	});
+	
+	
+	describe("#extractExtraFields()", function () {
+		it("should extract a field", function () {
+			var val = '10.1234/abcdef';
+			var str = `DOI: ${val}`;
+			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
+			assert.equal(fields.size, 1);
+			assert.equal(fields.get('DOI').value, val);
+		});
+		
+		it("should extract a field with different case", function () {
+			var val = '10.1234/abcdef';
+			var str = `doi: ${val}`;
+			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
+			assert.equal(fields.size, 1);
+			assert.equal(fields.get('DOI').value, val);
+		});
+		
+		it("should extract a field with other fields, text, and whitespace", function () {
+			var originalDateVal = '1989';
+			var doiVal = '10.1234/abcdef';
+			var str = `\nOriginal Date: ${originalDateVal}\nDOI: ${doiVal}\n\n`;
+			var fields = Zotero.Utilities.Internal.extractExtraFields(str);
+			assert.equal(fields.size, 2);
+			assert.equal(fields.get('DOI').value, doiVal);
 		});
 	});
 	
@@ -170,6 +198,28 @@ describe("Zotero.Utilities.Internal", function () {
 			assert.propertyVal(identifiers[1], "arXiv", "0706.00441");
 			assert.propertyVal(identifiers[2], "arXiv", "hep-ex/9809001");
 			assert.propertyVal(identifiers[3], "arXiv", "math.GT/0309135");
+		});
+	});
+	
+	describe("#getNextName()", function () {
+		it("should get the next available numbered name", function () {
+			var existing = ['Name', 'Name 1', 'Name 3'];
+			assert.equal(Zotero.Utilities.Internal.getNextName('Name', existing), 'Name 2');
+		});
+		
+		it("should return 'Name 1' if no numbered names", function () {
+			var existing = ['Name'];
+			assert.equal(Zotero.Utilities.Internal.getNextName('Name', existing), 'Name 1');
+		});
+		
+		it("should return 'Name' if only numbered names", function () {
+			var existing = ['Name 1', 'Name 3'];
+			assert.equal(Zotero.Utilities.Internal.getNextName('Name', existing), 'Name');
+		});
+		
+		it("should trim given name if trim=true", function () {
+			var existing = ['Name', 'Name 1', 'Name 2', 'Name 3'];
+			assert.equal(Zotero.Utilities.Internal.getNextName('Name 2', existing, true), 'Name 4');
 		});
 	});
 })

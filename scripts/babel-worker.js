@@ -3,7 +3,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const babel = require('babel-core');
+const babel = require('@babel/core');
 const multimatch = require('multimatch');
 const options = JSON.parse(fs.readFileSync('.babelrc'));
 const cluster = require('cluster');
@@ -12,7 +12,10 @@ const cluster = require('cluster');
 async function babelWorker(ev) {
 	const t1 = Date.now();
 	const sourcefile = ev.file;
-	const outfile = path.join('build', sourcefile);
+	const localOptions = {
+		filename: sourcefile
+	};
+	const outfile = path.join('build', sourcefile.replace('.jsx', '.js'));
 	const postError = (error) => {
 		process.send({
 			sourcefile,
@@ -26,15 +29,35 @@ async function babelWorker(ev) {
 
 	try {
 		let contents = await fs.readFile(sourcefile, 'utf8');
-		if (sourcefile === 'resource/react-dom.js') {
-			// patch react
-			transformed = contents.replace(/ownerDocument\.createElement\((.*?)\)/gi, 'ownerDocument.createElementNS(DOMNamespaces.html, $1)');
-		} else if ('ignore' in options && options.ignore.some(ignoreGlob => multimatch(sourcefile, ignoreGlob).length)) {
+		// Patch react
+		if (sourcefile === 'resource/react.js') {
+			transformed = contents.replace('instanceof Error', '.constructor.name == "Error"')
+		}
+		// Patch react-dom
+		else if (sourcefile === 'resource/react-dom.js') {
+			transformed = contents.replace(/ ownerDocument\.createElement\((.*?)\)/gi, 'ownerDocument.createElementNS(HTML_NAMESPACE, $1)')
+				.replace('element instanceof win.HTMLIFrameElement',
+					'typeof element != "undefined" && element.tagName.toLowerCase() == "iframe"')
+				.replace("isInputEventSupported = false", 'isInputEventSupported = true');
+		}
+		// Patch react-virtualized
+		else if (sourcefile === 'resource/react-virtualized.js') {
+			transformed = contents.replace('scrollDiv = document.createElement("div")', 'scrollDiv = document.createElementNS("http://www.w3.org/1999/xhtml", "div")')
+				.replace('document.body.appendChild(scrollDiv)', 'document.documentElement.appendChild(scrollDiv)')
+				.replace('document.body.removeChild(scrollDiv)', 'document.documentElement.removeChild(scrollDiv)');
+		}
+		else if ('ignore' in options && options.ignore.some(ignoreGlob => multimatch(sourcefile, ignoreGlob).length)) {
 			transformed = contents;
 			isSkipped = true;
 		} else {
 			try {
-				transformed = babel.transform(contents, options).code;
+				({ code: transformed } = await babel.transformAsync(
+					contents,
+					Object.assign(
+						localOptions,
+						options
+					)
+				));
 			} catch (error) { return postError(`Babel error: ${error}`);}
 		}
 
