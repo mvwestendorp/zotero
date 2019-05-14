@@ -23,7 +23,7 @@ Copyright (c) 2009-2019 Frank Bennett
     <http://www.gnu.org/licenses/> respectively.
 */
 var CSL = {
-    PROCESSOR_VERSION: "1.2.1",
+    PROCESSOR_VERSION: "1.2.3",
     LOCATOR_LABELS_REGEXP: new RegExp("^((art|ch|subch|col|fig|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\\.)\\s+(.*)"),
     STATUTE_SUBDIV_PLAIN_REGEX: /(?:(?:^| )(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
     STATUTE_SUBDIV_PLAIN_REGEX_FRONT: /(?:^\s*[.,;]*\s*(?:art|bk|ch|subch|col|fig|fol|l|n|no|op|p|pp|para|subpara|supp|pt|r|sec|subsec|sv|sch|tit|vrs|vol)\. *)/,
@@ -507,6 +507,7 @@ var CSL = {
         "call-number",
         "chapter-number",
         "collection-number",
+        "division",
         "edition",
         "page",
         "issue",
@@ -536,7 +537,7 @@ var CSL = {
         "container-title"
     ],
     TITLE_FIELD_SPLITS: function(seg) {
-        var keys = ["title", "short", "main", "sub"];
+        var keys = ["title", "short", "main", "sub", "subjoin"];
         var ret = {};
         for (var i=0,ilen=keys.length;i<ilen;i++) {
             ret[keys[i]] = seg + "title" + (keys[i] === "title" ? "" : "-" + keys[i]);
@@ -567,7 +568,8 @@ var CSL = {
         }
         return fld;
     },
-    extractTitleAndSubtitle: function (Item) {
+    extractTitleAndSubtitle: function (Item, narrowSpaceLocale) {
+        var narrowSpace = narrowSpaceLocale ? "\u202f" : "";
         var segments = ["", "container-"];
         for (var i=0,ilen=segments.length;i<ilen;i++) {
             var seg = segments[i];
@@ -594,12 +596,57 @@ var CSL = {
                 }
                 vals[title.main] = vals[title.title];
                 vals[title.sub] = false;
-                if (vals[title.title] && vals[title["short"]]) {
-                    var shortTitle = vals[title["short"]];
-                    var offset = shortTitle.length;
-                    if (vals[title.title].slice(0,offset) === shortTitle && vals[title.title].slice(offset).match(/^\s*:/)) {
-                        vals[title.main] = vals[title.title].slice(0,offset).replace(/\s+$/,"");
-                        vals[title.sub] = vals[title.title].slice(offset).replace(/^\s*:\s*/,"");
+                var shortTitle = vals[title["short"]];
+                if (vals[title.title]) {
+                    if (shortTitle && shortTitle === vals[title.title]) {
+                        vals[title.main] = vals[title.title];
+                        vals[title.subjoin] = "";
+                        vals[title.sub] = "";
+                    } else if (shortTitle) {
+                        var checkAhead = vals[title.title].slice(shortTitle.replace(/[\?\!]+$/, "").length);
+                        var m = CSL.TITLE_SPLIT_REGEXP.matchfirst.exec(checkAhead);
+                        if (m) {
+                            vals[title.main] = shortTitle;
+                            vals[title.subjoin] = m[1].replace(/[\?\!]+(\s*)$/, "$1");
+                            vals[title.sub] = checkAhead.replace(CSL.TITLE_SPLIT_REGEXP.matchfirst, "");
+                        } else {
+                            var splitTitle = CSL.TITLE_SPLIT(vals[title.title]);
+                            if (splitTitle.length == 3) {
+                                vals[title.main] = splitTitle[0];
+                                vals[title.subjoin] = splitTitle[1];
+                                vals[title.sub] = splitTitle[2];
+                            } else {
+                                vals[title.main] = vals[title.title];
+                                vals[title.subjoin] = "";
+                                vals[title.sub] = "";
+                            }
+                        }
+                    } else {
+                        var splitTitle = CSL.TITLE_SPLIT(vals[title.title]);
+                        if (splitTitle.length == 3) {
+                            vals[title.main] = splitTitle[0];
+                            vals[title.subjoin] = splitTitle[1];
+                            vals[title.sub] = splitTitle[2];
+                        } else {
+                            vals[title.main] = vals[title.title];
+                            vals[title.subjoin] = "";
+                            vals[title.sub] = "";
+                        }
+                    }
+                    if (vals[title.subjoin]) {
+                        if (vals[title.subjoin].match(/([\?\!])/)) {
+                            var m = vals[title.subjoin].match(/(\s*)$/)
+                            vals[title.main] = vals[title.main] + narrowSpace +vals[title.subjoin].trim();
+                            vals[title.subjoin] = m[1];
+                        }
+                    }
+                }
+                if (vals[title.subjoin]) {
+                    if (vals[title.subjoin].indexOf(":") > -1) {
+                        vals[title.subjoin] = narrowSpace + ": ";
+                    }
+                    if (vals[title.subjoin].indexOf("-") > -1 || vals[title.subjoin].indexOf("—") > -1) {
+                        vals[title.subjoin] = "—";
                     }
                 }
                 if (lang) {
@@ -630,13 +677,18 @@ var CSL = {
             if (Item.multi._keys[title.sub]) {
                 vals[title.sub] = Item.multi._keys[title.sub][lang];
             }
+            if (Item.multi._keys[title.subjoin]) {
+                vals[title.subjoin] = Item.multi._keys[title.subjoin][lang];
+            }
         } else {
             vals[title.title] = Item[title.title];
             vals[title.main] = Item[title.main];
             vals[title.sub] = Item[title.sub];
+            vals[title.subjoin] = Item[title.subjoin];
         }
         if (vals[title.main] && vals[title.sub]) {
             var mainTitle = vals[title.main];
+            var subJoin = vals[title.subjoin];
             var subTitle = vals[title.sub];
             if (sentenceCase) {
                 mainTitle = CSL.Output.Formatters.sentence(state, mainTitle);
@@ -644,10 +696,27 @@ var CSL = {
             } else if (state.opt.development_extensions.uppercase_subtitles) {
                 subTitle = CSL.Output.Formatters["capitalize-first"](state, subTitle);
             }
-            return [mainTitle, subTitle].join(vals[title.title].slice(mainTitle.length, -1 * subTitle.length));
+            return [mainTitle, subJoin, subTitle].join("");
         } else {
             if (sentenceCase) {
                 return CSL.Output.Formatters.sentence(state, vals[title.title]);
+            } else if (state.opt.development_extensions.uppercase_subtitles) {
+                var splits = CSL.TITLE_SPLIT(vals[title.title]);
+                for (var i=0,ilen=splits.length; i<ilen; i += 2) {
+                    splits[i] = CSL.Output.Formatters["capitalize-first"](state, splits[i]);
+                }
+                for (var i=1, ilen=splits.length-1; i < ilen; i += 2) {
+                    var m = splits[i].match(/([:\?\!] )/);
+                    if (m) {
+                        var narrowSpace = state.opt["default-locale"][0].slice(0, 2).toLowerCase() === "fr" ? "\u202f" : "";
+                        splits[i] = narrowSpace + m[1];
+                    }
+                    if (splits[i].indexOf("-") > -1 || splits[i].indexOf("—") > -1) {
+                        splits[i] = "—";
+                    }
+                }
+                vals[title.title] = splits.join("");
+                return vals[title.title];
             } else {
                 return vals[title.title];
             }
@@ -944,6 +1013,45 @@ var CSL = {
                 state.tmp.just_did_number = false;
             }
         }
+    },
+    SYS_OPTIONS: [
+        "prioritize_disambiguate_condition",
+        "csl_reverse_lookup_support",
+        "main_title_from_short_title",
+        "uppercase_subtitles"
+    ],
+    TITLE_SPLIT_REGEXP: (function() {
+        var splits = [
+            "\\.\\s+",
+            "\\!\\s+",
+            "\\?\\s+",
+            "\\s*::*\\s+",
+            "\\s*—\\s*",
+            "\\s+\\-\\s+",
+            "\\s*\\-\\-\\-*\\s*"
+        ]
+        return {
+            match: new RegExp("(" + splits.join("|") + ")", "g"),
+            matchfirst: new RegExp("^(" + splits.join("|") + ")"),
+            split: new RegExp("(?:" + splits.join("|") + ")")
+        }
+    })(),
+    TITLE_SPLIT: function(str) {
+        if (!str) {
+            return str;
+        }
+        var m = str.match(CSL.TITLE_SPLIT_REGEXP.match);
+        var lst = str.split(CSL.TITLE_SPLIT_REGEXP.split);
+        for (var i=lst.length-2; i>-1; i--) {
+            lst[i] = lst[i].trim();
+            if (lst[i] && lst[i].slice(-1).toLowerCase() !== lst[i].slice(-1)) {
+                lst[i] = lst[i] + m[i] + lst[i+1];
+                lst = lst.slice(0, i+1).concat(lst.slice(i+2))
+            } else {
+                lst = lst.slice(0, i+1).concat([m[i]]).concat(lst.slice(i+1))
+            }
+        }
+        return lst;
     }
 };
 if ("undefined" === typeof console) {
@@ -2620,7 +2728,16 @@ CSL.Engine = function (sys, style, lang, forceLang) {
     this.output = new CSL.Output.Queue(this);
     this.dateput = new CSL.Output.Queue(this);
     this.cslXml = CSL.setupXml(style);
-    if (this.opt.development_extensions.csl_reverse_lookup_support || this.sys.csl_reverse_lookup_support) {
+    for (var i in CSL.SYS_OPTIONS) {
+        var option = CSL.SYS_OPTIONS[i];
+        if ("boolean" === typeof this.sys[option]) {
+            this.opt.development_extensions[option] = this.sys[option];
+        }
+    }
+    if (this.opt.development_extensions.uppercase_subtitles) {
+        this.opt.development_extensions.main_title_from_short_title = true;
+    }
+    if (this.opt.development_extensions.csl_reverse_lookup_support) {
         this.build.cslNodeId = 0;
         this.setCslNodeIds = function(myxml, nodename) {
             var children = this.cslXml.children(myxml);
@@ -2635,9 +2752,6 @@ CSL.Engine = function (sys, style, lang, forceLang) {
             }
         };
         this.setCslNodeIds(this.cslXml.dataObj, "style");
-    }
-    if ("boolean" === typeof this.sys.prioritize_disambiguate_condition) {
-        this.opt.development_extensions.prioritize_disambiguate_condition = this.sys.prioritize_disambiguate_condition;
     }
     this.cslXml.addMissingNameNodes(this.cslXml.dataObj);
     this.cslXml.addInstitutionNodes(this.cslXml.dataObj);
@@ -3105,7 +3219,8 @@ CSL.Engine.prototype.retrieveItem = function (id) {
         Item["title-short"] = Item.shortTitle;
     }
     if (this.opt.development_extensions.main_title_from_short_title) {
-        CSL.extractTitleAndSubtitle(Item);
+        var narrowSpaceLocale = this.opt["default-locale"][0].slice(0, 2).toLowerCase() === "fr";
+        CSL.extractTitleAndSubtitle.call(this, Item, narrowSpaceLocale);
     }
     var isLegalType = ["bill","legal_case","legislation","gazette","regulation"].indexOf(Item.type) > -1;
     if (this.opt.development_extensions.force_jurisdiction && isLegalType) {
@@ -3941,7 +4056,7 @@ CSL.Output.Queue.prototype.string = function (state, myblobs, blob) {
                 }
                 if (b && b.length) {
                     b = txt_esc(blobjr.strings.prefix) + b + txt_esc(blobjr.strings.suffix);
-                    if ((state.opt.development_extensions.csl_reverse_lookup_support || state.sys.csl_reverse_lookup_support) && !state.tmp.suppress_decorations) {
+                    if (state.opt.development_extensions.csl_reverse_lookup_support && !state.tmp.suppress_decorations) {
                         for (j = 0, jlen = blobjr.decorations.length; j < jlen; j += 1) {
                             params = blobjr.decorations[j];
                             if (params[0] === "@showid") {
@@ -4777,17 +4892,12 @@ CSL.Engine.Opt = function () {
     this.development_extensions.field_hack = true;
     this.development_extensions.allow_field_hack_date_override = true;
     this.development_extensions.locator_date_and_revision = true;
-    this.development_extensions.locator_parsing_for_plurals = true;
     this.development_extensions.locator_label_parse = true;
     this.development_extensions.raw_date_parsing = true;
     this.development_extensions.clean_up_csl_flaws = true;
-    this.development_extensions.flip_parentheses_to_braces = true;
-    this.development_extensions.jurisdiction_subfield = true;
     this.development_extensions.static_statute_locator = false;
     this.development_extensions.csl_reverse_lookup_support = false;
-    this.development_extensions.clobber_locator_if_no_statute_section = false;
     this.development_extensions.wrap_url_and_doi = false;
-    this.development_extensions.allow_force_lowercase = false;
     this.development_extensions.handle_parallel_articles = false;
     this.development_extensions.thin_non_breaking_space_html_hack = false;
     this.development_extensions.apply_citation_wrapper = false;
@@ -10467,7 +10577,7 @@ CSL.evaluateLabel = function (node, state, Item, item) {
             if (["locator", "number", "page"].indexOf(node.strings.term) > -1 && state.tmp.shadow_numbers[node.strings.term].label) {
                 myterm = state.tmp.shadow_numbers[node.strings.term].label;
             }
-            if (node.decorations && (state.opt.development_extensions.csl_reverse_lookup_support || state.sys.csl_reverse_lookup_support)) {
+            if (node.decorations && state.opt.development_extensions.csl_reverse_lookup_support) {
                 node.decorations.reverse();
                 node.decorations.push(["@showid","true", node.cslid]);
                 node.decorations.reverse();
@@ -14126,7 +14236,7 @@ CSL.Util.substituteStart = function (state, target) {
         }
     };
     this.execs.push(func);
-    if (this.decorations && (state.opt.development_extensions.csl_reverse_lookup_support || state.sys.csl_reverse_lookup_support)) {
+    if (this.decorations && state.opt.development_extensions.csl_reverse_lookup_support) {
         this.decorations.reverse();
         this.decorations.push(["@showid","true", this.cslid]);
         this.decorations.reverse();
