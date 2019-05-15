@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Zobraziť citácie ako:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "poznámky na konci textu">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "poznámky pod čiarou">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Uschovať citácie ako:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

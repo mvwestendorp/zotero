@@ -89,7 +89,7 @@
 <!ENTITY zotero.import "불러오기">
 <!ENTITY zotero.import.createCollection "컬렉션 및 항목을 새 컬렉션으로 불러오기">
 <!ENTITY zotero.import.database "데이터베이스">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "파일 처리 방법">
 <!ENTITY zotero.import.importing "불러오는 중...">
 <!ENTITY zotero.import.lastModified "마지막 수정 시간">
 <!ENTITY zotero.import.size "크기">
@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "인용 표시:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "미주">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "각주">
 <!ENTITY zotero.integration.prefs.formatUsing.label "다음으로 인용 보관:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "نمایش یاکردها در:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "انتهای متن">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "پاورقی">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

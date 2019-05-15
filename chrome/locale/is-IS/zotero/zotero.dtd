@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Birta tilvísnair sem:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Aftanmálsgreinar">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Neðanmálsgreinar">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Geyma tilvísnair sem:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

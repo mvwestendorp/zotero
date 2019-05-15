@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Wyświetl cytowania jako:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Przypisy końcowe">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Przypisy dolne">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Zapisz cytowania jako:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

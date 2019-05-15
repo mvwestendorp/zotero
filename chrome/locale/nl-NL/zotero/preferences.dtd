@@ -8,7 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Kiezen...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Metadata voor pdf's automatisch ophalen">
 <!ENTITY zotero.preferences.autoRenameFiles "Bijlagen automatisch hernoemen op basis van metadata hoofditem">
-<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Gekoppelde bestanden hernoemen">
 <!ENTITY zotero.preferences.autoUpdate "Automatisch controleren op updates voor vertalers en verwijsstijlen">
 <!ENTITY zotero.preferences.automaticSnapshots "Automatisch snapshots nemen bij het aanmaken van items vanaf webpagina's">
 <!ENTITY zotero.preferences.automaticTags "Items automatisch labelen met trefwoorden en onderwerpen">
