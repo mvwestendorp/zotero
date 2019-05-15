@@ -886,9 +886,11 @@ Zotero.Sync.Data.Local = {
 									Zotero.debug("No remote changes to apply to local "
 										+ objectType + " " + obj.libraryKey);
 									saveOptions.skipData = true;
-									// If local object is different but we ignored the changes
-									// (e.g., ISBN hyphenation), save as unsynced. Since we're skipping
-									// data, the local version won't be overwritten.
+									// If either there were additional local changes after cancelling
+									// out equivalent changes on both sides or the local object was
+									// different but we ignored the changes (e.g., ISBN hyphenation),
+									// keep as unsynced. In the latter case, since we're skipping
+									// data, the local fields won't be overwritten.
 									if (result.localChanged) {
 										saveOptions.saveAsUnsynced = true;
 									}
@@ -940,6 +942,10 @@ Zotero.Sync.Data.Local = {
 									jsonDataLocal[x] = jsonData[x];
 								})
 								jsonObject.data = jsonDataLocal;
+								// If there were additional local changes, keep as unsynced
+								if (result.localChanged) {
+									saveOptions.saveAsUnsynced = true;
+								}
 							}
 						}
 						// Object doesn't exist locally
@@ -1475,6 +1481,7 @@ Zotero.Sync.Data.Local = {
 		Zotero.debug(changeset2);
 		
 		var conflicts = [];
+		var matchedLocalChanges = new Set();
 		
 		for (let i = 0; i < changeset1.length; i++) {
 			for (let j = 0; j < changeset2.length; j++) {
@@ -1489,12 +1496,6 @@ Zotero.Sync.Data.Local = {
 					switch (c1.field) {
 					case 'collections':
 						if (c1.value !== c2.value) {
-							continue;
-						}
-						break;
-					
-					case 'creators':
-						if (!Zotero.Creators.equals(c1.value, c2.value)) {
 							continue;
 						}
 						break;
@@ -1535,8 +1536,21 @@ Zotero.Sync.Data.Local = {
 				
 				// Changes are equal or in conflict
 				
+				// Creators changed the same way on both sides
+				if (c1.field == 'creators' && c1.op == 'modify' && c2.op == 'modify') {
+					let creators1 = c1.value;
+					let creators2 = c2.value;
+					if (creators1.length == creators2.length
+							&& creators1.every((c, index) => Zotero.Creators.equals(c, creators2[index]))) {
+						matchedLocalChanges.add(i);
+						changeset2.splice(j--, 1);
+						continue;
+					}
+				}
+				
 				// Removed on both sides
 				if (c1.op == 'delete' && c2.op == 'delete') {
+					matchedLocalChanges.add(i);
 					changeset2.splice(j--, 1);
 					continue;
 				}
@@ -1546,6 +1560,7 @@ Zotero.Sync.Data.Local = {
 						|| (c1.op == 'member-remove' && c2.op == 'member-remove')
 						|| (c1.op == 'property-member-add' && c2.op == 'property-member-add')
 						|| (c1.op == 'property-member-remove' && c2.op == 'property-member-remove')) {
+					matchedLocalChanges.add(i);
 					changeset2.splice(j--, 1);
 					continue;
 				}
@@ -1553,6 +1568,7 @@ Zotero.Sync.Data.Local = {
 				// If both sides have values, see if they're the same, and if so remove the
 				// second one
 				if (c1.op != 'delete' && c2.op != 'delete' && c1.value === c2.value) {
+					matchedLocalChanges.add(i);
 					changeset2.splice(j--, 1);
 					continue;
 				}
@@ -1565,6 +1581,7 @@ Zotero.Sync.Data.Local = {
 				}
 				
 				// Conflict
+				matchedLocalChanges.add(i);
 				changeset2.splice(j--, 1);
 				conflicts.push([c1, c2]);
 			}
@@ -1572,7 +1589,10 @@ Zotero.Sync.Data.Local = {
 		
 		return {
 			changes: changeset2,
-			conflicts
+			conflicts,
+			// If there were local changes that weren't made remotely as well, the item needs to be
+			// kept as unsynced
+			localChanged: changeset1.length > matchedLocalChanges.size
 		};
 	},
 	

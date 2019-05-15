@@ -598,14 +598,21 @@ Zotero.Cite.retrieveStyleModule = function(jurisdiction, preference) {
 
 /**
  * citeproc-js system object
+ *
  * @class
+ * @param {Object} options
+ * @param {Boolean} [options.automaticJournalAbbreviations]
+ * @param {Boolean} [options.uppercaseSubtitles]
  */
-Zotero.Cite.System = function(automaticJournalAbbreviations) {
-	if(automaticJournalAbbreviations) {
+Zotero.Cite.System = function ({ automaticJournalAbbreviations, uppercaseSubtitles }) {
+	if (automaticJournalAbbreviations) {
 		this.getAbbreviation = Zotero.Cite.getAbbreviation;
 	}
     this.retrieveStyleModule = Zotero.Cite.retrieveStyleModule;
-}
+	if (uppercaseSubtitles) {
+		this.uppercase_subtitles = true; // eslint-disable-line camelcase
+	}
+};
 
 Zotero.Cite.System.prototype = {
 	"prioritize_disambiguate_condition": true,

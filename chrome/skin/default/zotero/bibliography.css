@@ -25,11 +25,15 @@ radio:not(:first-child)
 }
 
 
-#automaticJournalAbbreviations-vbox, #automaticCitationUpdates-vbox {
+#automaticJournalAbbreviations-vbox, #advanced-settings {
 	padding: 0 14px;
 }
 
 #lang-prefs {
 	overflow-y: scroll;
 	height: 19em;
+}
+
+#advanced-settings > * {
+	margin-bottom: 10px;
 }
