@@ -583,17 +583,18 @@ Zotero.Cite.getAbbreviation = new function() {
 };
 
 /**
- * An initial version of retrieveStyleModule().
- * (may be replaced by plugin version)
+ * Fetches a style module for citeproc-js based on item jurisdiction
  */
-Zotero.Cite.retrieveStyleModule = function(jurisdiction, preference) {
+Zotero.Cite.retrieveStyleModule = function (jurisdiction, preference) {
+    jurisdiction = jurisdiction.replace(/\:/g, "+");
 	var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
-	var module = Zotero.Styles.get("http://juris-m.github.io/modules/" + id);
-	var ret = false;
-	if (module) {
-		ret = module.getXML();
-	}
-	return ret;
+    var ret;
+    try {
+	    ret = Zotero.File.getResource("resource://zotero/style-modules/" + id + ".csl");
+    } catch (e) {
+        ret = false;
+    }
+    return ret;
 }
 
 /**

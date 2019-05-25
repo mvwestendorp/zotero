@@ -21,4 +21,6 @@
 [submodule "deployer"]
 	path = deployer
 	url = https://github.com/Juris-M/deployer.git
-
+[submodule "resource/style-modules"]
+	path = resource/style-modules
+	url = git@github.com:Juris-M/style-modules.git
