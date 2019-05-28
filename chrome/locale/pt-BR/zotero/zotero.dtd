@@ -87,13 +87,13 @@
 <!ENTITY zotero.general.tools "Ferramentas">
 <!ENTITY zotero.general.yes "Sim">
 <!ENTITY zotero.import "Importar">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.fileHandling "File Handling">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
+<!ENTITY zotero.import.createCollection "Coloque coleções importadas e itens dentro de novas coleções">
+<!ENTITY zotero.import.database "Banco de dados">
+<!ENTITY zotero.import.fileHandling "Manipulação de arquivo">
+<!ENTITY zotero.import.importing "Importando...">
+<!ENTITY zotero.import.lastModified "Última modificação">
+<!ENTITY zotero.import.size "Tamanho">
+<!ENTITY zotero.import.source.file "Um arquivo (BibTeX, RIS, RDF do Zotero, etc.)">
 <!ENTITY zotero.import.whereToImportFrom "De onde você deseja importar?">
 <!ENTITY zotero.integration.addEditCitation.title "Adicionar/Editar citação">
 <!ENTITY zotero.integration.classicView.label "Visão clássica">
