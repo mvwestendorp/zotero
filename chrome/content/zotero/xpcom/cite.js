@@ -480,7 +480,7 @@ Zotero.Cite.getAbbreviation = new function() {
 	/**
 	 * Replace getAbbreviation on citeproc-js with our own handler.
 	 */
-	return function getAbbreviation(listname, obj, jurisdiction, category, key) {
+	return function getAbbreviation(styleID, obj, jurisdiction, category, key) {
 		init();
 
 		// Short circuit if we know we don't handle this kind of abbreviation
