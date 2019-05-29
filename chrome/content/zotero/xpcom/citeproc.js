@@ -7303,6 +7303,7 @@ CSL.Node["date-part"] = {
                     }
                     value = CSL.Util.Dates[this.strings.name][myform](state, value, gender, this.default_locale);
                     if ("month" === this.strings.name) {
+						value = ("" + value);
                         if (state.tmp.strip_periods) {
                             value = value.replace(/\./g, "");
                         } else {
@@ -7316,6 +7317,7 @@ CSL.Node["date-part"] = {
                     }
                     if (value_end) {
                         value_end = CSL.Util.Dates[this.strings.name][myform](state, value_end, gender, ("accessed" === date_variable), "_end");
+						value_end = ("" + value_end);
                         if (state.tmp.strip_periods) {
                             value_end = value_end.replace(/\./g, "");
                         } else {
