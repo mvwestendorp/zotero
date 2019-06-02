@@ -1132,7 +1132,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			title = '[' + strParts.join(', ') + ']';
 		}
 	}
-	else if (itemTypeID === 20 || itemTypeID === 1263) {
+	else if (itemTypeID === 20 || itemTypeID === 1263) { // statute, regulation
 		var newTitle = [title];
 		if (!title) {
 			newTitle.push(this.getField('codeNumber', true));
@@ -1153,7 +1153,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			title = newTitle;
 		}
 	}
-	else if (itemTypeID === 18) {
+	else if (itemTypeID === 18) { // hearing
 		if (!title) {
 			var myTitle = this.getField('committee', true); 
 			if (!myTitle) {
@@ -1162,6 +1162,20 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			if (myTitle) {
 				title = '[' + myTitle + ']';
 			}
+		}
+	}
+	else if (itemTypeID === 16) { // bill
+		if (!title) {
+			var res = [];
+			var myBody = this.getField('legislativeBody', true);
+			if (myBody) {
+				res.push(myBody);
+			}
+			var myNum = this.getField('billNumber', true);
+			if (myNum) {
+				res.push(myNum);
+			}
+			title = '[' + res.join(' ') + ']'
 		}
 	}
 	
