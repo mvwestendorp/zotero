@@ -1123,6 +1123,10 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			if (part) {
 				strParts.push(part);
 			}
+			part = this.getField('docketNumber', true);
+			if (part) {
+				strParts.push(part);
+			}
 			
 			var creatorData = this.getCreator(0);
 			if (creatorData && creatorData.creatorTypeID === 1) { // author
