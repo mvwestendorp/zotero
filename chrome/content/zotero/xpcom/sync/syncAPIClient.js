@@ -316,7 +316,7 @@ Zotero.Sync.APIClient.prototype = {
 				// server.
 				if (objectType == 'item') {
 					for (var i=0, ilen=json.length; i<ilen; i++) {
-						json[i].data = Zotero.Utilities.decodeMlzContent(json[i].data);
+						json[i].data = Zotero.Jurism.SyncRecode.decode(json[i].data);
 					}
 				}
 				return json;

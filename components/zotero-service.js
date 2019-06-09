@@ -50,6 +50,8 @@ const xpcomFilesAll = [
 	'dataDirectory',
 	'date',
 	'debug',
+	'jurismMapExtensions',
+	'jurismSyncRecode',
 	'dateparser',
 	'error',
 	'utilities',

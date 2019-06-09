@@ -32,7 +32,6 @@
  * and it makes the code cleaner
  */
 var CSL_NAMES_MAPPINGS = {
-	"artist":"author",
 	"author":"author",
 	"editor":"editor",
 	"bookAuthor":"container-author",
@@ -42,11 +41,7 @@ var CSL_NAMES_MAPPINGS = {
 	"recipient":"recipient",
 	"reviewedAuthor":"reviewed-author",
 	"seriesEditor":"collection-editor",
-	"testimonyBy":"author",
-	"translator":"translator",
-	"contributor":"contributor",
-	//"authority":"authority",
-	"commenter":"commenter"
+	"translator":"translator"
 }
 
 /*
@@ -54,35 +49,29 @@ var CSL_NAMES_MAPPINGS = {
  */
 var CSL_TEXT_MAPPINGS = {
 	"title":["title"],
-	"container-title":["publicationTitle",  "reporter", "code", "album", "websiteTitle"], /* reporter and code should move to SQL mapping tables */
-	"collection-title":["seriesTitle", "series", "parentTreaty"],
-	"collection-number":["seriesNumber","assemblyNumber","regnalYear","yearAsVolume"],
+	"container-title":["publicationTitle",  "reporter", "code"], /* reporter and code should move to SQL mapping tables */
+	"collection-title":["seriesTitle", "series"],
+	"collection-number":["seriesNumber"],
 	"publisher":["publisher", "distributor"], /* distributor should move to SQL mapping tables */
 	"publisher-place":["place"],
-	"authority":["court", "legislativeBody", "issuingAuthority","institution"],
-	"committee":["committee"],
-	"gazette-flag":["gazetteFlag"],
-	"document-name":["documentName"],
+	"authority":["court","legislativeBody", "issuingAuthority"],
 	"page":["pages"],
-	"volume":["volume","codeNumber"],
-	"volume-title":["volumeTitle"],
+	"volume":["volume", "codeNumber"],
 	"issue":["issue", "priorityNumbers"],
 	"number-of-volumes":["numberOfVolumes"],
 	"number-of-pages":["numPages"],	
 	"edition":["edition"],
 	"version":["versionNumber"],
-	"section":["section","opus"],
-	"genre":["genre", "type","reign","supplementName","sessionType", "programmingLanguage"],
-	"chapter-number":["session","meetingNumber"],
+	"section":["section", "committee"],
+	"genre":["type", "programmingLanguage"],
 	"source":["libraryCatalog"],
 	"dimensions": ["artworkSize", "runningTime"],
 	"medium":["medium", "system"],
 	"scale":["scale"],
 	"archive":["archive"],
 	"archive_location":["archiveLocation"],
-	"event":["meetingName", "conferenceName", "resolutionLabel"], /* these should be mapped to the same base field in SQL mapping tables */
+	"event":["meetingName", "conferenceName"], /* these should be mapped to the same base field in SQL mapping tables */
 	"event-place":["place"],
-	"archive-place":["place"],
 	"abstract":["abstractNote"],
 	"URL":["url"],
 	"DOI":["DOI"],
@@ -91,39 +80,23 @@ var CSL_TEXT_MAPPINGS = {
 	"call-number":["callNumber", "applicationNumber"],
 	"note":["extra"],
 	"number":["number"],
-	//"pending-number":["applicationNumber"],
+	"chapter-number":["session"],
 	"references":["history", "references"],
-	"shortTitle":["shortTitle"],
+	"shortTitle":["shortTitle"], /* preserved to read legacy data */
 	"title-short":["shortTitle"],
 	"journalAbbreviation":["journalAbbreviation"],
-	"language":["language"],
-	"jurisdiction":["jurisdiction"],
-	"status":["status", "legalStatus"],
-	"publication-number": ["publicationNumber"]
+	"status":["legalStatus"],
+	"language":["language"]
 }
 
 /*
  * Mappings for dates
  */
 var CSL_DATE_MAPPINGS = {
-	"issued":["date"],
-	"original-date":["newsCaseDate","priorityDate","originalDate","adoptionDate"],
-	"submitted":["filingDate"],
-	"accessed":["accessDate"],
-	"available-date":["openingDate"],
-	"event-date":["signingDate","conferenceDate","dateAmended"],
-	"publication-date":["publicationDate"]
+	"issued":"date",
+	"accessed":"accessDate",
+	"submitted":"filingDate"
 }
-
-var CSL_DATE_VARIABLES = function() {
-	var ret = {};
-	for (var key in CSL_DATE_MAPPINGS) {
-		for (var i=0,ilen=CSL_DATE_MAPPINGS[key].length;i<ilen;i++) {
-			ret[CSL_DATE_MAPPINGS[key][i]] = true;
-		}
-	}
-	return ret;
-}();
 
 /*
  * Mappings for types
@@ -148,7 +121,7 @@ var CSL_TYPE_MAPPINGS = {
 	'report':"report",
 	'bill':"bill",
 	'case':"legal_case",
-	'hearing':"hearing",				// ??
+	'hearing':"bill",				// ??
 	'patent':"patent",
 	'statute':"legislation",		// ??
 	'email':"personal_communication",
@@ -158,54 +131,71 @@ var CSL_TYPE_MAPPINGS = {
 	'forumPost':"post",
 	'audioRecording':"song",		// ??
 	'presentation':"speech",
-	'videoRecording':"video",
+	'videoRecording':"motion_picture",
 	'tvBroadcast':"broadcast",
 	'radioBroadcast':"broadcast",
 	'podcast':"broadcast",
 	'computerProgram':"book",		// ??
-	'gazette':'gazette', // deprecated
-	'regulation':'regulation',
-	'classic':'classic',
-	'treaty':'treaty',
-	'standard':'standard',
 	'document':"article",
 	'note':"article",
 	'attachment':"article"
 };
 
 /**
- * Force Fields
-*/
-var CSL_FORCE_FIELD_CONTENT = {
-	"tvBroadcast":{
-		"genre":"television broadcast"
-	},
-	"radioBroadcast":{
-		"genre":"radio broadcast"
-	},
-	"instantMessage":{
-		"genre":"instant message"
-	},
-	"email":{
-		"genre":"email"
-	},
-	"podcast":{
-		"genre":"podcast"
-	}
-}
+ * Extend mappings
+ */
+Zotero.Jurism.MapTools.patchMap("CREATORS", CSL_NAMES_MAPPINGS);
+Zotero.Jurism.MapTools.patchMap("FIELDS", CSL_TEXT_MAPPINGS);
+Zotero.Jurism.MapTools.patchMap("DATES", CSL_DATE_MAPPINGS);
+Zotero.Jurism.MapTools.patchMap("TYPES", CSL_TYPE_MAPPINGS);
 
-var CSL_FORCE_REMAP = {
-	"periodical":{
-		"title":"container-title"
+/**
+ * Force Fields
+ */
+var CSL_FORCE_FIELD_CONTENT = Zotero.Jurism.MapTools.getMap("FORCE_FIELD_CONTENT");
+var CSL_FORCE_REMAP = Zotero.Jurism.MapTools.getMap("FORCE_REMAP");
+
+
+// XXX A reverse map for dates serves this purpose
+var CSL_DATE_VARIABLES = (function() {
+	var ret = {};
+	for (var zField in CSL_DATE_MAPPINGS) {
+		CSL_DATE_MAPPINGS[zField].forEach(function(cField){
+			ret[cField] = zField;
+		});
 	}
-}
+	return ret;
+})();
 
 
 /**
- * @class Functions for text manipulation and other miscellaneous purposes
- */
+  * @class Functions for text manipulation and other miscellaneous purposes
+  */
 Zotero.Utilities = {
 
+	CSL_TYPE_MAPPINGS: CSL_TYPE_MAPPINGS,
+	
+	ENCODE: {
+		CREATORS: Zotero.Jurism.MapTools.makeEncodeMap("CREATORS", CSL_NAMES_MAPPINGS),
+		FIELDS: Zotero.Jurism.MapTools.makeEncodeMap("FIELDS", CSL_TEXT_MAPPINGS),
+		DATES: Zotero.Jurism.MapTools.makeEncodeMap("DATES", CSL_DATE_MAPPINGS)
+	},
+
+	DECODE: {
+		CREATORS: Zotero.Jurism.MapTools.makeDecodeMap("CREATORS", CSL_NAMES_MAPPINGS),
+		FIELDS: Zotero.Jurism.MapTools.makeDecodeMap("FIELDS", CSL_TEXT_MAPPINGS),
+		DATES: Zotero.Jurism.MapTools.makeDecodeMap("DATES", CSL_DATE_MAPPINGS)
+	},
+	
+	REVERSE: {
+		// These are caching functions, no maps, because
+		// Zotero.ItemTypes and Zotero.ItemFields are not yet
+		// available when this is loaded.
+		CREATORS: Zotero.Jurism.MapTools.makeReverseMap("CREATORS", CSL_NAMES_MAPPINGS),
+		FIELDS: Zotero.Jurism.MapTools.makeReverseMap("FIELDS", CSL_TEXT_MAPPINGS),
+		DATES: Zotero.Jurism.MapTools.makeReverseMap("DATES", CSL_DATE_MAPPINGS)
+	},
+	
 	"isDate": function(varName) {
 		return CSL_DATE_VARIABLES[varName] ? true : false;
 	},
@@ -213,6 +203,7 @@ Zotero.Utilities = {
 	"getCslTypeFromItemType":function(itemType) {
 		return CSL_TYPE_MAPPINGS[itemType];
 	},
+
 	/**
 	 * Returns a function which will execute `fn` with provided arguments after `delay` milliseconds and not more
 	 * than once, if called multiple times. See
@@ -1966,7 +1957,7 @@ Zotero.Utilities = {
 					zoteroItem[field] = Zotero.Date.multipartToSQL(zoteroItem[field]);
 				}
 			}
-			zoteroItem = this.encodeMlzContent(zoteroItem);
+			zoteroItem = Zotero.Jurism.SyncRecode.encode(zoteroItem);
 		}
 
 		var cslType = CSL_TYPE_MAPPINGS[zoteroItem.itemType];
@@ -2210,7 +2201,7 @@ Zotero.Utilities = {
      * Converts CSL type to Zotero type, accounting for extended
      * type mapping in Juris-M
      */
-    "getZoteroTypeFromCslType": function(cslItem) {
+    "getZoteroTypeFromCslType": function(cslItem, strict) {
 		// Some special cases to help us map item types correctly
 		// This ensures that we don't lose data on import. The fields
 		// we check are incompatible with the alternative item types
@@ -2219,16 +2210,6 @@ Zotero.Utilities = {
 			zoteroType = 'book';
 			if (cslItem.version) {
 				zoteroType = 'computerProgram';
-			}
-		} else if (cslItem.type == 'bill') {
-			zoteroType = 'bill';
-			if (cslItem.publisher || cslItem['number-of-volumes']) {
-				zoteroType = 'hearing';
-			}
-		} else if (cslItem.type == 'song') {
-			zoteroType = 'audioRecording';
-			if (cslItem.number && cslItem.genre === 'podcast') {
-				zoteroType = 'podcast';
 			}
 		} else if (cslItem.type == 'motion_picture') {
 			zoteroType = 'film';
@@ -2239,12 +2220,11 @@ Zotero.Utilities = {
 				zoteroType = 'videoRecording';
 			}
 		} else if (cslItem.type === 'personal_communication') {
-			if (cslItem.type === 'email') {
-				
-			} else if (cslItem.type === 'instant message') {
+			zoteroType = 'letter';
+			if (cslItem.genre === 'email') {
+				zoteroType = 'email';
+			} else if (cslItem.genre === 'instant message') {
 				zoteroType = 'instantMessage';
-			} else {
-				zoteroType = 'letter';
 			}
 		} else if (cslItem.type === 'broadcast') {
 			if (cslItem.genre === 'radio broadcast') {
@@ -2262,9 +2242,11 @@ Zotero.Utilities = {
 				}
 			}
 		}
-		
-		if(!zoteroType) zoteroType = "document";
 
+		if (!strict && !zoteroType) {
+			zoteroType = "document";
+		}
+		
         return zoteroType;
     },		
 	
@@ -2477,7 +2459,7 @@ Zotero.Utilities = {
 				for (var i=0,ilen=fields.length;i<ilen;i++) {
 					var field=fields[i];
 					fieldID = Zotero.ItemFields.getID(field);
-					if (this.EXTENDED_FIELDS[zoteroType] && this.EXTENDED_FIELDS[zoteroType][field]) {
+					if (Zotero.Utilities.SYNC_ENCODE_MAP.FIELDS[zoteroType] && Zotero.Utilities.SYNC_ENCODE_MAP.FIELDS[zoteroType][field]) {
 						fieldID = Zotero.ItemFields.getID(field);
 					}
 					if(Zotero.ItemFields.isBaseField(fieldID)) {
@@ -2549,7 +2531,7 @@ Zotero.Utilities = {
 			// Run conversion
 			// Convert back to Zotero item.
 			var json = item.toJSON();
-			json = this.decodeMlzContent(json);
+			json = Zotero.Jurism.SyncRecode.decode(json);
 			item.fromJSON(json);
 		}
 	},
@@ -2908,399 +2890,7 @@ Zotero.Utilities = {
             particleSpecs[PARTICLES[i][0]] = PARTICLES[i][1];
         }
         return particleSpecs[str];
-    },
-
-	"EXTENDED_CREATORS": {
-		"patent":{
-			"recipient":"recipient"
-		},
-		"book":{
-			"recipient":"recipient"
-		},
-		"bookSection":{
-			"recipient":"recipient"
-		},
-		"hearing":{
-			"testimonyBy":"author",
-			"translator":"translator"
-		},
-		"case":{
-			"translator":"translator"
-		},
-		"statute":{
-			"translator":"translator"
-		},
-		"bill":{
-			"translator":"translator"
-		},
-		"gazette":{
-			"translator":"translator"
-		},
-		"regulation":{
-			"translator":"translator"
-		}
-	},
-
-	"EXTENDED_TYPES": {
-		"gazette":"statute",
-		"regulation":"statute",
-		"classic":"manuscript",
-		"treaty":"document",
-		"standard":"document"
-	},
-
-	"EXTENDED_FIELDS": {
-		"book": {
-			"medium":"medium",
-			"volumeTitle":"volume-title"
-		},
-		"bookSection": {
-			"volumeTitle":"volume-title"
-		},
-		"standard": {
-			"versionNumber":"version",
-			"number":"number",
-			"jurisdiction": "jurisdiction"
-		},
-		"conferencePaper": {
-			"conferenceDate":"event-date",
-			"issue":"issue",
-			"institution":"authority"
-		},
-		"interview": {
-			"place": "event-place"
-		},
-		"magazineArticle": {
-			"place":"publisher-place",
-			"publisher":"publisher"
-		},
-		"newspaperArticle": {
-			"jurisdiction":"jurisdiction",
-			"newsCaseDate":"original-date",
-			"court":"authority"
-		},
-		"journalArticle": {
-			"status":"status",
-			"jurisdiction":"jurisdiction"
-		},
-		"bill": {
-			"jurisdiction":"jurisdiction",
-			"resolutionLabel":"event",
-			"assemblyNumber":"collection-number",
-			"sessionType":"genre",
-			"archiveLocation":"archive_location",
-			"reporter":"container-title"
-		}, 
-		"hearing":{
-			"jurisdiction":"jurisdiction",
-			"assemblyNumber":"collection-number",
-			"resolutionLabel":"event",
-			"sessionType":"genre",
-			"archiveLocation":"archive_location",
-			"reporter":"container-title",
-			"meetingName":"chapter-number",
-			"meetingNumber":"number",
-			"volume":"volume"
-		},
-		"artwork": {
-			"websiteTitle":"container-title"
-		}, 
-		"patent": {
-			"jurisdiction":"jurisdiction",
-			"priorityDate":"original-date",
-			"publicationDate":"publication-date",
-			"publicationNumber":"publication-number",
-			"genre":"genre"
-		}, 
-		"case": {
-			"jurisdiction":"jurisdiction",
-			"place":"event-place",
-			"yearAsVolume":"collection-number",
-			"publisher": "publisher",
-			"publicationDate":"publication-date",
-			"reign":"genre",
-			"callNumber":"call-number",
-			"filingDate":"submitted",
-			"supplementName":"genre",
-			"issue":"issue",
-			"archive":"archive",
-			"archiveLocation":"archive_location",
-			"documentName":"document-name"
-		}, 
-		"statute": {
-			"jurisdiction":"jurisdiction",
-			"publisher":"publisher",
-			"publicationDate":"publication-date",
-			"originalDate":"original-date",
-			"reign":"genre",
-			"regnalYear":"collection-number",
-			"dateAmended": "event-date",
-			"gazetteFlag": "gazette-flag"
-		}, 
-		"audioRecording": {
-			"album":"container-title",
-			"opus":"section",
-			"originalDate":"original-date",
-			"publisher":"publisher",
-			"release":"edition"
-		},
-		"podcast": {
-			"date":"issued",
-			"publisher":"publisher"
-		},
-		"videoRecording": {
-			"websiteTitle":"container-title"
-		},
-		"report": {
-			"bookTitle":"container-title",
-			"jurisdiction":"jurisdiction",
-			"status":"status",
-			"medium":"medium",
-			"committee":"committee",
-			"assemblyNumber": "collection-number",
-			"publisher": "publisher"
-		},
-		"gazette": {
-			"jurisdiction":"jurisdiction",
-			"reign": "genre",
-			"regnalYear":"collection-number",
-			"publisher":"publisher",
-			"publicationDate":"publication-date"
-		},
-		"regulation": {
-			"jurisdiction":"jurisdiction",
-			"publisher":"publisher",
-			"publicationDate":"publication-date",
-			"regulatoryBody":"authority",
-			"regulationType":"genre",
-			"gazetteFlag": "gazette-flag"
-		},
-		"treaty": {
-			"reporter":"container-title",
-			"volume":"volume",
-			"pages":"page",
-			"section":"section",
-			"openingDate":"available-date",
-			"adoptionDate":"original-date",
-			"signingDate":"event-date",
-			"versionNumber":"version", // MISSING IN system.sql!
-			"parentTreaty":"collection-title",
-			"supplementName":"genre"
-		},
-		"classic":{
-			"volume":"volume"
-		},
-		"document":{
-			"versionNumber":"version"
-		}
-	},
-
-	"decodeMlzContent": function (json) {
-		if (!json) return;
-
-		var newjson = JSON.parse(JSON.stringify(json));
-
-		// Add multi properties
-		newjson.multi = {
-			main: {},
-			_keys: {}
-		}
-		// Extract extradata
-		var noteMatch = null;
-		if (newjson.extra) {
-			noteMatch = newjson.extra.match(/mlzsync1:([0-9][0-9][0-9][0-9])(.*)/);
-			if (noteMatch) {
-				var offset = parseInt(noteMatch[1], 10);
-				var extradata = JSON.parse(noteMatch[2].slice(0, offset))
-				newjson.extra = newjson.extra.slice((offset+13));
-				
-				if (extradata.xtype) {
-					newjson.itemType = extradata.xtype;
-				}
-				if (extradata.extrafields) {
-					for (var zFieldName in extradata.extrafields) {
-						newjson[zFieldName] = extradata.extrafields[zFieldName];
-					}
-				}
-				if (extradata.multifields) {
-					for (zFieldName in extradata.multifields.main) {
-						newjson.multi.main[zFieldName] = extradata.multifields.main[zFieldName];
-					}
-					for (zFieldName in extradata.multifields._keys) {
-						newjson.multi._keys[zFieldName] = {};
-						for (zLang in extradata.multifields._keys[zFieldName]) {
-							newjson.multi._keys[zFieldName][zLang] = extradata.multifields._keys[zFieldName][zLang];
-						}
-					}
-				}
-				if (extradata.extracreators) {
-					for (var pos in extradata.extracreators) {
-						var extraCreator = extradata.extracreators[pos];
-						if (extraCreator.name || extraCreator.lastName) {
-							var creator = {
-								creatorType: extraCreator.creatorType
-							}
-							if (extraCreator.name) {
-								creator.name = extraCreator.name;
-							} else if (extraCreator.fieldMode == "1") {
-								creator.name = extraCreator.lastName;
-							} else {
-								if (extraCreator.lastName) {
-									creator.lastName = extraCreator.lastName;
-								}
-								if (extraCreator.firstName) {
-									creator.firstName = extraCreator.firstName;
-								}
-							}
-							newjson.creators.push(extraCreator);
-						}
-					}
-				}
-			}
-		}
-		for (var pos in newjson.creators) {
-			var creator = newjson.creators[pos];
-			creator.multi = {
-				main: false,
-				_key: {}
-			}
-		}
-		if (noteMatch) {
-			if (extradata.multicreators) {
-				for (var pos in extradata.multicreators) {
-					var creator = newjson.creators[pos];
-					var multiObj = extradata.multicreators[pos];
-					if (multiObj.main) {
-						creator.multi.main = multiObj.main;
-					}
-					if (multiObj._key) {
-						for (var langTag in multiObj._key) {
-							var nameObj = multiObj._key[langTag];
-							if (nameObj.name || nameObj.lastName) {
-								creator.multi._key[langTag] = {};
-								if (nameObj.name) {
-									creator.multi._key[langTag].name = nameObj.name;
-								} else if (creator.name) {
-									creator.multi._key[langTag].name = nameObj.lastName;
-								} else {
-									if (nameObj.firstName) {
-										creator.multi._key[langTag].firstName = nameObj.firstName;
-									}
-									if (nameObj.lastName) {
-										creator.multi._key[langTag].lastName = nameObj.lastName;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return newjson;
-	},
-	
-	"encodeMlzContent": function (json) {
-		if (!json.multi) {
-			//throw "No multi segment on item JSON. What happened?";
-			return json;
-		}
-		
-		var extradata = {};
-		
-		var newjson = JSON.parse(JSON.stringify(json));
-		
-		// multifields
-		if (Object.keys(newjson.multi.main).length > 0 || Object.keys(newjson.multi._keys).length > 0) {
-			extradata.multifields = newjson.multi;
-		}
-		delete newjson.multi;
-		
-		// extrafields
-		if (this.EXTENDED_FIELDS[newjson.itemType]) {
-			for (var fieldName in newjson) {
-				if (fieldName === "creators") continue;
-				if (this.EXTENDED_FIELDS[newjson.itemType][fieldName]) {
-					if (newjson[fieldName]) {
-						if (!extradata.extrafields) {
-							extradata.extrafields = {};
-						}
-						extradata.extrafields[fieldName] = newjson[fieldName];
-					}
-					delete newjson[fieldName];
-				}
-			}
-		}
-
-		if (newjson.creators) {
-			// extracreators [1]
-			// Move extended creators to the end of the line
-			if (this.EXTENDED_CREATORS[newjson.itemType]) {
-				var extendedcreators = [];
-				for (var i=newjson.creators.length-1;i > -1; i--) {
-					var creator = newjson.creators[i];
-					if (this.EXTENDED_CREATORS[newjson.itemType][creator.creatorType]) {
-						extendedcreators.push(creator);
-						newjson.creators = newjson.creators.slice(0, i).concat(newjson.creators.slice(i+1))
-					}
-				}
-				newjson.creators = newjson.creators.concat(extendedcreators);
-			}
-			
-			// multicreators
-			for (var pos in newjson.creators) {
-				var creator = newjson.creators[pos];
-				if (creator.multi) {
-					if (creator.multi.main || Object.keys(creator.multi._key).length > 0) {
-						if (!extradata.multicreators) {
-							extradata.multicreators = {};
-						}
-						extradata.multicreators[pos] = creator.multi;
-					}
-					delete creator.multi;
-				}
-			}
-			
-			// extracreators [2]
-			// Move extended creators to extradata property
-			if (this.EXTENDED_CREATORS[newjson.itemType]) {
-				if (extendedcreators.length) {
-					extradata.extracreators = extendedcreators;
-					var creatorsLength = (newjson.creators.length - extendedcreators.length);
-					newjson.creators = newjson.creators.slice(0, creatorsLength)
-				}
-			}
-		}
-
-		// xtype
-		if (this.EXTENDED_TYPES[newjson.itemType]) {
-			extradata.xtype = newjson.itemType;
-			newjson.itemType = this.EXTENDED_TYPES[newjson.itemType];
-		}
-
-		// Bundle it
-		if (Object.keys(extradata).length > 0) {
-			extradata = JSON.stringify(extradata);
-			var extradataLength = ("" + extradata.length);
-			while (extradataLength.length < 4) {
-				extradataLength = "0" + extradataLength;
-			}
-			// Check if content exists on extra
-			if (newjson.extra) {
-				// Remove any preexisting sync object in extra (should never happen, but hey)
-				var m = newjson.extra.match(/^mlzsync[1-9]:([0-9][0-9][0-9][0-9])/);
-				if (m) {
-					var totalOffset = parseInt(m[1]) + 13;
-					newjson.extra = newjson.extra.slice(totalOffset);
-				}
-			} else {
-				newjson.extra = "";
-			}
-			// Prepend sync object to extra
-			newjson.extra = 'mlzsync1:' + extradataLength + extradata + newjson.extra;
-			// Done!
-		}
-		return newjson;
-	}
+    }
 }
 
 if (typeof process === 'object' && process + '' === '[object process]'){

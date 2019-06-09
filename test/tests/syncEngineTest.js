@@ -353,6 +353,306 @@ describe("Zotero.Sync.Data.Engine", function () {
 			yield assertInCache(obj);
 		})
 		
+		it("[Jurism] should process extended fields and variants and preserve invalid key:val pairs in Extra", function* () {
+			({ engine, client, caller } = yield setup());
+			
+			var headers = {
+				"Last-Modified-Version": 3
+			};
+			setResponse({
+				method: "GET",
+				url: "users/1/settings",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/collections?format=versions",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/searches?format=versions",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items?format=versions&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: {
+					"AAAAAAAA": 3
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items/top?format=versions&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: {
+					"AAAAAAAA": 3
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items?format=json&itemKey=AAAAAAAA&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: [
+					makeItemJSON({
+						key: "AAAAAAAA",
+						version: 3,
+						itemType: "book",
+						title: "A",
+						shortTitle: "A-short",
+						extra: 'title--ja: Japanese\ntitle--EN:\ndistributor: Film distributor\ntitle-short--es: Spanish short title\nmedium: epub\nmedium--ja: イーパブ'
+					})
+				]
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/deleted?since=0",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			yield engine.start();
+
+			var userLibraryID = Zotero.Libraries.userLibraryID;
+			
+			var obj = yield Zotero.Items.getByLibraryAndKeyAsync(userLibraryID, "AAAAAAAA");
+			assert.equal(obj.getField('title'), 'A');
+			assert.equal(obj.getField('shortTitle'), 'A-short');
+
+			assert.equal(obj.getField('title', false, false, 'ja'), 'Japanese');
+
+			var titleID = Zotero.ItemFields.getID('title');
+			assert.equal(obj.multi.main[titleID], 'en');
+			assert.equal(obj.getField('extra'), 'distributor: Film distributor');
+			assert.equal(obj.getField('shortTitle', false, false, 'es'), 'Spanish short title');
+			assert.equal(obj.getField('medium'), 'epub');
+			assert.equal(obj.getField('medium', false, false, 'ja'), 'イーパブ');
+		})
+
+		it("[Jurism] should process extended creators and variants, adjusting type and preserving trailing content in Extra", function* () {
+			({ engine, client, caller } = yield setup());
+			
+			var headers = {
+				"Last-Modified-Version": 3
+			};
+			setResponse({
+				method: "GET",
+				url: "users/1/settings",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/collections?format=versions",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/searches?format=versions",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items?format=versions&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: {
+					"AAAAAAAA": 3
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items/top?format=versions&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: {
+					"AAAAAAAA": 3
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items?format=json&itemKey=AAAAAAAA&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: [
+					makeItemJSON({
+						key: "AAAAAAAA",
+						version: 3,
+						itemType: "statute",
+						nameOfAct: "A",
+						creators: [
+							{
+								creatorType: "contributor",
+								lastName: "Smith",
+								firstName: "John"
+							},
+							{
+								creatorType: "author",
+								lastName: "Bob Jones Hamburgers",
+								firstName: "",
+								fieldMode: 1
+							}
+						],
+						extra: 'translator--2--JA:\nauthor--1--gr: Salibury Steaks of Joseph\ntranslator--2--de: German Center\ncontributor--0--EN:\ncontributor--0--pt: SMITH||John\nauthor--4--en: Brown||David\ntranslator--2: Center\ntype: regulation\nMy Aunt Sally'
+					})
+				]
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/deleted?since=0",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			yield engine.start();
+
+			var userLibraryID = Zotero.Libraries.userLibraryID;
+
+			var expectedTranslator = {
+				creatorTypeID: Zotero.CreatorTypes.getID('translator'),
+				fieldMode: 1,
+				lastName: 'Center',
+				firstName: '',
+				multi: {
+					main: 'ja',
+					_key: {
+						de: {
+							fieldMode: 1,
+							lastName: 'German Center',
+							firstName: '',
+							creatorTypeID: Zotero.CreatorTypes.getID('translator')
+						}
+					}
+				}
+			}
+
+			var expectedAuthorMultiGR = {
+				fieldMode: 1,
+				firstName: '',
+				lastName: 'Salibury Steaks of Joseph',
+				creatorTypeID: 1
+			}
+			
+			var obj = yield Zotero.Items.getByLibraryAndKeyAsync(userLibraryID, "AAAAAAAA");
+			
+			var itemType = Zotero.ItemTypes.getName(obj.itemTypeID);
+			assert.equal(itemType, 'regulation');
+			assert.equal(obj.getField('nameOfAct'), 'A');
+
+			var creator = obj.getCreator(1);
+			var creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID);
+			assert.equal(creatorType, 'author');
+			assert.equal(creator.lastName, 'Bob Jones Hamburgers');
+			assert.equal(creator.firstName, '');
+			assert.equal(creator.fieldMode, 1);
+			assert.deepEqual(creator.multi._key['gr'], expectedAuthorMultiGR);
+			
+			var creator = obj.getCreator(0);
+			var creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID);
+			assert.equal(creatorType, 'contributor');
+			assert.equal(creator.lastName, 'Smith');
+			assert.equal(creator.firstName, 'John');
+
+			creator = obj.getCreator(2);
+			assert.deepEqual(creator.multi._key['de'], expectedTranslator.multi._key['de']);
+			assert.deepEqual(creator, expectedTranslator);
+
+			assert.equal(obj.getField('extra'), 'author--4--en: Brown||David\nMy Aunt Sally');
+		})
+
+		it("[Jurism] should process extended dates", function* () {
+			({ engine, client, caller } = yield setup());
+			
+			var headers = {
+				"Last-Modified-Version": 3
+			};
+			setResponse({
+				method: "GET",
+				url: "users/1/settings",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/collections?format=versions",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/searches?format=versions",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items?format=versions&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: {
+					"AAAAAAAA": 3
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items/top?format=versions&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: {
+					"AAAAAAAA": 3
+				}
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/items?format=json&itemKey=AAAAAAAA&includeTrashed=1",
+				status: 200,
+				headers: headers,
+				json: [
+					makeItemJSON({
+						key: "AAAAAAAA",
+						version: 3,
+						itemType: "patent",
+						title: "A",
+						extra: 'original-date: 1998-03-12\npublication-date: 2001-06-27'
+					})
+				]
+			});
+			setResponse({
+				method: "GET",
+				url: "users/1/deleted?since=0",
+				status: 200,
+				headers: headers,
+				json: {}
+			});
+			yield engine.start();
+
+			var userLibraryID = Zotero.Libraries.userLibraryID;
+
+			var obj = yield Zotero.Items.getByLibraryAndKeyAsync(userLibraryID, "AAAAAAAA");
+			
+			assert.equal(obj.getField('title'), 'A');
+			assert.equal(obj.getField('priorityDate'), '1998-03-12');
+			assert.equal(obj.getField('publicationDate'), '2001-06-27');
+		})
+
 		it("should download items into a new read-only group", function* () {
 			var group = yield createGroup({
 				editable: false,
@@ -1770,7 +2070,6 @@ describe("Zotero.Sync.Data.Engine", function () {
 			assert.equal(library.libraryVersion, lastLibraryVersion);
 		});
 	})
-	
 	describe("#_startDownload()", function () {
 		it("shouldn't redownload objects that are already up to date", function* () {
 			var userLibraryID = Zotero.Libraries.userLibraryID;
