@@ -1042,7 +1042,7 @@ Zotero.Utilities.Internal = {
 
 		// Finally try for ECLI
 		if (!identifiers.length) {
-			let ECLI_RE = /(^|\s|,)(ECLI:(.*?:){3}\d*)(?=\s|,|$)/g;
+			let ECLI_RE = /(^|\s|,)(ECLI:(.*?:){3}\d*)(?=\s|,|$)/gi;
 			let ecli;
 			while ((ecli = ECLI_RE.exec(text)) && !foundIDs.has(ecli)) {
 				identifiers.push({
@@ -1052,7 +1052,6 @@ Zotero.Utilities.Internal = {
 			}
 		}
 		return identifiers;
-
 	},
 	
 	
