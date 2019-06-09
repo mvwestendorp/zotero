@@ -1123,6 +1123,10 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			if (part) {
 				strParts.push(part);
 			}
+			part = this.getField('docketNumber', true);
+			if (part) {
+				strParts.push(part);
+			}
 			
 			var creatorData = this.getCreator(0);
 			if (creatorData && creatorData.creatorTypeID === 1) { // author
@@ -1132,7 +1136,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			title = '[' + strParts.join(', ') + ']';
 		}
 	}
-	else if (itemTypeID === 20 || itemTypeID === 1263) {
+	else if (itemTypeID === 20 || itemTypeID === 1263) { // statute, regulation
 		var newTitle = [title];
 		if (!title) {
 			newTitle.push(this.getField('codeNumber', true));
@@ -1153,7 +1157,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			title = newTitle;
 		}
 	}
-	else if (itemTypeID === 18) {
+	else if (itemTypeID === 18) { // hearing
 		if (!title) {
 			var myTitle = this.getField('committee', true); 
 			if (!myTitle) {
@@ -1162,6 +1166,20 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			if (myTitle) {
 				title = '[' + myTitle + ']';
 			}
+		}
+	}
+	else if (itemTypeID === 16) { // bill
+		if (!title) {
+			var res = [];
+			var myBody = this.getField('legislativeBody', true);
+			if (myBody) {
+				res.push(myBody);
+			}
+			var myNum = this.getField('billNumber', true);
+			if (myNum) {
+				res.push(myNum);
+			}
+			title = '[' + res.join(' ') + ']'
 		}
 	}
 	
@@ -1595,6 +1613,11 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 		env.sqlValues.push({ int: itemTypeID });
 	}
 	
+	if (isNew || (this._changed.primaryData && this._changed.primaryData.dateAdded)) {
+		env.sqlColumns.push('dateAdded');
+		env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
+	}
+	
 	// If a new item and Date Modified hasn't been provided, or an existing item and
 	// Date Modified hasn't changed from its previous value and skipDateModifiedUpdate wasn't
 	// passed, use the current timestamp
@@ -1614,9 +1637,6 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 	
 	if (env.sqlColumns.length) {
 		if (isNew) {
-			env.sqlColumns.push('dateAdded');
-			env.sqlValues.push(this.dateAdded ? this.dateAdded : Zotero.DB.transactionDateTime);
-			
 			env.sqlColumns.unshift('itemID');
 			env.sqlValues.unshift(parseInt(itemID));
 			
@@ -2570,7 +2590,7 @@ Zotero.Item.prototype.getNotes = function(includeTrashed) {
 		+ 'With' + (includeTrashed ? '' : 'out') + 'Trashed';
 	
 	if (this._notes[cacheKey]) {
-		return this._notes[cacheKey];
+		return [...this._notes[cacheKey]];
 	}
 	
 	var rows = this._notes.rows.concat();

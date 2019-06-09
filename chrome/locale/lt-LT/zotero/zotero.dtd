@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Citavimo rodymo pavidalas:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Galinė išnaša">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Išnaša">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Citavimo įrašymo pavidalas:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

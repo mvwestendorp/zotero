@@ -20,5 +20,7 @@
 	url = https://github.com/domenic/chai-as-promised.git
 [submodule "deployer"]
 	path = deployer
-	url = git@github.com:Juris-M/deployer.git
-
+	url = https://github.com/Juris-M/deployer.git
+[submodule "resource/style-modules"]
+	path = resource/style-modules
+	url = git@github.com:Juris-M/style-modules.git

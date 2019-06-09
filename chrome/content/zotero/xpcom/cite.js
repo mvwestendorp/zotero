@@ -480,7 +480,7 @@ Zotero.Cite.getAbbreviation = new function() {
 	/**
 	 * Replace getAbbreviation on citeproc-js with our own handler.
 	 */
-	return function getAbbreviation(listname, obj, jurisdiction, category, key) {
+	return function getAbbreviation(styleID, obj, jurisdiction, category, key) {
 		init();
 
 		// Short circuit if we know we don't handle this kind of abbreviation
@@ -583,31 +583,40 @@ Zotero.Cite.getAbbreviation = new function() {
 };
 
 /**
- * An initial version of retrieveStyleModule().
- * (may be replaced by plugin version)
+ * Fetches a style module for citeproc-js based on item jurisdiction
  */
-Zotero.Cite.retrieveStyleModule = function(jurisdiction, preference) {
+Zotero.Cite.retrieveStyleModule = function (jurisdiction, preference) {
+    jurisdiction = jurisdiction.replace(/\:/g, "+");
 	var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
-	var module = Zotero.Styles.get("http://juris-m.github.io/modules/" + id);
-	var ret = false;
-	if (module) {
-		ret = module.getXML();
-	}
-	return ret;
+    var ret;
+    try {
+	    ret = Zotero.File.getResource("resource://zotero/style-modules/" + id + ".csl");
+    } catch (e) {
+        ret = false;
+    }
+    return ret;
 }
 
 /**
  * citeproc-js system object
+ *
  * @class
+ * @param {Object} options
+ * @param {Boolean} [options.automaticJournalAbbreviations]
+ * @param {Boolean} [options.uppercaseSubtitles]
  */
-Zotero.Cite.System = function(automaticJournalAbbreviations) {
-	if(automaticJournalAbbreviations) {
+Zotero.Cite.System = function ({ automaticJournalAbbreviations, uppercaseSubtitles }) {
+	if (automaticJournalAbbreviations) {
 		this.getAbbreviation = Zotero.Cite.getAbbreviation;
 	}
     this.retrieveStyleModule = Zotero.Cite.retrieveStyleModule;
-}
+	if (uppercaseSubtitles) {
+		this.uppercase_subtitles = true; // eslint-disable-line camelcase
+	}
+};
 
 Zotero.Cite.System.prototype = {
+	"prioritize_disambiguate_condition": true,
 	/**
 	 * citeproc-js system function for getting items
 	 * See http://gsl-nagoya-u.net/http/pub/citeproc-doc.html#retrieveitem

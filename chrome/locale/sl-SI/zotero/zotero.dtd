@@ -89,7 +89,7 @@
 <!ENTITY zotero.import "Uvozi">
 <!ENTITY zotero.import.createCollection "Postavi uvožene zbirke in elemente v novo zbirko">
 <!ENTITY zotero.import.database "Zbirka podatkov">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Ravnanje z datotekami">
 <!ENTITY zotero.import.importing "Uvažanje ...">
 <!ENTITY zotero.import.lastModified "Nazadnje spremenjeno">
 <!ENTITY zotero.import.size "Velikost">
@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Prikaži citate kot:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "končne opombe">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "sprotne opombe">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Hrani citate kot:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

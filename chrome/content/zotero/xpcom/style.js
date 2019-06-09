@@ -657,6 +657,8 @@ Zotero.Style = function (style, path) {
 		Zotero.Styles.ns).replace(/(.+)T([^\+]+)\+?.*/, "$1 $2");
 	this.locale = Zotero.Utilities.xpathText(doc, '/csl:style/@default-locale',
 		Zotero.Styles.ns) || null;
+	var shortID = this.styleID.match(/\/?([^/]+)$/)[1];
+	this._isAPA = /^apa($|-)/.test(shortID);
 	this._class = doc.documentElement.getAttribute("class");
 	this._usesAbbreviation = !!Zotero.Utilities.xpath(doc,
 		'//csl:text[(@variable="container-title" and @form="short") or (@variable="container-title-short")][1]',
@@ -765,8 +767,10 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
 	try {
 		var citeproc = new Zotero.CiteProc.CSL.Engine(
 			// Juris-M relies on abbrevsFilter plugin.
-			//new Zotero.Cite.System(automaticJournalAbbreviations),
-			new Zotero.Cite.System(false),
+			new Zotero.Cite.System({
+				automaticJournalAbbreviations: false,
+				uppercaseSubtitles: this._isAPA
+			}),
 			xml,
 			locale,
 			overrideLocale
@@ -775,6 +779,8 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
 		citeproc.opt.development_extensions.wrap_url_and_doi = true;
 		// Don't try to parse author names. We parse them in itemToCSLJSON
 		citeproc.opt.development_extensions.parse_names = false;
+		// Parse raw dates in Jurism
+		citeproc.opt.development_extensions.raw_date_parsing = true;
 		
 		Zotero.setCitationLanguages({}, citeproc);
 		citeproc.opt.trigraph = trigraph;

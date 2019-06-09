@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "出典表記の出力形式:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "文末注">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "脚注">
 <!ENTITY zotero.integration.prefs.formatUsing.label "出典表記の保存形式:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

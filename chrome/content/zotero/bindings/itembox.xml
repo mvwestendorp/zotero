@@ -113,7 +113,7 @@
 						this._displayAllCreators = false;
 					}
 					
-					if (this._item && val.id == this._item.id) {
+					if (this._item && val.id == this._item.id && this._mode !== 'fieldmerge') {
 						this._item = val;
 						this.refresh(true);
 					} else {
@@ -421,56 +421,78 @@
 				<parameter name="fieldValue"/>
 				<body>
 				<![CDATA[
-					var fieldName = node.getAttribute('fieldname');
-					// Adopting Adam Lisbon's suggestion to set Language field
-					// to follow Title
-					if (fieldName === "title") {
-						var langFieldVal = this.item.getField("language");
-						if (langFieldVal) {
-							var mPrefix = langFieldVal.match(/^(.*>).*$/);
-							var mSuffix = langFieldVal.match(/^.*(<.*)$/);
-							if (mPrefix) {
-								langFieldVal = mPrefix[1] + tag;
-							} else if (mSuffix) {
-								langFieldVal = tag + mSuffix[1];
-							} else {
-								langFieldVal = tag;
-							}
-						}
-						this.item.setField("language", langFieldVal);
-					}
-					// XXX Check for existing target tag among variants.
-					if (this.item.multi.hasLang(tag, fieldName)) {
-						// XXX If a matching variant exists, get the row and its values.
-						var variantNickname = Zotero.CachedLanguages.getNickname(tag);
-						var variantValue = this.item.getField(fieldName, null, null, tag);
-						var row = null;
-						var parentRow = Zotero.getAncestorByTagName(node, 'row');
-						var rows = parentRow.nextSibling;
-						if (rows.tagName === 'rows' && rows.classList.contains('multi')) {
-							for (var i=0,ilen=rows.childNodes.length;i<ilen;i++) {
-								var lang = rows.childNodes[i].firstChild.getAttribute('zlang');
-								if (lang === tag) {
-									row = rows.childNodes[i];
-									break;
-								}
-							}
-							// XXX Also get the values of main.
-							var mainLang = this.item.multi.mainLang(fieldName);
-							var mainValue = this.item.getField(fieldName);
-
-							this.item.multi.changeLangTag(mainLang, tag, fieldName);
-							this.item.saveTx();
-						}
-					} else {
-						// XXX If no matching value exists, just change the one field value
+					return (async function() {
 						var fieldName = node.getAttribute('fieldname');
-						var langNickname = Zotero.CachedLanguages.getNickname(tag);
-						node.setAttribute('zlang',tag);
-						node.setAttribute('tooltiptext',langNickname);
-						this._modifyField(fieldName,fieldValue,tag,true);
-						this.item.saveTx();
-					}
+						// Adopting Adam Lisbon's suggestion to set Language field
+						// to follow Title
+						var setLanguageFieldVal = false;
+						var savedItem = false;
+						if (fieldName === "title") {
+							var langFieldVal = this.item.getField("language");
+							if (!langFieldVal) {
+								this.item.setField("language", tag);
+								setLanguageFieldVal = true;
+							}
+						}
+						// XXX Check for existing target tag among variants.
+						if (this.item.multi.hasLang(tag, fieldName)) {
+							// XXX If a matching variant exists, get the row and its values.
+							var variantNickname = Zotero.CachedLanguages.getNickname(tag);
+							var variantValue = this.item.getField(fieldName, null, null, tag);
+							var row = null;
+							var parentRow = Zotero.getAncestorByTagName(node, 'row');
+							var rows = parentRow.nextSibling;
+							if (rows.tagName === 'rows' && rows.classList.contains('multi')) {
+								for (var i=0,ilen=rows.childNodes.length;i<ilen;i++) {
+									var lang = rows.childNodes[i].firstChild.getAttribute('zlang');
+									if (lang === tag) {
+										row = rows.childNodes[i];
+										break;
+									}
+								}
+								// XXX Also get the values of main.
+								var mainLang = this.item.multi.mainLang(fieldName);
+								var mainValue = this.item.getField(fieldName);
+
+								this.item.multi.changeLangTag(mainLang, tag, fieldName);
+								savedItem = true;
+								await this.item.saveTx();
+							}
+						} else {
+							// XXX If no matching value exists, just change the one field value
+							var fieldName = node.getAttribute('fieldname');
+							var langNickname = Zotero.CachedLanguages.getNickname(tag);
+							node.setAttribute('zlang',tag);
+							node.setAttribute('tooltiptext',langNickname);
+							this._modifyField(fieldName,fieldValue,tag,true);
+							savedItem = true;
+							await this.item.saveTx();
+						}
+						if (setLanguageFieldVal) {
+							if (!savedItem) {
+								await this.item.saveTx();
+							}
+							var xpath = '*[local-name()="row"]/'
+								+ '*[local-name()="label" and @fieldname="language"]/'
+								+ 'following-sibling::*[local-name()="label"]'
+							var languageNodes = document.evaluate(xpath, this._dynamicFields, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+							function fadeIn(node) {
+								var incr=0.09;
+								var opacity=incr;
+								var timer = setInterval(function() {
+									opacity += incr;
+									node.setAttribute("style", "background-color:rgba(254,254,0," + opacity + ");")
+									if (opacity >= 1) {
+										incr = -1 * incr;
+									}
+									if (opacity <= 0) {
+										clearInterval(timer);
+									}
+								}, 50);
+							}
+							fadeIn(languageNodes.snapshotItem(0));
+						}
+					}.bind(this))();
 				]]>
 				</body>
 			</method>
@@ -4206,7 +4228,10 @@
 							jurisdictionDefaultNode.setAttribute("checked",false);
 						}
 					}
-					this.item.setField("jurisdiction",key);
+					// Jurisdiction may be undefined on newspaper articles, journal articles, and standards
+					if ("undefined" !== typeof key) {
+						this.item.setField("jurisdiction", key);
+					}
 				//}.bind(this))();
 				]]>
 			  </body>

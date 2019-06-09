@@ -89,7 +89,7 @@
 <!ENTITY zotero.import "Importar">
 <!ENTITY zotero.import.createCollection "Poñer as coleccións e elementos importados nunha nova colección">
 <!ENTITY zotero.import.database "Base de datos">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Xestión de ficheiros">
 <!ENTITY zotero.import.importing "Importando...">
 <!ENTITY zotero.import.lastModified "Última modificación">
 <!ENTITY zotero.import.size "Tamaño">
@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar as citas como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas no rodapé">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas ao pé de páxina">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Gardar as citas como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

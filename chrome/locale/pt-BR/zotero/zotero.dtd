@@ -79,22 +79,22 @@
 <!ENTITY zotero.general.note "Nota:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Opcional)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "Opções">
+<!ENTITY zotero.general.other "Outro...">
 <!ENTITY zotero.general.refresh "Atualizar">
 <!ENTITY zotero.general.saveAs "Salvar como...">
 <!ENTITY zotero.general.selectAll "Selecionar tudo">
 <!ENTITY zotero.general.tools "Ferramentas">
 <!ENTITY zotero.general.yes "Sim">
-<!ENTITY zotero.import "Import">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
-<!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.fileHandling "File Handling">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import "Importar">
+<!ENTITY zotero.import.createCollection "Coloque coleções importadas e itens dentro de novas coleções">
+<!ENTITY zotero.import.database "Banco de dados">
+<!ENTITY zotero.import.fileHandling "Manipulação de arquivo">
+<!ENTITY zotero.import.importing "Importando...">
+<!ENTITY zotero.import.lastModified "Última modificação">
+<!ENTITY zotero.import.size "Tamanho">
+<!ENTITY zotero.import.source.file "Um arquivo (BibTeX, RIS, RDF do Zotero, etc.)">
+<!ENTITY zotero.import.whereToImportFrom "De onde você deseja importar?">
 <!ENTITY zotero.integration.addEditCitation.title "Adicionar/Editar citação">
 <!ENTITY zotero.integration.classicView.label "Visão clássica">
 <!ENTITY zotero.integration.docPrefs.title "Preferências do documento">
@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Exibir citações como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas de fim">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas de rodapé">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Armazenar as citações como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
@@ -181,7 +182,7 @@
 <!ENTITY zotero.items.menu.reportMetadata "Denunciar metadados incorretos">
 <!ENTITY zotero.items.menu.restoreToLibrary "Restaurar para a biblioteca">
 <!ENTITY zotero.items.menu.showInLibrary "Mostrar na biblioteca">
-<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
+<!ENTITY zotero.items.menu.unrecognize "Desfazer a recuperação de metadados">
 <!ENTITY zotero.items.moreColumns.label "Mais colunas">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Páginas">

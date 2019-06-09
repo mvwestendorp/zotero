@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "បង្ហាញអាគតដ្ឋានក្នុងទម្រង់ជា:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "លេខយោងចុងអត្ថបទ">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "លេខយោងក្រោមអត្ថបទ">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

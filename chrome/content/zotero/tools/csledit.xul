@@ -58,6 +58,8 @@
 					<menuitem label="near-note" value="4"/>
 				</menupopup>
 			</menulist>
+		</hbox>
+		<hbox align="center">
 			<menulist id="locale-menu" oncommand="Zotero.Prefs.set('export.lastLocale', this.value); Zotero_CSL_Editor.refresh()"/>
 			<menulist id="zotero-csl-list" style="min-height: 1.6em; min-width: 100px" flex="1" oncommand="Zotero_CSL_Editor.onStyleSelected(this.value)"/>
 		</hbox>

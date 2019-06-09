@@ -89,7 +89,7 @@
 <!ENTITY zotero.import "Import">
 <!ENTITY zotero.import.createCollection "Pune colecțiile importate și itemii într-o colecție nouă">
 <!ENTITY zotero.import.database "Baza de date">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Manipulare fișier">
 <!ENTITY zotero.import.importing "Se importă...">
 <!ENTITY zotero.import.lastModified "Ultima modificare">
 <!ENTITY zotero.import.size "Mărime">
@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Afișează citatele ca:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Note de final">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Note de subsol">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Păstrează citările ca:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

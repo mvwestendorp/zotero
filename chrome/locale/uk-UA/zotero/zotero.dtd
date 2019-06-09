@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Показати цитати як:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Кінцеві виноски">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Виноски">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Зберегти цитування як:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

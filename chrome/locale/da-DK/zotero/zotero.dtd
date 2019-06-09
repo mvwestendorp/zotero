@@ -79,22 +79,22 @@
 <!ENTITY zotero.general.note "Note:">
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Valgfrit)">
-<!ENTITY zotero.general.options "Options">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.options "Indstillinger">
+<!ENTITY zotero.general.other "Andet...">
 <!ENTITY zotero.general.refresh "Opdatér">
 <!ENTITY zotero.general.saveAs "Gem som...">
 <!ENTITY zotero.general.selectAll "Vælg alle">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ja">
-<!ENTITY zotero.import "Import">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
+<!ENTITY zotero.import "Importér">
+<!ENTITY zotero.import.createCollection "Placér importerede samlinger og nye elementer i den nye samling">
 <!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.fileHandling "File Handling">
-<!ENTITY zotero.import.importing "Importing…">
-<!ENTITY zotero.import.lastModified "Last Modified">
-<!ENTITY zotero.import.size "Size">
-<!ENTITY zotero.import.source.file "A file (BibTeX, RIS, Zotero RDF, etc.)">
-<!ENTITY zotero.import.whereToImportFrom "Where do you want to import from?">
+<!ENTITY zotero.import.fileHandling "Filhåndtering">
+<!ENTITY zotero.import.importing "Importerer…">
+<!ENTITY zotero.import.lastModified "Sidst ændret">
+<!ENTITY zotero.import.size "Størrelse">
+<!ENTITY zotero.import.source.file "En fil (BibTeX, RIS, Zotero RDF osv.)">
+<!ENTITY zotero.import.whereToImportFrom "Hvor vil du importere fra?">
 <!ENTITY zotero.integration.addEditCitation.title "Tilføj/rediger reference">
 <!ENTITY zotero.integration.classicView.label "Klassisk visning">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentindstillinger">
@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Vis referencer som:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Slutnoter">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fodnoter">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Gem henvisninger som:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
@@ -199,7 +200,7 @@
 <!ENTITY zotero.items.volume_column "Bind">
 <!ENTITY zotero.items.year_column "År">
 <!ENTITY zotero.lookup.button.search "Søg">
-<!ENTITY zotero.lookup.description "Enter ISBNs, DOIs, PMIDs, or arXiv IDs to add to your library:">
+<!ENTITY zotero.lookup.description "Indtast ISBN'er, DOI'er, PMID'er, eller arXiv ID'er som skal tilføjes til dit bibliotek:">
 <!ENTITY zotero.merge.deleted "Slettede">
 <!ENTITY zotero.merge.of "af">
 <!ENTITY zotero.merge.title "Reparer konflikter">

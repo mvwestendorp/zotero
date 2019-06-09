@@ -842,7 +842,14 @@ Zotero.Items = function() {
 			var toSave = {};
 			toSave[item.id] = item;
 			
+			var earliestDateAdded = item.dateAdded;
+			
 			for (let otherItem of otherItems) {
+				// Use the earliest date added of all the items
+				if (otherItem.dateAdded < earliestDateAdded) {
+					earliestDateAdded = otherItem.dateAdded;
+				}
+				
 				let otherItemURI = Zotero.URI.getItemURI(otherItem);
 				
 				// Move child items to master
@@ -896,7 +903,21 @@ Zotero.Items = function() {
 				// Add tags to master
 				var tags = otherItem.getTags();
 				for (let j = 0; j < tags.length; j++) {
-					item.addTag(tags[j].tag);
+					let tagName = tags[j].tag;
+					if (item.hasTag(tagName)) {
+						let type = item.getTagType(tagName);
+						// If existing manual tag, leave that
+						if (type == 0) {
+							continue;
+						}
+						// Otherwise, add the non-master item's tag, which may be manual, in which
+						// case it will remain at the end
+						item.addTag(tagName, tags[j].type);
+					}
+					// If no existing tag, add with the type from the non-master item
+					else {
+						item.addTag(tagName, tags[j].type);
+					}
 				}
 				
 				// Add relation to track merge
@@ -906,6 +927,8 @@ Zotero.Items = function() {
 				otherItem.deleted = true;
 				yield otherItem.save();
 			}
+			
+			item.setField('dateAdded', earliestDateAdded);
 			
 			for (let i in toSave) {
 				yield toSave[i].save();

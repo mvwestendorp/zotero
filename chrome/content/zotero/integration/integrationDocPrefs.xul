@@ -87,6 +87,9 @@
 				<checkbox id="automaticCitationUpdates-checkbox" label="&zotero.integration.prefs.automaticCitationUpdates.label;" tooltiptext="&zotero.integration.prefs.automaticCitationUpdates.tooltip;"/>
 				<description class="radioDescription">&zotero.integration.prefs.automaticCitationUpdates.description;</description>
 			  </vbox>
+			  <hbox id="exportImport" hidden="true">
+				<button label="&zotero.integration.prefs.exportDocument;" oncommand="Zotero_File_Interface_Bibliography.exportDocument()"/>
+			  </hbox>
 			  <checkbox id="suppressTrailingPunctuation-checkbox" label="&zotero.integration.prefs.suppressTrailingPunctuation.label;"/>
 			  <description class="radioDescription small-description">&zotero.integration.prefs.suppressTrailingPunctuation.caption;</description>
 			</groupbox>

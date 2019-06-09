@@ -63,7 +63,12 @@ Zotero.Server.Endpoints['/connector/document/respond'].prototype = {
 			if (typeof data.stack != "string") {
 				data.stack = JSON.stringify(data.stack);
 			}
-			Zotero.HTTPIntegrationClient.deferredResponse.reject(data);
+			let error = data;
+			if (data.error == 'Alert') {
+				error = new Zotero.Exception.Alert(data.message);
+				error.stack = data.stack;
+			}
+			Zotero.HTTPIntegrationClient.deferredResponse.reject(error);
 		} else {
 			Zotero.HTTPIntegrationClient.deferredResponse.resolve(data);
 		}
@@ -74,7 +79,7 @@ Zotero.Server.Endpoints['/connector/document/respond'].prototype = {
 // For managing macOS integration and progress window focus
 Zotero.Server.Endpoints['/connector/sendToBack'] = function() {};
 Zotero.Server.Endpoints['/connector/sendToBack'].prototype = {
-	supportedMethods: ["POST"],
+	supportedMethods: ["POST", "GET"],
 	supportedDataTypes: ["application/json"],
 	permitBookmarklet: true,
 	init: function() {

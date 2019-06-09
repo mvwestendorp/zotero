@@ -32,6 +32,7 @@
 // Class to provide options for bibliography
 // Used by rtfScan.xul, integrationDocPrefs.xul, and bibliography.xul
 
+Components.utils.import("resource://gre/modules/Services.jsm");
 var Zotero_File_Interface_Bibliography = new function() {
 	var _io;
 	
@@ -190,6 +191,10 @@ var Zotero_File_Interface_Bibliography = new function() {
 				
 				document.getElementById("automaticCitationUpdates-checkbox").checked = !_io.delayCitationUpdates;
 			}
+			
+			if (_io.showImportExport) {
+				document.querySelector('#exportImport').hidden = false;
+			}
 		}
 		if(document.getElementById("suppressTrailingPunctuation-checkbox")) {
 			if(_io.suppressTrailingPunctuation === undefined) {
@@ -322,7 +327,14 @@ var Zotero_File_Interface_Bibliography = new function() {
 
 		window.sizeToContent();
 	};
-
+	
+	this.exportDocument = function () {
+		if (Zotero.Integration.confirmExportDocument()) {
+			_io.exportDocument = true;
+			document.documentElement.acceptDialog();
+		}
+	}
+	
 	/*
 	 * Update locale menulist when style is changed
 	 */

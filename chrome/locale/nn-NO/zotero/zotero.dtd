@@ -110,6 +110,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Vis siteringar som:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Sluttnotar">
+<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fotnotar">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Lagra siteringar som:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

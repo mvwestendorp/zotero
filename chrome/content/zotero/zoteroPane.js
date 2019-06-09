@@ -1061,20 +1061,6 @@ var ZoteroPane = new function()
 	});
 	
 	
-	this.openLookupWindow = Zotero.Promise.coroutine(function* () {
-		if (Zotero.DB.inTransaction()) {
-			yield Zotero.DB.waitForTransaction();
-		}
-		
-		if (!this.canEdit()) {
-			this.displayCannotEditLibraryMessage();
-			return;
-		}
-		
-		window.openDialog('chrome://zotero/content/lookup.xul', 'zotero-lookup', 'chrome,modal');
-	});
-	
-	
 	this.openAdvancedSearchWindow = function () {
 		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
 					.getService(Components.interfaces.nsIWindowMediator);
@@ -4784,14 +4770,9 @@ var ZoteroPane = new function()
 			if(!el) return;
 			var elValues = serializedValues[id];
 			for(var attr in elValues) {
-				// TEMP: For now, ignore persisted collapsed state for item pane splitter
-				if (el.id == 'zotero-items-splitter' && attr == 'state') continue;
-				// And don't restore to min-width if splitter was collapsed
-				if (el.id == 'zotero-item-pane' && attr == 'width' && elValues[attr] == 250
-						&& 'zotero-items-splitter' in serializedValues
-						&& serializedValues['zotero-items-splitter'].state == 'collapsed') {
-					continue;
-				}
+				// TEMP: For now, ignore persisted collapsed state for collection and item pane splitters
+				if ((el.id == 'zotero-collections-splitter' || el.id == 'zotero-items-splitter')
+						&& attr == 'state') continue;
 				el.setAttribute(attr, elValues[attr]);
 			}
 		}
