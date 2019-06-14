@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Atzetik:">
 <!ENTITY zotero.citation.suppressAuthor.label "Ezkutatu autorea">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Show Unfiled Items">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Gehitu hautapena Zotero Oharrari">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Sortu Zotero Itema eta Oharra hautapenetik">

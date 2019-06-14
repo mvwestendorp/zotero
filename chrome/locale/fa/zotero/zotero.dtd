@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "پسوند:">
 <!ENTITY zotero.citation.suppressAuthor.label "حذف نام نویسنده">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "نمایش آیتم‌های دسته‌بندی نشده">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "افزودن قسمت انتخاب شده به یادداشت زوترو">
 <!ENTITY zotero.contextMenu.addTextToNewNote " ساخت آیتم‌ و یادداشت از قسمت انتخاب شده">

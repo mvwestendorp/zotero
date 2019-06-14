@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Suprimă autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Arată înregistrările neîndosariate">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Adaugă selecția la nota Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Creează pe baza selecției o înregistrare și o notă Zotero">
@@ -110,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Afișează citatele ca:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Note de final">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Exportă Document…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Note de subsol">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Păstrează citările ca:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

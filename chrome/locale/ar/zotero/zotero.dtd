@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "لاحقة:">
 <!ENTITY zotero.citation.suppressAuthor.label "عدم اضافة المؤلف">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "عرض العناصر غير المصنفة">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "اضافة التحديد لملاحظة زوتيرو">
 <!ENTITY zotero.contextMenu.addTextToNewNote "إنشاء عنصر وملاحظة زوتيرو من التحديد">

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Viðskeyti:">
 <!ENTITY zotero.citation.suppressAuthor.label "Fela höfund">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Sýna sameinaðar færslur">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Bæta vali á Zotero minnisblað">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Útbúa Zotero færslu og minnisblað út frá vali">

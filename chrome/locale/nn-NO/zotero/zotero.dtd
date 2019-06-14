@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Utelat forfattar">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Vis uplasserte objekt">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Legg utval til Zotero-notat">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Lag notat og element i Zotero frå utvalet">

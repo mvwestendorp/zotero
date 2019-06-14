@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffisso:">
 <!ENTITY zotero.citation.suppressAuthor.label "Ometti autore">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Mostra gli oggetti non classificati">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Aggiungi la selezione alla nota di Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crea elemento e nota in base alla selezione">

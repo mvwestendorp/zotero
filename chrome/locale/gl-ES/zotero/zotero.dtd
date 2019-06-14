@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufixo:">
 <!ENTITY zotero.citation.suppressAuthor.label "Eliminar o autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Mostrar os elementos sen cubrir">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Engadir a selección a unha nota de Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crear un elemento e un nota de Zotero a partir da selección">
@@ -110,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar as citas como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas no rodapé">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Exportar o documento...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas ao pé de páxina">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Gardar as citas como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Přípona:">
 <!ENTITY zotero.citation.suppressAuthor.label "Potlačit autora">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Zobrazit sjednocené položky">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Přidat výběr do Zotero poznámky">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Vytvořit Zotero položku a poznámku z výběru">

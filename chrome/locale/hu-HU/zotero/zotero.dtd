@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Utótag:">
 <!ENTITY zotero.citation.suppressAuthor.label "Szerző figyelmen kívül hagyása">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Besorolatlan elemek mutatása">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "A kijelölés hozzáadása a Zotero jegyzethez">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Zotero elem és jegyzet létrehozása a kijelölés alapján">

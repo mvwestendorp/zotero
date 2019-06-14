@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Суфикс:">
 <!ENTITY zotero.citation.suppressAuthor.label "Потисни аутора">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Прикажи неразврстане">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Додајте означено у Зотерову белешку">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Направите Зотерову ставку и белешку из изабраног">

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Agtervoegsel:">
 <!ENTITY zotero.citation.suppressAuthor.label "Onderdruk outeur">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Wys ongeliaseerde items">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Voeg seleksie by Zotero-nota">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Skep Zotero-item en -nota van seleksie">

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Надставка:">
 <!ENTITY zotero.citation.suppressAuthor.label "Скриване на автора">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Показване на непопълнените записи">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Добавя избраното към бележка в Зотеро">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Създава запис и бележка в Зотеро от избраното.">

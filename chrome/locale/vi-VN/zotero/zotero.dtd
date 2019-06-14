@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Hậu tố">
 <!ENTITY zotero.citation.suppressAuthor.label "Bỏ tên Tác giả">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Liệt kê các mục chưa phân loại">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Thêm phần vừa chọn vào một ghi chép Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Tạo một biểu ghi và một ghi chép Zotero cho phần vừa chọn">

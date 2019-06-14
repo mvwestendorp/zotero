@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Suprimeix l'autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Mostra els elements no arxivats">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Afegeix la selecció a una nota del Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crea un element del Zotero i una nota amb la selecció">

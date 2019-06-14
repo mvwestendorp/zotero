@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Peida autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Teemata kirjed">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Lisada valitud tekst Zotero märkusele">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Luua valikust Zotero kirje ja märkus">

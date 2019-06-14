@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "接尾辞:">
 <!ENTITY zotero.citation.suppressAuthor.label "著者名の非表示">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "未整理のアイテムを表示">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "選択範囲を Zotero メモに追加">
 <!ENTITY zotero.contextMenu.addTextToNewNote "選択範囲から Zotero アイテムとメモを作成">

@@ -5,7 +5,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.caption "Linked Attachment Base Directory">
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero will use relative paths for linked file attachments within the base directory, allowing you to access files on different computers as long as the file structure within the base directory remains the same.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Revert to Absolute Paths…">
-<!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Choose…">
+<!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Velg...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
 <!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
 <!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
@@ -20,8 +20,8 @@
 <!ENTITY zotero.preferences.cite.styles.automaticTitleAbbreviation "Automatically abbreviate journal titles">
 <!ENTITY zotero.preferences.cite.styles.styleManager "Style Manager">
 <!ENTITY zotero.preferences.cite.styles.styleManager.csl "CSL">
-<!ENTITY zotero.preferences.cite.styles.styleManager.title "Title">
-<!ENTITY zotero.preferences.cite.styles.styleManager.updated "Updated">
+<!ENTITY zotero.preferences.cite.styles.styleManager.title "Tittel">
+<!ENTITY zotero.preferences.cite.styles.styleManager.updated "Oppdatert">
 <!ENTITY zotero.preferences.cite.wordProcessors "Word Processors">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins "Get word processor plug-ins…">
 <!ENTITY zotero.preferences.cite.wordProcessors.getPlugins.url "http://www.zotero.org/support/word_processor_plugin_installation_for_zotero_2.1">
@@ -30,7 +30,7 @@
 <!ENTITY zotero.preferences.configEditor "Config Editor">
 <!ENTITY zotero.preferences.custom "Custom…">
 <!ENTITY zotero.preferences.dataDir "Lagringsplass">
-<!ENTITY zotero.preferences.dataDir.choose "Choose…">
+<!ENTITY zotero.preferences.dataDir.choose "Velg...">
 <!ENTITY zotero.preferences.dataDir.custom "Egendefinert:">
 <!ENTITY zotero.preferences.dataDir.migrate "Migrate To New Default Location…">
 <!ENTITY zotero.preferences.dataDir.reveal "Vis datamappe">
@@ -127,10 +127,10 @@
 <!ENTITY zotero.preferences.layout.stacked "Stacked">
 <!ENTITY zotero.preferences.layout.standard "Standard">
 <!ENTITY zotero.preferences.locate.addDescription "To add a Lookup Engine that is not on the list, visit the desired search engine in your browser and select “Add” from Zotero’s Locate menu.">
-<!ENTITY zotero.preferences.locate.description "Description">
+<!ENTITY zotero.preferences.locate.description "Beskrivelse">
 <!ENTITY zotero.preferences.locate.locateEngineManager "Article Lookup Engine Manager">
 <!ENTITY zotero.preferences.locate.locateEnginedescription "A Lookup Engine extends the capability of the Locate drop down in the Info pane. By enabling Lookup Engines in the list below they will be added to the drop down and can be used to locate resources from your library on the web.">
-<!ENTITY zotero.preferences.locate.name "Name">
+<!ENTITY zotero.preferences.locate.name "Navn">
 <!ENTITY zotero.preferences.locate.restoreDefaults "Restore Defaults">
 <!ENTITY zotero.preferences.miscellaneous "Diverse">
 <!ENTITY zotero.preferences.openAboutConfig "Open about:config">

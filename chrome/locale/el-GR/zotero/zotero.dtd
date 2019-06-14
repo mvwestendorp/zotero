@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Επίθημα:">
 <!ENTITY zotero.citation.suppressAuthor.label "Σύμπτυξη συγγραφέα">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Εμφάνιση Αταξινόμητων στοιχείων">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Προσθήκη επιλογής στις Σημειώσεις Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Δημιουργία Στοιχείου Zotero και Σημειώσεων από Επιλογή">

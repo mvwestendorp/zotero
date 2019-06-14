@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Pripona:">
 <!ENTITY zotero.citation.suppressAuthor.label "Prikrij avtorja">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Pokaži nerazvrščene vnose">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Dodaj izbor v opombo Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Ustvari vnos in opombo Zotero iz izbora">

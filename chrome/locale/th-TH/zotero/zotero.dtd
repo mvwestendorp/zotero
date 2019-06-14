@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "เติมท้าย:">
 <!ENTITY zotero.citation.suppressAuthor.label "ละผู้แต่ง">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "แสดงรายการที่ไม่ได้จัดกลุ่ม">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "เพิ่มสิ่งที่เลือกไว้เข้าในหมายเหตุของ Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "สร้างรายการและหมายเหตุใหม่จากสิ่งที่เลือก">

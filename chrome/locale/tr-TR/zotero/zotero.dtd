@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sonek:">
 <!ENTITY zotero.citation.suppressAuthor.label "Yazarı Sakla">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Dosyalanmamış Eserleri Göster">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Seçileni Zotero Not'a Ekle">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Seçimden Zotero öğesi ve Notu Yarat">
@@ -110,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Göndermeleri Göster:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Son notlar">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Belgeyi Dışarı Aktar...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Dipnot">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Göndermeleri bu şekilde kaydet:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

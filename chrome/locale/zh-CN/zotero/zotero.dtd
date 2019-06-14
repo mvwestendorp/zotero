@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "后缀:">
 <!ENTITY zotero.citation.suppressAuthor.label "略去作者">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "显示未分类条目">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "将所选内容添加到 Zotero 笔记">
 <!ENTITY zotero.contextMenu.addTextToNewNote "由所选内容创建 Zotero 条目及笔记">

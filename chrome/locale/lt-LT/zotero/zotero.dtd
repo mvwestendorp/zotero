@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Priesaga:">
 <!ENTITY zotero.citation.suppressAuthor.label "Nerodyti autoriaus">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Rodyti neužpildytus">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Iš pažymėto teksto sukurti Zotero pastabą">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Sukurti Zotero įrašą ir pastabą jam iš pažymėto teksto">
