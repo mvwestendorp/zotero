@@ -1239,8 +1239,8 @@ describe("Zotero.Sync.Data.Engine", function () {
 						assert.propertyVal(itemJSON, "contentType", item.attachmentContentType);
 						assert.propertyVal(itemJSON, "charset", item.attachmentCharset);
 						assert.propertyVal(itemJSON, "filename", item.attachmentFilename);
-						assert.propertyVal(itemJSON, "mtime", null);
-						assert.propertyVal(itemJSON, "md5", null);
+						assert.notPropertyVal(itemJSON, "mtime");
+						assert.notPropertyVal(itemJSON, "md5");
 						req.respond(
 							200,
 							{
@@ -1711,20 +1711,18 @@ describe("Zotero.Sync.Data.Engine", function () {
 			var item = yield createDataObject('item');
 			
 			var lastLibraryVersion = 5;
-			var calls = 0;
+			var postCalls = 0;
+			var settingsCalls = 0;
 			var t;
 			server.respond(function (req) {
-				if (req.method == "POST") {
-					calls++;
-				}
-				
 				// On first and second upload attempts, return 412
-				if (req.method == "POST" && req.url.startsWith(baseURL + "users/1/items")) {
-					if (calls == 1 || calls == 2) {
-						if (calls == 2) {
-							assert.isAbove(new Date() - t, 50);
-						}
-						t = new Date();
+				if (req.method == "POST") {
+					if (!req.url.startsWith(baseURL + "users/1/items")) {
+						throw new Error("Unexpected POST");
+					}
+					postCalls++;
+					// 1st and 2nd requests
+					if (postCalls == 1 || postCalls == 2) {
 						req.respond(
 							412,
 							{
@@ -1733,24 +1731,34 @@ describe("Zotero.Sync.Data.Engine", function () {
 							""
 						);
 					}
+					// 3rd request
 					else {
+						let json = item.toResponseJSON();
+						json.version = ++lastLibraryVersion;
 						req.respond(
 							200,
 							{
-								"Last-Modified-Version": ++lastLibraryVersion
+								"Last-Modified-Version": json.version
 							},
 							JSON.stringify({
 								successful: {
-									"0": item.toResponseJSON()
+									"0": json
 								},
 								unchanged: {},
 								failed: {}
 							})
 						);
 					}
+					t = new Date();
 					return;
 				}
 				if (req.method == "GET") {
+					if (req.url.startsWith(baseURL + "users/1/settings")) {
+						settingsCalls++;
+						if (settingsCalls == 2) {
+							assert.isAbove(new Date() - t, 75);
+						}
+					}
 					req.respond(
 						200,
 						{
@@ -1758,14 +1766,16 @@ describe("Zotero.Sync.Data.Engine", function () {
 						},
 						JSON.stringify({})
 					);
+					t = new Date();
 					return;
 				}
 			});
 			
-			Zotero.Sync.Data.conflictDelayIntervals = [50, 70000];
+			Zotero.Sync.Data.conflictDelayIntervals = [75, 70000];
 			yield engine.start();
 			
-			assert.equal(calls, 3);
+			assert.equal(postCalls, 3);
+			assert.equal(settingsCalls, 2);
 			assert.isTrue(item.synced);
 			assert.equal(library.libraryVersion, lastLibraryVersion);
 		});

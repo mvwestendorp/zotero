@@ -717,10 +717,35 @@ var Zotero_QuickFormat = new function () {
 		if(!referenceBox.hasChildNodes() || !referenceBox.selectedItem) return false;
 		
 		var citationItem = {"id":referenceBox.selectedItem.getAttribute("zotero-item")};
-		if(typeof citationItem.id === "string" && citationItem.id.indexOf("/") !== -1) {
+		if (typeof citationItem.id === "string" && citationItem.id.indexOf("/") !== -1) {
 			var item = Zotero.Cite.getItem(citationItem.id);
 			citationItem.uris = item.cslURIs;
 			citationItem.itemData = item.cslItemData;
+		}
+		else if (Zotero.Retractions.isRetracted({id: parseInt(citationItem.id)})) {
+			referencePanel.hidden = true;
+			var ps = Services.prompt;
+			var buttonFlags = ps.BUTTON_POS_0 * ps.BUTTON_TITLE_IS_STRING
+				+ ps.BUTTON_POS_1 * ps.BUTTON_TITLE_CANCEL
+				+ ps.BUTTON_POS_2 * ps.BUTTON_TITLE_IS_STRING;
+			var result = ps.confirmEx(null,
+				Zotero.getString('general.warning'),
+				Zotero.getString('retraction.citeWarning.text1') + '\n\n'
+					+ Zotero.getString('retraction.citeWarning.text2'),
+				buttonFlags,
+				Zotero.getString('general.continue'),
+				null,
+				Zotero.getString('pane.items.showItemInLibrary'),
+				null, {});
+			referencePanel.hidden = false;
+			if (result > 0) {
+				if (result == 2) {
+					Zotero_QuickFormat.showInLibrary(parseInt(citationItem.id));
+				}
+				return false;
+			} else {
+				citationItem.ignoreRetraction = true;
+			}
 		}
 		
 		_updateLocator(_getEditorContent());
@@ -1322,8 +1347,8 @@ var Zotero_QuickFormat = new function () {
 	/**
 	 * Show an item in the library it came from
 	 */
-	this.showInLibrary = async function() {
-		var id = panelRefersToBubble.citationItem.id;
+	this.showInLibrary = async function (itemID) {
+		var id = itemID || parseInt(panelRefersToBubble.citationItem.id);
 		var pane = Zotero.getActiveZoteroPane();
 		// Open main window if it's not open (Mac)
 		if (!pane) {

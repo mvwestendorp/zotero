@@ -74,6 +74,17 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		return win ? win.ZoteroPane : null;
 	};
 	
+	this.getZoteroPanes = function () {
+		var enumerator = Services.wm.getEnumerator("navigator:browser");
+		var zps = [];
+		while (enumerator.hasMoreElements()) {
+			let win = enumerator.getNext();
+			if (!win.ZoteroPane) continue;
+			zps.push(win.ZoteroPane);
+		}
+		return zps;
+	};
+	
 	/**
 	 * @property	{Boolean}	locked		Whether all Zotero panes are locked
 	 *										with an overlay
@@ -769,6 +780,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			yield Zotero.Creators.init();
 			yield Zotero.Groups.init();
 			yield Zotero.Relations.init();
+			yield Zotero.Retractions.init();
 			
 			// Load all library data except for items, which are loaded when libraries are first
 			// clicked on or if otherwise necessary

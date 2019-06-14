@@ -130,6 +130,7 @@ const xpcomFilesLocal = [
 	'quickCopy',
 	'recognizePDF',
 	'report',
+	'retractions',
 	'router',
 	'schema',
 	'server',

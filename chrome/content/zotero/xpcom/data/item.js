@@ -2034,15 +2034,10 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 							);
 						}
 					}
-					let parentOptions = {
-						skipDateModifiedUpdate: true
-					};
-					// Apply options (e.g., skipNotifier) from outer save
-					for (let o in env.options) {
-						if (!o.startsWith('skip')) continue;
-						parentOptions[o] = env.options[o];
-					}
-					yield parentItem.save(parentOptions);
+					yield parentItem.save({
+						skipDateModifiedUpdate: true,
+						skipEditCheck: env.options.skipEditCheck
+					});
 				}
 			}
 			
@@ -2091,7 +2086,8 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 				
 				mergeItem.removeRelation(predicate, thisURI);
 				yield mergeItem.save({
-					skipDateModifiedUpdate: true
+					skipDateModifiedUpdate: true,
+					skipEditCheck: env.options.skipEditCheck
 				});
 			}
 			
@@ -3457,7 +3453,7 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentPath', {
 		}
 		else if (linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_URL ||
 				linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_FILE) {
-			if (!val.startsWith('storage:')) {
+			if (val && !val.startsWith('storage:')) {
 				let storagePath = Zotero.Attachments.getStorageDirectory(this).path;
 				if (!val.startsWith(storagePath)) {
 					throw new Error("Imported file path must be within storage directory");
@@ -4273,28 +4269,32 @@ Zotero.Item.prototype.getImageSrcWithTags = Zotero.Promise.coroutine(function* (
 	
 	var uri = this.getImageSrc();
 	
+	var retracted = Zotero.Retractions.isRetracted(this);
+	
 	var tags = this.getTags();
-	if (!tags.length) {
+	if (!tags.length && !retracted) {
 		return uri;
 	}
 	
-	var tagColors = Zotero.Tags.getColors(this.libraryID);
 	var colorData = [];
-	for (let i=0; i<tags.length; i++) {
-		let tag = tags[i];
-		let data = tagColors.get(tag.tag);
-		if (data) {
-			colorData.push(data);
+	if (tags.length) {
+		let tagColors = Zotero.Tags.getColors(this.libraryID);
+		for (let tag of tags) {
+			let data = tagColors.get(tag.tag);
+			if (data) {
+				colorData.push(data);
+			}
 		}
+		if (!colorData.length && !retracted) {
+			return uri;
+		}
+		colorData.sort(function (a, b) {
+			return a.position - b.position;
+		});
 	}
-	if (!colorData.length) {
-		return uri;
-	}
-	colorData.sort(function (a, b) {
-		return a.position - b.position;
-	});
 	var colors = colorData.map(val => val.color);
-	return Zotero.Tags.generateItemsListImage(colors, uri);
+	
+	return Zotero.Tags.generateItemsListImage(colors, uri, retracted);
 });
 
 
@@ -4691,13 +4691,10 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 		let toDelete = yield Zotero.DB.columnQueryAsync(sql, [this.id]);
 		for (let i=0; i<toDelete.length; i++) {
 			let obj = yield this.ObjectsClass.getAsync(toDelete[i]);
-			// Copy all options other than 'tx', which would cause a deadlock
-			let options = {
-				skipParentRefresh: true
-			};
-			Object.assign(options, env.options);
-			delete options.tx;
-			yield obj.erase(options);
+			yield obj.erase({
+				skipParentRefresh: true,
+				skipEditCheck: env.options.skipEditCheck
+			});
 		}
 	}
 	
@@ -4707,7 +4704,10 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 	);
 	for (let relatedItem of relatedItems) {
 		relatedItem.removeRelatedItem(this);
-		relatedItem.save();
+		relatedItem.save({
+			skipDateModifiedUpdate: true,
+			skipEditCheck: env.options.skipEditCheck
+		});
 	}
 	
 	// Clear fulltext cache
@@ -5009,8 +5009,18 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 			
 			if (this.isImportedAttachment() && !options.skipStorageProperties) {
 				if (options.syncedStorageProperties) {
-					obj.mtime = this.attachmentSyncedModificationTime;
-					obj.md5 = this.attachmentSyncedHash;
+					let mtime = this.attachmentSyncedModificationTime;
+					// There's never a reason to include these if they're null. This can happen if
+					// we're restoring to server from a copy of the database that was never
+					// file-synced. We don't want to clear the remote file associations when that
+					// happens.
+					if (mtime !== null) {
+						obj.mtime = mtime;
+					}
+					let md5 = this.attachmentSyncedHash;
+					if (md5 !== null) {
+						obj.md5 = md5;
+					}
 				}
 				else {
 					// TEMP
@@ -5082,6 +5092,8 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 	}
 	
 	var json = this._postToJSON(env);
+	
+	// TODO: Remove once we stop clearing props from the cached JSON in patch mode
 	if (options.skipStorageProperties) {
 		delete json.md5;
 		delete json.mtime;

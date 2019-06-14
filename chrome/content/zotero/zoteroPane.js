@@ -241,6 +241,10 @@ var ZoteroPane = new function()
 			}, 0);
 		}
 		
+		setTimeout(function () {
+			ZoteroPane.showRetractionBanner();
+		});
+		
 		// TEMP: Clean up extra files from Mendeley imports <5.0.51
 		setTimeout(async function () {
 			var needsCleanup = await Zotero.DB.valueQueryAsync(
@@ -1023,7 +1027,7 @@ var ZoteroPane = new function()
 	});
 	
 	
-	this.setVirtual = Zotero.Promise.coroutine(function* (libraryID, type, show) {
+	this.setVirtual = Zotero.Promise.coroutine(function* (libraryID, type, show, select) {
 		switch (type) {
 			case 'duplicates':
 				var treeViewID = 'D' + libraryID;
@@ -1031,6 +1035,10 @@ var ZoteroPane = new function()
 			
 			case 'unfiled':
 				var treeViewID = 'U' + libraryID;
+				break;
+			
+			case 'retracted':
+				var treeViewID = 'R' + libraryID;
 				break;
 			
 			default:
@@ -1042,13 +1050,17 @@ var ZoteroPane = new function()
 		var cv = this.collectionsView;
 		
 		var promise = cv.waitForSelect();
+		var selectedRowID = cv.selectedTreeRow.id;
 		var selectedRow = cv.selection.currentIndex;
 		
 		yield cv.refresh();
 		
-		// Select new row
+		// Select new or original row
 		if (show) {
-			yield this.collectionsView.selectByID(treeViewID);
+			yield this.collectionsView.selectByID(select ? treeViewID : selectedRowID);
+		}
+		else if (type == 'retracted') {
+			yield this.collectionsView.selectByID("L" + libraryID);
 		}
 		// Select next appropriate row after removal
 		else {
@@ -1787,7 +1799,10 @@ var ZoteroPane = new function()
 			
 			var prompt = force ? toTrash : toRemove;
 		}
-		else if (collectionTreeRow.isSearch() || collectionTreeRow.isUnfiled() || collectionTreeRow.isDuplicates()) {
+		else if (collectionTreeRow.isSearch()
+				|| collectionTreeRow.isUnfiled()
+				|| collectionTreeRow.isRetracted()
+				|| collectionTreeRow.isDuplicates()) {
 			if (!force) {
 				return;
 			}
@@ -1859,6 +1874,11 @@ var ZoteroPane = new function()
 		// Remove virtual unfiled collection
 		else if (collectionTreeRow.isUnfiled()) {
 			this.setVirtual(collectionTreeRow.ref.libraryID, 'unfiled', false);
+			return;
+		}
+		// Remove virtual retracted collection
+		else if (collectionTreeRow.isRetracted()) {
+			this.setVirtual(collectionTreeRow.ref.libraryID, 'retracted', false);
 			return;
 		}
 		
@@ -2397,13 +2417,19 @@ var ZoteroPane = new function()
 		{
 			id: "showDuplicates",
 			oncommand: () => {
-				this.setVirtual(this.getSelectedLibraryID(), 'duplicates', true);
+				this.setVirtual(this.getSelectedLibraryID(), 'duplicates', true, true);
 			}
 		},
 		{
 			id: "showUnfiled",
 			oncommand: () => {
-				this.setVirtual(this.getSelectedLibraryID(), 'unfiled', true);
+				this.setVirtual(this.getSelectedLibraryID(), 'unfiled', true, true);
+			}
+		},
+		{
+			id: "showRetracted",
+			oncommand: () => {
+				this.setVirtual(this.getSelectedLibraryID(), 'retracted', true, true);
 			}
 		},
 		{
@@ -2596,7 +2622,7 @@ var ZoteroPane = new function()
 		else if (collectionTreeRow.isTrash()) {
 			show = ['emptyTrash'];
 		}
-		else if (collectionTreeRow.isDuplicates() || collectionTreeRow.isUnfiled()) {
+		else if (collectionTreeRow.isDuplicates() || collectionTreeRow.isUnfiled() || collectionTreeRow.isRetracted()) {
 			show = ['deleteCollection'];
 			
 			m.deleteCollection.setAttribute('label', Zotero.getString('general.hide'));
@@ -2620,14 +2646,17 @@ var ZoteroPane = new function()
 					'newSavedSearch'
 				);
 			}
-			// Only show "Show Duplicates" and "Show Unfiled Items" if rows are hidden
+			// Only show "Show Duplicates", "Show Unfiled Items", and "Show Retracted" if rows are hidden
 			let duplicates = Zotero.Utilities.Internal.getVirtualCollectionStateForLibrary(
 				libraryID, 'duplicates'
 			);
 			let unfiled = Zotero.Utilities.Internal.getVirtualCollectionStateForLibrary(
 				libraryID, 'unfiled'
 			);
-			if (!duplicates || !unfiled) {
+			let retracted = Zotero.Utilities.Internal.getVirtualCollectionStateForLibrary(
+				libraryID, 'retracted'
+			);
+			if (!duplicates || !unfiled || !retracted) {
 				if (!library.archived) {
 					show.push('sep2');
 				}
@@ -2636,6 +2665,9 @@ var ZoteroPane = new function()
 				}
 				if (!unfiled) {
 					show.push('showUnfiled');
+				}
+				if (!retracted) {
+					show.push('showRetracted');
 				}
 			}
 			if (!library.archived) {
@@ -2652,7 +2684,11 @@ var ZoteroPane = new function()
 		// Disable some actions if user doesn't have write access
 		//
 		// Some actions are disabled via their commands in onCollectionSelected()
-		if (collectionTreeRow.isWithinGroup() && !collectionTreeRow.editable && !collectionTreeRow.isDuplicates() && !collectionTreeRow.isUnfiled()) {
+		if (collectionTreeRow.isWithinGroup()
+				&& !collectionTreeRow.editable
+				&& !collectionTreeRow.isDuplicates()
+				&& !collectionTreeRow.isUnfiled()
+				&& !collectionTreeRow.isRetracted()) {
 			disable.push(
 				'newSubcollection',
 				'editSelectedCollection',
@@ -3215,8 +3251,8 @@ var ZoteroPane = new function()
 				return;
 			}
 			
-			// Ignore double-clicks on Unfiled Items source row
-			if (collectionTreeRow.isUnfiled()) {
+			// Ignore double-clicks on Unfiled/Retracted Items source rows
+			if (collectionTreeRow.isUnfiled() || collectionTreeRow.isRetracted()) {
 				return;
 			}
 			
@@ -4035,6 +4071,10 @@ var ZoteroPane = new function()
 			
 			let isLinkedFile = !item.isImportedAttachment();
 			let path = item.getFilePath();
+			if (!path) {
+				ZoteroPane_Local.showAttachmentNotFoundDialog(item.id, true, true);
+				return;
+			}
 			let fileExists = await OS.File.exists(path);
 			
 			// If the file is an evicted iCloud Drive file, launch that to trigger a download.
@@ -4727,6 +4767,61 @@ var ZoteroPane = new function()
 			//}
 		}
 	}
+	
+	/**
+	 * Show a retraction banner if there are retracted items that we haven't warned about
+	 */
+	this.showRetractionBanner = async function (items) {
+		var items;
+		try {
+			items = JSON.parse(Zotero.Prefs.get('retractions.recentItems'));
+		}
+		catch (e) {
+			Zotero.Prefs.clear('retractions.recentItems');
+			Zotero.logError(e);
+			return;
+		}
+		if (!items.length) {
+			return;
+		}
+		items = await Zotero.Items.getAsync(items);
+		if (!items.length) {
+			return;
+		}
+		
+		document.getElementById('retracted-items-container').removeAttribute('collapsed');
+		
+		var message = document.getElementById('retracted-items-message');
+		var link = document.getElementById('retracted-items-link');
+		var close = document.getElementById('retracted-items-close');
+		
+		var suffix = items.length > 1 ? 'multiple' : 'single';
+		message.textContent = Zotero.getString('retraction.alert.' + suffix);
+		link.textContent = Zotero.getString('retraction.alert.view.' + suffix);
+		link.onclick = async function () {
+			this.hideRetractionBanner();
+			// Select newly detected item if only one
+			if (items.length == 1) {
+				await this.selectItem(items[0].id);
+			}
+			// Otherwise select Retracted Items collection
+			else {
+				let libraryID = this.getSelectedLibraryID();
+				await this.collectionsView.selectByID("R" + libraryID);
+			}
+		}.bind(this);
+		
+		close.onclick = function () {
+			this.hideRetractionBanner();
+		}.bind(this);
+	};
+	
+	
+	this.hideRetractionBanner = function () {
+		document.getElementById('retracted-items-container').setAttribute('collapsed', true);
+		Zotero.Prefs.clear('retractions.recentItems');
+	};
+	
 	
 	/**
 	 * Sets the layout to either a three-vertical-pane layout and a layout where itemsPane is above itemPane
