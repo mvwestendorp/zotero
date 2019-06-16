@@ -1017,7 +1017,7 @@ Zotero.Utilities.Internal = {
 			// because arXiv OAI API doesn't allow to access individual versions
 			let arXiv_RE = /((?:[^A-Za-z]|^)([\-A-Za-z\.]+\/\d{7})(?:(v[0-9]+)|)(?!\d))|((?:\D|^)(\d{4}\.\d{4,5})(?:(v[0-9]+)|)(?!\d))/g;
 			let m;
-			while ((m = arXiv_RE.exec(text))) {
+			while ((m = arXiv_RE.exec(text)) && !text.includes('ECLI')) {
 				let arXiv = m[2] || m[5];
 				if (arXiv && !foundIDs.has(arXiv)) {
 					identifiers.push({arXiv: arXiv});
@@ -1042,7 +1042,7 @@ Zotero.Utilities.Internal = {
 
 		// Finally try for ECLI
 		if (!identifiers.length) {
-			let ECLI_RE = /(^|\s|,)(ECLI:(.*?:){3}\d*)(?=\s|,|$)/gi;
+			let ECLI_RE = /(^|\s|,)(ECLI:(.*?:){3}.*?)(?=\s|,|$)/gi;
 			let ecli;
 			while ((ecli = ECLI_RE.exec(text)) && !foundIDs.has(ecli)) {
 				identifiers.push({

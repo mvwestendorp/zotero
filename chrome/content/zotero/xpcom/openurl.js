@@ -115,9 +115,9 @@ Zotero.OpenURL = new function() {
 		if(pmid) pmid = pmid[1];
 
 		// find ecli
-		const ecliRe = /(?:\n|^)ECLI:(.*?:){3}\d*/g;
+		const ecliRe = /(?:\n|^)(ECLI:.*?)\s/g;
 		var ecli = ecliRe.exec(item.extra);
-		if (ecli) ecli = ecli[0];
+		if (ecli) ecli = ecli[1];
 		
 		// encode ctx_ver (if available) and encode identifiers
 		if(version == "0.1") {

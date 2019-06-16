@@ -62,11 +62,25 @@ describe("Add Item by Identifier", function() {
 		});
 	});
 
-	it("should add a ECLI", function() {
+	it("should add an ECLI", function() {
 		this.timeout(40000);
 		return lookupIdentifier(win, "ECLI:NL:RBOVE:2019:1347").then(function(ids) {
 			var item = Zotero.Items.get(ids[0]);
 			assert.equal(item.getField("extra"), "ecli: ECLI:NL:RBOVE:2019:1347");
+			assert.equal(item.getField("dateDecided"), "19-04-2019");
+			assert.equal(item.getField("jurisdiction"), "NL");
+			assert.equal(item.getField("court"), "Rechtbank Overijssel (RBOVE)");
+		});
+	});
+
+	it("should add a longer style ECLI", function() {
+		this.timeout(40000);
+		return lookupIdentifier(win, "ECLI:CZ:NS:2015:32.CDO.2051.2013.1").then(function(ids) {
+			var item = Zotero.Items.get(ids[0]);
+			assert.equal(item.getField("extra"), "ecli: ECLI:CZ:NS:2015:32.CDO.2051.2013.1");
+			assert.equal(item.getField("dateDecided"), "13-07-2015");
+			assert.equal(item.getField("jurisdiction"), "CZ");
+			assert.equal(item.getField("court"), "Nejvyšší soud ČR (NS)");
 		});
 	});
 
