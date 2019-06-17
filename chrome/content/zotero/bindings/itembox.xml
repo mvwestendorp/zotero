@@ -772,7 +772,8 @@
 						
 						this.itemTypeMenu.parentNode.hidden = false;
 					}
-					else {
+					// Avoid crashing bug	
+					else if (this.itemTypeMenu) {
 						this.itemTypeMenu.parentNode.hidden = true;
 					}
 					
