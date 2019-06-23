@@ -192,9 +192,7 @@ var Zotero_File_Interface_Bibliography = new function() {
 				document.getElementById("automaticCitationUpdates-checkbox").checked = !_io.delayCitationUpdates;
 			}
 			
-			// TEMP: Disabled
-			//if (_io.showImportExport) {
-			if (false) {
+			if (_io.showImportExport) {
 				document.querySelector('#exportImport').hidden = false;
 			}
 		}
