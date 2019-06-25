@@ -843,7 +843,7 @@ Zotero.Utilities.Internal = {
 			
 			// seeAlso was always present, but it was always an empty array.
 			// Zotero RDF translator pretended to use it
-			item.seeAlso = [];
+			item.seeAlso = item.relatedItems;
 			
 			if (zoteroItem.isAttachment()) {
 				item.linkMode = item.uniqueFields.linkMode = zoteroItem.attachmentLinkMode;
