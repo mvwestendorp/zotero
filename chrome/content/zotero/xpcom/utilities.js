@@ -2204,7 +2204,7 @@ Zotero.Utilities = {
 		}
 
 		if (includeRelations) {
-			cslItem.rels = zoteroItem.seeAlso;
+			cslItem.seeAlso = zoteroItem.seeAlso;
 		}
 		//this._cache[zoteroItem.id] = cslItem;
 		return cslItem;

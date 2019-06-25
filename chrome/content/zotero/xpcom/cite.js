@@ -653,7 +653,7 @@ Zotero.Cite.System.prototype = {
 
 		var cslItem;
 		try {
-			cslItem = Zotero.Utilities.itemToCSLJSON(zoteroItem, false);
+			cslItem = Zotero.Utilities.itemToCSLJSON(zoteroItem, false, true);
 		} catch (e) {
 			throw "Error converting item to CSL format: " + e;
 		}
