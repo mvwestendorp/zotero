@@ -1947,15 +1947,16 @@ Zotero.Utilities = {
 	 * @return {Object|Promise<Object>} A CSL item, or a promise for a CSL item if a Zotero.Item
 	 *     is passed
 	 */
-	"itemToCSLJSON":function(zoteroItem, portableJSON) {
+	"itemToCSLJSON":function(zoteroItem, portableJSON, includeRelations) {
 		// If a Zotero.Item was passed, convert it to the proper format (skipping child items) and
 		// call this function again with that object
 		//
 		// (Zotero.Item won't be defined in translation-server)
 		if (typeof Zotero.Item !== 'undefined' && zoteroItem instanceof Zotero.Item) {
 			return this.itemToCSLJSON(
-				Zotero.Utilities.Internal.itemToExportFormat(zoteroItem, false, true),
-				portableJSON
+				Zotero.Utilities.Internal.itemToExportFormat(zoteroItem, false, true, true),
+				portableJSON,
+				includeRelations
 			);
 		}
 		
@@ -2201,7 +2202,10 @@ Zotero.Utilities = {
 		if (zoteroItem.itemType == 'note' && zoteroItem.note) {
 			cslItem.title = Zotero.Notes.noteToTitle(zoteroItem.note);
 		}
-		
+
+		if (includeRelations) {
+			cslItem.rels = zoteroItem.seeAlso;
+		}
 		//this._cache[zoteroItem.id] = cslItem;
 		return cslItem;
 	},

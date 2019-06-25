@@ -765,7 +765,7 @@ Zotero.Utilities.Internal = {
 	 * @param {Boolean} legacy Add mappings for legacy (pre-4.0.27) translators
 	 * @return {Object}
 	 */
-	itemToExportFormat: function (zoteroItem, legacy, skipChildItems) {
+	itemToExportFormat: function (zoteroItem, legacy, skipChildItems, addRelations) {
 		function addCompatibilityMappings(item, zoteroItem) {
 			item.uniqueFields = {};
 			
@@ -843,8 +843,8 @@ Zotero.Utilities.Internal = {
 			
 			// seeAlso was always present, but it was always an empty array.
 			// Zotero RDF translator pretended to use it
-			item.seeAlso = item.relatedItems;
-			
+			item.seeAlso = [];
+
 			if (zoteroItem.isAttachment()) {
 				item.linkMode = item.uniqueFields.linkMode = zoteroItem.attachmentLinkMode;
 				item.mimeType = item.uniqueFields.mimeType = item.contentType;
@@ -855,6 +855,12 @@ Zotero.Utilities.Internal = {
 			}
 			
 			return item;
+		}
+
+		function addRelations(item, zoteroItem) {
+			item.seeAlso = zoteroItem.relatedItems.map(function(key){
+				return Zotero.Items.getIDFromLibraryAndKey(zoteroItem.libraryID, key);
+			});
 		}
 		
 		var item = zoteroItem.toJSON();
@@ -889,6 +895,8 @@ Zotero.Utilities.Internal = {
 		}
 		
 		if (legacy) addCompatibilityMappings(item, zoteroItem);
+
+		if (addRelations) addRelations(item, zoteroItem);
 		
 		return item;
 	},
