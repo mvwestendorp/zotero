@@ -5099,8 +5099,8 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 		delete json.mtime;
 	}
 
-	if (options.encodeMlzContent) {
-		json = Zotero.Utilities.encodeMlzContent(json);
+	if (options.encode) {
+		json = Zotero.Jurism.SyncRecode.encode(json);
 	}
 	return json;
 }

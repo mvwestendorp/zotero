@@ -58,7 +58,6 @@
 		"accessed": {
 			"raw": "1997-06-13"
 		},
-		"archive-place": "Place",
 		"archive": "Archive",
 		"archive_location": "Archive location",
 		"author": [
@@ -236,7 +235,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 41,
 		"issued": {
@@ -323,7 +321,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 42,
 		"issued": {
@@ -422,7 +419,6 @@
 		],
 		"call-number": "Call number",
 		"collection-title": "Series title",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Programming language",
 		"id": 44,
@@ -490,7 +486,6 @@
 			}
 		],
 		"event": "Conference name",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 45,
 		"issued": {
@@ -567,7 +562,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 46,
 		"issued": {
@@ -756,7 +750,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 49,
 		"issued": {
@@ -890,7 +883,6 @@
 		],
 		"authority": "Legislative body",
 		"chapter-number": "Session",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 52,
 		"issued": {
@@ -1225,7 +1217,6 @@
 			}
 		],
 		"call-number": "Call number",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 58,
@@ -1290,7 +1281,6 @@
 		],
 		"collection-title": "Series title",
 		"edition": "8",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 59,
@@ -1338,7 +1328,6 @@
 		"call-number": "Call number",
 		"container-title": "Publication title",
 		"edition": "8",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 60,
 		"issued": {
@@ -1399,7 +1388,6 @@
 		],
 		"authority": "Issuing authority",
 		"call-number": "Application number",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 61,
 		"issue": "Priority numbers",
@@ -1484,7 +1472,6 @@
 			}
 		],
 		"event": "Meeting name",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 63,
@@ -1528,7 +1515,6 @@
 		"call-number": "Call number",
 		"container-title": "Publication title",
 		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "radio broadcast",
 		"id": 64,
@@ -1584,7 +1570,6 @@
 			}
 		],
 		"collection-title": "Series title",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 65,
@@ -1682,7 +1667,6 @@
 			}
 		],
 		"call-number": "Call number",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 67,
@@ -1729,7 +1713,6 @@
 		"call-number": "Call number",
 		"container-title": "Publication title",
 		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "television broadcast",
 		"id": 68,
@@ -1778,7 +1761,6 @@
 		"call-number": "Call number",
 		"collection-title": "Series title",
 		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 69,
 		"issued": {

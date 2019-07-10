@@ -1247,7 +1247,7 @@ Zotero.Sync.Data.Engine.prototype._uploadObjects = Zotero.Promise.coroutine(func
 							// Successful items pushed into cache must be decoded
 							// This forestalls stray mlzsync1 cruft on items inside
 							// the Juris-M client.
-							current.data = Zotero.Utilities.decodeMlzContent(current.data);
+							current.data = Zotero.Jurism.SyncRecode.decode(current.data);
 							obj.fromJSON(current.data);
 							toSave.push(obj);
 						}
@@ -1449,7 +1449,7 @@ Zotero.Sync.Data.Engine.prototype._getJSONForObject = function (objectType, id, 
 			skipStorageProperties: options.skipStorageProperties,
 			// Use last-synced mtime/md5 instead of current values from the file itself
 			syncedStorageProperties: true,
-			encodeMlzContent: objectType === "item" ? true : false,
+			encode: objectType === "item" ? true : false,
 			patchBase
 		});
 	});

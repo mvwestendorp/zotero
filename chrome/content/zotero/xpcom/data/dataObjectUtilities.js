@@ -113,10 +113,10 @@ Zotero.DataObjectUtilities = {
 	
 	patch: function (base, obj) {
 		if (base.multi) {
-			base = Zotero.Utilities.encodeMlzContent(base);
+			base = Zotero.Jurism.SyncRecode.encode(base);
 		}
 		if (obj.multi) {
-			obj = Zotero.Utilities.encodeMlzContent(obj);
+			obj = Zotero.Jurism.SyncRecode.encode(obj);
 		}
 		var target = {};
 		for (let key in obj) {

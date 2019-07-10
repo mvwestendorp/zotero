@@ -12,6 +12,7 @@ Zotero.CachedMultiFields = new function() {
 		'institution',
 		'jurisdiction',
 		'legislativeBody',
+		'medium',
 		'place',
 		'publicationTitle',
 		'publisher',
