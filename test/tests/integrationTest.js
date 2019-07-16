@@ -841,7 +841,7 @@ describe("Zotero.Integration", function () {
 					var doc = applications[docID].doc;
 					let testItem = await createDataObject('item', { libraryID: Zotero.Libraries.userLibraryID });
 					testItem.setField('title', `embedded title`);
-					testItem.setCreator(0, { creatorType: 'author', name: `Embedded Author` });
+					testItem.setCreator(0, { creatorType: 'author', name: `Embedded Author`, multi:{_key: {}}});
 					setAddEditItems(testItem);
 					await execCommand('addEditCitation', docID);
 					await testItem.eraseTx();
@@ -861,7 +861,7 @@ describe("Zotero.Integration", function () {
 					var doc = applications[docID].doc;
 					let testItem = await createDataObject('item', { libraryID: Zotero.Libraries.userLibraryID });
 					testItem.setField('title', `title`);
-					testItem.setCreator(0, { creatorType: 'author', name: `Author` });
+					testItem.setCreator(0, { creatorType: 'author', name: `Author`, multi:{_key: {}}});
 					await Zotero.Retractions.disableCitationWarningsForItem(testItem);
 					setAddEditItems(testItem);
 					await execCommand('addEditCitation', docID);
