@@ -85,7 +85,7 @@
 <!ENTITY zotero.general.refresh "Обновить">
 <!ENTITY zotero.general.saveAs "Сохранить как">
 <!ENTITY zotero.general.selectAll "Выбрать всё">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.tools "Инструменты">
 <!ENTITY zotero.general.yes "Да">
 <!ENTITY zotero.import "Импорт">
 <!ENTITY zotero.import.createCollection "Поместить импортированные коллекции и записи в отдельную коллекцию">

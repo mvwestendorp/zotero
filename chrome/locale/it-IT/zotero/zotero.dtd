@@ -32,7 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffisso:">
 <!ENTITY zotero.citation.suppressAuthor.label "Ometti autore">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
-<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
+<!ENTITY zotero.collections.showRetractedItems "Mostra elementi ritirati dalla pubblicazione">
 <!ENTITY zotero.collections.showUnfiledItems "Mostra gli oggetti non classificati">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Aggiungi la selezione alla nota di Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crea elemento e nota in base alla selezione">
@@ -90,7 +90,7 @@
 <!ENTITY zotero.import "Importa">
 <!ENTITY zotero.import.createCollection "Inserisci collezioni e elementi importati in una nuovo collezione">
 <!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Gestione dei file">
 <!ENTITY zotero.import.importing "Importazione...">
 <!ENTITY zotero.import.lastModified "Ultimo File Modificato">
 <!ENTITY zotero.import.size "Dimensione">
@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Visualizza citazioni come:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Note finali">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Esporta documento...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Note a piè di pagina">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
