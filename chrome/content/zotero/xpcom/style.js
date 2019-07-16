@@ -657,8 +657,10 @@ Zotero.Style = function (style, path) {
 		Zotero.Styles.ns).replace(/(.+)T([^\+]+)\+?.*/, "$1 $2");
 	this.locale = Zotero.Utilities.xpathText(doc, '/csl:style/@default-locale',
 		Zotero.Styles.ns) || null;
-	var shortID = this.styleID.match(/\/?([^/]+)$/)[1];
-	this._isAPA = /^apa($|-)/.test(shortID);
+	this._uppercaseSubtitles = false;
+	var uppercaseSubtitlesRE = /^apa($|-)|^(academy-of-management|american-medical-association)/;
+	var shortIDMatches = this.styleID.match(/\/?([^/]+)$/);
+	this._uppercaseSubtitles = !!shortIDMatches && uppercaseSubtitlesRE.test(shortIDMatches[1]);
 	this._class = doc.documentElement.getAttribute("class");
 	this._usesAbbreviation = !!Zotero.Utilities.xpath(doc,
 		'//csl:text[(@variable="container-title" and @form="short") or (@variable="container-title-short")][1]',

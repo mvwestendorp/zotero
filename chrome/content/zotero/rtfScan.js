@@ -477,7 +477,9 @@ var Zotero_RTFScan = new function() {
 	 * Called when style page is shown to add styles to listbox.
 	 */
 	this.stylePageShowing = function() {
-		Zotero_File_Interface_Bibliography.init();
+		Zotero_File_Interface_Bibliography.init({
+			supportedNotes: ['footnotes', 'endnotes']
+		});
 	}
 	
 	/**
@@ -503,7 +505,7 @@ var Zotero_RTFScan = new function() {
 		var locale = document.getElementById("locale-menu").value;
 		var style = zStyle.getCiteProc(locale);
 		style.setOutputFormat("rtf");
-		var isNote = style.class == "note";
+		var isNote = zStyle.class == "note";
 		
 		// create citations
 		var k = 0;

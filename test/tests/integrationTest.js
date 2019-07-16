@@ -815,11 +815,68 @@ describe("Zotero.Integration", function () {
 					setCodeSpy.restore();
 				})
 			});
+			
+			describe('with retracted items', function () {
+				it('should display a retraction warning for a retracted item in a document', async function () {
+					var docID = this.test.fullTitle();
+					await initDoc(docID);
+					var doc = applications[docID].doc;
+					setAddEditItems(testItems[0]);
+					await execCommand('addEditCitation', docID);
+
+					let stub1 = sinon.stub(Zotero.Retractions, 'isRetracted').returns(true);
+					let stub2 = sinon.stub(Zotero.Retractions, 'shouldShowCitationWarning').returns(true);
+
+					let promise = execCommand('refresh', docID);
+					await assert.isFulfilled(waitForDialog());
+					
+					stub1.restore();
+					stub2.restore();
+					await promise;
+				});
+				
+				it('should display a retraction warning for an embedded retracted item in a document', async function () {
+					var docID = this.test.fullTitle();
+					await initDoc(docID);
+					var doc = applications[docID].doc;
+					let testItem = await createDataObject('item', { libraryID: Zotero.Libraries.userLibraryID });
+					testItem.setField('title', `embedded title`);
+					testItem.setCreator(0, { creatorType: 'author', name: `Embedded Author` });
+					setAddEditItems(testItem);
+					await execCommand('addEditCitation', docID);
+					await testItem.eraseTx();
+
+					let stub = sinon.stub(Zotero.Retractions, 'getRetractionsFromJSON').resolves([0]);
+
+					let promise = execCommand('refresh', docID);
+					await assert.isFulfilled(waitForDialog());
+					
+					stub.restore();
+					await promise;
+				});
+				
+				it('should not display retraction warning when disabled for a retracted item', async function () {
+					var docID = this.test.fullTitle();
+					await initDoc(docID);
+					var doc = applications[docID].doc;
+					let testItem = await createDataObject('item', { libraryID: Zotero.Libraries.userLibraryID });
+					testItem.setField('title', `title`);
+					testItem.setCreator(0, { creatorType: 'author', name: `Author` });
+					await Zotero.Retractions.disableCitationWarningsForItem(testItem);
+					setAddEditItems(testItem);
+					await execCommand('addEditCitation', docID);
+
+					await assert.isFulfilled(execCommand('refresh', docID));
+					
+					await testItem.eraseTx();
+				});
+			});
 		});
 		
 		describe('#addEditBibliography', function() {
 			var docID = this.fullTitle();
 			beforeEach(function* () {
+				setAddEditItems(testItems[0]);
 				yield initDoc(docID);
 				yield execCommand('addEditCitation', docID);
 			});

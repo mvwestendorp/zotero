@@ -59,7 +59,7 @@ const DELAYED_CITATION_RTF_STYLING_CLEAR = "\\ulclear";
 const DELAYED_CITATION_HTML_STYLING = "<div class='delayed-zotero-citation-updates'>"
 const DELAYED_CITATION_HTML_STYLING_END = "</div>"
 
-const EXPORTED_DOCUMENT_MARKER = "ZOTERO_EXPORTED_DOCUMENT";
+const EXPORTED_DOCUMENT_MARKER = "ZOTERO_TRANSFER_DOCUMENT";
 
 
 Zotero.Integration = new function() {
@@ -259,9 +259,13 @@ Zotero.Integration = new function() {
 				Zotero.Integration._handleCommandError(document, e);
 			}
 			else {
-				// If user cancels we should still write the currently assigned session ID
 				if (session) {
+					// If user cancels we should still write the currently assigned session ID
 					await document.setDocumentData(session.data.serialize());
+					// And any citations marked for processing (like retraction warning ignore flag changes)
+					if (Object.keys(session.processIndices).length) {
+						session.fields.updateDocument(FORCE_CITATIONS_FALSE, false, false);
+					}
 				}
 			}
 		}
@@ -541,19 +545,19 @@ Zotero.Integration = new function() {
 }
 
 Zotero.Integration.confirmExportDocument = function() {
-	const documentationURL = "https://www.zotero.org/support/kb/word_processor_document_export";
+	const documentationURL = "https://www.zotero.org/support/kb/moving_documents_between_word_processors";
 	
 	var ps = Services.prompt;
 	var buttonFlags = (ps.BUTTON_POS_0) * (ps.BUTTON_TITLE_IS_STRING)
 		+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_CANCEL)
 		+ (ps.BUTTON_POS_2) * (ps.BUTTON_TITLE_IS_STRING);
 	var result = ps.confirmEx(null,
-		Zotero.getString('integration.exportDocument'),
+		Zotero.getString('integration.exportDocument.title'),
 		Zotero.getString('integration.exportDocument.description1')
 			+ "\n\n"
 			+ Zotero.getString('integration.exportDocument.description2'),
 		buttonFlags,
-		Zotero.getString('general.export'),
+		Zotero.getString('general.continue'),
 		null,
 		Zotero.getString('general.moreInformation'), null, {});
 	if (result == 0) {
@@ -1141,7 +1145,7 @@ Zotero.Integration.Fields.prototype._updateDocument = async function(forceCitati
 			// If we're looking to reset the text even if it matches previous text (i.e. style change)
 			if (forceCitations == FORCE_CITATIONS_RESET_TEXT
 					// Or metadata has changed thus changing the formatted citation
-					|| ((citation.properties.formattedCitation !== formattedCitation
+					|| ((formattedCitation && citation.properties.formattedCitation !== formattedCitation
 					// Or plaintext has changed and user does not want to keep the change
 					|| plaintextChanged) && !citation.properties.dontUpdate)) {
 
@@ -1236,6 +1240,7 @@ Zotero.Integration.Fields.prototype._updateDocument = async function(forceCitati
 	for (var i=(deleteFields.length-1); i>=0; i--) {
 		this._fields[deleteFields[i]].delete();
 	}
+	this._session.processIndices = {}
 }
 
 /**
@@ -1713,7 +1718,7 @@ Zotero.Integration.Session.prototype.importDocument = async function() {
 
 	if (!this._app.supportsImportExport) {
 		// Technically you will only reach this part in the code if getDocumentData returns
-		// ZOTERO_EXPORTED_DOCUMENT, which is only viable for Word.
+		// ZOTERO_TRANSFER_DOCUMENT, which is only viable for Word.
 		// Let's add a parameter this changes later.
 		ps.alert(null, Zotero.getString('integration.importDocument'),
 			Zotero.getString('integration.importDocument.notAvailable', "Word"));
@@ -1990,10 +1995,16 @@ Zotero.Integration.Session.prototype.handleRetractedItems = async function () {
 	const dealWithRetracted = (citedItem, inLibrary) => {
 		let dontPromptAgain = this.promptForRetraction(citedItem, inLibrary);
 		if (dontPromptAgain) {
+			if (citedItem.id) {
+				Zotero.Retractions.disableCitationWarningsForItem(citedItem);
+			}
 			let itemID = citedItem.id || citedItem.cslItemID;
 			for (let citation of this.citationsByItemID[itemID]) {
 				for (let item of citation.citationItems) {
-					item.ignoreRetraction = true;
+					if (item.id == itemID || item.cslItemID == itemID) {
+						item.ignoreRetraction = true;
+						this.processIndices[this.documentCitationIDs[citation.citationID]] = true;
+					}
 				}
 			}
 		}
@@ -2008,14 +2019,14 @@ Zotero.Integration.Session.prototype.handleRetractedItems = async function () {
 			if (zoteroItem.cslItemID) {
 				embeddedZoteroItems.push(zoteroItem);
 			}
-			else if (Zotero.Retractions.isRetracted(zoteroItem)) {
+			else if (Zotero.Retractions.shouldShowCitationWarning(zoteroItem)) {
 				dealWithRetracted(zoteroItem, true);
 			}
 		}
 	}
-	var retractedIndices = await Zotero.Retractions.getRetractionsFromJSON(
+	var retractedIndices = await Promise.race([Zotero.Retractions.getRetractionsFromJSON(
 		embeddedZoteroItems.map(item => item.toJSON())
-	);
+	), Zotero.Promise.delay(1000).then(() => [])]);
 	for (let index of retractedIndices) {
 		dealWithRetracted(embeddedZoteroItems[index]);
 	}

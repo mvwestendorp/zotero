@@ -235,7 +235,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Keñveriañ an holl restroù kenstag gant ar servijer stokañ">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Adsevel adalek al levraoueg enlinenn">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Flastrañ ar roadennoù Zotero lec'hel gant roadennoù o tont eus al levraoueg enlinenn">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "Replace Online Library">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "Erlec'hiañ al levraoueg enlinenn">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Flastrañ roadennoù al levraoueg enlinenn gant roadennoù lec'hel Zotero">
 <!ENTITY zotero.preferences.sync.reset.warning1 "An oberiadurioù da-heul a zo da vezañ implijet e plegoù ral hag ispisial ha ne rankont ket bezañ implijet evit un distankañ hollek. E-barzh kalz a zegouezhioù, adloc'hañ a zegaso kudennoù ouzhpenn. Sellit ouzh">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Dibarzhioù adloc'hañ sinkroneladur">
