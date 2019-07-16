@@ -771,7 +771,7 @@ Zotero.Style.prototype.getCiteProc = function(locale, automaticJournalAbbreviati
 			// Juris-M relies on abbrevsFilter plugin.
 			new Zotero.Cite.System({
 				automaticJournalAbbreviations: false,
-				uppercaseSubtitles: this._isAPA
+				uppercaseSubtitles: this._uppercaseSubtitles
 			}),
 			xml,
 			locale,
