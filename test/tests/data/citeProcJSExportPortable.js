@@ -646,7 +646,8 @@
 					13
 				]
 			]
-		}
+		},
+		"genre": "email"
 	},
 	"encyclopediaArticle": {
 		"type": "entry-encyclopedia",
@@ -885,7 +886,8 @@
 					13
 				]
 			]
-		}
+		},
+		"genre": "instant message"
 	},
 	"interview": {
 		"type": "interview",

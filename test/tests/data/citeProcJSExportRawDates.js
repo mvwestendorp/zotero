@@ -701,7 +701,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "email"
 	},
 	"encyclopediaArticle": {
 		"ISBN": "978-1-234-56789-7",
@@ -948,7 +949,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "instant message"
 	},
 	"interview": {
 		"URL": "http://www.example.com",
@@ -1448,7 +1450,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "podcast"
 	},
 	"presentation": {
 		"URL": "http://www.example.com",
@@ -1534,7 +1537,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "radio broadcast"
 	},
 	"report": {
 		"URL": "http://www.example.com",
@@ -1732,7 +1736,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "television broadcast"
 	},
 	"videoRecording": {
 		"ISBN": "978-1-234-56789-7",
