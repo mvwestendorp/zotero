@@ -2463,7 +2463,7 @@ Zotero.Utilities = {
 				for (var i=0,ilen=fields.length;i<ilen;i++) {
 					var field=fields[i];
 					fieldID = Zotero.ItemFields.getID(field);
-					if (Zotero.Utilities.SYNC_ENCODE_MAP.FIELDS[zoteroType] && Zotero.Utilities.SYNC_ENCODE_MAP.FIELDS[zoteroType][field]) {
+					if (Zotero.Utilities.ENCODE.FIELDS[zoteroType] && Zotero.Utilities.ENCODE.FIELDS[zoteroType][field]) {
 						fieldID = Zotero.ItemFields.getID(field);
 					}
 					if(Zotero.ItemFields.isBaseField(fieldID)) {
