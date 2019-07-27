@@ -3849,7 +3849,17 @@
 								throw ("Invalid transform mode '" + mode + "' in zoteroitembox.textTransform()");
 						}
 						this._setFieldValue(label, newVal);
-						this._modifyField(label.getAttribute('fieldname'), newVal, langTag, !isMulti);
+						var fieldName = label.getAttribute('fieldname');
+						this._modifyField(fieldName, newVal, langTag, !isMulti);
+						
+						// If this is a title field, convert the Short Title too
+						var isTitle = Zotero.ItemFields.getBaseIDFromTypeAndField(
+							this.item.itemTypeID, fieldName) == Zotero.ItemFields.getID('title');
+						var shortTitleVal = this.item.getField('shortTitle', null, null, langTag, !isMulti);
+						if (isTitle && shortTitleVal && newVal.toLowerCase().startsWith(shortTitleVal.toLowerCase())) {
+							this._modifyField('shortTitle', newVal.substr(0, shortTitleVal.length), langTag, !isMulti);
+						}
+						
 						if (this.saveOnEdit) {
 							// If a field is open, blur it, which will trigger a save and cause
 							// the saveTx() to be a no-op
@@ -4451,14 +4461,10 @@
 							}
 						}.bind(document.getBindingParent(this))();"/>
 					<menupopup id="zotero-field-transform-menu">
-						<menu label="&zotero.item.textTransform;">
-							<menupopup>
-								<menuitem label="&zotero.item.textTransform.titlecase;" class="menuitem-non-iconic"
-									oncommand="document.getBindingParent(this).textTransform(document.popupNode, 'title')"/>
-								<menuitem label="&zotero.item.textTransform.sentencecase;" class="menuitem-non-iconic"
-									oncommand="document.getBindingParent(this).textTransform(document.popupNode, 'sentence')"/>
-							</menupopup>
-						</menu>
+						<menuitem label="&zotero.item.textTransform.titlecase;" class="menuitem-non-iconic"
+							oncommand="document.getBindingParent(this).textTransform(document.popupNode, 'title')"/>
+						<menuitem label="&zotero.item.textTransform.sentencecase;" class="menuitem-non-iconic"
+							oncommand="document.getBindingParent(this).textTransform(document.popupNode, 'sentence')"/>
 					</menupopup>
 					<menupopup id="zotero-creator-transform-menu"
 						onpopupshowing="var row = Zotero.getAncestorByTagName(document.popupNode, 'row');

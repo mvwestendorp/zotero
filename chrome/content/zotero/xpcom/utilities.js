@@ -1215,6 +1215,7 @@ Zotero.Utilities = {
 		if (str.length <= len) {
 			return str;
 		}
+		var origLen = str.length;
 		let radius = Math.min(len, 5);
 		if (wordBoundary) {
 			let min = len - radius;
@@ -1228,7 +1229,7 @@ Zotero.Utilities = {
 		else {
 			str = str.substr(0, len)
 		}
-		return str + '\u2026' + (countChars ? ' (' + str.length + ' chars)' : '');
+		return str + '\u2026' + (countChars ? ' (' + origLen + ' chars)' : '');
 	},
 	
 	

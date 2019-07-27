@@ -1712,7 +1712,7 @@ Zotero.Integration.Session.prototype.exportDocument = async function() {
 
 
 Zotero.Integration.Session.prototype.importDocument = async function() {
-	const documentationURL = "https://www.zotero.org/support/kb/word_processor_document_export";
+	const documentationURL = "https://www.zotero.org/support/kb/moving_documents_between_word_processors";
 	
 	var ps = Services.prompt;
 
@@ -1720,7 +1720,7 @@ Zotero.Integration.Session.prototype.importDocument = async function() {
 		// Technically you will only reach this part in the code if getDocumentData returns
 		// ZOTERO_TRANSFER_DOCUMENT, which is only viable for Word.
 		// Let's add a parameter this changes later.
-		ps.alert(null, Zotero.getString('integration.importDocument'),
+		ps.alert(null, Zotero.getString('integration.importDocument.title'),
 			Zotero.getString('integration.importDocument.notAvailable', "Word"));
 		return;
 	}
@@ -1729,10 +1729,10 @@ Zotero.Integration.Session.prototype.importDocument = async function() {
 		+ (ps.BUTTON_POS_1) * (ps.BUTTON_TITLE_CANCEL)
 		+ (ps.BUTTON_POS_2) * (ps.BUTTON_TITLE_IS_STRING);
 	var result = ps.confirmEx(null,
-		Zotero.getString('integration.importDocument'),
-		Zotero.getString('integration.importDocument.description'),
+		Zotero.getString('integration.importDocument.title'),
+		Zotero.getString('integration.importDocument.description', [Zotero.clientName, this._app.processorName]),
 		buttonFlags,
-		Zotero.getString('general.import'),
+		Zotero.getString('integration.importDocument.button'),
 		null,
 		Zotero.getString('general.moreInformation'), null, {});
 	if (result == 1) {
@@ -2148,7 +2148,7 @@ Zotero.Integration.BibliographyEditInterface.prototype.isAnyEdited = function() 
  * Adds an item to the bibliography
  */
 Zotero.Integration.BibliographyEditInterface.prototype.add = function(itemID) {
-	if (itemID in this.bibliography.omittedItemIDs) {
+	if (this.bibliography.omittedItemIDs.has(`${itemID}`)) {
 		this.bibliography.omittedItemIDs.delete(`${itemID}`);
 	} else {
 		this.bibliography.uncitedItemIDs.add(`${itemID}`);
@@ -2160,7 +2160,7 @@ Zotero.Integration.BibliographyEditInterface.prototype.add = function(itemID) {
  * Removes an item from the bibliography being edited
  */
 Zotero.Integration.BibliographyEditInterface.prototype.remove = function(itemID) {
-	if (itemID in this.bibliography.uncitedItemIDs) {
+	if (this.bibliography.uncitedItemIDs.has(`${itemID}`)) {
 		this.bibliography.uncitedItemIDs.delete(`${itemID}`);
 	} else {
 		this.bibliography.omittedItemIDs.add(`${itemID}`);
