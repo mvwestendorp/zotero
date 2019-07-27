@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Отобразить цитаты как:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Концевые сноски">
-<!ENTITY zotero.integration.prefs.exportDocument "Экспортировать документ…">
+<!ENTITY zotero.integration.prefs.exportDocument "Переключиться на другой текстовый редактор…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Сноски">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Сохранить цитаты как:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Afișează citatele ca:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Note de final">
-<!ENTITY zotero.integration.prefs.exportDocument "Exportă Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Note de subsol">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Păstrează citările ca:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -20,7 +20,7 @@
 <!ENTITY zotero.bibliography.print.label "Natisni">
 <!ENTITY zotero.bibliography.saveAsHTML.label "Shrani kot HTML">
 <!ENTITY zotero.bibliography.saveAsRTF.label "Shrani kot RTF">
-<!ENTITY zotero.bibliography.style.label "Slog navajanja:">
+<!ENTITY zotero.bibliography.style.label "Slog citiranja:">
 <!ENTITY zotero.bibliography.title "Ustvari bibliografijo">
 <!ENTITY zotero.charset.label "Kodiranje znakov">
 <!ENTITY zotero.citation.editorWarning.label "Opozorilo: če spremenite citat v urejevalniku, se ne bo več posodobil in odseval sprememb iz vaše zbirke podatkov ali sloga citiranja.">
@@ -96,7 +96,7 @@
 <!ENTITY zotero.import.size "Velikost">
 <!ENTITY zotero.import.source.file "Datoteka (BibTeX, RIS, Zotero RDF itn.)">
 <!ENTITY zotero.import.whereToImportFrom "Od kod želite uvoziti?">
-<!ENTITY zotero.integration.addEditCitation.title "Dodaj/uredi navedek">
+<!ENTITY zotero.integration.addEditCitation.title "Dodaj/uredi citat">
 <!ENTITY zotero.integration.classicView.label "Klasični pogled">
 <!ENTITY zotero.integration.docPrefs.title "Lastnosti dokumenta">
 <!ENTITY zotero.integration.editBibliography.title "Uredi bibliografijo">
@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Prikaži citate kot:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "končne opombe">
-<!ENTITY zotero.integration.prefs.exportDocument "Izvozi dokument ...">
+<!ENTITY zotero.integration.prefs.exportDocument "Preklopi v drug urejevalnik besedil ...">
 <!ENTITY zotero.integration.prefs.footnotes.label "sprotne opombe">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Hrani citate kot:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

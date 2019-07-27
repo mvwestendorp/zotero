@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Vis referencer som:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Slutnoter">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fodnoter">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Gem henvisninger som:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

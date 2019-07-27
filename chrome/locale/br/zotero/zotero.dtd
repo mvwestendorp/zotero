@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Diskouez an arroudennoù evel:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "notennoù fin">
-<!ENTITY zotero.integration.prefs.exportDocument "Ezporzhiañ an teuliad...">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "notennoù traoñ">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Stokañ an arroudennoù evel:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

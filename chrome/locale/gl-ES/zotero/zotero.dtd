@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar as citas como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas no rodapé">
-<!ENTITY zotero.integration.prefs.exportDocument "Exportar o documento...">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas ao pé de páxina">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Gardar as citas como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

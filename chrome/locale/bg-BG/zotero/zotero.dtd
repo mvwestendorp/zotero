@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Показване на цитатите като:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Бележки в края на документа">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Бележки под линия">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Запази бележките като:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

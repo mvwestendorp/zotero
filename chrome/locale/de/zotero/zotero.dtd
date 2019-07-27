@@ -111,7 +111,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Literaturangaben anzeigen als:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Endnoten">
-<!ENTITY zotero.integration.prefs.exportDocument "Dokument exportieren…">
+<!ENTITY zotero.integration.prefs.exportDocument "Textverarbeitungsprogramm wechseln...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fußnoten">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Literaturangaben speichern als:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
