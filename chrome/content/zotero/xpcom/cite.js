@@ -613,6 +613,7 @@ Zotero.Cite.System = function ({ automaticJournalAbbreviations, uppercaseSubtitl
 	if (uppercaseSubtitles) {
 		this.uppercase_subtitles = true; // eslint-disable-line camelcase
 	}
+	this.implicit_short_title = true;
 };
 
 Zotero.Cite.System.prototype = {
