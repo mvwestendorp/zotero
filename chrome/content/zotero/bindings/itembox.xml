@@ -966,7 +966,6 @@
 							// this item, so that added creators aren't
 							// immediately hidden
 							this._displayAllCreators = true;
-							Zotero.debug("XXXX REFRESH _addCreatorRow is "+this._addCreatorRow);
 							if (this._addCreatorRow) {
 								this.addCreatorRow(false, this.item.getCreator(max-1).creatorTypeID, true);
 								this._addCreatorRow = false;

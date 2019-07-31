@@ -85,6 +85,7 @@ Zotero_Preferences.Cite = {
 		}
 		
 		yield Zotero.Styles.init();
+		yield Zotero.StyleModules.init();
 		var styles = Zotero.Styles.getVisible();
 		var selectIndex = false;
 		styles.forEach(function (style, i) {

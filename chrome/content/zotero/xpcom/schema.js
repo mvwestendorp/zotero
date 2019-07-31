@@ -633,6 +633,11 @@ Zotero.Schema = new function(){
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
 				break;
 			
+			case 'style-modules':
+				yield Zotero.StyleModules.init(initOpts);
+				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
+				break;
+			
 			case 'translators':
 				yield Zotero.Translators.init(initOpts);
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
@@ -643,7 +648,9 @@ Zotero.Schema = new function(){
 				let up1 = yield _updateBundledFilesAtLocation(installLocation, 'translators', true);
 				yield Zotero.Styles.init(initOpts);
 				let up2 = yield _updateBundledFilesAtLocation(installLocation, 'styles');
-				var updated = up1 || up2;
+				yield Zotero.StyleModules.init(initOpts);
+				let up3 = yield _updateBundledFilesAtLocation(installLocation, 'style-modules');
+				var updated = up1 || up2 || up3;
 			}
 		}
 		finally {
@@ -684,11 +691,22 @@ Zotero.Schema = new function(){
 				var hiddenDir = OS.Path.join(destDir, 'hidden');
 				break;
 			
+			case "style-modules":
+				var titleField = 'title';
+				var fileExt = ".csl";
+				var destDir = Zotero.getStyleModulesDirectory().path;
+				break;
+			
 			default:
 				throw new Error("Invalid mode '" + mode + "'");
 		}
 		
 		var modeType = mode.substr(0, mode.length - 1);
+		var module = "";
+		if (modeType === "style-module") {
+			modeType = "styleModule";
+			module = "module ";
+		}
 		var ModeType = Zotero.Utilities.capitalize(modeType);
 		var Mode = Zotero.Utilities.capitalize(mode);
 		
@@ -927,22 +945,34 @@ Zotero.Schema = new function(){
 					}
 				}
 			}
-			// Styles
-			else {
-				let entries = xpiZipReader.findEntries('styles/*.csl');
+			else if (mode == 'style-modules') {
+				// Style modules
+				var modulesDir = Zotero.getStyleModulesDirectory().path;
+				let entries = xpiZipReader.findEntries('style-modules/*.csl');
 				while (entries.hasMore()) {
 					let entry = entries.getNext();
-					let fileName = entry.substr(7); // strip 'styles/'
-					
+					let fileName = entry.substr(14); // strip 'styles/'
+					let tmpFile = OS.Path.join(tmpDir, fileName);
+					yield Zotero.File.removeIfExists(tmpFile);
+					xpiZipReader.extract(entry, new FileUtils.File(tmpFile));
+					yield Zotero.File.removeIfExists(OS.Path.join(destDir, fileName));
+					yield OS.File.move(tmpFile, OS.Path.join(destDir, fileName));
+				}
+			} else {
+				// Styles and style modules
+				let entries = xpiZipReader.findEntries(mode + '/*.csl');
+				while (entries.hasMore()) {
+					let entry = entries.getNext();
+					let fileName = entry.substr(entry.indexOf('/') + 1); // strip 'styles/' or 'style-modules/'
 					let tmpFile = OS.Path.join(tmpDir, fileName);
 					yield Zotero.File.removeIfExists(tmpFile);
 					xpiZipReader.extract(entry, new FileUtils.File(tmpFile));
 					let code = yield Zotero.File.getContentsAsync(tmpFile);
-					let newObj = new Zotero.Style(code);
-					
-					let existingObj = Zotero.Styles.get(newObj[modeType + "ID"]);
+					let newObj = new Zotero[ModeType](code);
+					// zzz
+					let existingObj = Zotero[ModeType + "s"].get(newObj[modeType + "ID"]);
 					if (!existingObj) {
-						Zotero.debug("Installing style '" + newObj[titleField] + "'");
+						Zotero.debug("Installing style " + module + "'" + newObj[titleField] + "'");
 					}
 					else {
 						Zotero.debug("Updating "
@@ -1113,11 +1143,13 @@ Zotero.Schema = new function(){
 				yield Zotero.DB.queryAsync(sql, repotime);
 			}
 		});
-		
-		yield Zotero[Mode].reinit({
-			metadataCache: cache,
-			fromSchemaUpdate: true
-		});
+
+		if (mode !== "style-modules") {
+			yield Zotero[Mode].reinit({
+				metadataCache: cache,
+				fromSchemaUpdate: true
+			});
+		}
 		
 		return true;
 	});
@@ -2745,7 +2777,7 @@ Zotero.Schema = new function(){
 
 		for (let i = fromVersion + 1; i <= toVersion; i++) {
 			if (i == 3) {
-				Zotero.debug("XXX Running upgrade to multilingual v3");
+				Zotero.debug("[Jurism] running upgrade to multilingual v3");
                 // Rename each table
                 // Create new table
                 // Populate each table from the old table
@@ -2812,7 +2844,7 @@ Zotero.Schema = new function(){
 				}
 			}
 			if (i == 4) {
-				Zotero.debug("XXX Running upgrade to multilingual v4");
+				Zotero.debug("[Jurism] running upgrade to multilingual v4");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemCreatorsMain_itemID_orderIndex ON itemCreatorsMain(itemID, orderIndex)");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemCreatorsAlt_itemID_orderIndex ON itemCreatorsAlt(itemID, orderIndex)");
 				yield Zotero.DB.queryAsync("CREATE INDEX itemDataAlt_itemID_fieldID ON itemDataAlt(itemID, fieldID)");

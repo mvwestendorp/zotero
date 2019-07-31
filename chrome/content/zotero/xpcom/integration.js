@@ -1563,6 +1563,7 @@ Zotero.Integration.Session.prototype.setData = async function (data, resetStyle)
 	if (data.style.styleID && (!oldStyle || oldStyle.styleID != data.style.styleID || resetStyle)) {
 		try {
 			await Zotero.Styles.init();
+			await Zotero.StyleModules.init();
 			var getStyle = Zotero.Styles.get(data.style.styleID);
 			data.style.hasBibliography = getStyle.hasBibliography;
 			this.style = getStyle.getCiteProc(data.style.locale, data.prefs.automaticJournalAbbreviations);
@@ -1628,6 +1629,7 @@ Zotero.Integration.Session.prototype.setDocPrefs = Zotero.Promise.coroutine(func
 	
 	// Make sure styles are initialized for new docs
 	yield Zotero.Styles.init();
+	yield Zotero.StyleModules.init();
 	yield Zotero.Integration.displayDialog('chrome://zotero/content/integration/integrationDocPrefs.xul', '', io);
 
 	if (io.exportDocument) {

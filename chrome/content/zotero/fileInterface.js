@@ -662,7 +662,6 @@ var Zotero_File_Interface = new function() {
 			citationItems: items.map(item => ({ id: item.id })),
 			properties: {}
 		};
-		
 		if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 			yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine, citation);
 		}

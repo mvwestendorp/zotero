@@ -583,21 +583,6 @@ Zotero.Cite.getAbbreviation = new function() {
 };
 
 /**
- * Fetches a style module for citeproc-js based on item jurisdiction
- */
-Zotero.Cite.retrieveStyleModule = function (jurisdiction, preference) {
-    jurisdiction = jurisdiction.replace(/\:/g, "+");
-	var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
-    var ret;
-    try {
-	    ret = Zotero.File.getResource("resource://zotero/style-modules/" + id + ".csl");
-    } catch (e) {
-        ret = false;
-    }
-    return ret;
-}
-
-/**
  * citeproc-js system object
  *
  * @class
@@ -609,15 +594,36 @@ Zotero.Cite.System = function ({ automaticJournalAbbreviations, uppercaseSubtitl
 	if (automaticJournalAbbreviations) {
 		this.getAbbreviation = Zotero.Cite.getAbbreviation;
 	}
-    this.retrieveStyleModule = Zotero.Cite.retrieveStyleModule;
 	if (uppercaseSubtitles) {
 		this.uppercase_subtitles = true; // eslint-disable-line camelcase
 	}
 	this.implicit_short_title = true;
+	this.prioritize_disambiguate_condition = true;
 };
 
 Zotero.Cite.System.prototype = {
-	"prioritize_disambiguate_condition": true,
+
+	"retrieveStyleModule": function (jurisdiction, preference) {
+		/**
+		 * Fetches a style module for citeproc-js based on item jurisdiction
+		 * Adding a jurisdiction to the cached list of modules requires a restart.
+		 */
+		jurisdiction = jurisdiction.replace(/\:/g, "+");
+		var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
+		var ret;
+		var entry = Zotero.StyleModules.get(id);
+		if (entry) {
+			try {
+				ret = Zotero.File.getContents(entry.path);
+			} catch (e) {
+				ret = false;
+			}
+		} else {
+			ret = false;
+		}
+		return ret;
+	},
+
 	/**
 	 * citeproc-js system function for getting items
 	 * See http://gsl-nagoya-u.net/http/pub/citeproc-doc.html#retrieveitem

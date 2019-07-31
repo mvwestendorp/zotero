@@ -87,6 +87,10 @@ var Zotero_File_Interface_Bibliography = new function() {
 			// Initialize styles
 			yield Zotero.Styles.init();
 		}
+		if (!Zotero.StyleModules.initialized) {
+			// Initialize style modules
+			yield Zotero.StyleModules.init();
+		}
 		
 		// add styles to list
 		

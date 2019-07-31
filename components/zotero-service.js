@@ -138,6 +138,7 @@ const xpcomFilesLocal = [
 	'server',
 	'streamer',
 	'style',
+	'styleModule',
 	'sync',
 	'sync/syncAPIClient',
 	'sync/syncEngine',
