@@ -985,6 +985,10 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('styles', true));
 	}
 	
+	this.getStyleModulesDirectory = function () {
+		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('style-modules', true));
+	}
+	
 	this.getTranslatorsDirectory = function () {
 		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('translators', true));
 	}

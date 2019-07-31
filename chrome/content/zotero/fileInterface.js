@@ -662,7 +662,9 @@ var Zotero_File_Interface = new function() {
 			citationItems: items.map(item => ({ id: item.id })),
 			properties: {}
 		};
-		
+		if (cslEngine.sys.initStyleModules) {
+			yield cslEngine.sys.initStyleModules();
+		}
 		if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 			yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine, citation);
 		}
@@ -695,6 +697,9 @@ var Zotero_File_Interface = new function() {
 				// https://github.com/zotero/zotero/commit/4a475ff3
 				cslEngine = style.getCiteProc(locale, null, true);
 				// Load external abbreviations to the new processor instance
+				if (cslEngine.sys.initStyleModules) {
+					yield cslEngine.sys.initStyleModules();
+				}
 				if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 					yield Zotero.CiteProc.CSL.preloadAbbreviations(cslEngine, citation);
 				}
@@ -759,6 +764,9 @@ var Zotero_File_Interface = new function() {
 			else {
 				var style = Zotero.Styles.get(io.style);
 				var cslEngine = style.getCiteProc(locale);
+				if (cslEngine.sys.initStyleModules) {
+					yield cslEngine.sys.initStyleModules();
+				}
 				if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 					let citation = {
 						citationItems: items.map(item => ({ id: item.id })),

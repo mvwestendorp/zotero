@@ -176,6 +176,10 @@ var Zotero_CSL_Editor = new function() {
 			throw e;
 		}
 		
+		if (styleEngine.sys.initStyleModules) {
+			yield styleEngine.sys.initStyleModules();
+		}
+
 		var itemIds = items.map(item => item.id);
 
 		styleEngine.updateItems(itemIds);

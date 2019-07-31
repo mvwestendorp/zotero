@@ -18,6 +18,7 @@ const source = [
 	'scss',
 	'test',
 	'styles',
+	'style-modules',
 	'translators',
 	'scss',
 	'chrome/**',
@@ -27,6 +28,7 @@ const source = [
 	'scss/**',
 	'test/**',
 	'styles/**',
+	'style-modules/**',
 	'translators/**',
 	'scss/**'
 ];
