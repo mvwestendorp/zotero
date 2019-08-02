@@ -1888,6 +1888,9 @@ Zotero.Integration.Session.prototype._updateCitations = async function () {
 
 			var citationsPost = citations.slice(citationToFieldIdxMapping[index]+1);
 
+			if (this.style.sys.initStyleModules) {
+				await this.style.sys.initStyleModules();
+			}
 			if (Zotero.CiteProc.CSL.preloadAbbreviations) {
 				await Zotero.CiteProc.CSL.preloadAbbreviations(this.style, citation);
 			}
