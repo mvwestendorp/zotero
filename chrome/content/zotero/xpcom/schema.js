@@ -702,13 +702,15 @@ Zotero.Schema = new function(){
 		}
 		
 		var modeType = mode.substr(0, mode.length - 1);
+		var ModeType = Zotero.Utilities.capitalize(modeType);
+		var Mode = Zotero.Utilities.capitalize(mode);
 		var module = "";
 		if (modeType === "style-module") {
 			modeType = "styleModule";
+			Mode = "StyleModules";
+			ModeType = "StyleModule";
 			module = "module ";
 		}
-		var ModeType = Zotero.Utilities.capitalize(modeType);
-		var Mode = Zotero.Utilities.capitalize(mode);
 		
 		var repotime = yield Zotero.File.getResourceAsync("resource://zotero/schema/repotime.txt");
 		var date = Zotero.Date.sqlToDate(repotime.trim(), true);
@@ -945,20 +947,7 @@ Zotero.Schema = new function(){
 					}
 				}
 			}
-			else if (mode == 'style-modules') {
-				// Style modules
-				var modulesDir = Zotero.getStyleModulesDirectory().path;
-				let entries = xpiZipReader.findEntries('style-modules/*.csl');
-				while (entries.hasMore()) {
-					let entry = entries.getNext();
-					let fileName = entry.substr(14); // strip 'styles/'
-					let tmpFile = OS.Path.join(tmpDir, fileName);
-					yield Zotero.File.removeIfExists(tmpFile);
-					xpiZipReader.extract(entry, new FileUtils.File(tmpFile));
-					yield Zotero.File.removeIfExists(OS.Path.join(destDir, fileName));
-					yield OS.File.move(tmpFile, OS.Path.join(destDir, fileName));
-				}
-			} else {
+			else {
 				// Styles and style modules
 				let entries = xpiZipReader.findEntries(mode + '/*.csl');
 				while (entries.hasMore()) {
@@ -967,9 +956,13 @@ Zotero.Schema = new function(){
 					let tmpFile = OS.Path.join(tmpDir, fileName);
 					yield Zotero.File.removeIfExists(tmpFile);
 					xpiZipReader.extract(entry, new FileUtils.File(tmpFile));
-					let code = yield Zotero.File.getContentsAsync(tmpFile);
-					let newObj = new Zotero[ModeType](code);
-					// zzz
+					if (mode == 'styles') {
+						var code = yield Zotero.File.getContentsAsync(tmpFile);
+						var newObj = new Zotero[ModeType](code);
+					} else {
+						var id = fileName.slice(0, -4);
+						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
+					}
 					let existingObj = Zotero[ModeType + "s"].get(newObj[modeType + "ID"]);
 					if (!existingObj) {
 						Zotero.debug("Installing style " + module + "'" + newObj[titleField] + "'");
@@ -1068,12 +1061,17 @@ Zotero.Schema = new function(){
 							let code = yield Zotero.File.getContentsAsync(entry.path);
 							newObj = new Zotero.Style(code);
 						}
+						else if (mode == 'style-modules') {
+							newObj = new Zotero.StyleModule(entry.name.slice(0, -4), entry.path);
+							// XXX SO FAR SO GOOD
+						}
 						else if (mode == 'translators') {
 							newObj = yield Zotero.Translators.loadFromFile(entry.path);
 						}
 						else {
 							throw new Error("Invalid mode '" + mode + "'");
 						}
+						Zotero.debug("XXX Mode WTF? "+Mode, 1);
 						let existingObj = Zotero[Mode].get(newObj[modeType + "ID"]);
 						if (!existingObj) {
 							Zotero.debug("Installing " + modeType + " '" + newObj[titleField] + "'");
@@ -1092,6 +1090,9 @@ Zotero.Schema = new function(){
 							);
 						}
 						else if (mode == 'styles') {
+							fileName = entry.name;
+						}
+						else if (mode == 'style-modules') {
 							fileName = entry.name;
 						}
 						
