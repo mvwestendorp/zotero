@@ -27,6 +27,7 @@
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "លុបចោល">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "E">
 <!ENTITY editMenu.label "កែតម្រូវ">
 <!ENTITY fileMenu.accesskey "F">

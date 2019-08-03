@@ -27,6 +27,7 @@
 <!ENTITY deleteCmd.accesskey "š">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Pašalinti">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "T">
 <!ENTITY editMenu.label "Taisa">
 <!ENTITY fileMenu.accesskey "F">

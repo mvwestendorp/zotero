@@ -27,6 +27,7 @@
 <!ENTITY deleteCmd.accesskey "b">
 <!ENTITY deleteCmd.key "b">
 <!ENTITY deleteCmd.label "Izbriši">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "R">
 <!ENTITY editMenu.label "Uredi">
 <!ENTITY fileMenu.accesskey "D">

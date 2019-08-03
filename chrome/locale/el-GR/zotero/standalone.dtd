@@ -27,6 +27,7 @@
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Διαγραφή">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "Ε">
 <!ENTITY editMenu.label "Επεξεργασία">
 <!ENTITY fileMenu.accesskey "F">

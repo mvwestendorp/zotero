@@ -27,6 +27,7 @@
 <!ENTITY deleteCmd.accesskey "ذ">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "حذف">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "ح">
 <!ENTITY editMenu.label "تحرير">
 <!ENTITY fileMenu.accesskey "م">

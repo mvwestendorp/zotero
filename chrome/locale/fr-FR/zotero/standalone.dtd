@@ -27,6 +27,7 @@
 <!ENTITY deleteCmd.accesskey "S">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Supprimer">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "n">
 <!ENTITY editMenu.label "Édition">
 <!ENTITY fileMenu.accesskey "F">
