@@ -335,6 +335,7 @@ Zotero.Translate.Sandbox = {
 			Zotero.debug("Translate: Creating translate instance of type "+type+" in sandbox");
 			var translation = Zotero.Translate.newInstance(type);
 			translation._parentTranslator = translate;
+			translation.setTranslatorProvider(translate._translatorProvider);
 			
 			if(translation instanceof Zotero.Translate.Export && !(translation instanceof Zotero.Translate.Export)) {
 				throw(new Error("Only export translators may call other export translators"));
@@ -440,7 +441,9 @@ Zotero.Translate.Sandbox = {
 				}
 				
 				var translator = translation.translator[0];
-				translator = typeof translator === "object" ? translator : Zotero.Translators.get(translator);
+				translator = typeof translator === "object"
+					? translator
+					: translation._translatorProvider.get(translator);
 				// Zotero.Translators.get returns a value in the client and a promise in connectors
 				// so we normalize the value to a promise here
 				Zotero.Promise.resolve(translator)
@@ -953,6 +956,7 @@ Zotero.Translate.Base.prototype = {
 		this._handlers = [];
 		this._currentState = null;
 		this._translatorInfo = null;
+		this._translatorProvider = Zotero.Translators;
 		this.document = null;
 		this.location = null;
 	},
@@ -1077,6 +1081,17 @@ Zotero.Translate.Base.prototype = {
 	},
 	
 	/**
+	 * Set custom translator provider, as returned by Zotero.Translators.makeTranslatorProvider()
+	 *
+	 * Used by Scaffold to substitute external translator files
+	 *
+	 * @param {Object} translatorProvider
+	 */
+	setTranslatorProvider: function (translatorProvider) {
+		this._translatorProvider = translatorProvider;
+	},
+	
+	/**
 	 * Indicates that a new async process is running
 	 */
 	"incrementAsyncProcesses":function(f) {
@@ -1182,7 +1197,7 @@ Zotero.Translate.Base.prototype = {
 			var t;
 			for(var i=0, n=this.translator.length; i<n; i++) {
 				if(typeof(this.translator[i]) == 'string') {
-					t = Zotero.Translators.get(this.translator[i]);
+					t = this._translatorProvider.get(this.translator[i]);
 					if(!t) Zotero.debug("getTranslators: could not retrieve translator '" + this.translator[i] + "'");
 				} else {
 					t = this.translator[i];
@@ -1273,9 +1288,9 @@ Zotero.Translate.Base.prototype = {
 	 * Get all potential translators (without running detect)
 	 * @return {Promise} Promise for an array of {@link Zotero.Translator} objects
 	 */
-	 "_getTranslatorsGetPotentialTranslators":function() {
-		return Zotero.Translators.getAllForType(this.type).
-		then(function(translators) { return [translators] });
+	 _getTranslatorsGetPotentialTranslators: async function () {
+		var translators = await this._translatorProvider.getAllForType(this.type);
+		return [translators];
 	 },
 
 	/**
@@ -1352,7 +1367,7 @@ Zotero.Translate.Base.prototype = {
 		
 		// need to get translator first
 		if (typeof this.translator[0] !== "object") {
-			this.translator[0] = Zotero.Translators.get(this.translator[0]);
+			this.translator[0] = this._translatorProvider.get(this.translator[0]);
 		}
 		
 		// Zotero.Translators.get() returns a promise in the connectors, but we don't expect it to
@@ -2102,7 +2117,7 @@ Zotero.Translate.Web.prototype.setLocation = function(location, rootLocation) {
  * Get potential web translators
  */
 Zotero.Translate.Web.prototype._getTranslatorsGetPotentialTranslators = function() {
-	return Zotero.Translators.getWebTranslatorsForLocation(this.location, this.rootLocation);
+	return this._translatorProvider.getWebTranslatorsForLocation(this.location, this.rootLocation);
 }
 
 /**
@@ -2364,11 +2379,11 @@ Zotero.Translate.Import.prototype.complete = function(returnValue, error) {
 /**
  * Get all potential import translators, ordering translators with the right file extension first
  */
-Zotero.Translate.Import.prototype._getTranslatorsGetPotentialTranslators = function() {
-	return (this.location ?
-	        Zotero.Translators.getImportTranslatorsForLocation(this.location) :
-	        Zotero.Translators.getAllForType(this.type)).
-	then(function(translators) { return [translators] });;
+Zotero.Translate.Import.prototype._getTranslatorsGetPotentialTranslators = async function () {
+	var translators = await (this.location
+		? this._translatorProvider.getImportTranslatorsForLocation(this.location)
+		: this._translatorProvider.getAllForType(this.type));
+	return [translators];
 }
 
 /**
@@ -2380,7 +2395,7 @@ Zotero.Translate.Import.prototype.getTranslators = function() {
 		if(this._currentState === "detect") throw new Error("getTranslators: detection is already running");
 		this._currentState = "detect";
 		var me = this;
-		return Zotero.Translators.getAllForType(this.type).
+		return this._translatorProvider.getAllForType(this.type).
 		then(function(translators) {
 			me._potentialTranslators = [];
 			me._foundTranslators = translators;
@@ -2545,7 +2560,7 @@ Zotero.Translate.Export.prototype.getTranslators = function() {
 		return Zotero.Promise.reject(new Error("getTranslators: detection is already running"));
 	}
 	var me = this;
-	return Zotero.Translators.getAllForType(this.type).then(function(translators) {
+	return this._translatorProvider.getAllForType(this.type).then(function(translators) {
 		me._currentState = "detect";
 		me._foundTranslators = translators;
 		me._potentialTranslators = [];

@@ -284,11 +284,11 @@ function makeZoteroContext(isConnector) {
 	var subscriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Ci.mozIJSSubScriptLoader);
 	
 	// Load zotero.js first
-	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[0] + ".js", zContext);
+	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[0] + ".js", zContext, 'utf-8');
 	
 	// Load CiteProc into Zotero.CiteProc namespace
 	zContext.Zotero.CiteProc = {"Zotero":zContext.Zotero};
-	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/citeproc.js", zContext.Zotero.CiteProc);
+	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/citeproc.js", zContext.Zotero.CiteProc, 'utf-8');
 	
 	// Load XRegExp object into Zotero.XRegExp
 	const xregexpFiles = [
@@ -309,13 +309,13 @@ function makeZoteroContext(isConnector) {
 		'addons/unicode/unicode-zotero'				//adds support for some Unicode categories used in Zotero
 	];
 	for (var i=0; i<xregexpFiles.length; i++) {
-		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/xregexp/" + xregexpFiles[i] + ".js", zContext);
+		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/xregexp/" + xregexpFiles[i] + ".js", zContext, 'utf-8');
 	}
 	
 	// Load remaining xpcomFiles
 	for (var i=1; i<xpcomFilesAll.length; i++) {
 		try {
-			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[i] + ".js", zContext);
+			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[i] + ".js", zContext, 'utf-8');
 		}
 		catch (e) {
 			Components.utils.reportError("Error loading " + xpcomFilesAll[i] + ".js", zContext);
@@ -326,7 +326,7 @@ function makeZoteroContext(isConnector) {
 	// Load xpcomFiles for specific mode
 	for (let xpcomFile of (isConnector ? xpcomFilesConnector : xpcomFilesLocal)) {
 		try {
-			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFile + ".js", zContext, "UTF-8");
+			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFile + ".js", zContext, "utf-8");
 		}
 		catch (e) {
 			dump("Error loading " + xpcomFile + ".js\n\n");
@@ -349,12 +349,12 @@ function makeZoteroContext(isConnector) {
 	];
 	zContext.Zotero.RDF = {Zotero:zContext.Zotero};
 	for (var i=0; i<rdfXpcomFiles.length; i++) {
-		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + rdfXpcomFiles[i] + ".js", zContext.Zotero.RDF);
+		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + rdfXpcomFiles[i] + ".js", zContext.Zotero.RDF, 'utf-8');
 	}
 	
 	if(isStandalone()) {
 		// If isStandalone, load standalone.js
-		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/standalone.js", zContext);
+		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/standalone.js", zContext, 'utf-8');
 	}
 	
 	// add connector-related properties

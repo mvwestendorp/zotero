@@ -48,14 +48,6 @@ const ZoteroStandalone = new function() {
 			return Zotero.initializationPromise;
 		})
 		.then(async function () {
-			if (Zotero.Prefs.get('devtools.errorconsole.enabled', true)) {
-				document.getElementById('menu_errorConsole').hidden = false;
-			}
-			if (Zotero.Prefs.get('devtools.chrome.enabled', true)) {
-				document.getElementById('menu_errorConsole').hidden = false;
-				document.getElementById('menu_runJS').hidden = false;
-			}
-			
 			document.getElementById('key_copyCitation')
 				.setAttribute('key', Zotero.Keys.getKeyForCommand('copySelectedItemCitationsToClipboard'));
 			document.getElementById('key_copyBibliography')
@@ -455,6 +447,10 @@ function toJavaScriptConsole() {
 
 function openRunJSWindow() {
 	window.open('chrome://zotero/content/runJS.html', 'run-js', 'width=900,height=700,resizable');
+}
+
+function openScaffold() {
+	window.open('chrome://scaffold/content/scaffold.xul', 'scaffold', 'chrome,resizable');
 }
 
 function toOpenWindowByType(inType, uri, features)

@@ -73,3 +73,8 @@ contract	@mozilla.org/autocomplete/search;1?name=jurism 	{8f90026f-17f9-4164-b81
 
 component	{25154cf8-9bb0-4a36-aff9-8674233da3f6}			components/zotero-protocol-handler.js
 contract	@mozilla.org/network/protocol;1?name=zotero 	{25154cf8-9bb0-4a36-aff9-8674233da3f6}
+
+# Scaffold
+content scaffold             chrome/content/scaffold/
+locale  scaffold   en-US     chrome/locale/en-US/scaffold/
+skin    scaffold   default   chrome/skin/default/scaffold/

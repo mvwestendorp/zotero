@@ -32,8 +32,8 @@ Zotero_Preferences.Advanced = {
 	init: function () {
 		Zotero_Preferences.Keys.init();
 		
-		// Show Memory Info button if the Error Console menu option is enabled
-		if (Zotero.Prefs.get('devtools.errorconsole.enabled', true)) {
+		// Show Memory Info button
+		if (Zotero.Prefs.get('debug.memoryInfo')) {
 			document.getElementById('memory-info').hidden = false;
 		}
 		
