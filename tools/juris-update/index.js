@@ -1,6 +1,7 @@
 const getopts = require("getopts");
 const path = require("path");
-const dbToCompact = require("./lib/dbToCompact").dbToCompact
+const dbToCompact = require("./lib/dbToCompact").dbToCompact;
+const compactToDescriptive = require("./lib/compactToDescriptive").compactToDescriptive;
 
 const handleError = require("./lib/errors").handleError;
 
@@ -10,21 +11,25 @@ const handleError = require("./lib/errors").handleError;
 
 const optParams = {
     alias: {
-		D: "db-to-compact-json",
+		f: "from",
+		t: "to",
 		a: "all",
 		j: "jurisdiction",
         h: "help"
     },
-    string: ["j"],
-    boolean: ["h", "D", "a"],
+    string: ["j", "f", "t"],
+    boolean: ["h", "a"],
     unknown: option => {
         throw Error("Unknown option \"" +option + "\"");
     }
 };
 const usage = "Usage: " + path.basename(process.argv[1])
       + "\nUsage: jmconv <options>\n"
-      + "    -D, --db-to-compact-json\n"
-      + "       Write one or more jurisdictions from Jurism database to compact JSON source files.\n"
+      + "    -f, --from\n"
+      + "       Data format to convert from. Valid values are:\n"
+	  + "       - jurism-db (converts to compact)\n"
+	  + "       - compact (converts to descriptive)\n"
+	  + "       - descriptive (converts to compact)\n"
       + "    -a, --all\n"
       + "       Perform requested operation on all jurisdictions.\n"
       + "    -j <jurisdictionID>, --jurisdiction=<jurisdictionID>\n"
@@ -37,19 +42,41 @@ if (opts.h) {
 	process.exit();
 }
 
-if (!opts.D) {
-	var e = new Error("One of -D is required");
+if (!opts.f) {
+	var e = new Error("The -f option is required");
 	handleError(e);
 }
 
-if (opts.D && !opts.a && !opts.j) {
-	var e = new Error("With the -D option, one of -a or -j is required.");
+var fromToMap = {
+	"jurism-db": "compact",
+	"compact": "descriptive",
+	"descriptive": "compact"
+}
+
+if (!fromToMap[opts.f]) {
+	var e = new Error("Argument to option -f must be one of \"jurism-db\", \"compact\" or \"descriptivew\"");
+	handleError(e);
+}
+
+if (!opts.a && !opts.j) {
+	var e = new Error("One of -a or -j is required.");
+	handleError(e);
+}
+
+if (opts.a && opts.j) {
+	var e = new Error("Options -a and -j are mutually exclusive.");
 	handleError(e);
 }
 
 /*
  * Run
  */
-if (opts.D) {
+
+console.log("Converting from \"" + opts.f + "\" to \"" + fromToMap[opts.f] + "\"");
+
+if (opts.f === "jurism-db") {
 	dbToCompact(opts).catch(err => handleError(err));
+} else if (opts.f === "compact") {
+	compactToDescriptive(opts).catch(err => handleError(err));
 }
+

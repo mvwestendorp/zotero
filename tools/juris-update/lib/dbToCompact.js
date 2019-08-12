@@ -2,19 +2,14 @@ var fs = require("fs");
 var path = require("path");
 var os = require("os");
 var sqlite = require("sqlite");
-const rfc6902 = require("rfc6902");
 
 const util = require("./util");
 const handleError = require("./errors").handleError;
-const config = require("./config").getConfig();
+const config = require("./config").config;
 
 const dbPath = path.join(config.path.dataDir, "jurism.sqlite");
-const jurisMapPath = path.join(config.path.dataDir, "juris-maps");
 
-if (!fs.existsSync(jurisMapPath)) {
-	var e = new Error("path does not exist: "+jurisMapPath);
-	handleError(e);
-}
+var convertedJurisdictions = [];
 
 async function dbToCompact (opts) {
 	// console.log("dbToCompact");
@@ -25,6 +20,7 @@ async function dbToCompact (opts) {
 	if (opts.a) {
 		for (var id of jurisdictionIDs) {
 			opts.j = id;
+			console.log("   with id="+id);
 			await dbToCompact_runner(db, opts);
 		}
 	} else if (opts.j) {
@@ -43,13 +39,22 @@ async function dbToCompact (opts) {
 }
 
 async function dbToCompact_jurisdictionIDs(db) {
+	// console.log("dbToCompact_jurisdictionIDs");
+	// Note: Top-level jurisdiction IDs are read from DB in DB->Compact conversion.
+	// and from versions.json in the client's Compact->DB conversion. Jurisdiction
+	// IDs must round-trip correctly, or top-level jurisdictions will be polluted
+	// with subjurisdiction IDs.
 	var sql = "SELECT jurisdictionID FROM jurisdictions WHERE jurisdictionID NOT LIKE '%:%'";
 	var params = [];
 	var rows = await db.all(sql, params);
-	return rows.map(r => r.jurisdictionID);
+	var jurisdictionIDs = rows.map(r => r.jurisdictionID);
+	//var obj = JSON.parse(fs.readFileSync(config.path.jurisVersionFile).toString());
+	//return Object.keys(obj);
+	return jurisdictionIDs;
 }
 
 async function dbToCompact_runner(db, opts) {
+	// console.log("dbToCompact_runner");
 	var ret = {
 		courtNames: [],
 		courtJurisdictionLinks: [],
@@ -76,6 +81,7 @@ async function dbToCompact_runner(db, opts) {
 }
 
 async function dbToCompact_jurisdictions(db, opts, ret, indexMap) {
+	// console.log("dbToCompact_jurisdictions");
 	var sql = "SELECT * FROM jurisdictions WHERE (jurisdictionID = ? OR jurisdictionID LIKE ?)";
 	var params = [opts.j, opts.j + ':%'];
 	var rows = await db.all(sql, params);
@@ -105,6 +111,7 @@ async function dbToCompact_jurisdictions(db, opts, ret, indexMap) {
 }
 
 async function dbToCompact_courtNames(db, opts, ret, indexMap) {
+	// console.log("dbToCompact_courtNames");
 	var sql = "SELECT courtNameIdx,courtName FROM courtNames NATURAL JOIN countryCourtLinks CCL JOIN jurisdictions J ON J.jurisdictionIdx=CCL.countryIdx WHERE (jurisdictionID = ? OR jurisdictionID LIKE ?)";
 	var params = [opts.j, opts.j + ':%'];
 	var rows = await db.all(sql, params);
@@ -115,6 +122,7 @@ async function dbToCompact_courtNames(db, opts, ret, indexMap) {
 }
 
 async function dbToCompact_countryCourtLinks(db, opts, ret, indexMap) {
+	// console.log("dbToCompact_countryCourtLinks");
 	var sql = "SELECT countryCourtLinkIdx,courtNameIdx,countryIdx FROM courtNames NATURAL JOIN countryCourtLinks CCL JOIN jurisdictions J ON J.jurisdictionIdx=CCL.countryIdx WHERE (jurisdictionID = ? OR jurisdictionID LIKE ?)";
 	var params = [opts.j, opts.j + ':%'];
 	var rows = await db.all(sql, params);
@@ -129,6 +137,7 @@ async function dbToCompact_countryCourtLinks(db, opts, ret, indexMap) {
 }
 
 async function dbToCompact_courts(db, opts, ret, indexMap) {
+	// console.log("dbToCompact_courts");
 	var sql = "SELECT C.courtIdx,CCL.countryCourtLinkIdx,C.courtID FROM courtNames NATURAL JOIN countryCourtLinks CCL JOIN jurisdictions J ON J.jurisdictionIdx=CCL.countryIdx JOIN courts C ON C.countryCourtLinkIdx=CCL.countryCourtLinkIdx WHERE (jurisdictionID = ? OR jurisdictionID LIKE ?)";
 	var params = [opts.j, opts.j + ':%'];
 	var rows = await db.all(sql, params);
@@ -140,6 +149,7 @@ async function dbToCompact_courts(db, opts, ret, indexMap) {
 }
 
 async function dbToCompact_courtJurisdictionLinks(db, opts, ret, indexMap) {
+	// console.log("dbToCompact_courtJurisdictionLinks");
 	var sql = "SELECT CJL.jurisdictionIdx,CJL.courtIdx FROM (SELECT C.courtIdx FROM courtNames CN NATURAL JOIN countryCourtLinks CCL JOIN jurisdictions J ON J.jurisdictionIdx=CCL.countryIdx JOIN courts C ON C.countryCourtLinkIdx=CCL.countryCourtLinkIdx WHERE (jurisdictionID = ? OR jurisdictionID LIKE ?)) XX JOIN courtJurisdictionLinks CJL ON (CJL.courtIdx=XX.courtIdx)";
 	var params = [opts.j, opts.j + ':%'];
 	var rows = await db.all(sql, params);
