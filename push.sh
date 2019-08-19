@@ -9,12 +9,24 @@ set -e
 #git tag $TAG
 #git push --tags
 
+if [ "" = "$1" ]; then
+  echo Set branch name as first argument
+  exit 1
+fi
+
+BRANCH="$1"
+
 SOURCE_REPO_URL="https://github.com/Juris-M/zotero"
 CI_ZIP="ci/client"
 
-branch="jurism-5.0"
+branch="$BRANCH"
 
 HASH=$(git ls-remote --exit-code $SOURCE_REPO_URL $branch | cut -f 1)
+
+if [ "" = "$HASH" ]; then
+	echo Remote branch does not exist, apparently
+	exit 1
+fi
 
 git checkout $HASH
 
@@ -32,6 +44,6 @@ node ./deployer/index.js -u ./build/"$HASH.zip" "$CI_ZIP"/"$HASH.zip"
 
 rm ./build/"$HASH.zip"
 
-git checkout jurism-5.0
+git checkout "$BRANCH"
 
 echo "Pushed $HASH"
