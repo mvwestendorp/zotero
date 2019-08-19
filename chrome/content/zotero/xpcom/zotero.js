@@ -740,9 +740,6 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			
 			Zotero.locked = false;
 			
-			// Data for jurisdiction support (loaded as JSON)
-			Zotero.Jurisdiction.init();
-			
 			yield Zotero.Users.init();
 			yield Zotero.Libraries.init();
 			
