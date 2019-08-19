@@ -23,6 +23,12 @@ Zotero.JurisMaps = new function() {
 			yield Zotero.Schema.schemaUpdatePromise;
 		}
 		
+		if (Zotero.test) {
+			this.versionFile = "versions-zz.json";
+		} else {
+			this.versionFile = "versions.json";
+		}
+		
 		// If an initialization has already started, a regular init() call should return the promise
 		// for that (which may already be resolved). A reinit should yield on that but then continue
 		// with reinitialization.
@@ -45,7 +51,7 @@ Zotero.JurisMaps = new function() {
 		
 		// main dir
 		var dir = Zotero.getJurisMapsDirectory().path;
-		var num = yield _readMapsFromDirectory(dir);
+		var num = yield this.readMapsFromDirectory(dir);
 		
 		Zotero.debug("Cached " + num + " juris maps in " + (new Date - start) + " ms");
 		
@@ -61,7 +67,7 @@ Zotero.JurisMaps = new function() {
 	 * Reads all maps from a given directory and caches their metadata
 	 * @private
 	 */
-	var _readMapsFromDirectory = Zotero.Promise.coroutine(function* (dir) {
+	this.readMapsFromDirectory = Zotero.Promise.coroutine(function* (dir) {
 		var numCached = 0;
 		
 		var iterator = new OS.File.DirectoryIterator(dir);
@@ -76,7 +82,7 @@ Zotero.JurisMaps = new function() {
 					let fileName = entry.name;
 					if (!fileName || fileName[0] === "."
 						|| fileName.substr(-5) !== ".json"
-						|| (fileName.substr(0, 6) !== "juris-" && fileName !== "versions.json")
+						|| (fileName.substr(0, 6) !== "juris-" && fileName !== this.versionFile)
 						|| entry.isDir) continue;
 					try {
 						var id = fileName.slice(0, -5);
@@ -132,11 +138,11 @@ Zotero.JurisMaps = new function() {
 		this.progressCount = 0;
 		// So. What this needs to do is:
 		// 1. Find the source directory
-		// 2. Get a list of files in the source directory (from versions.json)
+		// 2. Get a list of files in the source directory (from this.versionFile)
 		// 3. Sample each file, extract header date, compare with jurisMaps version value in DB
 		// 4. Iterate over files for which update is appropriate.
 		var jurisMapsDir = Zotero.getJurisMapsDirectory().path;
-		var jurisMapsVersionsFile = OS.Path.join(jurisMapsDir, "versions.json");
+		var jurisMapsVersionsFile = OS.Path.join(jurisMapsDir, this.versionFile);
 		var versions = yield Zotero.File.getContentsAsync(jurisMapsVersionsFile);
 		versions = JSON.parse(versions);
 		var jurisID;

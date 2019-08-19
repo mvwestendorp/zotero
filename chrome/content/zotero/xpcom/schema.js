@@ -574,7 +574,12 @@ Zotero.Schema = new function(){
 	this.updateBundledFiles = Zotero.Promise.coroutine(function* (mode) {
 		if (Zotero.skipBundledFiles) {
 			Zotero.debug("Skipping bundled file installation");
-			return;
+			if ("undefined" === typeof mode) {
+				Zotero.debug("(Erm, except for juris-maps)");
+				mode = 'juris-maps';
+			} else {
+				return;
+			}
 		}
 		
 		if (_localUpdateInProgress) {
@@ -1009,7 +1014,9 @@ Zotero.Schema = new function(){
 						yield OS.File.move(tmpFile, OS.Path.join(hiddenDir, fileName));
 					}
 				}
-				yield Zotero.JurisMaps.populateJurisdictions();
+				if (mode === "juris-maps") {
+					yield Zotero.JurisMaps.populateJurisdictions();
+				}
 			}
 			
 			if(xpiZipReader) xpiZipReader.close();
@@ -1082,6 +1089,13 @@ Zotero.Schema = new function(){
 					
 					for (let i = 0; i < entries.length; i++) {
 						let entry = entries[i];
+						if (mode === 'juris-maps') {
+							if (!Zotero.test && ['juris-zz-map.json', 'versions-zz.json'].indexOf(entry.name) > -1) {
+								continue;
+							} else if (Zotero.test && ['juris-zz-map.json', 'versions-zz.json'].indexOf(entry.name) === -1) {
+								continue;
+							}
+						}
 						if (!entry.name.match(fileNameRE) || entry.isDir) {
 							continue;
 						}
@@ -1125,6 +1139,9 @@ Zotero.Schema = new function(){
 						else if (mode == 'style-modules') {
 							fileName = entry.name;
 						}
+						else if (mode === 'juris-maps') {
+							fileName = entry.name;
+						}
 						
 						try {
 							let destFile;
@@ -1162,6 +1179,10 @@ Zotero.Schema = new function(){
 			}
 			finally {
 				iterator.close();
+			}
+			if (mode === "juris-maps") {
+				yield Zotero.JurisMaps.init({fromSchemaUpdate: true});
+				yield Zotero.JurisMaps.populateJurisdictions();
 			}
 		}
 		
