@@ -1,231 +1,918 @@
 {
-  "ad": "2019-08-18 23:54:38 UTC",
-  "ae": "2019-08-18 23:54:38 UTC",
-  "af": "2019-08-18 23:54:38 UTC",
-  "ag": "2019-08-18 23:54:38 UTC",
-  "ai": "2019-08-18 23:54:38 UTC",
-  "al": "2019-08-18 23:54:38 UTC",
-  "am": "2019-08-18 23:54:38 UTC",
-  "ao": "2019-08-18 23:54:38 UTC",
-  "ar": "2019-08-18 23:54:38 UTC",
-  "arb.cls": "2019-08-18 23:54:38 UTC",
-  "at": "2019-08-18 23:54:38 UTC",
-  "au": "2019-08-18 23:54:38 UTC",
-  "au.int": "2019-08-18 23:54:38 UTC",
-  "az": "2019-08-18 23:54:38 UTC",
-  "ba": "2019-08-18 23:54:38 UTC",
-  "bb": "2019-08-18 23:54:38 UTC",
-  "bd": "2019-08-18 23:54:38 UTC",
-  "be": "2019-08-18 23:54:38 UTC",
-  "bf": "2019-08-18 23:54:38 UTC",
-  "bg": "2019-08-18 23:54:38 UTC",
-  "bh": "2019-08-18 23:54:38 UTC",
-  "bi": "2019-08-18 23:54:38 UTC",
-  "bj": "2019-08-18 23:54:38 UTC",
-  "bn": "2019-08-18 23:54:38 UTC",
-  "bo": "2019-08-18 23:54:38 UTC",
-  "br": "2019-08-18 23:54:38 UTC",
-  "bs": "2019-08-18 23:54:38 UTC",
-  "bt": "2019-08-18 23:54:38 UTC",
-  "bw": "2019-08-18 23:54:38 UTC",
-  "by": "2019-08-18 23:54:38 UTC",
-  "bz": "2019-08-18 23:54:38 UTC",
-  "ca": "2019-08-18 23:54:38 UTC",
-  "cd": "2019-08-18 23:54:38 UTC",
-  "cf": "2019-08-18 23:54:38 UTC",
-  "cg": "2019-08-18 23:54:38 UTC",
-  "ch": "2019-08-18 23:54:38 UTC",
-  "ci": "2019-08-18 23:54:38 UTC",
-  "ck": "2019-08-18 23:54:38 UTC",
-  "cl": "2019-08-18 23:54:38 UTC",
-  "cm": "2019-08-18 23:54:38 UTC",
-  "cn": "2019-08-18 23:54:38 UTC",
-  "co": "2019-08-18 23:54:38 UTC",
-  "coe.int": "2019-08-18 23:54:38 UTC",
-  "comesa.int": "2019-08-18 23:54:38 UTC",
-  "cr": "2019-08-18 23:54:38 UTC",
-  "cs": "2019-08-18 23:54:38 UTC",
-  "cu": "2019-08-18 23:54:38 UTC",
-  "cv": "2019-08-18 23:54:38 UTC",
-  "cy": "2019-08-18 23:54:38 UTC",
-  "cz": "2019-08-18 23:54:38 UTC",
-  "dd": "2019-08-18 23:54:38 UTC",
-  "de": "2019-08-18 23:54:38 UTC",
-  "dj": "2019-08-18 23:54:38 UTC",
-  "dk": "2019-08-18 23:54:38 UTC",
-  "dm": "2019-08-18 23:54:38 UTC",
-  "do": "2019-08-18 23:54:38 UTC",
-  "dz": "2019-08-18 23:54:38 UTC",
-  "ec": "2019-08-18 23:54:38 UTC",
-  "ec.int": "2019-08-18 23:54:38 UTC",
-  "ee": "2019-08-18 23:54:38 UTC",
-  "eea.int": "2019-08-18 23:54:38 UTC",
-  "eec.int": "2019-08-18 23:54:38 UTC",
-  "eg": "2019-08-18 23:54:38 UTC",
-  "eh": "2019-08-18 23:54:38 UTC",
-  "er": "2019-08-18 23:54:38 UTC",
-  "es": "2019-08-18 23:54:38 UTC",
-  "et": "2019-08-18 23:54:38 UTC",
-  "eu.int": "2019-08-18 23:54:38 UTC",
-  "fi": "2019-08-18 23:54:38 UTC",
-  "fj": "2019-08-18 23:54:38 UTC",
-  "fm": "2019-08-18 23:54:38 UTC",
-  "fr": "2019-08-18 23:54:38 UTC",
-  "ga": "2019-08-18 23:54:38 UTC",
-  "gb": "2019-08-18 23:54:38 UTC",
-  "gd": "2019-08-18 23:54:38 UTC",
-  "ge": "2019-08-18 23:54:38 UTC",
-  "ge-ab": "2019-08-18 23:54:38 UTC",
-  "gh": "2019-08-18 23:54:38 UTC",
-  "gm": "2019-08-18 23:54:38 UTC",
-  "gn": "2019-08-18 23:54:38 UTC",
-  "gq": "2019-08-18 23:54:38 UTC",
-  "gr": "2019-08-18 23:54:38 UTC",
-  "gt": "2019-08-18 23:54:38 UTC",
-  "gu": "2019-08-18 23:54:38 UTC",
-  "gw": "2019-08-18 23:54:38 UTC",
-  "gy": "2019-08-18 23:54:38 UTC",
-  "hk": "2019-08-18 23:54:38 UTC",
-  "hn": "2019-08-18 23:54:38 UTC",
-  "hr": "2019-08-18 23:54:38 UTC",
-  "ht": "2019-08-18 23:54:38 UTC",
-  "hu": "2019-08-18 23:54:38 UTC",
-  "icc.int": "2019-08-18 23:54:38 UTC",
-  "id": "2019-08-18 23:54:38 UTC",
-  "ie": "2019-08-18 23:54:38 UTC",
-  "il": "2019-08-18 23:54:38 UTC",
-  "imf.int": "2019-08-18 23:54:38 UTC",
-  "in": "2019-08-18 23:54:38 UTC",
-  "iq": "2019-08-18 23:54:38 UTC",
-  "ir": "2019-08-18 23:54:38 UTC",
-  "is": "2019-08-18 23:54:38 UTC",
-  "it": "2019-08-18 23:54:38 UTC",
-  "je": "2019-08-18 23:54:38 UTC",
-  "jm": "2019-08-18 23:54:38 UTC",
-  "jo": "2019-08-18 23:54:38 UTC",
-  "jp": "2019-08-18 23:54:38 UTC",
-  "ke": "2019-08-18 23:54:38 UTC",
-  "kg": "2019-08-18 23:54:38 UTC",
-  "kh": "2019-08-18 23:54:38 UTC",
-  "ki": "2019-08-18 23:54:38 UTC",
-  "km": "2019-08-18 23:54:38 UTC",
-  "kn": "2019-08-18 23:54:38 UTC",
-  "kp": "2019-08-18 23:54:38 UTC",
-  "kr": "2019-08-18 23:54:38 UTC",
-  "kw": "2019-08-18 23:54:38 UTC",
-  "ky": "2019-08-18 23:54:38 UTC",
-  "kz": "2019-08-18 23:54:38 UTC",
-  "la": "2019-08-18 23:54:38 UTC",
-  "lb": "2019-08-18 23:54:38 UTC",
-  "lc": "2019-08-18 23:54:38 UTC",
-  "li": "2019-08-18 23:54:38 UTC",
-  "lk": "2019-08-18 23:54:38 UTC",
-  "ln.int": "2019-08-18 23:54:38 UTC",
-  "lr": "2019-08-18 23:54:38 UTC",
-  "ls": "2019-08-18 23:54:38 UTC",
-  "lt": "2019-08-18 23:54:38 UTC",
-  "lu": "2019-08-18 23:54:38 UTC",
-  "lv": "2019-08-18 23:54:38 UTC",
-  "ly": "2019-08-18 23:54:38 UTC",
-  "ma": "2019-08-18 23:54:38 UTC",
-  "mc": "2019-08-18 23:54:38 UTC",
-  "md": "2019-08-18 23:54:38 UTC",
-  "me": "2019-08-18 23:54:38 UTC",
-  "mg": "2019-08-18 23:54:38 UTC",
-  "mh": "2019-08-18 23:54:38 UTC",
-  "mk": "2019-08-18 23:54:38 UTC",
-  "ml": "2019-08-18 23:54:38 UTC",
-  "mm": "2019-08-18 23:54:38 UTC",
-  "mn": "2019-08-18 23:54:38 UTC",
-  "mo": "2019-08-18 23:54:38 UTC",
-  "mr": "2019-08-18 23:54:38 UTC",
-  "mt": "2019-08-18 23:54:38 UTC",
-  "mu": "2019-08-18 23:54:38 UTC",
-  "mv": "2019-08-18 23:54:38 UTC",
-  "mw": "2019-08-18 23:54:38 UTC",
-  "mx": "2019-08-18 23:54:38 UTC",
-  "my": "2019-08-18 23:54:38 UTC",
-  "mz": "2019-08-18 23:54:38 UTC",
-  "na": "2019-08-18 23:54:38 UTC",
-  "ne": "2019-08-18 23:54:38 UTC",
-  "ng": "2019-08-18 23:54:38 UTC",
-  "ni": "2019-08-18 23:54:38 UTC",
-  "nir": "2019-08-18 23:54:38 UTC",
-  "nl": "2019-08-18 23:54:38 UTC",
-  "no": "2019-08-18 23:54:38 UTC",
-  "np": "2019-08-18 23:54:38 UTC",
-  "nr": "2019-08-18 23:54:38 UTC",
-  "nu": "2019-08-18 23:54:38 UTC",
-  "nz": "2019-08-18 23:54:38 UTC",
-  "oas.int": "2019-08-18 23:54:38 UTC",
-  "om": "2019-08-18 23:54:38 UTC",
-  "pa": "2019-08-18 23:54:38 UTC",
-  "pe": "2019-08-18 23:54:38 UTC",
-  "pg": "2019-08-18 23:54:38 UTC",
-  "ph": "2019-08-18 23:54:38 UTC",
-  "pk": "2019-08-18 23:54:38 UTC",
-  "pl": "2019-08-18 23:54:38 UTC",
-  "ps": "2019-08-18 23:54:38 UTC",
-  "pt": "2019-08-18 23:54:38 UTC",
-  "pw": "2019-08-18 23:54:38 UTC",
-  "py": "2019-08-18 23:54:38 UTC",
-  "qa": "2019-08-18 23:54:38 UTC",
-  "ro": "2019-08-18 23:54:38 UTC",
-  "rs": "2019-08-18 23:54:38 UTC",
-  "ru": "2019-08-18 23:54:38 UTC",
-  "rw": "2019-08-18 23:54:38 UTC",
-  "sa": "2019-08-18 23:54:38 UTC",
-  "sai.int": "2019-08-18 23:54:38 UTC",
-  "sb": "2019-08-18 23:54:38 UTC",
-  "sc": "2019-08-18 23:54:38 UTC",
-  "sd": "2019-08-18 23:54:38 UTC",
-  "se": "2019-08-18 23:54:38 UTC",
-  "sg": "2019-08-18 23:54:38 UTC",
-  "si": "2019-08-18 23:54:38 UTC",
-  "sica.int": "2019-08-18 23:54:38 UTC",
-  "sk": "2019-08-18 23:54:38 UTC",
-  "sl": "2019-08-18 23:54:38 UTC",
-  "sm": "2019-08-18 23:54:38 UTC",
-  "sn": "2019-08-18 23:54:38 UTC",
-  "so": "2019-08-18 23:54:38 UTC",
-  "sr": "2019-08-18 23:54:38 UTC",
-  "st": "2019-08-18 23:54:38 UTC",
-  "sv": "2019-08-18 23:54:38 UTC",
-  "sy": "2019-08-18 23:54:38 UTC",
-  "sz": "2019-08-18 23:54:38 UTC",
-  "td": "2019-08-18 23:54:38 UTC",
-  "tg": "2019-08-18 23:54:38 UTC",
-  "th": "2019-08-18 23:54:38 UTC",
-  "tj": "2019-08-18 23:54:38 UTC",
-  "tl": "2019-08-18 23:54:38 UTC",
-  "tm": "2019-08-18 23:54:38 UTC",
-  "tn": "2019-08-18 23:54:38 UTC",
-  "to": "2019-08-18 23:54:38 UTC",
-  "tr": "2019-08-18 23:54:38 UTC",
-  "tt": "2019-08-18 23:54:38 UTC",
-  "tv": "2019-08-18 23:54:38 UTC",
-  "tw": "2019-08-18 23:54:38 UTC",
-  "tz": "2019-08-18 23:54:38 UTC",
-  "ua": "2019-08-18 23:54:38 UTC",
-  "ug": "2019-08-18 23:54:38 UTC",
-  "un.int": "2019-08-18 23:54:38 UTC",
-  "us": "2019-08-18 23:54:38 UTC",
-  "ussr": "2019-08-18 23:54:38 UTC",
-  "uy": "2019-08-18 23:54:38 UTC",
-  "uz": "2019-08-18 23:54:38 UTC",
-  "va": "2019-08-18 23:54:38 UTC",
-  "vc": "2019-08-18 23:54:38 UTC",
-  "ve": "2019-08-18 23:54:38 UTC",
-  "vg": "2019-08-18 23:54:38 UTC",
-  "vn": "2019-08-18 23:54:38 UTC",
-  "vu": "2019-08-18 23:54:38 UTC",
-  "wbg.int": "2019-08-18 23:54:38 UTC",
-  "ws": "2019-08-18 23:54:38 UTC",
-  "wto.int": "2019-08-18 23:54:38 UTC",
-  "xk": "2019-08-18 23:54:38 UTC",
-  "ye": "2019-08-18 23:54:38 UTC",
-  "yu": "2019-08-18 23:54:38 UTC",
-  "za": "2019-08-18 23:54:38 UTC",
-  "zm": "2019-08-18 23:54:38 UTC",
-  "zw": "2019-08-18 23:54:38 UTC"
+  "ad": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ae": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "af": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ag": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ai": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "al": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "am": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ao": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ar": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "arb.cls": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 21
+  },
+  "at": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 337
+  },
+  "au": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 10
+  },
+  "au.int": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 5
+  },
+  "az": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ba": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bb": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bd": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "be": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 681
+  },
+  "bf": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bg": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bh": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bi": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bj": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bn": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bo": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "br": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bs": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bt": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bw": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "by": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "bz": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ca": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 106
+  },
+  "cd": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "cf": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "cg": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ch": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 93
+  },
+  "ci": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "ck": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "cl": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "cm": {
+    "timestamp": "2019-08-19 06:21:43 UTC",
+    "rowcount": 1
+  },
+  "cn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 3917
+  },
+  "co": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "coe.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 33
+  },
+  "comesa.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "cr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "cs": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "cu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "cv": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "cy": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 65
+  },
+  "cz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 235
+  },
+  "dd": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "de": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 2045
+  },
+  "dj": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "dk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 92
+  },
+  "dm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "do": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "dz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ec": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ec.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ee": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "eea.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "eec.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "eg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "eh": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "er": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "es": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "et": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "eu.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 51
+  },
+  "fi": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 90
+  },
+  "fj": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "fm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "fr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 121
+  },
+  "ga": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gb": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 69
+  },
+  "gd": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ge": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ge-ab": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gh": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gq": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 250
+  },
+  "gt": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "gy": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "hk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "hn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "hr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ht": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "hu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "icc.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 13
+  },
+  "id": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ie": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "il": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "imf.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "in": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "iq": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ir": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "is": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "it": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "je": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "jm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "jo": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "jp": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 200
+  },
+  "ke": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 189
+  },
+  "kg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "kh": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 17
+  },
+  "ki": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "km": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "kn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "kp": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "kr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "kw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ky": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "kz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "la": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "lb": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "lc": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "li": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "lk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ln.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "lr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ls": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "lt": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "lu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "lv": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ly": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ma": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mc": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "md": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "me": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mh": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ml": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "mn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 63
+  },
+  "mo": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mt": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mv": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mx": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "my": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "mz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "na": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ne": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ng": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ni": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "nir": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "nl": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 4
+  },
+  "no": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "np": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "nr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "nu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "nz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 160
+  },
+  "oas.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "om": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pa": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pe": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ph": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pl": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 802
+  },
+  "ps": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pt": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "pw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "py": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "qa": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ro": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "rs": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ru": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "rw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sa": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sai.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "sb": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sc": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sd": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "se": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "si": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sica.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "sk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sl": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "so": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "st": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sv": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sy": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "sz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "td": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "th": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tj": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tl": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "to": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tt": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tv": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "tz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ua": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ug": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "un.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 21
+  },
+  "us": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 839
+  },
+  "ussr": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "uy": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "uz": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "va": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "vc": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ve": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "vg": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "vn": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1500
+  },
+  "vu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "wbg.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 5
+  },
+  "ws": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "wto.int": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "xk": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "ye": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "yu": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "za": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "zm": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  },
+  "zw": {
+    "timestamp": "2019-08-19 06:21:44 UTC",
+    "rowcount": 1
+  }
 }

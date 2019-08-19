@@ -21,7 +21,9 @@ function getDateNow() {
 }
 
 function writeCompactData(opts, ret) {
+	var rowDataCount = 0;
 	for (var key in ret) {
+		rowDataCount = rowDataCount + ret[key].length;
 		if (ret[key].length === 0) {
 			delete ret[key];
 		}
@@ -42,7 +44,10 @@ function writeCompactData(opts, ret) {
 		} else {
 			versions = {};
 		}
-		versions[opts.j] = getDateNow();
+		versions[opts.j] = {
+			timestamp: getDateNow(),
+			rowcount: rowDataCount
+		}
 		fs.writeFileSync(config.path.jurisVersionFile, JSON.stringify(versions, null, 2));
 		
 		var filePath = path.join(config.path.jurisMapDir, "juris-" + opts.j + "-map.json");

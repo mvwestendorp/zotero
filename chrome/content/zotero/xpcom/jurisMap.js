@@ -7,6 +7,9 @@ Zotero.JurisMaps = new function() {
 	Components.utils.import("resource://gre/modules/Services.jsm");
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	
+	this.totalCount = 0;
+	this.progressCount = 0;
+	
 	this.xsltProcessor = null;
 	this.ns = {
 		"csl":"http://purl.org/net/xbiblio/csl"
@@ -126,6 +129,7 @@ Zotero.JurisMaps = new function() {
 		if (_populated) return;
 		Zotero.debug("[Jurism] populating database with jurisdiction info");
 		var mapsToUpdate = {};
+		this.progressCount = 0;
 		// So. What this needs to do is:
 		// 1. Find the source directory
 		// 2. Get a list of files in the source directory (from versions.json)
@@ -137,16 +141,17 @@ Zotero.JurisMaps = new function() {
 		versions = JSON.parse(versions);
 		var jurisID;
 		for (jurisID in versions) {
-			var newVersion = versions[jurisID];
+			var newVersionInfo = versions[jurisID];
 			var oldVersion = yield Zotero.DB.valueQueryAsync("SELECT version FROM jurisVersion WHERE schema = ?", [jurisID]);
 			// Check if database maps version exists and is greater than or equal to the new file date
-			if (!oldVersion || newVersion > oldVersion) {
-				mapsToUpdate[jurisID] = newVersion;
+			if (!oldVersion || newVersionInfo.timestamp > oldVersion) {
+				this.totalCount = (this.totalCount + newVersionInfo.rowcount);
+				mapsToUpdate[jurisID] = newVersionInfo;
 			}
 		}
 
 		if (Object.keys(mapsToUpdate).length > 0) {
-			Zotero.showZoteroPaneProgressMeter("Installing jurisdictions");
+			Zotero.showZoteroPaneProgressMeter("Installing " + Object.keys(mapsToUpdate).length + " jurisdictions", true);
 
 			var iterator = new OS.File.DirectoryIterator(jurisMapsDir);
 			try {
@@ -168,7 +173,7 @@ Zotero.JurisMaps = new function() {
 						// Process passing files one by one
 						var jurisFilePath = OS.Path.join(jurisMapsDir, fileName);
 						jurisID = fileName.replace("juris-", "").replace("-map.json", "");
-						yield this.populateOneJurisdiction(jurisID, jurisFilePath, mapsToUpdate[jurisID]);
+						yield this.populateOneJurisdiction(jurisID, jurisFilePath, mapsToUpdate[jurisID].timestamp);
 					}
 				}
 			} catch (e) {
@@ -221,6 +226,13 @@ Zotero.JurisMaps = new function() {
 		}
 	});
 	
+	this.updateProgressMeter = function() {
+		this.progressCount++;
+		if ((this.progressCount % 25) === 0) {
+			Zotero.updateZoteroPaneProgressMeter(Math.round(this.progressCount * 100 / this.totalCount));
+		}
+	}
+	
 	this.setJurisdictionData = Zotero.Promise.coroutine(function* (jObj) {
 		var jurisdictionsNewSql = "INSERT INTO jurisdictions VALUES (NULL, ?, ?, ?);";
 		var jurisdictionsIdxSql = "SELECT jurisdictionIdx FROM jurisdictions WHERE jurisdictionID=?"
@@ -263,6 +275,7 @@ Zotero.JurisMaps = new function() {
 				yield Zotero.DB.queryAsync(jurisdictionsNewSql, [entryZero, entryOne, segmentCount]);
 				idx = yield Zotero.DB.valueQueryAsync(jurisdictionsIdxSql, [entryZero]);
 			}
+			this.updateProgressMeter();
 			this.idxMap.jurisdictions[i] = idx;
 		}
 	});
@@ -279,6 +292,7 @@ Zotero.JurisMaps = new function() {
 				yield Zotero.DB.queryAsync(courtNamesNewSql, [entry]);
 				idx = yield Zotero.DB.valueQueryAsync("SELECT courtNameIdx FROM courtNames WHERE courtName=?", [entry])
 			}
+			this.updateProgressMeter();
 			this.idxMap.courtNames[i] = idx;
 		}
 	});
@@ -294,6 +308,7 @@ Zotero.JurisMaps = new function() {
 				yield Zotero.DB.queryAsync(countryCourtLinksNewSql, [courtNameIdx, countryIdx]);
 				idx = yield Zotero.DB.valueQueryAsync("SELECT countryCourtLinkIdx FROM countryCourtLinks WHERE courtNameIdx=? AND countryIdx=?", [courtNameIdx, countryIdx]);
 			}
+			this.updateProgressMeter();
 			this.idxMap.countryCourtLinks[i] = idx;
 		}
 	});
@@ -309,6 +324,7 @@ Zotero.JurisMaps = new function() {
 				yield Zotero.DB.queryAsync(courtsNewSql, [courtID, countryCourtLinkIdx]);
 				idx = yield Zotero.DB.valueQueryAsync("SELECT courtIdx FROM courts WHERE courtID=? AND countryCourtLinkIdx=?", [courtID, countryCourtLinkIdx]);
 			}
+			this.updateProgressMeter();
 			this.idxMap.courts[i] = idx;
 		}
 	});
@@ -320,6 +336,7 @@ Zotero.JurisMaps = new function() {
 			let jurisdictionIdx = this.idxMap.jurisdictions[entry[0]];
 			let courtIdx = this.idxMap.courts[entry[1]];
 			yield Zotero.DB.queryAsync(courtJurisdictionLinksNewSql, [jurisdictionIdx, courtIdx]);
+			this.updateProgressMeter();
 		}
 	});
 

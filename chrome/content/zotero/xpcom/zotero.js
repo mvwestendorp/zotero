@@ -1484,13 +1484,16 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 			let container = doc.getElementById('zotero-pane-progressmeter-container');
 			let progressMeter = doc.createElement('progressmeter');
 			progressMeter.id = 'zotero-pane-progressmeter';
-			progressMeter.setAttribute('mode', 'undetermined');
 			if (determinate) {
+				progressMeter.setAttribute('mode', 'determined');
+				progressMeter.setAttribute('value', 0);
+				progressMeter.setAttribute('max', 1000);
 				progressMeter.mode = 'determined';
 				progressMeter.value = 0;
 				progressMeter.max = 1000;
 			}
 			else {
+				progressMeter.setAttribute('mode', 'undetermined');
 				progressMeter.mode = 'undetermined';
 			}
 			container.appendChild(progressMeter);
@@ -1525,6 +1528,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 					pm.max = 1000;
 					pm.mode = 'determined';
 				}
+				pm.setAttribute('value', percentage);
 				pm.value = percentage;
 			} else if(pm.mode === 'determined') {
 				pm.mode = 'undetermined';
