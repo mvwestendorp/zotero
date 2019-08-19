@@ -989,6 +989,10 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('style-modules', true));
 	}
 	
+	this.getJurisMapsDirectory = function () {
+		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('juris-maps', true));
+	}
+	
 	this.getTranslatorsDirectory = function () {
 		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('translators', true));
 	}

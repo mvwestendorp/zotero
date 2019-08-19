@@ -19,6 +19,7 @@ const source = [
 	'test',
 	'styles',
 	'style-modules',
+	'juris-maps',
 	'translators',
 	'scss',
 	'chrome/**',
@@ -29,6 +30,7 @@ const source = [
 	'test/**',
 	'styles/**',
 	'style-modules/**',
+	'juris-maps/**',
 	'translators/**',
 	'scss/**'
 ];

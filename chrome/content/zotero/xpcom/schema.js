@@ -638,6 +638,11 @@ Zotero.Schema = new function(){
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
 				break;
 			
+			case 'juris-maps':
+				yield Zotero.JurisMaps.init(initOpts);
+				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
+				break;
+			
 			case 'translators':
 				yield Zotero.Translators.init(initOpts);
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
@@ -650,7 +655,9 @@ Zotero.Schema = new function(){
 				let up2 = yield _updateBundledFilesAtLocation(installLocation, 'styles');
 				yield Zotero.StyleModules.init(initOpts);
 				let up3 = yield _updateBundledFilesAtLocation(installLocation, 'style-modules');
-				var updated = up1 || up2 || up3;
+				yield Zotero.JurisMaps.init(initOpts);
+				let up4 = yield _updateBundledFilesAtLocation(installLocation, 'juris-maps');
+				var updated = up1 || up2 || up3 || up4;
 			}
 		}
 		finally {
@@ -697,6 +704,12 @@ Zotero.Schema = new function(){
 				var destDir = Zotero.getStyleModulesDirectory().path;
 				break;
 			
+			case "juris-maps":
+				var titleField = 'title';
+				var fileExt = ".json";
+				var destDir = Zotero.getJurisMapsDirectory().path;
+				break;
+			
 			default:
 				throw new Error("Invalid mode '" + mode + "'");
 		}
@@ -710,6 +723,12 @@ Zotero.Schema = new function(){
 			Mode = "StyleModules";
 			ModeType = "StyleModule";
 			module = "module ";
+		}
+		if (modeType === "juris-map") {
+			modeType = "jurisMap";
+			Mode = "JurisMaps";
+			ModeType = "JurisMap";
+			module = "map ";
 		}
 		
 		var repotime = yield Zotero.File.getResourceAsync("resource://zotero/schema/repotime.txt");
@@ -949,7 +968,13 @@ Zotero.Schema = new function(){
 			}
 			else {
 				// Styles and style modules
-				let entries = xpiZipReader.findEntries(mode + '/*.csl');
+				var ext;
+				if (mode === "juris-maps") {
+					ext = ".json";
+				} else {
+					ext = ".csl";
+				}
+				let entries = xpiZipReader.findEntries(mode + '/*' + ext);
 				while (entries.hasMore()) {
 					let entry = entries.getNext();
 					let fileName = entry.substr(entry.indexOf('/') + 1); // strip 'styles/' or 'style-modules/'
@@ -959,6 +984,9 @@ Zotero.Schema = new function(){
 					if (mode == 'styles') {
 						var code = yield Zotero.File.getContentsAsync(tmpFile);
 						var newObj = new Zotero[ModeType](code);
+					} else if (mode == 'juris-maps') {
+						var id = fileName.slice(0, -5);
+						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
 					} else {
 						var id = fileName.slice(0, -4);
 						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
@@ -981,6 +1009,7 @@ Zotero.Schema = new function(){
 						yield OS.File.move(tmpFile, OS.Path.join(hiddenDir, fileName));
 					}
 				}
+				yield Zotero.JurisMaps.populateJurisdictions();
 			}
 			
 			if(xpiZipReader) xpiZipReader.close();
@@ -1063,7 +1092,9 @@ Zotero.Schema = new function(){
 						}
 						else if (mode == 'style-modules') {
 							newObj = new Zotero.StyleModule(entry.name.slice(0, -4), entry.path);
-							// XXX SO FAR SO GOOD
+						}
+						else if (mode == 'juris-maps') {
+							newObj = new Zotero.JurisMap(entry.name.slice(0, -5), entry.path);
 						}
 						else if (mode == 'translators') {
 							newObj = yield Zotero.Translators.loadFromFile(entry.path);
@@ -1071,7 +1102,6 @@ Zotero.Schema = new function(){
 						else {
 							throw new Error("Invalid mode '" + mode + "'");
 						}
-						Zotero.debug("XXX Mode WTF? "+Mode, 1);
 						let existingObj = Zotero[Mode].get(newObj[modeType + "ID"]);
 						if (!existingObj) {
 							Zotero.debug("Installing " + modeType + " '" + newObj[titleField] + "'");
@@ -1673,9 +1703,6 @@ Zotero.Schema = new function(){
 			yield _getSchemaSQL('jurisdictions').then(function (sql) {
 				return Zotero.DB.executeSQLFile(sql);
 			});
-			if (!Zotero.skipBundledFiles) {
-				yield _populateJurisdictions();
-			}
 			yield _getSchemaSQL('triggers').then(function (sql) {
 				return Zotero.DB.executeSQLFile(sql);
 			});
@@ -1752,97 +1779,7 @@ Zotero.Schema = new function(){
 		}
 		var sql = yield _getSchemaSQL(schema);
 		yield Zotero.DB.executeSQLFile(sql);
-		if (schema === 'jurisdictions') {
-			if (!Zotero.skipBundledFiles) {
-				yield _populateJurisdictions();
-			}
-		}
 		return _updateDBVersion(schema, schemaVersion);
-	});
-	
-	
-	/*
-	 * (re)Populate the jurisdiction table
-	 */
-	var _populateJurisdictions = Zotero.Promise.coroutine(function*() {
-		Zotero.debug("Deleting any previous data in jurisdictions table");
-		yield Zotero.DB.queryAsync('DELETE FROM jurisdictions');
-		Zotero.debug("Populating jurisdictions");
-		var jsonStr = yield Zotero.File.getContentsFromURLAsync("resource://zotero/schema/jurisdictions.json");
-		var jObj = JSON.parse(jsonStr);
-		yield _setJurisdictionData(jObj);
-		yield _setCourtNames(jObj);
-		yield _setCountryCourtLinks(jObj);
-		yield _setCourts(jObj);
-		yield _setCourtJurisdictionLinks(jObj);
-	})
-	
-	var _setJurisdictionData = Zotero.Promise.coroutine(function* (jObj) {
-		var jurisdictionsSql = "INSERT INTO jurisdictions VALUES (?, ?, ?, ?);";
-		var JurisdictionSpider = function(jObj) {
-			this.jObj = jObj;
-			this.jurisdictionIdLst = [];
-			this.jurisdictionNameLst = [];
-		}
-		JurisdictionSpider.prototype.run = function (idx) {
-			var elem = this.jObj.jurisdictions[idx];
-			this.jurisdictionIdLst.push(elem[0]);
-			this.jurisdictionNameLst.push(elem[1]);
-			if (elem.length === 3) {
-			   this.run(elem[2]);
-			}
-			jIdLst = this.jurisdictionIdLst.slice();
-			jIdLst.reverse();
-			jNameLst = this.jurisdictionNameLst.slice();
-			jNameLst.reverse();
-			return [jIdLst.join(":"), jNameLst.join("|")];
-		}
-		for (let i=0,ilen=jObj.jurisdictions.length;i<ilen;i++) {
-			let entry = jObj.jurisdictions[i];
-			if (entry[2]) {
-				let jurisdictionSpider = new JurisdictionSpider(jObj);
-				let jurisdictionData = jurisdictionSpider.run(entry[2]);
-				let entryZero = jurisdictionData[0] + ":" + entry[0];
-				let entryOne = jurisdictionData[1] + "|" + entry[1];
-				let segmentCount = entryOne.split("|").length;
-				yield Zotero.DB.queryAsync(jurisdictionsSql, [i, entryZero, entryOne, segmentCount]);
-			} else {
-				let segmentCount = entry[1].split("|").length;
-				yield Zotero.DB.queryAsync(jurisdictionsSql, [i, entry[0], entry[1], segmentCount])
-			}
-		}
-	});
-
-	var _setCourtNames = Zotero.Promise.coroutine(function* (jObj) {
-		var courtNamesSql = "INSERT INTO courtNames VALUES (?, ?);";
-		for (let i=0,ilen=jObj.courtNames.length;i<ilen;i++) {
-			let entry = jObj.courtNames[i];
-			yield Zotero.DB.queryAsync(courtNamesSql, [i, entry]);
-		}
-	});
-
-	var _setCountryCourtLinks = Zotero.Promise.coroutine(function* (jObj) {
-		var countryCourtLinksSql = "INSERT INTO countryCourtLinks VALUES (?, ?, ?);";
-		for (let i=0,ilen=jObj.countryCourtLinks.length;i<ilen;i++) {
-			let entry = jObj.countryCourtLinks[i];
-			yield Zotero.DB.queryAsync(countryCourtLinksSql, [i, entry[0], entry[1]]);
-		}
-	});
-
-	var _setCourts = Zotero.Promise.coroutine(function* (jObj) {
-		var courtsSql = "INSERT INTO courts VALUES(?, ?, ?);";
-		for (let i=0,ilen=jObj.courts.length;i<ilen;i++) {
-			let entry = jObj.courts[i];
-			yield Zotero.DB.queryAsync(courtsSql, [i, entry[0], entry[1]]);
-		}
-	});
-
-	var _setCourtJurisdictionLinks = Zotero.Promise.coroutine(function* (jObj) {
-		var courtJurisdictionLinksSql = "INSERT INTO courtJurisdictionLinks VALUES (?, ?);";
-		for (let i=0,ilen=jObj.courtJurisdictionLinks.length;i<ilen;i++) {
-			let entry = jObj.courtJurisdictionLinks[i];
-			yield Zotero.DB.queryAsync(courtJurisdictionLinksSql, [entry[0], entry[1]]);
-		}
 	});
 	
 	var _updateCompatibility = Zotero.Promise.coroutine(function* (version) {
