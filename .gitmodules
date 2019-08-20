@@ -24,3 +24,6 @@
 [submodule "resource/style-modules"]
 	path = style-modules
 	url = git@github.com:Juris-M/style-modules.git
+[submodule "juris-desc"]
+	path = juris-desc
+	url = https://github.com/Juris-M/juris-desc.git
