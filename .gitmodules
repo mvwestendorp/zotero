@@ -27,3 +27,6 @@
 [submodule "juris-desc"]
 	path = juris-desc
 	url = https://github.com/Juris-M/juris-desc.git
+[submodule "juris-abbrevs"]
+	path = juris-abbrevs
+	url = https://github.com/Juris-M/jurism-abbreviations.git

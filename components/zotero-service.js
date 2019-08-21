@@ -139,6 +139,7 @@ const xpcomFilesLocal = [
 	'style',
 	'styleModule',
 	'jurisMap',
+	'jurisAbbrev',
 	'sync',
 	'sync/syncAPIClient',
 	'sync/syncEngine',

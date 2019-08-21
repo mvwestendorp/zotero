@@ -990,6 +990,10 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('juris-maps', true));
 	}
 	
+	this.getJurisAbbrevsDirectory = function () {
+		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('juris-abbrevs', true));
+	}
+	
 	this.getTranslatorsDirectory = function () {
 		return Zotero.File.pathToFile(Zotero.DataDirectory.getSubdirectory('translators', true));
 	}

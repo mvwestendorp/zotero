@@ -10,11 +10,6 @@ Zotero.JurisMaps = new function() {
 	this.totalCount = 0;
 	this.progressCount = 0;
 	
-	this.xsltProcessor = null;
-	this.ns = {
-		"csl":"http://purl.org/net/xbiblio/csl"
-	};
-
 	this.init = Zotero.Promise.coroutine(function* (options = {}) {
 		Zotero.debug("[Jurism] Running JurisMaps init", 1);
 		// Wait until bundled files have been updated, except when this is called by the schema update

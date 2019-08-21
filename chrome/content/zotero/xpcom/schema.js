@@ -648,6 +648,11 @@ Zotero.Schema = new function(){
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
 				break;
 			
+			case 'juris-abbrevs':
+				yield Zotero.JurisMaps.init(initOpts);
+				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
+				break;
+			
 			case 'translators':
 				yield Zotero.Translators.init(initOpts);
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
@@ -662,7 +667,9 @@ Zotero.Schema = new function(){
 				let up3 = yield _updateBundledFilesAtLocation(installLocation, 'style-modules');
 				yield Zotero.JurisMaps.init(initOpts);
 				let up4 = yield _updateBundledFilesAtLocation(installLocation, 'juris-maps');
-				var updated = up1 || up2 || up3 || up4;
+				yield Zotero.JurisAbbrevs.init(initOpts);
+				let up5 = yield _updateBundledFilesAtLocation(installLocation, 'juris-abbrevs');
+				var updated = up1 || up2 || up3 || up4 || up5;
 			}
 		}
 		finally {
@@ -715,6 +722,12 @@ Zotero.Schema = new function(){
 				var destDir = Zotero.getJurisMapsDirectory().path;
 				break;
 			
+			case "juris-abbrevs":
+				var titleField = 'title';
+				var fileExt = ".json";
+				var destDir = Zotero.getJurisAbbrevsDirectory().path;
+				break;
+			
 			default:
 				throw new Error("Invalid mode '" + mode + "'");
 		}
@@ -734,6 +747,12 @@ Zotero.Schema = new function(){
 			Mode = "JurisMaps";
 			ModeType = "JurisMap";
 			module = "map ";
+		}
+		if (modeType === "juris-abbrev") {
+			modeType = "jurisAbbrev";
+			Mode = "JurisAbbrevs";
+			ModeType = "JurisAbbrev";
+			module = "abbrevs ";
 		}
 		
 		var repotime = yield Zotero.File.getResourceAsync("resource://zotero/schema/repotime.txt");
@@ -974,7 +993,7 @@ Zotero.Schema = new function(){
 			else {
 				// Styles and style modules
 				var ext;
-				if (mode === "juris-maps") {
+				if (["juris-abbrevs", "juris-maps"].indexOf(mode) > -1) {
 					ext = ".json";
 				} else {
 					ext = ".csl";
@@ -990,6 +1009,9 @@ Zotero.Schema = new function(){
 						var code = yield Zotero.File.getContentsAsync(tmpFile);
 						var newObj = new Zotero[ModeType](code);
 					} else if (mode == 'juris-maps') {
+						var id = fileName.slice(0, -5);
+						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
+					} else if (mode == 'juris-abbrevs') {
 						var id = fileName.slice(0, -5);
 						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
 					} else {
@@ -1110,6 +1132,9 @@ Zotero.Schema = new function(){
 						else if (mode == 'juris-maps') {
 							newObj = new Zotero.JurisMap(entry.name.slice(0, -5), entry.path);
 						}
+						else if (mode == 'juris-abbrevs') {
+							newObj = new Zotero.JurisAbbrev(entry.name.slice(0, -5), entry.path);
+						}
 						else if (mode == 'translators') {
 							newObj = yield Zotero.Translators.loadFromFile(entry.path);
 						}
@@ -1140,6 +1165,9 @@ Zotero.Schema = new function(){
 							fileName = entry.name;
 						}
 						else if (mode === 'juris-maps') {
+							fileName = entry.name;
+						}
+						else if (mode === 'juris-abbrevs') {
 							fileName = entry.name;
 						}
 						

@@ -15,6 +15,7 @@ const symlinkDirs = [
 	'styles',
 	'style-modules',
 	'juris-maps',
+	'juris-abbrevs',
 	'translators'
 ];
 
