@@ -152,6 +152,7 @@ Zotero.JurisMaps = new function() {
 		}
 
 		if (Object.keys(mapsToUpdate).length > 0) {
+			Zotero.debug("updating jurisdictions: "+ JSON.stringify(Object.keys(mapsToUpdate)));
 			Zotero.showZoteroPaneProgressMeter("Installing " + Object.keys(mapsToUpdate).length + " jurisdictions", true);
 
 			var iterator = new OS.File.DirectoryIterator(jurisMapsDir);
