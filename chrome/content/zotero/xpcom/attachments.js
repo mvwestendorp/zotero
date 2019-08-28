@@ -1891,6 +1891,22 @@ Zotero.Attachments = new function(){
 				
 				default:
 					var value = '' + item.getField(field, false, true);
+					if (!value && field === 'title') {
+					  var courtID = item.getField('court', true);
+						if (courtID) {
+							var jurisdictionID = item.getField('jurisdiction', true);
+							if (jurisdictionID) {
+								var courtName = Zotero.CachedJurisdictionData.courtNameFromId(jurisdictionID, courtID);
+							} else {
+								var courtName = courtID;
+							}
+							value = courtName;
+							var docketNumber = item.getField('docketNumber', true);
+							if (docketNumber) {
+								value = value + " " + docketNumber;
+							}
+						}
+					}
 			}
 			
 			var re = new RegExp("\{?([^%\{\}]*)" + rpl + "(\{[0-9]+\})?" + "([^%\{\}]*)\}?");
