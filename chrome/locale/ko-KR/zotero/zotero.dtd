@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "파일 선택...">
 <!ENTITY zotero.file.noneSelected.label "선택된 파일 없음">
 <!ENTITY zotero.general.advancedOptions.label "고급 ">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "취소">
 <!ENTITY zotero.general.close "닫기">
 <!ENTITY zotero.general.delete "삭제">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "환경설정">
 <!ENTITY zotero.general.other "기타...">
 <!ENTITY zotero.general.refresh "새로고침">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "다른 이름으로 저장...">
 <!ENTITY zotero.general.selectAll "모두 선택">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "도구">
 <!ENTITY zotero.general.yes "예">
 <!ENTITY zotero.import "불러오기">

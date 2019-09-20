@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Velg fil …">
 <!ENTITY zotero.file.noneSelected.label "Inga fil vald">
 <!ENTITY zotero.general.advancedOptions.label "Avansert">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Avbryt">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Slett">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Frisk opp">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Lagra som …">
 <!ENTITY zotero.general.selectAll "Merk alt">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Verktøy">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.import "Import">

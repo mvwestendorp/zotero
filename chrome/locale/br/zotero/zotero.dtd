@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Diuzañ ur restr...">
 <!ENTITY zotero.file.noneSelected.label "Restr ebet diuzet">
 <!ENTITY zotero.general.advancedOptions.label "Dibarzhioù araokaet">
+<!ENTITY zotero.general.bigger "Brasoc'h">
 <!ENTITY zotero.general.cancel "Nullañ">
 <!ENTITY zotero.general.close "Serriñ">
 <!ENTITY zotero.general.delete "Dilemel">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Dibarzhioù">
 <!ENTITY zotero.general.other "Traoù all...">
 <!ENTITY zotero.general.refresh "Freskaat">
+<!ENTITY zotero.general.reset "Adderaouekaat">
 <!ENTITY zotero.general.saveAs "Enrollañ dindan">
 <!ENTITY zotero.general.selectAll "Diuzañ pep-tra">
+<!ENTITY zotero.general.smaller "Bihanoc'h">
 <!ENTITY zotero.general.tools "Ostilhoù">
 <!ENTITY zotero.general.yes "Ya">
 <!ENTITY zotero.import "Emporzhiañ">
@@ -111,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Diskouez an arroudennoù evel:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "notennoù fin">
-<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
+<!ENTITY zotero.integration.prefs.exportDocument "Tremen d'un treter testennoù all…">
 <!ENTITY zotero.integration.prefs.footnotes.label "notennoù traoñ">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Stokañ an arroudennoù evel:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Zamknij">
+<!ENTITY collectionsPane.label "Panel kolekcji">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Kopiuj bibliografię">
 <!ENTITY copyCitationCmd.label "Kopiuj cytowanie">
 <!ENTITY copyCmd.accesskey "C">
@@ -27,7 +29,7 @@
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Usuń">
-<!ENTITY developer.label "Developer">
+<!ENTITY developer.label "Programista">
 <!ENTITY editMenu.accesskey "E">
 <!ENTITY editMenu.label "Edycja">
 <!ENTITY fileMenu.accesskey "F">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Rozmiar czcionki">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Importuj ze schowka">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Zainstaluj łącznik do przeglądarki">
+<!ENTITY itemPane.label "Panel elementów">
+<!ENTITY layout.label "Układ">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimalizuj">
+<!ENTITY noteFontSize.label "Rozmiar czcionki notatek">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "Ustawienia strony...">
 <!ENTITY pasteCmd.accesskey "P">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Zakończ Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Wyjdź">
+<!ENTITY recursiveCollections.label "Pokaż elementy z subkolekcji">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Powtórz">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "Zaznacz wszystko">
 <!ENTITY servicesMenuMac.label "Usługi">
 <!ENTITY showAllAppsCmdMac.label "Pokaż wszystko">
+<!ENTITY stackedView.label "Stos">
+<!ENTITY standardView.label "Standardowy">
+<!ENTITY tagSelector.label "Wybór etykiet">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "Narzędzia">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Cofnij">
+<!ENTITY viewMenu.label "Widok">
 <!ENTITY windowMenu.label "Okno">
 <!ENTITY zoomWindow.label "Powiększ">

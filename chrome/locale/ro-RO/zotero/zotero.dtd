@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Alege fișier...">
 <!ENTITY zotero.file.noneSelected.label "Niciun fișier selectat">
 <!ENTITY zotero.general.advancedOptions.label "Opțiuni avansate">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Anulare">
 <!ENTITY zotero.general.close "Închide">
 <!ENTITY zotero.general.delete "Ștergere">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Opțiuni">
 <!ENTITY zotero.general.other "Altele...">
 <!ENTITY zotero.general.refresh "Reîmprospătare">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Salvare ca...">
 <!ENTITY zotero.general.selectAll "Selectează tot">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Instrumente">
 <!ENTITY zotero.general.yes "Da">
 <!ENTITY zotero.import "Import">

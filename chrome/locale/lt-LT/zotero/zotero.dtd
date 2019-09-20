@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Failo pasirinkimas...">
 <!ENTITY zotero.file.noneSelected.label "Nepasirinkote failo">
 <!ENTITY zotero.general.advancedOptions.label "Kitos parinktys">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Atšaukti">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Šalinti">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Atnaujinti">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Įrašyti kaip...">
 <!ENTITY zotero.general.selectAll "Pažymėti viską">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Priemonės">
 <!ENTITY zotero.general.yes "Taip">
 <!ENTITY zotero.import "Import">

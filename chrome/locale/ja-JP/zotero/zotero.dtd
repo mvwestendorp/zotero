@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "ファイルを選択...">
 <!ENTITY zotero.file.noneSelected.label "ファイルが選択されていません">
 <!ENTITY zotero.general.advancedOptions.label "高度なオプション">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "キャンセル">
 <!ENTITY zotero.general.close "閉じる">
 <!ENTITY zotero.general.delete "削除">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "オプション">
 <!ENTITY zotero.general.other "その他...">
 <!ENTITY zotero.general.refresh "再読み込み">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "名前をつけて保存...">
 <!ENTITY zotero.general.selectAll "すべて選択">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "ツール">
 <!ENTITY zotero.general.yes "はい">
 <!ENTITY zotero.import "インポート">

@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Serriñ">
+<!ENTITY collectionsPane.label "Panell an dastumadegoù">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Eilañ al levrlennadur">
 <!ENTITY copyCitationCmd.label "Eilañ an arroudenn">
 <!ENTITY copyCmd.accesskey "C">
@@ -27,7 +29,7 @@
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Delete">
-<!ENTITY developer.label "Developer">
+<!ENTITY developer.label "Diorren">
 <!ENTITY editMenu.accesskey "E">
 <!ENTITY editMenu.label "Edit">
 <!ENTITY fileMenu.accesskey "F">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Ment skritur">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Emporzhiañ diwar ar golver">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Staliañ ar c'hevreer Zotero er merdeer">
+<!ENTITY itemPane.label "Panell elfennoù">
+<!ENTITY layout.label "Aozadur">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Bihanaat">
+<!ENTITY noteFontSize.label "Notenn ment skritur">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "Pajenn-aozañ...">
 <!ENTITY pasteCmd.accesskey "P">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Kuitaat Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Kuitaat">
+<!ENTITY recursiveCollections.label "Diskouez an elfennoù diwar an is-dastumadeg">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Redo">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "Select All">
 <!ENTITY servicesMenuMac.label "Servijoù">
 <!ENTITY showAllAppsCmdMac.label "Diskouez pep-tra">
+<!ENTITY stackedView.label "Mod-gwelet berniet">
+<!ENTITY standardView.label "Mod-gwelet standard">
+<!ENTITY tagSelector.label "Diuzer balizoù">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "Ostilhoù">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Undo">
+<!ENTITY viewMenu.label "Gwel">
 <!ENTITY windowMenu.label "Prenestr">
 <!ENTITY zoomWindow.label "Zoumiñ">

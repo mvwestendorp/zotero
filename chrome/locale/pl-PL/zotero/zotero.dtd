@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Wybierz plik...">
 <!ENTITY zotero.file.noneSelected.label "Nie wybrano pliku">
 <!ENTITY zotero.general.advancedOptions.label "Zaawansowane ustawienia">
+<!ENTITY zotero.general.bigger "Większy">
 <!ENTITY zotero.general.cancel "Anuluj">
 <!ENTITY zotero.general.close "Zamknij">
 <!ENTITY zotero.general.delete "Usuń">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Opcje">
 <!ENTITY zotero.general.other "Inne...">
 <!ENTITY zotero.general.refresh "Odśwież">
+<!ENTITY zotero.general.reset "Przywróć">
 <!ENTITY zotero.general.saveAs "Zapisz jako...">
 <!ENTITY zotero.general.selectAll "Zaznacz wszystkie">
+<!ENTITY zotero.general.smaller "Mniejszy">
 <!ENTITY zotero.general.tools "Narzędzia">
 <!ENTITY zotero.general.yes "Tak">
 <!ENTITY zotero.import "Importuj">
@@ -111,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Wyświetl cytowania jako:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Przypisy końcowe">
-<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
+<!ENTITY zotero.integration.prefs.exportDocument "Przełącz na inny edytor tekstu...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Przypisy dolne">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Zapisz cytowania jako:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

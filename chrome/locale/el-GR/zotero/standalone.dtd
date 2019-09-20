@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Κλείσιμο">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Αντιγραφή βιβλιογραφίας">
 <!ENTITY copyCitationCmd.label "Αντιγραφή παραπομπής/παράθεσης">
 <!ENTITY copyCmd.accesskey "C">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Εισαγωγή από το Πρόχειρο">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Εγκατάσταση Σύνδεσης με πρόγραμμα πλοήγησης">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Ελαχιστοποίηση">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "Ρυθμίσεις σελίδας...">
 <!ENTITY pasteCmd.accesskey "P">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Κλείσιμο Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Έξοδος">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Υ">
 <!ENTITY redoCmd.label "Επανάληψη">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "Επιλογή όλων">
 <!ENTITY servicesMenuMac.label "Υπηρεσίες">
 <!ENTITY showAllAppsCmdMac.label "Εμφάνιση όλων">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "Τ">
 <!ENTITY toolsMenu.label "Εργαλεία">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Ζ">
 <!ENTITY undoCmd.label "Επαναφορά">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "Παράθυρο">
 <!ENTITY zoomWindow.label "Μεγέθυνση">

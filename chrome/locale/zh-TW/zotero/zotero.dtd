@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "選擇檔案…">
 <!ENTITY zotero.file.noneSelected.label "未選檔案">
 <!ENTITY zotero.general.advancedOptions.label "進階選項">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "取消">
 <!ENTITY zotero.general.close "關閉">
 <!ENTITY zotero.general.delete "刪除">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "選項">
 <!ENTITY zotero.general.other "其他...">
 <!ENTITY zotero.general.refresh "重新整理">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "另存新檔...">
 <!ENTITY zotero.general.selectAll "全選">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "工具">
 <!ENTITY zotero.general.yes "要">
 <!ENTITY zotero.import "匯入">

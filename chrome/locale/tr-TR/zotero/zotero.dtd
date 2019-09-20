@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Dosya Seçiniz...">
 <!ENTITY zotero.file.noneSelected.label "Dosya seçilmedi">
 <!ENTITY zotero.general.advancedOptions.label "Gelişmiş Seçenekler">
+<!ENTITY zotero.general.bigger "Büyült">
 <!ENTITY zotero.general.cancel "İptal Et">
 <!ENTITY zotero.general.close "Kapat">
 <!ENTITY zotero.general.delete "Sil">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Seçenekler">
 <!ENTITY zotero.general.other "Diğerleri...">
 <!ENTITY zotero.general.refresh "Yenile">
+<!ENTITY zotero.general.reset "Sıfırla">
 <!ENTITY zotero.general.saveAs "Farklı Kaydet...">
 <!ENTITY zotero.general.selectAll "Hepsini Seç">
+<!ENTITY zotero.general.smaller "Küçült">
 <!ENTITY zotero.general.tools "Araçlar">
 <!ENTITY zotero.general.yes "Evet">
 <!ENTITY zotero.import "İçeri Aktar">

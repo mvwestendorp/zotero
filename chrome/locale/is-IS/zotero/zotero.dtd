@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Veldu skrá…">
 <!ENTITY zotero.file.noneSelected.label "Engin skrá valin">
 <!ENTITY zotero.general.advancedOptions.label "Ítarlegir valkostir">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Hætta við">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Eyða">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Endurnýja">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Vista sem…">
 <!ENTITY zotero.general.selectAll "Velja allt">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Já">
 <!ENTITY zotero.import "Import">

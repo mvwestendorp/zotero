@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "ق">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "إغلاق">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "نسخ قائمة المراجع">
 <!ENTITY copyCitationCmd.label "نسخ الاقتباس">
 <!ENTITY copyCmd.accesskey "س">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "ب">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "البحث في هذه الصفحة…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "/">
 <!ENTITY fullZoom.label "تكبير/تصغير">
 <!ENTITY fullZoomEnlargeCmd.accesskey "ك">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "استيراد من الحافظة">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "ثبت موصل المتصفح">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "تصغير">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "ضبط الصفحة...">
 <!ENTITY pasteCmd.accesskey "ل">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "خروج من زوتيرو">
 <!ENTITY quitApplicationCmdWin.accesskey "خ">
 <!ENTITY quitApplicationCmdWin.label "خروج">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "ع">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "إعادة">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "تحديد الكل">
 <!ENTITY servicesMenuMac.label "خدمات">
 <!ENTITY showAllAppsCmdMac.label "عرض الكل">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "أدوات">
 <!ENTITY undoCmd.accesskey "ر">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "تراجع">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "نافذة">
 <!ENTITY zoomWindow.label "تقريب">

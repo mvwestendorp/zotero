@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Zavřít">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Kopírovat bibliografii">
 <!ENTITY copyCitationCmd.label "Kopírovat citaci">
 <!ENTITY copyCmd.accesskey "C">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Vložit ze schránky">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Nainstalovat Konektory do prohlížečů">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "minimalizovat">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "Nastavení stránky...">
 <!ENTITY pasteCmd.accesskey "P">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Vypnout Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Zavřít">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Znovu">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "Vybrat vše">
 <!ENTITY servicesMenuMac.label "Služby">
 <!ENTITY showAllAppsCmdMac.label "Zobrazit vše">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "Nástroje">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Zpět">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "Okno">
 <!ENTITY zoomWindow.label "Přiblížit">

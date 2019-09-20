@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Faili valimine...">
 <!ENTITY zotero.file.noneSelected.label "Faili ei ole valitud">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Tühistada">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Kustutada">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Värskenda">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Salvestada kui...">
 <!ENTITY zotero.general.selectAll "Valida kõik">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.import "Import">

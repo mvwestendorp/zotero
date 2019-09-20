@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Elegir archivo...">
 <!ENTITY zotero.file.noneSelected.label "Ningún archivo seleccionado">
 <!ENTITY zotero.general.advancedOptions.label "Opciones avanzadas">
+<!ENTITY zotero.general.bigger "Más grande">
 <!ENTITY zotero.general.cancel "Cancelar">
 <!ENTITY zotero.general.close "Cerrar">
 <!ENTITY zotero.general.delete "Borrar">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Opciones">
 <!ENTITY zotero.general.other "Otros...">
 <!ENTITY zotero.general.refresh "Actualizar">
+<!ENTITY zotero.general.reset "Reiniciar">
 <!ENTITY zotero.general.saveAs "Guardar como…">
 <!ENTITY zotero.general.selectAll "Seleccionar todo">
+<!ENTITY zotero.general.smaller "Más pequeño">
 <!ENTITY zotero.general.tools "Herramientas">
 <!ENTITY zotero.general.yes "Sí">
 <!ENTITY zotero.import "Importar">

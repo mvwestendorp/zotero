@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "U">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Užverti">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Kopijuoti bibliografiją">
 <!ENTITY copyCitationCmd.label "Kopijuoti citatą">
 <!ENTITY copyCmd.accesskey "K">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Importuoti iškarpinės turinį">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Install Browser Connector">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "r">
 <!ENTITY minimizeWindow.label "Suskleisti">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "n">
 <!ENTITY pageSetupCmd.label "Puslapio nuostatos...">
 <!ENTITY pasteCmd.accesskey "d">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Baigti darbą su Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "I">
 <!ENTITY quitApplicationCmdWin.label "Išeiti">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "t">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Atstatyti">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "Pažymėti viską">
 <!ENTITY servicesMenuMac.label "Paslaugos">
 <!ENTITY showAllAppsCmdMac.label "Rodyti visus">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "P">
 <!ENTITY toolsMenu.label "Priemonės">
 <!ENTITY undoCmd.accesskey "A">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Atšaukti">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "Langas">
 <!ENTITY zoomWindow.label "Mastelis">
