@@ -29,6 +29,10 @@ Components.utils.import("resource://gre/modules/Services.jsm");
  * This object contains the various functions for the interface
  */
 const ZoteroStandalone = new function() {
+	const FONT_SIZES = ["1.0", "1.15", "1.3", "1.5", "1.7", "1.9", "2.1"];
+	//const NOTE_FONT_SIZES = ["11", "12", "13", "14", "18", "24", "36", "48", "64", "72", "96"];
+	const NOTE_FONT_SIZE_DEFAULT = "12";
+	
 	/**
 	 * Run when standalone window first opens
 	 */
@@ -87,6 +91,23 @@ const ZoteroStandalone = new function() {
 		});
 	}
 	
+	
+	this.onFileMenuOpen = function () {
+		var active = false;
+		try {
+			let zp = Zotero.getActiveZoteroPane();
+			if (zp) {
+				active = !!zp.getSelectedItems().filter((item) => {
+					return item.isAttachment()
+						|| (item.isRegularItem() && item.getAttachments().length);
+				}).length;
+			}
+		}
+		catch (e) {}
+		this.updateMenuItemEnabled('manage-attachments-menu', active);
+	};
+	
+	
 	/**
 	 * Builds new item menu
 	 */
@@ -134,6 +155,43 @@ const ZoteroStandalone = new function() {
 	}
 	
 	
+	this.onManageAttachmentsMenuOpen = function () {
+		// Convert Linked Files to Stored Files
+		var active = false;
+		try {
+			let zp = Zotero.getActiveZoteroPane();
+			if (zp) {
+				active = !!zp.getSelectedItems().filter((item) => {
+					return item.isLinkedFileAttachment()
+						|| (item.isRegularItem()
+							&& item.getAttachments()
+								.map(id => Zotero.Items.get(id))
+								.some(att => att.isLinkedFileAttachment()));
+				}).length;
+			}
+		}
+		catch (e) {}
+		this.updateMenuItemEnabled('file-menuitem-convert-to-stored', active);
+	};
+	
+	
+	this.onManageAttachmentsMenuItemClick = function (event) {
+		var menuitem = event.originalTarget;
+		var id = menuitem.id;
+		var prefix = 'file-menuitem-';
+		if (menuitem.disabled || !id.startsWith(prefix)) {
+			return;
+		}
+		id = id.substr(prefix.length);
+		
+		switch (id) {
+			case 'convert-to-stored':
+				ZoteroPane.convertLinkedFilesToStoredFiles();
+				break;
+		}
+	};
+	
+	
 	this.updateQuickCopyOptions = function () {
 		var selected = false;
 		try {
@@ -170,6 +228,219 @@ const ZoteroStandalone = new function() {
 				}
 				copyExport.hidden = true;
 			}
+		}
+	};
+	
+	
+	this.onViewMenuOpen = function () {
+		// Layout mode
+		var mode = Zotero.Prefs.get('layout');
+		this.updateMenuItemCheckmark('view-menuitem-standard', mode != 'stacked');
+		this.updateMenuItemCheckmark('view-menuitem-stacked', mode == 'stacked');
+		
+		// Panes
+		this.updateMenuItemCheckmark(
+			'view-menuitem-collections-pane',
+			document.getElementById('zotero-collections-pane').getAttribute('collapsed') != 'true'
+		);
+		this.updateMenuItemCheckmark(
+			'view-menuitem-item-pane',
+			document.getElementById('zotero-item-pane').getAttribute('collapsed') != 'true'
+		);
+		this.updateMenuItemCheckmark(
+			'view-menuitem-tag-selector',
+			document.getElementById('zotero-tag-selector-container').getAttribute('collapsed') != 'true'
+		);
+		
+		// Font size
+		var fontSize = Zotero.Prefs.get('fontSize');
+		this.updateMenuItemEnabled('view-menuitem-font-size-bigger', fontSize < FONT_SIZES[FONT_SIZES.length - 1]);
+		this.updateMenuItemEnabled('view-menuitem-font-size-smaller', fontSize > FONT_SIZES[0]);
+		this.updateMenuItemEnabled('view-menuitem-font-size-reset', fontSize != FONT_SIZES[0]);
+		
+		var noteFontSize = Zotero.Prefs.get('note.fontSize');
+		for (let menuitem of document.querySelectorAll(`#note-font-size-menu menuitem`)) {
+			if (parseInt(menuitem.getAttribute('label')) == noteFontSize) {
+				menuitem.setAttribute('checked', true);
+			}
+			else {
+				menuitem.removeAttribute('checked');
+			}
+		}
+		this.updateMenuItemEnabled(
+			'view-menuitem-note-font-size-reset',
+			noteFontSize != NOTE_FONT_SIZE_DEFAULT
+		);
+		
+		// Recursive collections
+		this.updateMenuItemCheckmark(
+			'view-menuitem-recursive-collections',
+			Zotero.Prefs.get('recursiveCollections')
+		);
+	};
+	
+	
+	this.onViewMenuItemClick = function (event) {
+		var menuitem = event.originalTarget;
+		var id = menuitem.id;
+		var prefix = 'view-menuitem-';
+		if (menuitem.disabled || !id.startsWith(prefix)) {
+			return;
+		}
+		id = id.substr(prefix.length);
+		
+		switch (id) {
+			case 'standard':
+				Zotero.Prefs.set('layout', 'standard');
+				break;
+			
+			case 'stacked':
+				Zotero.Prefs.set('layout', 'stacked');
+				break;
+			
+			case 'collections-pane':
+				// Show
+				if (menuitem.getAttribute('checked') != 'true') {
+					document.getElementById('zotero-collections-splitter').setAttribute('state', 'open');
+					document.getElementById('zotero-collections-pane').setAttribute('collapsed', false);
+				}
+				// Hide
+				else {
+					document.getElementById('zotero-collections-splitter').setAttribute('state', 'collapsed');
+					document.getElementById('zotero-collections-pane').setAttribute('collapsed', true);
+				}
+				ZoteroPane.updateToolbarPosition();
+				break;
+			
+			case 'item-pane':
+				// Show
+				if (menuitem.getAttribute('checked') != 'true') {
+					document.getElementById('zotero-items-splitter').setAttribute('state', 'open');
+					document.getElementById('zotero-item-pane').setAttribute('collapsed', false);
+				}
+				// Hide
+				else {
+					document.getElementById('zotero-items-splitter').setAttribute('state', 'collapsed');
+					document.getElementById('zotero-item-pane').setAttribute('collapsed', true);
+				}
+				ZoteroPane.updateToolbarPosition();
+				break;
+			
+			case 'tag-selector':
+				ZoteroPane.toggleTagSelector();
+				break;
+			
+			case 'font-size-bigger':
+				increaseFontSize('fontSize', FONT_SIZES);
+				break;
+			
+			case 'font-size-smaller':
+				decreaseFontSize('fontSize', FONT_SIZES);
+				break;
+			
+			case 'font-size-reset':
+				Zotero.Prefs.clear('fontSize');
+				break;
+			
+			/*case 'note-font-size-bigger':
+				increaseFontSize('note.fontSize', NOTE_FONT_SIZES);
+				break;
+			
+			case 'note-font-size-smaller':
+				decreaseFontSize('note.fontSize', NOTE_FONT_SIZES);
+				break;
+			*/
+			
+			case 'note-font-size-reset':
+				Zotero.Prefs.clear('note.fontSize');
+				this.promptForRestart();
+				break;
+			
+			case 'recursive-collections':
+				this.toggleBooleanPref('recursiveCollections');
+				break;
+		}
+	};
+	
+	
+	this.updateMenuItemCheckmark = function (id, checked) {
+		var menuitem = document.getElementById(id);
+		if (checked) {
+			menuitem.setAttribute('checked', true);
+		}
+		else {
+			menuitem.removeAttribute('checked');
+		}
+	};
+	
+	
+	this.updateMenuItemEnabled = function (id, enabled) {
+		var menuitem = document.getElementById(id);
+		if (enabled) {
+			menuitem.removeAttribute('disabled');
+		}
+		else {
+			menuitem.setAttribute('disabled', true);
+		}
+	};
+	
+	
+	this.toggleBooleanPref = function (pref) {
+		Zotero.Prefs.set(pref, !Zotero.Prefs.get(pref));
+	};
+	
+	
+	function decreaseFontSize(pref, sizes) {
+		var fontSize = Zotero.Prefs.get(pref);
+		var lastSize = fontSize;
+		// Get the highest font size below the current one
+		for (let i = sizes.length - 1; i >= 0; i--) {
+			if (fontSize > sizes[i]) {
+				lastSize = sizes[i];
+				break;
+			}
+		}
+		Zotero.Prefs.set(pref, lastSize);
+	}
+	
+	function increaseFontSize(pref, sizes) {
+		var fontSize = Zotero.Prefs.get(pref);
+		var lastSize = fontSize;
+		// Get the font size above the current one
+		for (let i = 0; i < sizes.length; i++) {
+			if (sizes[i] > fontSize) {
+				lastSize = sizes[i];
+				break;
+			}
+		}
+		Zotero.Prefs.set(pref, lastSize);
+	}
+	
+	
+	this.updateNoteFontSize = function (event) {
+		var size = event.originalTarget.getAttribute('label');
+		Zotero.Prefs.set('note.fontSize', size);
+		this.promptForRestart();
+	};
+	
+	
+	this.promptForRestart = function () {
+		// Prompt to restart
+		var ps = Services.prompt;
+		var buttonFlags = ps.BUTTON_POS_0 * ps.BUTTON_TITLE_IS_STRING
+			+ ps.BUTTON_POS_1 * ps.BUTTON_TITLE_IS_STRING;
+		var index = ps.confirmEx(
+			null,
+			Zotero.getString('general.restartRequired'),
+			Zotero.getString('general.restartRequiredForChange', [ZOTERO_CONFIG.CLIENT_NAME]),
+			buttonFlags,
+			Zotero.getString('general.restartNow'),
+			Zotero.getString('general.restartLater'),
+			null, null, {}
+		);
+		
+		if (index == 0) {
+			Zotero.Utilities.Internal.quitZotero(true);
 		}
 	};
 	

@@ -656,7 +656,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 							Zotero.getString('general.error'),
 							Zotero.startupError,
 							buttonFlags,
-							Zotero.getString('general.checkForUpdate'),
+							Zotero.getString('general.checkForUpdates'),
 							null,
 							Zotero.getString('general.moreInformation'),
 							null,
@@ -664,49 +664,8 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 						);
 						
 						// "Check for Update" button
-						if(index === 0) {
-							if(Zotero.isStandalone) {
-								Components.classes["@mozilla.org/embedcomp/window-watcher;1"]
-									.getService(Components.interfaces.nsIWindowWatcher)
-									.openWindow(null, 'chrome://mozapps/content/update/updates.xul',
-										'updateChecker', 'chrome,centerscreen,modal', null);
-							} else {
-								// In Firefox, show the add-on manager
-								Components.utils.import("resource://gre/modules/AddonManager.jsm");
-								AddonManager.getAddonByID(ZOTERO_CONFIG['GUID'],
-									function (addon) {
-										// Disable auto-update so that the user is presented with the option
-										var initUpdateState = addon.applyBackgroundUpdates;
-										addon.applyBackgroundUpdates = AddonManager.AUTOUPDATE_DISABLE;
-										addon.findUpdates({
-												onNoUpdateAvailable: function() {
-													ps.alert(
-														null,
-														Zotero.getString('general.noUpdatesFound'),
-														Zotero.getString('general.isUpToDate', 'Zotero')
-													);
-												},
-												onUpdateAvailable: function() {
-													// Show available update
-													Components.classes["@mozilla.org/appshell/window-mediator;1"]
-														.getService(Components.interfaces.nsIWindowMediator)
-														.getMostRecentWindow('navigator:browser')
-														.BrowserOpenAddonsMgr('addons://updates/available');
-												},
-												onUpdateFinished: function() {
-													// Restore add-on auto-update state, but don't fire
-													//  too quickly or the update will not show in the
-													//  add-on manager
-													setTimeout(function() {
-															addon.applyBackgroundUpdates = initUpdateState;
-													}, 1000);
-												}
-											},
-											AddonManager.UPDATE_WHEN_USER_REQUESTED
-										);
-									}
-								);
-							}
+						if (index === 0) {
+							Zotero.openCheckForUpdatesWindow();
 						}
 						// Load More Info page
 						else if (index == 2) {
@@ -1018,6 +977,12 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	}
 	
 	
+	this.openCheckForUpdatesWindow = function () {
+		Services.ww.openWindow(null, 'chrome://mozapps/content/update/updates.xul',
+			'updateChecker', 'chrome,centerscreen,modal', null);
+	};
+	
+	
 	/**
 	 * Launch a file, the best way we can
 	 */
@@ -1232,7 +1197,7 @@ Services.scriptloader.loadSubScript("resource://zotero/polyfill.js");
 	
 	
 	this.warn = function (err) {
-		Zotero.debug(err, 2);
+		Zotero.debug(err + "\n\n" + Zotero.Utilities.Internal.filterStack(new Error().stack), 2);
 		log(err.message ? err.message : err.toString(), "warning",
 			err.fileName ? err.fileName : (err.filename ? err.filename : null), null,
 			err.lineNumber ? err.lineNumber : null, null);

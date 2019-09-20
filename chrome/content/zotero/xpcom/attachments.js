@@ -509,7 +509,8 @@ Zotero.Attachments = new function(){
 			return process(contentType, Zotero.MIME.hasNativeHandler(contentType));
 		}
 		
-		return Zotero.MIME.getMIMETypeFromURL(url, cookieSandbox).spread(process);
+		var args = yield Zotero.MIME.getMIMETypeFromURL(url, cookieSandbox);
+		return process(...args);
 	});
 	
 	
@@ -2357,6 +2358,88 @@ Zotero.Attachments = new function(){
 		yield newAttachment.addLinkedItem(attachment);
 		return newAttachment.id;
 	});
+	
+	
+	this.convertLinkedFileToStoredFile = async function (item, options = {}) {
+		if (item.attachmentLinkMode != Zotero.Attachments.LINK_MODE_LINKED_FILE) {
+			throw new Error("Not a linked-file attachment");
+		}
+		
+		var file = await item.getFilePathAsync();
+		if (!file) {
+			Zotero.debug("Linked file not found at " + file);
+			return false;
+		}
+		
+		var json = item.toJSON();
+		json.linkMode = 'imported_file';
+		delete json.path;
+		json.filename = OS.Path.basename(file);
+		var newItem = new Zotero.Item('attachment');
+		newItem.libraryID = item.libraryID;
+		newItem.fromJSON(json);
+		await newItem.saveTx();
+		
+		await Zotero.Relations.copyObjectSubjectRelations(item, newItem);
+		
+		var newFile;
+		try {
+			// Transfer file
+			let destDir = await this.createDirectoryForItem(newItem);
+			newFile = OS.Path.join(destDir, json.filename);
+			if (options.move) {
+				newFile = await Zotero.File.moveToUnique(file, newFile);
+			}
+			// Copy file to unique filename, which automatically shortens long filenames
+			else {
+				newFile = Zotero.File.copyToUnique(file, newFile);
+				// TEMP: copyToUnique returns an nsIFile
+				newFile = newFile.path;
+				await Zotero.File.setNormalFilePermissions(newFile);
+				let mtime = (await OS.File.stat(file)).lastModificationDate;
+				await OS.File.setDates(newFile, null, mtime);
+			}
+		}
+		catch (e) {
+			Zotero.logError(e);
+			// Delete new file
+			if (newFile) {
+				try {
+					await Zotero.File.removeIfExists(newFile);
+				}
+				catch (e) {
+					Zotero.logError(e);
+				}
+			}
+			// Delete new item
+			try {
+				await newItem.eraseTx();
+			}
+			catch (e) {
+				Zotero.logError(e);
+			}
+			return false;
+		}
+		
+		try {
+			await Zotero.DB.executeTransaction(async function () {
+				await Zotero.Fulltext.transferItemIndex(item, newItem);
+			});
+		}
+		catch (e) {
+			Zotero.logError(e);
+		}
+		
+		if (newFile && json.filename != OS.Path.basename(newFile)) {
+			Zotero.debug("Filename was changed");
+			newItem.attachmentFilename = OS.Path.basename(newFile);
+			await newItem.saveTx();
+		}
+		
+		await item.eraseTx();
+		
+		return newItem;
+	};
 	
 	
 	this._getFileNameFromURL = function(url, contentType) {
