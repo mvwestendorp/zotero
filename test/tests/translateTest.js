@@ -960,7 +960,7 @@ describe("Zotero.Translate", function() {
 	
 	
 	describe("#setTranslatorProvider()", function () {
-		var url = "http://127.0.0.1:23119/test/translate/test.html";
+		var url = "http://127.0.0.1:24119/test/translate/test.html";
 		var doc;
 		
 		beforeEach(function* () {
@@ -974,7 +974,7 @@ describe("Zotero.Translate", function() {
 				translatorID: "e6111720-1f6c-42b0-a487-99b9fa50b8a1",
 				label: "Test",
 				creator: "Creator",
-				target: "^http:\/\/127.0.0.1:23119\/test",
+				target: "^http:\/\/127.0.0.1:24119\/test",
 				minVersion: "5.0",
 				maxVersion: "",
 				priority: 100,
@@ -1028,7 +1028,7 @@ describe("Zotero.Translate", function() {
 				translatorID: "e6111720-1f6c-42b0-a487-99b9fa50b8a1",
 				label: "Test",
 				creator: "Creator",
-				target: "^http:\/\/127.0.0.1:23119\/test",
+				target: "^http:\/\/127.0.0.1:24119\/test",
 				minVersion: "5.0",
 				maxVersion: "",
 				priority: 100,

@@ -23,7 +23,7 @@ Zotero.Jurism.EXTENDED = {
 		"bill": ["translator"],
 		"gazette": ["translator"],
 		"regulation": ["translator"],
-		"commenter": ["commenter"]
+		"case": ["commenter"]
 	},
 
 	FIELDS: {

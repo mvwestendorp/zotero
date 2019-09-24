@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Vybrať súbor">
 <!ENTITY zotero.file.noneSelected.label "Nie je označený žiaden súbor">
 <!ENTITY zotero.general.advancedOptions.label "Rozšírené možnosti">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Zrušiť">
 <!ENTITY zotero.general.close "Zavrieť">
 <!ENTITY zotero.general.delete "Vymazať">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Možnosti">
 <!ENTITY zotero.general.other "Iné...">
 <!ENTITY zotero.general.refresh "Obnoviť">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Uložiť ako...">
 <!ENTITY zotero.general.selectAll "Označiť všetko">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Nástroje">
 <!ENTITY zotero.general.yes "Áno">
 <!ENTITY zotero.import "Import">

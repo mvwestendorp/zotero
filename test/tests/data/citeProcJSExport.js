@@ -150,7 +150,7 @@
 		"references": "History",
 		"title-short": "Short title",
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"author": [
 			{
 				"family": "sponsorLast",
@@ -435,7 +435,7 @@
 		"references": "History",
 		"title-short": "Short title",
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"author": [
 			{
 				"family": "authorLast",
@@ -1048,7 +1048,7 @@
 		"references": "History",
 		"title-short": "Short title",
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"author": [
 			{
 				"family": "contributorLast",
@@ -1651,7 +1651,7 @@
 		"references": "References",
 		"title-short": "Short title",
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"status": "Legal status",
 		"author": [
 			{
@@ -1940,7 +1940,7 @@
 		"references": "History",
 		"title-short": "Short title",
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"author": [
 			{
 				"family": "authorLast",

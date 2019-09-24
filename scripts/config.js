@@ -14,6 +14,8 @@ const symlinkDirs = [
 	'chrome/content/zotero/xpcom/rdf',
 	'styles',
 	'style-modules',
+	'juris-maps',
+	'juris-abbrevs',
 	'translators'
 ];
 

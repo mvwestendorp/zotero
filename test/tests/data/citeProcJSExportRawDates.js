@@ -129,7 +129,7 @@
 				}
 			}
 		],
-        "jurisdiction": "us",
+        "jurisdiction": "zz",
 		"authority": "Legislative body",
 		"chapter-number": "Session",
 		"container-title": "Code",
@@ -378,7 +378,7 @@
 		"issued": {
 			"raw": "1999-12-31"
 		},
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"language": "en-US",
 		"note": "Extra",
 		"number": "3",
@@ -890,7 +890,7 @@
 			"raw": "1999-12-31"
 		},
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"note": "Extra",
 		"number": "3",
 		"number-of-volumes": "7",
@@ -1397,7 +1397,7 @@
 			"raw": "1999-12-31"
 		},
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"note": "Extra",
 		"number": "3",
 		"page": "1-10",
@@ -1631,7 +1631,7 @@
 		"issued": {
 			"raw": "1999-12-31"
 		},
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"language": "en-US",
 		"note": "Extra",
 		"number": "3",

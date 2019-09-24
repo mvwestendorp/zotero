@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "닫기">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "서지 복사">
 <!ENTITY copyCitationCmd.label "인용 복사">
 <!ENTITY copyCmd.accesskey "C">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "클립보드에서 불러오기">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "브라우저 중계기 설치">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "최소화">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "페이지 …">
 <!ENTITY pasteCmd.accesskey "P">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Zotero 종료">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "종료">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "다시 실행">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "모두 선택">
 <!ENTITY servicesMenuMac.label "서비스">
 <!ENTITY showAllAppsCmdMac.label "모두 보이기">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "도구">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "되돌리기">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "창">
 <!ENTITY zoomWindow.label "크기 조정">

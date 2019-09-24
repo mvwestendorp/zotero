@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "اختر الملف...">
 <!ENTITY zotero.file.noneSelected.label "لم يتم تحديد ملف">
 <!ENTITY zotero.general.advancedOptions.label "خيارات متقدمة">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "الغاء">
 <!ENTITY zotero.general.close "أغلق">
 <!ENTITY zotero.general.delete "حذف">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "خيارات">
 <!ENTITY zotero.general.other "غير ذلك...">
 <!ENTITY zotero.general.refresh "اعادة تحميل">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "حفظ باسم...">
 <!ENTITY zotero.general.selectAll "تحديد الكل">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "أدوات">
 <!ENTITY zotero.general.yes "نعم">
 <!ENTITY zotero.import "استيراد">

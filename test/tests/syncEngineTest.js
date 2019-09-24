@@ -4094,7 +4094,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				assert.equal(mergeGroup.rightpane.getAttribute('selected'), 'true');
 				assert.equal(
 					resolveAll.label,
-					Zotero.getString('sync.conflict.resolveAllRemoteFields')
+					Zotero.getString('sync.conflict.resolveAllRemote')
 				);
 				wizard.getButton('next').click();
 				
@@ -4103,7 +4103,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				mergeGroup.leftpane.click();
 				assert.equal(
 					resolveAll.label,
-					Zotero.getString('sync.conflict.resolveAllLocalFields')
+					Zotero.getString('sync.conflict.resolveAllLocal')
 				);
 				resolveAll.click();
 				
@@ -4216,7 +4216,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				assert.equal(mergeGroup.rightpane.getAttribute('selected'), 'true');
 				assert.equal(
 					resolveAll.label,
-					Zotero.getString('sync.conflict.resolveAllRemoteFields')
+					Zotero.getString('sync.conflict.resolveAllRemote')
 				);
 				wizard.getButton('next').click();
 				
@@ -4224,7 +4224,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				assert.equal(mergeGroup.rightpane.getAttribute('selected'), 'true');
 				assert.equal(
 					resolveAll.label,
-					Zotero.getString('sync.conflict.resolveAllRemoteFields')
+					Zotero.getString('sync.conflict.resolveAllRemote')
 				);
 				resolveAll.click();
 				
@@ -4471,7 +4471,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 			assert.ok(yield Zotero.Sync.Data.Local.getDateDeleted('item', libraryID, key));
 		});
 		
-		it("should handle remote move to trash and local deletion", function* () {
+		it("should delete locally trashed item on remote deletion", function* () {
 			var libraryID = Zotero.Libraries.userLibraryID;
 			({ engine, client, caller } = yield setup());
 			var type = 'item';

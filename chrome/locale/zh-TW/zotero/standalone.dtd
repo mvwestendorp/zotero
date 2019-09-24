@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "關閉 (C)">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "複製參考文獻表">
 <!ENTITY copyCitationCmd.label "複製成引用文獻條">
 <!ENTITY copyCmd.accesskey "C">
@@ -42,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -81,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "從剪貼簿匯入">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "安裝瀏覽器資料庫連結器">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "最小化">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "頁面設定…">
 <!ENTITY pasteCmd.accesskey "P">
@@ -105,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "結束 Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "X">
 <!ENTITY quitApplicationCmdWin.label "退出 (X)">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "復原撤消 (R)">
@@ -116,10 +124,14 @@
 <!ENTITY selectAllCmd.label "全選">
 <!ENTITY servicesMenuMac.label "服務">
 <!ENTITY showAllAppsCmdMac.label "顯示全部">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "工具 (T)">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "撤消 (U)">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "視窗">
 <!ENTITY zoomWindow.label "縮放">

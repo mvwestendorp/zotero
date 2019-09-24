@@ -36,7 +36,7 @@ Zotero.StyleModules = new function() {
 		
 		_initializationDeferred = Zotero.Promise.defer();
 		
-		Zotero.debug("Initializing styles");
+		Zotero.debug("Initializing style modules");
 		var start = new Date;
 		
 		_styleModules = {};
@@ -53,14 +53,6 @@ Zotero.StyleModules = new function() {
 	
 	this.reinit = function (options = {}) {
 		return this.init(Object.assign({}, options, { reinit: true }));
-	};
-	
-	// This is used by bibliography.js to work around a weird interaction between Bluebird and modal
-	// dialogs in tests. Calling `yield Zotero.Styles.init()` from `Zotero_File_Interface_Bibliography.init()`
-	// in the modal Create Bibliography dialog results in a hang, so instead use a synchronous check for
-	// initialization. The hang doesn't seem to happen (at least in the same way) outside of tests.
-	this.initialized = function () {
-		return _initialized;
 	};
 	
 	/**
@@ -122,9 +114,6 @@ Zotero.StyleModules = new function() {
 		if (!_initialized) {
 			throw new Zotero.Exception.UnloadedDataException("Styles not yet loaded (1)", 'styles');
 		}
-		
-		var prefix = "http://juris-m.github.io/jm-styles/";
-		var shortName = id.replace(prefix, "");
 		return _styleModules[id] || false;
 	};
 }
@@ -140,6 +129,7 @@ Zotero.StyleModule = function (id, path) {
 		this.fileName = OS.Path.basename(path);
 	}
 	this.styleModuleID = id;
+	this.title = id;
 }
 
 /**

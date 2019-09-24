@@ -68,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "انتخاب پرونده...">
 <!ENTITY zotero.file.noneSelected.label "هیچ پرونده‌ای انتخاب نشده است">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "انصراف">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "حذف">
@@ -83,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Refresh">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Save As…">
 <!ENTITY zotero.general.selectAll "انتخاب همه">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.import "Import">

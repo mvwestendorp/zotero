@@ -54,13 +54,17 @@ Zotero.Schema = new function(){
 	this.dbInitialized = false;
 	this.goToChangeLog = false;
 	
+	this.REPO_UPDATE_PERIODIC = 0;
 	this.REPO_UPDATE_MANUAL = 1;
-	this.REPO_UPDATE_UPGRADE = 2;
+	this.REPO_UPDATE_INITIAL = 2;
 	this.REPO_UPDATE_STARTUP = 3;
 	this.REPO_UPDATE_NOTIFICATION = 4;
 	
 	var _schemaUpdateDeferred = Zotero.Promise.defer();
 	this.schemaUpdatePromise = _schemaUpdateDeferred.promise;
+	
+	const REPOSITORY_CHECK_INTERVAL = 86400;
+	const REPOSITORY_RETRY_INTERVAL = 3600;
 	
 	// If updating from this userdata version or later, don't show "Upgrading database…" and don't make
 	// DB backup first. This should be set to false when breaking compatibility or making major changes.
@@ -133,7 +137,7 @@ Zotero.Schema = new function(){
 					await this.updateBundledFiles();
 					if (Zotero.Prefs.get('automaticScraperUpdates')) {
 						try {
-							await this.updateFromRepository(this.REPO_UPDATE_UPGRADE);
+							await this.updateFromRepository(this.REPO_UPDATE_INITIAL);
 						}
 						catch (e) {
 							Zotero.logError(e);
@@ -574,7 +578,12 @@ Zotero.Schema = new function(){
 	this.updateBundledFiles = Zotero.Promise.coroutine(function* (mode) {
 		if (Zotero.skipBundledFiles) {
 			Zotero.debug("Skipping bundled file installation");
-			return;
+			if ("undefined" === typeof mode) {
+				Zotero.debug("(Erm, except for juris-maps)");
+				mode = 'juris-maps';
+			} else {
+				return;
+			}
 		}
 		
 		if (_localUpdateInProgress) {
@@ -638,6 +647,16 @@ Zotero.Schema = new function(){
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
 				break;
 			
+			case 'juris-maps':
+				yield Zotero.JurisMaps.init(initOpts);
+				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
+				break;
+			
+			case 'juris-abbrevs':
+				yield Zotero.JurisMaps.init(initOpts);
+				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
+				break;
+			
 			case 'translators':
 				yield Zotero.Translators.init(initOpts);
 				var updated = yield _updateBundledFilesAtLocation(installLocation, mode);
@@ -650,7 +669,11 @@ Zotero.Schema = new function(){
 				let up2 = yield _updateBundledFilesAtLocation(installLocation, 'styles');
 				yield Zotero.StyleModules.init(initOpts);
 				let up3 = yield _updateBundledFilesAtLocation(installLocation, 'style-modules');
-				var updated = up1 || up2 || up3;
+				yield Zotero.JurisMaps.init(initOpts);
+				let up4 = yield _updateBundledFilesAtLocation(installLocation, 'juris-maps');
+				yield Zotero.JurisAbbrevs.init(initOpts);
+				let up5 = yield _updateBundledFilesAtLocation(installLocation, 'juris-abbrevs');
+				var updated = up1 || up2 || up3 || up4 || up5;
 			}
 		}
 		finally {
@@ -697,6 +720,18 @@ Zotero.Schema = new function(){
 				var destDir = Zotero.getStyleModulesDirectory().path;
 				break;
 			
+			case "juris-maps":
+				var titleField = 'title';
+				var fileExt = ".json";
+				var destDir = Zotero.getJurisMapsDirectory().path;
+				break;
+			
+			case "juris-abbrevs":
+				var titleField = 'title';
+				var fileExt = ".json";
+				var destDir = Zotero.getJurisAbbrevsDirectory().path;
+				break;
+			
 			default:
 				throw new Error("Invalid mode '" + mode + "'");
 		}
@@ -710,6 +745,18 @@ Zotero.Schema = new function(){
 			Mode = "StyleModules";
 			ModeType = "StyleModule";
 			module = "module ";
+		}
+		if (modeType === "juris-map") {
+			modeType = "jurisMap";
+			Mode = "JurisMaps";
+			ModeType = "JurisMap";
+			module = "map ";
+		}
+		if (modeType === "juris-abbrev") {
+			modeType = "jurisAbbrev";
+			Mode = "JurisAbbrevs";
+			ModeType = "JurisAbbrev";
+			module = "abbrevs ";
 		}
 		
 		var repotime = yield Zotero.File.getResourceAsync("resource://zotero/schema/repotime.txt");
@@ -949,7 +996,13 @@ Zotero.Schema = new function(){
 			}
 			else {
 				// Styles and style modules
-				let entries = xpiZipReader.findEntries(mode + '/*.csl');
+				var ext;
+				if (["juris-abbrevs", "juris-maps"].indexOf(mode) > -1) {
+					ext = ".json";
+				} else {
+					ext = ".csl";
+				}
+				let entries = xpiZipReader.findEntries(mode + '/*' + ext);
 				while (entries.hasMore()) {
 					let entry = entries.getNext();
 					let fileName = entry.substr(entry.indexOf('/') + 1); // strip 'styles/' or 'style-modules/'
@@ -959,6 +1012,12 @@ Zotero.Schema = new function(){
 					if (mode == 'styles') {
 						var code = yield Zotero.File.getContentsAsync(tmpFile);
 						var newObj = new Zotero[ModeType](code);
+					} else if (mode == 'juris-maps') {
+						var id = fileName.slice(0, -5);
+						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
+					} else if (mode == 'juris-abbrevs') {
+						var id = fileName.slice(0, -5);
+						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
 					} else {
 						var id = fileName.slice(0, -4);
 						var newObj = new Zotero[ModeType](id, OS.Path.join(destDir, fileName));
@@ -980,6 +1039,9 @@ Zotero.Schema = new function(){
 					else {
 						yield OS.File.move(tmpFile, OS.Path.join(hiddenDir, fileName));
 					}
+				}
+				if (mode === "juris-maps") {
+					yield Zotero.JurisMaps.populateJurisdictions();
 				}
 			}
 			
@@ -1053,6 +1115,13 @@ Zotero.Schema = new function(){
 					
 					for (let i = 0; i < entries.length; i++) {
 						let entry = entries[i];
+						if (mode === 'juris-maps') {
+							if (!Zotero.test && ['juris-zz-map.json', 'versions-zz.json'].indexOf(entry.name) > -1) {
+								continue;
+							} else if (Zotero.test && ['juris-zz-map.json', 'versions-zz.json'].indexOf(entry.name) === -1) {
+								continue;
+							}
+						}
 						if (!entry.name.match(fileNameRE) || entry.isDir) {
 							continue;
 						}
@@ -1063,7 +1132,12 @@ Zotero.Schema = new function(){
 						}
 						else if (mode == 'style-modules') {
 							newObj = new Zotero.StyleModule(entry.name.slice(0, -4), entry.path);
-							// XXX SO FAR SO GOOD
+						}
+						else if (mode == 'juris-maps') {
+							newObj = new Zotero.JurisMap(entry.name.slice(0, -5), entry.path);
+						}
+						else if (mode == 'juris-abbrevs') {
+							newObj = new Zotero.JurisAbbrev(entry.name.slice(0, -5), entry.path);
 						}
 						else if (mode == 'translators') {
 							newObj = yield Zotero.Translators.loadFromFile(entry.path);
@@ -1071,7 +1145,6 @@ Zotero.Schema = new function(){
 						else {
 							throw new Error("Invalid mode '" + mode + "'");
 						}
-						Zotero.debug("XXX Mode WTF? "+Mode, 1);
 						let existingObj = Zotero[Mode].get(newObj[modeType + "ID"]);
 						if (!existingObj) {
 							Zotero.debug("Installing " + modeType + " '" + newObj[titleField] + "'");
@@ -1093,6 +1166,12 @@ Zotero.Schema = new function(){
 							fileName = entry.name;
 						}
 						else if (mode == 'style-modules') {
+							fileName = entry.name;
+						}
+						else if (mode === 'juris-maps') {
+							fileName = entry.name;
+						}
+						else if (mode === 'juris-abbrevs') {
 							fileName = entry.name;
 						}
 						
@@ -1132,6 +1211,10 @@ Zotero.Schema = new function(){
 			}
 			finally {
 				iterator.close();
+			}
+			if (mode === "juris-maps") {
+				yield Zotero.JurisMaps.init({fromSchemaUpdate: true});
+				yield Zotero.JurisMaps.populateJurisdictions();
 			}
 		}
 		
@@ -1186,10 +1269,10 @@ Zotero.Schema = new function(){
 	/**
 	 * Send XMLHTTP request for updated translators and styles to the central repository
 	 *
-	 * @param {Integer} [force=0]	 - If non-zero, force a repository query regardless of how long it's
+	 * @param {Integer} [mode=0] - If non-zero, force a repository query regardless of how long it's
 	 *     been since the last check. Should be a REPO_UPDATE_* constant.
 	 */
-	this.updateFromRepository = Zotero.Promise.coroutine(function* (force = 0) {
+	this.updateFromRepository = Zotero.Promise.coroutine(function* (mode = 0) {
 		if (Zotero.skipBundledFiles) {
 			Zotero.debug("No bundled files -- skipping repository update");
 			return;
@@ -1200,7 +1283,7 @@ Zotero.Schema = new function(){
 			return false;
 		}
 		
-		if (!force) {
+		if (mode == this.REPO_UPDATE_PERIODIC) {
 			// Check user preference for automatic updates
 			if (!Zotero.Prefs.get('automaticScraperUpdates')) {
 				Zotero.debug('Automatic repository updating disabled -- not checking repository', 4);
@@ -1210,7 +1293,7 @@ Zotero.Schema = new function(){
 			// Determine the earliest local time that we'd query the repository again
 			let lastCheck = yield this.getDBVersion('lastcheck');
 			let nextCheck = new Date();
-			nextCheck.setTime((lastCheck + ZOTERO_CONFIG.REPOSITORY_CHECK_INTERVAL) * 1000);
+			nextCheck.setTime((lastCheck + REPOSITORY_CHECK_INTERVAL) * 1000);
 			
 			// If enough time hasn't passed, don't update
 			var now = new Date();
@@ -1261,12 +1344,12 @@ Zotero.Schema = new function(){
 				+ (lastUpdated ? 'last=' + lastUpdated + '&' : '')
 				+ 'version=' + Zotero.version;
 			
-			Zotero.debug('Checking repository for updates');
+			Zotero.debug('Checking repository for translator and style updates');
 			
 			_remoteUpdateInProgress = true;
 			
-			if (force) {
-				url += '&m=' + force;
+			if (mode) {
+				url += '&m=' + mode;
 			}
 			
 			// Send list of installed styles
@@ -1289,13 +1372,13 @@ Zotero.Schema = new function(){
 			
 			try {
 				var xmlhttp = yield Zotero.HTTP.request("POST", url, { body: body });
-				updated = yield _handleRepositoryResponse(xmlhttp, force);
+				updated = yield _handleRepositoryResponse(xmlhttp, mode);
 			}
 			catch (e) {
-				if (!force) {
+				if (mode == this.REPO_UPDATE_PERIODIC) {
 					if (e instanceof Zotero.HTTP.UnexpectedStatusException
 							|| e instanceof Zotero.HTTP.BrowserOfflineException) {
-						let msg = " -- retrying in " + ZOTERO_CONFIG.REPOSITORY_RETRY_INTERVAL
+						let msg = " -- retrying in " + REPOSITORY_RETRY_INTERVAL
 						if (e instanceof Zotero.HTTP.BrowserOfflineException) {
 							Zotero.debug("Browser is offline" + msg, 2);
 						}
@@ -1306,7 +1389,7 @@ Zotero.Schema = new function(){
 							Zotero.debug("Error updating from repository " + msg, 1);
 						}
 						// TODO: instead, add an observer to start and stop timer on online state change
-						_setRepositoryTimer(ZOTERO_CONFIG.REPOSITORY_RETRY_INTERVAL);
+						_setRepositoryTimer(REPOSITORY_RETRY_INTERVAL);
 						return;
 					}
 				}
@@ -1318,8 +1401,8 @@ Zotero.Schema = new function(){
 			};
 		}
 		finally {
-			if (!force) {
-				_setRepositoryTimer(ZOTERO_CONFIG.REPOSITORY_RETRY_INTERVAL);
+			if (mode == this.REPO_UPDATE_PERIODIC) {
+				_setRepositoryTimer(REPOSITORY_RETRY_INTERVAL);
 			}
 			_remoteUpdateInProgress = false;
 		}
@@ -1673,9 +1756,6 @@ Zotero.Schema = new function(){
 			yield _getSchemaSQL('jurisdictions').then(function (sql) {
 				return Zotero.DB.executeSQLFile(sql);
 			});
-			if (!Zotero.skipBundledFiles) {
-				yield _populateJurisdictions();
-			}
 			yield _getSchemaSQL('triggers').then(function (sql) {
 				return Zotero.DB.executeSQLFile(sql);
 			});
@@ -1752,97 +1832,7 @@ Zotero.Schema = new function(){
 		}
 		var sql = yield _getSchemaSQL(schema);
 		yield Zotero.DB.executeSQLFile(sql);
-		if (schema === 'jurisdictions') {
-			if (!Zotero.skipBundledFiles) {
-				yield _populateJurisdictions();
-			}
-		}
 		return _updateDBVersion(schema, schemaVersion);
-	});
-	
-	
-	/*
-	 * (re)Populate the jurisdiction table
-	 */
-	var _populateJurisdictions = Zotero.Promise.coroutine(function*() {
-		Zotero.debug("Deleting any previous data in jurisdictions table");
-		yield Zotero.DB.queryAsync('DELETE FROM jurisdictions');
-		Zotero.debug("Populating jurisdictions");
-		var jsonStr = yield Zotero.File.getContentsFromURLAsync("resource://zotero/schema/jurisdictions.json");
-		var jObj = JSON.parse(jsonStr);
-		yield _setJurisdictionData(jObj);
-		yield _setCourtNames(jObj);
-		yield _setCountryCourtLinks(jObj);
-		yield _setCourts(jObj);
-		yield _setCourtJurisdictionLinks(jObj);
-	})
-	
-	var _setJurisdictionData = Zotero.Promise.coroutine(function* (jObj) {
-		var jurisdictionsSql = "INSERT INTO jurisdictions VALUES (?, ?, ?, ?);";
-		var JurisdictionSpider = function(jObj) {
-			this.jObj = jObj;
-			this.jurisdictionIdLst = [];
-			this.jurisdictionNameLst = [];
-		}
-		JurisdictionSpider.prototype.run = function (idx) {
-			var elem = this.jObj.jurisdictions[idx];
-			this.jurisdictionIdLst.push(elem[0]);
-			this.jurisdictionNameLst.push(elem[1]);
-			if (elem.length === 3) {
-			   this.run(elem[2]);
-			}
-			jIdLst = this.jurisdictionIdLst.slice();
-			jIdLst.reverse();
-			jNameLst = this.jurisdictionNameLst.slice();
-			jNameLst.reverse();
-			return [jIdLst.join(":"), jNameLst.join("|")];
-		}
-		for (let i=0,ilen=jObj.jurisdictions.length;i<ilen;i++) {
-			let entry = jObj.jurisdictions[i];
-			if (entry[2]) {
-				let jurisdictionSpider = new JurisdictionSpider(jObj);
-				let jurisdictionData = jurisdictionSpider.run(entry[2]);
-				let entryZero = jurisdictionData[0] + ":" + entry[0];
-				let entryOne = jurisdictionData[1] + "|" + entry[1];
-				let segmentCount = entryOne.split("|").length;
-				yield Zotero.DB.queryAsync(jurisdictionsSql, [i, entryZero, entryOne, segmentCount]);
-			} else {
-				let segmentCount = entry[1].split("|").length;
-				yield Zotero.DB.queryAsync(jurisdictionsSql, [i, entry[0], entry[1], segmentCount])
-			}
-		}
-	});
-
-	var _setCourtNames = Zotero.Promise.coroutine(function* (jObj) {
-		var courtNamesSql = "INSERT INTO courtNames VALUES (?, ?);";
-		for (let i=0,ilen=jObj.courtNames.length;i<ilen;i++) {
-			let entry = jObj.courtNames[i];
-			yield Zotero.DB.queryAsync(courtNamesSql, [i, entry]);
-		}
-	});
-
-	var _setCountryCourtLinks = Zotero.Promise.coroutine(function* (jObj) {
-		var countryCourtLinksSql = "INSERT INTO countryCourtLinks VALUES (?, ?, ?);";
-		for (let i=0,ilen=jObj.countryCourtLinks.length;i<ilen;i++) {
-			let entry = jObj.countryCourtLinks[i];
-			yield Zotero.DB.queryAsync(countryCourtLinksSql, [i, entry[0], entry[1]]);
-		}
-	});
-
-	var _setCourts = Zotero.Promise.coroutine(function* (jObj) {
-		var courtsSql = "INSERT INTO courts VALUES(?, ?, ?);";
-		for (let i=0,ilen=jObj.courts.length;i<ilen;i++) {
-			let entry = jObj.courts[i];
-			yield Zotero.DB.queryAsync(courtsSql, [i, entry[0], entry[1]]);
-		}
-	});
-
-	var _setCourtJurisdictionLinks = Zotero.Promise.coroutine(function* (jObj) {
-		var courtJurisdictionLinksSql = "INSERT INTO courtJurisdictionLinks VALUES (?, ?);";
-		for (let i=0,ilen=jObj.courtJurisdictionLinks.length;i<ilen;i++) {
-			let entry = jObj.courtJurisdictionLinks[i];
-			yield Zotero.DB.queryAsync(courtJurisdictionLinksSql, [entry[0], entry[1]]);
-		}
 	});
 	
 	var _updateCompatibility = Zotero.Promise.coroutine(function* (version) {
@@ -1896,7 +1886,7 @@ Zotero.Schema = new function(){
 	 *
 	 * @return {Promise:Boolean} A promise for whether the update succeeded
 	 **/
-	async function _handleRepositoryResponse(xmlhttp, force) {
+	async function _handleRepositoryResponse(xmlhttp, mode) {
 		if (!xmlhttp.responseXML){
 			try {
 				if (xmlhttp.status>1000){
@@ -1930,8 +1920,8 @@ Zotero.Schema = new function(){
 			});
 			
 			Zotero.debug('All translators and styles are up-to-date');
-			if (!force) {
-				_setRepositoryTimer(ZOTERO_CONFIG.REPOSITORY_CHECK_INTERVAL);
+			if (mode == this.REPO_UPDATE_PERIODIC) {
+				_setRepositoryTimer(REPOSITORY_CHECK_INTERVAL);
 			}
 			return true;
 		}
@@ -1947,8 +1937,9 @@ Zotero.Schema = new function(){
 			}
 			
 			// Rebuild caches
-			await Zotero.Translators.reinit({ fromSchemaUpdate: force != 1 });
-			await Zotero.Styles.reinit({ fromSchemaUpdate: force != 1 });
+			let fromSchemaUpdate = mode != this.REPO_UPDATE_MANUAL;
+			await Zotero.Translators.reinit({ fromSchemaUpdate });
+			await Zotero.Styles.reinit({ fromSchemaUpdate });
 			
 			updated = true;
 		}

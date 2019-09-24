@@ -3,13 +3,14 @@
  * @namespace
  */
 Zotero.HTTP = new function() {
-	this.lastGoogleScholarQueryTime = 0;
-
+	var _errorDelayIntervals = [2500, 5000, 10000, 20000, 40000, 60000, 120000, 240000, 300000];
+	var _errorDelayMax = 60 * 60 * 1000; // 1 hour
+	
 	/**
 	 * Exception returned for unexpected status when promise* is used
 	 * @constructor
 	 */
-	this.UnexpectedStatusException = function (xmlhttp, url, msg) {
+	this.UnexpectedStatusException = function (xmlhttp, url, msg, options = {}) {
 		this.xmlhttp = xmlhttp;
 		this.url = url;
 		this.status = xmlhttp.status;
@@ -18,6 +19,12 @@ Zotero.HTTP = new function() {
 		this.channel = xmlhttp.channel;
 		this.message = msg;
 		this.stack = new Error().stack;
+		
+		if (options) {
+			for (let prop in options) {
+				this[prop] = options[prop];
+			}
+		}
 		
 		// Hide password from debug output
 		//
@@ -73,6 +80,12 @@ Zotero.HTTP = new function() {
 	};
 	this.BrowserOfflineException.prototype = Object.create(Error.prototype);
 
+	this.CancelledException = function () {
+		this.message = "Request cancelled";
+		this.stack = new Error().stack;
+	};
+	this.CancelledException.prototype = Object.create(Error.prototype);
+	
 	this.TimeoutException = function(ms) {
 		this.message = "XMLHttpRequest has timed out after " + ms + "ms";
 		this.stack = new Error().stack;
@@ -110,24 +123,102 @@ Zotero.HTTP = new function() {
 	 * @param {Zotero.CookieSandbox} [options.cookieSandbox] - The sandbox from which cookies should
 	 *     be taken
 	 * @param {Boolean} [options.debug] - Log response text and status code
-	 * @param {Boolean} [options.dontCache] - If set, specifies that the request should not be
+	 * @param {Boolean} [options.noCache] - If set, specifies that the request should not be
 	 *     fulfilled from the cache
+	 * @param {Boolean} [options.dontCache] - Deprecated
 	 * @param {Boolean} [options.foreground] - Make a foreground request, showing
 	 *     certificate/authentication dialogs if necessary
 	 * @param {Number} [options.logBodyLength=1024] - Length of request body to log
-	 * @param {Number} [options.timeout] - Request timeout specified in milliseconds
 	 * @param {Function} [options.requestObserver] - Callback to receive XMLHttpRequest after open()
+	 * @param {Function} [options.cancellerReceiver] - Callback to receive a function to cancel
+	 *     the operation
 	 * @param {String} [options.responseType] - The type of the response. See XHR 2 documentation
 	 *     for legal values
 	 * @param {String} [options.responseCharset] - The charset the response should be interpreted as
 	 * @param {Number[]|false} [options.successCodes] - HTTP status codes that are considered
 	 *     successful, or FALSE to allow all
 	 * @param {Zotero.CookieSandbox} [options.cookieSandbox] - Cookie sandbox object
+	 * @param {Number} [options.timeout = 30000] - Request timeout specified in milliseconds
+	 * @param {Number[]} [options.errorDelayIntervals] - Array of milliseconds to wait before
+	 *     retrying after 5xx error; if unspecified, a default set is used
+	 * @param {Number} [options.errorDelayMax = 3600000] - Milliseconds to wait before stopping
+	 *     5xx retries; set to 0 to disable retrying
 	 * @return {Promise<XMLHttpRequest>} - A promise resolved with the XMLHttpRequest object if the
 	 *     request succeeds or rejected if the browser is offline or a non-2XX status response
 	 *     code is received (or a code not in options.successCodes if provided).
 	 */
-	this.request = Zotero.Promise.coroutine(function* (method, url, options = {}) {
+	this.request = async function (method, url, options = {}) {
+		var errorDelayGenerator;
+		
+		while (true) {
+			try {
+				let req = await this._requestInternal(...arguments);
+				return req;
+			}
+			catch (e) {
+				if (e instanceof this.UnexpectedStatusException) {
+					_checkConnection(e.xmlhttp, url);
+					
+					if (e.is5xx()) {
+						Zotero.logError(e);
+						// Check for Retry-After header on 503 and wait the specified amount of time
+						if (e.xmlhttp.status == 503 && await _checkRetry(e.xmlhttp)) {
+							continue;
+						}
+						// Automatically retry other 5xx errors by default
+						if (options.errorDelayMax !== 0) {
+							if (!errorDelayGenerator) {
+								// Keep trying for up to an hour
+								errorDelayGenerator = Zotero.Utilities.Internal.delayGenerator(
+									options.errorDelayIntervals || _errorDelayIntervals,
+									options.errorDelayMax !== undefined
+										? options.errorDelayMax
+										: _errorDelayMax
+								);
+							}
+							let delayPromise = errorDelayGenerator.next().value;
+							let keepGoing;
+							// Provide caller with a callback to cancel while waiting to retry
+							if (options.cancellerReceiver) {
+								let resolve;
+								let reject;
+								let cancelPromise = new Zotero.Promise((res, rej) => {
+									resolve = res;
+									reject = function () {
+										rej(new Zotero.HTTP.CancelledException);
+									};
+								});
+								options.cancellerReceiver(reject);
+								try {
+									keepGoing = await Promise.race([delayPromise, cancelPromise]);
+								}
+								catch (e) {
+									Zotero.debug("Request cancelled");
+									throw e;
+								}
+								resolve();
+							}
+							else {
+								keepGoing = await delayPromise;
+							}
+							if (!keepGoing) {
+								Zotero.logError("Failed too many times");
+								throw e;
+							}
+						}
+						continue;
+					}
+				}
+				throw e;
+			}
+		}
+	};
+	
+	
+	/**
+	 * Most of the logic for request() is here, with request() handling automatic 5xx retries
+	 */
+	this._requestInternal = async function (method, url, options = {}) {
 		if (url instanceof Components.interfaces.nsIURI) {
 			// Extract username and password from URI and undo Mozilla's excessive percent-encoding
 			options.username = url.username || null;
@@ -174,9 +265,8 @@ Zotero.HTTP = new function() {
 		
 		var deferred = Zotero.Promise.defer();
 		
-		if (!this.mock) {
-			var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-				.createInstance();
+		if (!this.mock || url.startsWith('resource://') || url.startsWith('chrome://')) {
+			var xmlhttp = new XMLHttpRequest();
 		}
 		else {
 			var xmlhttp = new this.mock;
@@ -223,7 +313,10 @@ Zotero.HTTP = new function() {
 			}
 			
 			// Disable caching if requested
-			if (options.dontCache) {
+			if (options.noCache || options.dontCache) {
+				if (options.dontCache) {
+					Zotero.warn("HTTP.request() 'dontCache' option is deprecated -- use noCache instead");
+				}
 				channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
 			}
 			
@@ -264,7 +357,7 @@ Zotero.HTTP = new function() {
 			
 			if (options.compressBody && this.isWriteMethod(method)) {
 				headers['Content-Encoding'] = 'gzip';
-				compressedBody = yield Zotero.Utilities.Internal.gzip(options.body);
+				compressedBody = await Zotero.Utilities.Internal.gzip(options.body);
 				
 				let oldLen = options.body.length;
 				let newLen = compressedBody.length;
@@ -286,20 +379,34 @@ Zotero.HTTP = new function() {
 			}
 		}
 		for (var header in headers) {
-			xmlhttp.setRequestHeader(header, headers[header]);
+			// Convert numbers to string to make Sinon happy
+			let value = typeof headers[header] == 'number'
+				? headers[header].toString()
+				: headers[header]
+			xmlhttp.setRequestHeader(header, value);
 		}
 
 		// Set timeout
-		if (options.timeout) {
-			xmlhttp.timeout = options.timeout;
-		}
+		xmlhttp.timeout = options.timeout || 30000;
 
 		xmlhttp.ontimeout = function() {
 			deferred.reject(new Zotero.HTTP.TimeoutException(options.timeout));
 		};
-
+		
+		// Provide caller with a callback to cancel a request in progress
+		if (options.cancellerReceiver) {
+			options.cancellerReceiver(() => {
+				if (xmlhttp.readyState == 4) {
+					Zotero.debug("Request already finished -- not cancelling");
+					return;
+				}
+				deferred.reject(new Zotero.HTTP.CancelledException);
+				xmlhttp.abort();
+			});
+		}
+		
 		xmlhttp.onloadend = async function() {
-			var status = xmlhttp.status || redirectStatus;
+			var status = redirectStatus || xmlhttp.status;
 			
 			try {
 				if (!status) {
@@ -428,7 +535,7 @@ Zotero.HTTP = new function() {
 		}
 		
 		return deferred.promise;
-	});
+	};
 	
 	/**
 	 * Send an HTTP GET request via XMLHTTPRequest
@@ -767,7 +874,7 @@ Zotero.HTTP = new function() {
 						Zotero.debug("Proxy required for " + uri + " -- making HEAD request to trigger auth prompt");
 						yield Zotero.HTTP.request("HEAD", uri, {
 							foreground: true,
-							dontCache: true
+							noCache: true
 						})
 						.catch(function (e) {
 							// Show error icon at startup
@@ -1119,6 +1226,34 @@ Zotero.HTTP = new function() {
 		}
 	}
 	
+	/**
+	 * Check connection for interruption and throw an appropriate error
+	 */
+	function _checkConnection(xmlhttp, url) {
+		if (xmlhttp.status != 0) return;
+		
+		var msg = null;
+		var dialogButtonText = null;
+		var dialogButtonCallback = null;
+		
+		if (xmlhttp.status === 0) {
+			msg = Zotero.getString('sync.error.checkConnection');
+			dialogButtonText = Zotero.getString('general.moreInformation');
+			let supportURL = 'https://www.zotero.org/support/kb/connection_error';
+			dialogButtonCallback = () => Zotero.launchURL(supportURL);
+		}
+		throw new Zotero.HTTP.UnexpectedStatusException(
+			xmlhttp,
+			url,
+			msg,
+			{
+				dialogButtonText,
+				dialogButtonCallback
+			}
+		);
+	}
+	
+	
 	this.checkSecurity = function (channel) {
 		if (!channel) {
 			return;
@@ -1160,7 +1295,23 @@ Zotero.HTTP = new function() {
 			}
 		}
 	}
-
+	
+	
+	async function _checkRetry(req) {
+		var retryAfter = req.getResponseHeader("Retry-After");
+		if (!retryAfter) {
+			return false;
+		}
+		if (parseInt(retryAfter) != retryAfter) {
+			Zotero.logError(`Invalid Retry-After delay ${retryAfter}`);
+			return false;
+		}
+		Zotero.debug(`Delaying ${retryAfter} seconds for Retry-After`);
+		await Zotero.Promise.delay(retryAfter * 1000);
+		return true;
+	}
+	
+	
 	/**
 	 * Mimics the window.location/document.location interface, given an nsIURL
 	 * @param {nsIURL} url
