@@ -387,6 +387,7 @@ Zotero.Cite = {
 			case 'title':
 			case 'title-short':
 			case 'translator':
+			case 'type':
 			case 'version':
 			case 'volume':
 			case 'year-suffix':
@@ -747,13 +748,7 @@ Zotero.Cite.System.prototype = {
 		return {};
 	},
 
-	"normalizeUnicode":function(str) {
-		var buf = {};
-		var unicodeNormalizer = Components.classes["@mozilla.org/intl/unicodenormalizer;1"]
-			.createInstance(Components.interfaces.nsIUnicodeNormalizer);
-		unicodeNormalizer.NormalizeUnicodeNFKC(str, buf);
-		return buf.value;
-	},
+	// "normalizeUnicode": Zotero.Utilities.Internal.normalize,
 	
 	"setVariableWrapper":function(setValue) {
 		if ("boolean" !== typeof setValue) {
@@ -822,23 +817,8 @@ Zotero.Cite.Locale = {
 		if (str) {
 			return str;
 		}
-		var uri = `chrome://zotero/content/locale/csl/locales-${locale}.xml`;
 		try {
-			let protHandler = Components.classes["@mozilla.org/network/protocol;1?name=chrome"]
-				.createInstance(Components.interfaces.nsIProtocolHandler);
-			let channel = protHandler.newChannel(protHandler.newURI(uri));
-			let cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"]
-				.createInstance(Components.interfaces.nsIConverterInputStream);
-			cstream.init(channel.open(), "UTF-8", 0, 0);
-			let obj = {};
-			let read = 0;
-			let str = "";
-			do {
-				// Read as much as we can and put it in obj.value
-				read = cstream.readString(0xffffffff, obj);
-				str += obj.value;
-			} while (read != 0);
-			cstream.close();
+			str = Zotero.File.getResource(`chrome://zotero/content/locale/csl/locales-${locale}.xml`);
 			this._cache.set(locale, str);
 			return str;
 		}

@@ -46,6 +46,7 @@ Zotero.Sync.APIClient = function (options) {
 Zotero.Sync.APIClient.prototype = {
 	MAX_OBJECTS_PER_REQUEST: 100,
 	MIN_GZIP_SIZE: 1000,
+	UPLOAD_TIMEOUT: 60000,
 	
 	
 	getKeyInfo: Zotero.Promise.coroutine(function* (options={}) {
@@ -389,7 +390,8 @@ Zotero.Sync.APIClient.prototype = {
 				"If-Unmodified-Since-Version": libraryVersion
 			},
 			body: json,
-			successCodes: [200, 412]
+			successCodes: [200, 412],
+			timeout: this.UPLOAD_TIMEOUT,
 		});
 		this._check412(xmlhttp);
 		return {
@@ -423,7 +425,8 @@ Zotero.Sync.APIClient.prototype = {
 			headers: {
 				"If-Unmodified-Since-Version": libraryVersion
 			},
-			successCodes: [204, 412]
+			successCodes: [204, 412],
+			timeout: this.UPLOAD_TIMEOUT,
 		});
 		this._check412(xmlhttp);
 		return this._getLastModifiedVersion(xmlhttp);
@@ -491,6 +494,7 @@ Zotero.Sync.APIClient.prototype = {
 				},
 				body: JSON.stringify(data),
 				successCodes: [200, 412],
+				timeout: this.UPLOAD_TIMEOUT,
 				debug: true
 			}
 		);

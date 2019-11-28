@@ -107,7 +107,7 @@
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
-    "originalDate": "0000-00-00 Original date",
+    "originalDate": "Original date",
     "album": "Publication title",
     "opus": "Opus",
     "release": "8",
@@ -183,7 +183,7 @@
       "title": "Title",
       "shortTitle": "Short title",
       "archive": "Archive",
-      "originalDate": "0000-00-00 Original date",
+      "originalDate": "Original date",
       "publicationTitle": "Publication title",
       "opus": "Opus",
       "edition": "8"
@@ -225,6 +225,8 @@
     "assemblyNumber": "9",
     "resolutionLabel": "Resolution label",
     "sessionType": "Type",
+    "reporter": "Publication title",  
+    "publicationTitle": "Publication title",  
     "creators": [
       {
         "firstName": "sponsorFirst",
@@ -297,7 +299,8 @@
       "jurisdiction": "Jurisdiction",
       "seriesNumber": "9",
       "resolutionLabel": "Resolution label",
-      "type": "Type"
+      "type": "Type",
+      "publicationTitle": "Publication title"
     },
     "itemID": 4,
     "key": "KTCGXA6P",
@@ -677,11 +680,11 @@
     "caseName": "Title",
     "shortTitle": "Short title",
     "docketNumber": "3",
-    "filingDate": "2000-01-02 2000-01-02",
+    "filingDate": "2000-01-02",
     "archive": "Archive",
     "jurisdiction": "Jurisdiction",
     "yearAsVolume": "Year as volume",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "supplementName": "Supplement name",
     "documentName": "Document name",
@@ -764,11 +767,11 @@
       "title": "Title",
       "shortTitle": "Short title",
       "number": "3",
-      "filingDate": "2000-01-02 2000-01-02",
+      "filingDate": "2000-01-02",
       "archive": "Archive",
       "jurisdiction": "Jurisdiction",
       "yearAsVolume": "Year as volume",
-      "publicationDate": "0000-00-00 Publication date",
+      "publicationDate": "Publication date",
       "reign": "Reign",
       "supplementName": "Supplement name",
       "documentName": "Document name"
@@ -900,7 +903,7 @@
     "proceedingsTitle": "Publication title",
     "shortTitle": "Short title",
     "archive": "Archive",
-    "conferenceDate": "0000-00-00 Conference date",
+    "conferenceDate": "Conference date",
     "creators": [
       {
         "firstName": "authorFirst",
@@ -984,7 +987,7 @@
       "publicationTitle": "Publication title",
       "shortTitle": "Short title",
       "archive": "Archive",
-      "conferenceDate": "0000-00-00 Conference date"
+      "conferenceDate": "Conference date"
     },
     "itemID": 10,
     "key": "MLL5EBBP",
@@ -1606,6 +1609,7 @@
     "resolutionLabel": "Resolution label",
     "sessionType": "Type",
     "meetingNumber": "Meeting number",
+    "meetingName": "Meeting name",
     "creators": [
       {
         "firstName": "contributorFirst",
@@ -1674,7 +1678,8 @@
       "assemblyNumber": "Assembly number",
       "resolutionLabel": "Resolution label",
       "type": "Type",
-      "meetingNumber": "Meeting number"
+      "meetingNumber": "Meeting number",
+      "meetingName": "Meeting name"
     },
     "itemID": 17,
     "key": "IMZANEM6",
@@ -2370,7 +2375,7 @@
     "shortTitle": "Short title",
     "archive": "Archive",
     "jurisdiction": "Jurisdiction",
-    "newsCaseDate": "0000-00-00 News case date",
+    "newsCaseDate": "News case date",
     "creators": [
       {
         "firstName": "authorFirst",
@@ -2443,7 +2448,7 @@
       "shortTitle": "Short title",
       "archive": "Archive",
       "jurisdiction": "Jurisdiction",
-      "newsCaseDate": "0000-00-00 News case date"
+      "newsCaseDate": "News case date"
     },
     "itemID": 25,
     "key": "PWKKA9QN",
@@ -2475,11 +2480,11 @@
     "title": "Title",
     "shortTitle": "Short title",
     "issuingAuthority": "Issuing authority",
-    "filingDate": "2000-01-02 2000-01-02",
+    "filingDate": "2000-01-02",
     "genre": "Genre",
     "jurisdiction": "Jurisdiction",
-    "priorityDate": "0000-00-00 Priority date",
-    "publicationDate": "0000-00-00 Publication date",
+    "priorityDate": "Priority date",
+    "publicationDate": "Publication date",
     "publicationNumber": "Publication number",
     "creators": [
       {
@@ -2551,11 +2556,11 @@
       "title": "Title",
       "shortTitle": "Short title",
       "issuingAuthority": "Issuing authority",
-      "filingDate": "2000-01-02 2000-01-02",
+      "filingDate": "2000-01-02",
       "genre": "Genre",
       "jurisdiction": "Jurisdiction",
-      "priorityDate": "0000-00-00 Priority date",
-      "publicationDate": "0000-00-00 Publication date",
+      "priorityDate": "Priority date",
+      "publicationDate": "Publication date",
       "publicationNumber": "Publication number"
     },
     "itemID": 26,
@@ -2985,11 +2990,11 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "regnalYear": "Regnal year",
-    "originalDate": "0000-00-00 Original date",
-    "dateAmended": "0000-00-00 Date amended",
+    "originalDate": "Original date",
+    "dateAmended": "Date amended",
     "gazetteFlag": "Gazette flag",
     "creators": [
       {
@@ -3052,11 +3057,11 @@
       "title": "Title",
       "shortTitle": "Short title",
       "jurisdiction": "Jurisdiction",
-      "publicationDate": "0000-00-00 Publication date",
+      "publicationDate": "Publication date",
       "reign": "Reign",
       "regnalYear": "Regnal year",
-      "originalDate": "0000-00-00 Original date",
-      "dateAmended": "0000-00-00 Date amended",
+      "originalDate": "Original date",
+      "dateAmended": "Date amended",
       "gazetteFlag": "Gazette flag"
     },
     "itemID": 31,
@@ -3295,7 +3300,8 @@
     "runningTime": "1:22:33",
     "language": "en-US",
     "abstractNote": "Abstract note",
-    "websiteTitle": "Website title",
+    "websiteTitle": "Publication title",
+    "publicationTitle": "Publication title",
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
@@ -3376,7 +3382,7 @@
       "runningTime": "1:22:33",
       "language": "en-US",
       "abstractNote": "Abstract note",
-      "websiteTitle": "Website title",
+      "publicationTitle": "Publication title",
       "title": "Title",
       "shortTitle": "Short title",
       "archive": "Archive"
@@ -3491,7 +3497,7 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "regnalYear": "Regnal year",
     "creators": [
@@ -3555,7 +3561,7 @@
       "title": "Title",
       "shortTitle": "Short title",
       "jurisdiction": "Jurisdiction",
-      "publicationDate": "0000-00-00 Publication date",
+      "publicationDate": "Publication date",
       "reign": "Reign",
       "regnalYear": "Regnal year"
     },
@@ -3591,7 +3597,7 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "regulationType": "Type",
     "regulatoryBody": "Legislative body",
     "gazetteFlag": "Gazette flag",
@@ -3656,7 +3662,7 @@
       "title": "Title",
       "shortTitle": "Short title",
       "jurisdiction": "Jurisdiction",
-      "publicationDate": "0000-00-00 Publication date",
+      "publicationDate": "Publication date",
       "type": "Type",
       "legislativeBody": "Legislative body",
       "gazetteFlag": "Gazette flag"
@@ -3786,9 +3792,10 @@
     "shortTitle": "Short title",
     "archive": "Archive",
     "supplementName": "Supplement name",
-    "signingDate": "0000-00-00 Signing date",
-    "openingDate": "0000-00-00 Opening date",
-    "adoptionDate": "0000-00-00 Adoption date",
+    "version": "Version number",
+    "signingDate": "Signing date",
+    "openingDate": "Opening date",
+    "adoptionDate": "Adoption date",
     "parentTreaty": "Parent treaty",
     "creators": [
       {
@@ -3868,9 +3875,10 @@
       "shortTitle": "Short title",
       "archive": "Archive",
       "supplementName": "Supplement name",
-      "signingDate": "0000-00-00 Signing date",
-      "openingDate": "0000-00-00 Opening date",
-      "adoptionDate": "0000-00-00 Adoption date",
+      "version": "Version number",
+      "signingDate": "Signing date",
+      "openingDate": "Opening date",
+      "adoptionDate": "Adoption date",
       "parentTreaty": "Parent treaty"
     },
     "itemID": 39,

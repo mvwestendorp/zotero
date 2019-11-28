@@ -434,6 +434,9 @@ describe("Zotero.Sync.Data.Engine", function () {
 			assert.equal(obj.getField('title', false, false, 'ja'), 'Japanese');
 
 			var titleID = Zotero.ItemFields.getID('title');
+			
+			Zotero.debug("XXX multi: " + JSON.stringify(obj.multi, null, 2), 1);
+			
 			assert.equal(obj.multi.main[titleID], 'en');
 			assert.equal(obj.getField('extra'), 'distributor: Film distributor');
 			assert.equal(obj.getField('shortTitle', false, false, 'es'), 'Spanish short title');
@@ -636,7 +639,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				fieldMode: 1,
 				firstName: '',
 				lastName: 'Salibury Steaks of Joseph',
-				creatorTypeID: 1
+				creatorTypeID: Zotero.CreatorTypes.getID('author')
 			}
 			
 			var obj = yield Zotero.Items.getByLibraryAndKeyAsync(userLibraryID, "AAAAAAAA");
@@ -644,8 +647,12 @@ describe("Zotero.Sync.Data.Engine", function () {
 			var itemType = Zotero.ItemTypes.getName(obj.itemTypeID);
 			assert.equal(itemType, 'regulation');
 			assert.equal(obj.getField('nameOfAct'), 'A');
-
+			
+			Zotero.debug("XXX GOT one", 1);
 			var creator = obj.getCreator(1);
+
+			Zotero.debug("XXX OK HERE IS THE CREATOR: " + JSON.stringify(creator, null, 2), 1);
+			
 			var creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID);
 			assert.equal(creatorType, 'author');
 			assert.equal(creator.lastName, 'Bob Jones Hamburgers');
@@ -772,7 +779,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 				fieldMode: 1,
 				firstName: '',
 				lastName: 'Salibury Steaks of Joseph',
-				creatorTypeID: 1
+				creatorTypeID: Zotero.CreatorTypes.getID('author')
 			}
 			
 			var obj = yield Zotero.Items.getByLibraryAndKeyAsync(userLibraryID, "AAAAAAAA");
@@ -858,7 +865,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 						version: 3,
 						itemType: "patent",
 						title: "A",
-						extra: 'mlzsync1:0137{"extrafields":{"jurisdiction":"002usUnited States|US","priorityDate":"1998-03-12 1998-03-12","publicationDate":"2001-06-27 2001-06-27"}}'
+						extra: 'mlzsync1:0137{"extrafields":{"jurisdiction":"002usUnited States|US","priorityDate":"1998-03-12","publicationDate":"2001-06-27"}}'
 					})
 				]
 			});
@@ -2097,7 +2104,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 			yield engine.start();
 		})
 		
-		it("should ignore errors when saving downloaded objects", function* () {
+		it("should add objects to sync queue if they can't be saved", function* () {
 			({ engine, client, caller } = yield setup({
 				stopOnError: false
 			}));
@@ -2177,7 +2184,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 						key: "CCCCCCCC",
 						version: 1,
 						name: "C",
-						// Unknown field -- should be ignored
+						// Unknown field -- collection should be queued
 						unknownField: 5
 					})
 				]
@@ -2239,7 +2246,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 						version: 3,
 						itemType: "book",
 						title: "G",
-						// Unknown item field -- should be ignored
+						// Unknown item field -- item should be queued
 						unknownField: "B"
 					}),
 					makeItemJSON({
@@ -2285,7 +2292,6 @@ describe("Zotero.Sync.Data.Engine", function () {
 			// Check for saved objects
 			yield assert.eventually.ok(Zotero.Collections.getByLibraryAndKeyAsync(userLibraryID, "AAAAAAAA"));
 			yield assert.eventually.ok(Zotero.Searches.getByLibraryAndKeyAsync(userLibraryID, "DDDDDDDD"));
-			yield assert.eventually.ok(Zotero.Items.getByLibraryAndKeyAsync(userLibraryID, "GGGGGGGG"));
 			
 			// Check for queued objects
 			var keys = yield Zotero.Sync.Data.Local.getObjectsFromSyncQueue('collection', userLibraryID);
@@ -2295,9 +2301,13 @@ describe("Zotero.Sync.Data.Engine", function () {
 			assert.sameMembers(keys, ['EEEEEEEE', 'FFFFFFFF']);
 			
 			var keys = yield Zotero.Sync.Data.Local.getObjectsFromSyncQueue('item', userLibraryID);
-			assert.sameMembers(keys, ['HHHHHHHH', 'JJJJJJJJ']);
+			assert.sameMembers(keys, ['GGGGGGGG', 'HHHHHHHH', 'JJJJJJJJ']);
 			
-			assert.equal(spy.callCount, 3);
+			// Unknown search condition, search operator, item field, and item type
+			//
+			// Missing parent collection and item collection don't throw errors because they don't
+			// indicate a guaranteed problem with the client
+			assert.equal(spy.callCount, 4);
 		});
 		
 		it("should delay on second upload conflict", function* () {

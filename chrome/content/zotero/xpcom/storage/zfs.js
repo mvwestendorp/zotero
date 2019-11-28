@@ -645,7 +645,8 @@ Zotero.Sync.Storage.Mode.ZFS.prototype = {
 						});
 					},
 					debug: true,
-					successCodes: [201]
+					successCodes: [201],
+					timeout: 0
 				}
 			);
 		}
@@ -750,11 +751,14 @@ Zotero.Sync.Storage.Mode.ZFS.prototype = {
 			);
 		}
 		catch (e) {
-			let msg = `Unexpected file registration status ${e.status} (${item.libraryKey})`;
-			Zotero.logError(msg);
-			Zotero.logError(e.xmlhttp.responseText);
-			Zotero.debug(e.xmlhttp.getAllResponseHeaders());
-			throw new Error(Zotero.Sync.Storage.defaultError);
+			if (e instanceof Zotero.HTTP.UnexpectedStatusException) {
+				let msg = `Unexpected file registration status ${e.status} (${item.libraryKey})`;
+				Zotero.logError(msg);
+				Zotero.logError(e.xmlhttp.responseText);
+				Zotero.debug(e.xmlhttp.getAllResponseHeaders());
+				throw new Error(Zotero.Sync.Storage.defaultError);
+			}
+			throw e;
 		}
 		
 		var version = req.getResponseHeader('Last-Modified-Version');

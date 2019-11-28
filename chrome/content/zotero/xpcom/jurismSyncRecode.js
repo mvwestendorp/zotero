@@ -44,6 +44,7 @@ Zotero.Jurism.SyncRecode = {
 	},
 	
 	"decode": function (json) {
+		if (!Zotero.Utilities._mapsinitialized) Zotero.Utilities.initMaps();
 		if (!json) return;
 
 		var newjson = JSON.parse(JSON.stringify(json));
@@ -172,7 +173,7 @@ Zotero.Jurism.SyncRecode = {
 					var m = lines[i].match(this.syncKeyValRex);
 					if (m) {
 						breakIdx = (i+1);
-						if (m[1] === "type" &&  Zotero.Utilities.CSL_TYPE_MAPPINGS[m[5]]) {
+						if (m[1] === "type" &&  Zotero.Schema.CSL_TYPE_MAPPINGS[m[5]]) {
 							newjson.itemType = m[5];
 						} else {
 							fieldInfo.push({
@@ -207,10 +208,15 @@ Zotero.Jurism.SyncRecode = {
 				// Process extended creators
 				for (var i=fieldInfo.length-1; i>-1; i--) {
 					var info = fieldInfo[i];
+
 					if (!info.isCreator || info.isVariant) {
 						continue;
 					}
 					var zField = Zotero.Utilities.DECODE.CREATORS[itemType] && Zotero.Utilities.DECODE.CREATORS[itemType][info.cslField];
+
+					Zotero.debug("XXX WOW OK. RUNNING CREATOR DECODE HERE??? "+JSON.stringify(Zotero.Utilities.DECODE.CREATORS[itemType], null, 2), 1);
+
+					
 					if (!zField) {
 						continue;
 					}
@@ -313,6 +319,9 @@ Zotero.Jurism.SyncRecode = {
 					if (info.isCreator || info.isVariant) {
 						continue;
 					}
+
+					// OKAY! Here is our problem with the sync failure. After this op, zField is null (medium was not in the map?),
+					// so we hit continue.
 					var zField = Zotero.Utilities.DECODE.FIELDS[itemType] && Zotero.Utilities.DECODE.FIELDS[itemType][info.cslField];
 					if (!zField) {
 						zField = Zotero.Utilities.DECODE.DATES[itemType] && Zotero.Utilities.DECODE.DATES[itemType][info.cslField];
@@ -323,6 +332,8 @@ Zotero.Jurism.SyncRecode = {
 					// Assumes that dates can be written literally. May need to treat
 					// dates differently, depending on the outcome of tests.
 					newjson[zField] = info.val;
+
+					// XXX See above
 					fieldInfo = fieldInfo.slice(0, i).concat(fieldInfo.slice(i+1));
 				}
 

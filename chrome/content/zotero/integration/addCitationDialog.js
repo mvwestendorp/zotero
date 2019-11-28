@@ -874,7 +874,6 @@ var Zotero_Citation_Dialog = new function () {
 			});
 			pane = win.ZoteroPane;
 		}
-		pane.show();
 		pane.selectItem(id);
 		
 		// Pull window to foreground

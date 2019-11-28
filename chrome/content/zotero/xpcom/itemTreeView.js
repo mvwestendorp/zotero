@@ -148,7 +148,7 @@ Zotero.ItemTreeView.prototype.setTree = async function (treebox) {
 		// Add a keypress listener for expand/collapse
 		var tree = this._getTreeElement();
 		var self = this;
-		var coloredTagsRE = new RegExp("^[1-" + Zotero.Tags.MAX_COLORED_TAGS + "]{1}$");
+		var coloredTagsRE = new RegExp("^[0-" + Zotero.Tags.MAX_COLORED_TAGS + "]{1}$");
 		var listener = function(event) {
 			if (self._skipKeyPress) {
 				self._skipKeyPress = false;
@@ -199,6 +199,11 @@ Zotero.ItemTreeView.prototype.setTree = async function (treebox) {
 				if (coloredTagsRE.test(key)) {
 					let libraryID = self.collectionTreeRow.ref.libraryID;
 					let position = parseInt(key) - 1;
+					// When 0 is pressed, remove all colored tags
+					if (position == -1) {
+						let items = self.getSelectedItems();
+						return Zotero.Tags.removeColoredTagsFromItems(items);
+					}
 					let colorData = Zotero.Tags.getColorByPosition(libraryID, position);
 					// If a color isn't assigned to this number or any
 					// other numbers, allow key navigation
@@ -207,7 +212,7 @@ Zotero.ItemTreeView.prototype.setTree = async function (treebox) {
 					}
 					
 					var items = self.getSelectedItems();
-					yield Zotero.Tags.toggleItemsListTags(libraryID, items, colorData.name);
+					yield Zotero.Tags.toggleItemsListTags(items, colorData.name);
 					return;
 				}
 				
@@ -220,31 +225,10 @@ Zotero.ItemTreeView.prototype.setTree = async function (treebox) {
 				// event comes in. I see no way this could go wrong...
 				tree.disableKeyNavigation = false;
 				self._skipKeyPress = true;
-				var nsIDWU = Components.interfaces.nsIDOMWindowUtils;
-				var domWindowUtils = event.originalTarget.ownerDocument.defaultView
-					.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-					.getInterface(nsIDWU);
-				var modifiers = 0;
-				if (event.altKey) {
-					modifiers |= nsIDWU.MODIFIER_ALT;
-				}
-				if (event.ctrlKey) {
-					modifiers |= nsIDWU.MODIFIER_CONTROL;
-				}
-				if (event.shiftKey) {
-					modifiers |= nsIDWU.MODIFIER_SHIFT;
-				}
-				if (event.metaKey) {
-					modifiers |= nsIDWU.MODIFIER_META;
-				}
-				domWindowUtils.sendKeyEvent(
-					'keypress',
-					event.keyCode,
-					event.charCode,
-					modifiers
-				);
+				var clonedEvent = new this.window.KeyboardEvent("keypress", event);
+				event.explicitOriginalTarget.dispatchEvent(clonedEvent);
 				tree.disableKeyNavigation = true;
-			})
+			}.bind(this))
 			.catch(function (e) {
 				Zotero.logError(e);
 			})
@@ -890,11 +874,14 @@ Zotero.ItemTreeView.prototype.notify = Zotero.Promise.coroutine(function* (actio
 			else if (ids.length <= 5) {
 				var items = Zotero.Items.get(ids);
 				if (items) {
+					let itemTypeAttachment = Zotero.ItemTypes.getID('attachment');
+					let itemTypeNote = Zotero.ItemTypes.getID('note');
+					
 					var found = false;
 					for (let item of items) {
-						// Check for note and attachment type, since it's quicker
+						// Check for attachment and note types, since it's quicker
 						// than checking for parent item
-						if (item.itemTypeID == 1 || item.itemTypeID == 14) {
+						if (item.itemTypeID == itemTypeAttachment || item.itemTypeID == itemTypeNote) {
 							continue;
 						}
 						
@@ -1750,18 +1737,26 @@ Zotero.ItemTreeView.prototype._updateIntroText = function() {
 			html = Zotero.Utilities.htmlSpecialChars(html);
 			html = html.replace(
 				/\[([^\]]+)]/,
-				'<span class="text-link" '
-					+ `onclick="Zotero.Utilities.Internal.openPreferences('zotero-prefpane-sync')">$1</span>`
+				'<span class="text-link" data-action="open-sync-prefs">$1</span>'
 			);
 			p.innerHTML = html;
 			div.appendChild(p);
 			
 			// Activate text links
 			for (let span of div.getElementsByTagName('span')) {
-				if (span.classList.contains('text-link') && !span.hasAttribute('onclick')) {
-					span.onclick = function () {
-						doc.defaultView.ZoteroPane.loadURI(this.getAttribute('data-href'));
-					};
+				if (span.classList.contains('text-link')) {
+					if (span.hasAttribute('data-href')) {
+						span.onclick = function () {
+							doc.defaultView.ZoteroPane.loadURI(this.getAttribute('data-href'));
+						};
+					}
+					else if (span.hasAttribute('data-action')) {
+						if (span.getAttribute('data-action') == 'open-sync-prefs') {
+							span.onclick = () => {
+								Zotero.Utilities.Internal.openPreferences('zotero-prefpane-sync');
+							};
+						}
+					}
 				}
 			}
 			
@@ -2848,7 +2843,7 @@ Zotero.ItemTreeView.fileDragDataProvider.prototype = {
 			var dirPrimitive = {};
 			var dataSize = {};
 			transferable.getTransferData("application/x-moz-file-promise-dir", dirPrimitive, dataSize);
-			var destDir = dirPrimitive.value.QueryInterface(Components.interfaces.nsILocalFile);
+			var destDir = dirPrimitive.value.QueryInterface(Components.interfaces.nsIFile);
 			
 			var draggedItems = Zotero.Items.get(this._itemIDs);
 			var items = [];
@@ -2902,7 +2897,7 @@ Zotero.ItemTreeView.fileDragDataProvider.prototype = {
 					var numFiles = 0;
 					while (files.hasMoreElements()) {
 						var f = files.getNext();
-						f.QueryInterface(Components.interfaces.nsILocalFile);
+						f.QueryInterface(Components.interfaces.nsIFile);
 						if (f.leafName.indexOf('.') != 0) {
 							numFiles++;
 						}

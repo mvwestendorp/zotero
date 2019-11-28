@@ -381,9 +381,7 @@ Zotero.Sync.Data.Local = {
 	 */
 	_getAPIKeyLoginInfo: function () {
 		try {
-			var loginManager = Components.classes["@mozilla.org/login-manager;1"]
-				.getService(Components.interfaces.nsILoginManager);
-			var logins = loginManager.findLogins(
+			var logins = Services.logins.findLogins(
 				{},
 				this._loginManagerHost,
 				null,
@@ -723,11 +721,10 @@ Zotero.Sync.Data.Local = {
 		var ObjectType = Zotero.Utilities.capitalize(objectType);
 		var libraryName = Zotero.Libraries.get(libraryID).name;
 		
-		var knownErrors = [
-			'ZoteroUnknownTypeError',
-			'ZoteroUnknownFieldError',
+		var knownErrors = new Set([
+			'ZoteroInvalidDataError',
 			'ZoteroMissingObjectError'
-		];
+		]);
 		
 		Zotero.debug("Processing " + json.length + " downloaded "
 			+ (json.length == 1 ? objectType : objectTypePlural)
@@ -1029,8 +1026,11 @@ Zotero.Sync.Data.Local = {
 					}
 				}
 				catch (e) {
+					// This allows errors handled by syncRunner to know the library in question
+					e.libraryID = libraryID;
+					
 					// Display nicer debug line for known errors
-					if (knownErrors.indexOf(e.name) != -1) {
+					if (knownErrors.has(e.name)) {
 						let desc = e.name
 							.replace(/^Zotero/, "")
 							// Convert "MissingObjectError" to "missing object error"
@@ -1409,7 +1409,7 @@ Zotero.Sync.Data.Local = {
 			json = this._checkCacheJSON(json);
 			
 			if (!options.skipData) {
-				obj.fromJSON(json.data);
+				obj.fromJSON(json.data, { strict: true });
 			}
 			if (obj.objectType == 'item' && obj.isImportedAttachment()) {
 				yield this._checkAttachmentForDownload(obj, json.data.mtime, options.isNewObject);
@@ -1486,6 +1486,10 @@ Zotero.Sync.Data.Local = {
 		for (let i = 0; i < changeset1.length; i++) {
 			for (let j = 0; j < changeset2.length; j++) {
 				let c1 = changeset1[i];
+				// If we've removed all local changes, keep remaining remote changes
+				if (!c1) {
+					break;
+				}
 				let c2 = changeset2[j];
 				if (c1.field != c2.field) {
 					continue;
@@ -1507,6 +1511,9 @@ Zotero.Sync.Data.Local = {
 							if (c1.op == 'member-add' && c2.op == 'member-add'
 									&& c1.value.tag === c2.value.tag) {
 								changeset1.splice(i--, 1);
+								// We're in the inner loop without an incrementor for i, so don't go
+								// below 0
+								if (i < 0) i = 0;
 								changeset2.splice(j--, 1);
 								if (c1.value.type > 0) {
 									changeset2.push({

@@ -1,198 +1,11 @@
 
 Zotero.Jurism = {}
 
+Zotero.Jurism.EXTENDED = JSON.parse(
+	Zotero.File.getContentsFromURL("resource://zotero/schema/global/schema-jurism-patch.json")
+);
 
-Zotero.Jurism.EXTENDED = {
-	// For extended types, see below
-	// 
-	TYPES: {
-		"gazette":"statute",
-		"regulation":"statute",
-		"classic":"manuscript",
-		"treaty":"document",
-		"standard":"document"
-	},
-
-	CREATORS: {
-		"patent": ["recipient"],
-		"book": ["recipient"],
-		"bookSection": ["recipient"],
-		"hearing": ["testimonyBy", "translator"],
-		"case": ["translator"],
-		"statute": ["translator"],
-		"bill": ["translator"],
-		"gazette": ["translator"],
-		"regulation": ["translator"],
-		"case": ["commenter"]
-	},
-
-	FIELDS: {
-		"book": [
-			"medium",
-			"volumeTitle"
-		],
-		"bookSection": [
-			"volumeTitle"
-		],
-		"standard": [
-			"versionNumber",
-			"number",
-			"jurisdiction"
-		],
-		"conferencePaper": [
-			"issue",
-			"institution"
-		],
-		"interview": [
-			"place"
-		],
-		"magazineArticle": [
-			"place",
-			"publisher"
-		],
-		"newspaperArticle": [
-			"jurisdiction",
-			"court"
-		],
-		"journalArticle": [
-			"status",
-			"jurisdiction"
-		],
-		"bill": [
-			"jurisdiction",
-			"resolutionLabel",
-			"assemblyNumber",
-			"sessionType",
-			"archiveLocation",
-			"reporter"
-		], 
-		"hearing": [
-			"jurisdiction",
-			"assemblyNumber",
-			"resolutionLabel",
-			"sessionType",
-			"archiveLocation",
-			"reporter",
-			"meetingName",
-			"meetingNumber", // Changing from JM chapter-number to new JM issue, styles will need adjustment"volume"
-		],
-		"artwork": [
-			"websiteTitle"
-		], 
-		"patent": [
-			"jurisdiction",
-			"publicationNumber",
-			"genre"
-		], 
-		"case": [
-			"jurisdiction",
-			"place",
-			"yearAsVolume",
-			"publisher",
-			"reign",
-			"callNumber",
-			"supplementName",
-			"issue",
-			"archive",
-			"archiveLocation",
-			"documentName"
-		], 
-		"statute": [
-			"jurisdiction",
-			"publisher",
-			"reign",
-			"regnalYear",
-			"gazetteFlag"
-		], 
-		"audioRecording": [
-			"album",
-			"opus",
-			"publisher",
-			"release"
-		],
-		"podcast": [
-			"publisher"
-		],
-		"videoRecording": [
-			"websiteTitle"
-		],
-		"report": [
-			"bookTitle",
-			"jurisdiction",
-			"status",
-			"medium",
-			"committee",
-			"assemblyNumber",
-			"publisher"
-		],
-		"gazette": [
-			"jurisdiction",
-			"reign",
-			"regnalYear",
-			"publisher",
-		],
-		"regulation": [
-			"jurisdiction",
-			"publisher",
-			"regulatoryBody",
-			"regulationType",
-			"gazetteFlag"
-		],
-		"treaty": [
-			"reporter",
-			"volume",
-			"pages",
-			"section",
-			"versionNumber", // MISSING IN system.sql!"parentTreaty",
-			"supplementName"
-		],
-		"classic": [
-			"volume"
-		],
-		"document": [
-			"versionNumber"
-		]
-	},
-
-	DATES: {
-		"conferencePaper": [
-			"conferenceDate"
-		],
-		"newspaperArticle": [
-			"newsCaseDate"
-		],
-		"patent": [
-			"priorityDate",
-			"publicationDate"
-		],
-		"case": [
-			"publicationDate",
-			"filingDate"
-		],
-		"statute": [
-			"publicationDate",
-			"originalDate",
-			"dateAmended"
-		],
-		"audioRecording": [
-			"originalDate"
-		],
-		"podcast": [
-			"date"
-		],
-		"gazette": [
-			"publicationDate"
-		],
-		"regulation": [
-			"publicationDate"
-		],
-		"treaty": [
-			"openingDate",
-			"adoptionDate",
-			"signingDate"
-		]
-	}
-}
+dump("XXX EXTENDED? " + Zotero.Jurism.EXTENDED + "\n");
 
 Zotero.Jurism.CSL = {
 	FORCE_FIELD_CONTENT: {
@@ -219,6 +32,8 @@ Zotero.Jurism.CSL = {
 		}
 	}
 }
+
+try {
 
 Zotero.Jurism.PATCH = {
 
@@ -371,25 +186,36 @@ Zotero.Jurism.MapTools = {
 		}
 	},
 	
-	makeEncodeMap: function(extName, cslMap) {
+	makeEncodeMap: function(extName, cslMap, objectValues) {
 		var ret = {};
 		var extMap = Zotero.Jurism.EXTENDED[extName];
 		for (var itemType in extMap) {
 			ret[itemType] = {};
 			var me = this;
 			extMap[itemType].forEach(function(zField){
-				ret[itemType][zField] = me.getEncodeField(zField, cslMap);
+				if (objectValues) {
+					ret[itemType][zField.field] = me.getEncodeField(zField.field, cslMap);
+				} else {
+					ret[itemType][zField] = me.getEncodeField(zField, cslMap);
+				}
 			});
 		}
 		return ret;
 	},
 	
 	makeDecodeMap: function(extName, cslMap) {
-		var encodeMap = this.makeEncodeMap(extName, cslMap);
+		if (extName === "FIELDS") {
+			var encodeMap = this.makeEncodeMap(extName, cslMap, true);
+		} else {
+			var encodeMap = this.makeEncodeMap(extName, cslMap);
+		}
 		var ret = JSON.parse(JSON.stringify(encodeMap));
 		for (var itemType in encodeMap) {
 			ret[itemType] = {};
 			for (var zField in encodeMap[itemType]) {
+//				if (extName === "FIELDS") {
+//					Zotero.debug("XXX zField: "+JSON.stringify(zField), 1);
+//				}
 				ret[itemType][encodeMap[itemType][zField]] = zField;
 			}
 		}
@@ -408,7 +234,7 @@ Zotero.Jurism.MapTools = {
 				var allTypes = Zotero.ItemTypes.getSecondaryTypes().map(o => o.name);
 				for (var i=0,ilen=allTypes.length; i<ilen; i++) {
 					var newItemType = allTypes[i];
-					if (!Zotero.Utilities.CSL_TYPE_MAPPINGS[newItemType]) {
+					if (!Zotero.Schema.CSL_TYPE_MAPPINGS[newItemType]) {
 						continue;
 					}
 					_map[newItemType] = {};
@@ -432,6 +258,11 @@ Zotero.Jurism.MapTools = {
 	}
 }
 
+} catch (e) {
+	dump(e.message+"\n");
+	throw new Error(e);
+}
+	
 if (typeof process === 'object' && process + '' === '[object process]'){
     module.exports = Zotero.Jurism.MapTools;
 }

@@ -331,7 +331,7 @@
 				<parameter name="creator"/>
 				<body>
 				<![CDATA[
-					var creator = Zotero.Creators.cleanData(creator, true);
+					var creator = Zotero.Creators.cleanData(creator, {includeDependents:true});
 					var fieldName = node.getAttribute('fieldname');
 					var [field, creatorIndex, creatorField] = fieldName.split('-');
 					var creatorTypeID = creator.creatorTypeID;
@@ -591,13 +591,11 @@
 						var tabindex = fieldIsClickable ? tabindexValue : 0;
 						this._tabIndexMaxFields = Math.max(this._tabIndexMaxFields, tabindex);
 						
+						// TEMP - NSF
 						if (fieldIsClickable
 								&& !Zotero.Items.isPrimaryField(fieldName)
-								&& (Zotero.ItemFields.isFieldOfBase(Zotero.ItemFields.getID(fieldName), 'date')
-									// TEMP - filingDate
-									|| Zotero.Utilities.isDate(fieldName))
-								// TEMP - NSF
-								&& fieldName != 'dateSent') {
+								&& (Zotero.ItemFields.isDate(fieldName)
+								&& fieldName != 'dateSent')) {
 							this.addDateRow(fieldName, this.item.getField(fieldName, true), tabindex);
 							return;
 						}
@@ -641,7 +639,7 @@
 							label.setAttribute("value", variantName);
 						} else {
 							label.setAttribute("value", prefix +
-								Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldName));
+								Zotero.ItemFields.getLocalizedString(fieldName));
 						}
 					}
 					
@@ -656,7 +654,13 @@
 						// Pull out DOI, in case there's a prefix
 						var doi = Zotero.Utilities.cleanDOI(val);
 						if (doi) {
-							doi = "http://dx.doi.org/" + encodeURIComponent(doi);
+							doi = "https://doi.org/"
+								// Encode some characters that are technically valid in DOIs,
+								// though generally not used. '/' doesn't need to be encoded.
+								+  doi.replace(/#/g, '%23')
+									.replace(/\?/g, '%3f')
+									.replace(/%/g, '%25')
+									.replace(/"/g, '%22');
 							label.classList.add("pointer");
 							label.setAttribute("onclick", "ZoteroPane_Local.loadURI('" + doi + "', event)");
 							label.setAttribute("tooltiptext", Zotero.getString('locate.online.tooltip'));
@@ -1437,7 +1441,7 @@
 				<body>
 				<![CDATA[
 					var label = document.createElement("label");
-					label.setAttribute("value", Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, field));
+					label.setAttribute("value", Zotero.ItemFields.getLocalizedString(field));
 					label.setAttribute("fieldname", field);
 					label.setAttribute("onclick", "this.nextSibling.firstChild.blur()");
 					
@@ -1672,6 +1676,11 @@
 				<parameter name="menu"/>
 				<body><![CDATA[
 				return (async function () {
+					var functionsToRun = [];
+					if (this.eventHandlers.itemtypechange && this.eventHandlers.itemtypechange.length) {
+						functionsToRun = [...this.eventHandlers.itemtypechange];
+					}
+					
 					if (itemTypeID == this.item.itemTypeID) {
 						return true;
 					}
@@ -1722,7 +1731,7 @@
 						var fieldNames = "";
 						for (var i=0; i<fieldsToDelete.length; i++) {
 							fieldNames += "\n - " +
-								Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, fieldsToDelete[i]);
+								Zotero.ItemFields.getLocalizedString(fieldsToDelete[i]);
 						}
 						
 						var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -1752,10 +1761,8 @@
 							this.refresh();
 						}
 						
-						if (this.eventHandlers['itemtypechange'] && this.eventHandlers['itemtypechange'].length) {
-							this.eventHandlers['itemtypechange'].forEach(f => f.bind(this)());
-						}
-
+						functionsToRun.forEach(f => f.bind(this)());
+						
 						return true;
 					}
 
@@ -1815,7 +1822,7 @@
 					);
 					valueElement.parentNode.replaceChild(newValueElement, valueElement);
 					
-					var text = Zotero.ItemFields.getLocalizedString(this.item.itemTypeID, 'abstractNote');
+					var text = Zotero.ItemFields.getLocalizedString('abstractNote');
 					// Add '(...)' before "Abstract" for collapsed abstracts
 					if (valueText && cur) {
 						text = '(\u2026) ' + text;
@@ -2174,7 +2181,7 @@
 					// Block delete if there are multilingual variants
 					if (isMulti) {
 						var langTag = labelToDelete.firstChild.getAttribute("zlang");
-						var creator = Zotero.Creators.cleanData(this.item.getCreator(index), true);
+						var creator = Zotero.Creators.cleanData(this.item.getCreator(index), {includeDependents:true});
 						delete creator.multi._key[langTag];
 						this.item.setCreator(index, creator, creator.creatorTypeID);
 					} else {
@@ -2566,21 +2573,19 @@
 				<parameter name="textbox"/>
 				<parameter name="stayFocused"/>
 				<body><![CDATA[
-					var comment = false;
 					var controller = textbox.controller;
 					if (!controller.matchCount) return;
 					
-					for (var i=0; i<controller.matchCount; i++)
-					{
-						if (controller.getValueAt(i) == textbox.value)
-						{
-							comment = controller.getCommentAt(i);
+					var id = false;
+					for (let i = 0; i < controller.matchCount; i++) {
+						if (controller.getCommentAt(i) == textbox.value) {
+							id = controller.getLabelAt(i);
 							break;
 						}
 					}
 					
 					// No result selected
-					if (!comment) {
+					if (!id) {
 						return;
 					}
 					
@@ -2757,7 +2762,7 @@
 							return [];
 						} else {
 							if (forceLowerCase) {
-								return [for (particle of particles[0]) particle.toLowerCase()];
+								return particles[0].map(p => p.toLowerCase());
 							} else {
 								return particles[0];
 							}
@@ -2865,7 +2870,7 @@
 					
 					
 					// (9) Express particle states as a base-4 integer, one byte per particle
-					var base4max = [for (i of particles) "0"];
+					var base4max = particles.map(p => 0);
 					base4max = "1" + base4max.join("");
 					var combos = [];
 					for (i=0,ilen=parseInt(base4max, 4);i<ilen;i++) {
@@ -3917,7 +3922,7 @@
 					var realOldCreator = this.item.getCreator(index);
 					var oldCreator = realOldCreator;
 					if (realOldCreator) {
-						realOldCreator = Zotero.Creators.cleanData(realOldCreator, true);
+						realOldCreator = Zotero.Creators.cleanData(realOldCreator, {includeDependents:true});
 						oldCreator = Zotero.Creators.cleanData(realOldCreator);
 					}
 

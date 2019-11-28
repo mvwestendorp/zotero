@@ -178,6 +178,7 @@
 		"legislativeBody": "Legislative body",
 		"number": 3,
 		"pages": "1-10",
+		"publicationTitle": "Publication title",  
 		"resolutionLabel": "Resolution label",
 		"rights": "Rights",
 		"section": "Section",
@@ -1090,6 +1091,7 @@
 		"language": "en-US",
 		"legislativeBody": "Legislative body",
 		"meetingNumber": "Meeting number",
+		"meetingName": "Meeting name",
 		"number": 3,
 		"numberOfVolumes": 7,
 		"pages": "1-10",
@@ -2223,7 +2225,7 @@
 		"title": "Title",
 		"url": "http://www.example.com",
 		"volume": 6,
-		"websiteTitle": "Website title",
+		"publicationTitle": "Publication title",
 		"multi": {
 			"main": {},
 			"_keys": {}
@@ -2538,6 +2540,7 @@
 		"supplementName": "Supplement name",
 		"title": "Title",
 		"url": "http://www.example.com",
+		"versionNumber": "Version number",
 		"volume": 6,
 		"multi": {
 			"main": {},

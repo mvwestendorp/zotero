@@ -18,6 +18,9 @@
 [submodule "test/resource/chai-as-promised"]
 	path = test/resource/chai-as-promised
 	url = https://github.com/domenic/chai-as-promised.git
+[submodule "resource/schema/global"]
+	path = resource/schema/global
+	url = git://github.com/zotero/zotero-schema.git
 [submodule "deployer"]
 	path = deployer
 	url = https://github.com/Juris-M/deployer.git
@@ -30,3 +33,4 @@
 [submodule "juris-abbrevs"]
 	path = juris-abbrevs
 	url = https://github.com/Juris-M/jurism-abbreviations.git
+	branch = master

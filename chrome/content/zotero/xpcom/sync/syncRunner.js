@@ -209,6 +209,11 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 				setStatus: this.setSyncStatus.bind(this),
 				stopOnError,
 				onError: function (e) {
+					// Ignore cancelled requests
+					if (e instanceof Zotero.HTTP.CancelledException) {
+						Zotero.debug("Request was cancelled");
+						return;
+					}
 					if (options.onError) {
 						options.onError(e);
 					}
@@ -1257,6 +1262,23 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 					}
 				}
 			}
+		}
+		// Show warning for unknown data that couldn't be saved
+		else if (e.name && e.name == 'ZoteroInvalidDataError') {
+			e.message = Zotero.getString(
+				'sync.error.invalidDataError',
+				[
+					Zotero.Libraries.get(e.libraryID).name,
+					Zotero.clientName
+				]
+			)
+				+ "\n\n"
+				+ Zotero.getString('sync.error.invalidDataError.otherData');
+			e.errorType = 'warning';
+			e.dialogButtonText = Zotero.getString('general.checkForUpdates');
+			e.dialogButtonCallback = () => {
+				Zotero.openCheckForUpdatesWindow();
+			};
 		}
 	});
 	

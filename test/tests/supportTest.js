@@ -87,6 +87,8 @@ describe("Support Functions for Unit Testing", function() {
 			assert.isAbove(Object.keys(data).length, 0, 'data object is not empty');
 		});
 		it("all types and fields sample data should be up to date", function() {
+			var fileData = loadSampleData('allTypesAndFields');
+			var generatedData = generateAllTypesAndFieldsData();
 			assert.deepEqual(loadSampleData('allTypesAndFields'), generateAllTypesAndFieldsData());
 		});
 	});
@@ -148,6 +150,7 @@ describe("Support Functions for Unit Testing", function() {
 			let oldData = loadSampleData('translatorExportLegacy'),
 				newData = yield generateTranslatorExportData(true);
 			
+
 			assert.isObject(newData, 'created data object');
 			assert.isNotNull(newData);
 			assert.isAbove(Object.keys(newData).length, 0, 'translator export object is not empty');
@@ -164,12 +167,12 @@ describe("Support Functions for Unit Testing", function() {
 					}
 				}
 			}
+
 			assert.deepEqual(oldData, newData, 'translator export data has not changed');
 		}));
 		it("data should be up to date", Zotero.Promise.coroutine(function* () {
 			let oldData = loadSampleData('translatorExport'),
 				newData = yield generateTranslatorExportData();
-			
 			assert.isObject(newData, 'created data object');
 			assert.isNotNull(newData);
 			assert.isAbove(Object.keys(newData).length, 0, 'translator export object is not empty');

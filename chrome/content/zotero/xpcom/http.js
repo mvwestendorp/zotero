@@ -87,7 +87,7 @@ Zotero.HTTP = new function() {
 	this.CancelledException.prototype = Object.create(Error.prototype);
 	
 	this.TimeoutException = function(ms) {
-		this.message = "XMLHttpRequest has timed out after " + ms + "ms";
+		this.message = "Request timed out" + (ms ? ` after ${ms} ms` : "");
 		this.stack = new Error().stack;
 	};
 	this.TimeoutException.prototype = Object.create(Error.prototype);
@@ -138,7 +138,8 @@ Zotero.HTTP = new function() {
 	 * @param {Number[]|false} [options.successCodes] - HTTP status codes that are considered
 	 *     successful, or FALSE to allow all
 	 * @param {Zotero.CookieSandbox} [options.cookieSandbox] - Cookie sandbox object
-	 * @param {Number} [options.timeout = 30000] - Request timeout specified in milliseconds
+	 * @param {Number} [options.timeout = 30000] - Request timeout specified in milliseconds, or 0
+	 *     for no timeout
 	 * @param {Number[]} [options.errorDelayIntervals] - Array of milliseconds to wait before
 	 *     retrying after 5xx error; if unspecified, a default set is used
 	 * @param {Number} [options.errorDelayMax = 3600000] - Milliseconds to wait before stopping
@@ -225,8 +226,7 @@ Zotero.HTTP = new function() {
 			if (options.username) {
 				options.username = options.username.replace(/%2E/, '.');
 				options.password = url.password || null;
-				url = url.clone();
-				url.userPass = '';
+				url = url.mutate().setUserPass('').finalize();
 			}
 			
 			url = url.spec;
@@ -387,7 +387,9 @@ Zotero.HTTP = new function() {
 		}
 
 		// Set timeout
-		xmlhttp.timeout = options.timeout || 30000;
+		if (options.timeout !== 0) {
+			xmlhttp.timeout = options.timeout || 30000;
+		}
 
 		xmlhttp.ontimeout = function() {
 			deferred.reject(new Zotero.HTTP.TimeoutException(options.timeout));
@@ -563,8 +565,7 @@ Zotero.HTTP = new function() {
 			return false;
 		}
 		
-		var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-						.createInstance();
+		var xmlhttp = new XMLHttpRequest();
 		
 		// Prevent certificate/authentication dialogs from popping up
 		xmlhttp.mozBackgroundRequest = true;
@@ -637,8 +638,7 @@ Zotero.HTTP = new function() {
 			return false;
 		}
 		
-		var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-					.createInstance();
+		var xmlhttp = new XMLHttpRequest();
 		// Prevent certificate/authentication dialogs from popping up
 		xmlhttp.mozBackgroundRequest = true;
 		xmlhttp.open('POST', url, true);
@@ -715,8 +715,7 @@ Zotero.HTTP = new function() {
 		
 		// Workaround for "Accept third-party cookies" being off in Firefox 3.0.1
 		// https://www.zotero.org/trac/ticket/1070
-		var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-						.createInstance();
+		var xmlhttp = new XMLHttpRequest();
 		// Prevent certificate/authentication dialogs from popping up
 		xmlhttp.mozBackgroundRequest = true;
 		xmlhttp.open('HEAD', url, true);
@@ -763,8 +762,7 @@ Zotero.HTTP = new function() {
 			return false;
 		}
 		
-		var xmlhttp = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"]
-					.createInstance();
+		var xmlhttp = new XMLHttpRequest();
 		// Prevent certificate/authentication dialogs from popping up
 		xmlhttp.mozBackgroundRequest = true;
 		xmlhttp.open('OPTIONS', uri.spec, true);

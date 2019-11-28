@@ -116,5 +116,5 @@
 		</tabbox>
 	</prefpane>
 	
-	<script src="preferences_cite.js" type="application/javascript;version=1.8"/>
+	<script src="preferences_cite.js" type="application/javascript"/>
 </overlay>

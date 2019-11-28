@@ -579,20 +579,7 @@ Zotero.Tags = new function() {
 			return _libraryColorsByName[libraryID];
 		}
 		
-		var tagColors = Zotero.SyncedSettings.get(libraryID, 'tagColors');
-		
-		// Sanitize -- shouldn't be necessary, but just in case a bad value makes it into the setting
-		if (!Array.isArray(tagColors)) {
-			tagColors = [];
-		}
-		tagColors = tagColors.filter(color => {
-			if (typeof color != 'object' || typeof color.name != 'string' || typeof color.color != 'string') {
-				Zotero.logError("Skipping invalid colored tag: " + JSON.stringify(color));
-				return false;
-			}
-			return true;
-		});
-		
+		var tagColors = Zotero.SyncedSettings.get(libraryID, 'tagColors') || [];
 		_libraryColors[libraryID] = tagColors;
 		_libraryColorsByName[libraryID] = new Map;
 		
@@ -619,8 +606,9 @@ Zotero.Tags = new function() {
 		}
 		
 		this.getColors(libraryID);
-		
 		var tagColors = _libraryColors[libraryID];
+		
+		name = name.trim();
 		
 		// Unset
 		if (!color) {
@@ -732,25 +720,20 @@ Zotero.Tags = new function() {
 	});
 	
 	
-	this.toggleItemsListTags = Zotero.Promise.coroutine(function* (libraryID, items, tagName) {
+	this.toggleItemsListTags = async function (items, tagName) {
 		if (!items.length) {
 			return;
 		}
 		
+		// Color setting can exist without tag. If missing, we have to add the tag.
 		var tagID = this.getID(tagName);
-		
-		// If there's a color setting but no matching tag, don't throw
-		// an error (though ideally this wouldn't be possible).
-		if (!tagID) {
-			return;
-		}
 		
 		return Zotero.DB.executeTransaction(function* () {
 			// Base our action on the first item. If it has the tag,
 			// remove the tag from all items. If it doesn't, add it to all.
 			var firstItem = items[0];
 			// Remove from all items
-			if (firstItem.hasTag(tagName)) {
+			if (tagID && firstItem.hasTag(tagName)) {
 				for (let i=0; i<items.length; i++) {
 					let item = items[i];
 					item.removeTag(tagName);
@@ -771,7 +754,33 @@ Zotero.Tags = new function() {
 				}
 			}
 		}.bind(this));
-	});
+	};
+	
+	
+	/**
+	 * @param {Zotero.Item[]}
+	 * @return {Promise}
+	 */
+	this.removeColoredTagsFromItems = async function (items) {
+		return Zotero.DB.executeTransaction(async function () {
+			for (let item of items) {
+				let colors = this.getColors(item.libraryID);
+				let tags = item.getTags();
+				let changed = false;
+				for (let tag of tags) {
+					if (colors.has(tag.tag)) {
+						item.removeTag(tag.tag);
+						changed = true;
+					}
+				}
+				if (changed) {
+					await item.save({
+						skipDateModifiedUpdate: true
+					});
+				}
+			}
+		}.bind(this));
+	};
 	
 	
 	/**

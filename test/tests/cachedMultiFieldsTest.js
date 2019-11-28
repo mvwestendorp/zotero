@@ -19,17 +19,19 @@ describe("Zotero.CachedMultiFields", function() {
 	});
 	describe("#isMultiFieldID()", function() {
 		var isMultiFieldID = Zotero.CachedMultiFields.isMultiFieldID.bind(Zotero.CachedMultiFields);
+		var titleID = Zotero.ItemFields.getID("title");
 		it("should return true on a multilingual field ID of number type", function() {
-			assert.isTrue(isMultiFieldID(110));
+			assert.isTrue(isMultiFieldID(parseInt(titleID, 10)));
 		});
 		it("should return true on a multilingual field ID of string type", function() {
-			assert.isTrue(isMultiFieldID("110"));
+			assert.isTrue(isMultiFieldID("" + titleID));
 		});
+		var urlID = Zotero.ItemFields.getID("url");
 		it("should return false on a non-multilingual field ID of number type", function() {
-			assert.isFalse(isMultiFieldID(1));
+			assert.isFalse(isMultiFieldID(parseInt(urlID, 10)));
 		});
 		it("should return false on a non-multilingual field ID of string type", function() {
-			assert.isFalse(isMultiFieldID("1"));
+			assert.isFalse(isMultiFieldID("" + urlID));
 		});
 		it("should return false on null", function() {
 			assert.isFalse(isMultiFieldID(null));

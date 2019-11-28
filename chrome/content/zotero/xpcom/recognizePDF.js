@@ -410,35 +410,53 @@ Zotero.RecognizePDF = new function () {
 	 * @return {Promise<Zotero.Item>} - New item
 	 */
 	async function _recognize(item) {
+		Zotero.debug("XXX YOWZA!!! In _recognize for PDFs. YAY!", 1);
 		if (Zotero.RecognizePDF.recognizeStub) {
 			return Zotero.RecognizePDF.recognizeStub(item);
 		}
+		Zotero.debug("XXX    yowza one", 1);
 		
 		let filePath = await item.getFilePath();
 		
+		Zotero.debug("XXX    yowza two", 1);
+		
 		if (!filePath || !await OS.File.exists(filePath)) throw new Zotero.Exception.Alert('recognizePDF.fileNotFound');
+
+		Zotero.debug("XXX    yowza three", 1);
 
 		let json = await extractJSON(filePath, MAX_PAGES);
 		
+		Zotero.debug("XXX    yowza four", 1);
+
 		let containingTextPages = 0;
 		
+		Zotero.debug("XXX    yowza five", 1);
+
 		for(let page of json.pages) {
 			if(page[2].length) {
 				containingTextPages++;
 			}
 		}
 		
+		Zotero.debug("XXX    yowza six", 1);
+
 		if(!containingTextPages) {
 			throw new Zotero.Exception.Alert('recognizePDF.noOCR');
 		}
 		
+		Zotero.debug("XXX    yowza seven", 1);
+
 		let libraryID = item.libraryID;
 		
+		Zotero.debug("XXX    yowza eight", 1);
+
 		let res = await _query(json);
 		if (!res) return null;
+
+		Zotero.debug("XXX    res: " + JSON.stringify(res, null, 1));
 		
 		if (res.arxiv) {
-			Zotero.debug(`RecognizePDF: Getting metadata for arXiv ID ${res.arxiv}`);
+			Zotero.debug(`RecognizePDF: Getting metadata for arXiv ID ${res.arxiv}`, 1);
 			let translate = new Zotero.Translate.Search();
 			translate.setIdentifier({arXiv: res.arxiv});
 			let translators = await translate.getTranslators();

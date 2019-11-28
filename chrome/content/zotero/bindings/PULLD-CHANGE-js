@@ -1,0 +1,137 @@
+						var val = '';
+						
+						if (fieldName) {
+							var fieldID = Zotero.ItemFields.getID(fieldName);
+							if (fieldID && !Zotero.ItemFields.isValidForType(fieldID, this.item.itemTypeID)) {
+								fieldName = null;
+							}
+						}
+						
+						if (fieldName) {
+							if (this._hiddenFields.indexOf(fieldName) != -1) {
+								continue;
+							}
+							
+							// createValueElement() adds the itemTypeID as an attribute
+							// and converts it to a localized string for display
+							if (fieldName == 'itemType') {
+								val = this.item.itemTypeID;
+							}
+							else {
+								val = this.item.getField(fieldName);
+							}
+							
+							if (!val && this.hideEmptyFields
+									&& this._visibleFields.indexOf(fieldName) == -1
+									&& (this.mode != 'fieldmerge' || typeof this._fieldAlternatives[fieldName] == 'undefined')) {
+								continue;
+							}
+							
+							var fieldIsClickable = this._fieldIsClickable(fieldName);
+							
+							// Start tabindex at 1001 after creators
+							var tabindex = fieldIsClickable
+								? (i>0 ? this._tabIndexMinFields + i : 1) : 0;
+							this._tabIndexMaxFields = Math.max(this._tabIndexMaxFields, tabindex);
+							
+							if (fieldIsClickable
+									&& !Zotero.Items.isPrimaryField(fieldName)
+									&& Zotero.ItemFields.isDate(fieldName)
+									// TEMP - NSF
+									&& fieldName != 'dateSent') {
+								this.addDateRow(fieldNames[i], this.item.getField(fieldName, true), tabindex);
+								continue;
+							}
+						}
+						
+						let label = document.createElement("label");
+						label.setAttribute('fieldname', fieldName);
+						
+						let valueElement = this.createValueElement(
+							val, fieldName, tabindex
+						);
+						
+						var prefix = '';
+						// Add '(...)' before 'Abstract' for collapsed abstracts
+						if (fieldName == 'abstractNote') {
+							if (val && !Zotero.Prefs.get('lastAbstractExpand')) {
+								prefix = '(\u2026) ';
+							}
+						}
+						
+						if (fieldName) {
+							label.setAttribute("value", prefix +
+								Zotero.ItemFields.getLocalizedString(fieldName));
+						}
+						
+						// TEMP - NSF (homepage)
+						if ((fieldName == 'url' || fieldName == 'homepage') && val) {
+							label.classList.add("pointer");
+							// TODO: make getFieldValue non-private and use below instead
+							label.setAttribute("onclick", "ZoteroPane_Local.loadURI(this.nextSibling.firstChild ? this.nextSibling.firstChild.nodeValue : this.nextSibling.value, event)");
+							label.setAttribute("tooltiptext", Zotero.getString('locate.online.tooltip'));
+						}
+						else if (fieldName == 'DOI' && val && typeof val == 'string') {
+							// Pull out DOI, in case there's a prefix
+							var doi = Zotero.Utilities.cleanDOI(val);
+							if (doi) {
+								doi = "https://doi.org/"
+									// Encode some characters that are technically valid in DOIs,
+									// though generally not used. '/' doesn't need to be encoded.
+									+  doi.replace(/#/g, '%23')
+										.replace(/\?/g, '%3f')
+										.replace(/%/g, '%25')
+										.replace(/"/g, '%22');
+								label.classList.add("pointer");
+								label.setAttribute("onclick", "ZoteroPane_Local.loadURI('" + doi + "', event)");
+								label.setAttribute("tooltiptext", Zotero.getString('locate.online.tooltip'));
+								valueElement.setAttribute('contextmenu', 'zotero-doi-menu');
+								
+								var openURLMenuItem = document.getElementById('zotero-doi-menu-view-online');
+								openURLMenuItem.setAttribute("oncommand", "ZoteroPane_Local.loadURI('" + doi + "', event)");
+								
+								var copyMenuItem = document.getElementById('zotero-doi-menu-copy');
+								copyMenuItem.setAttribute("oncommand", "Zotero.Utilities.Internal.copyTextToClipboard('" + doi + "')");
+							}
+
+						else if (fieldName == 'abstractNote') {
+							if (val.length) {
+								label.classList.add("pointer");
+							}
+							label.addEventListener('click', function () {
+								if (this.nextSibling.inputField) {
+									this.nextSibling.inputField.blur();
+								}
+								else {
+									document.getBindingParent(this).toggleAbstractExpand(
+										this, this.nextSibling
+									);
+								}
+							});
+						}
+						else {
+							label.setAttribute("onclick",
+								"if (this.nextSibling.inputField) { this.nextSibling.inputField.blur(); }");
+						}
+						
+						var row = this.addDynamicRow(label, valueElement);
+						
+						if (fieldName && this._selectField == fieldName) {
+							this.showEditor(valueElement);
+						}
+						
+						// In field merge mode, add a button to switch field versions
+						else if (this.mode == 'fieldmerge' && typeof this._fieldAlternatives[fieldName] != 'undefined') {
+							var button = document.createElement("toolbarbutton");
+							button.className = 'zotero-field-version-button';
+							button.setAttribute('image', 'chrome://zotero/skin/treesource-duplicates.png');
+							button.setAttribute('type', 'menu');
+							
+							var popup = button.appendChild(document.createElement("menupopup"));
+							
+							for (let v of this._fieldAlternatives[fieldName]) {
+								var menuitem = document.createElement("menuitem");
+								var sv = Zotero.Utilities.ellipsize(v, 60);
+								menuitem.setAttribute('label', sv);
+								if (v != sv) {
+									menuitem.setAttribute('tooltiptext', v);
