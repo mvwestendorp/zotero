@@ -241,7 +241,7 @@ Zotero.Sync.Data.Engine.prototype._startDownload = Zotero.Promise.coroutine(func
 	loop:
 	while (true) {
 		this._statusCheck();
-		
+
 		// Get synced settings first, since they affect how other data is displayed
 		let results = yield this._downloadSettings(libraryVersion);
 		if (results.result == this.DOWNLOAD_RESULT_LIBRARY_UNMODIFIED) {
@@ -1244,10 +1244,12 @@ Zotero.Sync.Data.Engine.prototype._uploadObjects = Zotero.Promise.coroutine(func
 						// Update local object with saved data if necessary, as long as it hasn't
 						// changed locally since the upload
 						if (!changed) {
-							// Successful items pushed into cache must be decoded
-							// This forestalls stray mlzsync1 cruft on items inside
-							// the Juris-M client.
-							current.data = Zotero.Jurism.SyncRecode.decode(current.data);
+							if (objectType === "item") {
+								// Successful items pushed into cache must be decoded
+								// This forestalls stray mlzsync1 cruft on items inside
+								// the Juris-M client.
+								current.data = Zotero.Jurism.SyncRecode.decode(current.data);
+							}
 							obj.fromJSON(current.data, { strict: true });
 							toSave.push(obj);
 						}
@@ -1641,7 +1643,7 @@ Zotero.Sync.Data.Engine.prototype._fullSync = Zotero.Promise.coroutine(function*
 		// Reprocess all deletions available from API
 		let results = yield this._downloadDeletions(0);
 		lastLibraryVersion = results.libraryVersion;
-		
+
 		// Get synced settings
 		results = yield this._downloadSettings(0, lastLibraryVersion);
 		if (results.result == this.DOWNLOAD_RESULT_RESTART) {

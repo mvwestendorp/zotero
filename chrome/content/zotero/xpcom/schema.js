@@ -644,7 +644,6 @@ Zotero.Schema = new function(){
 	 * @param {Number} bundledVersion - Version of the bundled schema-jurism.json file
 	 */
 	async function _loadGlobalSchema(data, bundledVersion) {
-		Zotero.debug("XXX THIS INITIALIZES, OR TRIES TO", 1);
 		if (!data) {
 			throw new Error("Data not provided");
 		}
@@ -654,6 +653,7 @@ Zotero.Schema = new function(){
 			Object.keys(data.locales)
 		);
 		Zotero.Schema.globalSchemaLocale = data.locales[locale];
+
 		Zotero.Schema.globalSchemaMeta = data.meta;
 		Zotero.Schema.CSL_TYPE_MAPPINGS = {};
 		Zotero.Schema.CSL_TYPE_MAPPINGS_REVERSE = {};
@@ -666,10 +666,6 @@ Zotero.Schema = new function(){
 		Zotero.Schema.CSL_TEXT_MAPPINGS = data.csl.fields.text;
 		Zotero.Schema.CSL_DATE_MAPPINGS = data.csl.fields.date;
 		Zotero.Schema.CSL_NAME_MAPPINGS = data.csl.names;
-		Zotero.debug("XXX I HAVE CSL_NAME_MAPPINGS: "+Zotero.Schema.CSL_NAME_MAPPINGS, 1);
-		Zotero.debug("XXX I HAVE CSL_DATE_MAPPINGS: "+Zotero.Schema.CSL_DATE_MAPPINGS, 1);
-		Zotero.debug("XXX I HAVE CSL_TYPE_MAPPINGS: "+Zotero.Schema.CSL_TYPE_MAPPINGS, 1);
-		Zotero.debug("XXX I HAVE CSL_TEXT_MAPPINGS: "+Zotero.Schema.CSL_TEXT_MAPPINGS, 1);
 	}
 	
 	

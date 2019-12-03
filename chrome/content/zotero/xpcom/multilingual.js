@@ -26,10 +26,6 @@ Zotero.Multi.mangle = function (fields) {
 		var servantLang = '';
 		var masterIndex = '';
 		var servantLangLen = '';
-		//Zotero.debug("XXX ======== mangle ============");
-		//Zotero.debug("XXX lastName: "+fields.lastName);
-		//Zotero.debug("XXX servantLang: "+fields.servantLang);
-		//Zotero.debug("XXX masterIndex: "+fields.masterIndex + " of type "+typeof fields.masterIndex);
 		if (fields.servantLang && "number" === typeof fields.masterIndex) {
 			servantLang = '' + fields.servantLang;
 			masterIndex = '' + fields.masterIndex;
@@ -43,7 +39,6 @@ Zotero.Multi.mangle = function (fields) {
 			masterIndex = '#' + masterIndex;
 		}
 		fields.lastName = masterIndex + servantLangLen + servantLang + fields.lastName;
-		//Zotero.debug("XXX storing in DB: "+fields.lastName);
 	}
 	var newfields = [];
 	for (key of Zotero.Creators.fields.slice(0, 5)) {
@@ -101,7 +96,6 @@ Zotero.Multi.parseSerializedMultiField = function (s) {
 }
 
 
-// XXXZ
 Zotero.Item.prototype.setMultiField = function (field, val, lang) {
 	var text, texts, code, codes, s, tlen, clen, key, codeslen;
 
@@ -188,7 +182,6 @@ Zotero.Item.prototype.setMultiField = function (field, val, lang) {
 
 
 
-// XXXZ
 Zotero.Item.prototype._loadMulti = function (fieldID) {
 	var base, m, mm, base_len, text_len, code_len, code, text, codes, texts, s, multi;
 

@@ -117,7 +117,7 @@ describe("Zotero.Utilities.Internal", function () {
 		it("should extract a CSL type", function () {
 			var str = 'type: motion_picture';
 			var { itemType, fields, extra } = Zotero.Utilities.Internal.extractExtraFields(str);
-			assert.equal(itemType, 'videoRecording');
+			assert.equal(itemType, 'film');
 			assert.equal(fields.size, 0);
 			assert.strictEqual(extra, '');
 		});
@@ -206,7 +206,7 @@ describe("Zotero.Utilities.Internal", function () {
 		
 		it("should extract an author and add it to existing creators", function () {
 			var item = createUnsavedDataObject('item', { itemType: 'book' });
-			item.setCreator(0, { creatorType: 'author', name: 'Foo' });
+			item.setCreator(0, { creatorType: 'author', name: 'Foo', multi: {_key:{}} });
 			var str = 'author: Bar';
 			var { fields, creators, extra } = Zotero.Utilities.Internal.extractExtraFields(str, item);
 			assert.equal(fields.size, 0);

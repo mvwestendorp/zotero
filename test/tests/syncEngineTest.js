@@ -435,8 +435,6 @@ describe("Zotero.Sync.Data.Engine", function () {
 
 			var titleID = Zotero.ItemFields.getID('title');
 			
-			Zotero.debug("XXX multi: " + JSON.stringify(obj.multi, null, 2), 1);
-			
 			assert.equal(obj.multi.main[titleID], 'en');
 			assert.equal(obj.getField('extra'), 'distributor: Film distributor');
 			assert.equal(obj.getField('shortTitle', false, false, 'es'), 'Spanish short title');
@@ -648,11 +646,8 @@ describe("Zotero.Sync.Data.Engine", function () {
 			assert.equal(itemType, 'regulation');
 			assert.equal(obj.getField('nameOfAct'), 'A');
 			
-			Zotero.debug("XXX GOT one", 1);
 			var creator = obj.getCreator(1);
 
-			Zotero.debug("XXX OK HERE IS THE CREATOR: " + JSON.stringify(creator, null, 2), 1);
-			
 			var creatorType = Zotero.CreatorTypes.getName(creator.creatorTypeID);
 			assert.equal(creatorType, 'author');
 			assert.equal(creator.lastName, 'Bob Jones Hamburgers');
@@ -1172,7 +1167,7 @@ describe("Zotero.Sync.Data.Engine", function () {
 					assert.equal(
 						req.requestHeaders["If-Unmodified-Since-Version"], lastLibraryVersion
 					);
-					
+					Zotero.debug("XXX req.url="+req.url);
 					// Both settings should be uploaded
 					if (req.url == baseURL + "users/1/settings") {
 						let json = JSON.parse(req.requestBody);
@@ -1192,7 +1187,6 @@ describe("Zotero.Sync.Data.Engine", function () {
 						);
 						return;
 					}
-					
 					for (let type of types) {
 						let typePlural = Zotero.DataObjectUtilities.getObjectTypePlural(type);
 						if (req.url == baseURL + "users/1/" + typePlural) {

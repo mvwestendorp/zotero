@@ -956,6 +956,9 @@ Zotero.Utilities.Internal = {
 	 *     Extra string after removing the extracted values
 	 */
 	extractExtraFields: function (extra, item = null, additionalFields = []) {
+		if (!Zotero.Utilities._mapsInitialized) {
+			Zotero.Utilities.initMaps();
+		}
 		var itemTypeID = item ? item.itemTypeID : null;
 		
 		var itemType = null;
@@ -992,8 +995,16 @@ Zotero.Utilities.Internal = {
 		var creatorTypes = new Map(Zotero.CreatorTypes.getAll().map(x => [this._normalizeExtraKey(x.name), x.name]));
 		// CSL types
 		for (let i in Zotero.Schema.CSL_NAME_MAPPINGS) {
-			let cslType = Zotero.Schema.CSL_NAME_MAPPINGS[i];
-			creatorTypes.set(cslType.toLowerCase(), i);
+			let cslType = Zotero.Schema.CSL_NAME_MAPPINGS[i].toLowerCase();
+			if (!creatorTypes.get(cslType)) {
+				creatorTypes.set(cslType, i);
+			}
+		}
+		var keyIter = creatorTypes.keys();
+		while (true) {
+			var key = keyIter.next().value;
+			if (!key) break;
+			var val = creatorTypes.get(key);
 		}
 		
 		// Process Extra lines
@@ -1011,7 +1022,7 @@ Zotero.Utilities.Internal = {
 				continue;
 			}
 			let [_, originalField, value] = parts;
-			
+
 			let key = this._normalizeExtraKey(originalField);
 			if (skipKeys.has(key)) {
 				keepLines.push(line);

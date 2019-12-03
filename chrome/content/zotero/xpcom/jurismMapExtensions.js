@@ -5,8 +5,6 @@ Zotero.Jurism.EXTENDED = JSON.parse(
 	Zotero.File.getContentsFromURL("resource://zotero/schema/global/schema-jurism-patch.json")
 );
 
-dump("XXX EXTENDED? " + Zotero.Jurism.EXTENDED + "\n");
-
 Zotero.Jurism.CSL = {
 	FORCE_FIELD_CONTENT: {
 		"tvBroadcast":{
@@ -119,11 +117,15 @@ Zotero.Jurism.MapTools = {
 			if (data[k]) {
 				throw "Field " + k + " already exists in " + key;
 			}
-			data[k] = patchData.add[k];
+			if (key === "TYPES") {
+				data[k] = patchData.add[k].csl;
+			} else {
+				data[k] = patchData.add[k];
+			}
 		}
 		for (var k in patchData.extend) {
 			if (!data[k]) {
-				throw "Expected field " + k + " does not exist to be extended in " + key;
+				throw "Expected field " + k + " does not exist to be exteded in " + key;
 			}
 			for (var i=0,ilen=patchData.extend[k].length; i<ilen; i++) {
 				data[k].push(patchData.extend[k][i]);
@@ -213,9 +215,6 @@ Zotero.Jurism.MapTools = {
 		for (var itemType in encodeMap) {
 			ret[itemType] = {};
 			for (var zField in encodeMap[itemType]) {
-//				if (extName === "FIELDS") {
-//					Zotero.debug("XXX zField: "+JSON.stringify(zField), 1);
-//				}
 				ret[itemType][encodeMap[itemType][zField]] = zField;
 			}
 		}
@@ -223,38 +222,32 @@ Zotero.Jurism.MapTools = {
 	},
 
 	makeReverseMap: function(extName, cslMap) {
-		var _map = null;
-		var me = this;
-		return function(itemType, zField) {
-			if (!_map) {
-				if (!Zotero.ItemTypes) {
-					throw "Error: Zotero.ItemTypes is not yet loaded";
-				}
-				var _map = {};
-				var allTypes = Zotero.ItemTypes.getSecondaryTypes().map(o => o.name);
-				for (var i=0,ilen=allTypes.length; i<ilen; i++) {
-					var newItemType = allTypes[i];
-					if (!Zotero.Schema.CSL_TYPE_MAPPINGS[newItemType]) {
-						continue;
-					}
-					_map[newItemType] = {};
-					var allFields;
-					if (extName === "CREATORS") {
-						allFields = Zotero.Utilities.getCreatorsForType(newItemType);
-					} else {
-						allFields = me.getFieldsForType(newItemType);
-					}
-					for (var j=0,jlen=allFields.length; j<jlen; j++) {
-						var newZField = allFields[j];
-						var cField = me.getEncodeField(newZField, cslMap);
-						if (cField) {
-							_map[newItemType][newZField] = cField;
-						}
-					}
+		if (!Zotero.ItemTypes) {
+			throw "Error: Zotero.ItemTypes is not yet loaded";
+		}
+		var _map = {};
+		var allTypes = Zotero.ItemTypes.getSecondaryTypes().map(o => o.name);
+		for (var i=0,ilen=allTypes.length; i<ilen; i++) {
+			var newItemType = allTypes[i];
+			if (!Zotero.Schema.CSL_TYPE_MAPPINGS[newItemType]) {
+				continue;
+			}
+			_map[newItemType] = {};
+			var allFields;
+			if (extName === "CREATORS") {
+				allFields = Zotero.Utilities.getCreatorsForType(newItemType);
+			} else {
+				allFields = this.getFieldsForType(newItemType);
+			}
+			for (var j=0,jlen=allFields.length; j<jlen; j++) {
+				var newZField = allFields[j];
+				var cField = this.getEncodeField(newZField, cslMap);
+				if (cField) {
+					_map[newItemType][newZField] = cField;
 				}
 			}
-			return _map[itemType] && _map[itemType][zField];
 		}
+		return _map;
 	}
 }
 

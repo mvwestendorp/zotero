@@ -46,12 +46,8 @@ Zotero_Preferences.Lang = {
 	},
 	
     refreshMenus: function () {
- 	    //var startTime = Date.now();
  	    Zotero_Preferences.Lang.refreshScriptMenu();
- 	    //Zotero.debug("XXX scripts: "+(Date.now() - startTime));
- 	    //var startTime = Date.now();
  	    Zotero_Preferences.Lang.refreshRegionMenu();
- 	    //Zotero.debug("XXX regions: "+(Date.now() - startTime));
  	    //
  	    // The variant menu is built on the fly
  	    // because the number of items is relatively 
@@ -368,19 +364,19 @@ Zotero_Preferences.Lang = {
     }),
     
     insertLanguageRow: Zotero.Promise.coroutine(function* (tagdata) {
- 	    // XXXZ This does not run for primary tags ... system uses
+ 	    // This does not run for primary tags ... system uses
  	    // cachedLanguages instead. Should be using cachedLanguages
  	    // for everything?
  	    var tag = Zotero_Preferences.Lang.getTagFromTagdata(tagdata);
  	    var parent = Zotero_Preferences.Lang.getTagFromTagdata(tagdata.slice(0,-1));
  	    var sql = "INSERT INTO zlsTags VALUES (?,?,?)";
- 	    // XXXZ The parent field is unnecessary and can be
+ 	    // The parent field is unnecessary and can be
  	    // dropped.
- 	    // XXXZ The tag should be added to the (persistent)
+ 	    // The tag should be added to the (persistent)
  	    // store of language tags seen by the system if
  	    // necessary, so that it is assigned an integer
  	    // value.
- 	    // XXXZ The second tag field should be the integer
+ 	    // The second tag field should be the integer
  	    // key of the tag.
  	    yield Zotero.DB.queryAsync(sql, [tag,tag,parent]);
  	    yield Zotero_Preferences.Lang.refreshLanguages();

@@ -214,9 +214,6 @@ Zotero.Jurism.SyncRecode = {
 					}
 					var zField = Zotero.Utilities.DECODE.CREATORS[itemType] && Zotero.Utilities.DECODE.CREATORS[itemType][info.cslField];
 
-					Zotero.debug("XXX WOW OK. RUNNING CREATOR DECODE HERE??? "+JSON.stringify(Zotero.Utilities.DECODE.CREATORS[itemType], null, 2), 1);
-
-					
 					if (!zField) {
 						continue;
 					}
@@ -263,7 +260,7 @@ Zotero.Jurism.SyncRecode = {
 							_key: {}
 						}
 					}
-					var creatorType = Zotero.Utilities.REVERSE.CREATORS(itemType, creator.creatorType);
+					var creatorType = Zotero.Utilities.REVERSE.CREATORS[itemType] ?  Zotero.Utilities.REVERSE.CREATORS[itemType][creator.creatorType] : false;
 					if (creatorType) {
 						creatorTypes[creatorType] = creator.creatorType;
 					}
@@ -340,7 +337,7 @@ Zotero.Jurism.SyncRecode = {
 				// Create a map of content-bearing fields on the item
 				var itemFields = {};
 				for (var zField in newjson) {
-					var field = Zotero.Utilities.REVERSE.FIELDS(itemType, zField);
+					var field = Zotero.Utilities.REVERSE.FIELDS[itemType] ? Zotero.Utilities.REVERSE.FIELDS[itemType][zField] : false;
 					if (field && newjson[zField]) {
 						if (Zotero.CachedMultiFields.isMultiFieldName(zField)) {
 							itemFields[field] = zField;
@@ -408,6 +405,7 @@ Zotero.Jurism.SyncRecode = {
 	},
 
 	"encode": function (json) {
+		if (!Zotero.Utilities._mapsInitialized) Zotero.Utilities.initMaps();
 		if (!json.multi) {
 			//throw "No multi segment on item JSON. What happened?";
 			return json;
@@ -495,7 +493,7 @@ Zotero.Jurism.SyncRecode = {
 		// xtype
 		if (Zotero.Jurism.EXTENDED.TYPES[newjson.itemType]) {
 			extradata.xtype = newjson.itemType;
-			newjson.itemType = Zotero.Jurism.EXTENDED.TYPES[newjson.itemType];
+			newjson.itemType = Zotero.Jurism.EXTENDED.TYPES[newjson.itemType.zotero];
 		}
 
 		// Bundle it
