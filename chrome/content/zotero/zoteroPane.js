@@ -105,6 +105,7 @@ var ZoteroPane = new function()
 		window.addEventListener("resize", () => {
 			this.updateWindow();
 			this.updateToolbarPosition();
+			this.updateTagsBoxSize();
 		});
 		window.setTimeout(this.updateToolbarPosition.bind(this), 0);
 		
@@ -4904,6 +4905,7 @@ var ZoteroPane = new function()
 		}
 
 		this.updateToolbarPosition();
+		this.updateTagsBoxSize();
 	}
 	
 	
@@ -4924,7 +4926,8 @@ var ZoteroPane = new function()
 				// people close them by accident and don't know how to get them back
 				// TODO: Add a hidden pref to allow them to stay closed if people really want that?
 				if ((el.id == 'zotero-collections-splitter' || el.id == 'zotero-items-splitter')
-						&& attr == 'state') {
+						&& attr == 'state'
+						&& Zotero.Prefs.get('reopenPanesOnRestart')) {
 					continue;
 				}
 				el.setAttribute(attr, elValues[attr]);
@@ -5023,6 +5026,25 @@ var ZoteroPane = new function()
 		
 		this.handleTagSelectorResize();
 	}
+	
+	/**
+	 * Set an explicit height on the tags list to show a scroll bar if necessary
+	 *
+	 * This really should be be possible via CSS alone, but I couldn't get it to work, either
+	 * because I was doing something wrong or because the XUL layout engine was messing with me.
+	 * Revisit when we're all HTML.
+	 */
+	this.updateTagsBoxSize = function () {
+		var pane = document.querySelector('#zotero-item-pane');
+		var header = document.querySelector('#zotero-item-pane .tags-box-header');
+		var list = document.querySelector('#zotero-item-pane .tags-box-list');
+		if (pane && header && list) {
+			let height = pane.getBoundingClientRect().height
+				- header.getBoundingClientRect().height
+				- 35; // a little padding
+			list.style.height = height + 'px';
+		}
+	};
 	
 	/**
 	 * Opens the about dialog

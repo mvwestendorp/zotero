@@ -21,6 +21,7 @@
 [submodule "resource/schema/global"]
 	path = resource/schema/global
 	url = git://github.com/zotero/zotero-schema.git
+	branch = master
 [submodule "deployer"]
 	path = deployer
 	url = https://github.com/Juris-M/deployer.git

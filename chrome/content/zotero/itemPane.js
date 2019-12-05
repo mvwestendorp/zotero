@@ -190,7 +190,8 @@ var ZoteroItemPane = new function() {
 					ref={_tagsBox}
 					onResetSelection={focusItemsList}
 				/>,
-				document.getElementById('tags-box-container')
+				document.getElementById('tags-box-container'),
+				() => ZoteroPane.updateTagsBoxSize()
 			);
 		}
 		
@@ -319,6 +320,13 @@ var ZoteroItemPane = new function() {
 								.getService(Components.interfaces.nsIPromptService);
 		if (ps.confirm(null, '', Zotero.getString('pane.item.notes.delete.confirm'))) {
 			Zotero.Items.trashTx(id);
+		}
+	}
+	
+	
+	this.onTagsContextPopupShowing = function () {
+		if (!_lastItem.isEditable()) {
+			return false;
 		}
 	}
 	

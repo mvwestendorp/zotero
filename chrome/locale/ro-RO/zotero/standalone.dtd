@@ -1,6 +1,49 @@
+<<<<<<< HEAD
 <!ENTITY aboutProduct.accesskey "A">
 <!ENTITY aboutProduct.label "Despre &brandShortName;">
 <!ENTITY addons.label "Extensii">
+=======
+<!ENTITY preferencesCmdMac.label "Preferințe...">
+<!ENTITY preferencesCmdMac.commandkey ",">
+<!ENTITY servicesMenuMac.label "Servicii">
+<!ENTITY hideThisAppCmdMac.label "Ascunde &brandShortName;">
+<!ENTITY hideThisAppCmdMac.commandkey "H">
+<!ENTITY hideOtherAppsCmdMac.label "Ascunde celelalte">
+<!ENTITY hideOtherAppsCmdMac.commandkey "H">
+<!ENTITY showAllAppsCmdMac.label "Afișează tot">
+<!ENTITY quitApplicationCmdMac.label "Părăsește Zotero">
+<!ENTITY quitApplicationCmdMac.key "Q">
+
+
+<!ENTITY fileMenu.label "Fișier">
+<!ENTITY fileMenu.accesskey "F">
+<!ENTITY saveCmd.label "Salvează...">
+<!ENTITY saveCmd.key "S">
+<!ENTITY saveCmd.accesskey "A">
+<!ENTITY pageSetupCmd.label "Setări pagină...">
+<!ENTITY pageSetupCmd.accesskey "U">
+<!ENTITY printCmd.label "Imprimă...">
+<!ENTITY printCmd.key "P">
+<!ENTITY printCmd.accesskey "P">
+<!ENTITY closeCmd.label "Închide">
+<!ENTITY closeCmd.key "W">
+<!ENTITY closeCmd.accesskey "C">
+<!ENTITY manageAttachments.label "Gestionare anexe">
+<!ENTITY convertToStored.label "Convertește fișierele legate la fișiere depozitate...">
+<!ENTITY importCmd.label "Importă...">
+<!ENTITY importCmd.key "I">
+<!ENTITY importFromClipboardCmd.label "Importă din memoria clipboard">
+<!ENTITY quitApplicationCmdWin.label "Ieșire">
+<!ENTITY quitApplicationCmdWin.accesskey "x">
+<!ENTITY quitApplicationCmd.label "Părăsire">
+<!ENTITY quitApplicationCmd.accesskey "Q">
+
+
+<!ENTITY copyCitationCmd.label "Copiază citare">
+<!ENTITY copyBibliographyCmd.label "Copiază bibliografie">
+
+<!ENTITY bidiSwitchPageDirectionItem.label "Schimbă direcția paginii">
+>>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Schimbă direcția paginii">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">

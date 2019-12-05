@@ -861,14 +861,15 @@ Zotero.Schema = new function(){
 		yield Zotero.SearchConditions.init();
 		
 		// Update item type menus in every open window
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-					.getService(Components.interfaces.nsIWindowMediator);
-		var enumerator = wm.getEnumerator("navigator:browser");
-		while (enumerator.hasMoreElements()) {
-			var win = enumerator.getNext();
-			win.ZoteroPane.buildItemTypeSubMenu();
-			win.document.getElementById('zotero-editpane-item-box').buildItemTypeMenu();
-		}
+		Zotero.Schema.schemaUpdatePromise.then(function () {
+			var wm = Services.wm;
+			var enumerator = wm.getEnumerator("navigator:browser");
+			while (enumerator.hasMoreElements()) {
+				let win = enumerator.getNext();
+				win.ZoteroPane.buildItemTypeSubMenu();
+				win.document.getElementById('zotero-editpane-item-box').buildItemTypeMenu();
+			}
+		});
 	});
 	
 	
@@ -3102,16 +3103,23 @@ Zotero.Schema = new function(){
 			else if (i == 106) {
 				yield _updateCompatibility(6);
 				
-				yield Zotero.DB.queryAsync("DROP TRIGGER insert_date_field");
-				yield Zotero.DB.queryAsync("DROP TRIGGER update_date_field");
-				yield Zotero.DB.queryAsync("DROP TRIGGER fki_itemAttachments");
-				yield Zotero.DB.queryAsync("DROP TRIGGER fku_itemAttachments");
-				yield Zotero.DB.queryAsync("DROP TRIGGER fki_itemNotes");
-				yield Zotero.DB.queryAsync("DROP TRIGGER fku_itemNotes");
+				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS insert_date_field");
+				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS update_date_field");
+				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS fki_itemAttachments");
+				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS fku_itemAttachments");
+				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS fki_itemNotes");
+				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS fku_itemNotes");
 				
-				yield Zotero.DB.queryAsync("DROP TABLE transactionSets");
-				yield Zotero.DB.queryAsync("DROP TABLE transactions");
-				yield Zotero.DB.queryAsync("DROP TABLE transactionLog");
+				yield Zotero.DB.queryAsync("DROP TABLE IF EXISTS transactionSets");
+				yield Zotero.DB.queryAsync("DROP TABLE IF EXISTS transactions");
+				yield Zotero.DB.queryAsync("DROP TABLE IF EXISTS transactionLog");
+			}
+			
+			else if (i == 107) {
+				if (!(yield Zotero.DB.valueQueryAsync("SELECT COUNT(*) FROM itemTypes"))) {
+					let sql = yield _getSchemaSQL('system-107');
+					yield Zotero.DB.executeSQLFile(sql);
+				}
 			}
 			
 			// If breaking compatibility or doing anything dangerous, clear minorUpdateFrom

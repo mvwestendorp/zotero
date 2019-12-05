@@ -8,7 +8,15 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Επιλέξτε...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Αυτόματη ανάκτηση μεταδεδομένων για αρχεία PDF">
 <!ENTITY zotero.preferences.autoRenameFiles "Αυτόματη μετονομασία συνημμένων αρχείων χρησιμοποιώντας μεταγενέστερα μεταδεδομένα">
+<<<<<<< HEAD
 <!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
+=======
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Μετονομασία συνδεδεμένων αρχείων">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Άνοιγμα χρήσης PDF">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Προεπιλογή Συστήματος">
+
+<!ENTITY zotero.preferences.miscellaneous "Διάφορα">
+>>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY zotero.preferences.autoUpdate "Αυτόματος έλεγχος για ενημερωμένους μεταφραστές και στυλ">
 <!ENTITY zotero.preferences.automaticSnapshots "Αυτόματη λήψη φωτογραφικού στιγμιότυπου όταν δημιουργείτε στοιχεία από ιστοσελίδες">
 <!ENTITY zotero.preferences.automaticTags "Αυτόματη επισήμανση των στοιχείων με λέξεις κλειδιά και κεφαλίδες θέματος">
@@ -235,7 +243,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Συγκρίνει όλα τα συνημμένα αρχεία με την υπηρεσία αποθήκευσης">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Επαναφορά από την Online Βιβλιοθήκη">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Αντικατάσταση των τοπικά δεδομένων Zotero με δεδομένα από την Online Ββλιοθήκη.">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "Replace Online Library">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "Αντικατάσταση Συνδεδεμένης Βιβλιοθήκης">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Αντικαταστήστε την ηλεκτρονική βιβλιοθήκη με τα τοπικά δεδομένα Zotero">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Οι λειτουργίες που ακολουθούν προορίζονται για χρήση μόνον σε σπάνιες, ειδικές συνθήκες και θα πρέπει να χρησιμοποιούνται για λόγους γενικής επίλυσης προβλημάτων. Σε πολλές περιπτώσεις η επαναφορά των ρυθμίσεων προκαλεί επιπρόσθετα προβλήματα. Δείτε">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Συγχρονισμός ρυθμίσεων επαναφοράς">

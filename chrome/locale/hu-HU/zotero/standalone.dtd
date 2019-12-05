@@ -8,9 +8,13 @@
 <!ENTITY bidiSwitchTextDirectionItem.label "Szöveg irányának megfordítása">
 <!ENTITY bringAllToFront.label "Mindet előrehozni">
 <!ENTITY closeCmd.accesskey "B">
+<<<<<<< HEAD
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Bezárás">
 <!ENTITY collectionsPane.label "Collections Pane">
+=======
+<!ENTITY manageAttachments.label "Csatolmányok kezelése">
+>>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Bibliográfia másolása">
 <!ENTITY copyCitationCmd.label "Hivatkozás másolása">

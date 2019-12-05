@@ -85,6 +85,9 @@ const TagsBox = React.forwardRef((props, ref) => {
 	}
 	
 	function handleEdit(event) {
+		if (!props.editable) {
+			return;
+		}
 		if (skipNextEdit.current) {
 			skipNextEdit.current = false;
 			return;
@@ -269,7 +272,7 @@ const TagsBox = React.forwardRef((props, ref) => {
 	}
 	
 	function blurOpenField(event) {
-		if (textboxRef.current && event.target != textboxRef.current) {
+		if (textboxRef.current && (!event || event.target != textboxRef.current)) {
 			textboxRef.current.blur();
 		}
 	}
@@ -349,13 +352,13 @@ const TagsBox = React.forwardRef((props, ref) => {
 						title={title}
 						tooltiptext={title}
 						style={{ width: "16px", height: "16px" }}
-						onClick={() => setSelectedTag(tag.tag)}
+						onClick={props.editable ? (() => setSelectedTag(tag.tag)) : undefined}
 				/>
 				<div className="editable-container" style={style}>
 					<Editable
 						autoComplete={!isMultiline}
 						autoFocus
-						className={cx({ 'zotero-clicky': !selected })}
+						className={cx({ 'zotero-clicky': props.editable && !selected })}
 						getSuggestions={getFilteredSuggestions}
 						inputComponent={isMultiline ? TextAreaInput : Input}
 						isActive={selected}
@@ -408,15 +411,17 @@ const TagsBox = React.forwardRef((props, ref) => {
 		<div className="tags-box" ref={rootRef} onClick={blurOpenField}>
 			<div className="tags-box-header">
 				<div className="tags-box-count">{renderCount()}</div>
-				<div><button onClick={handleAddTag}>Add</button></div>
+				{ props.editable && <div><button onClick={handleAddTag}>Add</button></div> }
 			</div>
-			<ul className="tags-box-list">
-				{displayTags.map(tag => renderTagRow(tag))}
-			</ul>
-			<span
-				tabIndex="0"
-				onFocus={handleAddTag}
-			/>
+			<div className="tags-box-list-container">
+				<ul className="tags-box-list">
+					{displayTags.map(tag => renderTagRow(tag))}
+				</ul>
+				{ props.editable && <span
+					tabIndex="0"
+					onFocus={handleAddTag}
+				/> }
+			</div>
 		</div>
 	);
 });

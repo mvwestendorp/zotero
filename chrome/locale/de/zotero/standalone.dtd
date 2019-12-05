@@ -1,6 +1,49 @@
+<<<<<<< HEAD
 <!ENTITY aboutProduct.accesskey "Ü">
 <!ENTITY aboutProduct.label "Über &brandShortName;">
 <!ENTITY addons.label "Add-ons">
+=======
+<!ENTITY preferencesCmdMac.label "Einstellungen...">
+<!ENTITY preferencesCmdMac.commandkey ",">
+<!ENTITY servicesMenuMac.label "Dienste">
+<!ENTITY hideThisAppCmdMac.label "&brandShortName; ausblenden">
+<!ENTITY hideThisAppCmdMac.commandkey "H">
+<!ENTITY hideOtherAppsCmdMac.label "Andere ausblenden">
+<!ENTITY hideOtherAppsCmdMac.commandkey "H">
+<!ENTITY showAllAppsCmdMac.label "Alle anzeigen">
+<!ENTITY quitApplicationCmdMac.label "Zotero beenden">
+<!ENTITY quitApplicationCmdMac.key "Q">
+
+
+<!ENTITY fileMenu.label "Datei">
+<!ENTITY fileMenu.accesskey "D">
+<!ENTITY saveCmd.label "Speichern...">
+<!ENTITY saveCmd.key "S">
+<!ENTITY saveCmd.accesskey "A">
+<!ENTITY pageSetupCmd.label "Seite einrichten">
+<!ENTITY pageSetupCmd.accesskey "U">
+<!ENTITY printCmd.label "Drucken">
+<!ENTITY printCmd.key "D">
+<!ENTITY printCmd.accesskey "U">
+<!ENTITY closeCmd.label "Schließen">
+<!ENTITY closeCmd.key "W">
+<!ENTITY closeCmd.accesskey "C">
+<!ENTITY manageAttachments.label "Anhänge verwalten">
+<!ENTITY convertToStored.label "Link auf Datei in gespeicherten Kopie konvertieren…">
+<!ENTITY importCmd.label "Importieren...">
+<!ENTITY importCmd.key "I">
+<!ENTITY importFromClipboardCmd.label "Importieren aus Zwischenablage">
+<!ENTITY quitApplicationCmdWin.label "Beenden">
+<!ENTITY quitApplicationCmdWin.accesskey "x">
+<!ENTITY quitApplicationCmd.label "Beenden">
+<!ENTITY quitApplicationCmd.accesskey "Q">
+
+
+<!ENTITY copyCitationCmd.label "Zitation kopieren">
+<!ENTITY copyBibliographyCmd.label "Literaturverzeichnis kopieren">
+
+<!ENTITY bidiSwitchPageDirectionItem.label "Seitenrichtung ändern">
+>>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Seitenrichtung ändern">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
