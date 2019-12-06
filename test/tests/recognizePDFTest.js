@@ -66,29 +66,21 @@ describe("PDF Recognition", function() {
 	
 	it("should recognize a PDF by arXiv ID", async function () {
 		if (Zotero.automatedTest) this.skip(); // TODO: Mock services
-		this.timeout(80000);
+		this.timeout(30000);
 		// Import the PDF
-		Zotero.debug("XXX START TRANSLATION", 1);
 		var testdir = getTestDataDirectory();
-		Zotero.debug("XXX    one", 1);
 		testdir.append("recognizePDF_test_arXiv.pdf");
-		Zotero.debug("XXX    two", 1);
 		var attachment = await Zotero.Attachments.importFromFile({
 			file: testdir
 		});
-		Zotero.debug("XXX    three", 1);
 		
 		// Recognize the PDF
 		win.ZoteroPane.recognizeSelected();
-		Zotero.debug("XXX    four", 1);
 		
 		var addedIDs = await waitForItemEvent("add");
-		Zotero.debug("XXX    five", 1);
 		var modifiedIDs = await waitForItemEvent("modify");
-		Zotero.debug("XXX    six", 1);
 		// Item and note
 		assert.lengthOf(addedIDs, 2);
-		Zotero.debug("XXX    seven", 1);
 		var item = Zotero.Items.get(addedIDs[0]);
 		assert.equal(item.getField("title"), "Scaling study of an improved fermion action on quenched lattices");
 		assert.lengthOf(modifiedIDs, 1);
@@ -144,10 +136,11 @@ describe("PDF Recognition", function() {
 			file: testdir,
 			collections: [collection.id],
 		});
-		
+
+		var waitForIt = waitForItemEvent("add");
 		win.ZoteroPane.recognizeSelected();
 		
-		var addedIDs = await waitForItemEvent("add");
+		var addedIDs = await waitForIt;
 		var modifiedIDs = await waitForItemEvent("modify");
 		// Item and note
 		assert.lengthOf(addedIDs, 2);
