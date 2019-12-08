@@ -59,7 +59,7 @@ Copyright (c) 2009-2019 Frank Bennett
 
 var CSL = {
 
-    PROCESSOR_VERSION: "1.2.27",
+    PROCESSOR_VERSION: "1.2.29",
 
     error: function(str) { // default error function
         if ("undefined" === typeof Error) {
@@ -779,7 +779,7 @@ var CSL = {
                             vals[title.main] = splitTitle[0];
                             vals[title.subjoin] = splitTitle[1];
                             vals[title.sub] = splitTitle[2];
-                            if (this.opt.development_extensions.implicit_short_title) {
+                            if (this.opt.development_extensions.implicit_short_title && Item.type !== "legal_case") {
                                 if (!Item[title.short] && !vals[title.main].match(/^[\-\.[0-9]+$/)) {
                                     var punct = vals[title.subjoin].trim();
                                     if (["?", "!"].indexOf(punct) === -1) {
@@ -3254,6 +3254,7 @@ CSL.DateParser = function () {
         var yearIsNegative = false;
         var lst;
         if (txt) {
+            txt = txt.replace(/^(.*[0-9])T[0-9].*/, "$1");
             // If string leads with a minus sign, strip and memo it.
             if (txt.slice(0, 1) === "-") {
                 yearIsNegative = true;
