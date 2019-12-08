@@ -1,87 +1,17 @@
-<<<<<<< HEAD
 <!ENTITY aboutProduct.accesskey "p">
 <!ENTITY aboutProduct.label "À propos de &brandShortName;">
 <!ENTITY addons.label "Extensions">
-=======
-<!ENTITY preferencesCmdMac.label "Préférences…">
-<!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY servicesMenuMac.label "Services">
-<!ENTITY hideThisAppCmdMac.label "Cacher &brandShortName;">
-<!ENTITY hideThisAppCmdMac.commandkey "H">
-<!ENTITY hideOtherAppsCmdMac.label "Cacher les autres">
-<!ENTITY hideOtherAppsCmdMac.commandkey "H">
-<!ENTITY showAllAppsCmdMac.label "Tout afficher">
-<!ENTITY quitApplicationCmdMac.label "Quitter Zotero">
-<!ENTITY quitApplicationCmdMac.key "Q">
-
-
-<!ENTITY fileMenu.label "Fichier">
-<!ENTITY fileMenu.accesskey "F">
-<!ENTITY saveCmd.label "Enregistrer…">
-<!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.accesskey "E">
-<!ENTITY pageSetupCmd.label "Mise en page…">
-<!ENTITY pageSetupCmd.accesskey "M">
-<!ENTITY printCmd.label "Imprimer…">
-<!ENTITY printCmd.key "P">
-<!ENTITY printCmd.accesskey "P">
-<!ENTITY closeCmd.label "Fermer">
-<!ENTITY closeCmd.key "W">
-<!ENTITY closeCmd.accesskey "r">
-<!ENTITY manageAttachments.label "Gérer les pièces jointes">
-<!ENTITY convertToStored.label "Convertir les fichiers liés en fichiers joints">
-<!ENTITY importCmd.label "Importer…">
-<!ENTITY importCmd.key "I">
-<!ENTITY importFromClipboardCmd.label "Importer depuis le presse-papiers">
-<!ENTITY quitApplicationCmdWin.label "Quitter">
-<!ENTITY quitApplicationCmdWin.accesskey "Q">
-<!ENTITY quitApplicationCmd.label "Quitter">
-<!ENTITY quitApplicationCmd.accesskey "Q">
-
-
-<!ENTITY copyCitationCmd.label "Copier la citation">
-<!ENTITY copyBibliographyCmd.label "Copier la bibliographie">
-
-<!ENTITY bidiSwitchPageDirectionItem.label "Inverser le sens de la page">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Inverser le sens de la page">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "x">
 <!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
-<<<<<<< HEAD
 <!ENTITY bidiSwitchTextDirectionItem.label "Inverser le sens du texte">
-=======
-
-
-<!ENTITY viewMenu.label "Affichage">
-<!ENTITY layout.label "Mise en page">
-<!ENTITY standardView.label "Affichage standard">
-<!ENTITY stackedView.label "Affichage emplié">
-<!ENTITY collectionsPane.label "Panneau des collections">
-<!ENTITY itemPane.label "Panneau du document">
-<!ENTITY tagSelector.label "Sélecteur de marqueurs">
-<!ENTITY recursiveCollections.label "Afficher les documents des sous-collections">
-<!ENTITY fontSize.label "Taille des caractères">
-<!ENTITY noteFontSize.label "Taille des caractères des notes">
-
-
-<!ENTITY toolsMenu.label "Outils">
-<!ENTITY toolsMenu.accesskey "O">
-<!ENTITY installConnector.label "Installer le Connecteur Zotero dans le navigateur">
-<!ENTITY installConnector.accesskey "I">
-<!ENTITY addons.label "Extensions">
-<!ENTITY developer.label "Développeur">
-
-
-<!ENTITY minimizeWindow.key "m">
-<!ENTITY minimizeWindow.label "Minimiser">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY bringAllToFront.label "Tout ramener au premier plan">
 <!ENTITY closeCmd.accesskey "r">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Fermer">
-<!ENTITY collectionsPane.label "Collections Pane">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY collectionsPane.label "Panneau des collections">
+<!ENTITY convertToStored.label "Convertir les fichiers liés en fichiers joints">
 <!ENTITY copyBibliographyCmd.label "Copier la bibliographie">
 <!ENTITY copyCitationCmd.label "Copier la citation">
 <!ENTITY copyCmd.accesskey "p">
@@ -99,7 +29,7 @@
 <!ENTITY deleteCmd.accesskey "S">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Supprimer">
-<!ENTITY developer.label "Developer">
+<!ENTITY developer.label "Développeur">
 <!ENTITY editMenu.accesskey "n">
 <!ENTITY editMenu.label "Édition">
 <!ENTITY fileMenu.accesskey "F">
@@ -114,7 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
-<!ENTITY fontSize.label "Font Size">
+<!ENTITY fontSize.label "Taille des caractères">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -154,12 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Importer depuis le presse-papiers">
 <!ENTITY installConnector.accesskey "I">
 <!ENTITY installConnector.label "Installer le Connecteur Zotero dans le navigateur">
-<!ENTITY itemPane.label "Item Pane">
-<!ENTITY layout.label "Layout">
-<!ENTITY manageAttachments.label "Manage Attachments">
+<!ENTITY itemPane.label "Panneau du document">
+<!ENTITY layout.label "Mise en page">
+<!ENTITY manageAttachments.label "Gérer les pièces jointes">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimiser">
-<!ENTITY noteFontSize.label "Note Font Size">
+<!ENTITY noteFontSize.label "Taille des caractères des notes">
 <!ENTITY pageSetupCmd.accesskey "M">
 <!ENTITY pageSetupCmd.label "Mise en page…">
 <!ENTITY pasteCmd.accesskey "o">
@@ -182,7 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Quitter Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "Q">
 <!ENTITY quitApplicationCmdWin.label "Quitter">
-<!ENTITY recursiveCollections.label "Show Items from Subcollections">
+<!ENTITY recursiveCollections.label "Afficher les documents des sous-collections">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Rétablir">
@@ -194,14 +124,14 @@
 <!ENTITY selectAllCmd.label "Tout sélectionner">
 <!ENTITY servicesMenuMac.label "Services">
 <!ENTITY showAllAppsCmdMac.label "Tout afficher">
-<!ENTITY stackedView.label "Stacked View">
-<!ENTITY standardView.label "Standard View">
-<!ENTITY tagSelector.label "Tag Selector">
+<!ENTITY stackedView.label "Affichage emplié">
+<!ENTITY standardView.label "Affichage standard">
+<!ENTITY tagSelector.label "Sélecteur de marqueurs">
 <!ENTITY toolsMenu.accesskey "O">
 <!ENTITY toolsMenu.label "Outils">
 <!ENTITY undoCmd.accesskey "u">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Annuler">
-<!ENTITY viewMenu.label "View">
+<!ENTITY viewMenu.label "Affichage">
 <!ENTITY windowMenu.label "Fenêtre">
 <!ENTITY zoomWindow.label "Zoom">

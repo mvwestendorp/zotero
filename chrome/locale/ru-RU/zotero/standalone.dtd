@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Закрыть">
 <!ENTITY collectionsPane.label "Панель коллекций">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY convertToStored.label "Преобразовать сылки на файлы в локальные копиии…">
 <!ENTITY copyBibliographyCmd.label "Копировать библиографию">
 <!ENTITY copyCitationCmd.label "Копировать цитату">
 <!ENTITY copyCmd.accesskey "C">
@@ -86,7 +86,7 @@
 <!ENTITY installConnector.label "Установить адаптер в браузер">
 <!ENTITY itemPane.label "Панель записей">
 <!ENTITY layout.label "Расположение">
-<!ENTITY manageAttachments.label "Manage Attachments">
+<!ENTITY manageAttachments.label "Управления приложенными материалами">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Свернуть">
 <!ENTITY noteFontSize.label "Размер шрифта заметок">

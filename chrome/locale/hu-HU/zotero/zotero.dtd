@@ -85,7 +85,6 @@
 <!ENTITY zotero.general.other "Másik…">
 <!ENTITY zotero.general.refresh "Újratöltés">
 <!ENTITY zotero.general.reset "Reset">
-<<<<<<< HEAD
 <!ENTITY zotero.general.saveAs "Mentés másként…">
 <!ENTITY zotero.general.selectAll "Minden kijelölése">
 <!ENTITY zotero.general.smaller "Smaller">
@@ -153,58 +152,12 @@
 <!ENTITY zotero.item.textTransform.sentencecase "Mondatkezdő">
 <!ENTITY zotero.item.textTransform.titlecase "Szókezdő">
 <!ENTITY zotero.item.viewOnline "Online megtekintés">
-=======
-
-
-<!ENTITY zotero.errorReport.title "Zotero hibajelentés">
-<!ENTITY zotero.errorReport.submissionInProgress "Várjon a hibajelentés elküldéséig.">
-<!ENTITY zotero.errorReport.submitted "A hibajelentés elküldve.">
-<!ENTITY zotero.errorReport.reportID "Jelentés azonosítója:">
-<!ENTITY zotero.errorReport.postToForums "Küldje el a Zotero fórumba (forums.zotero.org) a probléma leírását, hogy hogyan jutott idáig, ill. a hibaüzenet ID-jét .">
-<!ENTITY zotero.errorReport.notReviewed "A fórumba be nem küldött hibaüzenetek nem kerülnek kivizsgálásra.">
-
-<!ENTITY zotero.upgrade.title "Zotero frissítés varázsló">
-<!ENTITY zotero.upgrade.newVersionInstalled "A Zotero új verziójának telepítése sikerült.">
-<!ENTITY zotero.upgrade.upgradeRequired "Frissíteni kell a Zotero adatbázist, hogy működjön az új verzióval.">
-<!ENTITY zotero.upgrade.autoBackup "Az adatbázisról a módosítás előtt biztonsági másolat készül.">
-<!ENTITY zotero.upgrade.majorUpgrade "Ez egy komoly frissítés.">
-<!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Mindenképpen olvassa el a">
-<!ENTITY zotero.upgrade.majorUpgradeLink "frissítési útmutatót">
-<!ENTITY zotero.upgrade.majorUpgradeAfterLink "mielőtt folytatná.">
-<!ENTITY zotero.upgrade.upgradeInProgress "Várjon a frissítés befejezéséig. Ez akár percekig is eltarthat.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "A Zotero adatbázis frissítése sikerült.">
-<!ENTITY zotero.upgrade.changeLogBeforeLink "Részletesen utánanézhet">
-<!ENTITY zotero.upgrade.changeLogLink "a változások listájában">
-<!ENTITY zotero.upgrade.changeLogAfterLink "az újdonságoknak.">
-
-<!ENTITY zotero.tabs.info.label "Info">
-<!ENTITY zotero.tabs.notes.label "Jegyzetek">
-<!ENTITY zotero.tabs.attachments.label "Csatolmányok">
-<!ENTITY zotero.tabs.tags.label "Címkék">
-<!ENTITY zotero.tabs.related.label "Kapcsolatok">
-<!ENTITY zotero.notes.separate "Szerkesztés külön ablakban">
-
-<!ENTITY zotero.toolbar.duplicate.label "Duplumok listázása">
-<!ENTITY zotero.collections.showUnfiledItems "Besorolatlan elemek mutatása">
-<!ENTITY zotero.collections.showRetractedItems "Visszavont elemek mutatása">
-
-<!ENTITY zotero.items.itemType "Forrás típusa">
-<!ENTITY zotero.items.type_column "Forrás típusa">
-<!ENTITY zotero.items.title_column "Cím">
-<!ENTITY zotero.items.creator_column "Szerző">
-<!ENTITY zotero.items.date_column "Dátum">
-<!ENTITY zotero.items.year_column "Év">
-<!ENTITY zotero.items.publisher_column "Kiadó">
-<!ENTITY zotero.items.publication_column "Kiadvány">
-<!ENTITY zotero.items.journalAbbr_column "Rövidített cím">
-<!ENTITY zotero.items.language_column "Nyelv">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY zotero.items.accessDate_column "Hozzáférés dátuma">
 <!ENTITY zotero.items.archiveLocation_column "Pontos lelőhely">
 <!ENTITY zotero.items.archive_column "Archívum">
 <!ENTITY zotero.items.callNumber_column "Raktári jelzet">
 <!ENTITY zotero.items.court_column "Bíróság">
-<!ENTITY zotero.items.creator_column "Létrehozó">
+<!ENTITY zotero.items.creator_column "Szerző">
 <!ENTITY zotero.items.dateAdded_column "Hozzáadás dátuma">
 <!ENTITY zotero.items.dateModified_column "Módosítás dátuma">
 <!ENTITY zotero.items.date_column "Dátum">

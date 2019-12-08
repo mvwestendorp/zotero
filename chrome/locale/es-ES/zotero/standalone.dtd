@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Cerrar">
 <!ENTITY collectionsPane.label "Panel de colecciones">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY convertToStored.label "Convertir archivos enlazados a archivos guardados...">
 <!ENTITY copyBibliographyCmd.label "Copiar bibliografía">
 <!ENTITY copyCitationCmd.label "Copiar cita">
 <!ENTITY copyCmd.accesskey "C">
@@ -86,7 +86,7 @@
 <!ENTITY installConnector.label "Instalar conector de navegador">
 <!ENTITY itemPane.label "Panel de elementos">
 <!ENTITY layout.label "Composición">
-<!ENTITY manageAttachments.label "Manage Attachments">
+<!ENTITY manageAttachments.label "Gestionar adjuntos">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimizar">
 <!ENTITY noteFontSize.label "Tamaño de fuente de notas">

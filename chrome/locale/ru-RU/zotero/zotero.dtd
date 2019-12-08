@@ -191,7 +191,7 @@
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Страницы">
 <!ENTITY zotero.items.place_column "Место">
-<!ENTITY zotero.items.publication_column "Публикация">
+<!ENTITY zotero.items.publication_column "Издание">
 <!ENTITY zotero.items.publisher_column "Издатель">
 <!ENTITY zotero.items.reporter_column "Reporter">
 <!ENTITY zotero.items.restoreColumnOrder.label "Восстановить порядок столбцов">

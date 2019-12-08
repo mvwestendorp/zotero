@@ -10,7 +10,7 @@
 <!ENTITY closeCmd.accesskey "ق">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "إغلاق">
-<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY collectionsPane.label "جزء مجموعة العناصر">
 <!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "نسخ قائمة المراجع">
 <!ENTITY copyCitationCmd.label "نسخ الاقتباس">
@@ -29,7 +29,7 @@
 <!ENTITY deleteCmd.accesskey "ذ">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "حذف">
-<!ENTITY developer.label "Developer">
+<!ENTITY developer.label "المطور">
 <!ENTITY editMenu.accesskey "ح">
 <!ENTITY editMenu.label "تحرير">
 <!ENTITY fileMenu.accesskey "م">
@@ -44,7 +44,7 @@
 <!ENTITY findOnCmd.accesskey "ب">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "البحث في هذه الصفحة…">
-<!ENTITY fontSize.label "Font Size">
+<!ENTITY fontSize.label "حجم الخط">
 <!ENTITY fullZoom.accesskey "/">
 <!ENTITY fullZoom.label "تكبير/تصغير">
 <!ENTITY fullZoomEnlargeCmd.accesskey "ك">
@@ -84,12 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "استيراد من الحافظة">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "ثبت موصل المتصفح">
-<!ENTITY itemPane.label "Item Pane">
-<!ENTITY layout.label "Layout">
+<!ENTITY itemPane.label "جزء عنصر">
+<!ENTITY layout.label "تخطيط">
 <!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "تصغير">
-<!ENTITY noteFontSize.label "Note Font Size">
+<!ENTITY noteFontSize.label "حجم خط الملاحظات">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "ضبط الصفحة...">
 <!ENTITY pasteCmd.accesskey "ل">
@@ -112,7 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "خروج من زوتيرو">
 <!ENTITY quitApplicationCmdWin.accesskey "خ">
 <!ENTITY quitApplicationCmdWin.label "خروج">
-<!ENTITY recursiveCollections.label "Show Items from Subcollections">
+<!ENTITY recursiveCollections.label "إظهار العناصر من المجموعات الفرعية">
 <!ENTITY redoCmd.accesskey "ع">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "إعادة">
@@ -124,14 +124,14 @@
 <!ENTITY selectAllCmd.label "تحديد الكل">
 <!ENTITY servicesMenuMac.label "خدمات">
 <!ENTITY showAllAppsCmdMac.label "عرض الكل">
-<!ENTITY stackedView.label "Stacked View">
-<!ENTITY standardView.label "Standard View">
-<!ENTITY tagSelector.label "Tag Selector">
+<!ENTITY stackedView.label "عرض مرصوص">
+<!ENTITY standardView.label "عرض قياسي">
+<!ENTITY tagSelector.label "مختار الوسوم">
 <!ENTITY toolsMenu.accesskey "T">
 <!ENTITY toolsMenu.label "أدوات">
 <!ENTITY undoCmd.accesskey "ر">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "تراجع">
-<!ENTITY viewMenu.label "View">
+<!ENTITY viewMenu.label "عرض">
 <!ENTITY windowMenu.label "نافذة">
 <!ENTITY zoomWindow.label "تقريب">

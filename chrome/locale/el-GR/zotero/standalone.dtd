@@ -1,61 +1,17 @@
-<<<<<<< HEAD
 <!ENTITY aboutProduct.accesskey "Α">
 <!ENTITY aboutProduct.label "Σχετικά με ">
 <!ENTITY addons.label "Πρόσθετα">
-=======
-<!ENTITY preferencesCmdMac.label "Προτιμήσεις...">
-<!ENTITY preferencesCmdMac.commandkey ",">
-<!ENTITY servicesMenuMac.label "Υπηρεσίες">
-<!ENTITY hideThisAppCmdMac.label "Απόκρυψη ">
-<!ENTITY hideThisAppCmdMac.commandkey "H">
-<!ENTITY hideOtherAppsCmdMac.label "Απόκρυψη άλλων">
-<!ENTITY hideOtherAppsCmdMac.commandkey "Η">
-<!ENTITY showAllAppsCmdMac.label "Εμφάνιση όλων">
-<!ENTITY quitApplicationCmdMac.label "Κλείσιμο Zotero">
-<!ENTITY quitApplicationCmdMac.key "Q">
-
-
-<!ENTITY fileMenu.label "Αρχείο">
-<!ENTITY fileMenu.accesskey "F">
-<!ENTITY saveCmd.label "Αποθήκευση...">
-<!ENTITY saveCmd.key "S">
-<!ENTITY saveCmd.accesskey "A">
-<!ENTITY pageSetupCmd.label "Ρυθμίσεις σελίδας...">
-<!ENTITY pageSetupCmd.accesskey "U">
-<!ENTITY printCmd.label "Εκτύπωση...">
-<!ENTITY printCmd.key "P">
-<!ENTITY printCmd.accesskey "Ρ">
-<!ENTITY closeCmd.label "Κλείσιμο">
-<!ENTITY closeCmd.key "W">
-<!ENTITY closeCmd.accesskey "C">
-<!ENTITY manageAttachments.label "Διαχείριση Συνημμένων">
-<!ENTITY convertToStored.label "Μετατροπή Συνδεδεμένων Αρχείων σε Αποθηκευμένα Αρχεία ...">
-<!ENTITY importCmd.label "Εισαγωγή...">
-<!ENTITY importCmd.key "I">
-<!ENTITY importFromClipboardCmd.label "Εισαγωγή από το Πρόχειρο">
-<!ENTITY quitApplicationCmdWin.label "Έξοδος">
-<!ENTITY quitApplicationCmdWin.accesskey "x">
-<!ENTITY quitApplicationCmd.label "Κλείσιμο">
-<!ENTITY quitApplicationCmd.accesskey "Q">
-
-
-<!ENTITY copyCitationCmd.label "Αντιγραφή παραπομπής/παράθεσης">
-<!ENTITY copyBibliographyCmd.label "Αντιγραφή βιβλιογραφίας">
-
-<!ENTITY bidiSwitchPageDirectionItem.label "Αλλαγή κατεύθυνσης σελίδας">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY bidiSwitchPageDirectionItem.accesskey "g">
 <!ENTITY bidiSwitchPageDirectionItem.label "Αλλαγή κατεύθυνσης σελίδας">
 <!ENTITY bidiSwitchTextDirectionItem.accesskey "w">
 <!ENTITY bidiSwitchTextDirectionItem.commandkey "X">
-<<<<<<< HEAD
 <!ENTITY bidiSwitchTextDirectionItem.label "Αλλαγή κατεύθυνσης κειμένου">
 <!ENTITY bringAllToFront.label "Όλα στο προσκήνιο">
 <!ENTITY closeCmd.accesskey "C">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Κλείσιμο">
-<!ENTITY collectionsPane.label "Collections Pane">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY collectionsPane.label "Παράθυρο Συλλογών">
+<!ENTITY convertToStored.label "Μετατροπή Συνδεδεμένων Αρχείων σε Αποθηκευμένα Αρχεία ...">
 <!ENTITY copyBibliographyCmd.label "Αντιγραφή βιβλιογραφίας">
 <!ENTITY copyCitationCmd.label "Αντιγραφή παραπομπής/παράθεσης">
 <!ENTITY copyCmd.accesskey "C">
@@ -73,7 +29,7 @@
 <!ENTITY deleteCmd.accesskey "D">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Διαγραφή">
-<!ENTITY developer.label "Developer">
+<!ENTITY developer.label "Προγραμματιστής">
 <!ENTITY editMenu.accesskey "Ε">
 <!ENTITY editMenu.label "Επεξεργασία">
 <!ENTITY fileMenu.accesskey "F">
@@ -88,7 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
-<!ENTITY fontSize.label "Font Size">
+<!ENTITY fontSize.label "Μέγεθος Γραμματοσειράς">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -128,36 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Εισαγωγή από το Πρόχειρο">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Εγκατάσταση Σύνδεσης με πρόγραμμα πλοήγησης">
-<!ENTITY itemPane.label "Item Pane">
-<!ENTITY layout.label "Layout">
-<!ENTITY manageAttachments.label "Manage Attachments">
-=======
-
-
-<!ENTITY viewMenu.label "Προβολή">
-<!ENTITY layout.label "Σχέδιο">
-<!ENTITY standardView.label "Τυπική Προβολή">
-<!ENTITY stackedView.label "Προβολή Στοιβασμένων">
-<!ENTITY collectionsPane.label "Παράθυρο Συλλογών">
 <!ENTITY itemPane.label "Παράθυρο Στοιχείου">
-<!ENTITY tagSelector.label "Επιλογέας Ετικέτας">
-<!ENTITY recursiveCollections.label "Εμφάνιση Στοιχείων από τις Υποσυλλογές">
-<!ENTITY fontSize.label "Μέγεθος Γραμματοσειράς">
-<!ENTITY noteFontSize.label "Σημείωση Μεγέθους Γραμματοσειράς">
-
-
-<!ENTITY toolsMenu.label "Εργαλεία">
-<!ENTITY toolsMenu.accesskey "Τ">
-<!ENTITY installConnector.label "Εγκατάσταση Σύνδεσης με πρόγραμμα πλοήγησης">
-<!ENTITY installConnector.accesskey "C">
-<!ENTITY addons.label "Πρόσθετα">
-<!ENTITY developer.label "Προγραμματιστής">
-
-
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
+<!ENTITY layout.label "Σχέδιο">
+<!ENTITY manageAttachments.label "Διαχείριση Συνημμένων">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Ελαχιστοποίηση">
-<!ENTITY noteFontSize.label "Note Font Size">
+<!ENTITY noteFontSize.label "Σημείωση Μεγέθους Γραμματοσειράς">
 <!ENTITY pageSetupCmd.accesskey "U">
 <!ENTITY pageSetupCmd.label "Ρυθμίσεις σελίδας...">
 <!ENTITY pasteCmd.accesskey "P">
@@ -180,7 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Κλείσιμο Zotero">
 <!ENTITY quitApplicationCmdWin.accesskey "x">
 <!ENTITY quitApplicationCmdWin.label "Έξοδος">
-<!ENTITY recursiveCollections.label "Show Items from Subcollections">
+<!ENTITY recursiveCollections.label "Εμφάνιση Στοιχείων από τις Υποσυλλογές">
 <!ENTITY redoCmd.accesskey "R">
 <!ENTITY redoCmd.key "Υ">
 <!ENTITY redoCmd.label "Επανάληψη">
@@ -192,14 +124,14 @@
 <!ENTITY selectAllCmd.label "Επιλογή όλων">
 <!ENTITY servicesMenuMac.label "Υπηρεσίες">
 <!ENTITY showAllAppsCmdMac.label "Εμφάνιση όλων">
-<!ENTITY stackedView.label "Stacked View">
-<!ENTITY standardView.label "Standard View">
-<!ENTITY tagSelector.label "Tag Selector">
+<!ENTITY stackedView.label "Προβολή Στοιβασμένων">
+<!ENTITY standardView.label "Τυπική Προβολή">
+<!ENTITY tagSelector.label "Επιλογέας Ετικέτας">
 <!ENTITY toolsMenu.accesskey "Τ">
 <!ENTITY toolsMenu.label "Εργαλεία">
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Ζ">
 <!ENTITY undoCmd.label "Επαναφορά">
-<!ENTITY viewMenu.label "View">
+<!ENTITY viewMenu.label "Προβολή">
 <!ENTITY windowMenu.label "Παράθυρο">
 <!ENTITY zoomWindow.label "Μεγέθυνση">

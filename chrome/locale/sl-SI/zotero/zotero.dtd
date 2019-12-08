@@ -68,7 +68,7 @@
 <!ENTITY zotero.file.choose.label "Izberite datoteko ...">
 <!ENTITY zotero.file.noneSelected.label "Izbrana ni nobena datoteka">
 <!ENTITY zotero.general.advancedOptions.label "Napredne možnosti">
-<!ENTITY zotero.general.bigger "Bigger">
+<!ENTITY zotero.general.bigger "Večja">
 <!ENTITY zotero.general.cancel "Prekliči">
 <!ENTITY zotero.general.close "Zapri">
 <!ENTITY zotero.general.delete "Izbriši">
@@ -84,10 +84,10 @@
 <!ENTITY zotero.general.options "Možnosti">
 <!ENTITY zotero.general.other "Drugo ...">
 <!ENTITY zotero.general.refresh "Osveži">
-<!ENTITY zotero.general.reset "Reset">
+<!ENTITY zotero.general.reset "Ponastavi">
 <!ENTITY zotero.general.saveAs "Shrani kot ...">
 <!ENTITY zotero.general.selectAll "Izberi vse">
-<!ENTITY zotero.general.smaller "Smaller">
+<!ENTITY zotero.general.smaller "Manjša">
 <!ENTITY zotero.general.tools "Orodja">
 <!ENTITY zotero.general.yes "Da">
 <!ENTITY zotero.import "Uvozi">
@@ -179,7 +179,7 @@
 <!ENTITY zotero.items.menu.attach.note "Dodaj opombo">
 <!ENTITY zotero.items.menu.attach.snapshot "Pripni posnetek trenutne strani">
 <!ENTITY zotero.items.menu.changeTag "Change Tag">
-<!ENTITY zotero.items.menu.duplicateItem "Podvoji izbrani vnos">
+<!ENTITY zotero.items.menu.duplicateItem "Podvoji vnos">
 <!ENTITY zotero.items.menu.mergeItems "Spoji vnose ...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">

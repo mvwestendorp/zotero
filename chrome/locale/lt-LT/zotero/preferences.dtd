@@ -6,9 +6,9 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero failams, kurie prisegti prie įrašų, naudos santykinius kelius pagrindinio katalogo atžvilgiu, tad failus galėsite pasiekti bet kuriame savo kompiuteryje, žinoma, jei failų struktūra pagrindiniuose kataloguose bus tokia pati.">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "Pakeisti absoliučiais keliais...">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Pasirinkti...">
-<!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
-<!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
-<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
+<!ENTITY zotero.preferences.autoRecognizeFiles "Automatiškai gauti PDF metaduomenis">
+<!ENTITY zotero.preferences.autoRenameFiles "Automatiškai pervadinti priedus pagal metaduomenis">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Pervadinti susietas rinkmenas">
 <!ENTITY zotero.preferences.autoUpdate "Automatiškai tikrinti, ar yra transliatorių ir stilių atnaujinimų">
 <!ENTITY zotero.preferences.automaticSnapshots "Kuriamiems naujiems įrašams automatiškai sukurti tinklalapių momentines kopijas">
 <!ENTITY zotero.preferences.automaticTags "Įrašams automatiškai priskirti gaires su raktažodžiais ir temomis">
@@ -28,7 +28,7 @@
 <!ENTITY zotero.preferences.cite.wordProcessors.noWordProcessorPluginsInstalled "Nerasta įdiegtų teksto rengyklės papildinių.">
 <!ENTITY zotero.preferences.cite.wordProcessors.useClassicAddCitationDialog "Naudoti klasikinį citatų įdėjimo langą">
 <!ENTITY zotero.preferences.configEditor "Konfigūracijos rengyklė">
-<!ENTITY zotero.preferences.custom "Custom…">
+<!ENTITY zotero.preferences.custom "Savitas...">
 <!ENTITY zotero.preferences.dataDir "Duomenų katalogo vieta">
 <!ENTITY zotero.preferences.dataDir.choose "Pasirinkti...">
 <!ENTITY zotero.preferences.dataDir.custom "Savita:">
@@ -60,9 +60,9 @@
 <!ENTITY zotero.preferences.feeds.sorting.label "Rikiavimas:">
 <!ENTITY zotero.preferences.feeds.sorting.newest "Naujausi pradžioje">
 <!ENTITY zotero.preferences.feeds.sorting.oldest "Seniausi pradžioje">
-<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Open PDFs using">
-<!ENTITY zotero.preferences.fileHandler.systemDefault "System Default">
-<!ENTITY zotero.preferences.fileHandling "File Handling">
+<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "PDF atverti su">
+<!ENTITY zotero.preferences.fileHandler.systemDefault "Sistemos numatytoji">
+<!ENTITY zotero.preferences.fileHandling "Rinkmenų tvarkymas">
 <!ENTITY zotero.preferences.fontSize "Šrifto dydis:">
 <!ENTITY zotero.preferences.fontSize.large "Didelis">
 <!ENTITY zotero.preferences.fontSize.medium "Vidutinis">

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!ENTITY zotero.preferences.advanced.advancedConfiguration "進階設定">
 <!ENTITY zotero.preferences.advanced.filesAndFolders "檔案與資料夾">
 <!ENTITY zotero.preferences.advanced.keys "快捷鍵">
@@ -7,21 +6,6 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.message "Zotero 會使用連到的附件檔的庫目錄內的相對路徑，讓你可在不同電腦存取檔案，只要庫目錄內的檔案結構保持不變即可。">
 <!ENTITY zotero.preferences.attachmentBaseDir.resetBasePath "復原成絕對路徑…">
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "選擇…">
-=======
-<!ENTITY zotero.preferences.title "Zotero 偏好設定">
-
-<!ENTITY zotero.preferences.default "預設：">
-<!ENTITY zotero.preferences.items "項目">
-<!ENTITY zotero.preferences.period "。">
-<!ENTITY zotero.preferences.settings "設定">
-<!ENTITY zotero.preferences.custom "自訂...">
-
-<!ENTITY zotero.preferences.prefpane.general "一般">
-
-<!ENTITY zotero.preferences.fileHandling "檔案處理">
-<!ENTITY zotero.preferences.automaticSnapshots "從網頁建立項目時自動建立快照">
-<!ENTITY zotero.preferences.downloadAssociatedFiles "儲存項目時自動附加相關的 PDF 檔與其他檔">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY zotero.preferences.autoRecognizeFiles "Automatically retrieve metadata for PDFs">
 <!ENTITY zotero.preferences.autoRenameFiles "Automatically rename attachment files using parent metadata">
 <!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
@@ -78,7 +62,7 @@
 <!ENTITY zotero.preferences.feeds.sorting.oldest "舊的項目在前">
 <!ENTITY zotero.preferences.fileHandler.openPDFsUsing "開啟 PDFs 使用">
 <!ENTITY zotero.preferences.fileHandler.systemDefault "系統預設">
-<!ENTITY zotero.preferences.fileHandling "File Handling">
+<!ENTITY zotero.preferences.fileHandling "檔案處理">
 <!ENTITY zotero.preferences.fontSize "字型大小：">
 <!ENTITY zotero.preferences.fontSize.large "大">
 <!ENTITY zotero.preferences.fontSize.medium "中">
@@ -247,13 +231,9 @@
 <!ENTITY zotero.preferences.sync.reset.fullSync.desc "Merge local data with data from server, ignoring sync history.">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory "重設資料同步歷史">
 <!ENTITY zotero.preferences.sync.reset.resetDataSyncHistory.desc "將本機的資料與遠端的資料合併，忽略同步歷史">
-<<<<<<< HEAD
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory "重設檔案同步歷史">
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Compare all attachment files with the storage service">
-<!ENTITY zotero.preferences.sync.reset.restoreFromServer "還原從線上文獻庫">
-=======
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "從線上文獻庫還原">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Overwrite local Zotero data with data from the online library.">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer "Replace Online Library">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Overwrite online library with local Zotero data">

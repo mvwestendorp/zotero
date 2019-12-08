@@ -32,7 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffixe :">
 <!ENTITY zotero.citation.suppressAuthor.label "Supprimer l'auteur">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
-<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
+<!ENTITY zotero.collections.showRetractedItems "Afficher les documents rétractés">
 <!ENTITY zotero.collections.showUnfiledItems "Afficher les documents sans collection">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Ajouter la sélection à la note Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Créer un document Zotero et une note à partir de la sélection">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.file.choose.label "Sélectionnez un fichier…">
 <!ENTITY zotero.file.noneSelected.label "Aucun fichier sélectionné">
 <!ENTITY zotero.general.advancedOptions.label "Options avancées">
-<!ENTITY zotero.general.bigger "Bigger">
+<!ENTITY zotero.general.bigger "Plus grand">
 <!ENTITY zotero.general.cancel "Annuler">
 <!ENTITY zotero.general.close "Fermer">
 <!ENTITY zotero.general.delete "Supprimer">
@@ -84,12 +84,11 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Autre…">
 <!ENTITY zotero.general.refresh "Actualiser">
-<!ENTITY zotero.general.reset "Reset">
+<!ENTITY zotero.general.reset "Réinitialiser">
 <!ENTITY zotero.general.saveAs "Enregistrer sous…">
 <!ENTITY zotero.general.selectAll "Tout sélectionner">
-<!ENTITY zotero.general.smaller "Smaller">
+<!ENTITY zotero.general.smaller "Plus petit">
 <!ENTITY zotero.general.tools "Outils">
-<<<<<<< HEAD
 <!ENTITY zotero.general.yes "Oui">
 <!ENTITY zotero.import "Importer">
 <!ENTITY zotero.import.createCollection "Placer les collections et les documents importés dans une nouvelle collection">
@@ -153,62 +152,8 @@
 <!ENTITY zotero.item.textTransform.sentencecase "Lettre capitale en début de phrase">
 <!ENTITY zotero.item.textTransform.titlecase "Initiales En Majuscules">
 <!ENTITY zotero.item.viewOnline "Afficher en ligne">
-=======
-<!ENTITY zotero.general.more "Plus">
-<!ENTITY zotero.general.loading "Chargement…">
-<!ENTITY zotero.general.close "Fermer">
-<!ENTITY zotero.general.minimize "Minimiser">
-<!ENTITY zotero.general.other "Autre…">
-<!ENTITY zotero.general.bigger "Plus grand">
-<!ENTITY zotero.general.smaller "Plus petit">
-<!ENTITY zotero.general.reset "Réinitialiser">
-
-
-<!ENTITY zotero.errorReport.title "Rapport d'erreur Zotero">
-<!ENTITY zotero.errorReport.submissionInProgress "Veuillez patienter pendant la transmission du rapport d'erreur.">
-<!ENTITY zotero.errorReport.submitted "Le rapport d'erreur a été transmis.">
-<!ENTITY zotero.errorReport.reportID "ID du rapport :">
-<!ENTITY zotero.errorReport.postToForums "Veuillez poster un message sur les forums Zotero (forums.zotero.org) avec cet ID du rapport, une description du problème et les étapes nécessaires pour le reproduire.">
-<!ENTITY zotero.errorReport.notReviewed "Les rapports d'erreurs ne sont pas étudiés s'ils ne sont pas référencés sur les forums Zotero.">
-
-<!ENTITY zotero.upgrade.title "Assistant de mise à jour Zotero">
-<!ENTITY zotero.upgrade.newVersionInstalled "Vous avez installé une nouvelle version de Zotero.">
-<!ENTITY zotero.upgrade.upgradeRequired "Votre base de données Zotero doit être mise à jour pour fonctionner avec cette nouvelle version.">
-<!ENTITY zotero.upgrade.autoBackup "Votre base de données actuelle va être sauvegardée automatiquement avant toute modification.">
-<!ENTITY zotero.upgrade.majorUpgrade "Il s'agit d'une mise à jour majeure.">
-<!ENTITY zotero.upgrade.majorUpgradeBeforeLink "Assurez-vous d'avoir examiné les">
-<!ENTITY zotero.upgrade.majorUpgradeLink "instructions de mise à jour">
-<!ENTITY zotero.upgrade.majorUpgradeAfterLink "avant de continuer.">
-<!ENTITY zotero.upgrade.upgradeInProgress "Veuillez patienter jusqu'à la fin du processus de mise à jour. Cela peut prendre quelques minutes.">
-<!ENTITY zotero.upgrade.upgradeSucceeded "Votre base de données Zotero a été mise à jour avec succès.">
-<!ENTITY zotero.upgrade.changeLogBeforeLink "Veuillez consulter le">
-<!ENTITY zotero.upgrade.changeLogLink "journal des modifications">
-<!ENTITY zotero.upgrade.changeLogAfterLink "pour découvrir les nouveautés.">
-
-<!ENTITY zotero.tabs.info.label "Info">
-<!ENTITY zotero.tabs.notes.label "Notes">
-<!ENTITY zotero.tabs.attachments.label "Fichiers joints">
-<!ENTITY zotero.tabs.tags.label "Marqueurs">
-<!ENTITY zotero.tabs.related.label "Connexe">
-<!ENTITY zotero.notes.separate "Modifier dans une nouvelle fenêtre">
-
-<!ENTITY zotero.toolbar.duplicate.label "Afficher les doublons">
-<!ENTITY zotero.collections.showUnfiledItems "Afficher les documents sans collection">
-<!ENTITY zotero.collections.showRetractedItems "Afficher les documents rétractés">
-
-<!ENTITY zotero.items.itemType "Type de document">
-<!ENTITY zotero.items.type_column "Type de document">
-<!ENTITY zotero.items.title_column "Titre">
-<!ENTITY zotero.items.creator_column "Créateur">
-<!ENTITY zotero.items.date_column "Date">
-<!ENTITY zotero.items.year_column "Année">
-<!ENTITY zotero.items.publisher_column "Maison d’édition">
-<!ENTITY zotero.items.publication_column "Publication">
-<!ENTITY zotero.items.journalAbbr_column "Abrév. de revue">
-<!ENTITY zotero.items.language_column "Langue">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY zotero.items.accessDate_column "Date de consultation">
-<!ENTITY zotero.items.archiveLocation_column "Loc. ds l'archive">
+<!ENTITY zotero.items.archiveLocation_column "Loc. ds l’archive">
 <!ENTITY zotero.items.archive_column "Archive">
 <!ENTITY zotero.items.callNumber_column "Cote">
 <!ENTITY zotero.items.court_column "Tribunal">
@@ -247,9 +192,9 @@
 <!ENTITY zotero.items.pages_column "Pages">
 <!ENTITY zotero.items.place_column "Lieu">
 <!ENTITY zotero.items.publication_column "Publication">
-<!ENTITY zotero.items.publisher_column "Éditeur">
+<!ENTITY zotero.items.publisher_column "Maison d’édition">
 <!ENTITY zotero.items.reporter_column "Reporter">
-<!ENTITY zotero.items.restoreColumnOrder.label "Restaurer l'ordre des colonnes">
+<!ENTITY zotero.items.restoreColumnOrder.label "Restaurer l’ordre des colonnes">
 <!ENTITY zotero.items.rights_column "Autorisations">
 <!ENTITY zotero.items.seriesTitle_column "Titre de la coll.">
 <!ENTITY zotero.items.series_column "Collection">

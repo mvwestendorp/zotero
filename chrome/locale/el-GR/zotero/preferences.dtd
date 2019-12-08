@@ -8,15 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Επιλέξτε...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "Αυτόματη ανάκτηση μεταδεδομένων για αρχεία PDF">
 <!ENTITY zotero.preferences.autoRenameFiles "Αυτόματη μετονομασία συνημμένων αρχείων χρησιμοποιώντας μεταγενέστερα μεταδεδομένα">
-<<<<<<< HEAD
-<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
-=======
 <!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Μετονομασία συνδεδεμένων αρχείων">
-<!ENTITY zotero.preferences.fileHandler.openPDFsUsing "Άνοιγμα χρήσης PDF">
-<!ENTITY zotero.preferences.fileHandler.systemDefault "Προεπιλογή Συστήματος">
-
-<!ENTITY zotero.preferences.miscellaneous "Διάφορα">
->>>>>>> 9b77d270a3a41f09e2f477c298e086543f7e6445
 <!ENTITY zotero.preferences.autoUpdate "Αυτόματος έλεγχος για ενημερωμένους μεταφραστές και στυλ">
 <!ENTITY zotero.preferences.automaticSnapshots "Αυτόματη λήψη φωτογραφικού στιγμιότυπου όταν δημιουργείτε στοιχεία από ιστοσελίδες">
 <!ENTITY zotero.preferences.automaticTags "Αυτόματη επισήμανση των στοιχείων με λέξεις κλειδιά και κεφαλίδες θέματος">

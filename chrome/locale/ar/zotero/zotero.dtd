@@ -32,7 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "لاحقة:">
 <!ENTITY zotero.citation.suppressAuthor.label "عدم اضافة المؤلف">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
-<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
+<!ENTITY zotero.collections.showRetractedItems "إظهار العناصر المستردة">
 <!ENTITY zotero.collections.showUnfiledItems "عرض العناصر غير المصنفة">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "اضافة التحديد لملاحظة زوتيرو">
 <!ENTITY zotero.contextMenu.addTextToNewNote "إنشاء عنصر وملاحظة زوتيرو من التحديد">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.file.choose.label "اختر الملف...">
 <!ENTITY zotero.file.noneSelected.label "لم يتم تحديد ملف">
 <!ENTITY zotero.general.advancedOptions.label "خيارات متقدمة">
-<!ENTITY zotero.general.bigger "Bigger">
+<!ENTITY zotero.general.bigger "أكبر">
 <!ENTITY zotero.general.cancel "الغاء">
 <!ENTITY zotero.general.close "أغلق">
 <!ENTITY zotero.general.delete "حذف">
@@ -84,16 +84,16 @@
 <!ENTITY zotero.general.options "خيارات">
 <!ENTITY zotero.general.other "غير ذلك...">
 <!ENTITY zotero.general.refresh "اعادة تحميل">
-<!ENTITY zotero.general.reset "Reset">
+<!ENTITY zotero.general.reset "اعادة ضبط">
 <!ENTITY zotero.general.saveAs "حفظ باسم...">
 <!ENTITY zotero.general.selectAll "تحديد الكل">
-<!ENTITY zotero.general.smaller "Smaller">
+<!ENTITY zotero.general.smaller "أصغر">
 <!ENTITY zotero.general.tools "أدوات">
 <!ENTITY zotero.general.yes "نعم">
 <!ENTITY zotero.import "استيراد">
 <!ENTITY zotero.import.createCollection "ضع المجموعات المستوردة والمواد في مجموعة جديدة">
 <!ENTITY zotero.import.database "قاعدة البيانات">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "معاملة الملف">
 <!ENTITY zotero.import.importing "استيراد...">
 <!ENTITY zotero.import.lastModified "آخر تعديل">
 <!ENTITY zotero.import.size "حجم">
@@ -114,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "عرض الاستشهادات المرجعية كـ:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "تعليقات ختامية">
-<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
+<!ENTITY zotero.integration.prefs.exportDocument "التبديل إلى معالج نصوص آخر ...">
 <!ENTITY zotero.integration.prefs.footnotes.label "حواشي سفلية">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -32,7 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "后缀:">
 <!ENTITY zotero.citation.suppressAuthor.label "略去作者">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
-<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
+<!ENTITY zotero.collections.showRetractedItems "显示已撤稿的条目">
 <!ENTITY zotero.collections.showUnfiledItems "显示未分类条目">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "将所选内容添加到 Zotero 笔记">
 <!ENTITY zotero.contextMenu.addTextToNewNote "由所选内容创建 Zotero 条目及笔记">
@@ -68,7 +68,7 @@
 <!ENTITY zotero.file.choose.label "选择文件...">
 <!ENTITY zotero.file.noneSelected.label "未选定文件">
 <!ENTITY zotero.general.advancedOptions.label "高级选项">
-<!ENTITY zotero.general.bigger "Bigger">
+<!ENTITY zotero.general.bigger "更大">
 <!ENTITY zotero.general.cancel "取消">
 <!ENTITY zotero.general.close "关闭">
 <!ENTITY zotero.general.delete "删除">
@@ -84,16 +84,16 @@
 <!ENTITY zotero.general.options "选项">
 <!ENTITY zotero.general.other "其他…">
 <!ENTITY zotero.general.refresh "刷新">
-<!ENTITY zotero.general.reset "Reset">
+<!ENTITY zotero.general.reset "重置">
 <!ENTITY zotero.general.saveAs "另存为...">
 <!ENTITY zotero.general.selectAll "全选">
-<!ENTITY zotero.general.smaller "Smaller">
+<!ENTITY zotero.general.smaller "更小">
 <!ENTITY zotero.general.tools "工具">
 <!ENTITY zotero.general.yes "是">
 <!ENTITY zotero.import "导入">
 <!ENTITY zotero.import.createCollection "将导入的集合和项目放入新集合中">
 <!ENTITY zotero.import.database "数据库">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "处理文件">
 <!ENTITY zotero.import.importing "导入…">
 <!ENTITY zotero.import.lastModified "上一次更改">
 <!ENTITY zotero.import.size "大小">
@@ -114,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "引文显示为:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "尾注">
-<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
+<!ENTITY zotero.integration.prefs.exportDocument "切换到另外一个文稿处理器...">
 <!ENTITY zotero.integration.prefs.footnotes.label "脚注">
 <!ENTITY zotero.integration.prefs.formatUsing.label "引文存储为:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
