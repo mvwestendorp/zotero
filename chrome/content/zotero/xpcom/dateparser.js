@@ -374,6 +374,7 @@ Zotero.DateParser = new function () {
         var dashPos = -1;
         var lst;
         if (txt) {
+			txt = txt.replace(/^(.*[0-9])T[0-9].*/, "$1");
             // Normalize to string
             txt = "" + txt;
             // Remove things that look like times
