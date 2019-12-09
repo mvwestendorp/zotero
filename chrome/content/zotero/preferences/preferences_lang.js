@@ -528,6 +528,10 @@ Zotero_Preferences.Lang = {
  			    newselector.setAttribute("onmouseover", "Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat-secondary', 'translat'],true);");
  			    newselector.setAttribute("onmouseout", "Zotero_Preferences.Lang.setLanguageRoleHighlight(['translat-primary', 'translat-secondary', 'translat'],false);");
  		    }
+			// Disable client-side language selection settings until after the React watershed
+			if (j === 1 || j === 0) {
+				newselector.childNodes[1].firstChild.setAttribute('disabled', true);
+			}
  		    row.appendChild(newselector);
  	    }
     }),

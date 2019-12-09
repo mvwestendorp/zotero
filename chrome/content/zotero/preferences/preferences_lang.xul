@@ -490,12 +490,12 @@
             <hbox flex="1"/>
             <hbox flex="1">
               <hbox flex="1"/>
-              <label value="&zotero.preferences.lang.sorting;"/>
+              <label value="&zotero.preferences.lang.sorting;" style="color:gray;"/>
               <hbox flex="1"/>
             </hbox>
             <hbox flex="1">
               <hbox flex="1"/>
-              <label value="&zotero.preferences.lang.display;"/>
+              <label value="&zotero.preferences.lang.display;" style="color:gray;"/>
               <hbox flex="1"/>
             </hbox>
             <hbox flex="1">
@@ -537,5 +537,5 @@
     </groupbox>
   </prefpane>
 
-  <script src="preferences_lang.js" type="application/javascript;version=1.8"/>
+  <script src="preferences_lang.js" type="application/javascript;"/>
 </overlay>
