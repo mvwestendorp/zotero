@@ -1909,8 +1909,8 @@
 					if (!controller.matchCount) return;
 
 					for (var i=0; i<controller.matchCount; i++) {
-						if (controller.getValueAt(i) == textbox.value) {
-							result = {val:controller.getValueAt(i),comment:controller.getCommentAt(i)};
+						if (controller.getCommentAt(i) == textbox.value) {
+							result = {val:controller.getCommentAt(i),comment:controller.getValueAt(i)};
 							break;
 						}
 					}
@@ -1932,8 +1932,8 @@
 						result = {val:searchString, comment:searchString};
 					} else {
 						for (var i=0; i<controller.matchCount; i++) {
-							if (controller.getValueAt(i) == textbox.value) {
-								result = {val:controller.getValueAt(i),comment:controller.getCommentAt(i)};
+							if (controller.getCommentAt(i) == textbox.value) {
+								result = {val:controller.getCommentAt(i),comment:controller.getValueAt(i)};
 								break;
 							}
 						}
@@ -2438,7 +2438,7 @@
 						let params = {
 							fieldName: "jurisdictions"
 						}
-						t.setAttribute('ontextentered',
+						t.setAttribute('onchange',
 							'document.getBindingParent(this).handleJurisdictionAutoCompleteSelect(this)');
 						t.setAttribute(
 							'autocompletesearchparam', JSON.stringify(params)
@@ -2465,7 +2465,7 @@
 
 							removeEventListener("deactivate", ignoreBlur);
 							removeEventListener("activate", unignoreBlur);
-							self.hideJurisdictionEditor(this);
+							self.hideJurisdictionEditor(t);
 						});
 						t.setAttribute('onkeydown', "return document.getBindingParent(this).handleKeyDown(event)");
 						t.setAttribute('onkeypress', "return document.getBindingParent(this).handleKeyPress(event)");
@@ -2524,12 +2524,12 @@
 							jurisdictionName: jurisdictionName,
 							countryID: countryID
 						}
-						t.setAttribute('ontextentered',
+						t.setAttribute('onchange',
 							'document.getBindingParent(this).handleCourtAutoCompleteSelect(this)');
 						t.setAttribute(
 							'autocompletesearchparam', JSON.stringify(params)
 						);
-						//t.setAttribute('completeselectedindex', true);
+						t.setAttribute('completeselectedindex', true);
 						t.setAttribute('enablehistory', true);
 						t.setAttribute('highlightnonmatches', true);
 
@@ -3615,8 +3615,17 @@
 
 					this._lastTabIndex = -1;
 
+					// Prevent autocomplete breakage in Firefox 3
+					if (node.mController) {
+						node.mController.input = null;
+					}
+
 					var nonMatchHighlight = false;
-					if (!result || !result.val) {
+					if (!result) {
+						// In this case, revert to existing content for all types.
+						result = {val: node.getAttribute("oldValue"), comment: node.getAttribute("oldComment")};
+					} else if (!result.val) {
+						// In this case, revert only if pure legal type, not article, report, or standard
 						var itemType = Zotero.ItemTypes.getName(this.item.itemTypeID);
 						if (["report","newspaperArticle","journalArticle", "standard"].indexOf(itemType) > -1) {
 							result = {val: "", result: ""}
@@ -3679,6 +3688,11 @@
 					return (async function () {
 					Zotero.debug(`Hiding court editor for ${node.getAttribute('fieldname')}`);
 
+					// Prevent autocomplete breakage in Firefox 3
+					if (node.mController) {
+						node.mController.input = null;
+					}
+
 					this._tabbingInProgress = false;
 
 					this._lastTabIndex = -1;
@@ -3692,7 +3706,7 @@
 						jurisdictionID = this.item.getField('jurisdiction', true);
 						var newComment = Zotero.CachedJurisdictionData.courtIdFromName(jurisdictionID, newValue, true);
 						result = {val:newValue,comment:newComment};
-						if ("undefined" == typeof result.comment) {
+						if (false === result.comment) {
 							result.comment = result.val;
 							valueElement.classList.add('yellow');
 						}
@@ -3700,6 +3714,9 @@
 						// Used to adjust values when SAYT result from a subjurisdiction is selected.
 						var m = result.val.match(/^([^:]+):\s+(.*)$/);
 						if (m) {
+							if (this.saveOnEdit) {
+								this.ignoreBlur = true;
+							}
 							// Get the subjurisdiction element to add to the current jurisdiction
 							var jurisdictionStub = m[1];
 							result.val = m[2];
@@ -3758,6 +3775,7 @@
 					}
 					if (this.saveOnEdit) {
 						await this.item.saveTx();
+						this.ignoreBlur = false;
 					}
 				}.bind(this))();
 				]]>

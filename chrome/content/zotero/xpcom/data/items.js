@@ -219,16 +219,18 @@ Zotero.Items = function() {
 		var missingItems = {};
 		var itemFieldsCached = {};
 		var doneItems = {};
+		var jurisdictionFieldID = Zotero.ItemFields.getID("jurisdiction");
+		var courtFieldID = Zotero.ItemFields.getID("court");
 		var sql = "SELECT "
 			+ "itemID, ID.fieldID, "
 			+ "CASE "
-			+   "WHEN ID.fieldID in (1261) THEN "
+			+   "WHEN ID.fieldID in (" + jurisdictionFieldID + ") THEN "
 			+   "CASE "
 			+	  "WHEN JU.jurisdictionName IS NULL "
 			+	  "THEN value "
 			+	  "ELSE substr('000' || cast(length(value) as TEXT), -3, 3) || value || JU.jurisdictionName "
 			+   "END "
-			+   "WHEN ID.fieldID in (44) THEN "
+			+   "WHEN ID.fieldID in (" + courtFieldID + ") THEN "
 			+   "CASE "
 			+	  "WHEN CT.courtName IS NULL "
 			+	  "THEN value "
@@ -241,7 +243,7 @@ Zotero.Items = function() {
 			+ "FROM items I "
 			+   "JOIN itemData ID USING (itemID) "
 			+   "JOIN itemDataValues IDV USING (valueID) "
-			+   "LEFT JOIN jurisdictions JU ON JU.jurisdictionID=value AND ID.fieldID=1261 "
+			+   "LEFT JOIN jurisdictions JU ON JU.jurisdictionID=value AND ID.fieldID=" + jurisdictionFieldID + " "
 			+   "LEFT JOIN (SELECT C.courtID,CN.courtName,J.jurisdictionID "
 			+		"FROM jurisdictions J "
 			+		"JOIN courtJurisdictionLinks USING(jurisdictionIdx) "
