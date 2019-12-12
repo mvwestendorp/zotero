@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "접미사:">
 <!ENTITY zotero.citation.suppressAuthor.label "저자 숨기기">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "철회된 항목 표시">
 <!ENTITY zotero.collections.showUnfiledItems "미분류 항목 보기">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Zotero 노트에 선택 내용 추가">
 <!ENTITY zotero.contextMenu.addTextToNewNote "선택한 내용으로 Zotero 노트 생성">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "파일 선택...">
 <!ENTITY zotero.file.noneSelected.label "선택된 파일 없음">
 <!ENTITY zotero.general.advancedOptions.label "고급 ">
+<!ENTITY zotero.general.bigger "더 크게">
 <!ENTITY zotero.general.cancel "취소">
 <!ENTITY zotero.general.close "닫기">
 <!ENTITY zotero.general.delete "삭제">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "환경설정">
 <!ENTITY zotero.general.other "기타...">
 <!ENTITY zotero.general.refresh "새로고침">
+<!ENTITY zotero.general.reset "재설정">
 <!ENTITY zotero.general.saveAs "다른 이름으로 저장...">
 <!ENTITY zotero.general.selectAll "모두 선택">
+<!ENTITY zotero.general.smaller "더 작게">
 <!ENTITY zotero.general.tools "도구">
 <!ENTITY zotero.general.yes "예">
 <!ENTITY zotero.import "불러오기">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "인용 표시:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "미주">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "다른 워드 프로세서로 전환...">
 <!ENTITY zotero.integration.prefs.footnotes.label "각주">
 <!ENTITY zotero.integration.prefs.formatUsing.label "다음으로 인용 보관:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

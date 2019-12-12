@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Suprimă autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Afișează itemii retrași">
 <!ENTITY zotero.collections.showUnfiledItems "Arată înregistrările neîndosariate">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Adaugă selecția la nota Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Creează pe baza selecției o înregistrare și o notă Zotero">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Alege fișier...">
 <!ENTITY zotero.file.noneSelected.label "Niciun fișier selectat">
 <!ENTITY zotero.general.advancedOptions.label "Opțiuni avansate">
+<!ENTITY zotero.general.bigger "Mai mare">
 <!ENTITY zotero.general.cancel "Anulare">
 <!ENTITY zotero.general.close "Închide">
 <!ENTITY zotero.general.delete "Ștergere">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Opțiuni">
 <!ENTITY zotero.general.other "Altele...">
 <!ENTITY zotero.general.refresh "Reîmprospătare">
+<!ENTITY zotero.general.reset "Resetare">
 <!ENTITY zotero.general.saveAs "Salvare ca...">
 <!ENTITY zotero.general.selectAll "Selectează tot">
+<!ENTITY zotero.general.smaller "Mai mic">
 <!ENTITY zotero.general.tools "Instrumente">
 <!ENTITY zotero.general.yes "Da">
 <!ENTITY zotero.import "Import">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Afișează citatele ca:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Note de final">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Schimbă procesorul de texte…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Note de subsol">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Păstrează citările ca:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

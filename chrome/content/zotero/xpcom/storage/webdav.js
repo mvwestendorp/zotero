@@ -42,6 +42,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 	mode: "webdav",
 	name: "WebDAV",
 	
+	ERROR_DELAY_INTERVALS: [2500],
+	ERROR_DELAY_MAX: 3000,
+	
 	get verified() {
 		return Zotero.Prefs.get("sync.storage.verified");
 	},
@@ -185,32 +188,23 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			throw new this.VerificationError("NO_URL");
 		}
 		
-		url = scheme + '://' + url;
-		var dir = "zotero";
 		var username = this.username;
 		var password = this.password;
-		
 		if (!username) {
 			throw new this.VerificationError("NO_USERNAME");
 		}
-		
 		if (!password) {
 			throw new this.VerificationError("NO_PASSWORD");
 		}
 		
-		var ios = Components.classes["@mozilla.org/network/io-service;1"].
-					getService(Components.interfaces.nsIIOService);
-		var uri = ios.newURI(url, null, null);
-		uri.username = encodeURIComponent(username);
-		uri.password = encodeURIComponent(password);
-		if (!uri.spec.match(/\/$/)) {
-			uri.spec += "/";
-		}
-		this._parentURI = uri;
+		url = scheme + '://'
+			+ encodeURIComponent(username) + ':' + encodeURIComponent(password) + '@'
+			+ url
+			+ (url.endsWith('/') ? '' : '/');
 		
-		var uri = uri.clone();
-		uri.spec += "zotero/";
-		this._rootURI = uri;
+		var io = Services.io;
+		this._parentURI = io.newURI(url, null, null);
+		this._rootURI = io.newURI(url + "zotero/", null, null);
 	},
 	
 	
@@ -223,7 +217,14 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 		Zotero.debug("Caching WebDAV credentials");
 		
 		try {
-			var req = yield Zotero.HTTP.request("OPTIONS", this.rootURI);
+			var req = yield Zotero.HTTP.request(
+				"OPTIONS",
+				this.rootURI,
+				{
+					errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+					errorDelayMax: this.ERROR_DELAY_MAX,
+				}
+			);
 			
 			Zotero.debug("WebDAV credentials cached");
 			this._cachedCredentials = true;
@@ -504,6 +505,8 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					{
 						successCodes: [200, 204, 404],
 						requestObserver: xmlhttp => request.setChannel(xmlhttp.channel),
+						errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+						errorDelayMax: this.ERROR_DELAY_MAX,
 						debug: true
 					}
 				);
@@ -544,6 +547,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 							}
 						});
 					},
+					errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+					errorDelayMax: this.ERROR_DELAY_MAX,
+					timeout: 0,
 					debug: true
 				}
 			);
@@ -607,6 +613,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 						options.onRequest(req);
 					}
 				},
+				errorDelayMax: 0,
 				debug: true
 			}
 		);
@@ -634,13 +641,13 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			headers: Object.assign({}, headers, contentTypeXML),
 			successCodes: [207, 404],
 			requestObserver,
+			errorDelayMax: 0,
 			debug: true
 		});
 		
 		if (req.status == 207) {
 			// Test if missing files return 404s
-			let missingFileURI = uri.clone();
-			missingFileURI.spec += "nonexistent.prop";
+			let missingFileURI = uri.mutate().setSpec(uri.spec + "nonexistent.prop").finalize();
 			try {
 				req = yield Zotero.HTTP.request(
 					"GET",
@@ -649,6 +656,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 						successCodes: [404],
 						responseType: 'text',
 						requestObserver,
+						errorDelayMax: 0,
 						debug: true
 					}
 				)
@@ -656,19 +664,19 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			catch (e) {
 				if (e instanceof Zotero.HTTP.UnexpectedStatusException) {
 					if (e.status >= 200 && e.status < 300) {
-						throw this.VerificationError("NONEXISTENT_FILE_NOT_MISSING", uri);
+						throw new this.VerificationError("NONEXISTENT_FILE_NOT_MISSING", uri);
 					}
 				}
 				throw e;
 			}
 			
 			// Test if Zotero directory is writable
-			let testFileURI = uri.clone();
-			testFileURI.spec += "zotero-test-file.prop";
+			let testFileURI = uri.mutate().setSpec(uri.spec + "zotero-test-file.prop").finalize();
 			req = yield Zotero.HTTP.request("PUT", testFileURI, {
 				body: " ",
 				successCodes: [200, 201, 204],
 				requestObserver,
+				errorDelayMax: 0,
 				debug: true
 			});
 			
@@ -679,6 +687,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					successCodes: [200, 404],
 					responseType: 'text',
 					requestObserver,
+					errorDelayMax: 0,
 					debug: true
 				}
 			);
@@ -691,6 +700,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					{
 						successCodes: [200, 204],
 						requestObserver,
+						errorDelayMax: 0,
 						debug: true
 					}
 				);
@@ -717,7 +727,8 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 				headers: Object.assign({}, headers, contentTypeXML),
 				body: xmlstr,
 				requestObserver,
-				successCodes: [207, 404]
+				successCodes: [207, 404],
+				errorDelayMax: 0
 			});
 			
 			if (req.status == 207) {
@@ -742,17 +753,13 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 		var promptService =
 			Components.classes["@mozilla.org/embedcomp/prompt-service;1"].
 				createInstance(Components.interfaces.nsIPromptService);
-		var uri = err.uri;
-		if (uri) {
-			var spec = uri.scheme + '://' + uri.hostPort + uri.path;
-		}
 		
 		var errorTitle, errorMsg;
 		
 		if (err instanceof Zotero.HTTP.UnexpectedStatusException) {
 			switch (err.status) {
 			case 0:
-				errorMsg = Zotero.getString('sync.storage.error.serverCouldNotBeReached', err.channel.URI.host);
+				errorMsg = Zotero.getString('sync.storage.error.serverCouldNotBeReached', err.url.host);
 				break;
 				
 			case 401:
@@ -763,7 +770,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			
 			case 403:
 				errorTitle = Zotero.getString('general.permissionDenied');
-				errorMsg = Zotero.getString('sync.storage.error.webdav.permissionDenied', err.channel.URI.path)
+				errorMsg = Zotero.getString('sync.storage.error.webdav.permissionDenied', err.channel.URI.pathQueryRef)
 					+ "\n\n" + Zotero.getString('sync.storage.error.checkFileSyncSettings');
 				break;
 			
@@ -781,6 +788,10 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			}
 		}
 		else if (err instanceof this.VerificationError) {
+			let spec;
+			if (err.uri) {
+				spec = err.uri.scheme + '://' + err.uri.hostPort + err.uri.pathQueryRef;
+			}
 			switch (err.error) {
 				case "NO_URL":
 					errorMsg = Zotero.getString('sync.storage.error.webdav.enterURL');
@@ -800,7 +811,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 				
 				case "PARENT_DIR_NOT_FOUND":
 					errorTitle = Zotero.getString('sync.storage.error.directoryNotFound');
-					var parentSpec = spec.replace(/\/zotero\/$/, "");
+					var parentSpec = spec.replace(/zotero\/$/, "");
 					errorMsg = Zotero.getString('sync.storage.error.doesNotExist', parentSpec);
 					break;
 				
@@ -830,7 +841,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 							if (e.status == 403) {
 								errorTitle = Zotero.getString('general.permissionDenied');
 								let rootURI = this.rootURI;
-								let rootSpec = rootURI.scheme + '://' + rootURI.hostPort + rootURI.path
+								let rootSpec = rootURI.scheme + '://' + rootURI.hostPort + rootURI.pathQueryRef
 								errorMsg = Zotero.getString('sync.storage.error.permissionDeniedAtAddress')
 									+ "\n\n" + rootSpec + "\n\n"
 									+ Zotero.getString('sync.storage.error.checkFileSyncSettings');
@@ -965,7 +976,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 		Zotero.debug("Purging orphaned storage files");
 		
 		var uri = this.rootURI;
-		var path = uri.path;
+		var path = uri.pathQueryRef;
 		
 		var contentTypeXML = { "Content-Type": "text/xml; charset=utf-8" };
 		var xmlstr = "<propfind xmlns='DAV:'><prop>"
@@ -985,6 +996,8 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 				body: xmlstr,
 				headers: Object.assign({ Depth: 1 }, contentTypeXML),
 				successCodes: [207],
+				errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+				errorDelayMax: this.ERROR_DELAY_MAX,
 				debug: true
 			}
 		);
@@ -1014,7 +1027,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			if (href.match(/^https?:\/\//)) {
 				let ios = Components.classes["@mozilla.org/network/io-service;1"]
 					.getService(Components.interfaces.nsIIOService);
-				href = ios.newURI(href, null, null).path;
+				href = ios.newURI(href, null, null).pathQueryRef;
 			}
 			
 			let decodedHref = decodeURIComponent(href).normalize();
@@ -1112,7 +1125,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					successCodes: [200, 300, 404],
 					responseType: 'text',
 					requestObserver: xmlhttp => request.setChannel(xmlhttp.channel),
-					dontCache: true,
+					noCache: true,
+					errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+					errorDelayMax: this.ERROR_DELAY_MAX,
 					debug: true
 				}
 			);
@@ -1224,6 +1239,8 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					},
 					body: xmlstr,
 					successCodes: [200, 201, 204],
+					errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+					errorDelayMax: this.ERROR_DELAY_MAX,
 					debug: true
 				}
 			)
@@ -1293,7 +1310,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 			"MKCOL",
 			this.rootURI,
 			{
-				successCodes: [201]
+				successCodes: [201],
+				errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+				errorDelayMax: this.ERROR_DELAY_MAX,
 			}
 		);
 	},
@@ -1307,9 +1326,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 	 * @return	{nsIURI}					URI of file on storage server
 	 */
 	_getItemURI: function (item) {
-		var uri = this.rootURI;
-		uri.spec = uri.spec + item.key + '.zip';
-		return uri;
+		return this.rootURI.mutate().setSpec(this.rootURI.spec + item.key + '.zip').finalize();
 	},
 	
 	
@@ -1321,9 +1338,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 	 * @return	{nsIURI}					URI of property file on storage server
 	 */
 	_getItemPropertyURI: function (item) {
-		var uri = this.rootURI;
-		uri.spec = uri.spec + item.key + '.prop';
-		return uri;
+		return this.rootURI.mutate().setSpec(this.rootURI.spec + item.key + '.prop').finalize();
 	},
 	
 	
@@ -1337,11 +1352,7 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 		if (!uri.spec.match(/\.zip$/)) {
 			return false;
 		}
-		var propURI = uri.clone();
-		propURI.QueryInterface(Components.interfaces.nsIURL);
-		propURI.fileName = uri.fileName.replace(/\.zip$/, '.prop');
-		propURI.QueryInterface(Components.interfaces.nsIURI);
-		return propURI;
+		return uri.mutate().setFilePath(uri.filePath.replace(/\.zip$/, '.prop')).finalize();
 	},
 	
 	
@@ -1379,16 +1390,15 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 		for (let i = 0 ; i < files.length; i++) {
 			let fileName = files[i];
 			funcs.push(Zotero.Promise.coroutine(function* () {
-				var deleteURI = this.rootURI.clone();
-				deleteURI.QueryInterface(Components.interfaces.nsIURL);
-				deleteURI.fileName = fileName;
-				deleteURI.QueryInterface(Components.interfaces.nsIURI);
+				var deleteURI = this.rootURI.mutate().setSpec(this.rootURI.spec + fileName).finalize();
 				try {
 					var req = yield Zotero.HTTP.request(
 						"DELETE",
 						deleteURI,
 						{
-							successCodes: [200, 204, 404]
+							successCodes: [200, 204, 404],
+							errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+							errorDelayMax: this.ERROR_DELAY_MAX,
 						}
 					);
 				}
@@ -1411,6 +1421,8 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 				
 				// If an item file URI, get the property URI
 				var deletePropURI = this._getPropertyURIFromItemURI(deleteURI);
+				// Only nsIURL has fileName
+				deletePropURI.QueryInterface(Ci.nsIURL);
 				
 				// If we already deleted the prop file, skip it
 				if (!deletePropURI || results.deleted.has(deletePropURI.fileName)) {
@@ -1424,7 +1436,9 @@ Zotero.Sync.Storage.Mode.WebDAV.prototype = {
 					"DELETE",
 					deletePropURI,
 					{
-						successCodes: [200, 204, 404]
+						successCodes: [200, 204, 404],
+						errorDelayIntervals: this.ERROR_DELAY_INTERVALS,
+						errorDelayMax: this.ERROR_DELAY_MAX,
 					}
 				);
 				switch (req.status) {

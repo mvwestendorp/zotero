@@ -436,9 +436,9 @@ Zotero.RecognizePDF = new function () {
 		
 		let res = await _query(json);
 		if (!res) return null;
-		
+
 		if (res.arxiv) {
-			Zotero.debug(`RecognizePDF: Getting metadata for arXiv ID ${res.arxiv}`);
+			Zotero.debug(`RecognizePDF: Getting metadata for arXiv ID ${res.arxiv}`, 1);
 			let translate = new Zotero.Translate.Search();
 			translate.setIdentifier({arXiv: res.arxiv});
 			let translators = await translate.getTranslators();

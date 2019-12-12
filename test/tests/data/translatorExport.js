@@ -54,7 +54,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/Q9H4L4XG",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "audioRecording": {
     "version": 0,
@@ -84,7 +85,7 @@
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
-    "originalDate": "0000-00-00 Original date",
+    "originalDate": "Original date",
     "album": "Publication title",
     "opus": "Opus",
     "release": "8",
@@ -136,7 +137,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/LQTK2N8W",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "bill": {
     "version": 0,
@@ -163,6 +165,7 @@
     "codePages": "1-10",
     "title": "Title",
     "shortTitle": "Short title",
+    "reporter": "Publication title",
     "jurisdiction": "Jurisdiction",
     "assemblyNumber": "9",
     "resolutionLabel": "Resolution label",
@@ -215,7 +218,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/PCMPTQYD",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "blogPost": {
     "version": 0,
@@ -275,7 +279,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/F2RWHQBM",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "book": {
     "version": 0,
@@ -372,7 +377,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/CT4FEJRW",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "bookSection": {
     "version": 0,
@@ -477,7 +483,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/A5VZ4SU3",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "case": {
     "version": 0,
@@ -506,11 +513,11 @@
     "caseName": "Title",
     "shortTitle": "Short title",
     "docketNumber": "3",
-    "filingDate": "2000-01-02 2000-01-02",
+    "filingDate": "2000-01-02",
     "archive": "Archive",
     "jurisdiction": "Jurisdiction",
     "yearAsVolume": "Year as volume",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "supplementName": "Supplement name",
     "documentName": "Document name",
@@ -570,7 +577,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/E3XX5BNA",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "computerProgram": {
     "version": 0,
@@ -630,7 +638,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/3DCFXAT7",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "conferencePaper": {
     "version": 0,
@@ -663,7 +672,7 @@
     "proceedingsTitle": "Publication title",
     "shortTitle": "Short title",
     "archive": "Archive",
-    "conferenceDate": "0000-00-00 Conference date",
+    "conferenceDate": "Conference date",
     "creators": [
       {
         "firstName": "authorFirst",
@@ -720,7 +729,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/IQH2CZB7",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "dictionaryEntry": {
     "version": 0,
@@ -808,7 +818,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/Z97HSR9V",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "document": {
     "version": 0,
@@ -888,7 +899,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/QML6CL9U",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "email": {
     "version": 0,
@@ -946,7 +958,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/A7Z2TH6L",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "encyclopediaArticle": {
     "version": 0,
@@ -1034,7 +1047,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/RFA3JWH6",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "film": {
     "version": 0,
@@ -1108,7 +1122,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/GRQIQAY3",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "forumPost": {
     "version": 0,
@@ -1160,7 +1175,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/LZCA6EAV",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "hearing": {
     "version": 0,
@@ -1195,6 +1211,7 @@
     "resolutionLabel": "Resolution label",
     "sessionType": "Type",
     "meetingNumber": "Meeting number",
+    "meetingName": "Meeting name",
     "creators": [
       {
         "firstName": "contributorFirst",
@@ -1235,7 +1252,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/2FKF3KNL",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "instantMessage": {
     "version": 0,
@@ -1293,7 +1311,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/6V7U2WZR",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "interview": {
     "version": 0,
@@ -1365,7 +1384,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/GJQX34GQ",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "journalArticle": {
     "version": 0,
@@ -1455,7 +1475,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/QRCNYW5L",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "letter": {
     "version": 0,
@@ -1518,7 +1539,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/ZRRMUJXJ",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "magazineArticle": {
     "version": 0,
@@ -1595,7 +1617,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/37PJHRKF",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "manuscript": {
     "version": 0,
@@ -1660,7 +1683,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/E58QTF83",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "map": {
     "version": 0,
@@ -1729,7 +1753,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/JT5BZKPY",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "newspaperArticle": {
     "version": 0,
@@ -1759,7 +1784,7 @@
     "shortTitle": "Short title",
     "archive": "Archive",
     "jurisdiction": "Jurisdiction",
-    "newsCaseDate": "0000-00-00 News case date",
+    "newsCaseDate": "News case date",
     "creators": [
       {
         "firstName": "authorFirst",
@@ -1808,7 +1833,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/NR4UL4ZQ",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "patent": {
     "version": 0,
@@ -1836,11 +1862,11 @@
     "title": "Title",
     "shortTitle": "Short title",
     "issuingAuthority": "Issuing authority",
-    "filingDate": "2000-01-02 2000-01-02",
+    "filingDate": "2000-01-02",
     "genre": "Genre",
     "jurisdiction": "Jurisdiction",
-    "priorityDate": "0000-00-00 Priority date",
-    "publicationDate": "0000-00-00 Publication date",
+    "priorityDate": "Priority date",
+    "publicationDate": "Publication date",
     "publicationNumber": "Publication number",
     "creators": [
       {
@@ -1890,7 +1916,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/F2HHN7GV",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "podcast": {
     "version": 0,
@@ -1953,7 +1980,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/FQZ86ZI4",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "presentation": {
     "version": 0,
@@ -2006,7 +2034,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/B8V2QYVD",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "radioBroadcast": {
     "version": 0,
@@ -2098,7 +2127,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/4XC5WAT3",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "report": {
     "version": 0,
@@ -2181,7 +2211,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/QWVNYSYA",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "statute": {
     "version": 0,
@@ -2208,11 +2239,11 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "regnalYear": "Regnal year",
-    "originalDate": "0000-00-00 Original date",
-    "dateAmended": "0000-00-00 Date amended",
+    "originalDate": "Original date",
+    "dateAmended": "Date amended",
     "gazetteFlag": "Gazette flag",
     "creators": [
       {
@@ -2254,7 +2285,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/BLHV6PXT",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "thesis": {
     "version": 0,
@@ -2312,7 +2344,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/HMR43N6U",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "tvBroadcast": {
     "version": 0,
@@ -2404,7 +2437,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/I5RWAEJQ",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "videoRecording": {
     "version": 0,
@@ -2431,7 +2465,7 @@
     "runningTime": "1:22:33",
     "language": "en-US",
     "abstractNote": "Abstract note",
-    "websiteTitle": "Website title",
+    "websiteTitle": "Publication title",
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
@@ -2491,7 +2525,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/Y8TZ3Z37",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "webpage": {
     "version": 0,
@@ -2551,7 +2586,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/AT56Y6SE",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "gazette": {
     "version": 0,
@@ -2578,7 +2614,7 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "regnalYear": "Regnal year",
     "creators": [
@@ -2621,7 +2657,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/XUYQJ2SK",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "regulation": {
     "version": 0,
@@ -2648,7 +2685,7 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "regulationType": "Type",
     "regulatoryBody": "Legislative body",
     "gazetteFlag": "Gazette flag",
@@ -2692,7 +2729,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/RPI75SK2",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "classic": {
     "version": 0,
@@ -2758,7 +2796,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/JERK8VHD",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "treaty": {
     "version": 0,
@@ -2786,9 +2825,10 @@
     "shortTitle": "Short title",
     "archive": "Archive",
     "supplementName": "Supplement name",
-    "signingDate": "0000-00-00 Signing date",
-    "openingDate": "0000-00-00 Opening date",
-    "adoptionDate": "0000-00-00 Adoption date",
+    "signingDate": "Signing date",
+    "openingDate": "Opening date",
+    "adoptionDate": "Adoption date",
+    "versionNumber": "Version number",
     "parentTreaty": "Parent treaty",
     "creators": [
       {
@@ -2846,7 +2886,8 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/7ZEDBLJ4",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   },
   "standard": {
     "version": 0,
@@ -2928,6 +2969,7 @@
     "dateModified": "2016-10-09T21:19:53Z",
     "uri": "http://zotero.org/users/local/StiOy3UW/items/X56F6APL",
     "attachments": [],
-    "notes": []
+      "notes": [],
+	  "seeAlso": []
   }
 }

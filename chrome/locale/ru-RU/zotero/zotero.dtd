@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Суффикс:">
 <!ENTITY zotero.citation.suppressAuthor.label "Убрать автора">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Показать отозванные публикации">
 <!ENTITY zotero.collections.showUnfiledItems "Показать неподшитые документы">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Добавить выделенное к заметкам Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Создать документ и заметку Zotero из выделенного">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Выберите файл…">
 <!ENTITY zotero.file.noneSelected.label "Файл не выбран">
 <!ENTITY zotero.general.advancedOptions.label "Расширенные настройки">
+<!ENTITY zotero.general.bigger "Увеличить">
 <!ENTITY zotero.general.cancel "Отменить">
 <!ENTITY zotero.general.close "Закрыть">
 <!ENTITY zotero.general.delete "Удалить">
@@ -82,9 +84,11 @@
 <!ENTITY zotero.general.options "Настройки">
 <!ENTITY zotero.general.other "Прочие…">
 <!ENTITY zotero.general.refresh "Обновить">
+<!ENTITY zotero.general.reset "Сбросить">
 <!ENTITY zotero.general.saveAs "Сохранить как">
 <!ENTITY zotero.general.selectAll "Выбрать всё">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.smaller "Уменьшить">
+<!ENTITY zotero.general.tools "Инструменты">
 <!ENTITY zotero.general.yes "Да">
 <!ENTITY zotero.import "Импорт">
 <!ENTITY zotero.import.createCollection "Поместить импортированные коллекции и записи в отдельную коллекцию">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Отобразить цитаты как:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Концевые сноски">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Переключиться на другой текстовый редактор…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Сноски">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Сохранить цитаты как:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
@@ -187,7 +191,7 @@
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Страницы">
 <!ENTITY zotero.items.place_column "Место">
-<!ENTITY zotero.items.publication_column "Публикация">
+<!ENTITY zotero.items.publication_column "Издание">
 <!ENTITY zotero.items.publisher_column "Издатель">
 <!ENTITY zotero.items.reporter_column "Reporter">
 <!ENTITY zotero.items.restoreColumnOrder.label "Восстановить порядок столбцов">

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffisso:">
 <!ENTITY zotero.citation.suppressAuthor.label "Ometti autore">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Mostra elementi ritirati dalla pubblicazione">
 <!ENTITY zotero.collections.showUnfiledItems "Mostra gli oggetti non classificati">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Aggiungi la selezione alla nota di Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crea elemento e nota in base alla selezione">
@@ -43,7 +44,7 @@
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Scegli i campi da mantenere dalle altre versioni dell'elemento:">
 <!ENTITY zotero.duplicatesMerge.versionSelect "Scegli la versione dell'elemento da usare come master:">
 <!ENTITY zotero.errorReport.notReviewed "In genere, i rapporti di errore non vengono esaminati se non sono stati inviati ai forum.">
-<!ENTITY zotero.errorReport.postToForums "Inviare un messaggio ai forum di Zotero (forums.zotero.org)riportando il numero ID del rapporto di errore, una descrizione del problema ed esponendo i passaggi che hanno condotto all&apos;errore.">
+<!ENTITY zotero.errorReport.postToForums "Inviare un messaggio ai forum di Zotero (forums.zotero.org) riportando il numero ID del rapporto di errore, una descrizione del problema ed esponendo i passaggi che hanno condotto all&apos;errore.">
 <!ENTITY zotero.errorReport.reportID "ID rapporto:">
 <!ENTITY zotero.errorReport.submissionInProgress "Attendere, rapporto di errore in fase di invio.">
 <!ENTITY zotero.errorReport.submitted "Il rapporto di errore è stato inviato.">
@@ -67,12 +68,13 @@
 <!ENTITY zotero.file.choose.label "Scegli il File...">
 <!ENTITY zotero.file.noneSelected.label "Nessun file selezionato">
 <!ENTITY zotero.general.advancedOptions.label "Opzioni Avanzate">
+<!ENTITY zotero.general.bigger "Ingrandisci">
 <!ENTITY zotero.general.cancel "Annulla">
 <!ENTITY zotero.general.close "Chiudi">
 <!ENTITY zotero.general.delete "Elimina">
 <!ENTITY zotero.general.deselectAll "Deseleziona tutti">
 <!ENTITY zotero.general.edit "Modifica">
-<!ENTITY zotero.general.loading "Loading…">
+<!ENTITY zotero.general.loading "Caricamento…">
 <!ENTITY zotero.general.minimize "Riduci a icona">
 <!ENTITY zotero.general.more "Altri">
 <!ENTITY zotero.general.no "No">
@@ -82,14 +84,16 @@
 <!ENTITY zotero.general.options "Opzioni">
 <!ENTITY zotero.general.other "Altro...">
 <!ENTITY zotero.general.refresh "Ricarica">
+<!ENTITY zotero.general.reset "Ripristina">
 <!ENTITY zotero.general.saveAs "Salva con nome...">
 <!ENTITY zotero.general.selectAll "Seleziona tutti">
-<!ENTITY zotero.general.tools "Tools">
+<!ENTITY zotero.general.smaller "Rimpicciolisci">
+<!ENTITY zotero.general.tools "Strumenti">
 <!ENTITY zotero.general.yes "Si">
 <!ENTITY zotero.import "Importa">
 <!ENTITY zotero.import.createCollection "Inserisci collezioni e elementi importati in una nuovo collezione">
 <!ENTITY zotero.import.database "Database">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Gestione dei file">
 <!ENTITY zotero.import.importing "Importazione...">
 <!ENTITY zotero.import.lastModified "Ultimo File Modificato">
 <!ENTITY zotero.import.size "Dimensione">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Visualizza citazioni come:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Note finali">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Cambia programma di videoscrittura...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Note a piè di pagina">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

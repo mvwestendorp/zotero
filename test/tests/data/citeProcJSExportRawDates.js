@@ -58,7 +58,6 @@
 		"accessed": {
 			"raw": "1997-06-13"
 		},
-		"archive-place": "Place",
 		"archive": "Archive",
 		"archive_location": "Archive location",
 		"author": [
@@ -130,7 +129,7 @@
 				}
 			}
 		],
-        "jurisdiction": "us",
+        "jurisdiction": "zz",
 		"authority": "Legislative body",
 		"chapter-number": "Session",
 		"container-title": "Code",
@@ -236,7 +235,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 41,
 		"issued": {
@@ -323,7 +321,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 42,
 		"issued": {
@@ -381,7 +378,7 @@
 		"issued": {
 			"raw": "1999-12-31"
 		},
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"language": "en-US",
 		"note": "Extra",
 		"number": "3",
@@ -422,7 +419,6 @@
 		],
 		"call-number": "Call number",
 		"collection-title": "Series title",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Programming language",
 		"id": 44,
@@ -490,7 +486,6 @@
 			}
 		],
 		"event": "Conference name",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 45,
 		"issued": {
@@ -567,7 +562,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 46,
 		"issued": {
@@ -707,7 +701,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "email"
 	},
 	"encyclopediaArticle": {
 		"ISBN": "978-1-234-56789-7",
@@ -756,7 +751,6 @@
 				}
 			}
 		],
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 49,
 		"issued": {
@@ -890,14 +884,13 @@
 		],
 		"authority": "Legislative body",
 		"chapter-number": "Session",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 52,
 		"issued": {
 			"raw": "1999-12-31"
 		},
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"note": "Extra",
 		"number": "3",
 		"number-of-volumes": "7",
@@ -956,7 +949,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "instant message"
 	},
 	"interview": {
 		"URL": "http://www.example.com",
@@ -1225,7 +1219,6 @@
 			}
 		],
 		"call-number": "Call number",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 58,
@@ -1290,7 +1283,6 @@
 		],
 		"collection-title": "Series title",
 		"edition": "8",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 59,
@@ -1338,7 +1330,6 @@
 		"call-number": "Call number",
 		"container-title": "Publication title",
 		"edition": "8",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 60,
 		"issued": {
@@ -1399,7 +1390,6 @@
 		],
 		"authority": "Issuing authority",
 		"call-number": "Application number",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 61,
 		"issue": "Priority numbers",
@@ -1407,7 +1397,7 @@
 			"raw": "1999-12-31"
 		},
 		"language": "en-US",
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"note": "Extra",
 		"number": "3",
 		"page": "1-10",
@@ -1460,7 +1450,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "podcast"
 	},
 	"presentation": {
 		"URL": "http://www.example.com",
@@ -1484,7 +1475,6 @@
 			}
 		],
 		"event": "Meeting name",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 63,
@@ -1528,7 +1518,6 @@
 		"call-number": "Call number",
 		"container-title": "Publication title",
 		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "radio broadcast",
 		"id": 64,
@@ -1548,7 +1537,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "radio broadcast"
 	},
 	"report": {
 		"URL": "http://www.example.com",
@@ -1584,7 +1574,6 @@
 			}
 		],
 		"collection-title": "Series title",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 65,
@@ -1642,7 +1631,7 @@
 		"issued": {
 			"raw": "1999-12-31"
 		},
-		"jurisdiction": "us",
+		"jurisdiction": "zz",
 		"language": "en-US",
 		"note": "Extra",
 		"number": "3",
@@ -1682,7 +1671,6 @@
 			}
 		],
 		"call-number": "Call number",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "Type",
 		"id": 67,
@@ -1729,7 +1717,6 @@
 		"call-number": "Call number",
 		"container-title": "Publication title",
 		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"genre": "television broadcast",
 		"id": 68,
@@ -1749,7 +1736,8 @@
         "multi": {
             "main": {},
             "_keys": {}
-        }
+        },
+		"genre": "television broadcast"
 	},
 	"videoRecording": {
 		"ISBN": "978-1-234-56789-7",
@@ -1778,7 +1766,6 @@
 		"call-number": "Call number",
 		"collection-title": "Series title",
 		"dimensions": "1:22:33",
-		"archive-place": "Place",
 		"event-place": "Place",
 		"id": 69,
 		"issued": {

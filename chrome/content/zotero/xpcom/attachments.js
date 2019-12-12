@@ -509,7 +509,8 @@ Zotero.Attachments = new function(){
 			return process(contentType, Zotero.MIME.hasNativeHandler(contentType));
 		}
 		
-		return Zotero.MIME.getMIMETypeFromURL(url, cookieSandbox).spread(process);
+		var args = yield Zotero.MIME.getMIMETypeFromURL(url, cookieSandbox);
+		return process(...args);
 	});
 	
 	
@@ -733,34 +734,7 @@ Zotero.Attachments = new function(){
 			throw new Error("parentItemID and parentCollectionIDs cannot both be provided");
 		}
 		
-		if (document.location) {
-			var url = document.location.href;
-		} else {
-			//
-			// For documents generated internally with createDocument(),
-			// attempts to query the document URL produce the following
-			// results:
-			//
-			//   document.baseURIObject.spec:  about:blank
-			//   document.location:            null
-			//
-			// To process XHTML documents of this kind as attachments,
-			// set a base element inside the HEAD node of the document.
-			// If no base element is present, a generated attachment
-			// document will fail.
-			//
-			var url = "about:blank";
-			var html = document.getElementsByTagName("html")[0];
-			var bases = html.getElementsByTagName("base");
-			var len = bases.length;
-			for (var pos = 0; pos < len; pos += 1) {
-				var base = bases.item(pos);
-				if (base.hasAttribute("href")) {
-					url = base.getAttribute("href");
-					break;
-				}
-			}
-		}
+		var url = document.location.href;
 		title = title ? title : document.title;
 		var contentType = document.contentType;
 		if (Zotero.Attachments.isPDFJS(document)) {
@@ -884,15 +858,11 @@ Zotero.Attachments = new function(){
 				}
 				
 				wbp.progressListener = new Zotero.WebProgressFinishListener(() => resolve());
-					
-				var nsIURL = Components.classes["@mozilla.org/network/standard-url;1"]
-					.createInstance(Components.interfaces.nsIURL);
-				nsIURL.spec = url;
 				var headers = {};
 				if (options.referrer) {
 					headers.Referer = options.referrer;
 				}
-				Zotero.Utilities.Internal.saveURI(wbp, nsIURL, path, headers);
+				Zotero.Utilities.Internal.saveURI(wbp, url, path, headers);
 			});
 			
 			if (options.isPDF) {
@@ -1916,16 +1886,24 @@ Zotero.Attachments = new function(){
 					}
 				break;
 				
-				case 'title':
-					var value = item.getDisplayTitle()
-						.replace(/^\[/, "")
-						.replace(/\]$/, "")
-						.replace(/\. /g, " ")
-						.replace(/\./g, "-")
-				break;
-				
 				default:
 					var value = '' + item.getField(field, false, true);
+					if (!value && field === 'title') {
+					  var courtID = item.getField('court', true);
+						if (courtID) {
+							var jurisdictionID = item.getField('jurisdiction', true);
+							if (jurisdictionID) {
+								var courtName = Zotero.CachedJurisdictionData.courtNameFromId(jurisdictionID, courtID);
+							} else {
+								var courtName = courtID;
+							}
+							value = courtName;
+							var docketNumber = item.getField('docketNumber', true);
+							if (docketNumber) {
+								value = value + " " + docketNumber;
+							}
+						}
+					}
 			}
 			
 			var re = new RegExp("\{?([^%\{\}]*)" + rpl + "(\{[0-9]+\})?" + "([^%\{\}]*)\}?");
@@ -2148,21 +2126,15 @@ Zotero.Attachments = new function(){
 		var parent = OS.Path.dirname(path);
 		var iterator = new OS.File.DirectoryIterator(parent);
 		try {
-			while (true) {
-				let entry = yield iterator.next();
+			yield iterator.forEach((entry) => {
 				if (entry.name.startsWith('.')) {
-					continue;
+					return;
 				}
 				numFiles++;
 				if (numFiles > 1) {
-					break;
+					iterator.close();
 				}
-			}
-		}
-		catch (e) {
-			if (e != StopIteration) {
-				throw e;
-			}
+			});
 		}
 		finally {
 			iterator.close();
@@ -2378,54 +2350,126 @@ Zotero.Attachments = new function(){
 	});
 	
 	
+	this.convertLinkedFileToStoredFile = async function (item, options = {}) {
+		if (item.attachmentLinkMode != Zotero.Attachments.LINK_MODE_LINKED_FILE) {
+			throw new Error("Not a linked-file attachment");
+		}
+		
+		var file = await item.getFilePathAsync();
+		if (!file) {
+			Zotero.debug("Linked file not found at " + file);
+			return false;
+		}
+		
+		var json = item.toJSON();
+		json.linkMode = 'imported_file';
+		delete json.path;
+		json.filename = OS.Path.basename(file);
+		var newItem = new Zotero.Item('attachment');
+		newItem.libraryID = item.libraryID;
+		newItem.fromJSON(json);
+		await newItem.saveTx();
+		
+		await Zotero.Relations.copyObjectSubjectRelations(item, newItem);
+		
+		var newFile;
+		try {
+			// Transfer file
+			let destDir = await this.createDirectoryForItem(newItem);
+			newFile = OS.Path.join(destDir, json.filename);
+			if (options.move) {
+				newFile = await Zotero.File.moveToUnique(file, newFile);
+			}
+			// Copy file to unique filename, which automatically shortens long filenames
+			else {
+				newFile = Zotero.File.copyToUnique(file, newFile);
+				// TEMP: copyToUnique returns an nsIFile
+				newFile = newFile.path;
+				await Zotero.File.setNormalFilePermissions(newFile);
+				let mtime = (await OS.File.stat(file)).lastModificationDate;
+				await OS.File.setDates(newFile, null, mtime);
+			}
+		}
+		catch (e) {
+			Zotero.logError(e);
+			// Delete new file
+			if (newFile) {
+				try {
+					await Zotero.File.removeIfExists(newFile);
+				}
+				catch (e) {
+					Zotero.logError(e);
+				}
+			}
+			// Delete new item
+			try {
+				await newItem.eraseTx();
+			}
+			catch (e) {
+				Zotero.logError(e);
+			}
+			return false;
+		}
+		
+		try {
+			await Zotero.DB.executeTransaction(async function () {
+				await Zotero.Fulltext.transferItemIndex(item, newItem);
+			});
+		}
+		catch (e) {
+			Zotero.logError(e);
+		}
+		
+		if (newFile && json.filename != OS.Path.basename(newFile)) {
+			Zotero.debug("Filename was changed");
+			newItem.attachmentFilename = OS.Path.basename(newFile);
+			await newItem.saveTx();
+		}
+		
+		await item.eraseTx();
+		
+		return newItem;
+	};
+	
+	
 	this._getFileNameFromURL = function(url, contentType) {
-		var nsIURL = Components.classes["@mozilla.org/network/standard-url;1"]
-					.createInstance(Components.interfaces.nsIURL);
-		nsIURL.spec = url;
+		url = Zotero.Utilities.parseURL(url);
 		
-		var ext = Zotero.MIME.getPrimaryExtension(contentType, nsIURL.fileExtension);
+		var fileBaseName = url.fileBaseName;
+		var fileExt = Zotero.MIME.getPrimaryExtension(contentType, url.fileExtension);
 		
-		if (!nsIURL.fileName) {
-			var matches = nsIURL.directory.match(/\/([^\/]+)\/$/);
+		if (!fileBaseName) {
+			let matches = url.pathname.match(/\/([^\/]+)\/$/);
 			// If no filename, use the last part of the path if there is one
 			if (matches) {
-				nsIURL.fileName = matches[1];
+				fileBaseName = matches[1];
 			}
 			// Or just use the host
 			else {
-				nsIURL.fileName = nsIURL.host;
-				var tld = nsIURL.fileExtension;
+				fileBaseName = url.hostname;
 			}
-		}
-		
-		// If we found a better extension, use that
-		if (ext && (!nsIURL.fileExtension || nsIURL.fileExtension != ext)) {
-			nsIURL.fileExtension = ext;
-		}
-		
-		// If we replaced the TLD (which would've been interpreted as the extension), add it back
-		if (tld && tld != nsIURL.fileExtension) {
-			nsIURL.fileBaseName = nsIURL.fileBaseName + '.' + tld;
 		}
 		
 		// Test unencoding fileBaseName
 		try {
-			decodeURIComponent(nsIURL.fileBaseName);
+			decodeURIComponent(fileBaseName);
 		}
 		catch (e) {
 			if (e.name == 'URIError') {
 				// If we got a 'malformed URI sequence' while decoding,
 				// use MD5 of fileBaseName
-				nsIURL.fileBaseName = Zotero.Utilities.Internal.md5(nsIURL.fileBaseName, false);
+				fileBaseName = Zotero.Utilities.Internal.md5(fileBaseName, false);
 			}
 			else {
 				throw e;
 			}
 		}
 		
+		var fileName = fileBaseName + (fileExt ? '.' + fileExt : '');
+		
 		// Pass unencoded name to getValidFileName() so that percent-encoded
 		// characters aren't stripped to just numbers
-		return Zotero.File.getValidFileName(decodeURIComponent(nsIURL.fileName));
+		return Zotero.File.getValidFileName(decodeURIComponent(fileName));
 	}
 	
 	

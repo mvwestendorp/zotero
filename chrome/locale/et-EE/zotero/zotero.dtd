@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Peida autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Teemata kirjed">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Lisada valitud tekst Zotero märkusele">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Luua valikust Zotero kirje ja märkus">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Faili valimine...">
 <!ENTITY zotero.file.noneSelected.label "Faili ei ole valitud">
 <!ENTITY zotero.general.advancedOptions.label "Advanced Options">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Tühistada">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Kustutada">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Värskenda">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Salvestada kui...">
 <!ENTITY zotero.general.selectAll "Valida kõik">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Yes">
 <!ENTITY zotero.import "Import">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Näidata viiteid:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Lõppmärkustena">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Joonealustena">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

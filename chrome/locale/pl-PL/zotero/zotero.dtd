@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Ukryj autora">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Pokaż wycofane elementy">
 <!ENTITY zotero.collections.showUnfiledItems "Pokaż Niepowiązane pliki">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Dodaj zaznaczenie do notatki Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Utwórz element Zotero i notatkę z zaznaczenia">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Wybierz plik...">
 <!ENTITY zotero.file.noneSelected.label "Nie wybrano pliku">
 <!ENTITY zotero.general.advancedOptions.label "Zaawansowane ustawienia">
+<!ENTITY zotero.general.bigger "Większy">
 <!ENTITY zotero.general.cancel "Anuluj">
 <!ENTITY zotero.general.close "Zamknij">
 <!ENTITY zotero.general.delete "Usuń">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Opcje">
 <!ENTITY zotero.general.other "Inne...">
 <!ENTITY zotero.general.refresh "Odśwież">
+<!ENTITY zotero.general.reset "Przywróć">
 <!ENTITY zotero.general.saveAs "Zapisz jako...">
 <!ENTITY zotero.general.selectAll "Zaznacz wszystkie">
+<!ENTITY zotero.general.smaller "Mniejszy">
 <!ENTITY zotero.general.tools "Narzędzia">
 <!ENTITY zotero.general.yes "Tak">
 <!ENTITY zotero.import "Importuj">
@@ -99,7 +103,7 @@
 <!ENTITY zotero.integration.classicView.label "Widok klasyczny">
 <!ENTITY zotero.integration.docPrefs.title "Ustawienia dokumentu">
 <!ENTITY zotero.integration.editBibliography.title "Edytuj bibliografię">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Wyłączenie aktualizacji cytować może przyspieszyć wstawianie cytowań w dużych dokumentach. Wciśnij Odśwież, aby ręcznie zaktualizować cytowania.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Wyłączenie aktualizacji cytowań może przyspieszyć wstawianie cytowań w dużych dokumentach. Wciśnij Odśwież, aby ręcznie zaktualizować cytowania.">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Automatycznie aktualizuj cytowania">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Cytowania z oczekującymi aktualizacjami będą podświetlone w dokumencie">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "Pole &quot;Skrót czasopisma&quot; będzie ignorowane.">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Wyświetl cytowania jako:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Przypisy końcowe">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Przełącz na inny edytor tekstu...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Przypisy dolne">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Zapisz cytowania jako:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

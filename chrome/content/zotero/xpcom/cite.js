@@ -172,7 +172,7 @@ Zotero.Cite = {
 			var maxOffset = parseInt(bib[0].maxoffset);
 			var entrySpacing = parseInt(bib[0].entryspacing);
 			var lineSpacing = parseInt(bib[0].linespacing);
-			var hangingIndent = parseInt(bib[0].hangingindent);
+			var hangingIndent = bib[0].hangingindent;
 			var secondFieldAlign = bib[0]["second-field-align"];
 			
 			// Validate input
@@ -387,6 +387,7 @@ Zotero.Cite = {
 			case 'title':
 			case 'title-short':
 			case 'translator':
+			case 'type':
 			case 'version':
 			case 'volume':
 			case 'year-suffix':
@@ -583,21 +584,6 @@ Zotero.Cite.getAbbreviation = new function() {
 };
 
 /**
- * Fetches a style module for citeproc-js based on item jurisdiction
- */
-Zotero.Cite.retrieveStyleModule = function (jurisdiction, preference) {
-    jurisdiction = jurisdiction.replace(/\:/g, "+");
-	var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
-    var ret;
-    try {
-	    ret = Zotero.File.getResource("resource://zotero/style-modules/" + id + ".csl");
-    } catch (e) {
-        ret = false;
-    }
-    return ret;
-}
-
-/**
  * citeproc-js system object
  *
  * @class
@@ -609,14 +595,37 @@ Zotero.Cite.System = function ({ automaticJournalAbbreviations, uppercaseSubtitl
 	if (automaticJournalAbbreviations) {
 		this.getAbbreviation = Zotero.Cite.getAbbreviation;
 	}
-    this.retrieveStyleModule = Zotero.Cite.retrieveStyleModule;
 	if (uppercaseSubtitles) {
 		this.uppercase_subtitles = true; // eslint-disable-line camelcase
 	}
+	this.main_title_from_short_title = true;
+	this.implicit_short_title = true;
+	this.prioritize_disambiguate_condition = true;
 };
 
 Zotero.Cite.System.prototype = {
-	"prioritize_disambiguate_condition": true,
+
+	"retrieveStyleModule": function (jurisdiction, preference) {
+		/**
+		 * Fetches a style module for citeproc-js based on item jurisdiction
+		 * Adding a jurisdiction to the cached list of modules requires a restart.
+		 */
+		jurisdiction = jurisdiction.replace(/\:/g, "+");
+		var id = preference ? "juris-" + jurisdiction + "-" + preference : "juris-" + jurisdiction;
+		var ret;
+		var entry = Zotero.StyleModules.get(id);
+		if (entry) {
+			try {
+				ret = Zotero.File.getContents(entry.path);
+			} catch (e) {
+				ret = false;
+			}
+		} else {
+			ret = false;
+		}
+		return ret;
+	},
+
 	/**
 	 * citeproc-js system function for getting items
 	 * See http://gsl-nagoya-u.net/http/pub/citeproc-doc.html#retrieveitem
@@ -653,7 +662,7 @@ Zotero.Cite.System.prototype = {
 
 		var cslItem;
 		try {
-			cslItem = Zotero.Utilities.itemToCSLJSON(zoteroItem, false);
+			cslItem = Zotero.Utilities.itemToCSLJSON(zoteroItem, false, true);
 		} catch (e) {
 			throw "Error converting item to CSL format: " + e;
 		}
@@ -739,13 +748,7 @@ Zotero.Cite.System.prototype = {
 		return {};
 	},
 
-	"normalizeUnicode":function(str) {
-		var buf = {};
-		var unicodeNormalizer = Components.classes["@mozilla.org/intl/unicodenormalizer;1"]
-			.createInstance(Components.interfaces.nsIUnicodeNormalizer);
-		unicodeNormalizer.NormalizeUnicodeNFKC(str, buf);
-		return buf.value;
-	},
+	// "normalizeUnicode": Zotero.Utilities.Internal.normalize,
 	
 	"setVariableWrapper":function(setValue) {
 		if ("boolean" !== typeof setValue) {
@@ -814,23 +817,8 @@ Zotero.Cite.Locale = {
 		if (str) {
 			return str;
 		}
-		var uri = `chrome://zotero/content/locale/csl/locales-${locale}.xml`;
 		try {
-			let protHandler = Components.classes["@mozilla.org/network/protocol;1?name=chrome"]
-				.createInstance(Components.interfaces.nsIProtocolHandler);
-			let channel = protHandler.newChannel(protHandler.newURI(uri));
-			let cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"]
-				.createInstance(Components.interfaces.nsIConverterInputStream);
-			cstream.init(channel.open(), "UTF-8", 0, 0);
-			let obj = {};
-			let read = 0;
-			let str = "";
-			do {
-				// Read as much as we can and put it in obj.value
-				read = cstream.readString(0xffffffff, obj);
-				str += obj.value;
-			} while (read != 0);
-			cstream.close();
+			str = Zotero.File.getResource(`chrome://zotero/content/locale/csl/locales-${locale}.xml`);
 			this._cache.set(locale, str);
 			return str;
 		}

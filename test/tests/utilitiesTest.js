@@ -233,6 +233,7 @@ describe("Zotero.Utilities", function() {
 			try {
 				fromZoteroItem = Zotero.Utilities.itemToCSLJSON(item);
 			} catch(e) {
+				Zotero.debug("XXX OUCH "+e, 1);
 				assert.fail(e, null, 'accepts Zotero Item');
 			}
 			assert.isObject(fromZoteroItem, 'converts Zotero Item to object');
@@ -423,13 +424,17 @@ describe("Zotero.Utilities", function() {
 			let dataCanonical = loadSampleData('citeProcJSExport');
 			for (let i in dataRaw) {
 				let json = dataRaw[i];
-
 				let item = new Zotero.Item();
+				Zotero.debug("XXX HELLO! Missing creator here??? " + json.type + "\n" + JSON.stringify(json, null, 2), 1);
 				Zotero.Utilities.itemFromCSLJSON(item, json);
 				yield item.saveTx();
 				
 				let newJSON = Zotero.Utilities.itemToCSLJSON(item);
 				let canonicalJSON = dataCanonical[i];
+
+				Zotero.Utilities.initMaps();
+				// Zotero.debug("XXX FROM UTILITIES: " + JSON.stringify(Zotero.Utilities.REVERSE.TYPES, null, 2), 1);
+				// Zotero.debug("XXX FROM SCHEMA: " + JSON.stringify(Zotero.Schema.CSL_TYPE_MAPPINGS_REVERSE, null, 2), 1);
 				
 				delete newJSON.id;
 				delete json.id;
@@ -479,6 +484,8 @@ describe("Zotero.Utilities", function() {
 
 				delete newPortableJSON.id;
 				delete portablejson.id;
+
+				Zotero.debug("\nSAVED\n" + JSON.stringify(newPortableJSON) + "\nTRUE\n" + JSON.stringify(portablejson) + "\nEND\n",1);
 				
 				assert.deepEqual(newPortableJSON, portablejson, i + ' export -> import -> export is stable');
 			}
@@ -544,6 +551,52 @@ describe("Zotero.Utilities", function() {
 			assert.doesNotThrow(() => "" instanceof Zotero.Item);
 		})
 	});
+	
+	describe("#parseURL()", function () {
+		var f;
+		before(() => {
+			f = Zotero.Utilities.parseURL;
+		});
+		
+		describe("#fileName", function () {
+			it("should contain filename", function () {
+				assert.propertyVal(f('http://example.com/abc/def.html?foo=bar'), 'fileName', 'def.html');
+			});
+			
+			it("should be empty if no filename", function () {
+				assert.propertyVal(f('http://example.com/abc/'), 'fileName', '');
+			});
+		});
+		
+		describe("#fileExtension", function () {
+			it("should contain extension", function () {
+				assert.propertyVal(f('http://example.com/abc/def.html?foo=bar'), 'fileExtension', 'html');
+			});
+			
+			it("should be empty if no extension", function () {
+				assert.propertyVal(f('http://example.com/abc/def'), 'fileExtension', '');
+			});
+			
+			it("should be empty if no filename", function () {
+				assert.propertyVal(f('http://example.com/abc/'), 'fileExtension', '');
+			});
+		});
+		
+		describe("#fileBaseName", function () {
+			it("should contain base name", function () {
+				assert.propertyVal(f('http://example.com/abc/def.html?foo=bar'), 'fileBaseName', 'def');
+			});
+			
+			it("should equal filename if no extension", function () {
+				assert.propertyVal(f('http://example.com/abc/def'), 'fileBaseName', 'def');
+			});
+			
+			it("should be empty if no filename", function () {
+				assert.propertyVal(f('http://example.com/abc/'), 'fileBaseName', '');
+			});
+		});
+	});
+	
 	
 	describe("#ellipsize()", function () {
 		describe("with wordBoundary", function () {

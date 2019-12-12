@@ -58,17 +58,24 @@ function loadBrowserWindow() {
  *
  * @param {Window} [win] - Existing window to use; if not specified, a new window is opened
  */
-var loadZoteroPane = Zotero.Promise.coroutine(function* (win) {
+var loadZoteroPane = async function (win) {
 	if (!win) {
-		var win = yield loadBrowserWindow();
+		var win = await loadBrowserWindow();
 	}
 	Zotero.Prefs.clear('lastViewedFolder');
-	win.ZoteroOverlay.toggleDisplay(true);
 	
-	yield waitForItemsLoad(win, 0);
+	while (true) {
+		if (win.ZoteroPane && win.ZoteroPane.collectionsView) {
+			break;
+		}
+		Zotero.debug("Waiting for ZoteroPane initialization");
+		await Zotero.Promise.delay(50);
+	}
+	
+	await waitForItemsLoad(win, 0);
 	
 	return win;
-});
+};
 
 var loadPrefPane = Zotero.Promise.coroutine(function* (paneName) {
 	var id = 'zotero-prefpane-' + paneName;
@@ -249,6 +256,8 @@ function waitForItemEvent(event) {
 
 /**
  * Wait for a single notifier event and return a promise for the data
+ *
+ * Tests run after all other handlers (priority 101, since handlers are 100 by default)
  */
 function waitForNotifierEvent(event, type) {
 	if (!event) throw new Error("event not provided");
@@ -262,7 +271,7 @@ function waitForNotifierEvent(event, type) {
 				extraData: extraData
 			});
 		}
-	}}, [type]);
+	}}, [type], 'test', 101);
 	return deferred.promise;
 }
 
@@ -507,8 +516,14 @@ var modifyDataObject = function (obj, params = {}, saveOptions) {
 /**
  * Return a promise for the error thrown by a promise, or false if none
  */
-function getPromiseError(promise) {
-	return promise.thenReturn(false).catch(e => e);
+async function getPromiseError(promise) {
+	try {
+		await promise;
+	}
+	catch (e) {
+		return e;
+	}
+	return false;
 }
 
 /**

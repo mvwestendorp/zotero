@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffiks:">
 <!ENTITY zotero.citation.suppressAuthor.label "Undertryk forfatter/ophav">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Vis ukategoriserede elementer">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Overfør den markerede tekst til din note i Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Opret Zotero-element og note ud fra markering">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Vælg fil...">
 <!ENTITY zotero.file.noneSelected.label "Der er ikke valgt en fil">
 <!ENTITY zotero.general.advancedOptions.label "Avancerede indstillinger">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Annullér">
 <!ENTITY zotero.general.close "Luk">
 <!ENTITY zotero.general.delete "Slet">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Indstillinger">
 <!ENTITY zotero.general.other "Andet...">
 <!ENTITY zotero.general.refresh "Opdatér">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Gem som...">
 <!ENTITY zotero.general.selectAll "Vælg alle">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.import "Importér">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Vis referencer som:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Slutnoter">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fodnoter">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Gem henvisninger som:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

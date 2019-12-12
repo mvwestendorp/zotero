@@ -310,7 +310,7 @@ describe("Zotero.Integration", function () {
 		for (let i = 0; i < 5; i++) {
 			let testItem = yield createDataObject('item', {libraryID: Zotero.Libraries.userLibraryID});
 			testItem.setField('title', `title${1}`);
-			testItem.setCreator(0, {creatorType: 'author', name: `Author No${i}`, multi: {_key:{}}});
+			testItem.setCreator(0, {creatorType: 'author', name: `Author No${i}`, multi: {_key:{}}}, {includeDependents: true});
 			testItems.push(testItem);
 		}
 		setAddEditItems(testItems[0]);
@@ -355,7 +355,7 @@ describe("Zotero.Integration", function () {
 			});
 			
 			afterEach(function() {
-				setDocumentDataSpy.reset();
+				setDocumentDataSpy.resetHistory();
 			});
 			
 			after(function() {
@@ -385,7 +385,7 @@ describe("Zotero.Integration", function () {
 					} catch (e) {}
 					await initDoc(docID, {style});
 					displayDialogStub.resetHistory();
-					displayAlertStub.reset();
+					displayAlertStub.resetHistory();
 				});
 				
 				after(function* () {
@@ -559,7 +559,7 @@ describe("Zotero.Integration", function () {
 				assert.isTrue(getCiteprocBibliographySpy.calledOnce);
 				
 				assert.equal(getCiteprocBibliographySpy.lastCall.returnValue[0].entry_ids.length, 3);
-				getCiteprocBibliographySpy.reset();
+				getCiteprocBibliographySpy.resetHistory();
 
 				setAddEditItems(testItems[3]);
 				yield execCommand('addEditCitation', docID);
@@ -580,7 +580,7 @@ describe("Zotero.Integration", function () {
 				assert.isTrue(getCiteprocBibliographySpy.calledOnce);
 
 				assert.equal(getCiteprocBibliographySpy.lastCall.returnValue[0].entry_ids.length, 3);
-				getCiteprocBibliographySpy.reset();
+				getCiteprocBibliographySpy.resetHistory();
 
 				sinon.stub(doc, 'cursorInField').resolves(doc.fields[1]);
 				sinon.stub(doc, 'canInsertField').resolves(false);
@@ -603,7 +603,7 @@ describe("Zotero.Integration", function () {
 					displayAlertStub = sinon.stub(DocumentPluginDummy.Document.prototype, 'displayAlert').resolves(0);
 				});	
 				beforeEach(function() {
-					displayAlertStub.reset();
+					displayAlertStub.resetHistory();
 				});
 				after(function() {
 					displayAlertStub.restore();
@@ -815,11 +815,68 @@ describe("Zotero.Integration", function () {
 					setCodeSpy.restore();
 				})
 			});
+			
+			describe('with retracted items', function () {
+				it('should display a retraction warning for a retracted item in a document', async function () {
+					var docID = this.test.fullTitle();
+					await initDoc(docID);
+					var doc = applications[docID].doc;
+					setAddEditItems(testItems[0]);
+					await execCommand('addEditCitation', docID);
+
+					let stub1 = sinon.stub(Zotero.Retractions, 'isRetracted').returns(true);
+					let stub2 = sinon.stub(Zotero.Retractions, 'shouldShowCitationWarning').returns(true);
+
+					let promise = execCommand('refresh', docID);
+					await assert.isFulfilled(waitForDialog());
+					
+					stub1.restore();
+					stub2.restore();
+					await promise;
+				});
+				
+				it('should display a retraction warning for an embedded retracted item in a document', async function () {
+					var docID = this.test.fullTitle();
+					await initDoc(docID);
+					var doc = applications[docID].doc;
+					let testItem = await createDataObject('item', { libraryID: Zotero.Libraries.userLibraryID });
+					testItem.setField('title', `embedded title`);
+					testItem.setCreator(0, { creatorType: 'author', name: `Embedded Author`, multi:{_key: {}}});
+					setAddEditItems(testItem);
+					await execCommand('addEditCitation', docID);
+					await testItem.eraseTx();
+
+					let stub = sinon.stub(Zotero.Retractions, 'getRetractionsFromJSON').resolves([0]);
+
+					let promise = execCommand('refresh', docID);
+					await assert.isFulfilled(waitForDialog());
+					
+					stub.restore();
+					await promise;
+				});
+				
+				it('should not display retraction warning when disabled for a retracted item', async function () {
+					var docID = this.test.fullTitle();
+					await initDoc(docID);
+					var doc = applications[docID].doc;
+					let testItem = await createDataObject('item', { libraryID: Zotero.Libraries.userLibraryID });
+					testItem.setField('title', `title`);
+					testItem.setCreator(0, { creatorType: 'author', name: `Author`, multi:{_key: {}}});
+					await Zotero.Retractions.disableCitationWarningsForItem(testItem);
+					setAddEditItems(testItem);
+					await execCommand('addEditCitation', docID);
+
+					await assert.isFulfilled(execCommand('refresh', docID));
+					
+					await testItem.eraseTx();
+				});
+			});
 		});
 		
 		describe('#addEditBibliography', function() {
 			var docID = this.fullTitle();
 			beforeEach(function* () {
+				setAddEditItems(testItems[0]);
 				yield initDoc(docID);
 				yield execCommand('addEditCitation', docID);
 			});

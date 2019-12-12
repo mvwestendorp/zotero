@@ -235,7 +235,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Comparar todos los archivos adjuntos con el servicio de almacenamiento">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Restaurar desde la biblioteca en línea">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Sobrescribir los datos locales de Zotero con los datos de la biblioteca en línea.">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "Restaurar a la biblioteca en línea">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "Reemplazar biblioteca en línea">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Sobrescribir la biblioteca en línea con los datos locales de Zotero">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Las siguientes operaciones son para uso solo en situaciones raras y específicas y no deben usarse para la solución de problemas generales. En muchos casos, el reinicio causará problemas adicionales. Véase">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Opciones de reinicio de sincronización">

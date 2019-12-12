@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Суфикс:">
 <!ENTITY zotero.citation.suppressAuthor.label "Потисни аутора">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Прикажи неразврстане">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Додајте означено у Зотерову белешку">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Направите Зотерову ставку и белешку из изабраног">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Изабери датотеку…">
 <!ENTITY zotero.file.noneSelected.label "Није изабрана датотека">
 <!ENTITY zotero.general.advancedOptions.label "Напредне опције">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Откажи">
 <!ENTITY zotero.general.close "Затвори">
 <!ENTITY zotero.general.delete "Обриши">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Освежи">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Сачувај као…">
 <!ENTITY zotero.general.selectAll "Изабери све">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Алати">
 <!ENTITY zotero.general.yes "Да">
 <!ENTITY zotero.import "Import">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Прикажи цитате као:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Енднота">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Фуснота">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Сачувај цитате као:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

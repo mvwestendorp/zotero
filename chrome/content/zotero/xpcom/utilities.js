@@ -26,193 +26,84 @@
     ***** END LICENSE BLOCK *****
 */
 
-/*
- * Mappings for names
- * Note that this is the reverse of the text variable map, since all mappings should be one to one
- * and it makes the code cleaner
- */
-var CSL_NAMES_MAPPINGS = {
-	"artist":"author",
-	"author":"author",
-	"editor":"editor",
-	"bookAuthor":"container-author",
-	"composer":"composer",
-	"director":"director",
-	"interviewer":"interviewer",
-	"recipient":"recipient",
-	"reviewedAuthor":"reviewed-author",
-	"seriesEditor":"collection-editor",
-	"testimonyBy":"author",
-	"translator":"translator",
-	"contributor":"contributor",
-	//"authority":"authority",
-	"commenter":"commenter"
-}
-
-/*
- * Mappings for text variables
- */
-var CSL_TEXT_MAPPINGS = {
-	"title":["title"],
-	"container-title":["publicationTitle",  "reporter", "code", "album", "websiteTitle"], /* reporter and code should move to SQL mapping tables */
-	"collection-title":["seriesTitle", "series", "parentTreaty"],
-	"collection-number":["seriesNumber","assemblyNumber","regnalYear","yearAsVolume"],
-	"publisher":["publisher", "distributor"], /* distributor should move to SQL mapping tables */
-	"publisher-place":["place"],
-	"authority":["court", "legislativeBody", "issuingAuthority","institution"],
-	"committee":["committee"],
-	"gazette-flag":["gazetteFlag"],
-	"document-name":["documentName"],
-	"page":["pages"],
-	"volume":["volume","codeNumber"],
-	"volume-title":["volumeTitle"],
-	"issue":["issue", "priorityNumbers"],
-	"number-of-volumes":["numberOfVolumes"],
-	"number-of-pages":["numPages"],	
-	"edition":["edition"],
-	"version":["versionNumber"],
-	"section":["section","opus"],
-	"genre":["genre", "type","reign","supplementName","sessionType", "programmingLanguage"],
-	"chapter-number":["session","meetingNumber"],
-	"source":["libraryCatalog"],
-	"dimensions": ["artworkSize", "runningTime"],
-	"medium":["medium", "system"],
-	"scale":["scale"],
-	"archive":["archive"],
-	"archive_location":["archiveLocation"],
-	"event":["meetingName", "conferenceName", "resolutionLabel"], /* these should be mapped to the same base field in SQL mapping tables */
-	"event-place":["place"],
-	"archive-place":["place"],
-	"abstract":["abstractNote"],
-	"URL":["url"],
-	"DOI":["DOI"],
-	"ISBN":["ISBN"],
-	"ISSN":["ISSN"],
-	"call-number":["callNumber", "applicationNumber"],
-	"note":["extra"],
-	"number":["number"],
-	//"pending-number":["applicationNumber"],
-	"references":["history", "references"],
-	"shortTitle":["shortTitle"],
-	"title-short":["shortTitle"],
-	"journalAbbreviation":["journalAbbreviation"],
-	"language":["language"],
-	"jurisdiction":["jurisdiction"],
-	"status":["status", "legalStatus"],
-	"publication-number": ["publicationNumber"]
-}
-
-/*
- * Mappings for dates
- */
-var CSL_DATE_MAPPINGS = {
-	"issued":["date"],
-	"original-date":["newsCaseDate","priorityDate","originalDate","adoptionDate"],
-	"submitted":["filingDate"],
-	"accessed":["accessDate"],
-	"available-date":["openingDate"],
-	"event-date":["signingDate","conferenceDate","dateAmended"],
-	"publication-date":["publicationDate"]
-}
-
-var CSL_DATE_VARIABLES = function() {
-	var ret = {};
-	for (var key in CSL_DATE_MAPPINGS) {
-		for (var i=0,ilen=CSL_DATE_MAPPINGS[key].length;i<ilen;i++) {
-			ret[CSL_DATE_MAPPINGS[key][i]] = true;
-		}
-	}
-	return ret;
-}();
-
-/*
- * Mappings for types
- * Also see itemFromCSLJSON
- */
-var CSL_TYPE_MAPPINGS = {
-	'book':"book",
-	'bookSection':'chapter',
-	'journalArticle':"article-journal",
-	'magazineArticle':"article-magazine",
-	'newspaperArticle':"article-newspaper",
-	'thesis':"thesis",
-	'encyclopediaArticle':"entry-encyclopedia",
-	'dictionaryEntry':"entry-dictionary",
-	'conferencePaper':"paper-conference",
-	'letter':"personal_communication",
-	'manuscript':"manuscript",
-	'interview':"interview",
-	'film':"motion_picture",
-	'artwork':"graphic",
-	'webpage':"webpage",
-	'report':"report",
-	'bill':"bill",
-	'case':"legal_case",
-	'hearing':"hearing",				// ??
-	'patent':"patent",
-	'statute':"legislation",		// ??
-	'email':"personal_communication",
-	'map':"map",
-	'blogPost':"post-weblog",
-	'instantMessage':"personal_communication",
-	'forumPost':"post",
-	'audioRecording':"song",		// ??
-	'presentation':"speech",
-	'videoRecording':"video",
-	'tvBroadcast':"broadcast",
-	'radioBroadcast':"broadcast",
-	'podcast':"broadcast",
-	'computerProgram':"book",		// ??
-	'gazette':'gazette', // deprecated
-	'regulation':'regulation',
-	'classic':'classic',
-	'treaty':'treaty',
-	'standard':'standard',
-	'document':"article",
-	'note':"article",
-	'attachment':"article"
-};
 
 /**
- * Force Fields
-*/
-var CSL_FORCE_FIELD_CONTENT = {
-	"tvBroadcast":{
-		"genre":"television broadcast"
-	},
-	"radioBroadcast":{
-		"genre":"radio broadcast"
-	},
-	"instantMessage":{
-		"genre":"instant message"
-	},
-	"email":{
-		"genre":"email"
-	},
-	"podcast":{
-		"genre":"podcast"
-	}
-}
-
-var CSL_FORCE_REMAP = {
-	"periodical":{
-		"title":"container-title"
-	}
-}
-
-
-/**
- * @class Functions for text manipulation and other miscellaneous purposes
- */
+  * @class Functions for text manipulation and other miscellaneous purposes
+  */
 Zotero.Utilities = {
+	
+	// OH!
+	// We need two different maps for types!
+	// One for encode/decode, which sets the base Zotero type; and
+	// One for zotero/csl conversion, which sets the CSL type.
+	// How to handle this???
+	// The patch data can express both.
+	// For encoding, we use Zotero.Jurism.EXTENDED.TYPES, which is the map from schema-jurism-patch.json
+	// Decoding works by restoring the original memoed value, so no map is required
+	// For zotero/csl transforms, we just tweak Zotero.Schema.CSL_TYPE_MAPPINGS and Zotero.Schema.CSL_TYPE_MAPPINGS_REVERSE as required
+	
+	initMaps: function() {
+		if (this._mapsInitialized) return;
+		/**
+		 * Extend mappings
+		 */
+		Zotero.Jurism.MapTools.patchMap("CREATORS", Zotero.Schema.CSL_NAME_MAPPINGS);
+		Zotero.Jurism.MapTools.patchMap("FIELDS", Zotero.Schema.CSL_TEXT_MAPPINGS);
+		Zotero.Jurism.MapTools.patchMap("DATES", Zotero.Schema.CSL_DATE_MAPPINGS);
+
+		Zotero.Jurism.MapTools.patchMap("TYPES", Zotero.Schema.CSL_TYPE_MAPPINGS);
+		for (var zoteroType in Zotero.Jurism.PATCH.TYPES.override) {
+			var cslType = Zotero.Jurism.PATCH.TYPES.override[zoteroType];
+			Zotero.Schema.CSL_TYPE_MAPPINGS_REVERSE[cslType] = zoteroType;
+		}
+		
+		//for (let zoteroType in Zotero.Schema.CSL_TYPE_MAPPINGS) {
+		//	Zotero.Schema.CSL_TYPE_MAPPINGS_REVERSE[Zotero.Schema.CSL_TYPE_MAPPINGS[zoteroType]] = zoteroType;
+		//}
+
+		// A reverse map (CSL to Jurism) for dates
+		//this.CSL_DATE_VARIABLES = (function() {
+		//	var ret = {};
+		//	for (var zField in Zotero.Schema.CSL_DATE_MAPPINGS) {
+		//		Zotero.Schema.CSL_DATE_MAPPINGS[zField].forEach(function(cField){
+		//			ret[cField] = zField;
+		//		});
+		//	}
+		//	return ret;
+		//})();
+
+		this.ENCODE = {
+			CREATORS: Zotero.Jurism.MapTools.makeEncodeMap("CREATORS", Zotero.Schema.CSL_NAME_MAPPINGS),
+			FIELDS: Zotero.Jurism.MapTools.makeEncodeMap("FIELDS", Zotero.Schema.CSL_TEXT_MAPPINGS, true),
+			DATES: Zotero.Jurism.MapTools.makeEncodeMap("DATES", Zotero.Schema.CSL_DATE_MAPPINGS)
+		};
+
+		this.DECODE = {
+			CREATORS: Zotero.Jurism.MapTools.makeDecodeMap("CREATORS", Zotero.Schema.CSL_NAME_MAPPINGS),
+			FIELDS: Zotero.Jurism.MapTools.makeDecodeMap("FIELDS", Zotero.Schema.CSL_TEXT_MAPPINGS),
+			DATES: Zotero.Jurism.MapTools.makeDecodeMap("DATES", Zotero.Schema.CSL_DATE_MAPPINGS)
+		};
+		this.REVERSE = {
+			CREATORS: Zotero.Jurism.MapTools.makeReverseMap("CREATORS", Zotero.Schema.CSL_NAME_MAPPINGS),
+			FIELDS: Zotero.Jurism.MapTools.makeReverseMap("FIELDS", Zotero.Schema.CSL_TEXT_MAPPINGS),
+			DATES: Zotero.Jurism.MapTools.makeReverseMap("DATES", Zotero.Schema.CSL_DATE_MAPPINGS),
+		};
+
+		this.CSL_FORCE_FIELD_CONTENT = Zotero.Jurism.MapTools.getMap("FORCE_FIELD_CONTENT");
+		this.CSL_FORCE_REMAP = Zotero.Jurism.MapTools.getMap("FORCE_REMAP");
+
+		this._mapsInitialized = true;
+	},
 
 	"isDate": function(varName) {
-		return CSL_DATE_VARIABLES[varName] ? true : false;
+		return Zotero.Schema.CSL_DATE_MAPPINGS[varName] ? true : false;
 	},
 
 	"getCslTypeFromItemType":function(itemType) {
-		return CSL_TYPE_MAPPINGS[itemType];
+		if (!this._mapsinitialized) this.initMaps();
+		return Zotero.Schema.CSL_TYPE_MAPPINGS[itemType];
 	},
+
 	/**
 	 * Returns a function which will execute `fn` with provided arguments after `delay` milliseconds and not more
 	 * than once, if called multiple times. See
@@ -1224,6 +1115,7 @@ Zotero.Utilities = {
 		if (str.length <= len) {
 			return str;
 		}
+		var origLen = str.length;
 		let radius = Math.min(len, 5);
 		if (wordBoundary) {
 			let min = len - radius;
@@ -1237,7 +1129,7 @@ Zotero.Utilities = {
 		else {
 			str = str.substr(0, len)
 		}
-		return str + '\u2026' + (countChars ? ' (' + str.length + ' chars)' : '');
+		return str + '\u2026' + (countChars ? ' (' + origLen + ' chars)' : '');
 	},
 	
 	
@@ -1760,8 +1652,8 @@ Zotero.Utilities = {
 				return '' + obj;
 			}
 		}
-		else if (type == 'string') {
-			return JSON.stringify(obj);
+		else if (type == 'string' || typeof obj.toJSON == 'function') {
+			return JSON.stringify(obj, false, '    ');
 		}
 		else if (type == 'function') {
 			var funcStr = ('' + obj).trim();
@@ -1947,15 +1839,17 @@ Zotero.Utilities = {
 	 * @return {Object|Promise<Object>} A CSL item, or a promise for a CSL item if a Zotero.Item
 	 *     is passed
 	 */
-	"itemToCSLJSON":function(zoteroItem, portableJSON) {
+	"itemToCSLJSON":function(zoteroItem, portableJSON, includeRelations) {
+		if (!this._mapsinitialized) this.initMaps();
 		// If a Zotero.Item was passed, convert it to the proper format (skipping child items) and
 		// call this function again with that object
 		//
 		// (Zotero.Item won't be defined in translation-server)
 		if (typeof Zotero.Item !== 'undefined' && zoteroItem instanceof Zotero.Item) {
 			return this.itemToCSLJSON(
-				Zotero.Utilities.Internal.itemToExportFormat(zoteroItem, false, true),
-				portableJSON
+				Zotero.Utilities.Internal.itemToExportFormat(zoteroItem, false, true, true),
+				portableJSON,
+				includeRelations
 			);
 		}
 		
@@ -1966,10 +1860,10 @@ Zotero.Utilities = {
 					zoteroItem[field] = Zotero.Date.multipartToSQL(zoteroItem[field]);
 				}
 			}
-			zoteroItem = this.encodeMlzContent(zoteroItem);
+			zoteroItem = Zotero.Jurism.SyncRecode.encode(zoteroItem);
 		}
 
-		var cslType = CSL_TYPE_MAPPINGS[zoteroItem.itemType];
+		var cslType = Zotero.Schema.CSL_TYPE_MAPPINGS[zoteroItem.itemType];
 		if (!cslType) {
 			throw new Error('Unexpected Zotero Item type "' + zoteroItem.itemType + '"');
 		}
@@ -2003,9 +1897,9 @@ Zotero.Utilities = {
 		cslItem.id = zoteroItem.id;
 
 		// get all text variables (there must be a better way)
-		for(var variable in CSL_TEXT_MAPPINGS) {
+		for(var variable in Zotero.Schema.CSL_TEXT_MAPPINGS) {
 			if (variable === "shortTitle") continue; // read both title-short and shortTitle, but write only title-short
-			var fields = CSL_TEXT_MAPPINGS[variable];
+			var fields = Zotero.Schema.CSL_TEXT_MAPPINGS[variable];
 			for(var i=0, n=fields.length; i<n; i++) {
 				var field = fields[i],
 					baseFieldName,
@@ -2079,7 +1973,7 @@ Zotero.Utilities = {
 					creatorType = "author";
 				}
 				
-				creatorType = CSL_NAMES_MAPPINGS[creatorType];
+				creatorType = Zotero.Schema.CSL_NAME_MAPPINGS[creatorType];
 				if(!creatorType) continue;
 
 				if (zoteroItem.itemType === "videoRecording") {
@@ -2112,9 +2006,9 @@ Zotero.Utilities = {
 		}
 		
 		// get date variables
-		for(var variable in CSL_DATE_MAPPINGS) {
-			for (var i=0,ilen=CSL_DATE_MAPPINGS[variable].length;i<ilen;i++) {
-				var zVar = CSL_DATE_MAPPINGS[variable][i];
+		for(var variable in Zotero.Schema.CSL_DATE_MAPPINGS) {
+			for (var i=0,ilen=Zotero.Schema.CSL_DATE_MAPPINGS[variable].length;i<ilen;i++) {
+				var zVar = Zotero.Schema.CSL_DATE_MAPPINGS[variable][i];
 				var date = zoteroItem[zVar];
 				if (!date) {
 					var typeSpecificFieldID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, zVar);
@@ -2128,7 +2022,7 @@ Zotero.Utilities = {
 			
 			if(date) {
 				// Convert UTC timestamp to local timestamp for access date
-				if (CSL_DATE_MAPPINGS[variable] == 'accessDate' && !Zotero.Date.isSQLDate(date)) {
+				if (Zotero.Schema.CSL_DATE_MAPPINGS[variable] == 'accessDate' && !Zotero.Date.isSQLDate(date)) {
 					// Accept ISO date
 					if (Zotero.Date.isISODate(date)) {
 						let d = Zotero.Date.isoToDate(date);
@@ -2177,22 +2071,22 @@ Zotero.Utilities = {
 		}
 		
 		// Force Fields
-		if (CSL_FORCE_FIELD_CONTENT[itemType]) {
+		if (this.CSL_FORCE_FIELD_CONTENT[itemType]) {
 			// The only variable force is CSL "genre", which should have the same name
 			// on both sides.
 			if (zoteroItem[variable]) {
 				cslItem[variable] = zoteroItem[variable];
 			} else {
-				for (var variable in CSL_FORCE_FIELD_CONTENT[itemType]) {
-					cslItem[variable] = CSL_FORCE_FIELD_CONTENT[itemType][variable];
+				for (var variable in this.CSL_FORCE_FIELD_CONTENT[itemType]) {
+					cslItem[variable] = this.CSL_FORCE_FIELD_CONTENT[itemType][variable];
 				}
 			}
 		}
 		
 		// Force remap
-		if (CSL_FORCE_REMAP[itemType]) {
-			for (var variable in CSL_FORCE_REMAP[itemType]) {
-				cslItem[CSL_FORCE_REMAP[itemType][variable]] = cslItem[variable];
+		if (this.CSL_FORCE_REMAP[itemType]) {
+			for (var variable in this.CSL_FORCE_REMAP[itemType]) {
+				cslItem[this.CSL_FORCE_REMAP[itemType][variable]] = cslItem[variable];
 				delete cslItem[variable];
 			}
 		}
@@ -2201,7 +2095,10 @@ Zotero.Utilities = {
 		if (zoteroItem.itemType == 'note' && zoteroItem.note) {
 			cslItem.title = Zotero.Notes.noteToTitle(zoteroItem.note);
 		}
-		
+
+		if (includeRelations) {
+			cslItem.seeAlso = zoteroItem.seeAlso;
+		}
 		//this._cache[zoteroItem.id] = cslItem;
 		return cslItem;
 	},
@@ -2210,7 +2107,8 @@ Zotero.Utilities = {
      * Converts CSL type to Zotero type, accounting for extended
      * type mapping in Juris-M
      */
-    "getZoteroTypeFromCslType": function(cslItem) {
+    "getZoteroTypeFromCslType": function(cslItem, strict) {
+		if (!this._mapsinitialized) this.initMaps();
 		// Some special cases to help us map item types correctly
 		// This ensures that we don't lose data on import. The fields
 		// we check are incompatible with the alternative item types
@@ -2219,16 +2117,6 @@ Zotero.Utilities = {
 			zoteroType = 'book';
 			if (cslItem.version) {
 				zoteroType = 'computerProgram';
-			}
-		} else if (cslItem.type == 'bill') {
-			zoteroType = 'bill';
-			if (cslItem.publisher || cslItem['number-of-volumes']) {
-				zoteroType = 'hearing';
-			}
-		} else if (cslItem.type == 'song') {
-			zoteroType = 'audioRecording';
-			if (cslItem.number && cslItem.genre === 'podcast') {
-				zoteroType = 'podcast';
 			}
 		} else if (cslItem.type == 'motion_picture') {
 			zoteroType = 'film';
@@ -2239,12 +2127,11 @@ Zotero.Utilities = {
 				zoteroType = 'videoRecording';
 			}
 		} else if (cslItem.type === 'personal_communication') {
-			if (cslItem.type === 'email') {
-				
-			} else if (cslItem.type === 'instant message') {
+			zoteroType = 'letter';
+			if (cslItem.genre === 'email') {
+				zoteroType = 'email';
+			} else if (cslItem.genre === 'instant message') {
 				zoteroType = 'instantMessage';
-			} else {
-				zoteroType = 'letter';
 			}
 		} else if (cslItem.type === 'broadcast') {
 			if (cslItem.genre === 'radio broadcast') {
@@ -2254,36 +2141,49 @@ Zotero.Utilities = {
 			} else {
 				zoteroType = 'tvBroadcast';
 			}
-		} else {
-			for(var type in CSL_TYPE_MAPPINGS) {
-				if(CSL_TYPE_MAPPINGS[type] == cslItem.type) {
-					zoteroType = type;
-					break;
-				}
-			}
+		}
+		else if (cslItem.type == 'bill' && (cslItem.publisher || cslItem['number-of-volumes'])) {
+			zoteroType = 'hearing';
+		}
+		else if (cslItem.type == 'book' && cslItem.version) {
+			zoteroType = 'computerProgram';
+		}
+		else if (cslItem.type == 'song' && cslItem.number) {
+			zoteroType = 'podcast';
+		}
+		else if (cslItem.type == 'motion_picture'
+				&& (cslItem['collection-title'] || cslItem['publisher-place']
+					|| cslItem['event-place'] || cslItem.volume
+					|| cslItem['number-of-volumes'] || cslItem.ISBN)) {
+			zoteroType = 'videoRecording';
+		}
+		else {
+			zoteroType = Zotero.Schema.CSL_TYPE_MAPPINGS_REVERSE[cslItem.type];
+		}
+		if (!strict && !zoteroType) {
+			zoteroType = "document";
 		}
 		
-		if(!zoteroType) zoteroType = "document";
-
         return zoteroType;
     },		
 	
     "getValidCslFields": function (cslItem) {
+		if (!this._mapsinitialized) this.initMaps();
         var zoteroType = this.getZoteroTypeFromCslType(cslItem);
         var zoteroTypeID = Zotero.ItemTypes.getID(zoteroType);
         var zoteroFields = Zotero.ItemFields.getItemTypeFields(zoteroTypeID);
         var validFields = {};
         outer: for (var i=0,ilen=zoteroFields.length;i<ilen;i++) {
             var zField = Zotero.ItemFields.getName(zoteroFields[i]);
-            for (var cField in CSL_TEXT_MAPPINGS) { // Both title-short and shortTitle are okay for validation.
-                var lst = CSL_TEXT_MAPPINGS[cField];
+            for (var cField in Zotero.Schema.CSL_TEXT_MAPPINGS) { // Both title-short and shortTitle are okay for validation.
+                var lst = Zotero.Schema.CSL_TEXT_MAPPINGS[cField];
                 if (lst.indexOf(zField) > -1) {
                     validFields[cField] = true;
                     continue outer;
                 }
             }
-            for (var cField in CSL_DATE_MAPPINGS) {
-                var lst = CSL_DATE_MAPPINGS[cField];
+            for (var cField in Zotero.Schema.CSL_DATE_MAPPINGS) {
+                var lst = Zotero.Schema.CSL_DATE_MAPPINGS[cField];
                 if (lst.indexOf(zField) > -1) {
                     validFields[cField] = true;
                     continue outer;
@@ -2299,6 +2199,7 @@ Zotero.Utilities = {
 	 * @param {Object} cslItem
 	 */
 	"itemFromCSLJSON":function(item, cslItem, libraryID, portableJSON) {
+		if (!this._mapsinitialized) this.initMaps();
 		var isZoteroItem = !!item.setType,
 			zoteroType;
 
@@ -2317,7 +2218,7 @@ Zotero.Utilities = {
 		}
 
         var zoteroType = this.getZoteroTypeFromCslType(cslItem);
-
+		
 		var itemTypeID = Zotero.ItemTypes.getID(zoteroType);
 		if(isZoteroItem) {
 			item.setType(itemTypeID);
@@ -2330,12 +2231,12 @@ Zotero.Utilities = {
 		}
 		
 		// map text fields
-		for(var variable in CSL_TEXT_MAPPINGS) { // Here, we accept both shortTitle and title-short
+		for(let variable in Zotero.Schema.CSL_TEXT_MAPPINGS) { // Here, we accept both shortTitle and title-short
 			if(variable in cslItem) {
 				if ("string" !== typeof cslItem[variable]) {
 					continue;
 				}
-				var textMappings = CSL_TEXT_MAPPINGS[variable];
+				let textMappings = Zotero.Schema.CSL_TEXT_MAPPINGS[variable];
 				for(var i=0; i<textMappings.length; i++) {
 					var field = textMappings[i];
 					var fieldID = Zotero.ItemFields.getID(field);
@@ -2409,15 +2310,15 @@ Zotero.Utilities = {
 		
 		// separate name variables
         var doneField = {};
-		for(var field in CSL_NAMES_MAPPINGS) {
-            if (doneField[CSL_NAMES_MAPPINGS[field]]) continue;
-			if(CSL_NAMES_MAPPINGS[field] in cslItem) {
+		for(let field in Zotero.Schema.CSL_NAME_MAPPINGS) {
+            if (doneField[Zotero.Schema.CSL_NAME_MAPPINGS[field]]) continue;
+			if(Zotero.Schema.CSL_NAME_MAPPINGS[field] in cslItem) {
 				var creatorTypeID = Zotero.CreatorTypes.getID(field);
 				if(!Zotero.CreatorTypes.isValidForItemType(creatorTypeID, itemTypeID)) {
 					creatorTypeID = Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID);
 				}
 				
-				var nameMappings = cslItem[CSL_NAMES_MAPPINGS[field]];
+				let nameMappings = cslItem[Zotero.Schema.CSL_NAME_MAPPINGS[field]];
 				for(var i in nameMappings) {
 					var cslAuthor = nameMappings[i];
 					let creator = {multi:{_key:{}}};
@@ -2461,15 +2362,15 @@ Zotero.Utilities = {
 						}
 						item.creators.push(creator);
 					}
-                    doneField[CSL_NAMES_MAPPINGS[field]] = true;
+                    doneField[Zotero.Schema.CSL_NAME_MAPPINGS[field]] = true;
 				}
 			}
 		}
 		
 		// get date variables
-		for(var variable in CSL_DATE_MAPPINGS) {
+		for (let variable in Zotero.Schema.CSL_DATE_MAPPINGS) {
 			if(variable in cslItem) {
-				var fields = CSL_DATE_MAPPINGS[variable],
+				var fields = Zotero.Schema.CSL_DATE_MAPPINGS[variable],
 					cslDate = cslItem[variable];
 				// Recognize if extended field OR if fieldID is valid for type
 				// and does not yet contain data.
@@ -2477,7 +2378,7 @@ Zotero.Utilities = {
 				for (var i=0,ilen=fields.length;i<ilen;i++) {
 					var field=fields[i];
 					fieldID = Zotero.ItemFields.getID(field);
-					if (this.EXTENDED_FIELDS[zoteroType] && this.EXTENDED_FIELDS[zoteroType][field]) {
+					if (Zotero.Utilities.ENCODE.FIELDS[zoteroType] && Zotero.Utilities.ENCODE.FIELDS[zoteroType][field]) {
 						fieldID = Zotero.ItemFields.getID(field);
 					}
 					if(Zotero.ItemFields.isBaseField(fieldID)) {
@@ -2549,9 +2450,24 @@ Zotero.Utilities = {
 			// Run conversion
 			// Convert back to Zotero item.
 			var json = item.toJSON();
-			json = this.decodeMlzContent(json);
+			json = Zotero.Jurism.SyncRecode.decode(json);
 			item.fromJSON(json);
 		}
+	},
+	
+	
+	parseURL: function (url) {
+		var parts = require('url').parse(url);
+		// fileName
+		parts.fileName = parts.pathname.split('/').pop();
+		// fileExtension
+		var pos = parts.fileName.lastIndexOf('.');
+		parts.fileExtension = pos == -1 ? '' : parts.fileName.substr(pos + 1);
+		// fileBaseName
+		parts.fileBaseName = parts.fileName
+			 // filename up to the period before the file extension, if there is one
+			.substr(0, parts.fileName.length - (parts.fileExtension ? parts.fileExtension.length + 1 : 0));
+		return parts;
 	},
 	
 	/**
@@ -2908,399 +2824,7 @@ Zotero.Utilities = {
             particleSpecs[PARTICLES[i][0]] = PARTICLES[i][1];
         }
         return particleSpecs[str];
-    },
-
-	"EXTENDED_CREATORS": {
-		"patent":{
-			"recipient":"recipient"
-		},
-		"book":{
-			"recipient":"recipient"
-		},
-		"bookSection":{
-			"recipient":"recipient"
-		},
-		"hearing":{
-			"testimonyBy":"author",
-			"translator":"translator"
-		},
-		"case":{
-			"translator":"translator"
-		},
-		"statute":{
-			"translator":"translator"
-		},
-		"bill":{
-			"translator":"translator"
-		},
-		"gazette":{
-			"translator":"translator"
-		},
-		"regulation":{
-			"translator":"translator"
-		}
-	},
-
-	"EXTENDED_TYPES": {
-		"gazette":"statute",
-		"regulation":"statute",
-		"classic":"manuscript",
-		"treaty":"document",
-		"standard":"document"
-	},
-
-	"EXTENDED_FIELDS": {
-		"book": {
-			"medium":"medium",
-			"volumeTitle":"volume-title"
-		},
-		"bookSection": {
-			"volumeTitle":"volume-title"
-		},
-		"standard": {
-			"versionNumber":"version",
-			"number":"number",
-			"jurisdiction": "jurisdiction"
-		},
-		"conferencePaper": {
-			"conferenceDate":"event-date",
-			"issue":"issue",
-			"institution":"authority"
-		},
-		"interview": {
-			"place": "event-place"
-		},
-		"magazineArticle": {
-			"place":"publisher-place",
-			"publisher":"publisher"
-		},
-		"newspaperArticle": {
-			"jurisdiction":"jurisdiction",
-			"newsCaseDate":"original-date",
-			"court":"authority"
-		},
-		"journalArticle": {
-			"status":"status",
-			"jurisdiction":"jurisdiction"
-		},
-		"bill": {
-			"jurisdiction":"jurisdiction",
-			"resolutionLabel":"event",
-			"assemblyNumber":"collection-number",
-			"sessionType":"genre",
-			"archiveLocation":"archive_location",
-			"reporter":"container-title"
-		}, 
-		"hearing":{
-			"jurisdiction":"jurisdiction",
-			"assemblyNumber":"collection-number",
-			"resolutionLabel":"event",
-			"sessionType":"genre",
-			"archiveLocation":"archive_location",
-			"reporter":"container-title",
-			"meetingName":"chapter-number",
-			"meetingNumber":"number",
-			"volume":"volume"
-		},
-		"artwork": {
-			"websiteTitle":"container-title"
-		}, 
-		"patent": {
-			"jurisdiction":"jurisdiction",
-			"priorityDate":"original-date",
-			"publicationDate":"publication-date",
-			"publicationNumber":"publication-number",
-			"genre":"genre"
-		}, 
-		"case": {
-			"jurisdiction":"jurisdiction",
-			"place":"event-place",
-			"yearAsVolume":"collection-number",
-			"publisher": "publisher",
-			"publicationDate":"publication-date",
-			"reign":"genre",
-			"callNumber":"call-number",
-			"filingDate":"submitted",
-			"supplementName":"genre",
-			"issue":"issue",
-			"archive":"archive",
-			"archiveLocation":"archive_location",
-			"documentName":"document-name"
-		}, 
-		"statute": {
-			"jurisdiction":"jurisdiction",
-			"publisher":"publisher",
-			"publicationDate":"publication-date",
-			"originalDate":"original-date",
-			"reign":"genre",
-			"regnalYear":"collection-number",
-			"dateAmended": "event-date",
-			"gazetteFlag": "gazette-flag"
-		}, 
-		"audioRecording": {
-			"album":"container-title",
-			"opus":"section",
-			"originalDate":"original-date",
-			"publisher":"publisher",
-			"release":"edition"
-		},
-		"podcast": {
-			"date":"issued",
-			"publisher":"publisher"
-		},
-		"videoRecording": {
-			"websiteTitle":"container-title"
-		},
-		"report": {
-			"bookTitle":"container-title",
-			"jurisdiction":"jurisdiction",
-			"status":"status",
-			"medium":"medium",
-			"committee":"committee",
-			"assemblyNumber": "collection-number",
-			"publisher": "publisher"
-		},
-		"gazette": {
-			"jurisdiction":"jurisdiction",
-			"reign": "genre",
-			"regnalYear":"collection-number",
-			"publisher":"publisher",
-			"publicationDate":"publication-date"
-		},
-		"regulation": {
-			"jurisdiction":"jurisdiction",
-			"publisher":"publisher",
-			"publicationDate":"publication-date",
-			"regulatoryBody":"authority",
-			"regulationType":"genre",
-			"gazetteFlag": "gazette-flag"
-		},
-		"treaty": {
-			"reporter":"container-title",
-			"volume":"volume",
-			"pages":"page",
-			"section":"section",
-			"openingDate":"available-date",
-			"adoptionDate":"original-date",
-			"signingDate":"event-date",
-			"versionNumber":"version", // MISSING IN system.sql!
-			"parentTreaty":"collection-title",
-			"supplementName":"genre"
-		},
-		"classic":{
-			"volume":"volume"
-		},
-		"document":{
-			"versionNumber":"version"
-		}
-	},
-
-	"decodeMlzContent": function (json) {
-		if (!json) return;
-
-		var newjson = JSON.parse(JSON.stringify(json));
-
-		// Add multi properties
-		newjson.multi = {
-			main: {},
-			_keys: {}
-		}
-		// Extract extradata
-		var noteMatch = null;
-		if (newjson.extra) {
-			noteMatch = newjson.extra.match(/mlzsync1:([0-9][0-9][0-9][0-9])(.*)/);
-			if (noteMatch) {
-				var offset = parseInt(noteMatch[1], 10);
-				var extradata = JSON.parse(noteMatch[2].slice(0, offset))
-				newjson.extra = newjson.extra.slice((offset+13));
-				
-				if (extradata.xtype) {
-					newjson.itemType = extradata.xtype;
-				}
-				if (extradata.extrafields) {
-					for (var zFieldName in extradata.extrafields) {
-						newjson[zFieldName] = extradata.extrafields[zFieldName];
-					}
-				}
-				if (extradata.multifields) {
-					for (zFieldName in extradata.multifields.main) {
-						newjson.multi.main[zFieldName] = extradata.multifields.main[zFieldName];
-					}
-					for (zFieldName in extradata.multifields._keys) {
-						newjson.multi._keys[zFieldName] = {};
-						for (zLang in extradata.multifields._keys[zFieldName]) {
-							newjson.multi._keys[zFieldName][zLang] = extradata.multifields._keys[zFieldName][zLang];
-						}
-					}
-				}
-				if (extradata.extracreators) {
-					for (var pos in extradata.extracreators) {
-						var extraCreator = extradata.extracreators[pos];
-						if (extraCreator.name || extraCreator.lastName) {
-							var creator = {
-								creatorType: extraCreator.creatorType
-							}
-							if (extraCreator.name) {
-								creator.name = extraCreator.name;
-							} else if (extraCreator.fieldMode == "1") {
-								creator.name = extraCreator.lastName;
-							} else {
-								if (extraCreator.lastName) {
-									creator.lastName = extraCreator.lastName;
-								}
-								if (extraCreator.firstName) {
-									creator.firstName = extraCreator.firstName;
-								}
-							}
-							newjson.creators.push(extraCreator);
-						}
-					}
-				}
-			}
-		}
-		for (var pos in newjson.creators) {
-			var creator = newjson.creators[pos];
-			creator.multi = {
-				main: false,
-				_key: {}
-			}
-		}
-		if (noteMatch) {
-			if (extradata.multicreators) {
-				for (var pos in extradata.multicreators) {
-					var creator = newjson.creators[pos];
-					var multiObj = extradata.multicreators[pos];
-					if (multiObj.main) {
-						creator.multi.main = multiObj.main;
-					}
-					if (multiObj._key) {
-						for (var langTag in multiObj._key) {
-							var nameObj = multiObj._key[langTag];
-							if (nameObj.name || nameObj.lastName) {
-								creator.multi._key[langTag] = {};
-								if (nameObj.name) {
-									creator.multi._key[langTag].name = nameObj.name;
-								} else if (creator.name) {
-									creator.multi._key[langTag].name = nameObj.lastName;
-								} else {
-									if (nameObj.firstName) {
-										creator.multi._key[langTag].firstName = nameObj.firstName;
-									}
-									if (nameObj.lastName) {
-										creator.multi._key[langTag].lastName = nameObj.lastName;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return newjson;
-	},
-	
-	"encodeMlzContent": function (json) {
-		if (!json.multi) {
-			//throw "No multi segment on item JSON. What happened?";
-			return json;
-		}
-		
-		var extradata = {};
-		
-		var newjson = JSON.parse(JSON.stringify(json));
-		
-		// multifields
-		if (Object.keys(newjson.multi.main).length > 0 || Object.keys(newjson.multi._keys).length > 0) {
-			extradata.multifields = newjson.multi;
-		}
-		delete newjson.multi;
-		
-		// extrafields
-		if (this.EXTENDED_FIELDS[newjson.itemType]) {
-			for (var fieldName in newjson) {
-				if (fieldName === "creators") continue;
-				if (this.EXTENDED_FIELDS[newjson.itemType][fieldName]) {
-					if (newjson[fieldName]) {
-						if (!extradata.extrafields) {
-							extradata.extrafields = {};
-						}
-						extradata.extrafields[fieldName] = newjson[fieldName];
-					}
-					delete newjson[fieldName];
-				}
-			}
-		}
-
-		if (newjson.creators) {
-			// extracreators [1]
-			// Move extended creators to the end of the line
-			if (this.EXTENDED_CREATORS[newjson.itemType]) {
-				var extendedcreators = [];
-				for (var i=newjson.creators.length-1;i > -1; i--) {
-					var creator = newjson.creators[i];
-					if (this.EXTENDED_CREATORS[newjson.itemType][creator.creatorType]) {
-						extendedcreators.push(creator);
-						newjson.creators = newjson.creators.slice(0, i).concat(newjson.creators.slice(i+1))
-					}
-				}
-				newjson.creators = newjson.creators.concat(extendedcreators);
-			}
-			
-			// multicreators
-			for (var pos in newjson.creators) {
-				var creator = newjson.creators[pos];
-				if (creator.multi) {
-					if (creator.multi.main || Object.keys(creator.multi._key).length > 0) {
-						if (!extradata.multicreators) {
-							extradata.multicreators = {};
-						}
-						extradata.multicreators[pos] = creator.multi;
-					}
-					delete creator.multi;
-				}
-			}
-			
-			// extracreators [2]
-			// Move extended creators to extradata property
-			if (this.EXTENDED_CREATORS[newjson.itemType]) {
-				if (extendedcreators.length) {
-					extradata.extracreators = extendedcreators;
-					var creatorsLength = (newjson.creators.length - extendedcreators.length);
-					newjson.creators = newjson.creators.slice(0, creatorsLength)
-				}
-			}
-		}
-
-		// xtype
-		if (this.EXTENDED_TYPES[newjson.itemType]) {
-			extradata.xtype = newjson.itemType;
-			newjson.itemType = this.EXTENDED_TYPES[newjson.itemType];
-		}
-
-		// Bundle it
-		if (Object.keys(extradata).length > 0) {
-			extradata = JSON.stringify(extradata);
-			var extradataLength = ("" + extradata.length);
-			while (extradataLength.length < 4) {
-				extradataLength = "0" + extradataLength;
-			}
-			// Check if content exists on extra
-			if (newjson.extra) {
-				// Remove any preexisting sync object in extra (should never happen, but hey)
-				var m = newjson.extra.match(/^mlzsync[1-9]:([0-9][0-9][0-9][0-9])/);
-				if (m) {
-					var totalOffset = parseInt(m[1]) + 13;
-					newjson.extra = newjson.extra.slice(totalOffset);
-				}
-			} else {
-				newjson.extra = "";
-			}
-			// Prepend sync object to extra
-			newjson.extra = 'mlzsync1:' + extradataLength + extradata + newjson.extra;
-			// Done!
-		}
-		return newjson;
-	}
+    }
 }
 
 if (typeof process === 'object' && process + '' === '[object process]'){

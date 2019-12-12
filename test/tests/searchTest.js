@@ -218,6 +218,27 @@ describe("Zotero.Search", function() {
 				});
 			});
 			
+			describe("dateAdded", function () {
+				it("should handle 'today'", async function () {
+					var item = await createDataObject('item');
+					
+					var s = new Zotero.Search();
+					s.libraryID = item.libraryID;
+					s.name = "Test";
+					s.addCondition('dateAdded', 'is', 'today');
+					var matches = await s.search();
+					assert.includeMembers(matches, [item.id]);
+					
+					// Make sure 'yesterday' doesn't match
+					s = new Zotero.Search();
+					s.libraryID = item.libraryID;
+					s.name = "Test";
+					s.addCondition('dateAdded', 'is', 'yesterday');
+					matches = await s.search();
+					assert.lengthOf(matches, 0);
+				});
+			});
+			
 			describe("fileTypeID", function () {
 				it("should search by attachment file type", function* () {
 					let s = new Zotero.Search();
@@ -508,6 +529,41 @@ describe("Zotero.Search", function() {
 			assert.equal(conditions["1"].condition, 'year');
 			assert.equal(conditions["1"].operator, 'is');
 			assert.equal(conditions["1"].value, '2016');
+		});
+		
+		it("should ignore unknown property in non-strict mode", function () {
+			var json = {
+				name: "Search",
+				conditions: [
+					{
+						condition: 'title',
+						operator: 'contains',
+						value: 'foo'
+					}
+				],
+				foo: "Bar"
+			};
+			var s = new Zotero.Search();
+			s.fromJSON(json);
+		});
+		
+		it("should throw on unknown property in strict mode", function () {
+			var json = {
+				name: "Search",
+				conditions: [
+					{
+						condition: 'title',
+						operator: 'contains',
+						value: 'foo'
+					}
+				],
+				foo: "Bar"
+			};
+			var s = new Zotero.Search();
+			var f = () => {
+				s.fromJSON(json, { strict: true });
+			};
+			assert.throws(f, /^Unknown search property/);
 		});
 	});
 });

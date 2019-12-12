@@ -18,6 +18,8 @@ const source = [
 	'scss',
 	'test',
 	'styles',
+	'style-modules',
+	'juris-maps',
 	'translators',
 	'scss',
 	'chrome/**',
@@ -27,6 +29,8 @@ const source = [
 	'scss/**',
 	'test/**',
 	'styles/**',
+	'style-modules/**',
+	'juris-maps/**',
 	'translators/**',
 	'scss/**'
 ];

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Dölj författare">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Visa återtagna källor">
 <!ENTITY zotero.collections.showUnfiledItems "Visa oregistererade källor">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Lägg markeringen till Zotero-anteckning">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Skapa en Zotero-källa och anteckning av markeringen">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Välj fil...">
 <!ENTITY zotero.file.noneSelected.label "Ingen fil vald">
 <!ENTITY zotero.general.advancedOptions.label "Avancerade alternativ">
+<!ENTITY zotero.general.bigger "Större">
 <!ENTITY zotero.general.cancel "Avbryt">
 <!ENTITY zotero.general.close "Stäng">
 <!ENTITY zotero.general.delete "Radera">
@@ -82,14 +84,16 @@
 <!ENTITY zotero.general.options "Alternativ">
 <!ENTITY zotero.general.other "Annat…">
 <!ENTITY zotero.general.refresh "Uppdatera">
+<!ENTITY zotero.general.reset "Återställ">
 <!ENTITY zotero.general.saveAs "Spara som…">
 <!ENTITY zotero.general.selectAll "Markera allt">
+<!ENTITY zotero.general.smaller "Mindre">
 <!ENTITY zotero.general.tools "Verktyg">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.import "Importera">
 <!ENTITY zotero.import.createCollection "Lägg importerade samlingar och källor i en ny samling">
 <!ENTITY zotero.import.database "Databas">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Filhantering">
 <!ENTITY zotero.import.importing "Importerar…">
 <!ENTITY zotero.import.lastModified "Senast ändrad">
 <!ENTITY zotero.import.size "Storlek">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Visa källor som:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Slutnoter">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Byt till en annan ordbehandlare…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fotnoter">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Lagra källor som:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

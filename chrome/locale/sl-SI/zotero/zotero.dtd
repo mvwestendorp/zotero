@@ -20,7 +20,7 @@
 <!ENTITY zotero.bibliography.print.label "Natisni">
 <!ENTITY zotero.bibliography.saveAsHTML.label "Shrani kot HTML">
 <!ENTITY zotero.bibliography.saveAsRTF.label "Shrani kot RTF">
-<!ENTITY zotero.bibliography.style.label "Slog navajanja:">
+<!ENTITY zotero.bibliography.style.label "Slog citiranja:">
 <!ENTITY zotero.bibliography.title "Ustvari bibliografijo">
 <!ENTITY zotero.charset.label "Kodiranje znakov">
 <!ENTITY zotero.citation.editorWarning.label "Opozorilo: če spremenite citat v urejevalniku, se ne bo več posodobil in odseval sprememb iz vaše zbirke podatkov ali sloga citiranja.">
@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Pripona:">
 <!ENTITY zotero.citation.suppressAuthor.label "Prikrij avtorja">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Pokaži povlečene vnose">
 <!ENTITY zotero.collections.showUnfiledItems "Pokaži nerazvrščene vnose">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Dodaj izbor v opombo Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Ustvari vnos in opombo Zotero iz izbora">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Izberite datoteko ...">
 <!ENTITY zotero.file.noneSelected.label "Izbrana ni nobena datoteka">
 <!ENTITY zotero.general.advancedOptions.label "Napredne možnosti">
+<!ENTITY zotero.general.bigger "Večja">
 <!ENTITY zotero.general.cancel "Prekliči">
 <!ENTITY zotero.general.close "Zapri">
 <!ENTITY zotero.general.delete "Izbriši">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Možnosti">
 <!ENTITY zotero.general.other "Drugo ...">
 <!ENTITY zotero.general.refresh "Osveži">
+<!ENTITY zotero.general.reset "Ponastavi">
 <!ENTITY zotero.general.saveAs "Shrani kot ...">
 <!ENTITY zotero.general.selectAll "Izberi vse">
+<!ENTITY zotero.general.smaller "Manjša">
 <!ENTITY zotero.general.tools "Orodja">
 <!ENTITY zotero.general.yes "Da">
 <!ENTITY zotero.import "Uvozi">
@@ -95,7 +99,7 @@
 <!ENTITY zotero.import.size "Velikost">
 <!ENTITY zotero.import.source.file "Datoteka (BibTeX, RIS, Zotero RDF itn.)">
 <!ENTITY zotero.import.whereToImportFrom "Od kod želite uvoziti?">
-<!ENTITY zotero.integration.addEditCitation.title "Dodaj/uredi navedek">
+<!ENTITY zotero.integration.addEditCitation.title "Dodaj/uredi citat">
 <!ENTITY zotero.integration.classicView.label "Klasični pogled">
 <!ENTITY zotero.integration.docPrefs.title "Lastnosti dokumenta">
 <!ENTITY zotero.integration.editBibliography.title "Uredi bibliografijo">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Prikaži citate kot:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "končne opombe">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Preklopi v drug urejevalnik besedil ...">
 <!ENTITY zotero.integration.prefs.footnotes.label "sprotne opombe">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Hrani citate kot:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
@@ -175,7 +179,7 @@
 <!ENTITY zotero.items.menu.attach.note "Dodaj opombo">
 <!ENTITY zotero.items.menu.attach.snapshot "Pripni posnetek trenutne strani">
 <!ENTITY zotero.items.menu.changeTag "Change Tag">
-<!ENTITY zotero.items.menu.duplicateItem "Podvoji izbrani vnos">
+<!ENTITY zotero.items.menu.duplicateItem "Podvoji vnos">
 <!ENTITY zotero.items.menu.mergeItems "Spoji vnose ...">
 <!ENTITY zotero.items.menu.moveDown "Move Down">
 <!ENTITY zotero.items.menu.moveUp "Move Up">

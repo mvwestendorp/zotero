@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffix:">
 <!ENTITY zotero.citation.suppressAuthor.label "Autor unterdrücken">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Zurückgezogene Einträge anzeigen">
 <!ENTITY zotero.collections.showUnfiledItems "Einträge ohne Sammlung anzeigen">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Auswahl zu Zotero-Notiz hinzufügen">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Zotero-Notiz aus Auswahl erstellen">
@@ -41,7 +42,7 @@
 <!ENTITY zotero.downloadManager.noPDFTools.description "Um diese Funktion zu nutzen, müssen Sie zuerst die PDF-Werkzeuge in den Juris-M-Einstellungen installieren.">
 <!ENTITY zotero.downloadManager.saveToLibrary.description "Anhänge können in der aktuell gewählten Bibliothek nicht gespeichert werden. Der Eintrag wird stattdessen in Ihrer Bibliothek gespeichert.">
 <!ENTITY zotero.duplicatesMerge.fieldSelect "Wählen Sie die beizubehaltenden Felder aus anderen Versionen des Eintrags:">
-<!ENTITY zotero.duplicatesMerge.versionSelect "Wählen SIe die Version des Eintrags, die als Master-Eintrag verwendet werden soll:">
+<!ENTITY zotero.duplicatesMerge.versionSelect "Wählen Sie die Version des Eintrags, die als Master-Eintrag verwendet werden soll:">
 <!ENTITY zotero.errorReport.notReviewed "Fehlerberichte werden im Allgemeinen nicht beachtet, wenn kein entsprechender Thread im Forum erstellt wird.">
 <!ENTITY zotero.errorReport.postToForums "Bitte erstellen Sie einen Beitrag in den Zotero-Foren (forums.zotero.org) mit dieser Berichts-ID, einer Beschreibung des Fehlers und den Schritten, die notwendig sind, um ihn zu reproduzieren.">
 <!ENTITY zotero.errorReport.reportID "Bericht-ID:">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Datei auswählen...">
 <!ENTITY zotero.file.noneSelected.label "Keine Datei ausgewählt">
 <!ENTITY zotero.general.advancedOptions.label "Erweiterte Einstellungen">
+<!ENTITY zotero.general.bigger "Größer">
 <!ENTITY zotero.general.cancel "Abbrechen">
 <!ENTITY zotero.general.close "Schließen">
 <!ENTITY zotero.general.delete "Löschen">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Optionen">
 <!ENTITY zotero.general.other "Andere...">
 <!ENTITY zotero.general.refresh "Aktualisieren">
+<!ENTITY zotero.general.reset "Zurücksetzen">
 <!ENTITY zotero.general.saveAs "Speichern als...">
 <!ENTITY zotero.general.selectAll "Alles auswählen">
+<!ENTITY zotero.general.smaller "Kleiner">
 <!ENTITY zotero.general.tools "Werkzeuge">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.import "Importieren">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Literaturangaben anzeigen als:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Endnoten">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Textverarbeitungsprogramm wechseln...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Fußnoten">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Literaturangaben speichern als:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufixo:">
 <!ENTITY zotero.citation.suppressAuthor.label "Omitir o autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Exibir itens sem coleções">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Adicionar a seleção à nota do Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Criar item e nota do Zotero a partir da seleção">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Selecionar arquivo...">
 <!ENTITY zotero.file.noneSelected.label "Não foi selecionado nenhum arquivo">
 <!ENTITY zotero.general.advancedOptions.label "Opções avançadas">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Cancelar">
 <!ENTITY zotero.general.close "Fechar">
 <!ENTITY zotero.general.delete "Excluir">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Opções">
 <!ENTITY zotero.general.other "Outro...">
 <!ENTITY zotero.general.refresh "Atualizar">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Salvar como...">
 <!ENTITY zotero.general.selectAll "Selecionar tudo">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Ferramentas">
 <!ENTITY zotero.general.yes "Sim">
 <!ENTITY zotero.import "Importar">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Exibir citações como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas de fim">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas de rodapé">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Armazenar as citações como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

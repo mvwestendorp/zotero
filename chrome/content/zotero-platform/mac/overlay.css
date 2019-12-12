@@ -1,10 +1,6 @@
-#zotero-splitter
-{
-	border-top: none;
-	border-bottom: 1px solid #A3A3A3;
-	min-height: 1px !important;
-	max-height: 1px !important;
-	background-image: none;
+/* Force use of Lucida for HTML input elements (e.g., Editable) */
+input {
+	font-family: Lucida Grande, Lucida Sans Unicode, Lucida Sans, Geneva, -apple-system, sans-serif !important;
 }
 
 #zotero-items-toolbar[state=collapsed]
@@ -105,11 +101,6 @@
 #zotero-tb-sync > .toolbarbutton-icon {
 	-moz-binding: none !important;
 	padding: 2px 0px 2px 8px !important;
-}
-
-#zotero-close-button {
-	margin: 0px !important;
-	padding: 0px 0px 0px 10px !important;
 }
 
 #zotero-tb-sync {

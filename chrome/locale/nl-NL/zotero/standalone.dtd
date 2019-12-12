@@ -10,6 +10,8 @@
 <!ENTITY closeCmd.accesskey "S">
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Sluiten">
+<!ENTITY collectionsPane.label "Collections Pane">
+<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
 <!ENTITY copyBibliographyCmd.label "Bibliografie kopiëren">
 <!ENTITY copyCitationCmd.label "Verwijzing kopiëren">
 <!ENTITY copyCmd.accesskey "K">
@@ -27,6 +29,7 @@
 <!ENTITY deleteCmd.accesskey "W">
 <!ENTITY deleteCmd.key "D">
 <!ENTITY deleteCmd.label "Wissen">
+<!ENTITY developer.label "Developer">
 <!ENTITY editMenu.accesskey "e">
 <!ENTITY editMenu.label "Bewerken">
 <!ENTITY fileMenu.accesskey "B">
@@ -41,6 +44,7 @@
 <!ENTITY findOnCmd.accesskey "F">
 <!ENTITY findOnCmd.commandkey "f">
 <!ENTITY findOnCmd.label "Find in This Page…">
+<!ENTITY fontSize.label "Font Size">
 <!ENTITY fullZoom.accesskey "Z">
 <!ENTITY fullZoom.label "Zoom">
 <!ENTITY fullZoomEnlargeCmd.accesskey "I">
@@ -80,8 +84,12 @@
 <!ENTITY importFromClipboardCmd.label "Importeren van klembord">
 <!ENTITY installConnector.accesskey "C">
 <!ENTITY installConnector.label "Browser Connector installeren">
+<!ENTITY itemPane.label "Item Pane">
+<!ENTITY layout.label "Layout">
+<!ENTITY manageAttachments.label "Manage Attachments">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimaliseren">
+<!ENTITY noteFontSize.label "Note Font Size">
 <!ENTITY pageSetupCmd.accesskey "i">
 <!ENTITY pageSetupCmd.label "Pagina instellingen...">
 <!ENTITY pasteCmd.accesskey "P">
@@ -104,6 +112,7 @@
 <!ENTITY quitApplicationCmdMac.label "Zotero afsluiten">
 <!ENTITY quitApplicationCmdWin.accesskey "A">
 <!ENTITY quitApplicationCmdWin.label "Afsluiten">
+<!ENTITY recursiveCollections.label "Show Items from Subcollections">
 <!ENTITY redoCmd.accesskey "u">
 <!ENTITY redoCmd.key "Y">
 <!ENTITY redoCmd.label "Opnieuw uitvoeren">
@@ -115,10 +124,14 @@
 <!ENTITY selectAllCmd.label "Alles selecteren">
 <!ENTITY servicesMenuMac.label "Voorzieningen">
 <!ENTITY showAllAppsCmdMac.label "Alles tonen">
+<!ENTITY stackedView.label "Stacked View">
+<!ENTITY standardView.label "Standard View">
+<!ENTITY tagSelector.label "Tag Selector">
 <!ENTITY toolsMenu.accesskey "O">
 <!ENTITY toolsMenu.label "Opties">
 <!ENTITY undoCmd.accesskey "O">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Ongedaan maken">
+<!ENTITY viewMenu.label "View">
 <!ENTITY windowMenu.label "Venster">
 <!ENTITY zoomWindow.label "Zoom">

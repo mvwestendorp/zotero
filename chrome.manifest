@@ -12,6 +12,7 @@ locale	zotero	en-US		chrome/locale/en-US/zotero/
 #locale	zotero	af-ZA		chrome/locale/af-ZA/zotero/
 locale	zotero	ar		chrome/locale/ar/zotero/
 locale	zotero	bg-BG		chrome/locale/bg-BG/zotero/
+locale	zotero	br		chrome/locale/br/zotero/
 locale	zotero	ca-AD		chrome/locale/ca-AD/zotero/
 locale	zotero	cs-CZ		chrome/locale/cs-CZ/zotero/
 locale	zotero	da-DK		chrome/locale/da-DK/zotero/
@@ -72,3 +73,8 @@ contract	@mozilla.org/autocomplete/search;1?name=jurism 	{8f90026f-17f9-4164-b81
 
 component	{25154cf8-9bb0-4a36-aff9-8674233da3f6}			components/zotero-protocol-handler.js
 contract	@mozilla.org/network/protocol;1?name=zotero 	{25154cf8-9bb0-4a36-aff9-8674233da3f6}
+
+# Scaffold
+content scaffold             chrome/content/scaffold/
+locale  scaffold   en-US     chrome/locale/en-US/scaffold/
+skin    scaffold   default   chrome/skin/default/scaffold/

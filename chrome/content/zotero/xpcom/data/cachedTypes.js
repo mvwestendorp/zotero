@@ -239,6 +239,7 @@ Zotero.CreatorTypes = new function() {
 		var sql = "SELECT itemTypeID, creatorTypeID AS id, creatorType AS name, primaryField "
 			+ "FROM itemTypeCreatorTypes NATURAL JOIN creatorTypes";
 		var rows = yield Zotero.DB.queryAsync(sql);
+		_creatorTypesByItemType = {};
 		for (let i=0; i<rows.length; i++) {
 			let row = rows[i];
 			let itemTypeID = row.itemTypeID;
@@ -307,7 +308,8 @@ Zotero.CreatorTypes = new function() {
 	
 	
 	this.getLocalizedString = function(idOrName) {
-		return Zotero.getString("creatorTypes."+this.getName(idOrName));
+		var name = this.getName(idOrName);
+		return Zotero.Schema.globalSchemaLocale.creatorTypes[name];
 	}
 	
 	
@@ -349,6 +351,7 @@ Zotero.ItemTypes = new function() {
 	this._table = 'itemTypesCombined';
 	this._hasCustom = true;
 	
+	var _primaryTypeNames = ['book', 'bookSection', 'journalArticle', 'newspaperArticle', 'document'];
 	var _primaryTypes;
 	var _secondaryTypes;
 	var _hiddenTypes;
@@ -362,12 +365,14 @@ Zotero.ItemTypes = new function() {
 	this.init = Zotero.Promise.coroutine(function* () {
 		yield this.constructor.prototype.init.apply(this);
 		
-		// TODO: get rid of ' AND itemTypeID!=5' and just remove display=2
-		// from magazineArticle in system.sql
-		_primaryTypes = yield this._getTypesFromDB('WHERE (display=2 AND itemTypeID!=5) LIMIT ' + _numPrimary);
+		_primaryTypes = yield this._getTypesFromDB(
+			`WHERE typeName IN ('${_primaryTypeNames.join("', '")}')`
+		);
 		
 		// Secondary types
-		_secondaryTypes = yield this._getTypesFromDB('WHERE display IN (1,2)');
+		_secondaryTypes = yield this._getTypesFromDB(
+			`WHERE display != 0 AND display NOT IN ('${_primaryTypeNames.join("', '")}')`
+		);
 		
 		// Hidden types
 		_hiddenTypes = yield this._getTypesFromDB('WHERE display=0')
@@ -395,17 +400,17 @@ Zotero.ItemTypes = new function() {
 			mru = new Set(
 				mru.split(',')
 				.slice(0, _numPrimary)
-				.map(id => parseInt(id))
+				.map(name => this.getName(name))
 				// Ignore 'webpage' item type
-				.filter(id => !isNaN(id) && id != 13)
+				.filter(name => name && name != 'webpage')
 			);
 			
 			// Add types from defaults until we reach our limit
 			for (let i = 0; i < _primaryTypes.length && mru.size < _numPrimary; i++) {
-				mru.add(_primaryTypes[i].id);
+				mru.add(_primaryTypes[i].name);
 			}
 			
-			return Array.from(mru).map(id => ({ id, name: this.getName(id) }));
+			return Array.from(mru).map(name => ({ id: this.getID(name), name }));
 		}
 		
 		return _primaryTypes;
@@ -437,7 +442,7 @@ Zotero.ItemTypes = new function() {
 			return _customLabels[id];
 		}
 		
-		return Zotero.getString("itemTypes." + typeName);
+		return Zotero.Schema.globalSchemaLocale.itemTypes[typeName];
 	}
 	
 	this.getImageSrc = function (itemType) {

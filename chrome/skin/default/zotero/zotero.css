@@ -339,7 +339,7 @@ label.zotero-text-link {
 rows.multi .zotero-alien-clicky
 {	
     color: #666;
-    font-size: 90%;
+    font-size: smaller;
 	border-radius: 6px;
 	border-bottom: 1px solid #aaa;
 	border-left: 2px solid #aaa;

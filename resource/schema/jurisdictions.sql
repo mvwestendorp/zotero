@@ -1,4 +1,10 @@
--- 44
+-- 50
+DROP TABLE IF EXISTS jurisVersion;
+CREATE TABLE jurisVersion (
+    schema TEXT PRIMARY KEY,
+    version INT NOT NULL
+);
+
 DROP TABLE IF EXISTS jurisdictions;
 CREATE TABLE jurisdictions (
 	jurisdictionIdx INTEGER PRIMARY KEY,
@@ -9,8 +15,6 @@ CREATE TABLE jurisdictions (
 CREATE INDEX jurisdictions_jurisdictionID ON jurisdictions(jurisdictionID);
 CREATE INDEX jurisdictions_jurisdictionName ON jurisdictions(jurisdictionName);
 CREATE INDEX jurisdictions_segmentCount ON jurisdictions(segmentCount);
-
-INSERT INTO jurisdictions VALUES(3879, 'us', 'United States|US', 2);
 
 DROP TABLE IF EXISTS courtNames;
 CREATE TABLE courtNames (
@@ -26,8 +30,9 @@ CREATE TABLE countryCourtLinks (
 	countryIdx INTEGER NOT NULL,
 	UNIQUE (countryIdx, courtNameIdx),
 	FOREIGN KEY (courtNameIdx) REFERENCES courtNames(courtNameIdx),
-	FOREIGN KEY (countryIdx) REFERENCES jurisdictions(jurisdictionIdx)
+	FOREIGN KEY (countryIdx) REFERENCES jurisdictions(jurisdictionIdx) ON DELETE CASCADE
 );
+CREATE INDEX countryCourtLinks_courtIdx ON countryCourtLinks(countryIdx);
 
 DROP TABLE IF EXISTS courts;
 CREATE TABLE courts (
@@ -35,7 +40,7 @@ CREATE TABLE courts (
 	courtID TEXT NOT NULL,
 	countryCourtLinkIdx INTEGER NOT NULL,
 	UNIQUE (courtID, countryCourtLinkIdx),
-	FOREIGN KEY (countryCourtLinkIdx) REFERENCES countryCourtLinks(countryCourtLinkIdx)
+	FOREIGN KEY (countryCourtLinkIdx) REFERENCES countryCourtLinks(countryCourtLinkIdx) ON DELETE CASCADE
 );
 CREATE INDEX courts_courtID ON courts(courtID);
 CREATE INDEX courts_countryCourtLinkIdx ON courts(countryCourtLinkIdx);
@@ -45,7 +50,6 @@ CREATE TABLE courtJurisdictionLinks (
 	jurisdictionIdx INTEGER NOT NULL,
 	courtIdx INTEGER NOT NULL,
 	PRIMARY KEY (jurisdictionIdx, courtIdx),
-	FOREIGN KEY (jurisdictionIdx) REFERENCES jurisdictions(jurisdictionIdx),
-	FOREIGN KEY (courtIdx) REFERENCES courts(courtIdx)
+	FOREIGN KEY (courtIdx) REFERENCES courts(courtIdx),
+	FOREIGN KEY (jurisdictionIdx) REFERENCES jurisdictions(jurisdictionIdx) ON DELETE CASCADE
 );
-

@@ -8,7 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "選択...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "自動的にPDFのメタデータを取得する">
 <!ENTITY zotero.preferences.autoRenameFiles "親アイテムのメタデータを使って自動的に添付ファイルを改名する">
-<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "リンクされたファイルの名前を変更">
 <!ENTITY zotero.preferences.autoUpdate "トランスレータとスタイルの更新を自動的に確認する。">
 <!ENTITY zotero.preferences.automaticSnapshots "ウェブページからアイテムを作成するときに自動的にスナップショットを作成する">
 <!ENTITY zotero.preferences.automaticTags "キーワードと件名標目を含むアイテムに自動的にタグを付ける">
@@ -184,7 +184,7 @@
 <!ENTITY zotero.preferences.quickCopy.linkOption "Include Juris-M link wrappers in QuickCopy citations">
 <!ENTITY zotero.preferences.quickCopy.macWarning "注意: Mac OS X 上ではリッチテキスト形式の書式設定は失われます。">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath "ドメイン／パス">
-<!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(例, wikipedia.org)">
+<!ENTITY zotero.preferences.quickCopy.siteEditor.domainPath.example "(例: wikipedia.org)">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.format "フォーマット">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.locale "言語">
 <!ENTITY zotero.preferences.quickCopy.siteEditor.outputFormat "出力形式">
@@ -235,8 +235,8 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "すべての添付ファイルをストレージ・サービスと比較する">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "オンライン・ライブラリから復元する">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "オンライン・ライブラリを使ってローカルのZoteroデータを上書きする">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "オンライン・ライブラリを上書きする">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "ローカルのZoteroデータを使ってオンライン・ライブラリを上書きする">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "オンライン・ライブラリを置き換える">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "ローカルの Zotero データを使ってオンライン・ライブラリを上書きする">
 <!ENTITY zotero.preferences.sync.reset.warning1 "次の操作は、稀に起こる特別な状況のためだけのもので、一般的な問題解決に用いられるべきではありません。多くの場合、リセットすることで更なる問題を引き起こします。以下をご参照ください。">
 <!ENTITY zotero.preferences.sync.reset.warning2 "同期リセットの設定">
 <!ENTITY zotero.preferences.sync.reset.warning3 "により詳しい情報があります。">

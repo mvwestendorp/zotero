@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Achtervoegsel:">
 <!ENTITY zotero.citation.suppressAuthor.label "Auteur weglaten">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Ongesorteerde items tonen">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Selectie toevoegen aan Zotero-aantekening">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Zotero-item en -aantekening maken van selectie">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Kies bestand…">
 <!ENTITY zotero.file.noneSelected.label "Geen bestand geselecteerd">
 <!ENTITY zotero.general.advancedOptions.label "Geavanceerde opties">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Annuleren">
 <!ENTITY zotero.general.close "Sluiten">
 <!ENTITY zotero.general.delete "Verwijderen">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Opties">
 <!ENTITY zotero.general.other "Andere...">
 <!ENTITY zotero.general.refresh "Vernieuwen">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Opslaan als...">
 <!ENTITY zotero.general.selectAll "Alles selecteren">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Ja">
 <!ENTITY zotero.import "Importeren">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Toon verwijzingen als:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Eindnoten">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Voetnoten">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Verwijzingen bewaren als:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

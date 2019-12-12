@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Sufijo:">
 <!ENTITY zotero.citation.suppressAuthor.label "Omitir autor">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Mostrar elementos retirados">
 <!ENTITY zotero.collections.showUnfiledItems "Mostrar elementos sin archivar">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Añadir selección a una nota en Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Crear un ítem y nota de Zotero a partir de la selección">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Elegir archivo...">
 <!ENTITY zotero.file.noneSelected.label "Ningún archivo seleccionado">
 <!ENTITY zotero.general.advancedOptions.label "Opciones avanzadas">
+<!ENTITY zotero.general.bigger "Más grande">
 <!ENTITY zotero.general.cancel "Cancelar">
 <!ENTITY zotero.general.close "Cerrar">
 <!ENTITY zotero.general.delete "Borrar">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Opciones">
 <!ENTITY zotero.general.other "Otros...">
 <!ENTITY zotero.general.refresh "Actualizar">
+<!ENTITY zotero.general.reset "Reiniciar">
 <!ENTITY zotero.general.saveAs "Guardar como…">
 <!ENTITY zotero.general.selectAll "Seleccionar todo">
+<!ENTITY zotero.general.smaller "Más pequeño">
 <!ENTITY zotero.general.tools "Herramientas">
 <!ENTITY zotero.general.yes "Sí">
 <!ENTITY zotero.import "Importar">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Mostrar citas como:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Notas al final">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Cambiar a un procesador de texto diferente...">
 <!ENTITY zotero.integration.prefs.footnotes.label "Notas al pie">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Guardar citas como:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

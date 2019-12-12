@@ -80,7 +80,7 @@ describe("Zotero.Sync.Data.Local", function() {
 		
 		// extra1 functionality not used at the moment
 		it.skip("should prompt for data reset and allow to choose a new data directory", function* (){
-			sinon.stub(Zotero.DataDirectory, 'forceChange').returns(true);
+			sinon.stub(Zotero.DataDirectory, 'forceChange').returns(Zotero.Promise.resolve(true));
 			yield Zotero.Users.setCurrentUserID(1);
 			yield Zotero.Users.setCurrentUsername("A");
 			
@@ -464,6 +464,33 @@ describe("Zotero.Sync.Data.Local", function() {
 			assert.equal(versions.CCCCCCCC, 3);
 		})
 	})
+	
+	
+	describe("#getUnsynced()", function () {
+		it("should correct incorrectly nested collections", async function () {
+			var c1 = await createDataObject('collection');
+			var c2 = await createDataObject('collection');
+			
+			c1.parentID = c2.id;
+			await c1.saveTx();
+			
+			await Zotero.DB.queryAsync(
+				"UPDATE collections SET parentCollectionID=? WHERE collectionID=?",
+				[
+					c1.id,
+					c2.id
+				]
+			);
+			await c2.reload(['primaryData'], true);
+			
+			var ids = await Zotero.Sync.Data.Local.getUnsynced('collection', Zotero.Libraries.userLibraryID);
+			
+			// One of the items should still be the parent of the other, though which one is undefined
+			assert.isTrue(
+				(c1.parentID == c2.id && !c2.parentID) || (c2.parentID == c1.id && !c1.parentID)
+			);
+		});
+	});
 	
 	
 	describe("#processObjectsFromJSON()", function () {
@@ -1001,6 +1028,63 @@ describe("Zotero.Sync.Data.Local", function() {
 			]);
 			
 			yield promise;
+		});
+		
+		it("should switch types by showing regular item after note", async function () {
+			var note = await createDataObject('item', { itemType: 'note' });
+			var item = await createDataObject('item');
+			
+			var promise = waitForWindow('chrome://zotero/content/merge.xul', function (dialog) {
+				var doc = dialog.document;
+				var wizard = doc.documentElement;
+				var mergeGroup = wizard.getElementsByTagName('zoteromergegroup')[0];
+				
+				// 1 (accept remote deletion)
+				assert.equal(mergeGroup.leftpane.getAttribute('selected'), 'true');
+				mergeGroup.rightpane.click();
+				wizard.getButton('next').click();
+				
+				// 2 (accept remote deletion)
+				mergeGroup.rightpane.click();
+				if (Zotero.isMac) {
+					assert.isTrue(wizard.getButton('next').hidden);
+					assert.isFalse(wizard.getButton('finish').hidden);
+				}
+				else {
+					// TODO
+				}
+				wizard.getButton('finish').click();
+			});
+			
+			var mergeData = Zotero.Sync.Data.Local.showConflictResolutionWindow([
+				{
+					libraryID: note.libraryID,
+					key: note.key,
+					processed: false,
+					conflict: true,
+					left: note.toJSON(),
+					right: {
+						deleted: true,
+						dateDeleted: "2019-09-01 00:00:00"
+					}
+				},
+				{
+					libraryID: item.libraryID,
+					key: item.key,
+					processed: false,
+					conflict: true,
+					left: item.toJSON(),
+					right: {
+						deleted: true,
+						dateDeleted: "2019-09-01 01:00:00"
+					}
+				}
+			]);
+			
+			await promise;
+			
+			assert.isTrue(mergeData[0].data.deleted);
+			assert.isTrue(mergeData[1].data.deleted);
 		});
 	});
 	
@@ -2142,7 +2226,78 @@ describe("Zotero.Sync.Data.Local", function() {
 				);
 				assert.lengthOf(result.conflicts, 0);
 			})
-		})
+		});
+		
+		
+		describe("tags", function () {
+			// https://forums.zotero.org/discussion/79429/syncing-error-c1-is-undefined
+			it("should handle multiple local type 1 and remote type 0", async function () {
+				var cacheJSON = {
+					tags: []
+				};
+				var json1 = {
+					tags: [
+						{
+							tag: 'C',
+							type: 1
+						},
+						{
+							tag: 'D',
+							type: 1
+						}
+					]
+				};
+				var json2 = {
+					tags: [
+						{
+							tag: 'C'
+						},
+						{
+							tag: 'D'
+						}
+					]
+				};
+				var result = Zotero.Sync.Data.Local._reconcileChanges(
+					'tag', cacheJSON, json1, json2
+				);
+				assert.lengthOf(result.changes, 4);
+				assert.sameDeepMembers(
+					result.changes,
+					[
+						{
+							field: "tags",
+							op: "member-remove",
+							value: {
+								tag: "C",
+								type: 1
+							}
+						},
+						{
+							field: "tags",
+							op: "member-add",
+							value: {
+								tag: "C"
+							}
+						},
+						{
+							field: "tags",
+							op: "member-remove",
+							value: {
+								tag: "D",
+								type: 1
+							}
+						},
+						{
+							field: "tags",
+							op: "member-add",
+							value: {
+								tag: "D"
+							}
+						}
+					]
+				);
+			});
+		});
 	})
 	
 	

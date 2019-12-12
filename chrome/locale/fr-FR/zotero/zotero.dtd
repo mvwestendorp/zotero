@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Suffixe :">
 <!ENTITY zotero.citation.suppressAuthor.label "Supprimer l'auteur">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Afficher les documents rétractés">
 <!ENTITY zotero.collections.showUnfiledItems "Afficher les documents sans collection">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Ajouter la sélection à la note Zotero">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Créer un document Zotero et une note à partir de la sélection">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Sélectionnez un fichier…">
 <!ENTITY zotero.file.noneSelected.label "Aucun fichier sélectionné">
 <!ENTITY zotero.general.advancedOptions.label "Options avancées">
+<!ENTITY zotero.general.bigger "Plus grand">
 <!ENTITY zotero.general.cancel "Annuler">
 <!ENTITY zotero.general.close "Fermer">
 <!ENTITY zotero.general.delete "Supprimer">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Autre…">
 <!ENTITY zotero.general.refresh "Actualiser">
+<!ENTITY zotero.general.reset "Réinitialiser">
 <!ENTITY zotero.general.saveAs "Enregistrer sous…">
 <!ENTITY zotero.general.selectAll "Tout sélectionner">
+<!ENTITY zotero.general.smaller "Plus petit">
 <!ENTITY zotero.general.tools "Outils">
 <!ENTITY zotero.general.yes "Oui">
 <!ENTITY zotero.import "Importer">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Afficher les citations en tant que :">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "notes de fin">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Passer à un autre logiciel de traitement de texte…">
 <!ENTITY zotero.integration.prefs.footnotes.label "notes de bas de page">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Stocker les citations dans des :">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
@@ -149,7 +153,7 @@
 <!ENTITY zotero.item.textTransform.titlecase "Initiales En Majuscules">
 <!ENTITY zotero.item.viewOnline "Afficher en ligne">
 <!ENTITY zotero.items.accessDate_column "Date de consultation">
-<!ENTITY zotero.items.archiveLocation_column "Loc. ds l'archive">
+<!ENTITY zotero.items.archiveLocation_column "Loc. ds l’archive">
 <!ENTITY zotero.items.archive_column "Archive">
 <!ENTITY zotero.items.callNumber_column "Cote">
 <!ENTITY zotero.items.court_column "Tribunal">
@@ -188,9 +192,9 @@
 <!ENTITY zotero.items.pages_column "Pages">
 <!ENTITY zotero.items.place_column "Lieu">
 <!ENTITY zotero.items.publication_column "Publication">
-<!ENTITY zotero.items.publisher_column "Éditeur">
+<!ENTITY zotero.items.publisher_column "Maison d’édition">
 <!ENTITY zotero.items.reporter_column "Reporter">
-<!ENTITY zotero.items.restoreColumnOrder.label "Restaurer l'ordre des colonnes">
+<!ENTITY zotero.items.restoreColumnOrder.label "Restaurer l’ordre des colonnes">
 <!ENTITY zotero.items.rights_column "Autorisations">
 <!ENTITY zotero.items.seriesTitle_column "Titre de la coll.">
 <!ENTITY zotero.items.series_column "Collection">

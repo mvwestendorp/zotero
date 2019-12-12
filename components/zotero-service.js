@@ -50,11 +50,14 @@ const xpcomFilesAll = [
 	'dataDirectory',
 	'date',
 	'debug',
+	//'schemaJurismPatch',
 	'dateparser',
 	'error',
 	'utilities',
 	'utilities_internal',
 	'file',
+	'jurismMapExtensions',
+	'jurismSyncRecode',
 	'http',
 	'mimeTypeHandler',
 	'openurl',
@@ -122,7 +125,6 @@ const xpcomFilesLocal = [
 	'multilingual/field',
 	'multilingual/creator',
 	'multilingual/ui',
-	'multilingual/jurisdiction',
 	'notifier',
 	'openPDF',
 	'progressQueue',
@@ -130,11 +132,15 @@ const xpcomFilesLocal = [
 	'quickCopy',
 	'recognizePDF',
 	'report',
+	'retractions',
 	'router',
 	'schema',
 	'server',
 	'streamer',
 	'style',
+	'styleModule',
+	'jurisMap',
+	'jurisAbbrev',
 	'sync',
 	'sync/syncAPIClient',
 	'sync/syncEngine',
@@ -180,7 +186,7 @@ Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
 	.getService(Components.interfaces.mozIJSSubScriptLoader)
 	.loadSubScript('resource://zotero/require.js');
 
-ZoteroContext = function() {}
+var ZoteroContext = function() {}
 ZoteroContext.prototype = {
 	require,
 	
@@ -280,11 +286,11 @@ function makeZoteroContext(isConnector) {
 	var subscriptLoader = Cc["@mozilla.org/moz/jssubscript-loader;1"].getService(Ci.mozIJSSubScriptLoader);
 	
 	// Load zotero.js first
-	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[0] + ".js", zContext);
+	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[0] + ".js", zContext, 'utf-8');
 	
 	// Load CiteProc into Zotero.CiteProc namespace
 	zContext.Zotero.CiteProc = {"Zotero":zContext.Zotero};
-	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/citeproc.js", zContext.Zotero.CiteProc);
+	subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/citeproc.js", zContext.Zotero.CiteProc, 'utf-8');
 	
 	// Load XRegExp object into Zotero.XRegExp
 	const xregexpFiles = [
@@ -305,13 +311,13 @@ function makeZoteroContext(isConnector) {
 		'addons/unicode/unicode-zotero'				//adds support for some Unicode categories used in Zotero
 	];
 	for (var i=0; i<xregexpFiles.length; i++) {
-		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/xregexp/" + xregexpFiles[i] + ".js", zContext);
+		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/xregexp/" + xregexpFiles[i] + ".js", zContext, 'utf-8');
 	}
 	
 	// Load remaining xpcomFiles
 	for (var i=1; i<xpcomFilesAll.length; i++) {
 		try {
-			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[i] + ".js", zContext);
+			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFilesAll[i] + ".js", zContext, 'utf-8');
 		}
 		catch (e) {
 			Components.utils.reportError("Error loading " + xpcomFilesAll[i] + ".js", zContext);
@@ -322,7 +328,7 @@ function makeZoteroContext(isConnector) {
 	// Load xpcomFiles for specific mode
 	for (let xpcomFile of (isConnector ? xpcomFilesConnector : xpcomFilesLocal)) {
 		try {
-			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFile + ".js", zContext, "UTF-8");
+			subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + xpcomFile + ".js", zContext, "utf-8");
 		}
 		catch (e) {
 			dump("Error loading " + xpcomFile + ".js\n\n");
@@ -345,12 +351,12 @@ function makeZoteroContext(isConnector) {
 	];
 	zContext.Zotero.RDF = {Zotero:zContext.Zotero};
 	for (var i=0; i<rdfXpcomFiles.length; i++) {
-		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + rdfXpcomFiles[i] + ".js", zContext.Zotero.RDF);
+		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/" + rdfXpcomFiles[i] + ".js", zContext.Zotero.RDF, 'utf-8');
 	}
 	
 	if(isStandalone()) {
 		// If isStandalone, load standalone.js
-		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/standalone.js", zContext);
+		subscriptLoader.loadSubScript("chrome://zotero/content/xpcom/standalone.js", zContext, 'utf-8');
 	}
 	
 	// add connector-related properties
@@ -599,8 +605,8 @@ ZoteroCommandLineHandler.prototype = {
 					if (!DebuggerServer.initialized) {
 						dump("Initializing devtools server\n");
 						DebuggerServer.init();
+						DebuggerServer.registerAllActors();
 						DebuggerServer.allowChromeProcess = true;
-						DebuggerServer.addBrowserActors();
 					}
 					
 					let listener = DebuggerServer.createListener();
@@ -631,9 +637,7 @@ ZoteroCommandLineHandler.prototype = {
 					// Wait to handle things that require the UI until after it's loaded
 					Zotero.uiReadyPromise
 					.then(function () {
-						var file = Components.classes["@mozilla.org/file/local;1"].
-							createInstance(Components.interfaces.nsILocalFile);
-						file.initWithPath(param);
+						var file = Zotero.File.pathToFile(param);
 						
 						if(file.leafName.substr(-4).toLowerCase() === ".csl"
 								|| file.leafName.substr(-8).toLowerCase() === ".csl.txt") {

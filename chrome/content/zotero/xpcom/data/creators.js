@@ -178,7 +178,7 @@ Zotero.Creators = new function() {
 		return Zotero.DataObjectUtilities.equals(data1, data2);
 	},
 	
-	this.cleanData = function (data, includeDependents) {
+	this.cleanData = function (data, options = {}) {
 		var me = this;
 		function _cleanData(data) {
 			// Validate data
@@ -236,16 +236,21 @@ Zotero.Creators = new function() {
 			if (creatorType) {
 				cleanedData.creatorTypeID = Zotero.CreatorTypes.getID(creatorType);
 				if (!cleanedData.creatorTypeID) {
-					let msg = "'" + creatorType + "' isn't a valid creator type";
-					Zotero.debug(msg, 2);
-					Components.utils.reportError(msg);
+					if (options.strict) {
+						let e = new Error(`Unknown creator type '${creatorType}'`);
+						e.name = "ZoteroInvalidDataError";
+						throw e;
+					}
+					Zotero.warn(`'${creatorType}' isn't a valid creator type`);
 				}
 			}
 			
 			return cleanedData;
 		}
+		// true is for top-level, walking into children
 		var cleanedData = _cleanData(data);
-		if (data.multi && includeDependents) {
+//		if (options.includeChildren) {
+		if (data.multi) {
 			cleanedData.multi = {
 				_key: {}
 			}

@@ -147,7 +147,7 @@ describe("Zotero.ItemTreeView", function() {
 			assert.equal(selected[0], existingItemID);
 			
 			// Reset call count on spy
-			win.ZoteroPane.itemSelected.reset();
+			win.ZoteroPane.itemSelected.resetHistory();
 			
 			// Create item with skipNotifier flag
 			var item = new Zotero.Item('book');
@@ -172,7 +172,7 @@ describe("Zotero.ItemTreeView", function() {
 			assert.equal(selected[0], existingItemID);
 			
 			// Reset call count on spy
-			win.ZoteroPane.itemSelected.reset();
+			win.ZoteroPane.itemSelected.resetHistory();
 			
 			// Create item with skipSelect flag
 			var item = new Zotero.Item('book');
@@ -267,7 +267,7 @@ describe("Zotero.ItemTreeView", function() {
 			itemsView.selection.clearSelection();
 			assert.lengthOf(itemsView.getSelectedItems(), 0);
 			// Reset call count on spy
-			win.ZoteroPane.itemSelected.reset();
+			win.ZoteroPane.itemSelected.resetHistory();
 			
 			// Modify item
 			item.setField('title', 'no select on modify');
@@ -293,7 +293,7 @@ describe("Zotero.ItemTreeView", function() {
 			assert.equal(selected[0], id);
 			
 			// Reset call count on spy
-			win.ZoteroPane.itemSelected.reset();
+			win.ZoteroPane.itemSelected.resetHistory();
 			
 			// Modify item
 			item.setField('title', 'maintain selection on modify');
@@ -595,9 +595,8 @@ describe("Zotero.ItemTreeView", function() {
 			var userLibraryID = Zotero.Libraries.userLibraryID;
 			var collection = yield createDataObject('collection');
 			var item = yield createDataObject('item', { title: "Unfiled Item" });
-			yield zp.setVirtual(userLibraryID, 'unfiled', true);
-			var selected = yield cv.selectByID("U" + userLibraryID);
-			assert.ok(selected);
+			yield zp.setVirtual(userLibraryID, 'unfiled', true, true);
+			assert.equal(cv.selectedTreeRow.id, 'U' + userLibraryID);
 			yield waitForItemsLoad(win);
 			assert.isNumber(zp.itemsView.getRowIndexByID(item.id));
 			yield Zotero.DB.executeTransaction(function* () {

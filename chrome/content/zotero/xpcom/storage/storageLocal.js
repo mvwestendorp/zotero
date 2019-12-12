@@ -11,8 +11,33 @@ Zotero.Sync.Storage.Local = {
 	
 	lastFullFileCheck: {},
 	uploadCheckFiles: [],
+	storageRemainingForLibrary: new Map(),
+	
+	init: function () {
+		Zotero.Notifier.registerObserver(this, ['group'], 'storageLocal');
+	},
+	
+	notify: async function (action, type, ids, _extraData) {
+		// Clean up cache on group deletion
+		if (action == 'delete' && type == 'group') {
+			for (let libraryID of ids) {
+				if (this.lastFullFileCheck[libraryID]) {
+					delete this.lastFullFileCheck[libraryID];
+				}
+				if (this.storageRemainingForLibrary.has(libraryID)) {
+					this.storageRemainingForLibrary.delete(libraryID);
+				}
+			}
+		}
+	},
 	
 	getEnabledForLibrary: function (libraryID) {
+		// The user must have synced for the first time before we allow storage requests.
+		// This is relevant if an account is set up for syncing but the DB file is cleared and the
+		// user double-clicks on a missing file in download-as-needed mode.
+		if (!Zotero.Users.getCurrentUserID()) {
+			return false;
+		}
 		var libraryType = Zotero.Libraries.get(libraryID).libraryType;
 		switch (libraryType) {
 		case 'user':
@@ -1039,15 +1064,25 @@ Zotero.Sync.Storage.Local = {
 		yield Zotero.DB.executeTransaction(function* () {
 			for (let i = 0; i < conflicts.length; i++) {
 				let conflict = conflicts[i];
+				// TEMP
+				Zotero.debug(conflict);
 				let item = Zotero.Items.getByLibraryAndKey(libraryID, conflict.left.key);
 				let mtime = io.dataOut[i].data.dateModified;
 				// Local
 				if (mtime == conflict.left.dateModified) {
 					syncState = this.SYNC_STATE_FORCE_UPLOAD;
-					// When local version is chosen, update stored hash (and mtime) to remote values so
-					// that upload goes through without 412
-					item.attachmentSyncedModificationTime = conflict.right.mtime;
-					item.attachmentSyncedHash = conflict.right.md5;
+					// When local version is chosen, update stored mtime and hash to remote values
+					// so that upload goes through without a 412.
+					//
+					// These sometimes might not be set in the cached JSON (for unclear reasons, but
+					// see https://forums.zotero.org/discussion/79011/zotero-error-report), in which
+					// case we just ignore them and hope that the local version has null values too.
+					if (conflict.right.mtime) {
+						item.attachmentSyncedModificationTime = conflict.right.mtime;
+					}
+					if (conflict.right.md5) {
+						item.attachmentSyncedHash = conflict.right.md5;
+					}
 				}
 				// Remote
 				else {

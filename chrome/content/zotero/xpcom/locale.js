@@ -5,6 +5,7 @@ Zotero.Locale = {
 	availableLocales: Object.freeze({
 		'ar': 'عربي',
 		'bg-BG': 'Български',
+		'br': 'brezhoneg',
 		'ca-AD': 'Català',
 		'cs-CZ': 'Čeština',
 		'da-DK': 'Dansk',
@@ -14,8 +15,8 @@ Zotero.Locale = {
 		'es-ES': 'Español',
 		'et-EE': 'Eesti keel',
 		'fa': 'فارسی',
-		'fi': 'suomi',
-		'fr': 'Français',
+		'fi-FI': 'suomi',
+		'fr-FR': 'Français',
 		'gl-ES': 'Galego',
 		'hu-HU': 'magyar',
 		'id-ID': 'Bahasa Indonesia',

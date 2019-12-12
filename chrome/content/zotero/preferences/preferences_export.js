@@ -68,6 +68,7 @@ Zotero_Preferences.Export = {
 		format = Zotero.QuickCopy.unserializeSetting(format);
 		var menulist = document.getElementById("zotero-quickCopy-menu");
 		yield Zotero.Styles.init();
+		yield Zotero.StyleModules.init();
 		var translators = yield this.getQuickCopyTranslators();
 		this.buildQuickCopyFormatDropDown(
 			menulist, format.contentType, format, translators

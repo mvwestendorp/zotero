@@ -83,7 +83,7 @@
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
-    "originalDate": "0000-00-00 Original date",
+    "originalDate": "Original date",
     "album": "Publication title",
     "opus": "Opus",
     "release": "8",
@@ -164,6 +164,7 @@
     "assemblyNumber": "9",
     "resolutionLabel": "Resolution label",
     "sessionType": "Type",
+	"reporter": "Publication title",  
     "creators": [
       {
         "firstName": "sponsorFirst",
@@ -495,11 +496,11 @@
     "caseName": "Title",
     "shortTitle": "Short title",
     "docketNumber": "3",
-    "filingDate": "2000-01-02 2000-01-02",
+    "filingDate": "2000-01-02",
     "archive": "Archive",
     "jurisdiction": "Jurisdiction",
     "yearAsVolume": "Year as volume",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "supplementName": "Supplement name",
     "documentName": "Document name",
@@ -648,7 +649,7 @@
     "proceedingsTitle": "Publication title",
     "shortTitle": "Short title",
     "archive": "Archive",
-    "conferenceDate": "0000-00-00 Conference date",
+    "conferenceDate": "Conference date",
     "creators": [
       {
         "firstName": "authorFirst",
@@ -1166,6 +1167,7 @@
     "resolutionLabel": "Resolution label",
     "sessionType": "Type",
     "meetingNumber": "Meeting number",
+    "meetingName": "Meeting name",
     "creators": [
       {
         "firstName": "contributorFirst",
@@ -1714,7 +1716,7 @@
     "shortTitle": "Short title",
     "archive": "Archive",
     "jurisdiction": "Jurisdiction",
-    "newsCaseDate": "0000-00-00 News case date",
+    "newsCaseDate": "News case date",
     "creators": [
       {
         "firstName": "authorFirst",
@@ -1789,11 +1791,11 @@
     "title": "Title",
     "shortTitle": "Short title",
     "issuingAuthority": "Issuing authority",
-    "filingDate": "2000-01-02 2000-01-02",
+    "filingDate": "2000-01-02",
     "genre": "Genre",
     "jurisdiction": "Jurisdiction",
-    "priorityDate": "0000-00-00 Priority date",
-    "publicationDate": "0000-00-00 Publication date",
+    "priorityDate": "Priority date",
+    "publicationDate": "Publication date",
     "publicationNumber": "Publication number",
     "creators": [
       {
@@ -2151,11 +2153,11 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "regnalYear": "Regnal year",
-    "originalDate": "0000-00-00 Original date",
-    "dateAmended": "0000-00-00 Date amended",
+    "originalDate": "Original date",
+    "dateAmended": "Date amended",
     "gazetteFlag": "Gazette flag",
     "creators": [
       {
@@ -2368,7 +2370,7 @@
     "runningTime": "1:22:33",
     "language": "en-US",
     "abstractNote": "Abstract note",
-    "websiteTitle": "Website title",
+    "websiteTitle": "Publication title",
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
@@ -2511,7 +2513,7 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "reign": "Reign",
     "regnalYear": "Regnal year",
     "creators": [
@@ -2579,7 +2581,7 @@
     "nameOfAct": "Title",
     "shortTitle": "Short title",
     "jurisdiction": "Jurisdiction",
-    "publicationDate": "0000-00-00 Publication date",
+    "publicationDate": "Publication date",
     "regulationType": "Type",
     "regulatoryBody": "Legislative body",
     "gazetteFlag": "Gazette flag",
@@ -2712,10 +2714,11 @@
     "title": "Title",
     "shortTitle": "Short title",
     "archive": "Archive",
+    "versionNumber": "Version number",
     "supplementName": "Supplement name",
-    "signingDate": "0000-00-00 Signing date",
-    "openingDate": "0000-00-00 Opening date",
-    "adoptionDate": "0000-00-00 Adoption date",
+    "signingDate": "Signing date",
+    "openingDate": "Opening date",
+    "adoptionDate": "Adoption date",
     "parentTreaty": "Parent treaty",
     "creators": [
       {

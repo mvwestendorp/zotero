@@ -282,7 +282,7 @@ Zotero.Search.prototype.addCondition = function (condition, operator, value, req
 	
 	if (!Zotero.SearchConditions.hasOperator(condition, operator)){
 		let e = new Error("Invalid operator '" + operator + "' for condition " + condition);
-		e.name = "ZoteroUnknownFieldError";
+		e.name = "ZoteroInvalidDataError";
 		throw e;
 	}
 	
@@ -425,7 +425,7 @@ Zotero.Search.prototype.updateCondition = function (searchConditionID, condition
 	
 	if (!Zotero.SearchConditions.hasOperator(condition, operator)){
 		let e = new Error("Invalid operator '" + operator + "' for condition " + condition);
-		e.name = "ZoteroUnknownFieldError";
+		e.name = "ZoteroInvalidDataError";
 		throw e;
 	}
 	
@@ -808,8 +808,29 @@ Zotero.Search.prototype.search = Zotero.Promise.coroutine(function* (asTempTable
  * Populate the object's data from an API JSON data object
  *
  * If this object is identified (has an id or library/key), loadAll() must have been called.
+ *
+ * @param {Object} json
+ * @param {Object} [options]
+ * @param {Boolean} [options.strict = false] - Throw on unknown property
  */
-Zotero.Search.prototype.fromJSON = function (json) {
+Zotero.Search.prototype.fromJSON = function (json, options = {}) {
+	if (options.strict) {
+		for (let prop in json) {
+			switch (prop) {
+			case 'key':
+			case 'version':
+			case 'name':
+			case 'conditions':
+				break;
+			
+			default:
+				let e = new Error(`Unknown search property '${prop}'`);
+				e.name = "ZoteroInvalidDataError";
+				throw e;
+			}
+		}
+	}
+	
 	if (json.name) {
 		this.name = json.name;
 	}
@@ -972,6 +993,10 @@ Zotero.Search.prototype._buildQuery = Zotero.Promise.coroutine(function* () {
 					var unfiled = condition.operator == 'true';
 					continue;
 				
+				case 'retracted':
+					var retracted = condition.operator == 'true';
+					continue;
+				
 				case 'publications':
 					var publications = condition.operator == 'true';
 					continue;
@@ -1032,6 +1057,10 @@ Zotero.Search.prototype._buildQuery = Zotero.Promise.coroutine(function* () {
 			+ ") "
 			// Exclude My Publications
 			+ "AND itemID NOT IN (SELECT itemID FROM publicationsItems)";
+	}
+	
+	if (retracted) {
+		sql += " AND (itemID IN (SELECT itemID FROM retractedItems WHERE flag=0))";
 	}
 	
 	if (publications) {
@@ -1361,7 +1390,21 @@ Zotero.Search.prototype._buildQuery = Zotero.Promise.coroutine(function* () {
 						
 						if (parseDate){
 							var go = false;
-							var dateparts = Zotero.Date.strToDate(condition.value);
+							let value = condition.value;
+							
+							// Parse 'yesterday'/'today'/'tomorrow'
+							let lc = value.toLowerCase();
+							if (lc == 'yesterday' || lc == Zotero.getString('date.yesterday')) {
+								value = Zotero.Date.dateToSQL(new Date(Date.now() - 1000 * 60 * 60 * 24)).substr(0, 10);
+							}
+							else if (lc == 'today' || lc == Zotero.getString('date.today')) {
+								value = Zotero.Date.dateToSQL(new Date()).substr(0, 10);
+							}
+							else if (lc == 'tomorrow' || lc == Zotero.getString('date.tomorrow')) {
+								value = Zotero.Date.dateToSQL(new Date(Date.now() + 1000 * 60 * 60 * 24)).substr(0, 10);
+							}
+							
+							let dateparts = Zotero.Date.strToDate(value);
 							
 							// Search on SQL date -- underscore is
 							// single-character wildcard

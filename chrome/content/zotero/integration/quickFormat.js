@@ -73,8 +73,17 @@ var Zotero_QuickFormat = new function () {
 			referencePanel = document.getElementById("quick-format-reference-panel");
 			referenceBox = document.getElementById("quick-format-reference-list");
 			
-			if(Zotero.isWin && Zotero.Prefs.get('integration.keepAddCitationDialogRaised')) {
-				qfb.setAttribute("square", "true");
+			if (Zotero.isWin) {
+				referencePanel.style.marginTop = "-29px";
+				if (Zotero.Prefs.get('integration.keepAddCitationDialogRaised')) {
+					qfb.setAttribute("square", "true");
+				}
+			}
+			
+			// With fx60 and drawintitlebar=true Firefox calculates the minHeight
+			// as titlebar+maincontent, so we have hack around that here.
+			if (Zotero.isMac && Zotero.platformMajorVersion >= 60) {
+				qfb.style.marginBottom = "-22px";
 			}
 			
 			// add labels to popup
@@ -717,10 +726,41 @@ var Zotero_QuickFormat = new function () {
 		if(!referenceBox.hasChildNodes() || !referenceBox.selectedItem) return false;
 		
 		var citationItem = {"id":referenceBox.selectedItem.getAttribute("zotero-item")};
-		if(typeof citationItem.id === "string" && citationItem.id.indexOf("/") !== -1) {
+		if (typeof citationItem.id === "string" && citationItem.id.indexOf("/") !== -1) {
 			var item = Zotero.Cite.getItem(citationItem.id);
 			citationItem.uris = item.cslURIs;
 			citationItem.itemData = item.cslItemData;
+		}
+		else if (Zotero.Retractions.isRetracted({ id: parseInt(citationItem.id) })) {
+			citationItem.id = parseInt(citationItem.id);
+			if (Zotero.Retractions.shouldShowCitationWarning(citationItem)) {
+				referencePanel.hidden = true;
+				var ps = Services.prompt;
+				var buttonFlags = ps.BUTTON_POS_0 * ps.BUTTON_TITLE_IS_STRING
+					+ ps.BUTTON_POS_1 * ps.BUTTON_TITLE_CANCEL
+					+ ps.BUTTON_POS_2 * ps.BUTTON_TITLE_IS_STRING;
+				var checkbox = { value: false };
+				var result = ps.confirmEx(null,
+					Zotero.getString('general.warning'),
+					Zotero.getString('retraction.citeWarning.text1') + '\n\n'
+						+ Zotero.getString('retraction.citeWarning.text2'),
+					buttonFlags,
+					Zotero.getString('general.continue'),
+					null,
+					Zotero.getString('pane.items.showItemInLibrary'),
+					Zotero.getString('retraction.citationWarning.dontWarn'), checkbox);
+				referencePanel.hidden = false;
+				if (result > 0) {
+					if (result == 2) {
+						Zotero_QuickFormat.showInLibrary(parseInt(citationItem.id));
+					}
+					return false;
+				}
+				if (checkbox.value) {
+					Zotero.Retractions.disableCitationWarningsForItem(citationItem);
+				}
+			}
+			citationItem.ignoreRetraction = true;
 		}
 		
 		_updateLocator(_getEditorContent());
@@ -774,11 +814,21 @@ var Zotero_QuickFormat = new function () {
 			qfs.setAttribute("multiline", true);
 			qfs.style.height = ((Zotero.isMac ? 6 : 4)+qfe.scrollHeight)+"px";
 			window.sizeToContent();
+			// the above line causes drawing artifacts to appear due to a bug with drawintitle property
+			// in fx60. this fixes the artifacting
+			if (Zotero.isMac && Zotero.platformMajorVersion >= 60) {
+				document.children[0].setAttribute('drawintitlebar', 'false');
+				document.children[0].setAttribute('drawintitlebar', 'true');
+			}
 		} else {
 			delete qfs.style.height;
 			qfe.removeAttribute("multiline");
 			qfs.removeAttribute("multiline");
 			window.sizeToContent();
+			if (Zotero.isMac && Zotero.platformMajorVersion >= 60) {
+				document.children[0].setAttribute('drawintitlebar', 'false');
+				document.children[0].setAttribute('drawintitlebar', 'true');
+			}
 		}
 		var panelShowing = referencePanel.state === "open" || referencePanel.state === "showing";
 		
@@ -1322,8 +1372,8 @@ var Zotero_QuickFormat = new function () {
 	/**
 	 * Show an item in the library it came from
 	 */
-	this.showInLibrary = async function() {
-		var id = panelRefersToBubble.citationItem.id;
+	this.showInLibrary = async function (itemID) {
+		var id = itemID || parseInt(panelRefersToBubble.citationItem.id);
 		var pane = Zotero.getActiveZoteroPane();
 		// Open main window if it's not open (Mac)
 		if (!pane) {
@@ -1337,7 +1387,6 @@ var Zotero_QuickFormat = new function () {
 			});
 			pane = win.ZoteroPane;
 		}
-		pane.show();
 		pane.selectItem(id);
 		
 		// Pull window to foreground

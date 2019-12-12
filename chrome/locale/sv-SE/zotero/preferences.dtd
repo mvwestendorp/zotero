@@ -8,7 +8,7 @@
 <!ENTITY zotero.preferences.attachmentBaseDir.selectBasePath "Välj...">
 <!ENTITY zotero.preferences.autoRecognizeFiles "hämta metadata automatiskt för PDF:er">
 <!ENTITY zotero.preferences.autoRenameFiles "Döp automatiskt om bilagefiler uifrån huvudpostens metadata">
-<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Rename linked files">
+<!ENTITY zotero.preferences.autoRenameFiles.renameLinked "Byt namn på länkade filer">
 <!ENTITY zotero.preferences.autoUpdate "Kolla automatiskt efter uppdaterade källfångare och stilar">
 <!ENTITY zotero.preferences.automaticSnapshots "Ta automatiskt lokala kopior när källor skapas av hemsidor">
 <!ENTITY zotero.preferences.automaticTags "Lägg automatiskt till etiketter med nyckelord och ämnesord">
@@ -235,7 +235,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Jämför alla bifogade filer med lagringstjänsten">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Återställ från onlinebibliotek">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Överskriv lokal Zotero-data med data från onlinebiblioteket.">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "Återställ till onlinebibliotek">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "Ersätt onlinebibliotek">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Överskriv onlinebiblioteket med lokal Zotero-data">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Följande åtgärder är endast till för sällsynta, särskilda situationer och ska inte användas för vanlig felsökning. I många fall kan en återställning istället orsaka nya problem. Se">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Återställningsalternativ för synkronisering">

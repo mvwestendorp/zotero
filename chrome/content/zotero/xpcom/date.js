@@ -228,32 +228,13 @@ Zotero.Date = new function(){
 	/**
 	 * Convert an ISO 8601–formatted date/time to a JS Date
 	 *
-	 * Adapted from http://delete.me.uk/2005/03/iso8601.html (AFL-licensed)
-	 *
 	 * @param	{String}		isoDate		ISO 8601 date
 	 * @return {Date|False} - JS Date, or false if not a valid date
 	 */
 	this.isoToDate = function (isoDate) {
 		var d = isoDate.match(_re8601);
 		if (!d) return false;
-		
-		var offset = 0;
-		var date = new Date(d[1], 0, 1);
-		
-		if (d[3]) { date.setMonth(d[3] - 1); }
-		if (d[5]) { date.setDate(d[5]); }
-		if (d[7]) { date.setHours(d[7]); }
-		if (d[8]) { date.setMinutes(d[8]); }
-		if (d[10]) { date.setSeconds(d[10]); }
-		if (d[12]) { date.setMilliseconds(Number("0." + d[12]) * 1000); }
-		if (d[14]) {
-			offset = (Number(d[16]) * 60) + Number(d[17]);
-			offset *= ((d[15] == '-') ? 1 : -1);
-		}
-		
-		offset -= date.getTimezoneOffset();
-		var time = (Number(date) + (offset * 60 * 1000));
-		return new Date(time);
+		return new Date(isoDate);
 	}
 	
 	
@@ -282,27 +263,16 @@ Zotero.Date = new function(){
 			order: ''
 		};
 		
+		if (typeof string == 'string' || typeof string == 'number') {
+			string = Zotero.Utilities.trimInternal(string.toString());
+		}
+		
 		// skip empty things
 		if(!string) {
 			return date;
 		}
 		
 		var parts = [];
-		
-		// Parse 'yesterday'/'today'/'tomorrow'
-		var lc = (string + '').toLowerCase();
-		if (lc == 'yesterday' || (Zotero.isClient && lc === Zotero.getString('date.yesterday'))) {
-			string = Zotero.Date.dateToSQL(new Date(Date.now() - 1000*60*60*24)).substr(0, 10); // no 'this' for translator sandbox
-		}
-		else if (lc == 'today' || (Zotero.isClient && lc == Zotero.getString('date.today'))) {
-			string = Zotero.Date.dateToSQL(new Date()).substr(0, 10);
-		}
-		else if (lc == 'tomorrow' || (Zotero.isClient && lc == Zotero.getString('date.tomorrow'))) {
-			string = Zotero.Date.dateToSQL(new Date(Date.now() + 1000*60*60*24)).substr(0, 10);
-		}
-		else {
-			string = string.toString().replace(/^\s+|\s+$/g, "").replace(/\s+/, " ");
-		}
 		
 		// first, directly inspect the string
 		var m = _slashRe.exec(string);

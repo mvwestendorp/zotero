@@ -235,7 +235,7 @@
 <!ENTITY zotero.preferences.sync.reset.resetFileSyncHistory.desc "Porovnať všetky priložené súbory so službou úschovne">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer "Obnoviť z online knižnice">
 <!ENTITY zotero.preferences.sync.reset.restoreFromServer.desc "Prepísať lokálne dáta Zotera s dátami z online knižnice.">
-<!ENTITY zotero.preferences.sync.reset.restoreToServer "Obnoviť do online knižnice">
+<!ENTITY zotero.preferences.sync.reset.restoreToServer "Replace Online Library">
 <!ENTITY zotero.preferences.sync.reset.restoreToServer.desc "Prepísať online knižnicu s lokálnymi dátami Zotera">
 <!ENTITY zotero.preferences.sync.reset.warning1 "Nasledujúce operácie treba použiť iba v zriedkavých, špecifických situáciách a nie pre všeobecné odstraňovanie chýb. V mnohých prípadoch obnova zapríčiní dodatočné problémy. Pozri ">
 <!ENTITY zotero.preferences.sync.reset.warning2 "Možnosti obnovy synchronizácie">

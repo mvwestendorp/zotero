@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Viðskeyti:">
 <!ENTITY zotero.citation.suppressAuthor.label "Fela höfund">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Show Retracted Items">
 <!ENTITY zotero.collections.showUnfiledItems "Sýna sameinaðar færslur">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "Bæta vali á Zotero minnisblað">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Útbúa Zotero færslu og minnisblað út frá vali">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Veldu skrá…">
 <!ENTITY zotero.file.noneSelected.label "Engin skrá valin">
 <!ENTITY zotero.general.advancedOptions.label "Ítarlegir valkostir">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Hætta við">
 <!ENTITY zotero.general.close "Close">
 <!ENTITY zotero.general.delete "Eyða">
@@ -82,8 +84,10 @@
 <!ENTITY zotero.general.options "Options">
 <!ENTITY zotero.general.other "Other…">
 <!ENTITY zotero.general.refresh "Endurnýja">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Vista sem…">
 <!ENTITY zotero.general.selectAll "Velja allt">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Já">
 <!ENTITY zotero.import "Import">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Birta tilvísnair sem:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Aftanmálsgreinar">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Switch to a Different Word Processor…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Neðanmálsgreinar">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Geyma tilvísnair sem:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">

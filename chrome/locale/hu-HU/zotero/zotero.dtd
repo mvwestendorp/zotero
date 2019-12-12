@@ -32,6 +32,7 @@
 <!ENTITY zotero.citation.suffix.label "Utótag:">
 <!ENTITY zotero.citation.suppressAuthor.label "Szerző figyelmen kívül hagyása">
 <!ENTITY zotero.citation.suppressTrailingPunctuation.label "Suppress Trailing Punctuation">
+<!ENTITY zotero.collections.showRetractedItems "Visszavont elemek mutatása">
 <!ENTITY zotero.collections.showUnfiledItems "Besorolatlan elemek mutatása">
 <!ENTITY zotero.contextMenu.addTextToCurrentNote "A kijelölés hozzáadása a Zotero jegyzethez">
 <!ENTITY zotero.contextMenu.addTextToNewNote "Zotero elem és jegyzet létrehozása a kijelölés alapján">
@@ -67,6 +68,7 @@
 <!ENTITY zotero.file.choose.label "Choose File...">
 <!ENTITY zotero.file.noneSelected.label "Nincs fájl kiválasztva">
 <!ENTITY zotero.general.advancedOptions.label "Haladó beállítások">
+<!ENTITY zotero.general.bigger "Bigger">
 <!ENTITY zotero.general.cancel "Mégse">
 <!ENTITY zotero.general.close "Bezárás">
 <!ENTITY zotero.general.delete "Törlés">
@@ -80,16 +82,18 @@
 <!ENTITY zotero.general.ok "OK">
 <!ENTITY zotero.general.optional "(Nem kötelező)">
 <!ENTITY zotero.general.options "Beállítások">
-<!ENTITY zotero.general.other "Other…">
+<!ENTITY zotero.general.other "Másik…">
 <!ENTITY zotero.general.refresh "Újratöltés">
+<!ENTITY zotero.general.reset "Reset">
 <!ENTITY zotero.general.saveAs "Mentés másként…">
 <!ENTITY zotero.general.selectAll "Minden kijelölése">
+<!ENTITY zotero.general.smaller "Smaller">
 <!ENTITY zotero.general.tools "Tools">
 <!ENTITY zotero.general.yes "Igen">
 <!ENTITY zotero.import "Importálás">
-<!ENTITY zotero.import.createCollection "Place imported collections and items into new collection">
+<!ENTITY zotero.import.createCollection "Importált elemek és gyűjtemények áthelyezése új gyűjteménybe">
 <!ENTITY zotero.import.database "Adatbázis">
-<!ENTITY zotero.import.fileHandling "File Handling">
+<!ENTITY zotero.import.fileHandling "Fájlkezelés">
 <!ENTITY zotero.import.importing "Importálás…">
 <!ENTITY zotero.import.lastModified "Utolsó módosítás">
 <!ENTITY zotero.import.size "Méret">
@@ -99,9 +103,9 @@
 <!ENTITY zotero.integration.classicView.label "Klasszikus nézet">
 <!ENTITY zotero.integration.docPrefs.title "Dokumentum beállításai">
 <!ENTITY zotero.integration.editBibliography.title "Bibliográfia szerkesztése">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "Disabling updates can speed up citation insertion in large documents. Click Refresh to update citations manually.">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.description "A frissítések letiltása felgyorsíthatja a hivatkozások beillesztését a nagy dokumentumokba. A hivatkozások manuális frissítéséhez kattintson a Frissítés gombra.">
 <!ENTITY zotero.integration.prefs.automaticCitationUpdates.label "Hivatkozások automatikus frissítése">
-<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "Citations with pending updates will be highlighted in the document">
+<!ENTITY zotero.integration.prefs.automaticCitationUpdates.tooltip "A függőben lévő, frissítésekkel ellátott idézetek kiemelésre kerülnek a dokumentumban">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.caption "The “Journal Abbr” field will be ignored.">
 <!ENTITY zotero.integration.prefs.automaticJournalAbbeviations.label "Use MEDLINE journal abbreviations">
 <!ENTITY zotero.integration.prefs.bookmarks.caption "Bookmarks can be shared between Word and LibreOffice, but may cause errors if accidentally modified and cannot be inserted into footnotes.">
@@ -110,7 +114,7 @@
 <!ENTITY zotero.integration.prefs.displayAs.label "Hivatkozások megjelenítése:">
 <!ENTITY zotero.integration.prefs.embeddedMetadata.label "Embedding:">
 <!ENTITY zotero.integration.prefs.endnotes.label "Végjegyzetek">
-<!ENTITY zotero.integration.prefs.exportDocument "Export Document…">
+<!ENTITY zotero.integration.prefs.exportDocument "Váltson egy másik szövegszerkesztőre…">
 <!ENTITY zotero.integration.prefs.footnotes.label "Lábjegyzetek">
 <!ENTITY zotero.integration.prefs.formatUsing.label "Store Citations as:">
 <!ENTITY zotero.integration.prefs.lang.documentInternals "Internal">
@@ -153,7 +157,7 @@
 <!ENTITY zotero.items.archive_column "Archívum">
 <!ENTITY zotero.items.callNumber_column "Raktári jelzet">
 <!ENTITY zotero.items.court_column "Bíróság">
-<!ENTITY zotero.items.creator_column "Létrehozó">
+<!ENTITY zotero.items.creator_column "Szerző">
 <!ENTITY zotero.items.dateAdded_column "Hozzáadás dátuma">
 <!ENTITY zotero.items.dateModified_column "Módosítás dátuma">
 <!ENTITY zotero.items.date_column "Dátum">
@@ -182,7 +186,7 @@
 <!ENTITY zotero.items.menu.reportMetadata "Hibás metaadatok jelentése">
 <!ENTITY zotero.items.menu.restoreToLibrary "Visszaállítás könyvtárba">
 <!ENTITY zotero.items.menu.showInLibrary "Megjelenítés a könyvtárban">
-<!ENTITY zotero.items.menu.unrecognize "Undo Retrieve Metadata">
+<!ENTITY zotero.items.menu.unrecognize "Beolvasott metaadatok visszavonása">
 <!ENTITY zotero.items.moreColumns.label "Több oszlop">
 <!ENTITY zotero.items.numChildren_column "+">
 <!ENTITY zotero.items.pages_column "Oldalak">

@@ -202,6 +202,35 @@ Zotero.Utilities.Internal = {
 	},
 	
 	
+	 /*
+	  * Adapted from http://developer.mozilla.org/en/docs/nsICryptoHash
+	  *
+	  * @param {String} str
+	  * @return	{String}
+	  */
+	sha1: function (str) {
+		var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
+			.createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+		converter.charset = "UTF-8";
+		var result = {};
+		var data = converter.convertToByteArray(str, result);
+		var ch = Components.classes["@mozilla.org/security/hash;1"]
+			.createInstance(Components.interfaces.nsICryptoHash);
+		ch.init(ch.SHA1);
+		ch.update(data, data.length);
+		var hash = ch.finish(false);
+		
+		// Return the two-digit hexadecimal code for a byte
+		function toHexString(charCode) {
+			return ("0" + charCode.toString(16)).slice(-2);
+		}
+		
+		// Convert the binary hash data to a hex string.
+		var s = Array.from(hash, (c, i) => toHexString(hash.charCodeAt(i))).join("");
+		return s;
+	},
+	
+	
 	gzip: async function (data) {
 		var deferred = Zotero.Promise.defer();
 		
@@ -254,7 +283,12 @@ Zotero.Utilities.Internal = {
 		// Send input stream to stream converter
 		var pump = Components.classes["@mozilla.org/network/input-stream-pump;1"]
 			.createInstance(Components.interfaces.nsIInputStreamPump);
-		pump.init(is, -1, -1, 0, 0, true);
+		try {
+			pump.init(is, 0, 0, true);
+		}
+		catch (e) {
+			pump.init(is, -1, -1, 0, 0, true);
+		}
 		pump.asyncRead(converter, null);
 		
 		return deferred.promise;
@@ -314,22 +348,15 @@ Zotero.Utilities.Internal = {
 		// Send input stream to stream converter
 		var pump = Components.classes["@mozilla.org/network/input-stream-pump;1"]
 			.createInstance(Components.interfaces.nsIInputStreamPump);
-		pump.init(bis, -1, -1, 0, 0, true);
+		try {
+			pump.init(bis, 0, 0, true);
+		}
+		catch (e) {
+			pump.init(bis, -1, -1, 0, 0, true);
+		}
 		pump.asyncRead(converter, null);
 		
 		return deferred.promise;
-	},
-	
-	
-	/**
-	 * Unicode normalization
-	 */
-	"normalize":function(str) {
-		var normalizer = Components.classes["@mozilla.org/intl/unicodenormalizer;1"]
-							.getService(Components.interfaces.nsIUnicodeNormalizer);
-		var obj = {};
-		str = normalizer.NormalizeUnicodeNFC(str, obj);
-		return obj.value;
 	},
 	
 	
@@ -590,15 +617,7 @@ Zotero.Utilities.Internal = {
 			let href = a.getAttribute('href');
 			a.setAttribute('tooltiptext', href);
 			a.onclick = function (event) {
-				try {
-					let wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-					   .getService(Components.interfaces.nsIWindowMediator);
-					let win = wm.getMostRecentWindow("navigator:browser");
-					win.ZoteroPane_Local.loadURI(href, options.linkEvent || event)
-				}
-				catch (e) {
-					Zotero.logError(e);
-				}
+				Zotero.launchURL(href);
 				return false;
 			};
 		}
@@ -744,7 +763,7 @@ Zotero.Utilities.Internal = {
 	 * @param {Boolean} legacy Add mappings for legacy (pre-4.0.27) translators
 	 * @return {Object}
 	 */
-	itemToExportFormat: function (zoteroItem, legacy, skipChildItems) {
+	itemToExportFormat: function (zoteroItem, legacy, skipChildItems, addRelations) {
 		function addCompatibilityMappings(item, zoteroItem) {
 			item.uniqueFields = {};
 			
@@ -823,7 +842,7 @@ Zotero.Utilities.Internal = {
 			// seeAlso was always present, but it was always an empty array.
 			// Zotero RDF translator pretended to use it
 			item.seeAlso = [];
-			
+
 			if (zoteroItem.isAttachment()) {
 				item.linkMode = item.uniqueFields.linkMode = zoteroItem.attachmentLinkMode;
 				item.mimeType = item.uniqueFields.mimeType = item.contentType;
@@ -834,6 +853,12 @@ Zotero.Utilities.Internal = {
 			}
 			
 			return item;
+		}
+
+		function addRelations(item, zoteroItem) {
+			item.seeAlso = zoteroItem.relatedItems.map(function(key){
+				return Zotero.Items.getIDFromLibraryAndKey(zoteroItem.libraryID, key);
+			});
 		}
 		
 		var item = zoteroItem.toJSON();
@@ -868,6 +893,8 @@ Zotero.Utilities.Internal = {
 		}
 		
 		if (legacy) addCompatibilityMappings(item, zoteroItem);
+
+		if (addRelations) addRelations(item, zoteroItem);
 		
 		return item;
 	},
@@ -901,64 +928,236 @@ Zotero.Utilities.Internal = {
 	
 	
 	/**
-	 * Find valid fields in Extra field text
+	 * Find valid item fields in Extra field text
 	 *
-	 * @param {String} str
-	 * @return {Map} - Map of fields to objects with 'originalField', 'field', and 'value'
+	 * There are a couple differences from citeproc-js behavior:
+	 *
+	 * 1) Key-value pairs can appear at the beginning of any line in Extra, not just the first two.
+	 * 2) For fields, the first occurrence of a valid field is used, not the last.
+	 *
+	 * @param {String} extra
+	 * @param {Zotero.Item} [item = null]
+	 * @param {String[]} [additionalFields] - Additional fields to skip other than those already
+	 *     on the provided item
+	 * @return {Object} - An object with 1) 'itemType', which may be null, 2) 'fields', a Map of
+	 *     field name to value, 3) 'creators', in API JSON syntax, and 4) 'extra', the remaining
+	 *     Extra string after removing the extracted values
 	 */
-	extractExtraFields: function (str) {
-		if (!str) {
-			return new Map();
+	extractExtraFields: function (extra, item = null, additionalFields = []) {
+		if (!Zotero.Utilities._mapsInitialized) {
+			Zotero.Utilities.initMaps();
 		}
+		var itemTypeID = item ? item.itemTypeID : null;
+		
+		var itemType = null;
+		var fields = new Map();
+		var creators = [];
+		additionalFields = new Set(additionalFields);
 		
 		//
-		// Build a Map of normalized field names that might appear in Extra (including CSL variables)
-		// to arrays of built-in fields
+		// Build `Map`s of normalized types/fields, including CSL variables, to built-in types/fields
+		//
+		
+		// Built-in item types
+		var itemTypes = new Map(Zotero.ItemTypes.getAll().map(x => [this._normalizeExtraKey(x.name), x.name]));
+		// CSL types
+		for (let i in Zotero.Schema.CSL_TYPE_MAPPINGS) {
+			let cslType = Zotero.Schema.CSL_TYPE_MAPPINGS[i];
+			itemTypes.set(cslType.toLowerCase(), i);
+		}
+		
+		// For fields we use arrays, because there can be multiple possibilities
 		//
 		// Built-in fields
-		var fieldNames = new Map(Zotero.ItemFields.getAll().map(x => [x.name.toLowerCase(), [x.name]]));
+		var fieldNames = new Map(Zotero.ItemFields.getAll().map(x => [this._normalizeExtraKey(x.name), [x.name]]));
 		// CSL fields
-		for (let map of [CSL_TEXT_MAPPINGS, CSL_DATE_MAPPINGS]) {
+		for (let map of [Zotero.Schema.CSL_TEXT_MAPPINGS, Zotero.Schema.CSL_DATE_MAPPINGS]) {
 			for (let cslVar in map) {
-				let normalized = cslVar.toLowerCase();
+				let normalized = this._normalizeExtraKey(cslVar);
 				let existing = fieldNames.get(normalized) || [];
 				fieldNames.set(normalized, new Set([...existing, ...map[cslVar]]));
 			}
 		}
 		
-		var lines = str.split(/\n+/g);
-		var fields = new Map();
+		// Built-in creator types
+		var creatorTypes = new Map(Zotero.CreatorTypes.getAll().map(x => [this._normalizeExtraKey(x.name), x.name]));
+		// CSL types
+		for (let i in Zotero.Schema.CSL_NAME_MAPPINGS) {
+			let cslType = Zotero.Schema.CSL_NAME_MAPPINGS[i].toLowerCase();
+			if (!creatorTypes.get(cslType)) {
+				creatorTypes.set(cslType, i);
+			}
+		}
+		var keyIter = creatorTypes.keys();
+		while (true) {
+			var key = keyIter.next().value;
+			if (!key) break;
+			var val = creatorTypes.get(key);
+		}
+		
+		// Process Extra lines
+		var keepLines = [];
+		var skipKeys = new Set();
+		var lines = extra.split(/\n/g);
 		for (let line of lines) {
-			let parts = line.match(/^([a-z \-]+):(.+)/i);
+			let parts = line.match(/^([a-z][a-z -_]+):(.+)/i);
+			// Old citeproc.js cheater syntax;
 			if (!parts) {
+				parts = line.match(/^{:([a-z -_]+):(.+)}/i);
+			}
+			if (!parts) {
+				keepLines.push(line);
+				continue;
+			}
+			let [_, originalField, value] = parts;
+
+			let key = this._normalizeExtraKey(originalField);
+			if (skipKeys.has(key)) {
+				keepLines.push(line);
+				continue;
+			}
+			value = value.trim();
+			
+			if (key == 'type') {
+				let possibleType = itemTypes.get(value);
+				if (possibleType) {
+					// Ignore item type that's the same as the item
+					if (!item || possibleType != Zotero.ItemTypes.getName(itemTypeID)) {
+						itemType = possibleType;
+						skipKeys.add(key);
+						continue;
+					}
+				}
+			}
+			
+			// Fields
+			let possibleFields = fieldNames.get(key);
+			// No valid fields
+			if (possibleFields) {
+				let added = false;
+				for (let possibleField of possibleFields) {
+					// If we have an item, skip fields that aren't valid for the type or that already
+					// have values
+					if (item) {
+						let fieldID = Zotero.ItemFields.getID(possibleField);
+						if (!Zotero.ItemFields.isValidForType(fieldID, itemTypeID)
+								|| item.getField(fieldID)
+								|| additionalFields.has(possibleField)) {
+							continue;
+						}
+					}
+					fields.set(possibleField, value);
+					added = true;
+					// If we found a valid field, don't try the other possibilities for that
+					// normalized key
+					if (item) {
+						break;
+					}
+				}
+				if (added) {
+					skipKeys.add(key);
+					continue;
+				}
+			}
+			
+			let possibleCreatorType = creatorTypes.get(key);
+			if (possibleCreatorType) {
+				let c = {
+					creatorType: possibleCreatorType
+				};
+				if (value.includes('||')) {
+					let [first, last] = value.split(/\s*\|\|\s*/);
+					c.firstName = first;
+					c.lastName = last;
+				}
+				else {
+					c.name = value;
+				}
+				if (item) {
+					let creatorTypeID = Zotero.CreatorTypes.getID(possibleCreatorType);
+					if (Zotero.CreatorTypes.isValidForItemType(creatorTypeID, itemTypeID)
+							// Ignore if there are any creators of this type on the item already,
+							// to follow citeproc-js behavior
+							&& !item.getCreators().some(x => x.creatorType == possibleCreatorType)) {
+						creators.push(c);
+						continue;
+					}
+				}
+				else {
+					creators.push(c);
+					continue;
+				}
+			}
+			
+			// We didn't find anything, so keep the line in Extra
+			keepLines.push(line);
+		}
+		
+		return {
+			itemType,
+			fields,
+			creators,
+			extra: keepLines.join('\n')
+		};
+	},
+	
+	
+	/**
+	 * @param {String} extra
+	 * @param {Map} fieldMap
+	 * @return {String}
+	 */
+	combineExtraFields: function (extra, fields) {
+		var normalizedKeyMap = new Map();
+		var normalizedFields = new Map();
+		for (let [key, value] of fields) {
+			let normalizedKey = this._normalizeExtraKey(key);
+			normalizedFields.set(normalizedKey, value);
+			normalizedKeyMap.set(normalizedKey, key);
+		}
+		var keepLines = [];
+		var lines = extra !== '' ? extra.split(/\n/g) : [];
+		for (let line of lines) {
+			let parts = line.match(/^([a-z -_]+):(.+)/i);
+			// Old citeproc.js cheater syntax;
+			if (!parts) {
+				parts = line.match(/^{:([a-z -_]+):(.+)}/i);
+			}
+			if (!parts) {
+				keepLines.push(line);
 				continue;
 			}
 			let [_, originalField, value] = parts;
 			
-			let field = originalField.trim().toLowerCase()
-				// Strip spaces
-				.replace(/\s+/g, '')
-				// Old citeproc.js cheater syntax
-				.replace(/{:([^:]+):([^}]+)}/);
-			value = value.trim();
-			let possibleFields = fieldNames.get(field);
-			// No valid fields
-			if (!possibleFields) {
-				continue;
+			let key = this._normalizeExtraKey(originalField);
+			
+			// If we have a new value for the field, update it
+			if (normalizedFields.has(key)) {
+				keepLines.push(originalField + ": " + normalizedFields.get(key));
+				// Don't include with the other fields
+				fields.delete(normalizedKeyMap.get(key));
 			}
-			// Create an entry for each possible field, since we don't know what type this is for
-			for (let possibleField of possibleFields) {
-				fields.set(
-					possibleField,
-					{
-						originalField,
-						field: possibleField,
-						value
-					}
-				);
+			else {
+				keepLines.push(line);
 			}
 		}
-		return fields;
+		var fieldPairs = Array.from(fields.entries())
+			.map(x => x[0] + ': ' + x[1]);
+		fieldPairs.sort();
+		return fieldPairs.join('\n')
+			+ ((fieldPairs.length && keepLines.length) ? "\n" : "")
+			+ keepLines.join("\n");
+	},
+	
+	
+	_normalizeExtraKey: function (key) {
+		return key
+			.trim()
+			// Convert fooBar to foo-bar
+			.replace(/([a-z])([A-Z])/g, '$1-$2')
+			.toLowerCase()
+			// Normalize to hyphens for spaces
+			.replace(/[\s-_]/g, '-');
 	},
 	
 	
@@ -1204,6 +1403,48 @@ Zotero.Utilities.Internal = {
 	},
 	
 	
+	resolveLocale: function (locale, locales) {
+		// If the locale exists as-is, use it
+		if (locales.includes(locale)) {
+			return locale;
+		}
+		
+		// If there's a locale with just the language, use that
+		var langCode = locale.substr(0, 2);
+		if (locales.includes(langCode)) {
+			return langCode;
+		}
+		
+		// Find locales matching language
+		var possibleLocales = locales.filter(x => x.substr(0, 2) == langCode);
+		
+		// If none, use en-US
+		if (!possibleLocales.length) {
+			if (!locales.includes('en-US')) {
+				throw new Error("Locales not available");
+			}
+			Zotero.logError(`Locale ${locale} not found`);
+			return 'en-US';
+		}
+		
+		possibleLocales.sort(function (a, b) {
+			if (a == 'en-US') return -1;
+			if (b == 'en-US') return 1;
+			
+			// Prefer canonical country (e.g., pt-PT over pt-BR)
+			if (a.substr(0, 2) == a.substr(3, 2).toLowerCase()) {
+				return -1;
+			}
+			if (b.substr(0, 2) == b.substr(3, 2).toLowerCase()) {
+				return 1;
+			}
+			
+			return a.substr(3, 2).localeCompare(b.substr(3, 2));
+		});
+		return possibleLocales[0];
+	},
+	
+	
 	/**
 	 * Get the next available numbered name that matches a base name, for use when duplicating
 	 *
@@ -1400,6 +1641,10 @@ Zotero.Utilities.Internal = {
 				var prefKey = 'unfiledLibraries';
 				break;
 			
+			case 'retracted':
+				var prefKey = 'retractedLibraries';
+				break;
+			
 			default:
 				throw new Error("Invalid virtual collection type '" + type + "'");
 		}
@@ -1433,6 +1678,10 @@ Zotero.Utilities.Internal = {
 			
 			case 'unfiled':
 				var prefKey = 'unfiledLibraries';
+				break;
+			
+			case 'retracted':
+				var prefKey = 'retractedLibraries';
 				break;
 			
 			default:
@@ -1689,9 +1938,7 @@ Zotero.Utilities.Internal.executeAppleScript = new function() {
 	
 	return function(script, block) {
 		if(_osascriptFile === undefined) {
-			_osascriptFile = Components.classes["@mozilla.org/file/local;1"].
-			createInstance(Components.interfaces.nsILocalFile);
-			_osascriptFile.initWithPath("/usr/bin/osascript");
+			_osascriptFile = Zotero.File.pathToFile('/usr/bin/osascript');
 			if(!_osascriptFile.exists()) _osascriptFile = false;
 		}
 		if(_osascriptFile) {

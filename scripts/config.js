@@ -13,6 +13,9 @@ const dirs = [
 const symlinkDirs = [
 	'chrome/content/zotero/xpcom/rdf',
 	'styles',
+	'style-modules',
+	'juris-maps',
+	'juris-abbrevs',
 	'translators'
 ];
 
@@ -39,6 +42,20 @@ const symlinkFiles = [
 // these files will be browserified during the build
 const browserifyConfigs = [
 	{
+		src: 'node_modules/react-select/dist/react-select.cjs.prod.js',
+		dest: 'resource/react-select.js',
+		config: {
+			standalone: 'react-select'
+		}
+	},
+	{
+		src: 'node_modules/url/url.js',
+		dest: 'resource/url.js',
+		config: {
+			standalone: 'url'
+		}
+	},
+	{
 		src: 'node_modules/sinon/lib/sinon.js',
 		dest: 'test/resource/sinon.js',
 		config: {
@@ -55,7 +72,11 @@ const browserifyConfigs = [
 ];
 
 // exclude mask used for js, copy, symlink and sass tasks
-const ignoreMask = ['**/#*', '**/_*.scss'];
+const ignoreMask = [
+	'**/#*',
+	'**/_*.scss',
+	'resource/schema/global/schema.json.gz'
+];
 
 const jsFiles = [
 	`{${dirs.join(',')}}/**/*.js`,

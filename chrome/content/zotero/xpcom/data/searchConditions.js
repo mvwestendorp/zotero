@@ -100,6 +100,14 @@ Zotero.SearchConditions = new function(){
 			},
 			
 			{
+				name: 'retracted',
+				operators: {
+					true: true,
+					false: true
+				}
+			},
+			
+			{
 				name: 'publications',
 				operators: {
 					true: true,
@@ -386,7 +394,8 @@ Zotero.SearchConditions = new function(){
 					is: true,
 					isNot: true,
 					contains: true,
-					doesNotContain: true
+					doesNotContain: true,
+					beginsWith: true
 				},
 				table: 'itemData',
 				field: 'value',
@@ -570,7 +579,7 @@ Zotero.SearchConditions = new function(){
 			// Hack to use a different name for "issue" in French locale,
 			// where 'number' and 'issue' are translated the same
 			// https://forums.zotero.org/discussion/14942/
-			if (fieldID == 5 && locale.substr(0, 2).toLowerCase() == 'fr') {
+			if (Zotero.ItemFields.getName(fieldID) == 'issue' && locale.substr(0, 2) == 'fr') {
 				localized = "Num\u00E9ro (p\u00E9riodique)";
 			}
 			
@@ -620,7 +629,7 @@ Zotero.SearchConditions = new function(){
 		
 		if (!_conditions[condition]){
 			let e = new Error("Invalid condition '" + condition + "' in hasOperator()");
-			e.name = "ZoteroUnknownFieldError";
+			e.name = "ZoteroInvalidDataError";
 			throw e;
 		}
 		
@@ -642,7 +651,7 @@ Zotero.SearchConditions = new function(){
 			return Zotero.getString('searchConditions.' + str)
 		}
 		catch (e) {
-			return Zotero.ItemFields.getLocalizedString(null, str);
+			return Zotero.ItemFields.getLocalizedString(str);
 		}
 	}
 	

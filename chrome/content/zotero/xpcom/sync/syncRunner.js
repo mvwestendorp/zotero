@@ -75,6 +75,7 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 	var _firstInSession = true;
 	var _syncInProgress = false;
 	var _stopping = false;
+	var _canceller;
 	var _manualSyncRequired = false; // TODO: make public?
 	
 	var _currentEngine = null;
@@ -92,7 +93,8 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 			baseURL: this.baseURL,
 			apiVersion: this.apiVersion,
 			apiKey: options.apiKey,
-			caller: this.caller
+			caller: this.caller,
+			cancellerReceiver: _cancellerReceiver,
 		});
 	}
 	
@@ -207,6 +209,11 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 				setStatus: this.setSyncStatus.bind(this),
 				stopOnError,
 				onError: function (e) {
+					// Ignore cancelled requests
+					if (e instanceof Zotero.HTTP.CancelledException) {
+						Zotero.debug("Request was cancelled");
+						return;
+					}
 					if (options.onError) {
 						options.onError(e);
 					}
@@ -282,7 +289,8 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 				_errors = [];
 			}
 			
-			if (e instanceof Zotero.Sync.UserCancelledException) {
+			if (e instanceof Zotero.Sync.UserCancelledException
+					|| e instanceof Zotero.HTTP.CancelledException) {
 				Zotero.debug("Sync was cancelled");
 			}
 			else if (options.onError) {
@@ -867,6 +875,9 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 		if (_currentEngine) {
 			_currentEngine.stop();
 		}
+		if (_canceller) {
+			_canceller();
+		}
 	}
 	
 	
@@ -1252,6 +1263,23 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 				}
 			}
 		}
+		// Show warning for unknown data that couldn't be saved
+		else if (e.name && e.name == 'ZoteroInvalidDataError') {
+			e.message = Zotero.getString(
+				'sync.error.invalidDataError',
+				[
+					Zotero.Libraries.get(e.libraryID).name,
+					Zotero.clientName
+				]
+			)
+				+ "\n\n"
+				+ Zotero.getString('sync.error.invalidDataError.otherData');
+			e.errorType = 'warning';
+			e.dialogButtonText = Zotero.getString('general.checkForUpdates');
+			e.dialogButtonCallback = () => {
+				Zotero.openCheckForUpdatesWindow();
+			};
+		}
 	});
 	
 	
@@ -1570,5 +1598,10 @@ Zotero.Sync.Runner_Module = function (options = {}) {
 		if (_stopping) {
 			throw new Zotero.Sync.UserCancelledException;
 		}
+	}
+	
+	
+	function _cancellerReceiver(canceller) {
+		_canceller = canceller;
 	}
 }

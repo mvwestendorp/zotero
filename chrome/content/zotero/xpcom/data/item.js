@@ -280,8 +280,7 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 	
 	if (!unformatted) {
 		// Multipart date fields
-		// TEMP - filingDate
-		if (Zotero.ItemFields.isFieldOfBase(fieldID, 'date') || ['filingDate','priorityDate','publicationDate','originalDate','signingDate','openingDate','adoptionDate','newsCaseDate','conferenceDate', 'dateAmended'].indexOf(field) > -1) {
+		if (Zotero.ItemFields.isDate(fieldID)) {
 			value = Zotero.Date.multipartToStr(value);
 		}
 	}
@@ -302,9 +301,8 @@ Zotero.Item.prototype.getField = function(field, unformatted, includeBaseMapped,
 
 
 Zotero.Item.prototype.getExtraField = function (fieldName) {
-	var fields = Zotero.Utilities.Internal.extractExtraFields(this.getField('extra'));
-	var doi = fields.get(fieldName);
-	return (doi && doi.value) ? doi.value : '';
+	var { fields } = Zotero.Utilities.Internal.extractExtraFields(this.getField('extra'));
+	return fields.get(fieldName) || '';
 };
 
 
@@ -666,7 +664,6 @@ Zotero.Item.prototype.setType = function(itemTypeID, loadIn) {
  */
 Zotero.Item.prototype.getFieldsNotInType = function (itemTypeID, allowBaseConversion) {
 	var fieldIDs = [];
-	
 	for (var field in this._itemData) {
 		if (this._itemData[field]) {
 			var fieldID = Zotero.ItemFields.getID(field);
@@ -687,32 +684,9 @@ Zotero.Item.prototype.getFieldsNotInType = function (itemTypeID, allowBaseConver
 			fieldIDs.push(fieldID);
 		}
 	}
-	/*
-	var sql = "SELECT fieldID FROM itemTypeFields WHERE itemTypeID=?1 AND "
-		+ "fieldID IN (SELECT fieldID FROM itemData WHERE itemID=?2) AND "
-		+ "fieldID NOT IN (SELECT fieldID FROM itemTypeFields WHERE itemTypeID=?3)";
-		
-	if (allowBaseConversion) {
-		// Not the type-specific field for a base field in the new type
-		sql += " AND fieldID NOT IN (SELECT fieldID FROM baseFieldMappings "
-			+ "WHERE itemTypeID=?1 AND baseFieldID IN "
-			+ "(SELECT fieldID FROM itemTypeFields WHERE itemTypeID=?3)) AND ";
-		// And not a base field with a type-specific field in the new type
-		sql += "fieldID NOT IN (SELECT baseFieldID FROM baseFieldMappings "
-			+ "WHERE itemTypeID=?3) AND ";
-		// And not the type-specific field for a base field that has
-		// a type-specific field in the new type
-		sql += "fieldID NOT IN (SELECT fieldID FROM baseFieldMappings "
-			+ "WHERE itemTypeID=?1 AND baseFieldID IN "
-			+ "(SELECT baseFieldID FROM baseFieldMappings WHERE itemTypeID=?3))";
-	}
-	
-	return Zotero.DB.columnQuery(sql, [this.itemTypeID, this.id, { int: itemTypeID }]);
-	*/
 	if (!fieldIDs.length) {
 		return false;
 	}
-	
 	return fieldIDs;
 }
 
@@ -848,7 +822,7 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 		throw new Error('"' + field + '" is not a valid itemData field');
 	}
 	
-	if (loadIn && this.isNote() && field == 110) { // title
+	if (loadIn && this.isNote() && field == Zotero.ItemFields.getID('title')) {
 		this._noteTitle = value ? value : "";
 		return true;
 	}
@@ -892,11 +866,8 @@ Zotero.Item.prototype.setField = function(field, value, loadIn, langTag, forceTo
 	}
 	
 	if (!loadIn) {
-		// Save date fields as multipart dates
-		// fieldIDs represent: ['filingDate','newsCaseDate','priorityDate','publicationDate','originalDate','signingDate','openingDate','adoptionDate','conferenceDate','dateAmended']
-		// TEMP - filingDate
 		if (value !== false
-				&& (Zotero.ItemFields.isFieldOfBase(fieldID, 'date') || [121,1265,1266,1268,1272,1277,1278,1279,1283,1287].indexOf(fieldID) > -1)
+				&& (Zotero.ItemFields.isDate(fieldID))
 				&& !Zotero.Date.isMultipart(value)) {
 			value = Zotero.Date.strToMultipart(value);
 		}
@@ -1029,25 +1000,44 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 	var itemTypeID = this.itemTypeID;
 	var itemTypeName = Zotero.ItemTypes.getName(itemTypeID);
 
-	if (title === "" && ["journalArticle", "magazineArticle", "newspaperArticle", "encyclopediaArticle", "dictionaryEntry"].indexOf(itemTypeName) > -1) {
+	var itemTypeArticleish = ["journalArticle", "magazineArticle", "newspaperArticle", "encyclopediaArticle", "dictionaryEntry"].map(function(str){
+		return Zotero.ItemTypes.getID(str);
+	});
+	var itemTypeStatute = Zotero.ItemTypes.getID('statute');
+	var itemTypeRegulation = Zotero.ItemTypes.getID('regulation');
+	var itemTypeHearing = Zotero.ItemTypes.getID('hearing');
+	var itemTypeBill = Zotero.ItemTypes.getID('bill');
+	
+	var itemTypeLetter = Zotero.ItemTypes.getID('letter');
+	var itemTypeInterview = Zotero.ItemTypes.getID('interview');
+	var itemTypeCase = Zotero.ItemTypes.getID('case');
+	
+	var creatorTypeAuthor = Zotero.CreatorTypes.getID('author');
+	var creatorTypeRecipient = Zotero.CreatorTypes.getID('recipient');
+	var creatorTypeInterviewer = Zotero.CreatorTypes.getID('interviewer');
+	var creatorTypeInterviewee = Zotero.CreatorTypes.getID('interviewee');
+
+	if (title === "" && itemTypeArticleish.indexOf(itemTypeID) > -1) {
 		var containerID = Zotero.ItemFields.getFieldIDFromTypeAndBase(itemTypeID, "publicationTitle")
 		var containerTitle = this.getField(containerID);
 		if (containerTitle) {
 			title = "[" + containerTitle + "]"
 		}
-	} else if (title === "" && (itemTypeID == 8 || itemTypeID == 10)) { // 'letter' and 'interview' itemTypeIDs
+	}
+	// 'letter' and 'interview'
+	else if (title === "" && (itemTypeID == itemTypeLetter || itemTypeID == itemTypeInterview)) {
 		var creatorsData = this.getCreators();
 		var authors = [];
 		var participants = [];
 		for (let i=0; i<creatorsData.length; i++) {
 			let creatorData = creatorsData[i];
 			let creatorTypeID = creatorsData[i].creatorTypeID;
-			if ((itemTypeID == 8 && creatorTypeID == 16) || // 'letter'
-					(itemTypeID == 10 && creatorTypeID == 7)) { // 'interview'
+			if ((itemTypeID == itemTypeLetter && creatorTypeID == creatorTypeRecipient) ||
+					(itemTypeID == itemTypeInterview && creatorTypeID == creatorTypeInterviewer)) {
 				participants.push(creatorData);
 			}
-			else if ((itemTypeID == 8 && creatorTypeID == 1) ||   // 'letter'/'author'
-					(itemTypeID == 10 && creatorTypeID == 6)) { // 'interview'/'interviewee'
+			else if ((itemTypeID == itemTypeLetter && creatorTypeID == creatorTypeAuthor) ||
+					(itemTypeID == itemTypeInterview && creatorTypeID == creatorTypeInterviewee)) {
 				authors.push(creatorData);
 			}
 		}
@@ -1087,7 +1077,8 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 		
 		title = '[' + strParts.join('; ') + ']';
 	}
-	else if (itemTypeID == 17) { // 'case' itemTypeID
+	// 'case'
+	else if (itemTypeID == itemTypeCase) {
 		if (title) { // common law cases always have case names
 			var reporter = this.getField('reporter');
 			if (reporter) {
@@ -1129,14 +1120,14 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			}
 			
 			var creatorData = this.getCreator(0);
-			if (creatorData && creatorData.creatorTypeID === 1) { // author
+			if (creatorData && creatorData.creatorTypeID === creatorTypeAuthor) {
 				strParts.push(creatorData.lastName);
 			}
 			
 			title = '[' + strParts.join(', ') + ']';
 		}
 	}
-	else if (itemTypeID === 20 || itemTypeID === 1263) { // statute, regulation
+	else if (itemTypeID === itemTypeStatute || itemTypeID === itemTypeRegulation) {
 		var newTitle = [title];
 		if (!title) {
 			newTitle.push(this.getField('codeNumber', true));
@@ -1157,7 +1148,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			title = newTitle;
 		}
 	}
-	else if (itemTypeID === 18) { // hearing
+	else if (itemTypeID === itemTypeHearing) {
 		if (!title) {
 			var myTitle = this.getField('committee', true); 
 			if (!myTitle) {
@@ -1168,7 +1159,7 @@ Zotero.Item.prototype.updateDisplayTitle = function () {
 			}
 		}
 	}
-	else if (itemTypeID === 16) { // bill
+	else if (itemTypeID === itemTypeBill) {
 		if (!title) {
 			var res = [];
 			var myBody = this.getField('legislativeBody', true);
@@ -1268,15 +1259,18 @@ Zotero.Item.prototype.getCreatorsJSON = function () {
  *                     <li>'name' or 'firstName'/'lastName', or 'firstName'/'lastName'/'fieldMode'</li>
  *                     <li>'creatorType' (can be name or id) or 'creatorTypeID'</li>
  *                   </ul>
+ * @param {Object} [options]
+ * @param {Boolean} [options.strict] - Throw on invalid creator type
  */
-Zotero.Item.prototype.setCreator = function (orderIndex, data) {
+Zotero.Item.prototype.setCreator = function (orderIndex, data, options = {}) {
 	var itemTypeID = this._itemTypeID;
 	if (!itemTypeID) {
 		throw new Error('Item type must be set before setting creators');
 	}
 	
 	this._requireData('creators');
-	data = Zotero.Creators.cleanData(data, true);
+	var origCreatorType = data.creatorType;
+	data = Zotero.Creators.cleanData(data, options);
 	
 	if (data.creatorTypeID === undefined) {
 		throw new Error("Creator data must include a valid 'creatorType' or 'creatorTypeID' property");
@@ -1288,9 +1282,14 @@ Zotero.Item.prototype.setCreator = function (orderIndex, data) {
 	
 	// If creatorTypeID isn't valid for this type, use the primary type
 	if (!data.creatorTypeID || !Zotero.CreatorTypes.isValidForItemType(data.creatorTypeID, itemTypeID)) {
-		var msg = "Creator type '" + Zotero.CreatorTypes.getName(data.creatorTypeID) + "' "
-			+ "isn't valid for " + Zotero.ItemTypes.getName(itemTypeID)
-			+ " -- changing to primary creator";
+		let itemType = Zotero.ItemTypes.getName(itemTypeID);
+		if (options.strict) {
+			let e = new Error(`Invalid creator type '${origCreatorType}' for type ${itemType}`);
+			e.name = "ZoteroInvalidDataError";
+			throw e;
+		}
+		let msg = `Creator type '${origCreatorType}' isn't valid for ${itemType} -- `
+			+ "changing to primary creator";
 		Zotero.warn(msg);
 		data.creatorTypeID = Zotero.CreatorTypes.getPrimaryIDForType(itemTypeID);
 	}
@@ -1411,7 +1410,7 @@ Zotero.Item.prototype.flagCreatorChanges = function (orderIndex, data) {
 /**
  * @param {Object[]} data - An array of creator data in internal or API JSON format
  */
-Zotero.Item.prototype.setCreators = function (data) {
+Zotero.Item.prototype.setCreators = function (data, options = {}) {
 	// If empty array, clear all existing creators
 	if (!data.length) {
 		while (this.hasCreatorAt(0)) {
@@ -1426,7 +1425,7 @@ Zotero.Item.prototype.setCreators = function (data) {
 				_key: {}
 			}
 		}
-		this.setCreator(i, data[i]);
+		this.setCreator(i, data[i], options);
 	}
 }
 
@@ -2034,15 +2033,10 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 							);
 						}
 					}
-					let parentOptions = {
-						skipDateModifiedUpdate: true
-					};
-					// Apply options (e.g., skipNotifier) from outer save
-					for (let o in env.options) {
-						if (!o.startsWith('skip')) continue;
-						parentOptions[o] = env.options[o];
-					}
-					yield parentItem.save(parentOptions);
+					yield parentItem.save({
+						skipDateModifiedUpdate: true,
+						skipEditCheck: env.options.skipEditCheck
+					});
 				}
 			}
 			
@@ -2091,7 +2085,8 @@ Zotero.Item.prototype._saveData = Zotero.Promise.coroutine(function* (env) {
 				
 				mergeItem.removeRelation(predicate, thisURI);
 				yield mergeItem.save({
-					skipDateModifiedUpdate: true
+					skipDateModifiedUpdate: true,
+					skipEditCheck: env.options.skipEditCheck
 				});
 			}
 			
@@ -2659,13 +2654,21 @@ Zotero.Item.prototype.isWebAttachment = function() {
 
 
 /**
- * @return {Promise<Boolean>}
+ * @return {Boolean}
  */
 Zotero.Item.prototype.isFileAttachment = function() {
 	if (!this.isAttachment()) {
 		return false;
 	}
 	return this.attachmentLinkMode != Zotero.Attachments.LINK_MODE_LINKED_URL;
+}
+
+
+/**
+ * @return {Boolean}
+ */
+Zotero.Item.prototype.isLinkedFileAttachment = function() {
+	return this.isAttachment() && this.attachmentLinkMode == Zotero.Attachments.LINK_MODE_LINKED_FILE;
 }
 
 
@@ -2784,7 +2787,7 @@ Zotero.Item.prototype.getFilePath = function () {
 		}
 		
 		let file = Components.classes["@mozilla.org/file/local;1"]
-			.createInstance(Components.interfaces.nsILocalFile);
+			.createInstance(Components.interfaces.nsIFile);
 		try {
 			file.persistentDescriptor = path;
 		}
@@ -2890,7 +2893,7 @@ Zotero.Item.prototype.getFilePathAsync = Zotero.Promise.coroutine(function* () {
 	// the file couldn't be found
 	if (Zotero.isMac && path.startsWith('AAAA')) {
 		let file = Components.classes["@mozilla.org/file/local;1"]
-			.createInstance(Components.interfaces.nsILocalFile);
+			.createInstance(Components.interfaces.nsIFile);
 		try {
 			file.persistentDescriptor = path;
 		}
@@ -3457,7 +3460,7 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentPath', {
 		}
 		else if (linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_URL ||
 				linkMode == Zotero.Attachments.LINK_MODE_IMPORTED_FILE) {
-			if (!val.startsWith('storage:')) {
+			if (val && !val.startsWith('storage:')) {
 				let storagePath = Zotero.Attachments.getStorageDirectory(this).path;
 				if (!val.startsWith(storagePath)) {
 					throw new Error("Imported file path must be within storage directory");
@@ -3539,7 +3542,7 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentSyncedModificationTime',
 	},
 	set: function (val) {
 		if (!this.isAttachment()) {
-			throw ("attachmentSyncedModificationTime can only be set for attachment items");
+			throw new Error("attachmentSyncedModificationTime can only be set for attachment items");
 		}
 		
 		switch (this.attachmentLinkMode) {
@@ -3552,9 +3555,11 @@ Zotero.defineProperty(Zotero.Item.prototype, 'attachmentSyncedModificationTime',
 		}
 		
 		if (typeof val != 'number') {
+			Zotero.debug(val, 2);
 			throw new Error("attachmentSyncedModificationTime must be a number");
 		}
 		if (parseInt(val) != val || val < 0) {
+			Zotero.debug(val, 2);
 			throw new Error("attachmentSyncedModificationTime must be a timestamp in milliseconds");
 		}
 		if (val < 10000000000) {
@@ -3834,14 +3839,15 @@ Zotero.Item.prototype.getBestAttachments = Zotero.Promise.coroutine(function* ()
 	}
 	
 	var url = this.getField('url');
+	var urlFieldID = Zotero.ItemFields.getID('url');
 	
 	var sql = "SELECT IA.itemID FROM itemAttachments IA NATURAL JOIN items I "
-		+ "LEFT JOIN itemData ID ON (IA.itemID=ID.itemID AND fieldID=1) "
+		+ `LEFT JOIN itemData ID ON (IA.itemID=ID.itemID AND fieldID=${urlFieldID}) `
 		+ "LEFT JOIN itemDataValues IDV ON (ID.valueID=IDV.valueID) "
-		+ "WHERE parentItemID=? AND linkMode NOT IN (?) "
+		+ `WHERE parentItemID=? AND linkMode NOT IN (${Zotero.Attachments.LINK_MODE_LINKED_URL}) `
 		+ "AND IA.itemID NOT IN (SELECT itemID FROM deletedItems) "
 		+ "ORDER BY contentType='application/pdf' DESC, value=? DESC, dateAdded ASC";
-	var itemIDs = yield Zotero.DB.columnQueryAsync(sql, [this.id, Zotero.Attachments.LINK_MODE_LINKED_URL, url]);
+	var itemIDs = yield Zotero.DB.columnQueryAsync(sql, [this.id, url]);
 	return this.ObjectsClass.get(itemIDs);
 });
 
@@ -4273,28 +4279,32 @@ Zotero.Item.prototype.getImageSrcWithTags = Zotero.Promise.coroutine(function* (
 	
 	var uri = this.getImageSrc();
 	
+	var retracted = Zotero.Retractions.isRetracted(this);
+	
 	var tags = this.getTags();
-	if (!tags.length) {
+	if (!tags.length && !retracted) {
 		return uri;
 	}
 	
-	var tagColors = Zotero.Tags.getColors(this.libraryID);
 	var colorData = [];
-	for (let i=0; i<tags.length; i++) {
-		let tag = tags[i];
-		let data = tagColors.get(tag.tag);
-		if (data) {
-			colorData.push(data);
+	if (tags.length) {
+		let tagColors = Zotero.Tags.getColors(this.libraryID);
+		for (let tag of tags) {
+			let data = tagColors.get(tag.tag);
+			if (data) {
+				colorData.push(data);
+			}
 		}
+		if (!colorData.length && !retracted) {
+			return uri;
+		}
+		colorData.sort(function (a, b) {
+			return a.position - b.position;
+		});
 	}
-	if (!colorData.length) {
-		return uri;
-	}
-	colorData.sort(function (a, b) {
-		return a.position - b.position;
-	});
 	var colors = colorData.map(val => val.color);
-	return Zotero.Tags.generateItemsListImage(colors, uri);
+	
+	return Zotero.Tags.generateItemsListImage(colors, uri, retracted);
 });
 
 
@@ -4691,13 +4701,10 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 		let toDelete = yield Zotero.DB.columnQueryAsync(sql, [this.id]);
 		for (let i=0; i<toDelete.length; i++) {
 			let obj = yield this.ObjectsClass.getAsync(toDelete[i]);
-			// Copy all options other than 'tx', which would cause a deadlock
-			let options = {
-				skipParentRefresh: true
-			};
-			Object.assign(options, env.options);
-			delete options.tx;
-			yield obj.erase(options);
+			yield obj.erase({
+				skipParentRefresh: true,
+				skipEditCheck: env.options.skipEditCheck
+			});
 		}
 	}
 	
@@ -4707,7 +4714,10 @@ Zotero.Item.prototype._eraseData = Zotero.Promise.coroutine(function* (env) {
 	);
 	for (let relatedItem of relatedItems) {
 		relatedItem.removeRelatedItem(this);
-		relatedItem.save();
+		relatedItem.save({
+			skipDateModifiedUpdate: true,
+			skipEditCheck: env.options.skipEditCheck
+		});
 	}
 	
 	// Clear fulltext cache
@@ -4736,8 +4746,14 @@ Zotero.Item.prototype.isCollection = function() {
 
 /**
  * Populate the object's data from an API JSON data object
+ *
+ * @param {Object} json
+ * @param {Object} [options]
+ * @param {Boolean} [options.strict = false] - Throw on unknown field or invalid field for type
  */
-Zotero.Item.prototype.fromJSON = function (json) {
+	Zotero.Item.prototype.fromJSON = function (json, options = {includeDependents: true}) {
+	var strict = !!options.strict;
+	
 	if (!json.itemType && !this._itemTypeID) {
 		throw new Error("itemType property not provided");
 	}
@@ -4770,23 +4786,34 @@ Zotero.Item.prototype.fromJSON = function (json) {
 	
 	let itemTypeID = Zotero.ItemTypes.getID(json.itemType);
 	if (!itemTypeID) {
-		let e = new Error(`Invalid item type '${json.itemType}'`);
-		e.name = "ZoteroUnknownTypeError";
+		let e = new Error(`Unknown item type '${json.itemType}'`);
+		e.name = "ZoteroInvalidDataError";
 		throw e;
 	}
 	this.setType(itemTypeID);
 	
 	var isValidForType = {};
-	var setFields = {};
+	var setFields = new Set();
+	/*var { fields: extraFields, creators: extraCreators, extra } = Zotero.Utilities.Internal.extractExtraFields(
+		json.extra !== undefined ? json.extra : '',
+		this,
+		Object.keys(json)
+	);*/
 	
-	// Primary data
+	// Transfer valid fields from Extra to regular fields
+	// Currently disabled
+	/*for (let [field, value] of extraFields) {
+		this.setField(field, value);
+		setFields.add(field);
+		extraFields.delete(field);
+	}*/
+	
 	for (let field in json) {
 		let val = json[field];
 		
 		switch (field) {
 		case 'key':
 		case 'version':
-		case 'synced':
 		case 'itemType':
 		case 'note':
 		// Use?
@@ -4797,6 +4824,7 @@ Zotero.Item.prototype.fromJSON = function (json) {
 		case 'parentItem':
 		case 'deleted':
 		case 'inPublications':
+		case 'extra':
 			break;
 		
 		case 'accessDate':
@@ -4809,7 +4837,7 @@ Zotero.Item.prototype.fromJSON = function (json) {
 				val = Zotero.Date.dateToSQL(d, true);
 			}
 			this.setField(field, val);
-			setFields[field] = true;
+			setFields.add(field);
 			break;
 		
 		case 'dateAdded':
@@ -4826,7 +4854,8 @@ Zotero.Item.prototype.fromJSON = function (json) {
 			break;
 		
 		case 'creators':
-			this.setCreators(json.creators);
+			//this.setCreators(json.creators.concat(extraCreators), options);
+			this.setCreators(json.creators, options);
 			break;
 		
 		case 'tags':
@@ -4870,8 +4899,20 @@ Zotero.Item.prototype.fromJSON = function (json) {
 			if (field === 'multi') continue;
 			let fieldID = Zotero.ItemFields.getID(field);
 			if (!fieldID) {
-				Zotero.logError("Discarding unknown JSON field '" + field + "' for item "
-					+ this.libraryKey);
+				// In strict mode, fail on unknown field
+				if (strict) {
+					let e = new Error(`Unknown field '${field}'`);
+					e.name = "ZoteroInvalidDataError";
+					throw e;
+				}
+				// Otherwise store in Extra
+				// TEMP: Disabled for now, along with tests in itemTest.js
+				/*if (typeof val == 'string') {
+					Zotero.warn(`Storing unknown field '${field}' in Extra for item ${this.libraryKey}`);
+					extraFields.set(field, val);
+					break;
+				}*/
+				Zotero.warn(`Discarding unknown JSON ${typeof val} '${field}' for item ${this.libraryKey}`);
 				continue;
 			}
 			// Convert to base-mapped field if necessary, so that setFields has the base-mapped field
@@ -4884,8 +4925,20 @@ Zotero.Item.prototype.fromJSON = function (json) {
 			}
 			isValidForType[field] = Zotero.ItemFields.isValidForType(fieldID, this.itemTypeID);
 			if (!isValidForType[field]) {
-				Zotero.logError("Discarding invalid field '" + origField + "' for type " + itemTypeID
-								+ " for item " + this.libraryKey);
+				let type = Zotero.ItemTypes.getName(itemTypeID);
+				// In strict mode, fail on invalid field for type
+				if (strict) {
+					let e = new Error(`Invalid field '${origField}' for type ${type}`);
+					e.name = "ZoteroInvalidDataError";
+					throw e;
+				}
+				// Otherwise store in Extra
+				// TEMP: Disabled for now, since imports can assign values to multiple versions of
+				// fields
+				// https://groups.google.com/d/msg/zotero-dev/a1IPUJ2m_3s/hfmdK2P3BwAJ
+				/*Zotero.warn(`Storing invalid field '${origField}' for type ${type} in Extra for `
+					+ `item ${this.libraryKey}`);
+				extraFields.set(field, val);*/
 				continue;
 			}
 			this.setField(field, json[origField], false, json.multi.main[origField], true);
@@ -4906,9 +4959,12 @@ Zotero.Item.prototype.fromJSON = function (json) {
 					}
 				}
 			}
-			setFields[field] = true;
+			setFields.add(field);
 		}
 	}
+	
+	//this.setField('extra', Zotero.Utilities.Internal.combineExtraFields(extra, extraFields));
+	this.setField('extra', json.extra !== undefined ? json.extra : '');
 	
 	if (json.collections || this._collections.length) {
 		this.setCollections(json.collections);
@@ -4917,7 +4973,7 @@ Zotero.Item.prototype.fromJSON = function (json) {
 	// Clear existing fields not specified
 	var previousFields = this.getUsedFields(true);
 	for (let field of previousFields) {
-		if (!setFields[field] && isValidForType[field] !== false) {
+		if (!setFields.has(field) && isValidForType[field] !== false && field != 'extra') {
 			this.setField(field, false);
 		}
 	}
@@ -5009,8 +5065,18 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 			
 			if (this.isImportedAttachment() && !options.skipStorageProperties) {
 				if (options.syncedStorageProperties) {
-					obj.mtime = this.attachmentSyncedModificationTime;
-					obj.md5 = this.attachmentSyncedHash;
+					let mtime = this.attachmentSyncedModificationTime;
+					// There's never a reason to include these if they're null. This can happen if
+					// we're restoring to server from a copy of the database that was never
+					// file-synced. We don't want to clear the remote file associations when that
+					// happens.
+					if (mtime !== null) {
+						obj.mtime = mtime;
+					}
+					let md5 = this.attachmentSyncedHash;
+					if (md5 !== null) {
+						obj.md5 = md5;
+					}
 				}
 				else {
 					// TEMP
@@ -5082,13 +5148,15 @@ Zotero.Item.prototype.toJSON = function (options = {}) {
 	}
 	
 	var json = this._postToJSON(env);
+	
+	// TODO: Remove once we stop clearing props from the cached JSON in patch mode
 	if (options.skipStorageProperties) {
 		delete json.md5;
 		delete json.mtime;
 	}
 
-	if (options.encodeMlzContent) {
-		json = Zotero.Utilities.encodeMlzContent(json);
+	if (options.encode) {
+		json = Zotero.Jurism.SyncRecode.encode(json);
 	}
 	return json;
 }
@@ -5120,6 +5188,45 @@ Zotero.Item.prototype.toResponseJSON = function (options = {}) {
 	}
 	return json;
 };
+
+
+/**
+ * Migrate valid fields in Extra to real fields
+ *
+ * A separate save is required
+ */
+Zotero.Item.prototype.migrateExtraFields = function () {
+	var { itemType, fields, creators, extra } = Zotero.Utilities.Internal.extractExtraFields(
+		this.getField('extra'), this
+	);
+	if (itemType) {
+		this.setType(Zotero.ItemTypes.getID(itemType));
+	}
+	for (let [field, value] of fields) {
+		this.setField(field, value);
+	}
+	if (creators.length) {
+		this.setCreators([...item.getCreators(), ...creators]);
+	}
+	this.setField('extra', extra);
+	if (!this.hasChanged()) {
+		return false;
+	}
+	
+	Zotero.debug("Migrating Extra fields for item " + this.libraryKey);
+	if (itemType) {
+		Zotero.debug("Item Type: " + itemType);
+	}
+	if (fields.size) {
+		Zotero.debug(Array.from(fields.entries()));
+	}
+	if (creators.length) {
+		Zotero.debug(creators);
+	}
+	Zotero.debug(extra);
+	
+	return true;
+}
 
 
 //////////////////////////////////////////////////////////////////////////////

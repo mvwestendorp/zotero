@@ -136,10 +136,11 @@ describe("PDF Recognition", function() {
 			file: testdir,
 			collections: [collection.id],
 		});
-		
+
+		var waitForIt = waitForItemEvent("add");
 		win.ZoteroPane.recognizeSelected();
 		
-		var addedIDs = await waitForItemEvent("add");
+		var addedIDs = await waitForIt;
 		var modifiedIDs = await waitForItemEvent("modify");
 		// Item and note
 		assert.lengthOf(addedIDs, 2);
