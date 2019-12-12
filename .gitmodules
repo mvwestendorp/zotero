@@ -20,7 +20,7 @@
 	url = https://github.com/domenic/chai-as-promised.git
 [submodule "resource/schema/global"]
 	path = resource/schema/global
-	url = git://github.com/zotero/zotero-schema.git
+	url = git@github.com:Juris-M/zotero-schema.git
 	branch = master
 [submodule "deployer"]
 	path = deployer
