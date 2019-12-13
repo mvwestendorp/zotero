@@ -40,7 +40,7 @@
     "rowcount": 21
   },
   "at": {
-    "timestamp": "2019-08-29 02:33:35 UTC",
+    "timestamp": "2019-12-12 23:38:40 UTC",
     "rowcount": 337
   },
   "au": {
@@ -268,8 +268,8 @@
     "rowcount": 1
   },
   "eu.int": {
-    "timestamp": "2019-08-19 06:21:44 UTC",
-    "rowcount": 51
+    "timestamp": "2019-12-12 23:59:50 UTC",
+    "rowcount": 59
   },
   "fi": {
     "timestamp": "2019-09-25 12:47:01 UTC",
@@ -872,7 +872,7 @@
     "rowcount": 1
   },
   "vn": {
-    "timestamp": "2019-08-19 06:21:44 UTC",
+    "timestamp": "2019-12-13 00:01:28 UTC",
     "rowcount": 1500
   },
   "vu": {
