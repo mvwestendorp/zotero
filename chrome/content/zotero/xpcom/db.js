@@ -102,7 +102,7 @@ Zotero.DBConnection = function(dbNameOrPath) {
 	
 	this._transactionPromise = null;
 	
-	if (dbNameOrPath == 'zotero') {
+	if (dbNameOrPath == 'jurism') {
 		this.IncompatibleVersionException = function (msg, dbClientVersion) {
 			this.message = msg;
 			this.dbClientVersion = dbClientVersion;
