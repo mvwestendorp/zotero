@@ -189,7 +189,7 @@ INSERT INTO itemTypeFields VALUES (2, 6, NULL, 9);
 INSERT INTO itemTypeFields VALUES (2, 7, NULL, 10);
 INSERT INTO itemTypeFields VALUES (2, 8, NULL, 11);
 INSERT INTO itemTypeFields VALUES (2, 14, NULL, 12);
-INSERT INTO itemTypeFields VALUES (2, 118, NULL, 12);
+INSERT INTO itemTypeFields VALUES (2, 118, NULL, 13);
 INSERT INTO itemTypeFields VALUES (2, 109, NULL, 14);
 INSERT INTO itemTypeFields VALUES (2, 87, NULL, 15);
 INSERT INTO itemTypeFields VALUES (2, 11, NULL, 16);
