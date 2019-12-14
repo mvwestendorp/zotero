@@ -2472,6 +2472,11 @@ Zotero.Schema = new function(){
 	var _migrateUserDataSchema = Zotero.Promise.coroutine(function* (fromVersion, options = {}) {
 		var toVersion = yield _getSchemaSQLVersion('userdata');
 		
+		if (fromVersion == 107 && !(yield Zotero.DB.valueQueryAsync("SELECT COUNT(*) FROM fields WHERE fieldName='jurisdiction'"))) {
+			let sql = yield _getSchemaSQL('system-107-jurism');
+			yield Zotero.DB.executeSQLFile(sql);
+		}
+		
 		if (fromVersion >= toVersion) {
 			return false;
 		}
@@ -3102,7 +3107,6 @@ Zotero.Schema = new function(){
 			
 			else if (i == 106) {
 				yield _updateCompatibility(6);
-				
 				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS insert_date_field");
 				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS update_date_field");
 				yield Zotero.DB.queryAsync("DROP TRIGGER IF EXISTS fki_itemAttachments");
@@ -3117,7 +3121,7 @@ Zotero.Schema = new function(){
 			
 			else if (i == 107) {
 				if (!(yield Zotero.DB.valueQueryAsync("SELECT COUNT(*) FROM itemTypes"))) {
-					let sql = yield _getSchemaSQL('system-107');
+					let sql = yield _getSchemaSQL('system-107-jurism');
 					yield Zotero.DB.executeSQLFile(sql);
 				}
 			}
