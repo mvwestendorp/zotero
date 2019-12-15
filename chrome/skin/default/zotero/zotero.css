@@ -327,16 +327,17 @@ label.zotero-text-link {
 
 .zotero-alien-clicky
 {	
-	-moz-border-radius: 6px;
+	border-radius: 6px;
 	border: 1px solid transparent;
 }
 
 .zotero-alien-clicky:hover {
 	border: 1px solid rgb(109, 149, 224);
-    border-radius: 0.6em;
+    border-radius: 0.6px;
 }
 
-rows.multi .zotero-alien-clicky
+/* rows.multi .zotero-alien-clicky, is-variant */
+rows.multi .is-variant
 {	
     color: #666;
     font-size: smaller;

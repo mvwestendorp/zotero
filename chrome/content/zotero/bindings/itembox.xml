@@ -623,6 +623,9 @@
 								label.classList.add('zotero-alien-clicky');
 							}
 						}
+						if (parentNode) {
+							label.classList.add('is-variant');	
+						}
 					}
 					
 					var prefix = '';
@@ -1243,10 +1246,16 @@
 						} else {
 							typeBox.classList.add('creator-type-label');
 							typeBox.classList.add('zotero-alien-clicky');
+							typeBox.classList.add('is-variant');
 						}
 					}
 					else {
-						typeBox.className = 'creator-type-label';
+						if (!parentNode) {
+							typeBox.className = 'creator-type-label';
+						} else {
+							typeBox.className = 'creator-type-label';
+							typeBox.classList.add('is-variant');
+						}
 					}
 					
 					var label = document.createElement("label");

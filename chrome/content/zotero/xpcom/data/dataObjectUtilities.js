@@ -171,6 +171,8 @@ Zotero.DataObjectUtilities = {
 	 * Determine whether two API JSON objects are equivalent
 	 *
 	 * Note: Currently unused
+	 * 
+	 * (used in Jurism to catch changes in variants)
 	 *
 	 * @param {Object} data1 - API JSON of first object
 	 * @param {Object} data2 - API JSON of second object
@@ -244,11 +246,12 @@ Zotero.DataObjectUtilities = {
 		if (!_equals(skipFields, true, data1, data2)) {
 			return false;
 		}
+
 		if (data1.multi) {
+			skipFieldsCopy = Object.assign({}, skipFields);
 			if (data1.multi._keys) {
 				let fieldMains1 = data1.multi.main;
 				let fieldMains2 = data2.multi.main;
-				skipFieldsCopy = skipFields.slice();
 				if (!_equals(skipFieldsCopy, false, fieldMains1, fieldMains2)) {
 					return false;
 				}
@@ -290,7 +293,7 @@ Zotero.DataObjectUtilities = {
 				}
 			}
 		}
-		
+
 		return true;
 	},
 	
