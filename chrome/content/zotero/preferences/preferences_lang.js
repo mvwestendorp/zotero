@@ -480,6 +480,7 @@ Zotero_Preferences.Lang = {
  	    var textbox = document.createElement('textbox');
  	    textbox.setAttribute('value',label.value);
  	    textbox.setAttribute('oncommand','Zotero_Preferences.Lang.hideNicknameEditor(this)');
+ 	    textbox.setAttribute('onblur','Zotero_Preferences.Lang.hideNicknameEditor(this)');
  	    textbox.setAttribute('width','80');
  	    textbox.setAttribute('onkeypress', 'Zotero_Preferences.Lang.handleLangKeypress(event,"simpleEdit")');
  	    textbox.setAttribute('flex','1');
