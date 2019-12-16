@@ -496,7 +496,7 @@
               </rows>
             </grid>
 			<separator/>
-			<grid flex="1">
+			<grid>
 			  <columns>
 				<column flex="1"/>
 				<column flex="1"/>
@@ -510,7 +510,7 @@
 				</row>
 			  </rows>
 			</grid>
-			<grid flex="1">
+			<grid>
 			  <columns>
 				<column flex="1"/>
 				<column flex="1"/>
