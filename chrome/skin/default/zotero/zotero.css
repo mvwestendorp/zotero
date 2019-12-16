@@ -3,9 +3,16 @@ menulist.yellow {
     background: yellow;
 }
 /* Font sizes */
-*[zoteroFontSize=medium] #zotero-tb-search, *[zoteroFontSize=large] #zotero-tb-search
+*[zoteroFontSize=medium] #zotero-tb-search
 {
-	font-size: 1em !important;
+	font-size: 0.8em !important;
+	width: 200px;
+}
+
+*[zoteroFontSize=large] #zotero-tb-search
+{
+	font-size: 0.7em !important;
+	width: 250px;
 }
 
 *[zoteroFontSize=medium] treechildren::-moz-tree-row
