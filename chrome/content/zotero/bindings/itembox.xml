@@ -2598,7 +2598,7 @@
 						return;
 					}
 					
-					var [creatorID, numFields] = comment.split('-');
+					var [creatorID, numFields] = id.split('-');
 					
 					// If result uses two fields, save both
 					if (numFields==2)
