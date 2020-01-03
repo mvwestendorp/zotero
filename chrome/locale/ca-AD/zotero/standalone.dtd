@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Tanca">
 <!ENTITY collectionsPane.label "Subfinestra de col·leccions">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY convertToStored.label "Converteix els fitxers enllaçats a fitxers emmagatzemats…">
 <!ENTITY copyBibliographyCmd.label "Copia la bibliografia">
 <!ENTITY copyCitationCmd.label "Copia la cita">
 <!ENTITY copyCmd.accesskey "C">
@@ -73,7 +73,7 @@
 <!ENTITY helpMenuWin.label "Ajuda">
 <!ENTITY helpReportErrors.accesskey "R">
 <!ENTITY helpReportErrors.label "Informa d'errors…">
-<!ENTITY helpTroubleshootingInfo.accesskey "T">
+<!ENTITY helpTroubleshootingInfo.accesskey "p">
 <!ENTITY helpTroubleshootingInfo.label "Informació de resolució de problemes">
 <!ENTITY hideOtherAppsCmdMac.commandkey "H">
 <!ENTITY hideOtherAppsCmdMac.label "Oculta els altres">
@@ -86,7 +86,7 @@
 <!ENTITY installConnector.label "Instal·la el connector del navegador">
 <!ENTITY itemPane.label "Subfinestra d'elements">
 <!ENTITY layout.label "Disposició">
-<!ENTITY manageAttachments.label "Manage Attachments">
+<!ENTITY manageAttachments.label "Gestiona les adjuncions">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "Minimitza">
 <!ENTITY noteFontSize.label "Mida de lletra de les notes">
@@ -104,7 +104,7 @@
 <!ENTITY printCmd.accesskey "U">
 <!ENTITY printCmd.key "P">
 <!ENTITY printCmd.label "Imprimeix...">
-<!ENTITY productHelp.accesskey "H">
+<!ENTITY productHelp.accesskey "d">
 <!ENTITY productHelp.label "Assistència i documentació">
 <!ENTITY quitApplicationCmd.accesskey "Q">
 <!ENTITY quitApplicationCmd.label "Surt">
@@ -132,6 +132,6 @@
 <!ENTITY undoCmd.accesskey "U">
 <!ENTITY undoCmd.key "Z">
 <!ENTITY undoCmd.label "Desfés">
-<!ENTITY viewMenu.label "Vista">
+<!ENTITY viewMenu.label "Visualitza">
 <!ENTITY windowMenu.label "Finestra">
 <!ENTITY zoomWindow.label "Amplia">

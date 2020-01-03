@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "Užverti">
 <!ENTITY collectionsPane.label "Rinkinių skydelis">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY convertToStored.label "Nuorodas pakeisti tikromis rinkmenomis...">
 <!ENTITY copyBibliographyCmd.label "Kopijuoti bibliografiją">
 <!ENTITY copyCitationCmd.label "Kopijuoti citatą">
 <!ENTITY copyCmd.accesskey "K">
@@ -86,7 +86,7 @@
 <!ENTITY installConnector.label "Įdiegti papildinį naršyklei">
 <!ENTITY itemPane.label "Įrašo skydelis">
 <!ENTITY layout.label "Išdėstymas">
-<!ENTITY manageAttachments.label "Manage Attachments">
+<!ENTITY manageAttachments.label "Tvarkyti pridėtas rinkmenas">
 <!ENTITY minimizeWindow.key "r">
 <!ENTITY minimizeWindow.label "Suskleisti">
 <!ENTITY noteFontSize.label "Pastabos šrifto dydis">

@@ -11,7 +11,7 @@
 <!ENTITY closeCmd.key "W">
 <!ENTITY closeCmd.label "关闭">
 <!ENTITY collectionsPane.label "集合面板">
-<!ENTITY convertToStored.label "Convert Linked Files to Stored Files…">
+<!ENTITY convertToStored.label "转换已链接文件为已存储文件...">
 <!ENTITY copyBibliographyCmd.label "复制引文目录">
 <!ENTITY copyCitationCmd.label "复制引文">
 <!ENTITY copyCmd.accesskey "C">
@@ -86,7 +86,7 @@
 <!ENTITY installConnector.label "安装浏览器插件">
 <!ENTITY itemPane.label "条目面板">
 <!ENTITY layout.label "布局">
-<!ENTITY manageAttachments.label "Manage Attachments">
+<!ENTITY manageAttachments.label "管理附件">
 <!ENTITY minimizeWindow.key "m">
 <!ENTITY minimizeWindow.label "最小化">
 <!ENTITY noteFontSize.label "笔记字体大小">
