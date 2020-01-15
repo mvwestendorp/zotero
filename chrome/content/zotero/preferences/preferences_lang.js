@@ -25,6 +25,9 @@
 
 "use strict";
 
+// [Jurism] Not in Zotero. Needed here to enable SAYT in language preferences
+Components.utils.import("resource://gre/modules/Services.jsm");
+
 Zotero_Preferences.Lang = {
 	
 	init: function () {
