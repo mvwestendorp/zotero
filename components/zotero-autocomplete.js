@@ -32,6 +32,8 @@ const Ci = Components.interfaces;
 const Cr = Components.results;
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+// [Jurism] Not in Zotero. Needed here to enable SAYT in language preferences
+Components.utils.import("resource://gre/modules/Services.jsm");
 
 var Zotero = Components.classes["@zotero.org/Zotero;1"]
 	.getService(Components.interfaces.nsISupports)
