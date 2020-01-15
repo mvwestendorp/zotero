@@ -26,7 +26,7 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 
 var Zotero_QuickFormat = new function () {
 	const pixelRe = /^([0-9]+)px$/
-	const specifiedLocatorRe = /^(?:,? *(p{0,2})(?:\. *| +)|:)([0-9\-]+) *$/;
+	const specifiedLocatorRe = /^(?:,? *(p{1,2})(?:\. *| *)|:)([0-9\-]+) *$/;
 	const yearRe = /,? *([0-9]+) *(B[. ]*C[. ]*(?:E[. ]*)?|A[. ]*D[. ]*|C[. ]*E[. ]*)?$/i;
 	const locatorRe = /(?:,? *(p{0,2})\.?|(\:)) *([0-9\-–]+)$/i;
 	const creatorSplitRe = /(?:,| *(?:and|\&)) +/;
@@ -238,8 +238,8 @@ var Zotero_QuickFormat = new function () {
 			// add to previous cite
 			var node = _getCurrentEditorTextNode();
 			var prevNode = node.previousSibling;
-			let citationItem = JSON.parse(prevNode && prevNode.dataset.citationItem || "{}");
-			if (citationItem.locator) {
+			let citationItem = JSON.parse(prevNode && prevNode.dataset.citationItem || "null");
+			if (citationItem && citationItem.locator) {
 				citationItem.locator += str;
 				prevNode.dataset.citationItem = JSON.stringify(citationItem);
 				prevNode.textContent = _buildBubbleString(citationItem);
@@ -257,8 +257,8 @@ var Zotero_QuickFormat = new function () {
 					// add to previous cite
 					var node = _getCurrentEditorTextNode();
 					var prevNode = node.previousSibling;
-					let citationItem = JSON.parse(prevNode && prevNode.dataset.citationItem || "{}");
-					if(prevNode && prevNode.citationItem) {
+					let citationItem = JSON.parse(prevNode && prevNode.dataset.citationItem || "null");
+					if (citationItem) {
 						citationItem.locator = m[2];
 						prevNode.dataset.citationItem = JSON.stringify(citationItem);
 						prevNode.textContent = _buildBubbleString(citationItem);
@@ -272,9 +272,9 @@ var Zotero_QuickFormat = new function () {
 				currentLocator = m[2];
 				str = str.substring(0, m.index);
 			}
-			
-			// check for year and pages
+
 			str = _updateLocator(str);
+			// check for year and pages
 			m = yearRe.exec(str);
 			if(m) {
 				year = parseInt(m[1]);
@@ -368,7 +368,7 @@ var Zotero_QuickFormat = new function () {
 	 */
 	function _updateLocator(str) {
 		m = locatorRe.exec(str);
-		if(m && (m[1] || m[2] || m[3].length !== 4)) {
+		if(m && (m[1] || m[2] || m[3].length !== 4) && m.index > 0) {
 			currentLocator = m[3];
 			str = str.substr(0, m.index)+str.substring(m.index+m[0].length);
 		}
