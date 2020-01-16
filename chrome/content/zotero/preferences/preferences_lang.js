@@ -336,8 +336,8 @@ Zotero_Preferences.Lang = {
  	    var controller = textbox.controller;
  	    
  	    for (var i=0; i<controller.matchCount; i++) {
- 		    if (controller.getValueAt(i) == textbox.value) {
- 			    return controller.getCommentAt(i);
+ 		    if (controller.getCommentAt(i) == textbox.value) {
+ 			    return controller.getLabelAt(i);
  		    }
  	    }
  	    return false;
