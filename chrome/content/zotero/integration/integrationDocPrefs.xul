@@ -100,6 +100,7 @@
 			<groupbox id="formatUsing-groupbox">
 				<caption label="&zotero.integration.prefs.formatUsing.label;"/>
 				<radiogroup id="formatUsing" orient="vertical">
+					<radio id="fields" selected="true"/>
 					<label class="radioDescription" id="fields-caption"/>
 					<label class="radioDescription" id="fields-file-format-notice"/>
 					<radio id="bookmarks" label="&zotero.integration.prefs.bookmarks.label;"/>
@@ -495,7 +496,7 @@
               </rows>
             </grid>
 			<separator/>
-			<grid flex="1">
+			<grid>
 			  <columns>
 				<column flex="1"/>
 				<column flex="1"/>
@@ -509,7 +510,7 @@
 				</row>
 			  </rows>
 			</grid>
-			<grid flex="1">
+			<grid>
 			  <columns>
 				<column flex="1"/>
 				<column flex="1"/>

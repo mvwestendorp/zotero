@@ -623,6 +623,9 @@
 								label.classList.add('zotero-alien-clicky');
 							}
 						}
+						if (parentNode) {
+							label.classList.add('is-variant');	
+						}
 					}
 					
 					var prefix = '';
@@ -644,10 +647,12 @@
 					}
 					
 					// TEMP - NSF (homepage)
-					if ((fieldName == 'url' || fieldName == 'homepage') && val) {
+					if ((fieldName == 'url' || fieldName == 'homepage')
+							// Only make plausible HTTP URLs clickable
+							&& Zotero.Utilities.isHTTPURL(val, true)) {
 						label.classList.add("pointer");
 						// TODO: make getFieldValue non-private and use below instead
-						label.setAttribute("onclick", "ZoteroPane_Local.loadURI(this.nextSibling.firstChild ? this.nextSibling.firstChild.nodeValue : this.nextSibling.value, event)");
+						label.setAttribute("onclick", "Zotero.launchURL(this.nextSibling.firstChild ? this.nextSibling.firstChild.nodeValue : this.nextSibling.value)");
 						label.setAttribute("tooltiptext", Zotero.getString('locate.online.tooltip'));
 					}
 					else if (fieldName == 'DOI' && val && typeof val == 'string') {
@@ -1243,10 +1248,16 @@
 						} else {
 							typeBox.classList.add('creator-type-label');
 							typeBox.classList.add('zotero-alien-clicky');
+							typeBox.classList.add('is-variant');
 						}
 					}
 					else {
-						typeBox.className = 'creator-type-label';
+						if (!parentNode) {
+							typeBox.className = 'creator-type-label';
+						} else {
+							typeBox.className = 'creator-type-label';
+							typeBox.classList.add('is-variant');
+						}
 					}
 					
 					var label = document.createElement("label");
@@ -2589,7 +2600,7 @@
 						return;
 					}
 					
-					var [creatorID, numFields] = comment.split('-');
+					var [creatorID, numFields] = id.split('-');
 					
 					// If result uses two fields, save both
 					if (numFields==2)
@@ -3514,6 +3525,9 @@
 						if (value != '') {
 							switch (fieldName) {
 								case 'accessDate':
+									// Parse 'yesterday'/'today'/'tomorrow'
+									value = Zotero.Date.parseDescriptiveString(value);
+									
 									// Allow "now" to use current time
 									if (value == 'now') {
 										value = Zotero.Date.dateToSQL(new Date(), true);
@@ -3558,18 +3572,8 @@
 								default:
 									// TODO: generalize to all date rows/fields
 									if (Zotero.ItemFields.isFieldOfBase(fieldName, 'date')) {
-										// Parse 'yesterday'/'today'/'tomorrow' and convert to dates,
-										// since it doesn't make sense for those to be actual metadata values
-										var lc = value.toLowerCase();
-										if (lc == 'yesterday' || lc == Zotero.getString('date.yesterday')) {
-											value = Zotero.Date.dateToSQL(new Date(new Date().getTime() - 86400000)).substr(0, 10);
-										}
-										else if (lc == 'today' || lc == Zotero.getString('date.today')) {
-											value = Zotero.Date.dateToSQL(new Date()).substr(0, 10);
-										}
-										else if (lc == 'tomorrow' || lc == Zotero.getString('date.tomorrow')) {
-											value = Zotero.Date.dateToSQL(new Date(new Date().getTime() + 86400000)).substr(0, 10);
-										}
+										// Parse 'yesterday'/'today'/'tomorrow'
+										value = Zotero.Date.parseDescriptiveString(value);
 									}
 							}
 						}

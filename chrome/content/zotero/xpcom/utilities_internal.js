@@ -398,7 +398,9 @@ Zotero.Utilities.Internal = {
 		if (typeof buttonText == 'undefined') {
 			buttonText = Zotero.getString('errorReport.reportError');
 			buttonCallback = function () {
-				win.ZoteroPane.reportErrors();
+				var zp = Zotero.getActiveZoteroPane();
+				// TODO: Open main window if closed
+				if (zp) zp.reportErrors();
 			}
 		}
 		// If secondary button is explicitly null, just use an alert
@@ -431,8 +433,9 @@ Zotero.Utilities.Internal = {
 	 * @param {nsIURI} uri URL
 	 * @param {nsIFile|string path} target file
 	 * @param {Object} [headers]
+	 * @param {Zotero.CookieSandbox} [cookieSandbox]
 	 */
-	saveURI: function (wbp, uri, target, headers) {
+	saveURI: function (wbp, uri, target, headers, cookieSandbox) {
 		// Handle gzip encoding
 		wbp.persistFlags |= wbp.PERSIST_FLAGS_AUTODETECT_APPLY_CONVERSION;
 		// If not explicitly using cache, skip it
@@ -448,6 +451,11 @@ Zotero.Utilities.Internal = {
 		
 		if (headers) {
 			headers = Object.keys(headers).map(x => x + ": " + headers[x]).join("\r\n") + "\r\n";
+		}
+		
+		// Untested
+		if (cookieSandbox) {
+			cookieSandbox.attachToInterfaceRequestor(wbp.progressListener);
 		}
 		
 		wbp.saveURI(uri, null, null, null, null, headers, target, null);
@@ -1400,6 +1408,12 @@ Zotero.Utilities.Internal = {
 		parts.push(isbn.charAt(isbn.length-1)); // Check digit
 		
 		return parts.join('-');
+	},
+	
+	
+	camelToTitleCase: function (str) {
+		str = str.replace(/([A-Z])/g, " $1");
+		return str.charAt(0).toUpperCase() + str.slice(1);
 	},
 	
 	

@@ -25,6 +25,9 @@
 
 "use strict";
 
+// [Jurism] Not in Zotero. Needed here to enable SAYT in language preferences
+Components.utils.import("resource://gre/modules/Services.jsm");
+
 Zotero_Preferences.Lang = {
 	
 	init: function () {
@@ -333,8 +336,8 @@ Zotero_Preferences.Lang = {
  	    var controller = textbox.controller;
  	    
  	    for (var i=0; i<controller.matchCount; i++) {
- 		    if (controller.getValueAt(i) == textbox.value) {
- 			    return controller.getCommentAt(i);
+ 		    if (controller.getCommentAt(i) == textbox.value) {
+ 			    return controller.getLabelAt(i);
  		    }
  	    }
  	    return false;
@@ -480,6 +483,7 @@ Zotero_Preferences.Lang = {
  	    var textbox = document.createElement('textbox');
  	    textbox.setAttribute('value',label.value);
  	    textbox.setAttribute('oncommand','Zotero_Preferences.Lang.hideNicknameEditor(this)');
+ 	    textbox.setAttribute('onblur','Zotero_Preferences.Lang.hideNicknameEditor(this)');
  	    textbox.setAttribute('width','80');
  	    textbox.setAttribute('onkeypress', 'Zotero_Preferences.Lang.handleLangKeypress(event,"simpleEdit")');
  	    textbox.setAttribute('flex','1');

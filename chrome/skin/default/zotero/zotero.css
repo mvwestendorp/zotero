@@ -3,9 +3,16 @@ menulist.yellow {
     background: yellow;
 }
 /* Font sizes */
-*[zoteroFontSize=medium] #zotero-tb-search, *[zoteroFontSize=large] #zotero-tb-search
+*[zoteroFontSize=medium] #zotero-tb-search
 {
-	font-size: 1em !important;
+	font-size: 0.8em !important;
+	width: 200px;
+}
+
+*[zoteroFontSize=large] #zotero-tb-search
+{
+	font-size: 0.7em !important;
+	width: 250px;
 }
 
 *[zoteroFontSize=medium] treechildren::-moz-tree-row
@@ -327,16 +334,17 @@ label.zotero-text-link {
 
 .zotero-alien-clicky
 {	
-	-moz-border-radius: 6px;
+	border-radius: 6px;
 	border: 1px solid transparent;
 }
 
 .zotero-alien-clicky:hover {
 	border: 1px solid rgb(109, 149, 224);
-    border-radius: 0.6em;
+    border-radius: 0.6px;
 }
 
-rows.multi .zotero-alien-clicky
+/* rows.multi .zotero-alien-clicky, is-variant */
+rows.multi .is-variant
 {	
     color: #666;
     font-size: smaller;
